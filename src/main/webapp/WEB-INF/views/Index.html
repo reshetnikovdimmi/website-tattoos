@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Activitar Template">
+    <meta name="keywords" content="Activitar, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Activitar | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet">
+    <!-- Css Styles -->
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+
+<body>
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- Header Section Begin -->
+<header class="header-section ">
+    <div class="container-fluid">
+        <div class="logo">
+            <a href="./index.html">
+                <img src="img/logo.png" alt="">
+            </a>
+        </div>
+        <div class="top-social">
+            <a href="https://wa.me/79620490947" target="_blank"><i class="fa fa-whatsapp"></i></a>
+            <a sec:authorize="!isAuthenticated()" href="/login"><i class="fa fa-user" aria-hidden="true"></i></a>
+            <a sec:authorize="isAuthenticated()" href="/login"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            <a sec:authorize="hasAuthority('ADMIN')" href="/admin"><i class="fa fa-cogs" aria-hidden="true"></i></a>
+
+        </div>
+        <div class="container">
+            <div class="nav-menu">
+                <nav class="mainmenu mobile-menu">
+                    <ul>
+                        <li class="active"><a href="/index">Главная</a></li>
+                        <li><a href="/gallery">Галерея</a></li>
+
+                        <li><a href="/contact">Контакты</a></li>
+
+                    </ul>
+                </nav>
+            </div>
+
+
+        </div>
+        <div id="mobile-menu-wrap"></div>
+    </div>
+</header>
+<!-- Header End -->
+<!-- Hero Section Begin -->
+<section class="hero-section">
+    <div class="hero-items owl-carousel">
+        <div class="single-hero-item set-bg" data-setbg="img/hero-slider/hero-1.png">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="hero-text">
+                            <h3>Ваша кожа — чистый холст, а я — художник.</h3>
+                            <h2>ТАТУИРОВКА - ЭТО НЕ ПРОСТО РИСУНОК НА ТЕЛЕ</h2>
+                            <a href="#" class="primary-btn">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="single-hero-item set-bg" data-setbg="img/hero-slider/hero-2.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="hero-text">
+                            <h3>Ваша кожа — чистый холст, а я — художник.</h3>
+                            <h2>ТАТУИРОВКА - ЭТО НЕ ПРОСТО РИСУНОК НА ТЕЛЕ</h2>
+                            <a href="#" class="primary-btn">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="single-hero-item set-bg" data-setbg="img/hero-slider/hero-3.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="hero-text">
+                            <h3>Ваша кожа — чистый холст, а я — художник.</h3>
+                            <h2>ТАТУИРОВКА - ЭТО НЕ ПРОСТО РИСУНОК НА ТЕЛЕ</h2>
+                            <a href="#" class="primary-btn">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Hero End -->
+
+<!-- Feature Section Begin -->
+<section class="feature-section">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature-item set-bg" data-setbg="img/feature/feature-1.jpg">
+                    <h3>ИНДИВИДУАЛЬНЫЙ ЭСКИЗ</h3>
+                    <p>Разработка эскиза с учетом пожеланий клиента</p>
+                    <a href="#" class="primary-btn f-btn">Подробнее</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-item set-bg" data-setbg="img/feature/feature-2.jpg">
+                    <h3>КОНСУЛЬТАЦИЯ</h3>
+                    <p>Помогаю определится с идеей эскиза, ориентирую по стоимости и количеству сеансов.</p>
+                    <a href="#" class="primary-btn f-btn">Подробнее</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-item set-bg" data-setbg="img/feature/feature-3.jpg">
+                    <h3>ТАТУ В ДЕНЬ ОБРАЩЕНИЯ</h3>
+                    <p>Свободные скетчи по выгодной стоимости</p>
+                    <a href="#" class="primary-btn f-btn">Подробнее</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Feature Section End -->
+
+<!-- About Section Begin -->
+<section class="home-about spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="about-text">
+                    <h3>«ТАТУИРОВКА — ЭТО НАВСЕГДА»</h3>
+                    <p class="short-details">Сделайте татуировку, которую вы сможете носить всю жизнь</p>
+                    <p class="long-details">Ты набиваешь себе татуировку,
+                        зная, что это тело принадлежит тебе, и ты можешь наслаждаться им,
+                        пока ты здесь. Вы получаете от этого удовольствие,
+                        и никто другой не может (предположительно) контролировать то, что вы с ним делаете.
+                        Татуировки это выражение свободы — одно из немногих проявлений свободы. </p>
+                    <a href="#" class="primary-btn about-btn">Узнать больше</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-img">
+                    <img src="img/home-about.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About Section End -->
+
+<!-- Classes Section Begin -->
+<section class="classes-section">
+    <div class="class-title set-bg" data-setbg="img/classes-title-bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 m-auto text-center">
+                    <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                        <h2>ВЫБЕРИТЕ СВОЮ ТАТУ</h2>
+                        <p>Я могу помочь вам с другими вопросами о татуировках,
+                            предложить идеи для дизайна,
+                            рассказать о процессе нанесения татуировки или дать советы по уходу за ней.
+                            Есть что-то конкретное, с чем я могу помочь?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="classes-item set-bg" data-setbg="img/classes/class-1.jpg">
+                    <h4>1. Предплечье:</h4>
+                    <p>это одно из самых популярных мест для татуировок, особенно среди мужчин.
+                        Татуировка на предплечье легко видна и может быть выполнена в различных размерах и дизайнах.</p>
+                    <a href="#" class="primary-btn class-btn">Подробнее</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="classes-item set-bg" data-setbg="img/classes/class-2.jpg">
+                    <h4>2. Запястье:</h4>
+                    <p>татуировка на запястье также является популярным выбором,
+                        особенно среди женщин. Она может быть выполнена в виде браслета или небольшой надписи.
+                    </p>
+                    <a href="#" class="primary-btn class-btn">Подробнее</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="classes-item set-bg" data-setbg="img/classes/class-3.jpg">
+                    <h4>3. Спина:</h4>
+                    <p>татуировка на спине позволяет использовать большое пространство для создания больших и детальных
+                        изображений.
+                        Это также отличное место для скрытия татуировки.</p>
+                    <a href="#" class="primary-btn class-btn">Подробнее</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="classes-item set-bg" data-setbg="img/classes/class-4.jpg">
+                    <h4>4. Грудь:</h4>
+                    <p>татуировка на груди может быть выполнена в виде большой картины или нескольких маленьких
+                        изображений.
+                        Это место также подходит для скрытия татуировки под одеждой.</p>
+                    <a href="#" class="primary-btn class-btn">Подробнее</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="classes-item set-bg" data-setbg="img/classes/class-5.jpg">
+                    <h4>5. Ноги:</h4>
+                    <p>татуировки на ногах, включая бедра, икры и стопы, становятся все более популярными.
+                        Они могут быть выполнены в виде узоров, животных или других изображений.</p>
+                    <a href="#" class="primary-btn class-btn">Подробнее</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="classes-item set-bg" data-setbg="img/classes/class-6.jpg">
+                    <h4>6. Руки:</h4>
+                    <p>татуировки на руках, включая плечи, бицепсы и предплечья, являются классическим выбором.
+                        Они могут быть выполнены в виде надписей, символов или сложных изображений.
+                    </p>
+                    <a href="#" class="primary-btn class-btn">Подробнее</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="classes-item set-bg" data-setbg="img/classes/class-7.jpg">
+                    <h4>7. Шея:</h4>
+                    <p>татуировки на шее могут быть выполнены в виде небольших надписей или узоров.
+                        Однако стоит учитывать, что татуировки на шее могут быть заметны и вызывать внимание
+                        окружающих.</p>
+                    <a href="#" class="primary-btn class-btn">Подробнее</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="classes-item set-bg" data-setbg="img/classes/class-8.jpg">
+                    <h4>8. Ребра:</h4>
+                    <p>татуировки на ребрах, известные как "side boob", стали очень популярными в последние годы.
+                        Они могут быть выполнены в виде узоров, надписей или изображений.</p>
+                    <a href="#" class="primary-btn class-btn">Подробнее</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Classes Section End -->
+
+<!-- Price Plan Section Begin -->
+<section class="price-section spad set-bg" data-setbg="img/price-bg.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h2>ЦЕНЫ И УСЛУГИ</h2>
+                    <p>Стоимость татуировки может сильно варьироваться в зависимости от многих факторов,
+                        таких как размер, сложность дизайна, опыт мастера.
+                        В среднем, стоимость одной татуировки может начинаться от 2000 рублей и достигать до 20 000
+                        рублей и выше,
+                        в зависимости от всех этих факторов</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="single-price-plan">
+                    <h4>Эскиз</h4>
+                    <div class="price-plan">
+                        <h2>от 1000р </h2>
+                        <p>Бесплатная консультация</p>
+                    </div>
+                    <ul>
+                        <li>Индивидуальность</li>
+                        <li>Эксклюзивность</li>
+                    </ul>
+                    <a href="#" class="primary-btn price-btn">Начать</a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="single-price-plan">
+                    <h4>Татуировка</h4>
+                    <div class="price-plan">
+                        <h2>от 1000р</h2>
+                        <p>Бесплатная консультация</p>
+                    </div>
+                    <ul>
+                        <li>Привлечь внимание</li>
+                        <li>Подчеркнуть красоту</li>
+                    </ul>
+                    <a href="#" class="primary-btn price-btn">Начать</a>
+                    <div class="tic-text">
+                        <i class="fa fa-star"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="single-price-plan">
+                    <h4>Перекрытие</h4>
+                    <div class="price-plan">
+                        <h2>от 1000р</h2>
+                        <p>Бесплатная консультация</p>
+                    </div>
+                    <ul>
+                        <li>Исправление ошибок</li>
+                        <li>Изменение стиля</li>
+                    </ul>
+                    <a href="#" class="primary-btn price-btn">Начать</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Price Plan Section End -->
+
+<!-- Choseus Section Begin -->
+<section class="chooseus-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h2>Почему выбирают меня</h2>
+                    <p>Я могу привести несколько причин, почему именно меня следует выбрать в качестве мастера
+                        татуировок:</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-sm-6">
+                <div class="choose-item">
+                    <img src="img/icons/chose-icon-1.png" alt="">
+                    <h5>1. Опыт и профессионализм:</h5>
+                    <p>Я имею многолетний опыт работы в сфере татуировок и постоянно совершенствую свои навыки.
+                        Могу гарантировать качественное выполнение работы и учет всех ваших пожеланий.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="choose-item">
+                    <img src="img/icons/chose-icon-2.png" alt="">
+                    <h5>2. Креативность:</h5>
+                    <p>Я всегда открыт для новых идей и готов работать вместе с вами,
+                        чтобы создать уникальный и индивидуальный дизайн татуировки, который будет отражать вашу
+                        личность и стиль.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="choose-item">
+                    <img src="img/icons/chose-icon-3.png" alt="">
+                    <h5>3. Безопасность:</h5>
+                    <p>Я строго соблюдаю все нормы гигиены и безопасности, использую только высококачественные материалы
+                        и инструменты,
+                        чтобы минимизировать риск инфекции и обеспечить комфорт во время процедуры.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="choose-item">
+                    <img src="img/icons/chose-icon-4.png" alt="">
+                    <h5>4. Комфортная атмосфера:</h5>
+                    <p>Я стараюсь создать дружественную и расслабляющую атмосферу в студии,
+                        чтобы вы чувствовали себя комфортно и уверенно во время сеанса татуировки.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="choose-item">
+                    <img src="img/icons/chose-icon-5.png" alt="">
+                    <h5>5. Индивидуальный подход:</h5>
+                    <p>Я ценю каждого клиента и стремлюсь предоставить индивидуальный подход к каждому проекту.
+                        Ваше удовлетворение и радость от результата являются моей главной целью.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="choose-item">
+                    <img src="img/icons/chose-icon-5.png" alt="">
+                    <h5>5. Стоимость:</h5>
+                    <p>Цена должна быть разумной и соответствовать качеству работы.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="about-text">
+                    <p class="short-details">Выбор мастера татуировок - это очень важный шаг, и я надеюсь, что мои
+                        качества и подходы помогут вам принять решение в мою пользу.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Choseus Section End -->
+
+<!-- Video Section Begin -->
+<section class="video-section set-bg" data-setbg="img/video-bg.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="video-text">
+                    <h2>Немного видео</h2>
+                    <a href="https://www.youtube.com/watch?v=NMdp51_1xxo" class="play-btn video-popup">
+                        <i class="fa fa-play"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Video Section End -->
+
+<!-- Blog Section Begin -->
+<section class="blog-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="section-title">
+                    <h2>РЕАЛЬНЫЕ ОТЗЫВЫ</h2>
+                    <p>Я очень дорожу вашим мнением</p>
+                </div>
+            </div>
+        </div>
+        <div class="row blog-gird">
+            <div class="grid-sizer"></div>
+            <div class="col-lg-4 col-md-6 grid-item">
+                <div class="blog-item large-item set-bg" data-setbg="img/blog/blog-1.jpg">
+                    <a href="#" class="blog-text">
+                        <div class="categories">Артем Колесник</div>
+                        <h6>Сделал первую татуировку и сразу большой проект, остался очень доволен) Большое спасибо
+                            мастеру Максиму!
+                            Крутая атмосфера и отличный мастера! За следующей тату обязательно приду снова к нему))</h6>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 grid-item">
+                <div class="blog-item instagram-item">
+                    <a href="#" class="instagram-text">
+                        <div class="categories">«Красота в деталях» <i class="fa fa-instagram"></i></div>
+                    </a>
+                    <a href="/reviews" class="blog-text">
+                        <h5>Оставьте отзыв, получите скидку</h5>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 grid-item">
+                <div class="blog-item small-item set-bg" data-setbg="img/blog/blog-2.jpg">
+                    <a href="#" class="blog-text">
+                        <div class="categories">Дмитрий Гарифьянов</div>
+                        <h6>Огромное спасибо за качественно выполненную работу мастеру Максиму.
+                            Мастер своего дела! Обязательно приду ещё!</h6>
+                    </a>
+                </div>
+
+            </div>
+            <div class="col-lg-4 col-md-6 grid-item">
+                <div class="blog-item large-item xls-large set-bg" data-setbg="img/blog/blog-3.jpg">
+                    <a href="/reviews" class="blog-text">
+                        <h5>Все отзывы</h5>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 grid-item">
+                <div class="blog-item large-item set-bg" data-setbg="img/blog/blog-4.jpg">
+                    <a href="#" class="blog-text">
+                        <div class="categories">«Красота в деталях»</div>
+                        <h5>Many people sign up for affiliate programs</h5>
+                    </a>
+                    <div class="play-btn">
+
+                        <a href="https://www.youtube.com/watch?v=X_9VoqR5ojM" class="play-in-btn video-popup">
+                            <i class="fa fa-play"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 grid-item">
+                <div class="blog-item small-item set-bg" data-setbg="img/blog/blog-5.jpg">
+                    <a href="#" class="blog-text">
+                        <div class="categories">«Красота в деталях»</div>
+                        <h5>Your Antibiotic One Day To 10 Day Options</h5>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Section End -->
+
+<!-- Cta Section Begin -->
+<section class="cta-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="cta-text">
+                    <h3>Сделай сегодня</h3>
+                    <p>Специальное предложение! Скидка 10% при регистрации на сайте!</p>
+                </div>
+                <a href="#" class="primary-btn cta-btn">Регистрация</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Cta Section End -->
+
+<!-- Map Section Begin -->
+<div class="map">
+    <iframe
+
+            height="590" style="border: 0" allowfullscreen=""><!-- Yandex.RTB R-A-5699098-3 -->
+        <div id="yandex_rtb_R-A-5699098-3"></div>
+        <script>
+            window.yaContextCb.push(()=>{
+                Ya.Context.AdvManager.render({
+                    "blockId": "R-A-5699098-3",
+                    "renderTo": "yandex_rtb_R-A-5699098-3"
+                })
+            })
+        </script>
+    </iframe>
+    <div class="map-contact-detalis">
+        <div class="open-time">
+            <h5>Weekday:</h5>
+            <ul>
+                <li>Weekday: <span>06:30 - 11:00</span></li>
+                <li>Saturday: <span>07:00 - 22:00</span></li>
+                <li>Sunday: <span>09:00 - 18:00</span></li>
+            </ul>
+        </div>
+        <div class="map-contact-form">
+            <h5>Contact Us</h5>
+            <form action="#">
+                <input type="text" placeholder="Name">
+                <input type="text" class="phone" placeholder="Phone">
+                <textarea placeholder="Message"></textarea>
+                <button type="submit" class="site-btn">Отправить</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Map Section End -->
+
+<!-- Footer Section Begin -->
+<footer class="footer-section">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-3">
+                <div class="footer-logo-item">
+
+
+                    <div class="f-logo">
+                        <a href="#"><img src="img/logo.png" alt=""></a>
+                    </div>
+                    <div class="social-links">
+                        <h6>следуй за мной</h6>
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-google-plus"></i></a>
+                        <a href="#"><i class="fa fa-linkedin"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="footer-widget">
+                    <p>Процесс создания татуировки довольно сложный и ответственный. Чтобы создать качественное
+                        изображение, которое будет радовать вас всю жизнь, мастер должен учесть множество факторов.
+                        Важно правильно подобрать эскиз, цветовую гамму, размер и место для будущей тату. Также
+                        необходимо выбрать подходящий стиль и технику нанесения. В результате вы получите уникальный
+                        рисунок, который будет подчеркивать вашу индивидуальность и придавать уверенности в себе..</p>
+
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="footer-widget">
+                    <h5>Стили</h5>
+                    <ul class="workout-program">
+                        <li><a href="#">Классический</a></li>
+                        <li><a href="#">Винтажный</a></li>
+                        <li><a href="#">Граффити</a></li>
+                        <li><a href="#">Готический</a></li>
+                        <li><a href="#">Кельтский</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="footer-widget">
+                    <h5>ПОЛУЧИТЬ ИНФОРМАЦИЮ</h5>
+                    <ul class="footer-info">
+                        <li>
+                            <i class="fa fa-phone"></i>
+                            <span>Телефон:</span>
+                            (12) 345 6789
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope-o"></i>
+                            <span>Email:</span>
+                            Colorlib.info@gmail.com
+                        </li>
+                        <li>
+                            <i class="fa fa-map-marker"></i>
+                            <span>Адрес</span>
+                            Iris Watson, Box 283 8562, NY
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright-text">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="ct-inside">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                        All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                                                            aria-hidden="true"></i> by <a
+                            href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Section End -->
+
+<!-- Js Plugins -->
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/mixitup.min.js"></script>
+<script src="js/jquery.nice-select.min.js"></script>
+<script src="js/jquery.slicknav.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/masonry.pkgd.min.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+
+</html>

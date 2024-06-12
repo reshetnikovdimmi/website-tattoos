@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      layout:decorate="layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Activitar Template">
+    <meta name="keywords" content="Activitar, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Activitar | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+
+<body>
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- Header Section Begin -->
+<header class="header-section header-normal">
+    <div class="container-fluid">
+        <div class="logo ">
+            <a href="./index.html">
+                <img src="img/logo.png" alt="">
+            </a>
+        </div>
+        <div class="top-social">
+            <a href="https://wa.me/79620490947" target="_blank"><i class="fa fa-whatsapp"></i></a>
+            <a sec:authorize="!isAuthenticated()" href="/login"><i class="fa fa-user" aria-hidden="true"></i></a>
+            <a sec:authorize="isAuthenticated()" href="/login"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            <a sec:authorize="hasAuthority('ADMIN')" href="/admin"><i class="fa fa-cogs" aria-hidden="true"></i></a>
+
+        </div>
+        <div class="container">
+            <div class="nav-menu">
+                <nav class="mainmenu mobile-menu">
+                    <ul>
+                        <ul>
+                            <li><a href="/index">Главная</a></li>
+                            <li class="active"><a href="/gallery">Галерея</a></li>
+                            <li><a href="/contact">Контакты</a></li>
+                        </ul>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+    </div>
+</header>
+<!-- Header End -->
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg spad" data-setbg="img/about-bread.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text">
+                    <h2>Галерея</h2>
+                    <div class="breadcrumb-controls">
+                        <a href="/Index"><i class="fa fa-home"></i> Главная</a>
+                        <span>Галерея</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb End -->
+
+<!-- Gallery Section Begin -->
+<section class="gallery-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="gallery-controls">
+                    <ul>
+                        <li class="active">Вся галерея</li>
+                        <li>Классический</li>
+                        <li>Винтажный</li>
+                        <li>Граффити</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="galleryFilter" th:fragment="galleryFilter">
+            <div class="row gallery-filter" th:each="current, item : ${images}">
+                <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="currents: ${current}">
+                    <div class="gallery-item">
+
+                        <img alt="" th:src="@{'img/gallery/'+${currents.imageName}}">
+                        <div class="gi-hover-warp">
+                            <div class="gi-hover">
+                                <a th:href="@{'img/gallery/'+${currents.imageName}}" class="image-popup"><i
+                                        class="fa fa-search-plus"></i></a>
+
+                                <h6 th:text="${currents.description}"></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="blog-option">
+                <div class="blog-pagination">
+                    <a th:if="${currentPage!=0}" id="fa-long-arrow-left" type="submit"><i class="fa fa-long-arrow-left"></i></a>
+                    <a class="active">[[${currentPage+1}]]</a>
+                    of
+                    <a>[[${page}]]</a>
+                    <a  th:if="${currentPage+1 != page}" id="fa-long-arrow-right" type="submit"><i class="fa fa-long-arrow-right"></i></a>
+                </div>
+                <div class="blog-option-right">
+                    <div class="blog-result">Showing [[${currentPage+1}]]–[[${page}]] of [[${imagesTotal}]]  results</div>
+                    <div class="show-result">
+                        <p>Show:</p>
+                        <select class="show-result-select" id="number">
+                            <option th:each="option : ${options}" th:value="${option}" th:text="${option}" th:selected="${option == number}"  ></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Gallery Section End -->
+
+<!-- Cta Section Begin -->
+<section class="cta-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="cta-text">
+                    <h3>Сделай сегодня</h3>
+                    <p>Специальное предложение! Скидка 10% при регистрации на сайте!</p>
+                </div>
+                <a href="#" class="primary-btn cta-btn">Регистрация</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Cta Section End -->
+
+<!-- Footer Section Begin -->
+<footer class="footer-section">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-3">
+                <div class="footer-logo-item">
+
+
+                    <div class="f-logo">
+                        <a href="#"><img src="img/logo.png" alt=""></a>
+                    </div>
+                    <div class="social-links">
+                        <h6>следуй за мной</h6>
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-google-plus"></i></a>
+                        <a href="#"><i class="fa fa-linkedin"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="footer-widget">
+                    <p>Процесс создания татуировки довольно сложный и ответственный. Чтобы создать качественное
+                        изображение, которое будет радовать вас всю жизнь, мастер должен учесть множество факторов.
+                        Важно правильно подобрать эскиз, цветовую гамму, размер и место для будущей тату. Также
+                        необходимо выбрать подходящий стиль и технику нанесения. В результате вы получите уникальный
+                        рисунок, который будет подчеркивать вашу индивидуальность и придавать уверенности в себе..</p>
+
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="footer-widget">
+                    <h5>Стили</h5>
+                    <ul class="workout-program">
+                        <li><a href="#">Классический</a></li>
+                        <li><a href="#">Винтажный</a></li>
+                        <li><a href="#">Граффити</a></li>
+                        <li><a href="#">Готический</a></li>
+                        <li><a href="#">Кельтский</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="footer-widget">
+                    <h5>ПОЛУЧИТЬ ИНФОРМАЦИЮ</h5>
+                    <ul class="footer-info">
+                        <li>
+                            <i class="fa fa-phone"></i>
+                            <span>Телефон:</span>
+                            (12) 345 6789
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope-o"></i>
+                            <span>Email:</span>
+                            Colorlib.info@gmail.com
+                        </li>
+                        <li>
+                            <i class="fa fa-map-marker"></i>
+                            <span>Адрес</span>
+                            Iris Watson, Box 283 8562, NY
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright-text">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="ct-inside">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                        All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                                                            aria-hidden="true"></i> by <a
+                            href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Section End -->
+
+<!-- Js Plugins -->
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/mixitup.min.js"></script>
+<script src="js/jquery.nice-select.min.js"></script>
+<script src="js/jquery.slicknav.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/masonry.pkgd.min.js"></script>
+<script src="js/main.js"></script>
+<script type="text/javascript" th:src="@{/js/gallery.js}"></script>
+</body>
+
+</html>
