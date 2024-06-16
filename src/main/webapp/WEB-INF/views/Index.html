@@ -42,7 +42,7 @@
         <div class="top-social">
             <a href="https://wa.me/79620490947" target="_blank"><i class="fa fa-whatsapp"></i></a>
             <a sec:authorize="!isAuthenticated()" href="/login"><i class="fa fa-user" aria-hidden="true"></i></a>
-            <a sec:authorize="isAuthenticated()" href="/login"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            <a sec:authorize="isAuthenticated()" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
             <a sec:authorize="hasAuthority('ADMIN')" href="/admin"><i class="fa fa-cogs" aria-hidden="true"></i></a>
 
         </div>
