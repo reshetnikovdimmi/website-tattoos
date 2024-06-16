@@ -432,12 +432,11 @@
         <div class="row blog-gird">
             <div class="grid-sizer"></div>
             <div class="col-lg-4 col-md-6 grid-item">
-                <div class="blog-item large-item set-bg" data-setbg="img/blog/blog-1.jpg">
+                <div class="blog-item large-item set-bg" th:each="current, item : ${reviewsLimit}"
+                     th:if="${item.index == 0}" th:attr="data-setbg=@{'img/user-comment/'+${current.imageName}}">
                     <a href="#" class="blog-text">
-                        <div class="categories">Артем Колесник</div>
-                        <h6>Сделал первую татуировку и сразу большой проект, остался очень доволен) Большое спасибо
-                            мастеру Максиму!
-                            Крутая атмосфера и отличный мастера! За следующей тату обязательно приду снова к нему))</h6>
+                        <div class="categories" th:text="${current.userName}"></div>
+                        <h5 th:text="${current.comment}"></h5>
                     </a>
                 </div>
             </div>
@@ -452,14 +451,13 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 grid-item">
-                <div class="blog-item small-item set-bg" data-setbg="img/blog/blog-2.jpg">
+                <div class="blog-item large-item set-bg" th:each="current, item : ${reviewsLimit}"
+                     th:if="${item.index == 1}" th:attr="data-setbg=@{'img/user-comment/'+${current.imageName}}">
                     <a href="#" class="blog-text">
-                        <div class="categories">Дмитрий Гарифьянов</div>
-                        <h6>Огромное спасибо за качественно выполненную работу мастеру Максиму.
-                            Мастер своего дела! Обязательно приду ещё!</h6>
+                        <div class="categories" th:text="${current.userName}"></div>
+                        <h5 th:text="${current.comment}"></h5>
                     </a>
                 </div>
-
             </div>
             <div class="col-lg-4 col-md-6 grid-item">
                 <div class="blog-item large-item xls-large set-bg" data-setbg="img/blog/blog-3.jpg">
@@ -469,24 +467,18 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 grid-item">
-                <div class="blog-item large-item set-bg" data-setbg="img/blog/blog-4.jpg">
+                <div class="blog-item large-item set-bg" th:each="current, item : ${reviewsLimit}" th:if="${item.index == 2}" th:attr="data-setbg=@{'img/user-comment/'+${current.imageName}}">
                     <a href="#" class="blog-text">
-                        <div class="categories">«Красота в деталях»</div>
-                        <h5>Many people sign up for affiliate programs</h5>
+                        <div class="categories" th:text="${current.userName}"></div>
+                        <h5 th:text="${current.comment}"></h5>
                     </a>
-                    <div class="play-btn">
-
-                        <a href="https://www.youtube.com/watch?v=X_9VoqR5ojM" class="play-in-btn video-popup">
-                            <i class="fa fa-play"></i>
-                        </a>
-                    </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 grid-item">
-                <div class="blog-item small-item set-bg" data-setbg="img/blog/blog-5.jpg">
+                <div class="blog-item large-item set-bg" th:each="current, item : ${reviewsLimit}" th:if="${item.index == 3}" th:attr="data-setbg=@{'img/user-comment/'+${current.imageName}}">
                     <a href="#" class="blog-text">
-                        <div class="categories">«Красота в деталях»</div>
-                        <h5>Your Antibiotic One Day To 10 Day Options</h5>
+                        <div class="categories" th:text="${current.userName}"></div>
+                        <h5 th:text="${current.comment}"></h5>
                     </a>
                 </div>
             </div>

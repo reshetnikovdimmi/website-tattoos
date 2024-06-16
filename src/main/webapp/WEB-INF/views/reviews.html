@@ -87,136 +87,28 @@
         <div class="row">
 
 
-            <h3 style="color: #FFFFFF;">Recent News</h3>
+            <h3 style="color: #FFFFFF;">Все отзывы</h3>
 
-                    <div class="classtime-table scroll" style="margin: 20px;" >
-                        <table>
+            <div class="classtime-table scroll" style="margin: 20px;">
+                <table>
 
-                            <tbody>
-                            <tr >
-
-                                <td  class="blog-item large-item set-bg" data-tsmeta="crossfit"><div class="bi-pic">
-                                    <img src="img/blog/blog-1.jpg" alt="">
-                                </div></td>
-                                <td class="hover-bg ts-item" data-tsmeta="crossfit">
-
-                                    <span>Jan 31, 2019</span>
-                                    <h5 style="white-space: pre-line;color: #FFFFFF;">You are only spending more time hurting your back…without your knowledge. To solve thisproblem you should check the kind of mattress you are sleeping on. By simply changingthe mattress for a better type, like a memory foam mattress, you can help to celiminate the problem of back-pain from your life.</h5>
-
-                                </td>
-
-
-                            </tr>
-                            <tr >
-
-                                <td  class="blog-item large-item set-bg" data-tsmeta="crossfit"><div class="bi-pic">
-                                    <img src="img/blog/blog-1.jpg" alt="">
-                                </div></td>
-                                <td class="hover-bg ts-item" data-tsmeta="crossfit">
-
-                                    <span>Jan 31, 2019</span>
-                                    <h5 style="white-space: pre-line;color: #FFFFFF;">You are only spending more time hurting your back…without your knowledge. To solve this
-                                        problem you should check the kind of mattress you are sleeping on. By simply changing
-                                        the mattress for a better type, like a memory foam mattress, you can help to completely
-                                        eliminate the problem of back-pain from your life.</h5>
-
-                                </td>
+                    <tbody>
+                    <tr th:each="current, item : ${reviews}">
+                        <td class="blog-item large-item set-bg" data-tsmeta="crossfit">
+                            <div class="bi-pic">
+                                <img th:src="@{'img/user-comment/'+${current.imageName}}" alt="">
+                            </div>
+                        </td>
+                        <td class="hover-bg ts-item" data-tsmeta="crossfit">
+                            <span>Jan 31, 2019</span>
+                            <h5 style="white-space: pre-line;color: #FFFFFF;" th:text="${current.comment}"></h5>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
 
-                            </tr>
-                            <tr >
-
-                                <td  class="blog-item large-item set-bg" data-tsmeta="crossfit"><div class="bi-pic">
-                                    <img src="img/blog/blog-1.jpg" alt="">
-                                </div></td>
-                                <td class="hover-bg ts-item" data-tsmeta="crossfit">
-
-                                    <span>Jan 31, 2019</span>
-                                    <h5 style="white-space: pre-line;color: #FFFFFF;">You are only spending more time hurting your back…without your knowledge. To solve this
-                                        problem you should check the kind of mattress you are sleeping on. By simply changing
-                                        the mattress for a better type, like a memory foam mattress, you can help to completely
-                                        eliminate the problem of back-pain from your life.</h5>
-
-                                </td>
-
-
-                            </tr>
-                            <tr >
-
-                                <td  class="blog-item large-item set-bg" data-tsmeta="crossfit"><div class="bi-pic">
-                                    <img src="img/blog/blog-1.jpg" alt="">
-                                </div></td>
-                                <td class="hover-bg ts-item" data-tsmeta="crossfit">
-
-                                    <span>Jan 31, 2019</span>
-                                    <h5 style="white-space: pre-line;color: #FFFFFF;">You are only spending more time hurting your back…without your knowledge. To solve this
-                                        problem you should check the kind of mattress you are sleeping on. By simply changing
-                                        the mattress for a better type, like a memory foam mattress, you can help to completely
-                                        eliminate the problem of back-pain from your life.</h5>
-
-                                </td>
-
-
-                            </tr>
-                            <tr >
-
-                                <td  class="blog-item large-item set-bg" data-tsmeta="crossfit"><div class="bi-pic">
-                                    <img src="img/blog/blog-1.jpg" alt="">
-                                </div></td>
-                                <td class="hover-bg ts-item" data-tsmeta="crossfit">
-
-                                    <span>Jan 31, 2019</span>
-                                    <h5 style="white-space: pre-line;color: #FFFFFF;">You are only spending more time hurting your back…without your knowledge. To solve this
-                                        problem you should check the kind of mattress you are sleeping on. By simply changing
-                                        the mattress for a better type, like a memory foam mattress, you can help to completely
-                                        eliminate the problem of back-pain from your life.</h5>
-
-                                </td>
-
-
-                            </tr>
-                            <tr >
-
-                                <td  class="blog-item large-item set-bg" data-tsmeta="crossfit"><div class="bi-pic">
-                                    <img src="img/blog/blog-1.jpg" alt="">
-                                </div></td>
-                                <td class="hover-bg ts-item" data-tsmeta="crossfit">
-
-                                    <span>Jan 31, 2019</span>
-                                    <h5 style="white-space: pre-line;color: #FFFFFF;">You are only spending more time hurting your back…without your knowledge. To solve this
-                                        problem you should check the kind of mattress you are sleeping on. By simply changing
-                                        the mattress for a better type, like a memory foam mattress, you can help to completely
-                                        eliminate the problem of back-pain from your life.</h5>
-
-                                </td>
-
-
-                            </tr>
-                            <tr >
-
-                                <td  class="blog-item large-item set-bg" data-tsmeta="crossfit"><div class="bi-pic">
-                                    <img src="img/blog/blog-1.jpg" alt="">
-                                </div></td>
-                                <td class="hover-bg ts-item" data-tsmeta="crossfit">
-
-                                    <span>Jan 31, 2019</span>
-                                    <h5 style="white-space: pre-line;color: #FFFFFF;">You are only spending more time hurting your back…without your knowledge. To solve this
-                                        problem you should check the kind of mattress you are sleeping on. By simply changing
-                                        the mattress for a better type, like a memory foam mattress, you can help to completely
-                                        eliminate the problem of back-pain from your life.</h5>
-
-                                </td>
-
-
-                            </tr>
-
-
-                            </tbody>
-                        </table>
-
-
-
-                    </div>
+            </div>
 
 
         </div>
@@ -224,21 +116,18 @@
             <div class="col-lg-12">
 
                 <div class="leave-comment-form">
-                    <h4>Leave A Comment</h4>
-                    <form action="#">
+                    <h4>Оставте свой отзыв</h4>
+                    <form th:action="@{reviews-import}" method="post"
+                          enctype="multipart/form-data">
                         <div class="row">
-                            <div class="col-lg-4">
-                                <input type="text" placeholder="Name">
+                            <div class="col-lg-4" style="margin-bottom: 20px;">
+                                <input type="file" id="file-upload-input" name="file" required>
                             </div>
-                            <div class="col-lg-4">
-                                <input type="text" placeholder="Email">
-                            </div>
-                            <div class="col-lg-4">
-                                <input type="text" placeholder="Phone">
-                            </div>
+                            <input type="hidden" name="name" th:value="${#authentication.name}">
+
                             <div class="col-lg-12">
-                                <textarea placeholder="Comment"></textarea>
-                                <button type="submit" class="leave-btn">Post Comment</button>
+                                <textarea placeholder="Текст" name="Comment" required></textarea>
+                                <button type="submit" class="leave-btn">Сохранить отзыв</button>
                             </div>
                         </div>
                     </form>

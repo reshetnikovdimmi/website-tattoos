@@ -174,10 +174,32 @@
             <div id="menu1" class="container-fluid tab-pane fade"><br>
 
                 <h3>Отзывы</h3>
-                <div class="row mb-3">
+                <section class="gallery-section spad  scroll" style="margin: 10px;">
+                    <div class="row gallery-filter" th:each="current : ${reviews}">
 
+                        <div class="col-5">
+                            <div class="gallery-item">
 
-                </div>
+                                <img alt="" th:src="@{'img/gallery/'+${current.imageName}}">
+
+                            </div>
+
+                        </div>
+                        <div class="col-5">
+
+                            <div class="row mb-3 text-center">
+                                <h5 style="color: #FFFFFF" th:text="${current.comment}"></h5>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <form th:action="@{img-delete}" method="get">
+                                <input type="hidden" name="id"  th:value="${current.id}">
+                                <button class="btn btn-outline-secondary" type="submit">Удалить</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </section>
 
 
             </div>

@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.repository.ImagesRepository;
+import ru.tattoo.maxsim.repository.ReviewsUserRepository;
 
 import javax.servlet.http.HttpServlet;
 import java.io.File;
@@ -29,9 +30,13 @@ public class Admin  {
     @Autowired
     private ImagesRepository imagesRepository;
 
+    @Autowired
+    private ReviewsUserRepository reviewsUserRepository;
+
     @GetMapping("/admin")
     public String admin(Model model) {
         model.addAttribute("images", imagesRepository.findAll());
+        model.addAttribute("reviews", reviewsUserRepository.findAll());
         return "admin";
     }
 
