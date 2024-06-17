@@ -99,7 +99,7 @@
                 <h3>Галерея</h3>
                 <div class="container px-4">
 
-                    <form th:action="@{img-import}" method="post"
+                    <form th:method="POST" th:action="@{/ui/suppliers/create}" th:object="${shop1}">
                           enctype="multipart/form-data">
 
 

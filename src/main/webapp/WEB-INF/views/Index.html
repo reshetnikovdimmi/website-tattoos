@@ -529,11 +529,12 @@
         </div>
         <div class="map-contact-form">
             <h5>Contact Us</h5>
-            <form action="#">
-                <input type="text" placeholder="Name">
-                <input type="text" class="phone" placeholder="Phone">
-                <textarea placeholder="Message"></textarea>
+            <form th:method="POST" th:action="@{/sendMail}" th:object="${details}">
+                <input type="text" name="name" placeholder="Name">
+                <input type="text" name="subject" class="phone" placeholder="Phone">
+                <textarea name="msgBody" placeholder="Message"></textarea>
                 <button type="submit" class="site-btn">Отправить</button>
+                <div th:text="${status}"></div>
             </form>
         </div>
     </div>
@@ -553,7 +554,7 @@
                         <a href="#"><img src="img/logo.png" alt=""></a>
                     </div>
                     <div class="social-links">
-                        <h6>следуй за мной</h6>
+                        <h6>Следуй за мной</h6>
                         <a href="#"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-twitter"></i></a>
                         <a href="#"><i class="fa fa-google-plus"></i></a>
