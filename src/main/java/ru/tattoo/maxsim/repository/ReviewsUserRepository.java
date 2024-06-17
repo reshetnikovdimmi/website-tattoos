@@ -9,6 +9,10 @@ import java.util.List;
 
 @Repository
 public interface ReviewsUserRepository extends JpaRepository<ReviewsUser, Long> {
+
     @Query("SELECT e FROM ReviewsUser e ORDER BY ID DESC LIMIT 4")
     List<ReviewsUser> findLimit();
+
+    @Query("SELECT imageName  FROM ReviewsUser WHERE id = ?1")
+    String getName(Long id);
 }

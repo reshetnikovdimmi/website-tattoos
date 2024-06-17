@@ -58,6 +58,7 @@ public class Admin  {
             }
         }
         model.addAttribute("images", imagesRepository.findAll());
+        model.addAttribute("reviews", reviewsUserRepository.findAll());
         return "/admin";
     }
     @GetMapping("/img-delete")
@@ -71,6 +72,23 @@ public class Admin  {
             e.printStackTrace();
         }
         imagesRepository.deleteById(id);
+        model.addAttribute("reviews", reviewsUserRepository.findAll());
+        model.addAttribute("images", imagesRepository.findAll());
+        return "/admin";
+    }
+
+    @GetMapping("/reviews-delete")
+    public String deleteReviews(@RequestParam("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
+
+        try {
+            File file = new File(request.getServletContext().getRealPath("WEB-INF/views/img/user-comment"));
+            Path path = Paths.get(file.getAbsolutePath()+File.separator+reviewsUserRepository.getName(id));
+            Files.delete(path);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        reviewsUserRepository.deleteById(id);
+        model.addAttribute("reviews", reviewsUserRepository.findAll());
         model.addAttribute("images", imagesRepository.findAll());
         return "/admin";
     }
