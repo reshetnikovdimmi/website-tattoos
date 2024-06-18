@@ -73,10 +73,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb-text">
-                    <h2>Галерея</h2>
+                    <h2>Эскизы</h2>
                     <div class="breadcrumb-controls">
                         <a href="/Index"><i class="fa fa-home"></i> Главная</a>
-                        <span>Галерея</span>
+                        <span>Эскизы</span>
                     </div>
                 </div>
             </div>
@@ -88,19 +88,6 @@
 <!-- GalleryController Section Begin -->
 <section class="gallery-section spad">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="gallery-controls">
-                    <ul>
-                        <li class="active">Вся галерея</li>
-                        <li>Классический</li>
-                        <li>Винтажный</li>
-                        <li>Граффити</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
         <div class="galleryFilter" th:fragment="galleryFilter">
             <div class="row gallery-filter" th:each="current, item : ${images}">
                 <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="currents: ${current}">
@@ -256,7 +243,7 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/masonry.pkgd.min.js"></script>
 <script src="js/main.js"></script>
-<script type="text/javascript" th:src="@{/js/gallery.js}"></script>
+<script type="text/javascript" th:src="@{/js/sketches.js}"></script>
 </body>
 
 </html>

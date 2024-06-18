@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import ru.tattoo.maxsim.model.User;
 
 @Controller
-public class Login {
+public class LoginController {
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("user", new User());

@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.model.ReviewsUser;
-import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.repository.ReviewsUserRepository;
 
 import java.io.File;
@@ -22,7 +20,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 
 @Controller
-public class Reviews {
+public class ReviewsController {
 
     @Autowired
     private ReviewsUserRepository reviewsUserRepository;

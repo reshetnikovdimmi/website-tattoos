@@ -14,7 +14,7 @@ import ru.tattoo.maxsim.repository.UserRepository;
 import ru.tattoo.maxsim.validator.UserValidator;
 
 @Controller
-public class Registration {
+public class RegistrationController {
     @Autowired
     private UserRepository userRepository;
     @Autowired

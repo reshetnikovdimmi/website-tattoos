@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class Gallery {
+public class GalleryController {
     @Autowired
     private ImagesRepository imagesRepository;
 
@@ -29,7 +29,7 @@ public class Gallery {
        Page<Images> images = imagesRepository.findAll(p);
 
 
-        model.addAttribute("images",images );
+
         model.addAttribute("number", 9);
         model.addAttribute("page", images.getTotalPages());
         model.addAttribute("currentPage", 0);
