@@ -99,7 +99,7 @@
                 <h3 style="color: #FFFFFF">Галерея</h3>
                 <div class="container px-4">
 
-                    <form th:method="POST" th:action="@{/ui/suppliers/create}" th:object="${shop1}">
+                    <form th:action="@{img-import}" method="post" enctype="multipart/form-data">
                         <label><p>Загрузить фото</p></label>
                         <div class="row">
                             <div class="col-md-8 themed-grid-col">
