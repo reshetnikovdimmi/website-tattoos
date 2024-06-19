@@ -34,15 +34,15 @@
 <header class="header-section header-normal">
     <div class="container-fluid">
         <div class="logo">
-            <a href="./index.html">
+            <a href="/index">
                 <img src="img/logo.png" alt="">
             </a>
         </div>
         <div class="top-social">
-
+            <a href="https://wa.me/79620490947" target="_blank"><i class="fa fa-whatsapp"></i></a>
+            <a sec:authorize="!isAuthenticated()" href="/login"><i class="fa fa-user" aria-hidden="true"></i></a>
             <a sec:authorize="isAuthenticated()" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
-
-
+            <a sec:authorize="hasAuthority('ADMIN')" href="/admin"><i class="fa fa-cogs" aria-hidden="true"></i></a>
         </div>
         <div class="container">
             <div class="nav-menu">
@@ -70,9 +70,8 @@
                 <div class="bs-hero-text">
                     <h2>Я делаю то, на что у других не хватает смелости.</h2>
                     <ul>
-                        <li>By Phil Martinez</li>
-                        <li>January 31, 2019</li>
-                        <li>08 Comments</li>
+                        <li th:text="${#temporals.format(localDateTime, 'dd MMMM yyyy', new java.util.Locale('ru', 'RU'))}"></li>
+                        <li th:text="${count} + ' ' + Отзывов"></li>
                     </ul>
                 </div>
             </div>
@@ -100,7 +99,8 @@
                             </div>
                         </td>
                         <td class="hover-bg ts-item" data-tsmeta="crossfit">
-                            <span>Jan 31, 2019</span>
+                            <span th:text="${#dates.format(current.date, 'dd MMMM yy')}"></span>
+                            <h4 style="white-space: pre-line;color: #FFFFFF;" th:text="${current.userName}"></h4>
                             <h5 style="white-space: pre-line;color: #FFFFFF;" th:text="${current.comment}"></h5>
                         </td>
                     </tr>
@@ -144,10 +144,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="cta-text">
-                    <h3>GeT Started Today</h3>
-                    <p>New student special! $30 unlimited Gym for the first week anh 50% of our member!</p>
+                    <h3>Сделай сегодня</h3>
+                    <p>Индивидуальный эскиз</p>
                 </div>
-                <a href="#" class="primary-btn cta-btn">book now</a>
+                <a href="/contact" class="primary-btn cta-btn">Записаться</a>
             </div>
         </div>
     </div>
@@ -164,14 +164,10 @@
 
 
                     <div class="f-logo">
-                        <a href="#"><img src="img/logo.png" alt=""></a>
+                        <a href="/index"><img src="img/logo.png" alt=""></a>
                     </div>
                     <div class="social-links">
-                        <h6>следуй за мной</h6>
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                        <a href="#"><i class="fa fa-linkedin"></i></a>
+                        <h6>Следуй за мной</h6>
                         <a href="#"><i class="fa fa-instagram"></i></a>
                     </div>
 
@@ -183,8 +179,7 @@
                         изображение, которое будет радовать вас всю жизнь, мастер должен учесть множество факторов.
                         Важно правильно подобрать эскиз, цветовую гамму, размер и место для будущей тату. Также
                         необходимо выбрать подходящий стиль и технику нанесения. В результате вы получите уникальный
-                        рисунок, который будет подчеркивать вашу индивидуальность и придавать уверенности в
-                        себе..</p>
+                        рисунок, который будет подчеркивать вашу индивидуальность и придавать уверенности в себе..</p>
 
                 </div>
             </div>
@@ -206,7 +201,7 @@
                     <ul class="footer-info">
                         <li>
                             <i class="fa fa-phone"></i>
-                            <span>Phone:</span>
+                            <span>Телефон:</span>
                             (12) 345 6789
                         </li>
                         <li>
@@ -216,7 +211,7 @@
                         </li>
                         <li>
                             <i class="fa fa-map-marker"></i>
-                            <span>Address</span>
+                            <span>Адрес</span>
                             Iris Watson, Box 283 8562, NY
                         </li>
                     </ul>
@@ -234,12 +229,12 @@
                         All rights reserved | This template is made with <i class="fa fa-heart-o"
                                                                             aria-hidden="true"></i> by <a
                             href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </div>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> </div>
                 </div>
             </div>
         </div>
     </div>
+</footer>
 </footer>
 <!-- Footer Section End -->
 

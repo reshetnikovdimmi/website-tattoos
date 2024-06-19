@@ -15,4 +15,7 @@ public interface ReviewsUserRepository extends JpaRepository<ReviewsUser, Long> 
 
     @Query("SELECT imageName  FROM ReviewsUser WHERE id = ?1")
     String getName(Long id);
+
+    @Query("SELECT COUNT(id) FROM ReviewsUser")
+    int getCount();
 }

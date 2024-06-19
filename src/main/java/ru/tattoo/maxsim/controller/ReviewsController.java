@@ -18,6 +18,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Controller
 public class ReviewsController {
@@ -28,6 +31,8 @@ public class ReviewsController {
     @GetMapping("/reviews")
     public String reviews(Model model) {
         model.addAttribute("reviews", reviewsUserRepository.findAll());
+        model.addAttribute("localDateTime", LocalDateTime.now());
+        model.addAttribute("count", reviewsUserRepository.getCount());
         return "reviews";
     }
 
@@ -38,6 +43,7 @@ public class ReviewsController {
         reviewsUser.setImageName(fileImport.getOriginalFilename());
         reviewsUser.setComment(Comment);
         reviewsUser.setUserName(name);
+        reviewsUser.setDate(new Date());
         ReviewsUser uploadImg = reviewsUserRepository.save(reviewsUser);
         if(uploadImg!=null){
             try {

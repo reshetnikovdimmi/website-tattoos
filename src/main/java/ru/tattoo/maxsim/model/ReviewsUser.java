@@ -1,12 +1,11 @@
 package ru.tattoo.maxsim.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 
 @NoArgsConstructor
@@ -25,5 +24,9 @@ public class ReviewsUser {
     private String userName;
 
     private String comment;
+
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date date;
 
 }

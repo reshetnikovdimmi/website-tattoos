@@ -225,11 +225,9 @@
                         <div class="row gallery-filter" th:each="current : ${sketches}">
                             <div class="col-5">
                                 <div class="gallery-item">
-                                    <img alt="" th:src="@{'img/gallery/'+${current.imageName}}">
+                                    <img alt="" th:src="@{'img/sketches/'+${current.imageName}}">
                                     <div class="gi-hover-warp">
                                         <div class="gi-hover">
-                                            <a href="img/gallery/gallery-1.jpg" class="image-popup"><i
-                                                    class="fa fa-search-plus"></i></a>
                                             <h6 th:text="${current.description}"></h6>
                                         </div>
                                     </div>

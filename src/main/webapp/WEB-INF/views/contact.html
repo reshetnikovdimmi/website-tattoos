@@ -42,11 +42,10 @@
                 </a>
             </div>
             <div class="top-social">
-                <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                <a href="#"><i class="fa fa-linkedin"></i></a>
-                <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                <a href="#"><i class="fa fa-youtube-play"></i></a>
-                <a href="#"><i class="fa fa-instagram"></i></a>
+                <a href="https://wa.me/79620490947" target="_blank"><i class="fa fa-whatsapp"></i></a>
+                <a sec:authorize="!isAuthenticated()" href="/login"><i class="fa fa-user" aria-hidden="true"></i></a>
+                <a sec:authorize="isAuthenticated()" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                <a sec:authorize="hasAuthority('ADMIN')" href="/admin"><i class="fa fa-cogs" aria-hidden="true"></i></a>
             </div>
             <div class="container">
                 <div class="nav-menu">
@@ -68,7 +67,7 @@
     <!-- Map Section Begin -->
     <div class="contact-map">
         <iframe
-            src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d188618.51311104256!2d-71.236572!3d42.381647!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1576756626784!5m2!1sen!2sbd"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1144.7834953334323!2d73.3807984906992!3d54.98069236552357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x43aafde390bc26cf%3A0xd4cb1ab96c683642!2z0J3QvtGC0LDRgNC40YPRgSDQlNCw0L3QuNC70LXQstGB0LrQsNGPINCVLiDQkS4!5e0!3m2!1sru!2sru!4v1718820384760!5m2!1sru!2sru"
             height="530" style="border: 0" allowfullscreen=""></iframe>
         <div class="map-hover">
             <h5>New York</h5>
