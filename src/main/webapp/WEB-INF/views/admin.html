@@ -3,11 +3,12 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Activitar Template">
-    <meta name="keywords" content="Activitar, unica, creative, html">
+    <meta name="description" content="Тату омск">
+    <meta name="keywords" content="Татуировка, татуировка омск, тату салон, сделать татуировку">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Activitar | Template</title>
+    <title>tattoos Maxim</title>
+    <link href="img/logo.png" rel="icon" type="image/vnd.microsoft.icon">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900&display=swap" rel="stylesheet">
@@ -96,81 +97,83 @@
         <!-- Tab panes -->
         <div class="tab-content">
             <div id="home_hom" class="container-fluid tab-pane active"><br>
-                <h3 style="color: #FFFFFF">Галерея</h3>
+                <h3 style="color: #FFFFFF; margin: 10px;">Галерея</h3>
                 <div class="container px-4">
-
-                    <form th:action="@{img-import}" method="post" enctype="multipart/form-data">
-                        <label><p>Загрузить фото</p></label>
-                        <div class="row">
-                            <div class="col-md-8 themed-grid-col">
-                                <div class="row g-2">
-                                    <div class="col" style="margin: 10px;">
-                                        <input type="file" id="file-upload-input" name="file" required>
+                    <div class="img-import" th:fragment="img-import">
+                        <form id="img-import">
+                            <label><p>Загрузить фото</p></label>
+                            <div class="row">
+                                <div class="col-md-8 themed-grid-col">
+                                    <div class="row g-2">
+                                        <div class="col" style="margin: 10px;">
+                                            <input type="file" accept="image/png, image/gif, image/jpeg"
+                                                   id="file-Gallery" name="file" required>
+                                        </div>
+                                        <div class="col" style="margin: 10px;">
+                                            <select class="show-result-select" id="select" name="category" required>
+                                                <option disabled selected>Выберите категорию</option>
+                                                <option value="Классический">Классический</option>
+                                                <option value="Винтажный">Винтажный</option>
+                                                <option value="Граффити">Граффити</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="col" style="margin: 10px;">
-                                        <select class="show-result-select" id="select" name="category" required>
-                                            <option disabled selected>Выберите категорию</option>
-                                            <option value="Классический">Классический</option>
-                                            <option value="Винтажный">Винтажный</option>
-                                            <option value="Граффити">Граффити</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row g-2">
-                                    <div class="col" style="margin: 10px;">
-                                        <input style="width: 100%; height: 100px" type="text" placeholder="Описание"
-                                               name="description" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-4 themed-grid-col" style="margin: 10px;">
-                                <button type="submit" class="leave-btn">Применить</button>
-                            </div>
-                        </div>
-                    </form>
-
-                    <section class="gallery-section spad  scroll" style="margin: 10px;">
-                        <div class="row gallery-filter" th:each="current : ${images}">
-
-                            <div class="col-5">
-                                <div class="gallery-item">
-
-                                    <img alt="" th:src="@{'img/gallery/'+${current.imageName}}">
-                                    <div class="gi-hover-warp">
-                                        <div class="gi-hover">
-                                            <a href="img/gallery/gallery-1.jpg" class="image-popup"><i
-                                                    class="fa fa-search-plus"></i></a>
-
-                                            <h6 th:text="${current.description}"></h6>
+                                    <div class="row g-2">
+                                        <div class="col" style="margin: 10px;">
+                                            <input style="width: 100%; height: 100px" type="text" placeholder="Описание"
+                                                   id="description" name="description" required>
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="col-5">
-                                <div class="row mb-3 text-center">
-                                    <h4 style="color: #FFFFFF" th:text="${current.category}"></h4>
-                                </div>
-                                <div class="row mb-3 text-center">
-                                    <h5 style="color: #FFFFFF" th:text="${current.description}"></h5>
+                                <div class="col-6 col-md-4 themed-grid-col" style="margin: 10px;">
+                                    <button id="btn-img" class="leave-btn">Применить</button>
                                 </div>
                             </div>
-                            <div class="col">
-                                <form th:action="@{img-delete}" method="get">
-                                    <input type="hidden" name="id" id="id" th:value="${current.id}">
-                                    <button class="btn btn-outline-secondary" type="submit">Удалить</button>
-                                </form>
-                            </div>
+                        </form>
 
-                        </div>
-                    </section>
+                        <section class="gallery-section spad  scroll" style="margin: 10px;">
+                            <div class="row gallery-filter" th:each="current : ${images}">
+
+                                <div class="col-5">
+                                    <div class="gallery-item ">
+
+                                        <img alt="" th:src="@{'img/gallery/'+${current.imageName}}">
+                                        <div class="gi-hover-warp">
+                                            <div class="gi-hover">
+                                                <a href="img/gallery/gallery-1.jpg" class="image-popup"><i
+                                                        class="fa fa-search-plus"></i></a>
+
+                                                <h6 th:text="${current.description}"></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-5">
+                                    <div class="row mb-3 text-center">
+                                        <h4 style="color: #FFFFFF" th:text="${current.category}"></h4>
+                                    </div>
+                                    <div class="row mb-3 text-center">
+                                        <h5 style="color: #FFFFFF" th:text="${current.description}"></h5>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <form th:action="@{img-delete}" method="get">
+                                        <input type="hidden" name="id" id="id" th:value="${current.id}">
+                                        <button class="btn btn-outline-secondary" type="submit">Удалить</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </section>
+                    </div>
                 </div>
             </div>
 
 
             <div id="menu1" class="container-fluid tab-pane fade"><br>
 
-                <h3 style="color: #FFFFFF">Отзывы</h3>
+                <h3 style="color: #FFFFFF; margin: 10px;">Отзывы</h3>
                 <section class="gallery-section spad  scroll" style="margin: 10px;">
                     <div class="row gallery-filter" th:each="current : ${reviews}">
                         <div class="col-5">
@@ -179,6 +182,9 @@
                             </div>
                         </div>
                         <div class="col-5">
+                            <div class="row mb-3 text-center">
+                                <h4 style="white-space: pre-line;color: #FFFFFF" th:text="${current.userName}"></h4>
+                            </div>
                             <div class="row mb-3 text-center">
                                 <h5 style="white-space: pre-line;color: #FFFFFF" th:text="${current.comment}"></h5>
                             </div>
@@ -195,23 +201,24 @@
 
             </div>
             <div id="menu2" class="container tab-pane fade"><br>
-                <h3 style="color: #FFFFFF">Эскизы</h3>
+                <h3 style="color: #FFFFFF; margin: 10px;">Эскизы</h3>
                 <div class="container px-4">
+                    <div class="sketches-import" th:fragment="sketches-import">
+                    <form id="img-sketches">
 
-                    <form th:action="@{sketches-import}" method="post" enctype="multipart/form-data">
                         <label id=""><p>Загрузить фото</p></label>
                         <div class="row">
                             <div class="col-md-8 themed-grid-col">
                                 <div class="row g-2">
                                     <div class="col" style="margin: 10px;">
-                                        <input type="file" id="" name="file" required>
+                                        <input type="file" id="file-sketches" name="file" required>
                                     </div>
 
                                 </div>
                                 <div class="row g-2">
                                     <div class="col" style="margin: 10px;">
                                         <input style="width: 100%; height: 100px" type="text" placeholder="Описание"
-                                               name="description" required>
+                                               name="description" id="description-sketches" required>
                                     </div>
                                 </div>
                             </div>
@@ -234,7 +241,7 @@
                                 </div>
                             </div>
                             <div class="col-5">
-                                 <div class="row mb-3 text-center">
+                                <div class="row mb-3 text-center">
                                     <h5 style="color: #FFFFFF" th:text="${current.description}"></h5>
                                 </div>
                             </div>
@@ -247,12 +254,13 @@
 
                         </div>
                     </section>
+                    </div>
                 </div>
 
             </div>
             <div id="menu3" class="container-fluid tab-pane fade"><br>
-                   <div class="row mb-3">
-                    <h3 style="color: #FFFFFF">Пользователи</h3>
+                <div class="row mb-3">
+                    <h3 style="color: #FFFFFF; margin: 10px;">Пользователи</h3>
                     <section class="gallery-section spad  scroll" style="margin: 10px;">
                         <div class="row gallery-filter" th:each="current : ${user}">
                             <div class="col-5">
@@ -286,14 +294,10 @@
 
 
                     <div class="f-logo">
-                        <a href="#"><img src="img/logo.png" alt=""></a>
+                        <a href="/index"><img src="img/logo.png" alt=""></a>
                     </div>
                     <div class="social-links">
-                        <h6>следуй за мной</h6>
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                        <a href="#"><i class="fa fa-linkedin"></i></a>
+                        <h6>Следуй за мной</h6>
                         <a href="#"><i class="fa fa-instagram"></i></a>
                     </div>
 
@@ -305,8 +309,7 @@
                         изображение, которое будет радовать вас всю жизнь, мастер должен учесть множество факторов.
                         Важно правильно подобрать эскиз, цветовую гамму, размер и место для будущей тату. Также
                         необходимо выбрать подходящий стиль и технику нанесения. В результате вы получите уникальный
-                        рисунок, который будет подчеркивать вашу индивидуальность и придавать уверенности в
-                        себе..</p>
+                        рисунок, который будет подчеркивать вашу индивидуальность и придавать уверенности в себе..</p>
 
                 </div>
             </div>
@@ -328,7 +331,7 @@
                     <ul class="footer-info">
                         <li>
                             <i class="fa fa-phone"></i>
-                            <span>Phone:</span>
+                            <span>Телефон:</span>
                             (12) 345 6789
                         </li>
                         <li>
@@ -338,7 +341,7 @@
                         </li>
                         <li>
                             <i class="fa fa-map-marker"></i>
-                            <span>Address</span>
+                            <span>Адрес</span>
                             Iris Watson, Box 283 8562, NY
                         </li>
                     </ul>
@@ -356,8 +359,7 @@
                         All rights reserved | This template is made with <i class="fa fa-heart-o"
                                                                             aria-hidden="true"></i> by <a
                             href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </div>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> </div>
                 </div>
             </div>
         </div>
@@ -372,5 +374,6 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/masonry.pkgd.min.js"></script>
 <script src="js/main.js"></script>
+<script type="text/javascript" th:src="@{/js/admin.js}"></script>
 </body>
 </html>

@@ -18,7 +18,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -55,6 +54,8 @@ public class ReviewsController {
                 e.printStackTrace();
             }
         }
+        model.addAttribute("localDateTime", LocalDateTime.now());
+        model.addAttribute("count", reviewsUserRepository.getCount());
         model.addAttribute("reviews", reviewsUserRepository.findAll());
         return "/reviews";
     }

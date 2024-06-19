@@ -4,12 +4,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Activitar Template">
-    <meta name="keywords" content="Activitar, unica, creative, html">
+    <meta name="description" content="Тату омск">
+    <meta name="keywords" content="Татуировка, татуировка омск, тату салон, сделать татуировку">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Activitar | Template</title>
-
+    <title>tattoos Maxim</title>
+    <link href="img/logo.png" rel="icon" type="image/vnd.microsoft.icon">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet">
@@ -430,6 +430,7 @@
             </div>
         </div>
         <div class="row blog-gird">
+            <div class="grid-sizer"></div>
             <div class="col-lg-4 col-md-6 grid-item">
                 <div class="blog-item large-item set-bg" th:each="current, item : ${reviewsLimit}"
                      th:if="${item.index == 0}" th:attr="data-setbg=@{'img/user-comment/'+${current.imageName}}">
@@ -466,7 +467,8 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 grid-item">
-                <div class="blog-item large-item set-bg" th:each="current, item : ${reviewsLimit}" th:if="${item.index == 2}" th:attr="data-setbg=@{'img/user-comment/'+${current.imageName}}">
+                <div class="blog-item large-item set-bg" th:each="current, item : ${reviewsLimit}"
+                     th:if="${item.index == 2}" th:attr="data-setbg=@{'img/user-comment/'+${current.imageName}}">
                     <a href="/reviews" class="blog-text">
                         <div class="categories" th:text="${current.userName}"></div>
                         <h5 th:text="${current.comment}"></h5>
@@ -474,7 +476,8 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 grid-item">
-                <div class="blog-item large-item set-bg" th:each="current, item : ${reviewsLimit}" th:if="${item.index == 3}" th:attr="data-setbg=@{'img/user-comment/'+${current.imageName}}">
+                <div class="blog-item large-item set-bg" th:each="current, item : ${reviewsLimit}"
+                     th:if="${item.index == 3}" th:attr="data-setbg=@{'img/user-comment/'+${current.imageName}}">
                     <a href="/reviews" class="blog-text">
                         <div class="categories" th:text="${current.userName}"></div>
                         <h5 th:text="${current.comment}"></h5>
@@ -506,7 +509,7 @@
 <div class="map">
     <iframe
 
-            height="590" style="border: 0" allowfullscreen=""><!-- Yandex.RTB R-A-5699098-3 -->
+            height="420" style="border: 0" allowfullscreen=""><!-- Yandex.RTB R-A-5699098-3 -->
         <div id="yandex_rtb_R-A-5699098-3"></div>
         <script>
             window.yaContextCb.push(()=>{
@@ -521,19 +524,15 @@
         <div class="open-time">
             <h5>Режим:</h5>
             <ul>
-                <li>Понедельник: <span>09:00 - 18:00</span></li>
-                <li>Вторник: <span>09:00 - 18:00</span></li>
-                <li>Среда: <span>09:00 - 18:00</span></li>
-                <li>Четверг: <span>09:00 - 18:00</span></li>
-                <li>Пятница: <span>09:00 - 18:00</span></li>
+                <li>Пн-Пт: <span>09:00 - 18:00</span></li>
             </ul>
         </div>
         <div class="map-contact-form">
             <h5>Связаться</h5>
             <form th:method="POST" th:action="@{/sendMail}" th:object="${details}">
-                <input type="text" name="name" placeholder="Имя">
-                <input type="text" name="subject" class="Телефон" placeholder="Phone">
-                <textarea name="msgBody" placeholder="Сообщение"></textarea>
+                <input type="text" name="name" placeholder="Имя" required>
+                <input type="text" name="subject" class="phone" placeholder="Телефон" required>
+                <textarea name="msgBody" placeholder="Сообщение" required></textarea>
                 <button type="submit" class="site-btn">Отправить</button>
                 <div th:text="${status}"></div>
             </form>
@@ -552,7 +551,7 @@
 
 
                     <div class="f-logo">
-                        <a href="#"><img src="img/logo.png" alt=""></a>
+                        <a href="/index"><img src="img/logo.png" alt=""></a>
                     </div>
                     <div class="social-links">
                         <h6>Следуй за мной</h6>
@@ -636,6 +635,7 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/masonry.pkgd.min.js"></script>
 <script src="js/main.js"></script>
+
 
 </body>
 

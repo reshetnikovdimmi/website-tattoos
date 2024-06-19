@@ -4,9 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.model.Sketches;
@@ -22,8 +21,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
+
 public class AdminController {
 
     @Autowired
@@ -40,20 +42,29 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String admin(Model model) {
-        model.addAttribute("images", imagesRepository.findAll());
+
+        List<Images> images = imagesRepository.findAll();
+        Collections.reverse(images);
+        model.addAttribute("images", images);
+
         model.addAttribute("reviews", reviewsUserRepository.findAll());
         model.addAttribute("user", userRepository.findAll());
-        model.addAttribute("sketches", sketchesRepository.findAll());
+        List<Sketches> listSketches = sketchesRepository.findAll();
+        Collections.reverse(listSketches);
+        model.addAttribute("sketches", listSketches);
         return "admin";
     }
 
     @PostMapping("/img-import")
+
     public String imgImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("description") String description,@RequestParam("category") String category, Model model, HttpServletRequest request) throws IOException, ParseException {
-        Images images = new Images();
-        images.setImageName(fileImport.getOriginalFilename());
-        images.setDescription(description);
-        images.setCategory(category);
-        Images uploadImg = imagesRepository.save(images);
+
+        Images img = new Images();
+
+        img.setImageName(fileImport.getOriginalFilename());
+        img.setDescription(description);
+        img.setCategory(category);
+        Images uploadImg = imagesRepository.save(img);
         if(uploadImg!=null){
             try {
                 File file = new File(request.getServletContext().getRealPath("WEB-INF/views/img/gallery"));
@@ -61,12 +72,16 @@ public class AdminController {
                 Files.copy(fileImport.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
 
             }catch (Exception e){
+
                 e.printStackTrace();
             }
         }
-        model.addAttribute("images", imagesRepository.findAll());
+        List<Images> images = imagesRepository.findAll();
+        Collections.reverse(images);
+        model.addAttribute("images", images);
+
         model.addAttribute("reviews", reviewsUserRepository.findAll());
-        return "/admin";
+        return "admin::img-import";
     }
 
     @PostMapping("/sketches-import")
@@ -82,14 +97,19 @@ public class AdminController {
                 Files.copy(fileImport.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
 
             }catch (Exception e){
+
                 e.printStackTrace();
             }
         }
-        model.addAttribute("images", imagesRepository.findAll());
+        List<Images> images = imagesRepository.findAll();
+        Collections.reverse(images);
+        model.addAttribute("images", images);
         model.addAttribute("reviews", reviewsUserRepository.findAll());
         model.addAttribute("user", userRepository.findAll());
-        model.addAttribute("sketches", sketchesRepository.findAll());
-        return "/admin";
+        List<Sketches> listSketches = sketchesRepository.findAll();
+        Collections.reverse(listSketches);
+        model.addAttribute("sketches", listSketches);
+        return "admin::sketches-import";
     }
 
     @GetMapping("/sketches-delete")
@@ -107,7 +127,7 @@ public class AdminController {
         model.addAttribute("images", imagesRepository.findAll());
         model.addAttribute("user", userRepository.findAll());
         model.addAttribute("sketches", sketchesRepository.findAll());
-        return "/admin";
+        return "admin";
     }
 
     @GetMapping("/img-delete")
@@ -121,9 +141,12 @@ public class AdminController {
             e.printStackTrace();
         }
         imagesRepository.deleteById(id);
+        List<Images> images = imagesRepository.findAll();
+        Collections.reverse(images);
+
         model.addAttribute("reviews", reviewsUserRepository.findAll());
-        model.addAttribute("images", imagesRepository.findAll());
-        return "/admin";
+        model.addAttribute("images", images);
+        return "admin";
     }
 
     @GetMapping("/reviews-delete")
@@ -139,7 +162,7 @@ public class AdminController {
         reviewsUserRepository.deleteById(id);
         model.addAttribute("reviews", reviewsUserRepository.findAll());
         model.addAttribute("images", imagesRepository.findAll());
-        return "/admin";
+        return "admin";
     }
 }
 

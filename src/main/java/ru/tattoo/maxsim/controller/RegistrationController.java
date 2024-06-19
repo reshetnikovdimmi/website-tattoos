@@ -35,7 +35,7 @@ public class RegistrationController {
         user.setPassword(encodedPassword);
         user.setRole("USER");
         userRepository.save(user);
-        return "redirect:/login";
+        return "login";
     }
 
     @GetMapping("/registration")

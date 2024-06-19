@@ -6,11 +6,12 @@
       layout:decorate="layout">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Activitar Template">
-    <meta name="keywords" content="Activitar, unica, creative, html">
+    <meta name="description" content="Тату омск">
+    <meta name="keywords" content="Татуировка, татуировка омск, тату салон, сделать татуировку">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Activitar | Template</title>
+    <title>tattoos Maxim</title>
+    <link href="img/logo.png" rel="icon" type="image/vnd.microsoft.icon">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900&display=swap" rel="stylesheet">
@@ -37,7 +38,7 @@
     <header class="header-section header-normal">
         <div class="container-fluid">
             <div class="logo">
-                <a href="./index.html">
+                <a href="/index">
                     <img src="img/logo.png" alt="">
                 </a>
             </div>
@@ -66,15 +67,12 @@
 
     <!-- Map Section Begin -->
     <div class="contact-map">
-        <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1144.7834953334323!2d73.3807984906992!3d54.98069236552357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x43aafde390bc26cf%3A0xd4cb1ab96c683642!2z0J3QvtGC0LDRgNC40YPRgSDQlNCw0L3QuNC70LXQstGB0LrQsNGPINCVLiDQkS4!5e0!3m2!1sru!2sru!4v1718820384760!5m2!1sru!2sru"
-            height="530" style="border: 0" allowfullscreen=""></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2289.5711761467323!2d73.37993227667121!3d54.98061897280808!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x43aafe0f59650b4d%3A0x1a1dc96e8a08ac22!2z0J_QvtGH0YLQvtCy0LDRjyDRg9C7LiwgNCwg0J7QvNGB0LosINCe0LzRgdC60LDRjyDQvtCx0LsuLCA2NDQwMjQ!5e0!3m2!1sru!2sru!4v1718894770961!5m2!1sru!2sru" height="530" style="border: 0" allowfullscreen=""></iframe>
         <div class="map-hover">
-            <h5>New York</h5>
+            <h5>Омск</h5>
             <ul>
-                <li>Weekdays: 10.00 - 23.00</li>
-                <li>Saturday: 10.00 - 23.00</li>
-                <li>Sunday: Close</li>
+                <li>Пн-Пт: 09.00 - 18.00</li>
+
             </ul>
             <i class="icon_pin"></i>
         </div>
@@ -87,14 +85,14 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="contact-info">
-                        <h4>Information</h4>
+                        <h4>Информация</h4>
                         <ul>
                             <li><i class="fa fa-phone"></i>(12)-100-100-100</li>
                             <li><i class="fa fa-envelope"></i>Info.colorlib@gmail.com</li>
                         </ul>
                     </div>
                     <div class="contact-address">
-                        <h4>Address</h4>
+                        <h4>Адрес</h4>
                         <ul>
                             <li><i class="fa fa-map-marker"></i> Iris Watson, Mary land, United State., New York City
                             </li>
@@ -103,19 +101,20 @@
                 </div>
                 <div class="col-lg-8 offset-lg-1">
                     <div class="contact-form">
-                        <h4>Get in touch</h4>
-                        <form action="#">
+                        <h4>Связаться</h4>
+                        <form th:method="POST" th:action="@{/sendMailСontact}" th:object="${details}">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <input type="text" placeholder="Name">
+                                    <input name="name" type="text" placeholder="Имя" required>
                                 </div>
                                 <div class="col-lg-6">
-                                    <input type="text" placeholder="Email">
+                                    <input name="subject" type="text" placeholder="Телефон" required>
                                 </div>
                                 <div class="col-lg-12">
-                                    <textarea placeholder="Message"></textarea>
-                                    <button type="submit" class="c-btn">Send Message</button>
+                                    <textarea name="msgBody" placeholder="Текст" required></textarea>
+                                    <button type="submit" class="c-btn">Отправить</button>
                                 </div>
+                                <div class="col-lg-12" style="color: #FFFFFF" th:text="${status}"></div>
                             </div>
                         </form>
                     </div>
@@ -145,61 +144,50 @@
     <footer class="footer-section">
         <div class="container">
             <div class="row">
+
                 <div class="col-lg-3">
                     <div class="footer-logo-item">
+
+
                         <div class="f-logo">
-                            <a href="#"><img src="img/logo.png" alt=""></a>
+                            <a href="/index"><img src="img/logo.png" alt=""></a>
                         </div>
-                        <p>Despite growth of the Internet over the past seven years, the use of toll-free phone numbers
-                            in television advertising continues.</p>
                         <div class="social-links">
-                            <h6>Follow us</h6>
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-google-plus"></i></a>
-                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                            <h6>Следуй за мной</h6>
                             <a href="#"><i class="fa fa-instagram"></i></a>
                         </div>
+
                     </div>
                 </div>
-                <div class="col-lg-3 offset-lg-1">
+                <div class="col-lg-4">
                     <div class="footer-widget">
-                        <h5>Our Blog</h5>
-                        <div class="footer-blog">
-                            <a href="#" class="fb-item">
-                                <h6>Most people who work</h6>
-                                <span class="blog-time"><i class="fa fa-clock-o"></i> Jan 02, 2019</span>
-                            </a>
-                            <a href="#" class="fb-item">
-                                <h6>Freelance Design Tricks How </h6>
-                                <span class="blog-time"><i class="fa fa-clock-o"></i> Jan 02, 2019</span>
-                            </a>
-                            <a href="#" class="fb-item">
-                                <h6>have a computer at home have had </h6>
-                                <span class="blog-time"><i class="fa fa-clock-o"></i> Jan 02, 2019</span>
-                            </a>
-                        </div>
+                        <p>Процесс создания татуировки довольно сложный и ответственный. Чтобы создать качественное
+                            изображение, которое будет радовать вас всю жизнь, мастер должен учесть множество факторов.
+                            Важно правильно подобрать эскиз, цветовую гамму, размер и место для будущей тату. Также
+                            необходимо выбрать подходящий стиль и технику нанесения. В результате вы получите уникальный
+                            рисунок, который будет подчеркивать вашу индивидуальность и придавать уверенности в себе..</p>
+
                     </div>
                 </div>
                 <div class="col-lg-2">
                     <div class="footer-widget">
-                        <h5>Program</h5>
+                        <h5>Стили</h5>
                         <ul class="workout-program">
-                            <li><a href="#">Bodybuilding</a></li>
-                            <li><a href="#">Running</a></li>
-                            <li><a href="#">Streching</a></li>
-                            <li><a href="#">Weight Loss</a></li>
-                            <li><a href="#">Gym Fitness</a></li>
+                            <li><a href="#">Классический</a></li>
+                            <li><a href="#">Винтажный</a></li>
+                            <li><a href="#">Граффити</a></li>
+                            <li><a href="#">Готический</a></li>
+                            <li><a href="#">Кельтский</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="footer-widget">
-                        <h5>Get Info</h5>
+                        <h5>ПОЛУЧИТЬ ИНФОРМАЦИЮ</h5>
                         <ul class="footer-info">
                             <li>
                                 <i class="fa fa-phone"></i>
-                                <span>Phone:</span>
+                                <span>Телефон:</span>
                                 (12) 345 6789
                             </li>
                             <li>
@@ -209,7 +197,7 @@
                             </li>
                             <li>
                                 <i class="fa fa-map-marker"></i>
-                                <span>Address</span>
+                                <span>Адрес</span>
                                 Iris Watson, Box 283 8562, NY
                             </li>
                         </ul>
@@ -221,9 +209,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <div class="ct-inside"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
+                        <div class="ct-inside">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                            All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                                                                aria-hidden="true"></i> by <a
+                                href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> </div>
                     </div>
                 </div>
             </div>

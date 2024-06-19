@@ -57,6 +57,7 @@ public class GalleryController {
         model.addAttribute("currentPage", page);
         model.addAttribute("imagesTotal", images.getTotalElements());
         model.addAttribute("options", Lists.newArrayList(9, 12, 15));
+
         return "gallery::galleryFilter";
     }
 

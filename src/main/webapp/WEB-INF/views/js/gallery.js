@@ -14,7 +14,7 @@ $(document).ready(function() {
         pagesLeft()
         styles()
         numbers()
-        $('.show-result-select').niceSelect();
+
     });
     var config = {
         attributes: true,
@@ -38,7 +38,7 @@ function pagesLeft() {
     });
 }
 function styles() {
- $(".gallery-controls li").mousedown(function() {
+ $('.gallery-controls ul li').on('click', function() {
         page = 0;
         style = $(this).text();
         galleryControls()
@@ -58,6 +58,6 @@ function galleryControls() {
 
         $(".galleryFilter").html(data);
 
-
+$('.show-result-select').niceSelect();
     });
 }
