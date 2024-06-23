@@ -57,6 +57,6 @@ public class ReviewsController {
         model.addAttribute("localDateTime", LocalDateTime.now());
         model.addAttribute("count", reviewsUserRepository.getCount());
         model.addAttribute("reviews", reviewsUserRepository.findAll());
-        return "/reviews";
+        return "reviews";
     }
 }

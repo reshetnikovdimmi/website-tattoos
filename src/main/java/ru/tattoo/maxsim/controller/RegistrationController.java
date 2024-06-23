@@ -29,7 +29,7 @@ public class RegistrationController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("login", bindingResult);
-            return "/registration";
+            return "registration";
         }
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -41,6 +41,6 @@ public class RegistrationController {
     @GetMapping("/registration")
     public String registrationPage(@ModelAttribute("user") User user) {
 
-        return "/registration";
+        return "registration";
     }
 }
