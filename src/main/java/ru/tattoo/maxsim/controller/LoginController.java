@@ -7,9 +7,9 @@ import ru.tattoo.maxsim.model.User;
 
 @Controller
 public class LoginController {
-    @GetMapping("/")
+    @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("user", new User());
-        return "login";
+        return "redirect:login";
     }
 }
