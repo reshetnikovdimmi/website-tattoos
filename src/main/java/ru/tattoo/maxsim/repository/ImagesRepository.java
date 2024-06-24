@@ -13,12 +13,10 @@ import java.util.List;
 
 @Repository
 public interface ImagesRepository extends JpaRepository<Images, Long> {
+
     Page<Images> findByCategory(String c, Pageable p);
 
     @Query("SELECT imageName  FROM Images WHERE id = ?1")
     String getName(Long id);
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM Images WHERE id = ?1")
-    List<Images> deleteId(Long id);
+
 }

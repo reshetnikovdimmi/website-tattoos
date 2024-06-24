@@ -7,18 +7,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.repository.ImagesRepository;
 import ru.tattoo.maxsim.repository.ReviewsUserRepository;
 import ru.tattoo.maxsim.repository.SketchesRepository;
 import ru.tattoo.maxsim.repository.UserRepository;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +24,8 @@ import java.util.List;
 @Controller
 
 public class AdminController {
+
+    private static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/img/images/";
 
     @Autowired
     private ImagesRepository imagesRepository;
@@ -44,13 +44,16 @@ public class AdminController {
 
         List<Images> images = imagesRepository.findAll();
         Collections.reverse(images);
-        model.addAttribute("images", images);
-
-        model.addAttribute("reviews", reviewsUserRepository.findAll());
-        model.addAttribute("user", userRepository.findAll());
         List<Sketches> listSketches = sketchesRepository.findAll();
         Collections.reverse(listSketches);
+        List<ReviewsUser> reviewsUsers = reviewsUserRepository.findAll();
+        Collections.reverse(reviewsUsers);
+
+        model.addAttribute("images", images);
         model.addAttribute("sketches", listSketches);
+        model.addAttribute("reviews", reviewsUsers);
+        model.addAttribute("user", userRepository.findAll());
+
         return "admin";
     }
 
@@ -59,109 +62,86 @@ public class AdminController {
     public String imgImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("description") String description,@RequestParam("category") String category, Model model, HttpServletRequest request) throws IOException, ParseException {
 
         Images img = new Images();
-
         img.setImageName(fileImport.getOriginalFilename());
         img.setDescription(description);
         img.setCategory(category);
+
         Images uploadImg = imagesRepository.save(img);
-        if(uploadImg!=null){
-            try {
-                File file = new File(request.getServletContext().getRealPath("WEB-INF/views/img/gallery"));
-                Path path = Paths.get(file.getAbsolutePath()+File.separator+fileImport.getOriginalFilename());
-                Files.copy(fileImport.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
 
-            }catch (Exception e){
+        if(uploadImg!=null)saveImg(fileImport);
 
-                e.printStackTrace();
-            }
-        }
         List<Images> images = imagesRepository.findAll();
         Collections.reverse(images);
         model.addAttribute("images", images);
-
-        model.addAttribute("reviews", reviewsUserRepository.findAll());
         return "admin::img-import";
     }
 
     @PostMapping("/sketches-import")
     public String sketchesImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("description") String description, Model model, HttpServletRequest request) throws IOException, ParseException {
+
         Sketches sketches = new Sketches();
         sketches.setImageName(fileImport.getOriginalFilename());
         sketches.setDescription(description);
+
         Sketches uploadImg = sketchesRepository.save(sketches);
-        if(uploadImg!=null){
-            try {
-                File file = new File(request.getServletContext().getRealPath("WEB-INF/views/img/sketches"));
-                Path path = Paths.get(file.getAbsolutePath()+File.separator+fileImport.getOriginalFilename());
-                Files.copy(fileImport.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
 
-            }catch (Exception e){
+        if(uploadImg!=null)saveImg(fileImport);
 
-                e.printStackTrace();
-            }
-        }
-        List<Images> images = imagesRepository.findAll();
-        Collections.reverse(images);
-        model.addAttribute("images", images);
-        model.addAttribute("reviews", reviewsUserRepository.findAll());
-        model.addAttribute("user", userRepository.findAll());
         List<Sketches> listSketches = sketchesRepository.findAll();
         Collections.reverse(listSketches);
         model.addAttribute("sketches", listSketches);
         return "admin::sketches-import";
     }
 
-    @GetMapping("/sketches-delete")
-    public String deleteSketches(@RequestParam("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
+    @GetMapping("/sketches-delete/{id}")
+    public String deleteSketches(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
 
-        try {
-            File file = new File(request.getServletContext().getRealPath("WEB-INF/views/img/sketches"));
-            Path path = Paths.get(file.getAbsolutePath()+File.separator+imagesRepository.getName(id));
-            Files.delete(path);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        deleteImg(sketchesRepository.getName(id));
+
         sketchesRepository.deleteById(id);
-        model.addAttribute("reviews", reviewsUserRepository.findAll());
-        model.addAttribute("images", imagesRepository.findAll());
-        model.addAttribute("user", userRepository.findAll());
-        model.addAttribute("sketches", sketchesRepository.findAll());
-        return "admin";
+
+        List<Sketches> listSketches = sketchesRepository.findAll();
+        Collections.reverse(listSketches);
+        model.addAttribute("sketches", listSketches);
+        return "admin::sketches-import";
     }
 
-    @GetMapping("/img-delete")
-    public String delete(@RequestParam("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
+    @GetMapping("/img-delete/{id}")
+    public String delete(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
 
-        try {
-            File file = new File(request.getServletContext().getRealPath("WEB-INF/views/img/gallery"));
-            Path path = Paths.get(file.getAbsolutePath()+File.separator+imagesRepository.getName(id));
-            Files.delete(path);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        deleteImg(imagesRepository.getName(id));
+
         imagesRepository.deleteById(id);
+
         List<Images> images = imagesRepository.findAll();
         Collections.reverse(images);
-
-        model.addAttribute("reviews", reviewsUserRepository.findAll());
         model.addAttribute("images", images);
-        return "admin";
+
+        return "admin::img-import";
     }
 
-    @GetMapping("/reviews-delete")
-    public String deleteReviews(@RequestParam("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
+    @GetMapping("/reviews-delete/{id}")
+    public String deleteReviews(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
 
-        try {
-            File file = new File(request.getServletContext().getRealPath("WEB-INF/views/img/user-comment"));
-            Path path = Paths.get(file.getAbsolutePath()+File.separator+reviewsUserRepository.getName(id));
-            Files.delete(path);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        deleteImg(reviewsUserRepository.getName(id));
+
         reviewsUserRepository.deleteById(id);
-        model.addAttribute("reviews", reviewsUserRepository.findAll());
-        model.addAttribute("images", imagesRepository.findAll());
-        return "admin";
+
+        List<ReviewsUser> reviewsUsers = reviewsUserRepository.findAll();
+        Collections.reverse(reviewsUsers);
+        model.addAttribute("reviews", reviewsUsers);
+
+        return "admin::reviews";
     }
+
+    private void deleteImg(String name) throws IOException {
+        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY , name);
+        Files.delete(fileNameAndPath);
+    }
+    private void saveImg(MultipartFile fileImport) throws IOException {
+        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY , fileImport.getOriginalFilename());
+        Files.write(fileNameAndPath, fileImport.getBytes());
+    }
+
 }
 

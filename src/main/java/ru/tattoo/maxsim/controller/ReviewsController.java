@@ -10,26 +10,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.repository.ReviewsUserRepository;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class ReviewsController {
+
+    private static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/img/images/";
 
     @Autowired
     private ReviewsUserRepository reviewsUserRepository;
 
     @GetMapping("/reviews")
     public String reviews(Model model) {
-        model.addAttribute("reviews", reviewsUserRepository.findAll());
+        List<ReviewsUser> reviews = reviewsUserRepository.findAll();
+        Collections.reverse(reviews);
+        model.addAttribute("reviews", reviews);
         model.addAttribute("localDateTime", LocalDateTime.now());
         model.addAttribute("count", reviewsUserRepository.getCount());
         return "reviews";
@@ -45,18 +48,12 @@ public class ReviewsController {
         reviewsUser.setDate(new Date());
         ReviewsUser uploadImg = reviewsUserRepository.save(reviewsUser);
         if(uploadImg!=null){
-            try {
-                File file = new File(request.getServletContext().getRealPath("WEB-INF/views/img/user-comment"));
-                Path path = Paths.get(file.getAbsolutePath()+File.separator+fileImport.getOriginalFilename());
-                Files.copy(fileImport.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+            Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY , fileImport.getOriginalFilename());
+            Files.write(fileNameAndPath, fileImport.getBytes());
         }
-        model.addAttribute("localDateTime", LocalDateTime.now());
-        model.addAttribute("count", reviewsUserRepository.getCount());
-        model.addAttribute("reviews", reviewsUserRepository.findAll());
-        return "reviews";
+        List<ReviewsUser> reviews = reviewsUserRepository.findAll();
+        Collections.reverse(reviews);
+        model.addAttribute("reviews", reviews);
+        return "reviews::fragment-reviews";
     }
 }

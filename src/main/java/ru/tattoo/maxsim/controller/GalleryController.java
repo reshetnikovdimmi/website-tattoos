@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ImagesRepository;
-
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -40,7 +39,7 @@ public class GalleryController {
 
     @RequestMapping(value = "/gallery/{style}/{page}/{number}", method = RequestMethod.GET)
 
-    private String remainsGroupShop(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
+    private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
         Page<Images> images;
         Pageable p = PageRequest.of(page,number);
         if (style.equals("Вся галерея")){
@@ -59,21 +58,9 @@ public class GalleryController {
     }
 
     private Object pageList(Page<Images> images) {
-        int cou=0;
-        List<Images> img = new ArrayList<>();
-        List<List<Images>> pageList = new ArrayList<>();
-        for (Images i:images){
-            cou++;
-            img.add(i);
-
-            if (cou==3){
-                pageList.add(img);
-                img = new ArrayList<>();
-                cou=0;
-            }
-        }
-        if (img!=null)pageList.add(img);
-        return pageList;
+        List<Images> objects = images.hasContent() ? images.getContent() : Collections.emptyList();
+        List<List<Images>> smallerLists = Lists.partition(objects, 3);
+        return smallerLists;
     }
 
 }

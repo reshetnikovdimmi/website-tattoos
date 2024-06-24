@@ -18,11 +18,8 @@ public class ReviewsUser {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
-
     private String imageName;
-
     private String userName;
-
     private String comment;
 
     @Temporal(TemporalType.DATE)

@@ -40,7 +40,6 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public String registrationPage(@ModelAttribute("user") User user) {
-
         return "registration";
     }
 }

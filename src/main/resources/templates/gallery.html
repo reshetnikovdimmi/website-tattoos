@@ -69,15 +69,15 @@
 <!-- Header End -->
 
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg spad" data-setbg="img/YegoPCMUsmQ.jpg">
+<section class="breadcrumb-section set-bg spad" data-setbg="img/about-bread.jpg">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb-text">
-                    <h2>Эскизы</h2>
+                    <h2>Галерея</h2>
                     <div class="breadcrumb-controls">
                         <a href="/index"><i class="fa fa-home"></i> Главная</a>
-                        <span>Эскизы</span>
+                        <span>Галерея</span>
                     </div>
                 </div>
             </div>
@@ -89,15 +89,30 @@
 <!-- GalleryController Section Begin -->
 <section class="gallery-section spad">
     <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="gallery-controls">
+                    <ul>
+                        <li class="active">Вся галерея</li>
+                        <li>Классический</li>
+                        <li>Винтажный</li>
+                        <li>Граффити</li>
+                        <li>Готический</li>
+                        <li>Кельтский</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <div class="galleryFilter" th:fragment="galleryFilter">
             <div class="row gallery-filter" th:each="current, item : ${images}">
                 <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="currents: ${current}">
                     <div class="gallery-item">
 
-                        <img alt="" th:src="@{'img/sketches/'+${currents.imageName}}">
+                        <img alt="" th:src="@{'/images/'+${currents.imageName}}">
                         <div class="gi-hover-warp">
                             <div class="gi-hover">
-                                <a th:href="@{'img/sketches/'+${currents.imageName}}" class="image-popup"><i
+                                <a th:href="@{'/images/'+${currents.imageName}}" class="image-popup"><i
                                         class="fa fa-search-plus"></i></a>
 
                                 <h6 th:text="${currents.description}"></h6>
@@ -141,7 +156,7 @@
                     <h3>Сделай сегодня</h3>
                     <p>Индивидуальный эскиз</p>
                 </div>
-                <a href="/contact" class="primary-btn cta-btn">Записаться</a>
+                <a href="#" class="primary-btn cta-btn">Записаться</a>
             </div>
         </div>
     </div>
@@ -158,7 +173,7 @@
 
 
                     <div class="f-logo">
-                        <a href="index"><img src="img/logo.png" alt=""></a>
+                        <a href="/index"><img src="img/logo.png" alt=""></a>
                     </div>
                     <div class="social-links">
                         <h6>Следуй за мной</h6>
@@ -241,7 +256,7 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/masonry.pkgd.min.js"></script>
 <script src="js/main.js"></script>
-<script type="text/javascript" th:src="@{/js/sketches.js}"></script>
+<script type="text/javascript" th:src="@{/js/gallery.js}"></script>
 </body>
 
 </html>

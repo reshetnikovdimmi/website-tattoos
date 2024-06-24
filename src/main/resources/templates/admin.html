@@ -96,7 +96,7 @@
 
         <!-- Tab panes -->
         <div class="tab-content">
-            <div id="home_hom" class="container-fluid tab-pane active"><br>
+            <div id="home_hom" class="container tab-pane active"><br>
                 <h3 style="color: #FFFFFF; margin: 10px;">Галерея</h3>
                 <div class="container px-4">
                     <div class="img-import" th:fragment="img-import">
@@ -115,6 +115,8 @@
                                                 <option value="Классический">Классический</option>
                                                 <option value="Винтажный">Винтажный</option>
                                                 <option value="Граффити">Граффити</option>
+                                                <option value="Винтажный">Готический</option>
+                                                <option value="Граффити">Кельтский</option>
                                             </select>
                                         </div>
                                     </div>
@@ -137,10 +139,10 @@
                                 <div class="col-5">
                                     <div class="gallery-item ">
 
-                                        <img alt="" th:src="@{'img/gallery/'+${current.imageName}}">
+                                        <img alt="" th:src="@{'/images/'+${current.imageName}}">
                                         <div class="gi-hover-warp">
                                             <div class="gi-hover">
-                                                <a href="img/gallery/gallery-1.jpg" class="image-popup"><i
+                                                <a href="/images/${current.imageName}" class="image-popup"><i
                                                         class="fa fa-search-plus"></i></a>
 
                                                 <h6 th:text="${current.description}"></h6>
@@ -158,10 +160,15 @@
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <form th:action="@{img-delete}" method="get">
-                                        <input type="hidden" name="id" id="id" th:value="${current.id}">
-                                        <button class="btn btn-outline-secondary" type="submit">Удалить</button>
-                                    </form>
+
+                                    <div hidden="hidden" name="id" th:text="${current.id}"></div>
+
+
+                                </div>
+                                <div class="col">
+
+                                    <button class="btn btn-outline-secondary delimg" type="submit">Удалить</button>
+
                                 </div>
 
                             </div>
@@ -171,29 +178,31 @@
             </div>
 
 
-            <div id="menu1" class="container-fluid tab-pane fade"><br>
+            <div id="menu1" class="container tab-pane fade"><br>
 
                 <h3 style="color: #FFFFFF; margin: 10px;">Отзывы</h3>
                 <section class="gallery-section spad  scroll" style="margin: 10px;">
-                    <div class="row gallery-filter" th:each="current : ${reviews}">
-                        <div class="col-5">
-                            <div class="gallery-item">
-                                <img alt="" th:src="@{'img/user-comment/'+${current.imageName}}">
+                    <div class="reviews" th:fragment="reviews">
+                        <div class="row gallery-filter" th:each="current : ${reviews}">
+                            <div class="col-5">
+                                <div class="gallery-item">
+                                    <img alt="" th:src="@{'/images/'+${current.imageName}}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-5">
-                            <div class="row mb-3 text-center">
-                                <h4 style="white-space: pre-line;color: #FFFFFF" th:text="${current.userName}"></h4>
+                            <div class="col-5">
+                                <div class="row mb-3 text-center">
+                                    <h4 style="white-space: pre-line;color: #FFFFFF" th:text="${current.userName}"></h4>
+                                </div>
+                                <div class="row mb-3 text-center">
+                                    <h5 style="white-space: pre-line;color: #FFFFFF" th:text="${current.comment}"></h5>
+                                </div>
                             </div>
-                            <div class="row mb-3 text-center">
-                                <h5 style="white-space: pre-line;color: #FFFFFF" th:text="${current.comment}"></h5>
+                            <div class="col">
+                                <div hidden="hidden" name="id" th:text="${current.id}"></div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <form th:action="@{reviews-delete}" method="get">
-                                <input type="hidden" name="id" th:value="${current.id}">
-                                <button class="btn btn-outline-secondary" type="submit">Удалить</button>
-                            </form>
+                            <div class="col">
+                                <button class="btn btn-outline-secondary del" type="submit">Удалить</button>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -204,61 +213,67 @@
                 <h3 style="color: #FFFFFF; margin: 10px;">Эскизы</h3>
                 <div class="container px-4">
                     <div class="sketches-import" th:fragment="sketches-import">
-                    <form id="img-sketches">
+                        <form id="img-sketches">
 
-                        <label id=""><p>Загрузить фото</p></label>
-                        <div class="row">
-                            <div class="col-md-8 themed-grid-col">
-                                <div class="row g-2">
-                                    <div class="col" style="margin: 10px;">
-                                        <input type="file" id="file-sketches" name="file" required>
+                            <label id=""><p>Загрузить фото</p></label>
+                            <div class="row">
+                                <div class="col-md-8 themed-grid-col">
+                                    <div class="row g-2">
+                                        <div class="col" style="margin: 10px;">
+                                            <input type="file" id="file-sketches" name="file" required>
+                                        </div>
+
                                     </div>
-
-                                </div>
-                                <div class="row g-2">
-                                    <div class="col" style="margin: 10px;">
-                                        <input style="width: 100%; height: 100px" type="text" placeholder="Описание"
-                                               name="description" id="description-sketches" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-4 themed-grid-col" style="margin: 10px;">
-                                <button type="submit" class="leave-btn">Применить</button>
-                            </div>
-                        </div>
-                    </form>
-
-                    <section class="gallery-section spad  scroll" style="margin: 10px;">
-                        <div class="row gallery-filter" th:each="current : ${sketches}">
-                            <div class="col-5">
-                                <div class="gallery-item">
-                                    <img alt="" th:src="@{'img/sketches/'+${current.imageName}}">
-                                    <div class="gi-hover-warp">
-                                        <div class="gi-hover">
-                                            <h6 th:text="${current.description}"></h6>
+                                    <div class="row g-2">
+                                        <div class="col" style="margin: 10px;">
+                                            <input style="width: 100%; height: 100px" type="text" placeholder="Описание"
+                                                   name="description" id="description-sketches" required>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-5">
-                                <div class="row mb-3 text-center">
-                                    <h5 style="color: #FFFFFF" th:text="${current.description}"></h5>
+                                <div class="col-6 col-md-4 themed-grid-col" style="margin: 10px;">
+                                    <button type="submit" class="leave-btn">Применить</button>
                                 </div>
                             </div>
-                            <div class="col">
-                                <form th:action="@{sketches-delete}" method="get">
-                                    <input type="hidden" name="id" id="" th:value="${current.id}">
-                                    <button class="btn btn-outline-secondary" type="submit">Удалить</button>
-                                </form>
-                            </div>
+                        </form>
 
-                        </div>
-                    </section>
+                        <section class="gallery-section spad  scroll" style="margin: 10px;">
+                            <div class="row gallery-filter" th:each="current : ${sketches}">
+                                <div class="col-5">
+                                    <div class="gallery-item">
+                                        <img alt="" th:src="@{'/images/'+${current.imageName}}">
+                                        <div class="gi-hover-warp">
+                                            <div class="gi-hover">
+                                                <h6 th:text="${current.description}"></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <div class="row mb-3 text-center">
+                                        <h5 style="color: #FFFFFF" th:text="${current.description}"></h5>
+                                    </div>
+                                </div>
+                                <div class="col">
+
+                                    <div hidden="hidden" name="id" th:text="${current.id}"></div>
+
+
+                                </div>
+                                <div class="col">
+
+
+                                    <button class="btn btn-outline-secondary del" type="submit">Удалить</button>
+
+                                </div>
+
+                            </div>
+                        </section>
                     </div>
                 </div>
 
             </div>
-            <div id="menu3" class="container-fluid tab-pane fade"><br>
+            <div id="menu3" class="container tab-pane fade"><br>
                 <div class="row mb-3">
                     <h3 style="color: #FFFFFF; margin: 10px;">Пользователи</h3>
                     <section class="gallery-section spad  scroll" style="margin: 10px;">
@@ -317,11 +332,11 @@
                 <div class="footer-widget">
                     <h5>Стили</h5>
                     <ul class="workout-program">
-                        <li><a href="#">Классический</a></li>
-                        <li><a href="#">Винтажный</a></li>
-                        <li><a href="#">Граффити</a></li>
-                        <li><a href="#">Готический</a></li>
-                        <li><a href="#">Кельтский</a></li>
+                        <li><a href="/gallery">Классический</a></li>
+                        <li><a href="/gallery">Винтажный</a></li>
+                        <li><a href="/gallery">Граффити</a></li>
+                        <li><a href="/gallery">Готический</a></li>
+                        <li><a href="/gallery">Кельтский</a></li>
                     </ul>
                 </div>
             </div>

@@ -1,5 +1,23 @@
 $(document).ready(function() {
-    $('#img-import').on("submit", function(e) {
+       importImg()
+       sketches()
+       reviews()
+});
+function reviews() {
+ $(document).find('.del').on('click', function() {
+            var id = $(this).parents('.row:first').find('.col:eq(0)').text(),
+                data;
+            console.log(id)
+            $.get('/reviews-delete/' + id, {}, function(data) {
+                $(".reviews").html(data);
+                $('.show-result-select').niceSelect();
+                importImg()
+            });
+
+        });
+}
+function importImg() {
+$('#img-import').on("submit", function(e) {
         e.preventDefault();
         const fileInput = document.getElementById('file-Gallery');
         const file = fileInput.files[0];
@@ -17,13 +35,27 @@ $(document).ready(function() {
                 if (xhr.status == 200) {
                     $(".img-import").html(xhr.response);
                     $('.show-result-select').niceSelect();
+                    importImg()
                 } else {
                     alert("Server response: ", xhr.response);
                 }
             };
         }
     });
-    $('#img-sketches').on("submit", function(e) {
+     $(document).find('.delimg').on('click', function() {
+            var id = $(this).parents('.row:first').find('.col:eq(0)').text(),
+                data;
+            console.log(id)
+            $.get('/img-delete/' + id, {}, function(data) {
+                $(".img-import").html(data);
+                $('.show-result-select').niceSelect();
+                importImg()
+            });
+
+        });
+}
+function sketches() {
+$('#img-sketches').on("submit", function(e) {
         e.preventDefault();
         const fileInput = document.getElementById('file-sketches');
         const file = fileInput.files[0];
@@ -40,10 +72,23 @@ $(document).ready(function() {
                 if (xhr.status == 200) {
                     $(".sketches-import").html(xhr.response);
                     $('.show-result-select').niceSelect();
+                    sketches()
                 } else {
                     alert("Server response: ", xhr.response);
                 }
             };
         }
     });
-});
+    $(document).find('.del').on('click', function() {
+        var id = $(this).parents('.row:first').find('.col:eq(0)').text(),
+            data;
+        console.log(id)
+        $.get('/sketches-delete/' + id, {}, function(data) {
+            $(".sketches-import").html(data);
+            $('.show-result-select').niceSelect();
+            sketches()
+        });
+
+    });
+
+}

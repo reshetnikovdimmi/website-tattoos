@@ -22,11 +22,8 @@ public class User {
 
     @Size(min = 2, max = 20, message = "First name should be from 2 to 20 chars")
     private String login;
-
     private String password;
-
     private String role;
-
     private String email;
 
 }

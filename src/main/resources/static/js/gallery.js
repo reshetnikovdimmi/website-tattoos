@@ -12,8 +12,8 @@ $(document).ready(function() {
     var observer = new MutationObserver(function(mutations, observer) {
         pagesRight()
         pagesLeft()
-        styles()
         numbers()
+
 
     });
     var config = {
@@ -42,6 +42,7 @@ function styles() {
         page = 0;
         style = $(this).text();
         galleryControls()
+
         return false;
     });
 }

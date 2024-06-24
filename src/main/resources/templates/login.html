@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Тату омск">
@@ -25,26 +24,17 @@
     <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 
-<body>
-<!-- Page Preloder -->
-<div id="preloder">
-    <div class="loader"></div>
-</div>
 
+<body>
 <!-- Header Section Begin -->
-<header class="header-section header-normal">
+<header class="header-section header-normal" >
     <div class="container-fluid">
         <div class="logo">
             <a href="/index">
                 <img src="img/logo.png" alt="">
             </a>
         </div>
-        <div class="top-social">
-            <a href="https://wa.me/79620490947" target="_blank"><i class="fa fa-whatsapp"></i></a>
-            <a sec:authorize="!isAuthenticated()" href="/login"><i class="fa fa-user" aria-hidden="true"></i></a>
-            <a sec:authorize="isAuthenticated()" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
-            <a sec:authorize="hasAuthority('ADMIN')" href="/admin"><i class="fa fa-cogs" aria-hidden="true"></i></a>
-        </div>
+
         <div class="container">
             <div class="nav-menu">
                 <nav class="mainmenu mobile-menu">
@@ -62,98 +52,34 @@
     </div>
 </header>
 <!-- Header End -->
+<section class="breadcrumb-section set-bg spad" data-setbg="img/classes-title-bg.jpg" >
 
-<!-- Breadcrumb Section Begin -->
-<section class="blog-single-hero set-bg" data-setbg="img/blog-single-hero.jpg">
     <div class="container">
-        <div class="row">
-            <div class="col-xl-7 col-lg-7 m-auto text-center">
-                <div class="bs-hero-text">
-                    <h2>Я делаю то, на что у других не хватает смелости.</h2>
-                    <ul>
-                        <li th:text="${#temporals.format(localDateTime, 'dd MMMM yyyy', new java.util.Locale('ru', 'RU'))}"></li>
-                        <li th:text="${count} + ' ' + Отзывов"></li>
-                    </ul>
-                </div>
+        <div class="row justify-content-center" style="height: 200px;">
+
+            <div class="form-input">
+                <main class="form-signin">
+                <form class="map-contact-form" th:action="@{/login}" method="post">
+                    <div class="form-group">
+                        <input type="text" id="login" name="username" placeholder="Логин" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="password" name="password" placeholder="Пароль" required>
+                    </div>
+                    <button class="w-100 btn site-btn" type="submit">Войти</button>
+                    <div class="form-group" style="margin: 10px; text-align:center" >
+                        <a  href="/registration">Регистрация</a>
+
+                    </div>
+                </form>
+                </main>
             </div>
         </div>
+
     </div>
+
+
 </section>
-<!-- Breadcrumb End -->
-
-<!-- Blog Single Section Begin -->
-<section class="blog-single-section spad">
-    <div class="container">
-        <div class="row">
-
-
-            <h3 style="color: #FFFFFF;">Все отзывы</h3>
-
-            <div class="classtime-table scroll" style="margin: 20px;">
-                <table>
-
-                    <tbody>
-                    <tr th:each="current, item : ${reviews}">
-                        <td class="blog-item large-item set-bg" data-tsmeta="crossfit">
-                            <div class="bi-pic">
-                                <img th:src="@{'img/user-comment/'+${current.imageName}}" alt="">
-                            </div>
-                        </td>
-                        <td class="hover-bg ts-item" data-tsmeta="crossfit">
-                            <span th:text="${#dates.format(current.date, 'dd MMMM yy')}"></span>
-                            <h4 style="white-space: pre-line;color: #FFFFFF;" th:text="${current.userName}"></h4>
-                            <h5 style="white-space: pre-line;color: #FFFFFF;" th:text="${current.comment}"></h5>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-
-            </div>
-
-
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-
-                <div class="leave-comment-form">
-                    <h4>Оставте свой отзыв</h4>
-                    <form th:action="@{reviews-import}" method="post"
-                          enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="col-lg-4" style="margin-bottom: 20px;">
-                                <input type="file" id="file-upload-input" name="file" required>
-                            </div>
-                            <input type="hidden" name="name" th:value="${#authentication.name}">
-
-                            <div class="col-lg-12">
-                                <textarea placeholder="Текст" name="Comment" required></textarea>
-                                <button type="submit" class="leave-btn">Сохранить отзыв</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Blog Single Section End -->
-
-<!-- Cta Section Begin -->
-<section class="cta-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="cta-text">
-                    <h3>Сделай сегодня</h3>
-                    <p>Индивидуальный эскиз</p>
-                </div>
-                <a href="/contact" class="primary-btn cta-btn">Записаться</a>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Cta Section End -->
 
 <!-- Footer Section Begin -->
 <footer class="footer-section">
@@ -188,11 +114,11 @@
                 <div class="footer-widget">
                     <h5>Стили</h5>
                     <ul class="workout-program">
-                        <li><a href="#">Классический</a></li>
-                        <li><a href="#">Винтажный</a></li>
-                        <li><a href="#">Граффити</a></li>
-                        <li><a href="#">Готический</a></li>
-                        <li><a href="#">Кельтский</a></li>
+                        <li><a href="/gallery">Классический</a></li>
+                        <li><a href="/gallery">Винтажный</a></li>
+                        <li><a href="/gallery">Граффити</a></li>
+                        <li><a href="/gallery">Готический</a></li>
+                        <li><a href="/gallery">Кельтский</a></li>
                     </ul>
                 </div>
             </div>
@@ -236,10 +162,6 @@
         </div>
     </div>
 </footer>
-
-<!-- Footer Section End -->
-
-<!-- Js Plugins -->
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery.magnific-popup.min.js"></script>
@@ -250,5 +172,4 @@
 <script src="js/masonry.pkgd.min.js"></script>
 <script src="js/main.js"></script>
 </body>
-
 </html>
