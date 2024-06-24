@@ -12,6 +12,6 @@ public class LoginController {
     public String login(Model model) {
         LoggerFactory.getLogger(LoginController.class).info("/login");
         model.addAttribute("user", new User());
-        return "redirect:login";
+        return "login";
     }
 }
