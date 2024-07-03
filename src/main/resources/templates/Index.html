@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="yandex-verification" content="f8b395847f7983f2" />
-    <meta name="google-site-verification" content="ak05GnsY8ILSGx7kzGGDnbi8c1VZSEB62dR0KH595_U" />
+    <meta name="yandex-verification" content="f8b395847f7983f2"/>
+    <meta name="google-site-verification" content="ak05GnsY8ILSGx7kzGGDnbi8c1VZSEB62dR0KH595_U"/>
     <meta name="description" content="Тату омск">
     <meta name="keywords" content="Татуировка, татуировка омск, тату салон, сделать татуировку">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +25,8 @@
     <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
-
+    <script>window.yaContextCb=window.yaContextCb||[]</script>
+    <script src="https://yandex.ru/ads/system/context.js" async></script>
 </head>
 
 <body>
@@ -507,37 +508,49 @@
 <!-- Cta Section End -->
 
 <!-- Map Section Begin -->
-<div class="map">
-    <!-- Yandex.RTB R-A-9839314-1 -->
-    <div id="yandex_rtb_R-A-9839314-1"></div>
-    <script>
-        window.yaContextCb.push(()=>{
-            Ya.Context.AdvManager.render({
-                "blockId": "R-A-9839314-1",
-                "renderTo": "yandex_rtb_R-A-9839314-1",
-                "type": "feed"
-            })
-        })
-    </script>
-    <div class="map-contact-detalis">
-        <div class="open-time">
-            <h5>Режим:</h5>
-            <ul>
-                <li>Пн-Пт: <span>09:00 - 18:00</span></li>
-            </ul>
+<div class="container-fluid">
+    <div class="row mb-3 text-center">
+        <div class="col-sm-6 col-lg-8 themed-grid-col">
+            <div class="map">
+                <div class="yandex" id="yandex_rtb_R-A-9839314-2">
+                    <!-- Yandex.RTB R-A-9839314-2 -->
+
+                    <script>
+                        window.yaContextCb.push(()=>{
+                            Ya.Context.AdvManager.render({
+                                "blockId": "R-A-9839314-2",
+                                "renderTo": "yandex_rtb_R-A-9839314-2"
+                            })
+                        })
+                    </script>
+                </div>
+            </div>
         </div>
-        <div class="map-contact-form">
-            <h5>Связаться</h5>
-            <form th:method="POST" th:action="@{/sendMail}" th:object="${details}">
-                <input type="text" name="name" placeholder="Имя" required>
-                <input type="text" name="subject" class="phone" placeholder="Телефон" required>
-                <textarea name="msgBody" placeholder="Сообщение" required></textarea>
-                <button type="submit" class="site-btn">Отправить</button>
-                <div th:text="${status}"></div>
-            </form>
+        <div class="col-6 col-lg-4 themed-grid-col">
+            <div class="map">
+                <div class="map-contact-detalis">
+                    <div class="open-time">
+                        <h5>Режим:</h5>
+                        <ul>
+                            <li>Пн-Пт: <span>09:00 - 18:00</span></li>
+                        </ul>
+                    </div>
+                    <div class="map-contact-form" >
+                        <h5>Связаться</h5>
+                        <form th:method="POST" th:action="@{/sendMail}" th:object="${details}">
+                            <input type="text" name="name" placeholder="Имя" required>
+                            <input type="text" name="subject" class="phone" placeholder="Телефон" required>
+                            <textarea name="msgBody" placeholder="Сообщение" required></textarea>
+                            <button type="submit" class="site-btn">Отправить</button>
+                            <div th:text="${status}"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 <!-- Map Section End -->
 
 <!-- Footer Section Begin -->
@@ -635,8 +648,7 @@
 <script src="js/masonry.pkgd.min.js"></script>
 <script src="js/main.js"></script>
 <!-- Yandex.RTB -->
-<script>window.yaContextCb=window.yaContextCb||[]</script>
-<script src="https://yandex.ru/ads/system/context.js" async></script>
+
 
 </body>
 

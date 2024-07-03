@@ -23,9 +23,10 @@ public class GalleryController {
 
     @GetMapping("/gallery")
     public String gallery(Model model) {
+
         Pageable p = PageRequest.of(0,9);
 
-       Page<Images> images = imagesRepository.findAll(p);
+        Page<Images> images = imagesRepository.findAll(p);
         model.addAttribute("number", 9);
         model.addAttribute("page", images.getTotalPages());
         model.addAttribute("currentPage", 0);

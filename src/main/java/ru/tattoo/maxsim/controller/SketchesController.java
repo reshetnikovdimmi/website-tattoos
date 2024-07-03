@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +24,7 @@ public class SketchesController {
     @GetMapping("/sketches")
     public String sketches(Model model) {
 
-        Pageable p = PageRequest.of(0,9);
-        Page<Sketches> images = sketchesRepository.findAll(p);
+        Page<Sketches> images = sketchesRepository.findAll(PageRequest.of(0,9));
         model.addAttribute("number", 9);
         model.addAttribute("page", images.getTotalPages());
         model.addAttribute("currentPage", 0);
@@ -39,8 +37,7 @@ public class SketchesController {
     @RequestMapping(value = "/sketches/{page}/{number}", method = RequestMethod.GET)
     private String remainsGroupShop(@PathVariable("page") int page, @PathVariable("number") int number, Model model) {
 
-        Pageable p = PageRequest.of(page,number);
-        Page<Sketches> images = sketchesRepository.findAll(p);
+        Page<Sketches> images = sketchesRepository.findAll(PageRequest.of(page,number));
         model.addAttribute("images",pageList(images) );
         model.addAttribute("number", number);
         model.addAttribute("page", images.getTotalPages());

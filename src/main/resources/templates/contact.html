@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <!-- Yandex.RTB -->
+    <script>window.yaContextCb=window.yaContextCb||[]</script>
+    <script src="https://yandex.ru/ads/system/context.js" async></script>
 </head>
 
 <body>
@@ -128,13 +131,16 @@
     <section class="cta-section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="cta-text">
-                        <h3>GeT Started Today</h3>
-                        <p>New student special! $30 unlimited Gym for the first week anh 50% of our member!</p>
-                    </div>
-                    <a href="#" class="primary-btn cta-btn">book now</a>
-                </div>
+                <!-- Yandex.RTB R-A-9839314-3 -->
+                <div id="yandex_rtb_R-A-9839314-3"></div>
+                <script>
+                    window.yaContextCb.push(()=>{
+                        Ya.Context.AdvManager.render({
+                            "blockId": "R-A-9839314-3",
+                            "renderTo": "yandex_rtb_R-A-9839314-3"
+                        })
+                    })
+                </script>
             </div>
         </div>
     </section>

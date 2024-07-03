@@ -7,25 +7,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.Images;
-import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.repository.ImagesRepository;
 import ru.tattoo.maxsim.repository.ReviewsUserRepository;
 import ru.tattoo.maxsim.repository.SketchesRepository;
 import ru.tattoo.maxsim.repository.UserRepository;
+import ru.tattoo.maxsim.service.DeleteImg;
+import ru.tattoo.maxsim.service.Reverse;
+import ru.tattoo.maxsim.service.SaveImg;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.ParseException;
-import java.util.Collections;
-import java.util.List;
+
 
 @Controller
 
-public class AdminController {
+public class AdminController implements DeleteImg, SaveImg, Reverse {
 
-    private static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/img/images/";
+    private static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/img/images/";
 
     @Autowired
     private ImagesRepository imagesRepository;
@@ -42,16 +40,9 @@ public class AdminController {
     @GetMapping("/admin")
     public String admin(Model model) {
 
-        List<Images> images = imagesRepository.findAll();
-        Collections.reverse(images);
-        List<Sketches> listSketches = sketchesRepository.findAll();
-        Collections.reverse(listSketches);
-        List<ReviewsUser> reviewsUsers = reviewsUserRepository.findAll();
-        Collections.reverse(reviewsUsers);
-
-        model.addAttribute("images", images);
-        model.addAttribute("sketches", listSketches);
-        model.addAttribute("reviews", reviewsUsers);
+        model.addAttribute("images", reverse(imagesRepository.findAll()));
+        model.addAttribute("sketches", reverse(sketchesRepository.findAll()));
+        model.addAttribute("reviews", reverse(reviewsUserRepository.findAll()));
         model.addAttribute("user", userRepository.findAll());
 
         return "admin";
@@ -68,11 +59,9 @@ public class AdminController {
 
         Images uploadImg = imagesRepository.save(img);
 
-        if(uploadImg!=null)saveImg(fileImport);
+        if(uploadImg!=null)saveImg(fileImport, UPLOAD_DIRECTORY);
 
-        List<Images> images = imagesRepository.findAll();
-        Collections.reverse(images);
-        model.addAttribute("images", images);
+        model.addAttribute("images", reverse(imagesRepository.findAll()));
         return "admin::img-import";
     }
 
@@ -85,37 +74,28 @@ public class AdminController {
 
         Sketches uploadImg = sketchesRepository.save(sketches);
 
-        if(uploadImg!=null)saveImg(fileImport);
+        if(uploadImg!=null)saveImg(fileImport, UPLOAD_DIRECTORY);
 
-        List<Sketches> listSketches = sketchesRepository.findAll();
-        Collections.reverse(listSketches);
-        model.addAttribute("sketches", listSketches);
+        model.addAttribute("sketches", reverse(sketchesRepository.findAll()));
         return "admin::sketches-import";
     }
 
     @GetMapping("/sketches-delete/{id}")
     public String deleteSketches(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
 
-        deleteImg(sketchesRepository.getName(id));
-
+        deleteImg(sketchesRepository.getName(id),UPLOAD_DIRECTORY);
         sketchesRepository.deleteById(id);
+        model.addAttribute("sketches", reverse(sketchesRepository.findAll()));
 
-        List<Sketches> listSketches = sketchesRepository.findAll();
-        Collections.reverse(listSketches);
-        model.addAttribute("sketches", listSketches);
         return "admin::sketches-import";
     }
 
     @GetMapping("/img-delete/{id}")
     public String delete(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
 
-        deleteImg(imagesRepository.getName(id));
-
+        deleteImg(imagesRepository.getName(id),UPLOAD_DIRECTORY);
         imagesRepository.deleteById(id);
-
-        List<Images> images = imagesRepository.findAll();
-        Collections.reverse(images);
-        model.addAttribute("images", images);
+        model.addAttribute("images", reverse(imagesRepository.findAll()));
 
         return "admin::img-import";
     }
@@ -123,25 +103,17 @@ public class AdminController {
     @GetMapping("/reviews-delete/{id}")
     public String deleteReviews(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
 
-        deleteImg(reviewsUserRepository.getName(id));
-
+        deleteImg(reviewsUserRepository.getName(id),UPLOAD_DIRECTORY);
         reviewsUserRepository.deleteById(id);
-
-        List<ReviewsUser> reviewsUsers = reviewsUserRepository.findAll();
-        Collections.reverse(reviewsUsers);
-        model.addAttribute("reviews", reviewsUsers);
+        model.addAttribute("reviews", reverse(reviewsUserRepository.findAll()));
 
         return "admin::reviews";
     }
 
-    private void deleteImg(String name) throws IOException {
-        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY , name);
-        Files.delete(fileNameAndPath);
-    }
-    private void saveImg(MultipartFile fileImport) throws IOException {
-        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY , fileImport.getOriginalFilename());
-        Files.write(fileNameAndPath, fileImport.getBytes());
-    }
+
+
+
+
 
 }
 
