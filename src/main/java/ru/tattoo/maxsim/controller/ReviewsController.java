@@ -41,16 +41,18 @@ public class ReviewsController {
     @PostMapping("/reviews-import")
     public String reviewsImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("Comment") String Comment, @RequestParam("name") String name, Model model, HttpServletRequest request) throws IOException, ParseException {
 
-       ReviewsUser reviewsUser = new ReviewsUser();
+        ReviewsUser reviewsUser = new ReviewsUser();
         reviewsUser.setImageName(fileImport.getOriginalFilename());
         reviewsUser.setComment(Comment);
         reviewsUser.setUserName(name);
         reviewsUser.setDate(new Date());
         ReviewsUser uploadImg = reviewsUserRepository.save(reviewsUser);
+
         if(uploadImg!=null){
             Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY , fileImport.getOriginalFilename());
             Files.write(fileNameAndPath, fileImport.getBytes());
         }
+
         List<ReviewsUser> reviews = reviewsUserRepository.findAll();
         Collections.reverse(reviews);
         model.addAttribute("reviews", reviews);

@@ -1,6 +1,7 @@
 package ru.tattoo.maxsim.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,16 +43,9 @@ public class AdminController {
     @GetMapping("/admin")
     public String admin(Model model) {
 
-        List<Images> images = imagesRepository.findAll();
-        Collections.reverse(images);
-        List<Sketches> listSketches = sketchesRepository.findAll();
-        Collections.reverse(listSketches);
-        List<ReviewsUser> reviewsUsers = reviewsUserRepository.findAll();
-        Collections.reverse(reviewsUsers);
-
-        model.addAttribute("images", images);
-        model.addAttribute("sketches", listSketches);
-        model.addAttribute("reviews", reviewsUsers);
+        model.addAttribute("images", reverse(imagesRepository.findAll()));
+        model.addAttribute("sketches", reverse(sketchesRepository.findAll()));
+        model.addAttribute("reviews", reverse(reviewsUserRepository.findAll()));
         model.addAttribute("user", userRepository.findAll());
 
         return "admin";
@@ -70,9 +64,7 @@ public class AdminController {
 
         if(uploadImg!=null)saveImg(fileImport);
 
-        List<Images> images = imagesRepository.findAll();
-        Collections.reverse(images);
-        model.addAttribute("images", images);
+        model.addAttribute("images", reverse(imagesRepository.findAll()));
         return "admin::img-import";
     }
 
@@ -87,9 +79,7 @@ public class AdminController {
 
         if(uploadImg!=null)saveImg(fileImport);
 
-        List<Sketches> listSketches = sketchesRepository.findAll();
-        Collections.reverse(listSketches);
-        model.addAttribute("sketches", listSketches);
+        model.addAttribute("sketches", reverse(sketchesRepository.findAll()));
         return "admin::sketches-import";
     }
 
@@ -100,9 +90,7 @@ public class AdminController {
 
         sketchesRepository.deleteById(id);
 
-        List<Sketches> listSketches = sketchesRepository.findAll();
-        Collections.reverse(listSketches);
-        model.addAttribute("sketches", listSketches);
+        model.addAttribute("sketches", reverse(sketchesRepository.findAll()));
         return "admin::sketches-import";
     }
 
@@ -113,9 +101,7 @@ public class AdminController {
 
         imagesRepository.deleteById(id);
 
-        List<Images> images = imagesRepository.findAll();
-        Collections.reverse(images);
-        model.addAttribute("images", images);
+        model.addAttribute("images", reverse(imagesRepository.findAll()));
 
         return "admin::img-import";
     }
@@ -127,9 +113,7 @@ public class AdminController {
 
         reviewsUserRepository.deleteById(id);
 
-        List<ReviewsUser> reviewsUsers = reviewsUserRepository.findAll();
-        Collections.reverse(reviewsUsers);
-        model.addAttribute("reviews", reviewsUsers);
+        model.addAttribute("reviews", reverse(reviewsUserRepository.findAll()));
 
         return "admin::reviews";
     }
@@ -138,9 +122,15 @@ public class AdminController {
         Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY , name);
         Files.delete(fileNameAndPath);
     }
+
     private void saveImg(MultipartFile fileImport) throws IOException {
         Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY , fileImport.getOriginalFilename());
         Files.write(fileNameAndPath, fileImport.getBytes());
+    }
+
+    private static<T> List<T> reverse (List<T> o){
+        Collections.reverse(o);
+        return o;
     }
 
 }
