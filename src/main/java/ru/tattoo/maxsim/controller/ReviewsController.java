@@ -47,7 +47,7 @@ public class ReviewsController implements SaveImg, Reverse {
         reviewsUser.setDate(new Date());
         ReviewsUser uploadImg = reviewsUserRepository.save(reviewsUser);
 
-        if(uploadImg!=null) saveImg(fileImport,UPLOAD_DIRECTORY);
+        saveImg(fileImport,UPLOAD_DIRECTORY);
 
         model.addAttribute("reviews", reverse(reviewsUserRepository.findAll()));
         return "reviews::fragment-reviews";

@@ -59,7 +59,7 @@ public class AdminController implements DeleteImg, SaveImg, Reverse {
 
         Images uploadImg = imagesRepository.save(img);
 
-        if(uploadImg!=null)saveImg(fileImport, UPLOAD_DIRECTORY);
+        saveImg(fileImport, UPLOAD_DIRECTORY);
 
         model.addAttribute("images", reverse(imagesRepository.findAll()));
         return "admin::img-import";
@@ -74,7 +74,7 @@ public class AdminController implements DeleteImg, SaveImg, Reverse {
 
         Sketches uploadImg = sketchesRepository.save(sketches);
 
-        if(uploadImg!=null)saveImg(fileImport, UPLOAD_DIRECTORY);
+        saveImg(fileImport, UPLOAD_DIRECTORY);
 
         model.addAttribute("sketches", reverse(sketchesRepository.findAll()));
         return "admin::sketches-import";
