@@ -11,6 +11,8 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -36,7 +38,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             Authentication authentication
     ) throws IOException {
 
-        String targetUrl = determineTargetUrl(authentication);
+        String targetUrl = determineTargetUrl(authentication,request,response);
 
         if (response.isCommitted()) {
             logger.debug(
@@ -47,10 +49,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
-    protected String determineTargetUrl(final Authentication authentication) {
+    protected String determineTargetUrl(final Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
 
         Map<String, String> roleTargetUrlMap = new HashMap<>();
-        roleTargetUrlMap.put("USER", "/index");
+        roleTargetUrlMap.put("USER", new HttpSessionRequestCache().getRequest(request, response).getRedirectUrl());
         roleTargetUrlMap.put("ADMIN", "/admin");
 
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
