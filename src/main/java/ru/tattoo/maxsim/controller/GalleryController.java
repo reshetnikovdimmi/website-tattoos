@@ -43,6 +43,7 @@ public class GalleryController {
     private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
         Page<Images> images;
         Pageable p = PageRequest.of(page,number);
+        //todo: старайся избегать magic numbers (хардкода) выноси все в константы или создавай enum
         if (style.equals("Вся галерея")){
             images = imagesRepository.findAll(p);
         }else{
@@ -53,6 +54,7 @@ public class GalleryController {
         model.addAttribute("page", images.getTotalPages());
         model.addAttribute("currentPage", page);
         model.addAttribute("imagesTotal", images.getTotalElements());
+        //todo: старайся избегать magic numbers (хардкода) 9\12\15 не читаемо. А если их вынести в константы, то будет понятно сходу
         model.addAttribute("options", Lists.newArrayList(9, 12, 15));
 
         return "gallery::galleryFilter";

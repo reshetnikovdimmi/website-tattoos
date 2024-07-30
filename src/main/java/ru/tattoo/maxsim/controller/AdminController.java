@@ -25,6 +25,7 @@ public class AdminController implements DeleteImg, SaveImg, Reverse {
 
     private static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/img/images/";
 
+    //todo: плохая практика, когда слой DAO в контроллерах. Лучше все это уносить в слой service, а в контроллеры подтягивать service классы
     @Autowired
     private ImagesRepository imagesRepository;
 
