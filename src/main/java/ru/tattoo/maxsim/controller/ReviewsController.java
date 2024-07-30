@@ -45,6 +45,7 @@ public class ReviewsController implements SaveImg, Reverse {
         reviewsUser.setComment(Comment);
         reviewsUser.setUserName(name);
         reviewsUser.setDate(new Date());
+        //todo: неиспользуется переменная
         ReviewsUser uploadImg = reviewsUserRepository.save(reviewsUser);
 
         saveImg(fileImport,UPLOAD_DIRECTORY);

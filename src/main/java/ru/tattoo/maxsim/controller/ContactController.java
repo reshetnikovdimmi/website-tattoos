@@ -21,6 +21,7 @@ public class ContactController {
         return "contact";
     }
 
+    //todo: по конвенции REST url так лучше не называть. В идеале урл должен был выглядить POST /contacts/mail или /contacts/send-mail
     @PostMapping("/sendMailСontact")
     public String  sendMail(@ModelAttribute("details") EmailDetails details, Model model) {
         String status = emailService.sendSimpleMail(details);

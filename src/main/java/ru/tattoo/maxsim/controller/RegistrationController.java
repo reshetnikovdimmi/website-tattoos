@@ -33,6 +33,7 @@ public class RegistrationController {
         }
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+        //todo: под USER лучше создать enum, чем использовать хардкод
         user.setRole("USER");
         userRepository.save(user);
         return "login";

@@ -22,6 +22,7 @@ import ru.tattoo.maxsim.config.CustomAuthenticationSuccessHandler;
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
+//todo: наверное лучше этот класс вынести в пакет config
 public class SecurityConfig {
 
     @Bean

@@ -49,6 +49,7 @@ public class SketchesController {
 
     private Object pageList(Page<Sketches> images) {
         List<Sketches> objects = images.hasContent() ? images.getContent() : Collections.emptyList();
+        //todo: magic number
         List<List<Sketches>> smallerLists = Lists.partition(objects, 3);
         return smallerLists;
     }

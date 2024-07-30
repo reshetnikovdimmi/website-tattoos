@@ -10,7 +10,7 @@ import ru.tattoo.maxsim.model.EmailDetails;
 import java.io.File;
 
 @Service
-
+//todo: в пакете service можно создать подпакет impl и туда перенести имплементированные классы
 public class EmailServiceImpl implements EmailService {
 
     @Autowired
@@ -32,11 +32,13 @@ public class EmailServiceImpl implements EmailService {
             mailMessage.setSubject(details.getSubject()+"-"+details.getName());
 
               javaMailSender.send(mailMessage);
+          //todo: наверное правильнее будет возвращать true \ false, а в контроллерах переименовать переменную status в success \ isSuccess
             return "Mail Sent Successfully...";
         }
 
         catch (Exception e) {
-            return "Error while Sending Mail";
+          //todo: это лучше логировать и бросать кастомную ошибку
+          return "Error while Sending Mail";
         }
     }
 }
