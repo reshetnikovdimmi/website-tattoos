@@ -29,9 +29,8 @@ public class ReviewsController implements SaveImg, Reverse {
 
     @GetMapping("/reviews")
     public String reviews(Model model) {
-        List<ReviewsUser> reviews = reviewsUserRepository.findAll();
-        Collections.reverse(reviews);
-        model.addAttribute("reviews", reviews);
+
+        model.addAttribute("reviews", reverse(reviewsUserRepository.findAll()));
         model.addAttribute("localDateTime", LocalDateTime.now());
         model.addAttribute("count", reviewsUserRepository.getCount());
         return "reviews";
@@ -45,7 +44,8 @@ public class ReviewsController implements SaveImg, Reverse {
         reviewsUser.setComment(Comment);
         reviewsUser.setUserName(name);
         reviewsUser.setDate(new Date());
-        ReviewsUser uploadImg = reviewsUserRepository.save(reviewsUser);
+
+        reviewsUserRepository.save(reviewsUser);
 
         saveImg(fileImport,UPLOAD_DIRECTORY);
 

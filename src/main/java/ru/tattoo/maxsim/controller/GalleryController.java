@@ -13,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ImagesRepository;
+
 import java.util.Collections;
 import java.util.List;
 
+
 @Controller
 public class GalleryController {
+
+
     @Autowired
     private ImagesRepository imagesRepository;
 
@@ -27,6 +31,7 @@ public class GalleryController {
         Pageable p = PageRequest.of(0,9);
 
         Page<Images> images = imagesRepository.findAll(p);
+
         model.addAttribute("number", 9);
         model.addAttribute("page", images.getTotalPages());
         model.addAttribute("currentPage", 0);

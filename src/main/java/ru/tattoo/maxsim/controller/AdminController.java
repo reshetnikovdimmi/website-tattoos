@@ -15,6 +15,9 @@ import ru.tattoo.maxsim.repository.UserRepository;
 import ru.tattoo.maxsim.service.DeleteImg;
 import ru.tattoo.maxsim.service.Reverse;
 import ru.tattoo.maxsim.service.SaveImg;
+import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.service.interf.UserService;
+
 import java.io.IOException;
 import java.text.ParseException;
 
@@ -26,13 +29,13 @@ public class AdminController implements DeleteImg, SaveImg, Reverse {
     private static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/img/images/";
 
     @Autowired
-    private ImagesRepository imagesRepository;
+    private ImagesService imagesService;
 
     @Autowired
     private ReviewsUserRepository reviewsUserRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private SketchesRepository sketchesRepository;
@@ -40,10 +43,10 @@ public class AdminController implements DeleteImg, SaveImg, Reverse {
     @GetMapping("/admin")
     public String admin(Model model) {
 
-        model.addAttribute("images", reverse(imagesRepository.findAll()));
+        model.addAttribute("images", imagesService.findAll());
         model.addAttribute("sketches", reverse(sketchesRepository.findAll()));
         model.addAttribute("reviews", reverse(reviewsUserRepository.findAll()));
-        model.addAttribute("user", userRepository.findAll());
+        model.addAttribute("user", userService.findAll());
 
         return "admin";
     }
@@ -52,16 +55,10 @@ public class AdminController implements DeleteImg, SaveImg, Reverse {
 
     public String imgImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("description") String description,@RequestParam("category") String category, Model model, HttpServletRequest request) throws IOException, ParseException {
 
-        Images img = new Images();
-        img.setImageName(fileImport.getOriginalFilename());
-        img.setDescription(description);
-        img.setCategory(category);
+        imagesService.saveImg(fileImport,description,category);
 
-        Images uploadImg = imagesRepository.save(img);
+        model.addAttribute("images", imagesService.findAll());
 
-        saveImg(fileImport, UPLOAD_DIRECTORY);
-
-        model.addAttribute("images", reverse(imagesRepository.findAll()));
         return "admin::img-import";
     }
 
@@ -72,7 +69,7 @@ public class AdminController implements DeleteImg, SaveImg, Reverse {
         sketches.setImageName(fileImport.getOriginalFilename());
         sketches.setDescription(description);
 
-        Sketches uploadImg = sketchesRepository.save(sketches);
+        sketchesRepository.save(sketches);
 
         saveImg(fileImport, UPLOAD_DIRECTORY);
 
@@ -93,9 +90,8 @@ public class AdminController implements DeleteImg, SaveImg, Reverse {
     @GetMapping("/img-delete/{id}")
     public String delete(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
 
-        deleteImg(imagesRepository.getName(id),UPLOAD_DIRECTORY);
-        imagesRepository.deleteById(id);
-        model.addAttribute("images", reverse(imagesRepository.findAll()));
+        imagesService.deleteImg(id);
+        model.addAttribute("images", imagesService.findAll());
 
         return "admin::img-import";
     }

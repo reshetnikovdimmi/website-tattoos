@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.tattoo.maxsim.model.EmailDetails;
-import ru.tattoo.maxsim.service.EmailService;
+import ru.tattoo.maxsim.service.interf.EmailService;
 
 @Controller
 public class ContactController {
@@ -23,8 +23,7 @@ public class ContactController {
 
     @PostMapping("/sendMailСontact")
     public String  sendMail(@ModelAttribute("details") EmailDetails details, Model model) {
-        String status = emailService.sendSimpleMail(details);
-        model.addAttribute("status", status);
+        model.addAttribute("status", emailService.sendSimpleMail(details));
         model.addAttribute("details", new EmailDetails());
         return "contact";
     }

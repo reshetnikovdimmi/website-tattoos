@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.tattoo.maxsim.model.EmailDetails;
 import ru.tattoo.maxsim.repository.ReviewsUserRepository;
-import ru.tattoo.maxsim.service.EmailService;
+import ru.tattoo.maxsim.service.interf.EmailService;
 
 @Controller
 public class IndexController {
@@ -18,12 +18,7 @@ public class IndexController {
     @Autowired
     private ReviewsUserRepository reviewsUserRepository;
 
-    @GetMapping("/index")
-    public String index(Model model) {
-        model.addAttribute("reviewsLimit", reviewsUserRepository.findLimit());
-        model.addAttribute("details", new EmailDetails());
-        return "Index";
-    }
+
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("reviewsLimit", reviewsUserRepository.findLimit());

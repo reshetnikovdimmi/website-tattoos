@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import ru.tattoo.maxsim.model.User;
-import ru.tattoo.maxsim.service.UserDetailsServiceImpl;
+import ru.tattoo.maxsim.service.impl.UserDetailsServiceImpl;
 
 import java.util.Optional;
 
