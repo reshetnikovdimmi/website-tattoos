@@ -18,4 +18,5 @@ public interface ReviewsUserRepository extends JpaRepository<ReviewsUser, Long> 
 
     @Query("SELECT COUNT(id) FROM ReviewsUser")
     int getCount();
+
 }
