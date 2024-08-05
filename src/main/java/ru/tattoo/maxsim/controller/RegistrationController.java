@@ -10,13 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.tattoo.maxsim.model.User;
+import ru.tattoo.maxsim.model.UserRole;
 import ru.tattoo.maxsim.repository.UserRepository;
+import ru.tattoo.maxsim.service.interf.UserService;
 import ru.tattoo.maxsim.validator.UserValidator;
 
 @Controller
 public class RegistrationController {
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     @Autowired
     private UserValidator userValidator;
     @Autowired
@@ -33,8 +35,8 @@ public class RegistrationController {
         }
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        user.setRole("USER");
-        userRepository.save(user);
+        user.setRole(UserRole.USER.toString());
+        userService.create(user);
         return "login";
     }
 

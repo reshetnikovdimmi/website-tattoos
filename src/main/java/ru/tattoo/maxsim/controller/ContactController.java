@@ -21,10 +21,22 @@ public class ContactController {
         return "contact";
     }
 
-    @PostMapping("/sendMailСontact")
+    @PostMapping("/send-mail")
     public String  sendMail(@ModelAttribute("details") EmailDetails details, Model model) {
-        model.addAttribute("status", emailService.sendSimpleMail(details));
+
+        boolean isSuccess = emailService.sendSimpleMail(details);
+
+           if(isSuccess){
+               model.addAttribute("status", "Mail Sent Successfully...");
+           }else{
+               model.addAttribute("status", "Error while Sending Mail");
+           }
+
         model.addAttribute("details", new EmailDetails());
-        return "contact";
+        return "/contact";
     }
+
+
+
+
 }

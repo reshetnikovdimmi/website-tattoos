@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.tattoo.maxsim.model.EmailDetails;
-import ru.tattoo.maxsim.repository.ReviewsUserRepository;
 import ru.tattoo.maxsim.service.interf.EmailService;
+import ru.tattoo.maxsim.service.interf.ReviewService;
 
 @Controller
 public class IndexController {
@@ -16,22 +16,28 @@ public class IndexController {
     @Autowired
     private EmailService emailService;
     @Autowired
-    private ReviewsUserRepository reviewsUserRepository;
+    private ReviewService reviewService;
 
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("reviewsLimit", reviewsUserRepository.findLimit());
+        model.addAttribute("reviewsLimit", reviewService.findLimit());
         model.addAttribute("details", new EmailDetails());
         return "Index";
     }
 
-    @PostMapping("/sendMail")
+    @PostMapping("/mail")
     public String  sendMail(@ModelAttribute("details") EmailDetails details, Model model) {
-        String status = emailService.sendSimpleMail(details);
-        model.addAttribute("status", status);
-        model.addAttribute("reviewsLimit", reviewsUserRepository.findLimit());
+        boolean isSuccess = emailService.sendSimpleMail(details);
+
+        if(isSuccess){
+            model.addAttribute("status", "Mail Sent Successfully...");
+        }else{
+            model.addAttribute("status", "Error while Sending Mail");
+        }
+
+        model.addAttribute("reviewsLimit", reviewService.findLimit());
         model.addAttribute("details", new EmailDetails());
-        return "Index";
+        return "/Index";
     }
 }

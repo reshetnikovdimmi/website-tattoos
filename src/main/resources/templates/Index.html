@@ -537,7 +537,7 @@
                     </div>
                     <div class="map-contact-form" >
                         <h5>Связаться</h5>
-                        <form th:method="POST" th:action="@{/sendMail}" th:object="${details}">
+                        <form th:method="POST" th:action="@{/mail}" th:object="${details}">
                             <input type="text" name="name" placeholder="Имя" required>
                             <input type="text" name="subject" class="phone" placeholder="Телефон" required>
                             <textarea name="msgBody" placeholder="Сообщение" required></textarea>
