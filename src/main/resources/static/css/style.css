@@ -666,7 +666,7 @@ input[type=file] {
 	color: #ffffff;
 	text-transform: uppercase;
 	font-family: "Nunito Sans", sans-serif;
-	font-size: 60px;
+	font-size: 40px;
 	margin-bottom: 4px;
 	position: relative;
 	top: 50px;
@@ -675,7 +675,7 @@ input[type=file] {
 
 .single-hero-item .hero-text h1 {
 	color: #ffffff;
-	font-size: 90px;
+	font-size: 70px;
 	font-weight: 600;
 	text-transform: uppercase;
 	margin-bottom: 46px;
@@ -3183,10 +3183,10 @@ input[type=file] {
 		height: 720px;
 	}
 	.single-hero-item .hero-text h1 {
-		font-size: 60px;
+		font-size: 50px;
 	}
 	.single-hero-item .hero-text h2 {
-		font-size: 50px;
+		font-size: 40px;
 	}
 	.about-text {
 		margin-bottom: 30px;

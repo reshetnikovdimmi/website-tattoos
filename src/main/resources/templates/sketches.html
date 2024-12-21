@@ -36,40 +36,11 @@
 </div>
 
 <!-- Header Section Begin -->
-<header class="header-section header-normal">
-    <div class="container-fluid">
-        <div class="logo ">
-            <a href="/">
-                <img src="img/logo.png" alt="">
-            </a>
-        </div>
-        <div class="top-social">
-            <a href="https://wa.me/79620490947" target="_blank"><i class="fa fa-whatsapp"></i></a>
-            <a sec:authorize="!isAuthenticated()" href="/login"><i class="fa fa-user" aria-hidden="true"></i></a>
-            <a sec:authorize="isAuthenticated()" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
-            <a sec:authorize="hasAuthority('ADMIN')" href="/admin"><i class="fa fa-cogs" aria-hidden="true"></i></a>
-
-        </div>
-        <div class="container">
-            <div class="nav-menu">
-                <nav class="mainmenu mobile-menu">
-                    <ul>
-                        <ul>
-                            <li><a href="/">Главная</a></li>
-                            <li class="active"><a href="/gallery">Галерея</a></li>
-                            <li><a href="/contact">Контакты</a></li>
-                        </ul>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <div id="mobile-menu-wrap"></div>
-    </div>
-</header>
+<div th:replace="~{fragments::header}"></div>
 <!-- Header End -->
 
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg spad" data-setbg="img/YegoPCMUsmQ.jpg">
+<section class="breadcrumb-section set-bg spad" data-setbg="img/about-me.PNG">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -146,86 +117,7 @@
 <!-- Cta Section End -->
 
 <!-- Footer Section Begin -->
-<footer class="footer-section">
-    <div class="container">
-        <div class="row">
-
-            <div class="col-lg-3">
-                <div class="footer-logo-item">
-
-
-                    <div class="f-logo">
-                        <a href=""><img src="img/logo.png" alt=""></a>
-                    </div>
-                    <div class="social-links">
-                        <h6>Следуй за мной</h6>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="footer-widget">
-                    <p>Процесс создания татуировки довольно сложный и ответственный. Чтобы создать качественное
-                        изображение, которое будет радовать вас всю жизнь, мастер должен учесть множество факторов.
-                        Важно правильно подобрать эскиз, цветовую гамму, размер и место для будущей тату. Также
-                        необходимо выбрать подходящий стиль и технику нанесения. В результате вы получите уникальный
-                        рисунок, который будет подчеркивать вашу индивидуальность и придавать уверенности в себе..</p>
-
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="footer-widget">
-                    <h5>Стили</h5>
-                    <ul class="workout-program">
-                        <li><a href="/ ">Классический</a></li>
-                        <li><a href="/gallery">Винтажный</a></li>
-                        <li><a href="/gallery">Граффити</a></li>
-                        <li><a href="/gallery">Готический</a></li>
-                        <li><a href="/gallery">Кельтский</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="footer-widget">
-                    <h5>ПОЛУЧИТЬ ИНФОРМАЦИЮ</h5>
-                    <ul class="footer-info">
-                        <li>
-                            <i class="fa fa-phone"></i>
-                            <span>Телефон:</span>
-                            (906) 39917226
-                        </li>
-                        <li>
-                            <i class="fa fa-envelope-o"></i>
-                            <span>Email:</span>
-                            reshetnikov.m@list.ru
-                        </li>
-                        <li>
-                            <i class="fa fa-map-marker"></i>
-                            <span>Адрес</span>
-                            Почтовая ул., 4, Омск, Омская обл., 644024
-                        </li>
-                    </ul>>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="copyright-text">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="ct-inside">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                        All rights reserved | This template is made with <i class="fa fa-heart-o"
-                                                                            aria-hidden="true"></i> by <a
-                            href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
+<footer th:replace="~{fragments::footer}"></footer>
 <!-- Footer Section End -->
 
 <!-- Js Plugins -->

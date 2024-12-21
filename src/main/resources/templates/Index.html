@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="yandex-verification" content="f8b395847f7983f2"/>
     <meta name="google-site-verification" content="ak05GnsY8ILSGx7kzGGDnbi8c1VZSEB62dR0KH595_U"/>
+    <meta name="zen-verification" content="Qs3KIKkBpZHRG9QIS3E1heKpO8wXZqWQbhTTWt7wQrr7XB6Iexi1cA15htzot9cG" />
     <meta name="description" content="Тату омск">
     <meta name="keywords" content="Татуировка,сколько стоит татуировка,татуировка цена,татуировка на руке,тату на твоем теле, татуировка омск, тату салон, сделать татуировку">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,6 +27,7 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <script>window.yaContextCb=window.yaContextCb||[]</script>
+    <script src="https://vk.com/js/api/videoplayer.js"></script>
     <script src="https://yandex.ru/ads/system/context.js" async></script>
 </head>
 
@@ -56,6 +58,7 @@
                     <ul>
                         <li class="active"><a href="/">Главная</a></li>
                         <li><a href="/gallery">Галерея</a></li>
+                        <li><a href="/about-me">О бо мне</a></li>
                         <li><a href="/contact">Контакты</a></li>
                     </ul>
                 </nav>
@@ -70,13 +73,13 @@
 <!-- Hero Section Begin -->
 <section class="hero-section">
     <div class="hero-items owl-carousel">
-        <div class="single-hero-item set-bg" data-setbg="img/hero-slider/hero-1.png">
+        <div class="single-hero-item set-bg" data-setbg="img/hero-slider/hero-1.jpg">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="hero-text">
-                            <h3>Ваша кожа — чистый холст, а я — художник.</h3>
-                            <h2>ТАТУИРОВКА - ЭТО НЕ ПРОСТО РИСУНОК НА ТЕЛЕ</h2>
+                            <h2>Ваша кожа — чистый холст, а я — художник.</h2>
+                            <h1>ТАТУИРОВКА - ЭТО НЕ ПРОСТО РИСУНОК НА ТЕЛЕ</h1>
                             <a href="/gallery" class="primary-btn">Подробнее</a>
                         </div>
                     </div>
@@ -88,8 +91,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="hero-text">
-                            <h3>Ваша кожа — чистый холст, а я — художник.</h3>
-                            <h2>ТАТУИРОВКА - ЭТО НЕ ПРОСТО РИСУНОК НА ТЕЛЕ</h2>
+                            <h2>Ваша кожа — чистый холст, а я — художник.</h2>
+                            <h1>ТАТУИРОВКА - ЭТО НЕ ПРОСТО РИСУНОК НА ТЕЛЕ</h1>
                             <a href="/gallery" class="primary-btn">Подробнее</a>
                         </div>
                     </div>
@@ -101,17 +104,30 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="hero-text">
-                            <h3>Ваша кожа — чистый холст, а я — художник.</h3>
-                            <h2>ТАТУИРОВКА - ЭТО НЕ ПРОСТО РИСУНОК НА ТЕЛЕ</h2>
+                            <h2>Ваша кожа — чистый холст, а я — художник.</h2>
+                            <h1>ТАТУИРОВКА - ЭТО НЕ ПРОСТО РИСУНОК НА ТЕЛЕ</h1>
                             <a href="/gallery" class="primary-btn">Подробнее</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- Hero End -->
+        <!--   <div class="single-hero-item set-bg" data-setbg="img/hero-slider/hero-4.jpg">
+               <div class="container">
+                   <div class="row">
+                       <div class="col-lg-12">
+                           <div class="hero-text">
+                               <h2>Ваша кожа — чистый холст, а я — художник.</h2>
+                               <h1>ТАТУИРОВКА - ЭТО НЕ ПРОСТО РИСУНОК НА ТЕЛЕ</h1>
+                               <a href="/gallery" class="primary-btn">Подробнее</a>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>-->
+       </div>
+   </section>
+   <!-- Hero End -->
 
 <!-- Feature Section Begin -->
 <section class="feature-section">
@@ -410,7 +426,7 @@
             <div class="col-lg-12">
                 <div class="video-text">
                     <h2>Немного видео</h2>
-                    <a href="https://www.youtube.com/watch?v=NMdp51_1xxo" class="play-btn video-popup">
+                    <a href="https://vk.com/video_ext.php?oid=-174808662&id=456239081&hash=b2f7acf9981a0447" width="333" height="660" frameborder="0" allowfullscreen="1" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" class="play-btn video-popup">
                         <i class="fa fa-play"></i>
                     </a>
                 </div>
@@ -492,19 +508,7 @@
 <!-- Blog Section End -->
 
 <!-- Cta Section Begin -->
-<section class="cta-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="cta-text">
-                    <h3>Сделай сегодня</h3>
-                    <p>Специальное предложение! Скидка 10% при регистрации на сайте!</p>
-                </div>
-                <a href="/registration" class="primary-btn cta-btn">Регистрация</a>
-            </div>
-        </div>
-    </div>
-</section>
+<div th:replace="~{fragments::cta-section}"></div>
 <!-- Cta Section End -->
 
 <!-- Map Section Begin -->
@@ -554,86 +558,7 @@
 <!-- Map Section End -->
 
 <!-- Footer Section Begin -->
-<footer class="footer-section">
-    <div class="container">
-        <div class="row">
-
-            <div class="col-lg-3">
-                <div class="footer-logo-item">
-
-
-                    <div class="f-logo">
-                        <a href="/"><img src="img/logo.png" alt=""></a>
-                    </div>
-                    <div class="social-links">
-                        <h6>Следуй за мной</h6>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="footer-widget">
-                    <p>Процесс создания татуировки довольно сложный и ответственный. Чтобы создать качественное
-                        изображение, которое будет радовать вас всю жизнь, мастер должен учесть множество факторов.
-                        Важно правильно подобрать эскиз, цветовую гамму, размер и место для будущей тату. Также
-                        необходимо выбрать подходящий стиль и технику нанесения. В результате вы получите уникальный
-                        рисунок, который будет подчеркивать вашу индивидуальность и придавать уверенности в себе..</p>
-
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="footer-widget">
-                    <h5>Стили</h5>
-                    <ul class="workout-program">
-                        <li><a href="/gallery">Классический</a></li>
-                        <li><a href="/gallery">Винтажный</a></li>
-                        <li><a href="/gallery">Граффити</a></li>
-                        <li><a href="/gallery">Готический</a></li>
-                        <li><a href="/gallery">Кельтский</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="footer-widget">
-                    <h5>ПОЛУЧИТЬ ИНФОРМАЦИЮ</h5>
-                    <ul class="footer-info">
-                        <li>
-                            <i class="fa fa-phone"></i>
-                            <span>Телефон:</span>
-                            (906) 39917226
-                        </li>
-                        <li>
-                            <i class="fa fa-envelope-o"></i>
-                            <span>Email:</span>
-                            reshetnikov.m@list.ru
-                        </li>
-                        <li>
-                            <i class="fa fa-map-marker"></i>
-                            <span>Адрес</span>
-                            Почтовая ул., 4, Омск, Омская обл., 644024
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="copyright-text">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="ct-inside">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                        All rights reserved | This template is made with <i class="fa fa-heart-o"
-                                                                            aria-hidden="true"></i> by <a
-                            href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
+<footer th:replace="~{fragments::footer}"></footer>
 <!-- Footer Section End -->
 
 <!-- Js Plugins -->
@@ -648,6 +573,23 @@
 <script src="js/masonry.pkgd.min.js"></script>
 <script src="js/main.js"></script>
 <!-- Yandex.RTB -->
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(98027672, "init", {
+         clickmap:true,
+         trackLinks:true,
+         accurateTrackBounce:true,
+         webvisor:true
+    });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/98027672" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 
 
 </body>

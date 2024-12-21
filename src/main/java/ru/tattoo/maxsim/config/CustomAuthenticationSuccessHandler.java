@@ -12,6 +12,7 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import ru.tattoo.maxsim.model.UserRole;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -52,8 +53,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     protected String determineTargetUrl(final Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
 
         Map<String, String> roleTargetUrlMap = new HashMap<>();
-        roleTargetUrlMap.put("USER", new HttpSessionRequestCache().getRequest(request, response).getRedirectUrl());
-        roleTargetUrlMap.put("ADMIN", "/admin");
+       try {
+           roleTargetUrlMap.put(UserRole.USER.toString(), new HttpSessionRequestCache().getRequest(request, response).getRedirectUrl());
+       }catch (Exception e) {
+           logger.error(e);
+           roleTargetUrlMap.put(UserRole.USER.toString(), "/");
+       }
+
+        roleTargetUrlMap.put(UserRole.ADMIN.toString(), "/admin");
 
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {
@@ -62,6 +69,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 return roleTargetUrlMap.get(authorityName);
             }
         }
+
 
         throw new IllegalStateException();
     }
