@@ -3265,10 +3265,10 @@ input[type=file] {
 		z-index: 0;
 	}
 	.single-hero-item .hero-text h1 {
-		font-size: 50px;
+		font-size: 25px;
 	}
 	.single-hero-item .hero-text h2 {
-		font-size: 40px;
+		font-size: 15px;
 	}
 	.hero-items .owl-nav button[type=button] {
 		left: -15px;
