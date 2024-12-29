@@ -8,7 +8,6 @@
 ---------------------------------------------------------  */
 
 'use strict';
-
 (function ($) {
 
     /*------------------
@@ -36,7 +35,13 @@
 			columnWidth: '.grid-sizer',
 		});
 
+
+
+
     });
+     /*------------------
+            Background Set
+        --------------------*/
 
     /*------------------
         Background Set
@@ -60,9 +65,8 @@
     $(".header-section .nav-menu .mainmenu ul li").on('mousehover', function() {
         $(this).addClass('active');
     });
-    $(".header-section .nav-menu .mainmenu ul li").on('mouseleave', function() {
-        $('.header-section .nav-menu .mainmenu ul li').removeClass('active');
-    });
+
+
 
     /*------------------
         Carousel Slider

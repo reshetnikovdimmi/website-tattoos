@@ -8,6 +8,7 @@
 <body>
 <!-- Header Section Begin -->
 <div class="header-section header-normal" th:fragment="header">
+
     <div class="container-fluid">
         <div class="logo">
             <a href="/">
@@ -25,11 +26,11 @@
                 <nav class="mainmenu mobile-menu">
                     <ul>
                         <li><a href="/">Главная</a></li>
-                        <li><a href="/gallery">Галерея</a></li>
-                        <li><a href="/sketches" >Эскизы</a></li>
-                        <li class="active"><a href="/about-me">О бо мне</a></li>
-                        <li><a href="/blog">Блог</a></li>
-                        <li><a href="/contact">Контакты</a></li>
+                        <li th:classappend="${servletPath == '/gallery' ? 'active':''}"><a href="/gallery">Галерея</a></li>
+                        <li th:classappend="${servletPath == '/sketches' ? 'active':''}"><a href="/sketches" >Эскизы</a></li>
+                        <li th:classappend="${servletPath == '/about-me' ? 'active':''}"><a href="/about-me">О бо мне</a></li>
+                        <li th:classappend="${servletPath == '/blog' ? 'active':''}"><a href="/blog">Блог</a></li>
+                        <li th:classappend="${servletPath == '/contact' ? 'active':''}"><a href="/contact">Контакты</a></li>
                     </ul>
                 </nav>
             </div>
