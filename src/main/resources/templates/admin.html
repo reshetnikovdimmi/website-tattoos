@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.btn-close.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Тату омск">
-    <meta name="keywords" content="татуировка эскиз, татуировка эскиз омск, тату салон, сделать эскиз татуировки, эскиз тату">
+    <meta name="keywords"
+          content="татуировка эскиз, татуировка эскиз омск, тату салон, сделать эскиз татуировки, эскиз тату">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>tattoos Maxim</title>
@@ -47,11 +48,36 @@
     </div>
 </section>
 <!-- Breadcrumb End -->
+<!-- Модальное окно -->
+<div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h7 class="modal-title">Сообщение</h7>
+
+                <button type="button" id="hide"
+                        class="btn-close btn-close-custom"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Модальное окно End -->
 <section class="gallery-section spad">
     <div class="container">
 
         <!-- Nav tabs -->
-        <ul class="nav nav-pills-dark" role="tablist">
+        <ul class="nav nav-pills-dark nav-justified nav-tabs" role="tablist">
             <li class="nav-item ">
                 <a class="nav-link active" data-toggle="tab" href="#home_hom"><p>Галерея</p></a>
             </li>
@@ -62,7 +88,11 @@
                 <a class="nav-link" data-toggle="tab" href="#menu2"><p>Эскизы</p></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#menu3"><p>Пользователи</p></a>
+                <a class="nav-link" data-toggle="tab" href="#menu3"><p>Блог</p></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#menu4"><p>Пользователи</p></a>
             </li>
         </ul>
 
@@ -105,44 +135,39 @@
                             </div>
                         </form>
 
-                        <section class="gallery-section spad  scroll" style="margin: 10px;">
-                            <div class="row gallery-filter" th:each="current : ${images}">
-
-                                <div class="col-5">
-                                    <div class="gallery-item ">
-
-                                        <img alt="" th:src="@{'/images/'+${current.imageName}}" class="img-fluid">
-                                        <div class="gi-hover-warp">
-                                            <div class="gi-hover">
-                                                <a href="/images/${current.imageName}" class="image-popup"><i
-                                                        class="fa fa-search-plus"></i></a>
-
-                                                <h6 th:text="${current.description}"></h6>
+                        <section class="scroll" style="margin: 10px;">
+                            <div class="reviews-admin" th:each="current : ${images}">
+                                <div class="row gallery-filter">
+                                    <div class="col-lg-3">
+                                        <div class="admin-img">
+                                            <img alt="" th:src="@{'/images/'+${current.imageName}}" class="img-fluid">
+                                            <div class="trainer-text">
+                                                <label>
+                                                    <input class="checkbox" type="checkbox"
+                                                           th:checked="${current.flag}"/> Лучшее тату
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="col-5">
-                                    <div class="row mb-3 text-center">
-                                        <h4 style="color: #FFFFFF" th:text="${current.category}"></h4>
+                                    <div class="col-lg-6">
+                                        <div class="row mb-3 text-center">
+                                            <h4 style="color: #FFFFFF; margin: 10px;"
+                                                th:text="${current.category}"></h4>
+                                        </div>
+                                        <div class="row mb-3 text-center">
+                                            <h5 style="color: #FFFFFF; margin: 10px;"
+                                                th:text="${current.description}"></h5>
+                                        </div>
                                     </div>
-                                    <div class="row mb-3 text-center">
-                                        <h5 style="color: #FFFFFF" th:text="${current.description}"></h5>
+                                    <div class="col" hidden="hidden">
+                                        <div hidden="hidden" name="id" th:text="${current.id}"></div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <button style="margin: 10px;" class="btn btn-outline-secondary delimg"
+                                                type="submit">Удалить
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="col">
-
-                                    <div hidden="hidden" name="id" th:text="${current.id}"></div>
-
-
-                                </div>
-                                <div class="col">
-
-                                    <button class="btn btn-outline-secondary delimg" type="submit">Удалить</button>
-
-                                </div>
-
                             </div>
                         </section>
                     </div>
@@ -153,33 +178,37 @@
             <div id="menu1" class="container tab-pane fade"><br>
 
                 <h3 style="color: #FFFFFF; margin: 10px;">Отзывы</h3>
-                <section class="gallery-section spad  scroll" style="margin: 10px;">
-                    <div class="reviews" th:fragment="reviews">
+                <section class="scroll" style="margin: 10px;">
+                    <div class="reviews-admin" th:fragment="reviews">
                         <div class="row gallery-filter" th:each="current : ${reviews}">
-                            <div class="col-5">
-                                <div class="gallery-item">
-                                    <img alt="" th:src="@{'/images/'+${current.imageName}}">
+                            <div class="col-lg-3">
+                                <div class="admin-img">
+                                    <img th:src="@{'/images/'+${current.imageName}}" alt="">
                                 </div>
                             </div>
-                            <div class="col-5">
-                                <div class="row mb-3 text-center">
-                                    <h4 style="white-space: pre-line;color: #FFFFFF" th:text="${current.userName}"></h4>
-                                </div>
-                                <div class="row mb-3 text-center">
-                                    <h5 style="white-space: pre-line;color: #FFFFFF" th:text="${current.comment}"></h5>
+                            <div class="col-lg-7">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h4 style="white-space: pre-line;color: #FFFFFF ; margin: 10px;"
+                                            th:text="${current.userName}"></h4>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <h5 style="white-space: pre-line;color: #FFFFFF ; margin: 10px;"
+                                            th:text="${current.comment}"></h5>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col-1" hidden="hidden">
                                 <div hidden="hidden" name="id" th:text="${current.id}"></div>
                             </div>
-                            <div class="col">
-                                <button class="btn btn-outline-secondary del" type="submit">Удалить</button>
+                            <div class="col-lg-2">
+                                <button style="margin: 10px;" class="btn btn-outline-secondary del" type="submit">
+                                    Удалить
+                                </button>
                             </div>
                         </div>
                     </div>
                 </section>
-
-
             </div>
             <div id="menu2" class="container tab-pane fade"><br>
                 <h3 style="color: #FFFFFF; margin: 10px;">Эскизы</h3>
@@ -209,56 +238,185 @@
                             </div>
                         </form>
 
-                        <section class="gallery-section spad  scroll" style="margin: 10px;">
-                            <div class="row gallery-filter" th:each="current : ${sketches}">
-                                <div class="col-5">
-                                    <div class="gallery-item">
-                                        <img alt="" th:src="@{'/images/'+${current.imageName}}">
-                                        <div class="gi-hover-warp">
-                                            <div class="gi-hover">
-                                                <h6 th:text="${current.description}"></h6>
-                                            </div>
+                        <section class="scroll" style="margin: 10px;">
+                            <div class="reviews-admin" th:each="current : ${sketches}">
+                                <div class="row gallery-filter">
+                                    <div class="col-lg-3">
+                                        <div class="admin-img">
+                                            <img alt="" th:src="@{'/images/'+${current.imageName}}">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-5">
-                                    <div class="row mb-3 text-center">
-                                        <h5 style="color: #FFFFFF" th:text="${current.description}"></h5>
+                                    <div class="col-lg-7">
+                                        <h5 style="margin: 10px; color: #FFFFFF" th:text="${current.description}"></h5>
+                                    </div>
+                                    <div class="col" hidden="hidden">
+                                        <div hidden="hidden" name="id" th:text="${current.id}"></div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <button style="margin: 10px;" class="btn btn-outline-secondary del"
+                                                type="submit">Удалить
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="col">
-
-                                    <div hidden="hidden" name="id" th:text="${current.id}"></div>
-
-
-                                </div>
-                                <div class="col">
-
-
-                                    <button class="btn btn-outline-secondary del" type="submit">Удалить</button>
-
-                                </div>
-
                             </div>
                         </section>
                     </div>
                 </div>
-
             </div>
             <div id="menu3" class="container tab-pane fade"><br>
-                <div class="row mb-3">
-                    <h3 style="color: #FFFFFF; margin: 10px;">Пользователи</h3>
-                    <section class="gallery-section spad  scroll" style="margin: 10px;">
-                        <div class="row gallery-filter" th:each="current : ${user}">
-                            <div class="col-5">
-                                <div class="row mb-3 text-center">
-                                    <h5 style="white-space: pre-line;color: #FFFFFF" th:text="${current.login}"></h5>
+                <div class="row">
+                    <div class="col-6 col-md-4 themed-grid-col">
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+                             aria-orientation="vertical">
+                            <a class="nav-link active btn btn-outline-secondary" style="margin: 10px;"
+                               id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+                               aria-controls="v-pills-home" aria-selected="true">Интересные работы</a>
+                            <a class="nav-link btn btn-outline-secondary" style="margin: 10px;" id="v-pills-profile-tab"
+                               data-toggle="pill" href="#v-pills-profile" role="tab"
+                               aria-controls="v-pills-profile" aria-selected="false">Комментарии</a>
+                            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages"
+                               role="tab"
+                               aria-controls="v-pills-messages" aria-selected="false">Messages</a>
+                            <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings"
+                               role="tab"
+                               aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+                        </div>
+                    </div>
+                    <div class="col-md-8 themed-grid-col">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                                 aria-labelledby="v-pills-home-tab">
+                                <div class="container px-4">
+                                    <form id="img-interesting-works">
+                                        <label id=""><p>Загрузить фото</p></label>
+                                        <div class="row">
+                                            <div class="col-md-8 themed-grid-col">
+                                                <div class="row g-2">
+                                                    <div class="col" style="margin: 10px;">
+                                                        <input type="file" id="file-interesting-works" name="file"
+                                                               required>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-2">
+                                                    <div class="col" style="margin: 10px;">
+                                                        <input style="width: 100%; height: 100px" type="text"
+                                                               placeholder="Описание"
+                                                               name="description" id="description-interesting-works"
+                                                               required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 col-md-4 themed-grid-col" style="margin: 10px;">
+                                                <button type="submit" class="leave-btn">Применить</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <section class="scroll" style="margin: 10px;">
+                                        <div class="interesting-works-import" th:fragment="interesting-works-import">
+                                            <div class="interesting-works-import"
+                                                 th:each="current : ${interestingWorks}">
+                                                <div class="row gallery-filter">
+                                                    <div class="col-lg-3">
+                                                        <div class="admin-img">
+                                                            <img alt="" th:src="@{'/images/'+${current.imageName}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h5 style="margin: 10px; color: #FFFFFF"
+                                                            th:text="${current.description}"></h5>
+                                                    </div>
+                                                    <div class="col" hidden="hidden">
+                                                        <div hidden="hidden" name="id" th:text="${current.id}"></div>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <button style="margin: 10px;"
+                                                                class="btn btn-outline-secondary interesting-works-del"
+                                                                type="submit">Удалить
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
                                 </div>
                             </div>
-                            <div class="col-5">
-                                <div class="row mb-3 text-center">
-                                    <h5 style="white-space: pre-line;color: #FFFFFF" th:text="${current.email}"></h5>
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                                 aria-labelledby="v-pills-profile-tab">
+                                <div class="scroll">
+                                <section>
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12 text-center">
+                                                <div class="section-title">
+                                                    <h2>Комментарии</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div class="commit-table">
+                                        <table>
+
+                                        <tbody>
+                                        <tr th:each="current : ${commits}">
+
+                                            <td class="hover-bg ts-item" data-tsmeta="crossfit">
+                                                <h6>
+                                                    <ya-tr-span data-index="35-0" data-translated="true"
+                                                                data-source-lang="en" data-target-lang="ru"
+                                                                data-value="Crossfit lv1"
+                                                                data-translation="Кроссфит lv1" data-ch="0"
+                                                                data-type="trSpan"
+                                                                style="visibility: inherit !important;"
+                                                                data-selected="false"
+                                                                th:text="${current.comment}"></ya-tr-span>
+                                                </h6>
+                                                <span th:text="${current.date}"></span>
+                                            </td>
+                                            <td th:text="${current.userName}" class="workout-time">
+
+                                            </td>
+                                            <td class="hover-bg ts-item" data-tsmeta="crossfit">
+                                                <button style="margin: 10px;"
+                                                        class="btn btn-outline-secondary interesting-works-del"
+                                                        type="submit">Удалить
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
+                                </section>
                                 </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                                 aria-labelledby="v-pills-messages-tab">
+                                777
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
+                                 aria-labelledby="v-pills-settings-tab">
+                                888
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div id="menu4" class="container tab-pane fade"><br>
+                <div class="row mb-3">
+                    <h3 style="color: #FFFFFF; margin: 10px;">Пользователи</h3>
+                    <section class="scroll" style="margin: 10px;">
+                        <div class="row gallery-filter" th:each="current : ${user}">
+                            <div class="col-6">
+
+                                <h3 style="color: #FFFFFF; margin: 10px;" th:text="${current.login}"></h3>
+
+                            </div>
+                            <div class="col-6">
+
+                                <h3 style="color: #FFFFFF; margin: 10px;" th:text="${current.email}"></h3>
+
                             </div>
                         </div>
                     </section>

@@ -66,10 +66,10 @@
                     <table>
                         <tbody>
                         <tr th:each="current, item : ${reviews}">
-                            <td class="blog-item large-item set-bg" data-tsmeta="crossfit">
-                                <div class="bi-pic">
+                            <td class="reviews" >
+
                                     <img th:src="@{'/images/'+${current.imageName}}" alt="">
-                                </div>
+
                             </td>
                             <td class="hover-bg ts-item" data-tsmeta="crossfit">
                                 <span th:text="${#dates.format(current.date, 'dd MMMM yy')}"></span>
@@ -94,10 +94,16 @@
                             <input type="hidden" id="name" name="name" th:value="${#authentication.name}">
                             <div class="col-lg-12">
                                 <textarea placeholder="Текст" id="Comment" name="Comment" required></textarea>
-                                <button type="submit" class="leave-btn">Сохранить отзыв</button>
+                                <a sec:authorize="isAuthenticated()">
+                                    <button type="submit" class="leave-btn">Сохранить комментарий</button>
+                                </a>
                             </div>
                         </div>
                     </form>
+                    <a sec:authorize="!isAuthenticated()" href="/login">
+                        <button class="leave-btn">Войти</button>
+                        <p>Комментарии могут оставлять только зарегистрированные пользователи.</p>
+                    </a>
                 </div>
             </div>
         </div>

@@ -6,7 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.Images;
 
 import java.io.IOException;
-import java.util.List;
 
 public interface ImagesService extends CRUDService<Images, Long> {
 
@@ -19,4 +18,6 @@ public interface ImagesService extends CRUDService<Images, Long> {
     Page<Images> findByCategory(String style, Pageable p);
 
     Object pageList(Page<Images> images);
+
+    boolean bestImage(Images images);
 }

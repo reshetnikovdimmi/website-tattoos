@@ -2,6 +2,9 @@ $(document).ready(function() {
        importImg()
        sketches()
        reviews()
+
+
+
 });
 function reviews() {
  $(document).find('.del').on('click', function() {

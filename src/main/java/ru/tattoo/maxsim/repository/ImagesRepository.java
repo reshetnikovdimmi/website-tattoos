@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.tattoo.maxsim.model.Images;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,4 +18,6 @@ public interface ImagesRepository extends JpaRepository<Images, Long> {
     @Query("SELECT imageName  FROM Images WHERE id = ?1")
     String getName(Long id);
 
+    @Query("SELECT c FROM Images c WHERE c.flag = true")
+    Iterable<Images> findByFlagTrue();
 }

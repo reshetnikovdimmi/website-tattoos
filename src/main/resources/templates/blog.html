@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -35,7 +35,31 @@
 <!-- Header Section Begin -->
 <div th:replace="~{fragments::header}"></div>
 <!-- Header End -->
+<!-- Модальное окно -->
+<div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h7 class="modal-title">Сообщение</h7>
 
+                <button type="button" id="hide"
+                        class="btn-close btn-close-custom"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Модальное окно End -->
 <!-- Breadcrumb Section Begin -->
 <section class="blog-single-hero set-bg" data-setbg="img/about-me.PNG">
     <div class="container">
@@ -64,12 +88,15 @@
                     <div class="blog-text">
                         <p>Татуировки давно перестали быть просто украшением тела – они стали символом,
                             отражением внутреннего мира человека, его убеждений, воспоминаний и даже жизненных целей.
-                            Эта статья посвящена глубокому анализу того, какую роль играют татуировки в современной культуре и обществе,
-                            а также предлагает вдохновляющие истории тех, кто сделал себе татуировку в честь важных событий или людей.
+                            Эта статья посвящена глубокому анализу того, какую роль играют татуировки в современной
+                            культуре и обществе,
+                            а также предлагает вдохновляющие истории тех, кто сделал себе татуировку в честь важных
+                            событий или людей.
                         </p>
                         <p>Таким образом, татуировки – это не просто рисунки на коже,
                             а отражение души и жизненного пути каждого человека.
-                            Они могут рассказать историю, выразить чувства и напомнить о самых важных моментах жизни.</p>
+                            Они могут рассказать историю, выразить чувства и напомнить о самых важных моментах
+                            жизни.</p>
                     </div>
                     <div class="blog-pic">
                         <div class="row">
@@ -112,7 +139,8 @@
                         <p>Символы, используемые в татуировках, могут иметь разные значения в зависимости от культуры.
                             Например, лотос в индийской традиции символизирует чистоту и просветление,
                             тогда как в японской культуре он ассоциируется с верностью и преданностью.
-                            Крест может означать христианскую веру, но в других контекстах он может символизировать защиту или возрождение.
+                            Крест может означать христианскую веру, но в других контекстах он может символизировать
+                            защиту или возрождение.
                             Важно понимать, что каждый символ имеет свое уникальное значение,
                             которое может меняться в зависимости от контекста.</p>
                     </div>
@@ -126,63 +154,28 @@
             </div>
             <div class="col-lg-4">
                 <div class="blog-single-sidebar">
-                    <div class="bs-latest-news">
+                    <div class="bs-latest-news fragment-commits" th:fragment="fragment-commits">
                         <h4>Комментарии</h4>
-                        <a href="#" class="bl-item set-bg" data-setbg="img/sidebar-latest.jpg">
-                            <h5>Влюбился в свою новую татуировку! Спасибо тебе огромное!.</h5>
-                            <span>Январь 31, 2019</span>
-                        </a>
-                        <a href="#" class="bl-item set-bg" data-setbg="img/sidebar-latest.jpg">
-                            <h5>Спасибо за внимание к деталям! Моя новая татуировка выглядит идеально!</h5>
-                            <span>Январь 31, 2019</span>
-                        </a>
-                        <a href="#" class="bl-item set-bg" data-setbg="img/sidebar-latest.jpg">
-                            <h5>Больно, но стоит того! Теперь у меня есть шедевр на коже! </h5>
-                            <span>Январь 31, 2019</span>
-                        </a>
-                        <a href="#" class="bl-item set-bg" data-setbg="img/sidebar-latest.jpg">
-                            <h5>Великолепный мастер! Уже планирую следующую сессию!.</h5>
-                            <span>Январь 31, 2019</span>
-                        </a>
+                        <div th:each="current : ${commits}">
+                            <a href="#" class="bl-item set-bg" data-setbg="img/sidebar-latest.jpg">
+                                <h5 th:text="${current.comment}"></h5>
+                                <span th:text="${current.date}"></span>
+                            </a>
+                        </div>
                     </div>
                     <div class="bs-recent-news">
                         <h4>Интересные работы</h4>
-                        <a href="#" class="br-item">
-                            <div class="bi-pic">
-                                <img src="img/br-recent-1.jpg" alt="">
-                            </div>
-                            <div class="bi-text">
-                                <span>Jan 31, 2024</span>
-                                <h5>Есть вот такой проект. Готов сделать по вкусной цене. Но только 30 декабря.</h5>
-                            </div>
-                        </a>
-                        <a href="#" class="br-item">
-                            <div class="bi-pic">
-                                <img src="img/br-recent-2.jpg" alt="">
-                            </div>
-                            <div class="bi-text">
-                                <span>Jan 31, 2024</span>
-                                <h5>Данный проект будет выполнен в единственном экземпляре!!!</h5>
-                            </div>
-                        </a>
-                        <a href="#" class="br-item">
-                            <div class="bi-pic">
-                                <img src="img/br-recent-3.jpg" alt="">
-                            </div>
-                            <div class="bi-text">
-                                <span>Jan 31, 2024</span>
-                                <h5>Выполню за один сеанс!!!</h5>
-                            </div>
-                        </a>
-                        <a href="#" class="br-item">
-                            <div class="bi-pic">
-                                <img src="img/br-recent-4.jpg" alt="">
-                            </div>
-                            <div class="bi-text">
-                                <span>Jan 31, 2024</span>
-                                <h5>Ещё один интересный проект по вкусной цене!!!</h5>
-                            </div>
-                        </a>
+                        <div th:each="current : ${interestingWorks}">
+                            <a href="#" class="br-item">
+                                <div class="bi-pic">
+                                    <img alt="" th:src="@{'/images/'+${current.imageName}}">
+                                </div>
+                                <div class="bi-text">
+                                    <span th:text="${current.date}"></span>
+                                    <h5 th:text="${current.description}"></h5>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -190,29 +183,14 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="recent-news">
-                    <h4>Новые работы</h4>
+                    <h4>Новые эскизы</h4>
                     <div class="row">
-                        <div class="col-lg-4">
-                            <div class="recent-item set-bg" data-setbg="img/recent-1.jpg">
+                        <div class="col-lg-4" th:each="current : ${sketches}">
+                            <div class="recent-item set-bg">
+                                <img alt="" th:src="@{'/images/'+${current.imageName}}">
                                 <a href="#" class="recent-text">
-                                    <div class="categories">Рысь</div>
-                                    <h5>Это реалистичное изображение, выполненное в ярких теплых тонах.</h5>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="recent-item set-bg" data-setbg="img/recent-2.jpg">
-                                <a href="#" class="recent-text">
-                                    <div class="categories">Лиса</div>
-                                    <h5>Татуировка представляет собой голову лисы с огненными узорами</h5>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="recent-item set-bg" data-setbg="img/recent-3.jpg">
-                                <a href="#" class="recent-text">
-                                    <div class="categories">Леопард</div>
-                                    <h5>Леопард с ярко выраженными голубыми глазами</h5>
+                                    <div class="categories" th:text="${current.date}"></div>
+                                    <h5 th:text="${current.description}"></h5>
                                 </a>
                             </div>
                         </div>
@@ -220,14 +198,22 @@
                 </div>
                 <div class="leave-comment-form">
                     <h4>Оставь комментарий</h4>
-                    <form action="#">
+                    <form method="post" th:action="@{/commits-import}" id="commit">
                         <div class="row">
                             <div class="col-lg-12">
-                                <textarea placeholder="Comment"></textarea>
-                                <button type="submit" class="leave-btn">Post Comment</button>
+                                <textarea id="Comment" name="Comment" placeholder="Comment"></textarea>
+                                <span type="hidden" id="name" name="name" th:value="${#authentication.name}"></span>
+
+                                <a sec:authorize="isAuthenticated()">
+                                    <button type="submit" class="leave-btn">Сохранить комментарий</button>
+                                </a>
                             </div>
                         </div>
                     </form>
+                    <a sec:authorize="!isAuthenticated()" href="/login">
+                        <button class="leave-btn">Войти</button>
+                        <p>Комментарии могут оставлять только зарегистрированные пользователи.</p>
+                    </a>
                 </div>
             </div>
         </div>

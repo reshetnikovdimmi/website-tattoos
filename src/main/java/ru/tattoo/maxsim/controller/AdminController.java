@@ -2,14 +2,15 @@ package ru.tattoo.maxsim.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.tattoo.maxsim.service.interf.ImagesService;
-import ru.tattoo.maxsim.service.interf.ReviewService;
-import ru.tattoo.maxsim.service.interf.SketchesService;
-import ru.tattoo.maxsim.service.interf.UserService;
+import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.model.InterestingWorks;
+import ru.tattoo.maxsim.repository.CommitsRepository;
+import ru.tattoo.maxsim.service.interf.*;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -31,6 +32,13 @@ public class AdminController {
     @Autowired
     private SketchesService sketchesService;
 
+    @Autowired
+    private InterestingWorksService interestingWorksService;
+
+    @Autowired
+    private CommitsService commitsService;
+
+
     @GetMapping("/admin")
     public String admin(Model model) {
 
@@ -38,6 +46,9 @@ public class AdminController {
         model.addAttribute("sketches", sketchesService.findAll());
         model.addAttribute("reviews", reviewService.findAll());
         model.addAttribute("user", userService.findAll());
+        model.addAttribute("flag", true);
+        model.addAttribute("interestingWorks", interestingWorksService.findAll());
+        model.addAttribute("commits", commitsService.findAll());
 
         return "admin";
     }
@@ -59,6 +70,23 @@ public class AdminController {
         model.addAttribute("sketches", sketchesService.findAll());
 
         return "admin::sketches-import";
+    }
+    @PostMapping("/interesting-works-import")
+    public String interestingWorksImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("description") String description, Model model, HttpServletRequest request) throws IOException, ParseException {
+
+        interestingWorksService.saveImg(fileImport,description);
+        model.addAttribute("interestingWorks", interestingWorksService.findAll());
+
+        return "admin::interesting-works-import";
+    }
+
+    @GetMapping("/interesting-works-delete/{id}")
+    public String deleteInterestingWorks(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
+
+        interestingWorksService.deleteImg(id);
+        model.addAttribute("interestingWorks", interestingWorksService.findAll());
+
+        return "admin::interesting-works-import";
     }
 
     @GetMapping("/sketches-delete/{id}")
@@ -89,6 +117,12 @@ public class AdminController {
     }
 
 
+    //Response controller
+
+    @PostMapping(path = "/best-tattoos")
+    private ResponseEntity saveSparkSale(@RequestBody Images images) {
+        return ResponseEntity.ok(imagesService.bestImage(images));
+    }
 
 
 

@@ -118,7 +118,7 @@ ol {
         padding: 2%;
         width: 100%;
         margin: 0 auto;
-        white-space: nowrap;
+        /*white-space: nowrap;*/
         font-size: large;
     }
     ::-webkit-scrollbar {
@@ -177,6 +177,19 @@ input[type=file] {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: top center;
+
+}
+.set-bg img{
+	width: 350px;
+                height: 350px;
+                position: absolute;
+                padding: 10px;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    max-width: 100%; /* чтобы картинка не выходила за пределы контейнера */
+                    max-height: 100%; /* чтобы картинка не выходила за пределы контейнера */
+                    object-fit: cover; /* чтобы сохранить пропорции изображения при растяжении */
 }
 
 .spad {
@@ -855,6 +868,129 @@ input[type=file] {
 .classes-item .primary-btn.class-btn:hover:after {
 	opacity: 1;
 }
+/* Основные стили для модального окна */
+
+.modal-content{
+    background-color: #e4381C;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    animation-name: modalopen;
+    animation-duration: 0.3s;
+
+}
+/* Стилизация кнопки закрытия */
+.btn-close{
+            background - color: #ffffff;
+               border: none;
+               color: #000000;
+              padding: 8px 16px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+              transition-duration: 0.4s;
+              cursor: pointer;
+              background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fc0'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+        }
+        .btn-close:hover {
+          background-color: # 000000;
+           color: #ffffff;
+        }
+
+
+/*---------------------
+  Classes Reviews
+-----------------------*/
+  table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+            vertical-align: middle;
+            position: relative;
+            height: 150px;
+        }
+
+       .reviews img {
+            width: 150px;
+            height: 150px;
+            position: absolute;
+            padding: 10px;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                max-width: 100%; /* чтобы картинка не выходила за пределы контейнера */
+                max-height: 100%; /* чтобы картинка не выходила за пределы контейнера */
+                object-fit: cover; /* чтобы сохранить пропорции изображения при растяжении */
+        }
+         /*---------------------
+           Checkbox styles
+         -----------------------*/
+
+label {
+margin: 1px;
+ }
+input[type="checkbox"] {
+	transform: scale(1.6);
+    accent-color: #334333;
+    margin-right: 10px;
+}
+
+        /*---------------------
+          Classes reviews-admin
+        -----------------------*/
+                .admin-img{
+                    width: 100%;
+                    height: 300px; /* высота контейнера */
+                    position: relative;
+                    margin-bottom: 10px;
+                }
+               .reviews-admin img{
+                    width: 300px;
+                    height: 300px;
+                    position: absolute;
+
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        max-width: 100%; /* чтобы картинка не выходила за пределы контейнера */
+                        max-height: 100%; /* чтобы картинка не выходила за пределы контейнера */
+                        object-fit: cover; /* чтобы сохранить пропорции изображения при растяжении */
+                }
+                .reviews-admin .trainer-text {
+                	position: absolute;
+                	left: 0;
+                	bottom: 0;
+
+                	background: -o-linear-gradient(45deg, #e16521, #e4381C);
+                	background: linear-gradient(45deg, #e16521, #e4381C);
+                	width: 100%;
+                	padding-left: 20px;
+                	padding-top: 15px;
+                	padding-bottom: 12px;
+                	-webkit-clip-path: polygon(0 0, 100% 0%, 81% 0, 100% 100%, 0 100%);
+                	clip-path: polygon(0 0, 100% 0%, 81% 0, 100% 100%, 0 100%);
+
+                }
+
+                .reviews-admin .trainer-text h5 {
+                	font-size: 20px;
+                	color: #ffffff;
+                	font-weight: 500;
+                }
+
+                .reviews-admin .trainer-text h5 span {
+                	font-size: 14px;
+                	color: #ffffff;
+                	font-family: "Nunito Sans", sans-serif;
+                }
 
 /*---------------------
   Classes Time Table Section
@@ -915,6 +1051,11 @@ input[type=file] {
 	-o-transition: all 0.4s;
 	transition: all 0.4s;
 }
+.commit-table .ts-item {
+	-webkit-transition: all 0.4s;
+	-o-transition: all 0.4s;
+	transition: all 0.4s;
+}
 
 .classtime-table.filtering .ts-item {
 	opacity: 0;
@@ -923,8 +1064,17 @@ input[type=file] {
 .classtime-table.filtering .ts-item.show {
 	opacity: 1;
 }
+.commit-table.filtering .ts-item {
+	opacity: 0;
+}
 
 .classtime-table table {
+	width: 100%;
+	border: 1px solid #1f1f1f;
+	background: #212121;
+	text-align: center;
+}
+.commit-table table {
 	width: 100%;
 	border: 1px solid #1f1f1f;
 	background: #212121;
@@ -940,8 +1090,20 @@ input[type=file] {
 	padding: 25px 5px;
 	word-break:break-all;
 }
+.commit-table table thead tr th {
+	font-size: 16px;
+	color: #ffffff;
+	font-weight: 500;
+	text-transform: uppercase;
+	font-family: "Oswald", sans-serif;
+	padding: 25px 5px;
+	/*word-break:break-all;*/
+}
 
 .classtime-table table tbody {
+	border-top: 1px solid #171717;
+}
+.commit-table table tbody {
 	border-top: 1px solid #171717;
 }
 
@@ -949,11 +1111,21 @@ input[type=file] {
 	text-align: center;
 	border-right: 1px solid #171717;
 	border-bottom: 1px solid #171717;
-	width: 146px;
+	width: 20px;
 	padding: 26px 10px 28px;
 	position: relative;
 	z-index: 1;
-	word-break:break-all;
+	/*word-break:break-all;*/
+}
+.commit-table table tbody tr td {
+	text-align: center;
+	border-right: 1px solid #171717;
+	border-bottom: 1px solid #171717;
+    width: auto;
+	padding: 26px 10px 28px;
+	position: relative;
+	z-index: 1;
+	/*word-break:break-all;*/
 }
 
 .classtime-table table tbody tr td:after {
@@ -973,12 +1145,35 @@ input[type=file] {
 	transition: all 0.3s;
 	word-break:break-all;
 }
+.commit-table table tbody tr td:after {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: -webkit-gradient(linear, left top, right top, from(#e16521), to(#e4381C));
+	background: -o-linear-gradient(left, #e16521, #e4381C);
+	background: linear-gradient(to right, #e16521, #e4381C);
+	content: "";
+	opacity: 0;
+	z-index: -1;
+	-webkit-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
+	/*word-break:break-all;*/
+}
 
 .classtime-table table tbody tr td.hover-bg:hover:after {
 	opacity: 1;
 }
+.commit-table table tbody tr td.hover-bg:hover:after {
+	opacity: 1;
+}
 
 .classtime-table table tbody tr td.hover-bg:hover h6 {
+	color: #ffffff;
+}
+.commit-table table tbody tr td.hover-bg:hover h6 {
 	color: #ffffff;
 }
 
@@ -990,6 +1185,14 @@ input[type=file] {
 	word-break:break-all;
 }
 
+.commit-table table tbody tr td.workout-time {
+	font-size: 16px;
+	color: #ffffff;
+	font-weight: 500;
+	font-family: "Oswald", sans-serif;
+	/*word-break:break-all;*/
+}
+
 .classtime-table table tbody tr td span {
 	font-size: 16px;
 	color: #ffffff;
@@ -998,7 +1201,25 @@ input[type=file] {
 	word-break:break-all;
 }
 
+.commit-table table tbody tr td span {
+	font-size: 16px;
+	color: #ffffff;
+	display: block;
+	margin-bottom: 7px;
+	word-break:break-all;
+}
+
 .classtime-table table tbody tr td h6 {
+	color: #e4381C;
+	font-weight: 500;
+	text-transform: uppercase;
+	-webkit-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
+	word-break:break-all;
+}
+
+.commit-table table tbody tr td h6 {
 	color: #e4381C;
 	font-weight: 500;
 	text-transform: uppercase;
@@ -1960,7 +2181,13 @@ input[type=file] {
 }
 
 .trainer-item .ti-pic img {
-	min-width: 100%;
+	width: 350px;
+    height: 350px;
+    top: 50%;
+    left: 50%;
+    max-width: 100%; /* чтобы картинка не выходила за пределы контейнера */
+    max-height: 100%; /* чтобы картинка не выходила за пределы контейнера */
+    object-fit: cover; /* чтобы сохранить пропорции изображения при растяжении */
 }
 
 .trainer-item .ti-pic .ti-links {
@@ -2414,6 +2641,19 @@ input[type=file] {
 	border: 1px solid #000000;
 	border-radius: 5px;
 }
+.leave-btn {
+	font-size: 14px;
+	color: #ffffff;
+	font-weight: 500;
+	text-transform: uppercase;
+	background: -o-linear-gradient(45deg, #e16521, #e4381C);
+	background: linear-gradient(45deg, #e16521, #e4381C);
+	padding: 10px 47px;
+	border: none;
+	font-family: "Oswald", sans-serif;
+	border: 1px solid #000000;
+	border-radius: 5px;
+}
 /*---------------------
   Blog Single Hero
 -----------------------*/
@@ -2840,6 +3080,20 @@ input[type=file] {
 	border-radius: 2px;
 }
 
+.leave-btn {
+	font-size: 14px;
+	color: #ffffff;
+	font-weight: 500;
+	text-transform: uppercase;
+	background: -o-linear-gradient(45deg, #e16521, #e4381C);
+	background: linear-gradient(45deg, #e16521, #e4381C);
+	padding: 10px 47px;
+	border: none;
+	font-family: "Oswald", sans-serif;
+	border: 1px solid #000000;
+	border-radius: 2px;
+}
+
 /*---------------------
   Contact Map Section
 -----------------------*/
@@ -3089,6 +3343,24 @@ input[type=file] {
 /* Tablet Device : 768px */
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
+input[type=file]::file-selector-button {
+  margin-right: 20px;
+  border: none;
+
+  padding: 10px 20px;
+
+  cursor: pointer;
+  transition: background .2s ease-in-out;
+}
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: small;
+    line-height: inherit;
+}
+.classtime-table table tbody tr td {
+		width: 40px;
+	}
 	.header-section {
 		padding-left: 0;
 		padding-right: 0;
@@ -3135,6 +3407,24 @@ input[type=file] {
 /* Large Mobile : 480px */
 
 @media only screen and (max-width: 767px) {
+input[type=file]::file-selector-button {
+  margin-right: 20px;
+  border: none;
+
+  padding: 10px 20px;
+
+  cursor: pointer;
+  transition: background .2s ease-in-out;
+}
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: small;
+    line-height: inherit;
+}
+.classtime-table table tbody tr td {
+		width: 40px;
+	}
 	.header-section {
 		padding-left: 0;
 		padding-right: 0;
@@ -3230,6 +3520,24 @@ input[type=file] {
 /* Small Mobile : 320px */
 
 @media only screen and (max-width: 479px) {
+input[type=file]::file-selector-button {
+  margin-right: 20px;
+  border: none;
+
+  padding: 10px 20px;
+
+  cursor: pointer;
+  transition: background .2s ease-in-out;
+}
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: small;
+    line-height: inherit;
+}
+.classtime-table table tbody tr td {
+		width: 200px;
+	}
 	.section-title h2,
 	.breadcrumb-text h2 {
 		font-size: 30px;

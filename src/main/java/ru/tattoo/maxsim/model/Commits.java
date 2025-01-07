@@ -12,13 +12,12 @@ import java.util.Date;
 @Setter
 @Entity
 @ToString
-public class Sketches {
+public class Commits {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
-    private String imageName;
-    private String description;
-
+    private String userName;
+    private String comment;
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date date;

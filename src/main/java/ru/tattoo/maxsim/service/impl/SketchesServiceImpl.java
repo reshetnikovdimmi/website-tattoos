@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 
@@ -37,6 +38,7 @@ public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> imp
         Sketches sketches = new Sketches();
         sketches.setImageName(fileImport.getOriginalFilename());
         sketches.setDescription(description);
+        sketches.setDate(new Date());
 
         sketchesRepository.save(sketches);
 

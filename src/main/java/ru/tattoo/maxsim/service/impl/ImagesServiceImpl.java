@@ -1,7 +1,6 @@
 package ru.tattoo.maxsim.service.impl;
 
 import com.google.common.collect.Lists;
-import org.checkerframework.checker.units.qual.K;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -67,6 +66,16 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
         List<Images> objects = images.hasContent() ? images.getContent() : Collections.emptyList();
         List<List<Images>> smallerLists = Lists.partition(objects, PARTITION_SIZE);
         return smallerLists;
+    }
+
+    @Override
+    public boolean bestImage(Images images) {
+
+        Images img = imagesRepository.findById(images.getId()).get();
+        img.setFlag(images.isFlag());
+        imagesRepository.save(img);
+
+        return images.isFlag();
     }
 
 }

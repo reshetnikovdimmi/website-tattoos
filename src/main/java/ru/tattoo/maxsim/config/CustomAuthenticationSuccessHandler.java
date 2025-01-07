@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -12,6 +14,8 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import ru.tattoo.maxsim.model.UserRole;
 
 import java.io.IOException;
@@ -42,7 +46,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         String targetUrl = determineTargetUrl(authentication,request,response);
 
         if (response.isCommitted()) {
-            logger.debug(
+            logger.error(
                     "Response has already been committed. Unable to redirect to "
                             + targetUrl);
             return;
@@ -50,15 +54,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
-    protected String determineTargetUrl(final Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
+    protected String determineTargetUrl(final Authentication authentication,  HttpServletRequest request, HttpServletResponse response) {
 
         Map<String, String> roleTargetUrlMap = new HashMap<>();
-       try {
-           roleTargetUrlMap.put(UserRole.USER.toString(), new HttpSessionRequestCache().getRequest(request, response).getRedirectUrl());
-       }catch (Exception e) {
-           logger.error(e);
+
            roleTargetUrlMap.put(UserRole.USER.toString(), "/");
-       }
+           // roleTargetUrlMap.put(UserRole.USER.toString(), new HttpSessionRequestCache().getRequest(request, response).getRedirectUrl());
+           roleTargetUrlMap.put(UserRole.USER.toString(), "/");
 
         roleTargetUrlMap.put(UserRole.ADMIN.toString(), "/admin");
 

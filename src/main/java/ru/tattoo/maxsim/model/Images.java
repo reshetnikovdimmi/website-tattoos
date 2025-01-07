@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Size;
+import jdk.jfr.BooleanFlag;
 import lombok.*;
 
 @NoArgsConstructor
@@ -20,4 +21,6 @@ public class Images {
     private String imageName;
     private String category;
     private String description;
+    @BooleanFlag
+    private boolean flag;
 }
