@@ -38,6 +38,9 @@ public class AdminController {
     @Autowired
     private CommitsService commitsService;
 
+    @Autowired
+    private HomeService homeService;
+
 
     @GetMapping("/admin")
     public String admin(Model model) {
@@ -49,6 +52,7 @@ public class AdminController {
         model.addAttribute("flag", true);
         model.addAttribute("interestingWorks", interestingWorksService.findAll());
         model.addAttribute("commits", commitsService.findAll());
+        model.addAttribute("carousel", homeService.findAll());
 
         return "admin";
     }
@@ -71,6 +75,25 @@ public class AdminController {
 
         return "admin::sketches-import";
     }
+
+    @PostMapping("/carousel-import")
+    public String carouselImport(@RequestParam("file") MultipartFile fileImport, Model model, HttpServletRequest request) throws IOException, ParseException {
+
+        homeService.saveImg(fileImport, "carousel");
+        model.addAttribute("carousel", homeService.findAll());
+
+        return "admin::carousel-import";
+    }
+
+    @GetMapping("/carousel-delete/{id}")
+    public String deleteCarousel(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
+
+        homeService.deleteImg(id);
+        model.addAttribute("carousel", homeService.findAll());
+
+        return "admin::carousel-import";
+    }
+
     @PostMapping("/interesting-works-import")
     public String interestingWorksImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("description") String description, Model model, HttpServletRequest request) throws IOException, ParseException {
 

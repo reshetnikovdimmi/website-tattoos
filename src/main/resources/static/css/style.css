@@ -3520,6 +3520,9 @@ button, input, optgroup, select, textarea {
 /* Small Mobile : 320px */
 
 @media only screen and (max-width: 479px) {
+
+
+
 input[type=file]::file-selector-button {
   margin-right: 20px;
   border: none;

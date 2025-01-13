@@ -34,7 +34,7 @@
        Interesting works
     --------------------*/
     $('#img-interesting-works').on("submit", function(e) {
-    console.log("ok")
+
         e.preventDefault();
         const fileInput = document.getElementById('file-interesting-works');
         const file = fileInput.files[0];
@@ -73,17 +73,55 @@
     }
 /*------------------
         Home
-    --------------------*/
-const triggerTabList = document.querySelectorAll('#myTab button')
-triggerTabList.forEach(triggerEl => {
-  const tabTrigger = new bootstrap.Tab(triggerEl)
+--------------------*/
 
-  triggerEl.addEventListener('click', event => {
-  alert(tabTrigger)
-    event.preventDefault()
-    tabTrigger.show()
-  })
-})
+$('#myTab button').click(function(e){
+console.log(e)
+    e.preventDefault();
+    $(this).tab('show');
+  });
+  /*------------------
+          Home-Carousel
+  --------------------*/
+   $('#img-carousel').on("submit", function(e) {
+              e.preventDefault();
+
+           const fileInput = document.getElementById('file-carousel');
+           const file = fileInput.files[0];
+           if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
+               modals('Размер файла превышен, выберите файл меньше 1МБ.');
+           } else {
+               const xhr = new XMLHttpRequest();
+               const formData = new FormData();
+               formData.append('file', file);
+               xhr.open('POST', '/carousel-import');
+               console.log(file.name)
+               xhr.send(formData);
+               xhr.onload = () => {
+                   if (xhr.status == 200) {
+                       $(".carousel-import").html(xhr.response);
+                       $('.show-result-select').niceSelect();
+                       document.getElementById('img-carousel').reset();
+                       deleteImg()
+                   } else {
+                       modals("Server response: ", xhr.response);
+                   }
+               };
+           }
+       });
+       deleteImg()
+       function deleteImg() {
+                $(document).find('.carousel-import button').on('click', function() {
+                        var id = $(this).parents('.row:first').find('.col:eq(0)').text(),
+                            data;
+                            console.log(id)
+                            $.get('/carousel-delete/' + id, {}, function(data) {
+                            $(".carousel-import").html(data);
+                            $('.show-result-select').niceSelect();
+                            deleteImg()
+                        });
+                    });
+              }
     /*------------------
         Comments
     --------------------*/
@@ -106,7 +144,7 @@ triggerTabList.forEach(triggerEl => {
         };
     });
     /*------------------
-        allery admin
+        Gallery admin
     --------------------*/
     $(document).find('.checkbox').on('click', function() {
         var id = $(this).parents('.row:first').find('.col:eq(0)').text(),
@@ -231,3 +269,4 @@ function modals(message) {
     });
     $('.btn-primary').attr('disabled', true);
 }
+
