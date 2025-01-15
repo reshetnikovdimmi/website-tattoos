@@ -55,7 +55,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h7 class="modal-title">Сообщение</h7>
-
                 <button type="button" id="hide"
                         class="btn-close btn-close-custom"
                         data-bs-dismiss="modal"
@@ -75,7 +74,6 @@
 <!-- Модальное окно End -->
 <section class="gallery-section spad">
     <div class="container">
-
         <!-- Nav tabs -->
         <ul class="nav nav-pills-dark nav-justified nav-tabs" role="tablist">
             <li class="nav-item ">
@@ -97,7 +95,6 @@
                 <a class="nav-link" data-toggle="tab" href="#menu5"><p>Главная</p></a>
             </li>
         </ul>
-
         <!-- Tab panes -->
         <div class="tab-content">
             <div id="home_hom" class="container tab-pane active"><br>
@@ -136,7 +133,6 @@
                                 </div>
                             </div>
                         </form>
-
                         <section class="scroll" style="margin: 10px;">
                             <div class="reviews-admin" th:each="current : ${images}">
                                 <div class="row gallery-filter">
@@ -175,10 +171,7 @@
                     </div>
                 </div>
             </div>
-
-
             <div id="menu1" class="container tab-pane fade"><br>
-
                 <h3 style="color: #FFFFFF; margin: 10px;">Отзывы</h3>
                 <section class="scroll" style="margin: 10px;">
                     <div class="reviews-admin" th:fragment="reviews">
@@ -217,7 +210,6 @@
                 <div class="container px-4">
                     <div class="sketches-import" th:fragment="sketches-import">
                         <form id="img-sketches">
-
                             <label id=""><p>Загрузить фото</p></label>
                             <div class="row">
                                 <div class="col-md-8 themed-grid-col">
@@ -239,7 +231,6 @@
                                 </div>
                             </div>
                         </form>
-
                         <section class="scroll" style="margin: 10px;">
                             <div class="reviews-admin" th:each="current : ${sketches}">
                                 <div class="row gallery-filter">
@@ -276,12 +267,6 @@
                             <a class="nav-link btn btn-outline-secondary" style="margin: 10px;" id="v-pills-profile-tab"
                                data-toggle="pill" href="#v-pills-profile" role="tab"
                                aria-controls="v-pills-profile" aria-selected="false">Комментарии</a>
-                            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages"
-                               role="tab"
-                               aria-controls="v-pills-messages" aria-selected="false">Messages</a>
-                            <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings"
-                               role="tab"
-                               aria-controls="v-pills-settings" aria-selected="false">Settings</a>
                         </div>
                     </div>
                     <div class="col-md-8 themed-grid-col">
@@ -389,21 +374,10 @@
                                         </div>
                                     </section>
                                 </div>
-
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
-                                 aria-labelledby="v-pills-messages-tab">
-                                777
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
-                                 aria-labelledby="v-pills-settings-tab">
-                                888
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
             <div id="menu4" class="container tab-pane fade"><br>
                 <div class="row mb-3">
@@ -411,14 +385,10 @@
                     <section class="scroll" style="margin: 10px;">
                         <div class="row gallery-filter" th:each="current : ${user}">
                             <div class="col-6">
-
                                 <h3 style="color: #FFFFFF; margin: 10px;" th:text="${current.login}"></h3>
-
                             </div>
                             <div class="col-6">
-
                                 <h3 style="color: #FFFFFF; margin: 10px;" th:text="${current.email}"></h3>
-
                             </div>
                         </div>
                     </section>
@@ -440,22 +410,6 @@
                                     href="#v-pills-profile2" id="v-pills-profile-tab2"
                                     data-bs-toggle="pill" data-bs-target="#v-pills-profile2" type="button"
                                     role="tab" aria-controls="v-pills-profile" aria-selected="false">Профиль
-                            </button>
-                            <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
-                                    href="#v-pills-disabled3" id="v-pills-disabled-tab3"
-                                    data-bs-toggle="pill" data-bs-target="#v-pills-disabled3" type="button"
-                                    role="tab" aria-controls="v-pills-disabled" aria-selected="false" disabled>
-                                Отключен
-                            </button>
-                            <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
-                                    href="#v-pills-messages4" id="v-pills-messages-tab4"
-                                    data-bs-toggle="pill" data-bs-target="#v-pills-messages4" type="button"
-                                    role="tab" aria-controls="v-pills-messages" aria-selected="false">Сообщения
-                            </button>
-                            <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
-                                    href="#v-pills-settings5" id="v-pills-settings-tab5"
-                                    data-bs-toggle="pill" data-bs-target="#v-pills-settings5" type="button"
-                                    role="tab" aria-controls="v-pills-settings" aria-selected="false">Настройки
                             </button>
                         </div>
                     </div>
@@ -482,10 +436,8 @@
                                                             </button>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </form>
-
                                             <section class="scroll" style="margin: 10px;">
                                                 <div class="reviews-admin" th:each="current : ${carousel}">
                                                     <div class="row gallery-filter">
@@ -521,111 +473,63 @@
                                             <li>
                                                 <div class="row">
                                                     <i class="fa fa-phone"></i>
-                                                    <div class="col">
-
+                                                    <div class="col-6 col-md-4 themed-grid-col">
                                                         <span>Телефон:</span>
                                                         (906) 39917226
                                                     </div>
-                                                    <div class="col">
-
+                                                    <div class="col-6 col-md-4 themed-grid-col">
                                                         <span>Новый номер:</span>
                                                         <input class="form-control" type="text"
                                                                placeholder="Default input">
                                                     </div>
-                                                    <div class="col">
-                                                        <a>
+                                                    <div class="col-6 col-md-4 themed-grid-col">
                                                             <button type="submit" class="leave-btn">Сохранить</button>
-                                                        </a>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="row">
                                                     <i class="fa fa-envelope-o"></i>
-                                                    <div class="col">
+                                                    <div class="col-6 col-md-4 themed-grid-col">
                                                         <span>Email:</span>
                                                         reshetnikov.m@list.ru
                                                     </div>
-                                                    <div class="col">
-                                                        <span>Email:</span>
+                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                        <span>Новый email:</span>
                                                         <input type="email" class="form-control" id="exampleInputEmail1"
                                                                aria-describedby="emailHelp" placeholder="Enter email">
                                                     </div>
-                                                    <div class="col">
-                                                        <a>
-                                                            <button type="submit" class="leave-btn">Сохранить</button>
-                                                        </a>
+                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                          <button type="submit" class="leave-btn">Сохранить</button>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li>
+                                                <div class="row">
                                                 <i class="fa fa-map-marker"></i>
+                                                    <div class="col-6 col-md-4 themed-grid-col">
                                                 <span>Адрес</span>
                                                 Почтовая ул., 4, Омск, Омская обл., 644024
+                                                    </div>
+                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                        <span>Новый адрес:</span>
+                                                        <input type="text" class="form-control" id="exampleInputEmail1"
+                                                               aria-describedby="emailHelp" placeholder="Enter email">
+                                                    </div>
+                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                        <button type="submit" class="leave-btn">Сохранить</button>
+                                                    </div>
+                                                </div>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="v-pills-disabled3" role="tabpanel"
-                                 tabindex="0">
-                                <div class="row">
-                                    ...3
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-messages4" role="tabpanel"
-                                 aria-labelledby="v-pills-messages-tab" tabindex="0">
-                                <div class="row">
-                                    <h3 style="color: #FFFFFF; margin: 10px;">carousel</h3>
-                                    <div class="container px-4">
-                                        <div class="carousel-import" th:fragment="carousel">
-
-
-                                            <label id=""><p>Загрузить фото</p></label>
-                                            <div class="row">
-                                                <div class="col-md-8 themed-grid-col">
-                                                    <div class="row g-2">
-                                                        <div class="col" style="margin: 10px;">
-                                                            <input type="file" id="file-carousel2" name="file"
-                                                                   required>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="row g-2">
-                                                        <div class="col" style="margin: 10px;">
-                                                            <input style="width: 100%; height: 100px"
-                                                                   type="text" placeholder="Описание"
-                                                                   name="description" id="description-carousel"
-                                                                   required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-4 themed-grid-col"
-                                                     style="margin: 10px;">
-                                                    <button type="submit" class="leave-btn">Применить</button>
-                                                </div>
-                                            </div>
-
-
-                                            <section class="scroll" style="margin: 10px;">
-
-                                            </section>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-settings5" role="tabpanel"
-                                 aria-labelledby="v-pills-settings-tab" tabindex="0">...5
-                            </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 </section>
 
