@@ -1958,6 +1958,30 @@ input[type="checkbox"] {
 	font-weight: 500;
 }
 
+.footer-widget .admin-info li {
+	list-style: none;
+	font-size: 16px;
+	color: #afb4bf;
+	position: relative;
+	padding-left: 35px;
+	margin-bottom: 20px;
+}
+
+.footer-widget .admin-info li i {
+	position: absolute;
+	left: 0;
+	top: 0;
+	font-size: 24px;
+	color: #e4381C;
+}
+
+.footer-widget .admin-info li span {
+	color: #ffffff;
+	display: block;
+	font-family: "Oswald", sans-serif;
+	font-weight: 500;
+}
+
 .copyright-text {
 	background: #000000;
 	border-top: 1px solid #0a0a0a;

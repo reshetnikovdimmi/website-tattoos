@@ -427,200 +427,198 @@
             </div>
             <div id="menu5" class="container tab-pane fade"><br>
                 <div class="row">
-                        <div class="col-6 col-lg-4 themed-grid-col">
-                            <div class="nav flex-column nav-pills me-3" id="myTab" role="tablist"
-                                 aria-orientation="vertical">
-                                <button style="margin: 10px;" class="nav-link active btn btn-outline-secondary"
-                                        href="#v-pills-carousel"
-                                        id="v-pills-carousel-tab" data-bs-toggle="pill" data-bs-target="#v-pills-carousel"
-                                        type="button" role="tab" aria-controls="v-pills-carousel" aria-selected="true">
-                                    Карусель
-                                </button>
-                                <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
-                                        href="#v-pills-profile2" id="v-pills-profile-tab2"
-                                        data-bs-toggle="pill" data-bs-target="#v-pills-profile2" type="button"
-                                        role="tab" aria-controls="v-pills-profile" aria-selected="false">Профиль
-                                </button>
-                                <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
-                                        href="#v-pills-disabled3" id="v-pills-disabled-tab3"
-                                        data-bs-toggle="pill" data-bs-target="#v-pills-disabled3" type="button"
-                                        role="tab" aria-controls="v-pills-disabled" aria-selected="false" disabled>
-                                    Отключен
-                                </button>
-                                <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
-                                        href="#v-pills-messages4" id="v-pills-messages-tab4"
-                                        data-bs-toggle="pill" data-bs-target="#v-pills-messages4" type="button"
-                                        role="tab" aria-controls="v-pills-messages" aria-selected="false">Сообщения
-                                </button>
-                                <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
-                                        href="#v-pills-settings5" id="v-pills-settings-tab5"
-                                        data-bs-toggle="pill" data-bs-target="#v-pills-settings5" type="button"
-                                        role="tab" aria-controls="v-pills-settings" aria-selected="false">Настройки
-                                </button>
-                            </div>
+                    <div class="col-6 col-lg-4 themed-grid-col">
+                        <div class="nav flex-column nav-pills me-3" id="myTab" role="tablist"
+                             aria-orientation="vertical">
+                            <button style="margin: 10px;" class="nav-link active btn btn-outline-secondary"
+                                    href="#v-pills-carousel"
+                                    id="v-pills-carousel-tab" data-bs-toggle="pill" data-bs-target="#v-pills-carousel"
+                                    type="button" role="tab" aria-controls="v-pills-carousel" aria-selected="true">
+                                Карусель
+                            </button>
+                            <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
+                                    href="#v-pills-profile2" id="v-pills-profile-tab2"
+                                    data-bs-toggle="pill" data-bs-target="#v-pills-profile2" type="button"
+                                    role="tab" aria-controls="v-pills-profile" aria-selected="false">Профиль
+                            </button>
+                            <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
+                                    href="#v-pills-disabled3" id="v-pills-disabled-tab3"
+                                    data-bs-toggle="pill" data-bs-target="#v-pills-disabled3" type="button"
+                                    role="tab" aria-controls="v-pills-disabled" aria-selected="false" disabled>
+                                Отключен
+                            </button>
+                            <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
+                                    href="#v-pills-messages4" id="v-pills-messages-tab4"
+                                    data-bs-toggle="pill" data-bs-target="#v-pills-messages4" type="button"
+                                    role="tab" aria-controls="v-pills-messages" aria-selected="false">Сообщения
+                            </button>
+                            <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
+                                    href="#v-pills-settings5" id="v-pills-settings-tab5"
+                                    data-bs-toggle="pill" data-bs-target="#v-pills-settings5" type="button"
+                                    role="tab" aria-controls="v-pills-settings" aria-selected="false">Настройки
+                            </button>
                         </div>
-                        <div class="col-sm-6 col-lg-8 themed-grid-col">
-                            <div class="tab-content" id="v-pills-tabContent-carousel">
-                                <div class="tab-pane fade show active" id="v-pills-carousel" role="tabpanel"
-                                     aria-labelledby="v-pills-home-tab" tabindex="0">
-                                    <div class="row">
-                                        <div class="section-title">
-                                            <h2>Карусель</h2>
-                                        </div>
-                                        <div class="container px-4">
-                                            <div class="carousel-import" th:fragment="carousel-import">
-                                                <form id="img-carousel">
-                                                    <label>Загрузить фото</label>
-                                                    <div class="row">
-                                                        <div class="col-md-8 themed-grid-col">
-                                                            <div class="input-group">
-                                                                <input type="file" class="form-control" id="file-carousel" aria-describedby="inputGroupFileAddon04" aria-label="Загрузка">
-                                                                <button type="submit" class="btn btn-outline-secondary" id="inputGroupFileAddon04">Применить</button>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </form>
-
-                                                <section class="scroll" style="margin: 10px;">
-                                                    <div class="reviews-admin" th:each="current : ${carousel}">
-                                                        <div class="row gallery-filter">
-                                                            <div class="col-lg-3">
-                                                                <div class="admin-img">
-                                                                    <img alt=""
-                                                                         th:src="@{'/images/'+${current.imageName}}">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col" hidden="hidden">
-                                                                <div hidden="hidden" name="id"
-                                                                     th:text="${current.id}"></div>
-                                                            </div>
-                                                            <div class="col-lg-2">
-                                                                <button style="margin: 10px;"
-                                                                        class="btn btn-outline-secondary delete"
-                                                                        type="submit">Удалить
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </section>
-                                            </div>
-                                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-8 themed-grid-col">
+                        <div class="tab-content" id="v-pills-tabContent-carousel">
+                            <div class="tab-pane fade show active" id="v-pills-carousel" role="tabpanel"
+                                 aria-labelledby="v-pills-home-tab" tabindex="0">
+                                <div class="row">
+                                    <div class="section-title">
+                                        <h2>Карусель</h2>
                                     </div>
-                                </div>
-                                <div class="tab-pane fade" id="v-pills-profile2" role="tabpanel"
-                                     aria-labelledby="v-pills-profile-tab" tabindex="0">
-                                    <div class="row">
-                                        <h3 style="color: #FFFFFF; margin: 10px;">carousel</h3>
-                                        <div class="container px-4">
-                                            <div class="carousel-import" th:fragment="carousel">
-                                                <form id="img">
-
-                                                    <label id=""><p>Загрузить фото</p></label>
-                                                    <div class="row">
-                                                        <div class="col-md-8 themed-grid-col">
-                                                            <div class="row g-2">
-                                                                <div class="col" style="margin: 10px;">
-                                                                    <input type="file" id="file-carousel1" name="file"
-                                                                           required>
-                                                                </div>
-
-                                                            </div>
-                                                            <div class="row g-2">
-                                                                <div class="col" style="margin: 10px;">
-                                                                    <input style="width: 100%; height: 100px"
-                                                                           type="text" placeholder="Описание"
-                                                                           name="description" id="description"
-                                                                           required>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6 col-md-4 themed-grid-col"
-                                                             style="margin: 10px;">
-                                                            <button type="submit" class="leave-btn">Применить</button>
+                                    <div class="container px-4">
+                                        <div class="carousel-import" th:fragment="carousel-import">
+                                            <form id="img-carousel">
+                                                <label>Загрузить фото</label>
+                                                <div class="row">
+                                                    <div class="col-md-8 themed-grid-col">
+                                                        <div class="input-group">
+                                                            <input type="file" class="form-control" id="file-carousel"
+                                                                   aria-describedby="inputGroupFileAddon04"
+                                                                   aria-label="Загрузка">
+                                                            <button type="submit" class="btn btn-outline-secondary"
+                                                                    id="inputGroupFileAddon04">Применить
+                                                            </button>
                                                         </div>
                                                     </div>
-                                                </form>
 
-                                                <section class="scroll" style="margin: 10px;">
-                                                    <div class="reviews-admin" th:each="current : ${carousel}">
-                                                        <div class="row gallery-filter">
-                                                            <div class="col-lg-3">
-                                                                <div class="admin-img">
-                                                                    <img alt=""
-                                                                         th:src="@{'/images/'+${current.imageName}}">
-                                                                </div>
-                                                            </div>
+                                                </div>
+                                            </form>
 
-                                                            <div class="col" hidden="hidden">
-                                                                <div hidden="hidden" name="id"
-                                                                     th:text="${current.id}"></div>
-                                                            </div>
-                                                            <div class="col-lg-2">
-                                                                <button style="margin: 10px;"
-                                                                        class="btn btn-outline-secondary del"
-                                                                        type="submit">Удалить
-                                                                </button>
+                                            <section class="scroll" style="margin: 10px;">
+                                                <div class="reviews-admin" th:each="current : ${carousel}">
+                                                    <div class="row gallery-filter">
+                                                        <div class="col-lg-3">
+                                                            <div class="admin-img">
+                                                                <img alt=""
+                                                                     th:src="@{'/images/'+${current.imageName}}">
                                                             </div>
                                                         </div>
+                                                        <div class="col" hidden="hidden">
+                                                            <div hidden="hidden" name="id"
+                                                                 th:text="${current.id}"></div>
+                                                        </div>
+                                                        <div class="col-lg-2">
+                                                            <button style="margin: 10px;"
+                                                                    class="btn btn-outline-secondary delete"
+                                                                    type="submit">Удалить
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                </section>
-                                            </div>
+                                                </div>
+                                            </section>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="tab-pane fade" id="v-pills-disabled3" role="tabpanel"
-                                     tabindex="0">
-                                    <div class="row">
-                                        ...3
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="v-pills-messages4" role="tabpanel"
-                                     aria-labelledby="v-pills-messages-tab" tabindex="0">
-                                    <div class="row">
-                                        <h3 style="color: #FFFFFF; margin: 10px;">carousel</h3>
-                                        <div class="container px-4">
-                                            <div class="carousel-import" th:fragment="carousel">
-
-
-                                                    <label id=""><p>Загрузить фото</p></label>
-                                                    <div class="row">
-                                                        <div class="col-md-8 themed-grid-col">
-                                                            <div class="row g-2">
-                                                                <div class="col" style="margin: 10px;">
-                                                                    <input type="file" id="file-carousel2" name="file"
-                                                                           required>
-                                                                </div>
-
-                                                            </div>
-                                                            <div class="row g-2">
-                                                                <div class="col" style="margin: 10px;">
-                                                                    <input style="width: 100%; height: 100px"
-                                                                           type="text" placeholder="Описание"
-                                                                           name="description" id="description-carousel"
-                                                                           required>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6 col-md-4 themed-grid-col"
-                                                             style="margin: 10px;">
-                                                            <button type="submit" class="leave-btn">Применить</button>
-                                                        </div>
-                                                    </div>
-
-
-                                                <section class="scroll" style="margin: 10px;">
-
-                                                </section>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="v-pills-settings5" role="tabpanel"
-                                     aria-labelledby="v-pills-settings-tab" tabindex="0">...5
                                 </div>
                             </div>
+                            <div class="tab-pane fade" id="v-pills-profile2" role="tabpanel"
+                                 aria-labelledby="v-pills-profile-tab" tabindex="0">
+                                <div class="row">
+                                    <div class="footer-widget">
+                                        <h5>Контактная информация</h5>
+                                        <ul class="admin-info">
+                                            <li>
+                                                <div class="row">
+                                                    <i class="fa fa-phone"></i>
+                                                    <div class="col">
+
+                                                        <span>Телефон:</span>
+                                                        (906) 39917226
+                                                    </div>
+                                                    <div class="col">
+
+                                                        <span>Новый номер:</span>
+                                                        <input class="form-control" type="text"
+                                                               placeholder="Default input">
+                                                    </div>
+                                                    <div class="col">
+                                                        <a>
+                                                            <button type="submit" class="leave-btn">Сохранить</button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="row">
+                                                    <i class="fa fa-envelope-o"></i>
+                                                    <div class="col">
+                                                        <span>Email:</span>
+                                                        reshetnikov.m@list.ru
+                                                    </div>
+                                                    <div class="col">
+                                                        <span>Email:</span>
+                                                        <input type="email" class="form-control" id="exampleInputEmail1"
+                                                               aria-describedby="emailHelp" placeholder="Enter email">
+                                                    </div>
+                                                    <div class="col">
+                                                        <a>
+                                                            <button type="submit" class="leave-btn">Сохранить</button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-map-marker"></i>
+                                                <span>Адрес</span>
+                                                Почтовая ул., 4, Омск, Омская обл., 644024
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-disabled3" role="tabpanel"
+                                 tabindex="0">
+                                <div class="row">
+                                    ...3
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-messages4" role="tabpanel"
+                                 aria-labelledby="v-pills-messages-tab" tabindex="0">
+                                <div class="row">
+                                    <h3 style="color: #FFFFFF; margin: 10px;">carousel</h3>
+                                    <div class="container px-4">
+                                        <div class="carousel-import" th:fragment="carousel">
+
+
+                                            <label id=""><p>Загрузить фото</p></label>
+                                            <div class="row">
+                                                <div class="col-md-8 themed-grid-col">
+                                                    <div class="row g-2">
+                                                        <div class="col" style="margin: 10px;">
+                                                            <input type="file" id="file-carousel2" name="file"
+                                                                   required>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row g-2">
+                                                        <div class="col" style="margin: 10px;">
+                                                            <input style="width: 100%; height: 100px"
+                                                                   type="text" placeholder="Описание"
+                                                                   name="description" id="description-carousel"
+                                                                   required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-4 themed-grid-col"
+                                                     style="margin: 10px;">
+                                                    <button type="submit" class="leave-btn">Применить</button>
+                                                </div>
+                                            </div>
+
+
+                                            <section class="scroll" style="margin: 10px;">
+
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-settings5" role="tabpanel"
+                                 aria-labelledby="v-pills-settings-tab" tabindex="0">...5
+                            </div>
                         </div>
+                    </div>
 
                 </div>
 
