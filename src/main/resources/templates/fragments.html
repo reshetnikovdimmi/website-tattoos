@@ -99,11 +99,11 @@
             <div class="col-lg-3">
                 <div class="footer-widget">
                     <h5>ПОЛУЧИТЬ ИНФОРМАЦИЮ</h5>
-                    <ul class="footer-info">
+                    <ul class="footer-info" th:object="${contactInfo}">
                         <li>
                             <i class="fa fa-phone"></i>
                             <span>Телефон:</span>
-                            (906) 39917226
+                            [(*{tell})]
                         </li>
                         <li>
                             <i class="fa fa-envelope-o"></i>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.model.InterestingWorks;
 import ru.tattoo.maxsim.repository.CommitsRepository;
@@ -53,6 +54,7 @@ public class AdminController {
         model.addAttribute("interestingWorks", interestingWorksService.findAll());
         model.addAttribute("commits", commitsService.findAll());
         model.addAttribute("carousel", homeService.findAll());
+        model.addAttribute("contactInfo", new ContactInfo("456116","rdbmrntob","iiububuy"));
 
         return "admin";
     }
@@ -148,7 +150,12 @@ public class AdminController {
     }
 
 
+    @PostMapping(path = "/contact-info")
+    private ResponseEntity contactInfo(@RequestBody ContactInfo contactInfo) {
+        System.out.println(contactInfo);
 
+        return ResponseEntity.notFound().build();
+    }
 
 }
 

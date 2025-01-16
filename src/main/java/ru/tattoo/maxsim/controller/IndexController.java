@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.model.EmailDetails;
 import ru.tattoo.maxsim.service.interf.EmailService;
 import ru.tattoo.maxsim.service.interf.HomeService;
@@ -27,6 +28,7 @@ public class IndexController {
         model.addAttribute("reviewsLimit", reviewService.findLimit());
         model.addAttribute("details", new EmailDetails());
         model.addAttribute("carousel", homeService.findAll());
+        model.addAttribute("contactInfo", new ContactInfo("456116","rdbmrntob","iiububuy"));
         return "Index";
     }
 

@@ -76,10 +76,21 @@
 --------------------*/
 
 $('#myTab button').click(function(e){
-console.log(e)
     e.preventDefault();
     $(this).tab('show');
   });
+   /*------------------
+     Contact info
+    --------------------*/
+    $('.admin-info button').on('click', function() {
+    const body = {};
+            body.tell = $('#tell').val();
+            body.email = $('#email').val();
+body.address = $('#address').val();
+
+           sendRequest('POST', '/contact-info', body).then(data => modals(data)).catch(err => modals(err))
+        });
+
   /*------------------
           Home-Carousel
   --------------------*/
