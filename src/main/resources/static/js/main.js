@@ -88,7 +88,7 @@ $('#myTab button').click(function(e){
             body.email = $('#email').val();
 body.address = $('#address').val();
 
-           sendRequest('POST', '/contact-info', body).then(data => modals(data)).catch(err => modals(err))
+           sendRequest('POST', '/contact-info', body).then(data => $(".footer").html(data)).catch(err => modals(err))
         });
 
   /*------------------

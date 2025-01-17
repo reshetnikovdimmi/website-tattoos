@@ -28,7 +28,6 @@ public class IndexController {
         model.addAttribute("reviewsLimit", reviewService.findLimit());
         model.addAttribute("details", new EmailDetails());
         model.addAttribute("carousel", homeService.findAll());
-        model.addAttribute("contactInfo", new ContactInfo("456116","rdbmrntob","iiububuy"));
         return "Index";
     }
 

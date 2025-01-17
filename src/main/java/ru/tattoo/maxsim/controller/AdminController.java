@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.model.Images;
-import ru.tattoo.maxsim.model.InterestingWorks;
-import ru.tattoo.maxsim.repository.CommitsRepository;
+import ru.tattoo.maxsim.repository.ContactInfoRepository;
 import ru.tattoo.maxsim.service.interf.*;
 
 import java.io.IOException;
@@ -42,6 +41,9 @@ public class AdminController {
     @Autowired
     private HomeService homeService;
 
+    @Autowired
+    private ContactInfoRepository contactInfoRepository;
+
 
     @GetMapping("/admin")
     public String admin(Model model) {
@@ -54,7 +56,6 @@ public class AdminController {
         model.addAttribute("interestingWorks", interestingWorksService.findAll());
         model.addAttribute("commits", commitsService.findAll());
         model.addAttribute("carousel", homeService.findAll());
-        model.addAttribute("contactInfo", new ContactInfo("456116","rdbmrntob","iiububuy"));
 
         return "admin";
     }
@@ -151,10 +152,15 @@ public class AdminController {
 
 
     @PostMapping(path = "/contact-info")
-    private ResponseEntity contactInfo(@RequestBody ContactInfo contactInfo) {
-        System.out.println(contactInfo);
+    private String contactInfo(@RequestBody ContactInfo newContact, Model model) {
+        ContactInfo contactInfo = contactInfoRepository.findLimit();
+        if (!newContact.getTell().isEmpty()) contactInfo.setTell(newContact.getTell());
+        if (!newContact.getEmail().isEmpty()) contactInfo.setEmail(newContact.getEmail());
+        if (!newContact.getAddress().isEmpty()) contactInfo.setAddress(newContact.getAddress());
+        contactInfoRepository.save(contactInfo);
+        model.addAttribute("footer", contactInfoRepository.findLimit());
 
-        return ResponseEntity.notFound().build();
+        return "admin::footer";
     }
 
 }
