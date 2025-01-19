@@ -8,10 +8,13 @@
 ---------------------------------------------------------  */
 'use strict';
 (function($) {
+
     /*------------------
         Preloader
     --------------------*/
+
     $(window).on('load', function() {
+
         $(".loader").fadeOut();
         $("#preloder").delay(200).fadeOut("slow");
         /*------------------
@@ -82,14 +85,56 @@ $('#myTab button').click(function(e){
    /*------------------
      Contact info
     --------------------*/
-    $('.admin-info button').on('click', function() {
-    const body = {};
-            body.tell = $('#tell').val();
-            body.email = $('#email').val();
-body.address = $('#address').val();
 
-           sendRequest('POST', '/contact-info', body).then(data => $(".footer").html(data)).catch(err => modals(err))
+    window.addEventListener("DOMContentLoaded", function() {
+        var input = document.querySelector("#tell");
+        input.addEventListener("input", mask, false);
+        input.focus();
+        setCursorPosition(3, input);
+      });
+ const body = {tell:null,email:null,address:null};
+
+    $('#phone').on('click', function() {
+          var regex = /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
+          if (regex.test($('#tell').val())) {
+           body.tell = $('#tell').val();
+          }else{
+          modals("Введите номер телефона");
+          }
+          sendRequest('POST', '/contact-info', body).then(data =>{
+          $($("#tell-new").contents()[2]).replaceWith(data.tell);
+           $($("#tell-footer").contents()[4]).replaceWith(data.tell);
+          $('#tell').val('');
+          }).catch(err => modals(err))
         });
+
+        $('#email-btn').on('click', function() {
+
+                  const emailField = document.getElementById('email');
+                      if (emailField.checkValidity()) {
+                        body.email = $('#email').val();
+                      } else {
+                        modals('Please enter a valid email address.');
+                      }
+                       sendRequest('POST', '/contact-info', body).then(data =>{
+                                $($("#email-new").contents()[2]).replaceWith(data.email);
+                                $($("#email-footer").contents()[4]).replaceWith(data.email);
+                                $('#email').val('');
+                                }).catch(err => modals(err))
+
+                });
+
+
+                $('#address-btn').on('click', function() {
+                body.address = $('#address').val();
+                      sendRequest('POST', '/contact-info', body).then(data =>{
+                                                      $($("#address-new").contents()[2]).replaceWith(data.address);
+                                                      $($("#address-footer").contents()[4]).replaceWith(data.address);
+                                                      $('#address').val('');
+                                                      }).catch(err => modals(err))
+
+
+                                });
 
   /*------------------
           Home-Carousel
@@ -280,4 +325,30 @@ function modals(message) {
     });
     $('.btn-primary').attr('disabled', true);
 }
+function setCursorPosition(pos, e) {
+    e.focus();
+    if (e.setSelectionRange) e.setSelectionRange(pos, pos);
+    else if (e.createTextRange) {
+      var range = e.createTextRange();
+      range.collapse(true);
+      range.moveEnd("character", pos);
+      range.moveStart("character", pos);
+      range.select()
+    }
+  }
 
+  function mask(e) {
+    //console.log('mask',e);
+    var matrix = this.placeholder,// .defaultValue
+        i = 0,
+        def = matrix.replace(/\D/g, ""),
+        val = this.value.replace(/\D/g, "");
+    def.length >= val.length && (val = def);
+    matrix = matrix.replace(/[_\d]/g, function(a) {
+      return val.charAt(i++) || "_"
+    });
+    this.value = matrix;
+    i = matrix.lastIndexOf(val.substr(-1));
+    i < matrix.length && matrix != this.placeholder ? i++ : i = matrix.indexOf("_");
+    setCursorPosition(i, this)
+  }

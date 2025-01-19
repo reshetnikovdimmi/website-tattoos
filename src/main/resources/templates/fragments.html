@@ -100,20 +100,20 @@
                 <div class="footer-widget">
                     <h5>ПОЛУЧИТЬ ИНФОРМАЦИЮ</h5>
                     <ul class="footer-info" th:object="${contactInfo}">
-                        <li>
-                            <i class="fa fa-phone"></i>
+                        <li id="tell-footer">
+                            <i class="fa fa-phone" ></i>
                             <span>Телефон:</span>
                             [(*{tell})]
                         </li>
-                        <li>
-                            <i class="fa fa-envelope-o"></i>
+                        <li id="email-footer">
+                            <i class="fa fa-envelope-o" ></i>
                             <span>Email:</span>
-                            reshetnikov.m@list.ru
+                            [(*{email})]
                         </li>
-                        <li>
-                            <i class="fa fa-map-marker"></i>
+                        <li id="address-footer">>
+                            <i class="fa fa-map-marker" </i>
                             <span>Адрес</span>
-                            Почтовая ул., 4, Омск, Омская обл., 644024
+                            [(*{address})]
                         </li>
                     </ul>
                 </div>

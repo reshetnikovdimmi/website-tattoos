@@ -3,12 +3,12 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Тату омск">
+    <meta name="description" content="Тату омск, тату мастер, индивидуальная татуировка">
     <meta name="keywords"
           content="татуировка эскиз, татуировка эскиз омск, тату салон, сделать эскиз татуировки, эскиз тату">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>tattoos Maxim</title>
+    <title>tR1-TАТТОO</title>
     <link href="img/logo.png" rel="icon" type="image/vnd.microsoft.icon">
 
     <!-- Google Font -->
@@ -467,49 +467,49 @@
                             <div class="tab-pane fade" id="v-pills-profile2" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab" tabindex="0">
                                 <div class="row">
-                                    <div class="footer-widget">
+                                    <div class="footer-widget" th:object="${contactInfo}">
                                         <h5>Контактная информация</h5>
                                         <ul class="admin-info">
                                             <li>
                                                 <div class="row">
                                                     <i class="fa fa-phone"></i>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                    <div class="col-6 col-md-4 themed-grid-col" id="tell-new">
                                                         <span>Телефон:</span>
-                                                        (906) 39917226
+                                                        [(*{tell})]
                                                     </div>
                                                     <div class="col-6 col-md-4 themed-grid-col">
                                                         <span>Новый номер:</span>
-                                                        <input class="form-control" type="text" id="tell"
-                                                               placeholder="Enter телефон">
+                                                        <input type="tel" class="form-control" id="tell" autofocus="autofocus" required="required"
+                                                               placeholder="+7(___)___-__-__">
                                                     </div>
                                                     <div class="col-6 col-md-4 themed-grid-col">
-                                                            <button type="submit" class="leave-btn">Сохранить</button>
+                                                            <button id="phone" type="submit" class="leave-btn">Сохранить</button>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="row">
                                                     <i class="fa fa-envelope-o"></i>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                    <div class="col-6 col-md-4 themed-grid-col" id="email-new">
                                                         <span>Email:</span>
-                                                        reshetnikov.m@list.ru
+                                                        [(*{email})]
                                                     </div>
                                                     <div class="col-6 col-md-4 themed-grid-col">
                                                         <span>Новый email:</span>
                                                         <input type="email" class="form-control" id="email"
-                                                               aria-describedby="emailHelp" placeholder="Enter email">
+                                                               aria-describedby="emailHelp" prequired placeholder="name@example.com">
                                                     </div>
                                                     <div class="col-6 col-md-4 themed-grid-col">
-                                                          <button type="submit" class="leave-btn">Сохранить</button>
+                                                          <button id="email-btn" type="submit" class="leave-btn">Сохранить</button>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="row">
                                                 <i class="fa fa-map-marker"></i>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                    <div class="col-6 col-md-4 themed-grid-col" id="address-new">
                                                 <span>Адрес</span>
-                                                Почтовая ул., 4, Омск, Омская обл., 644024
+                                                        [(*{address})]
                                                     </div>
                                                     <div class="col-6 col-md-4 themed-grid-col">
                                                         <span>Новый адрес:</span>
@@ -517,7 +517,7 @@
                                                                aria-describedby="emailHelp" placeholder="Enter адрес">
                                                     </div>
                                                     <div class="col-6 col-md-4 themed-grid-col">
-                                                        <button type="submit" class="leave-btn">Сохранить</button>
+                                                        <button type="submit" id="address-btn" class="leave-btn">Сохранить</button>
                                                     </div>
                                                 </div>
                                             </li>

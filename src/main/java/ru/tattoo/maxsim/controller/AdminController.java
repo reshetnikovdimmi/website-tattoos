@@ -152,15 +152,14 @@ public class AdminController {
 
 
     @PostMapping(path = "/contact-info")
-    private String contactInfo(@RequestBody ContactInfo newContact, Model model) {
+    private ResponseEntity<ContactInfo> contactInfo(@RequestBody ContactInfo newContact, Model model) {
         ContactInfo contactInfo = contactInfoRepository.findLimit();
-        if (!newContact.getTell().isEmpty()) contactInfo.setTell(newContact.getTell());
-        if (!newContact.getEmail().isEmpty()) contactInfo.setEmail(newContact.getEmail());
-        if (!newContact.getAddress().isEmpty()) contactInfo.setAddress(newContact.getAddress());
+        if (newContact.getTell()!=null) contactInfo.setTell(newContact.getTell());
+        if (newContact.getEmail()!=null) contactInfo.setEmail(newContact.getEmail());
+        if (newContact.getAddress()!=null) contactInfo.setAddress(newContact.getAddress());
         contactInfoRepository.save(contactInfo);
-        model.addAttribute("footer", contactInfoRepository.findLimit());
 
-        return "admin::footer";
+        return ResponseEntity.ok(contactInfoRepository.findLimit());
     }
 
 }
