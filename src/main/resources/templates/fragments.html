@@ -20,6 +20,7 @@
             <a sec:authorize="!isAuthenticated()" href="/login"><i class="fa fa-user" aria-hidden="true"></i></a>
             <a sec:authorize="isAuthenticated()" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
             <a sec:authorize="hasAuthority('ADMIN')" href="/admin"><i class="fa fa-cogs" aria-hidden="true"></i></a>
+            <a sec:authorize="hasAuthority('USER')" href="/lk"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
         </div>
         <div class="container">
             <div class="nav-menu">
@@ -101,17 +102,17 @@
                     <h5>ПОЛУЧИТЬ ИНФОРМАЦИЮ</h5>
                     <ul class="footer-info" th:object="${contactInfo}">
                         <li id="tell-footer">
-                            <i class="fa fa-phone" ></i>
+                            <i class="fa fa-phone"></i>
                             <span>Телефон:</span>
                             [(*{tell})]
                         </li>
                         <li id="email-footer">
-                            <i class="fa fa-envelope-o" ></i>
+                            <i class="fa fa-envelope-o"></i>
                             <span>Email:</span>
                             [(*{email})]
                         </li>
-                        <li id="address-footer">>
-                            <i class="fa fa-map-marker" </i>
+                        <li id="address-footer">
+                            <i class="fa fa-map-marker"></i>
                             <span>Адрес</span>
                             [(*{address})]
                         </li>

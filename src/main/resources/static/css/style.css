@@ -136,6 +136,9 @@ ol {
       background: linear-gradient(to right, #00c6ff, #0072ff);
       border-radius: 0.3em;
     }
+
+
+
 /*---------------------
   Helper CSS
 -----------------------*/
@@ -386,7 +389,44 @@ input[type=file] {
 		border-left-color: transparent;
 	}
 }
+/*---------------------
+  LK
+-----------------------*/
+  .profile-info {
+            margin-bottom: 50px;
+        }
 
+        .profile-info p {
+            margin-bottom: 10px;
+        }
+
+        .profile-info img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .profile-info div {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .links a {
+            display: block;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: #333;
+            padding: 10px 20px;
+            background-color: #eaeaea;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .links a:hover {
+            background-color: #dcdcdc;
+        }
 /*---------------------
   Header
 -----------------------*/
