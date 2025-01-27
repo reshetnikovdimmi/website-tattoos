@@ -27,12 +27,17 @@
                 <nav class="mainmenu mobile-menu">
                     <ul>
                         <li><a href="/">Главная</a></li>
-                        <li th:classappend="${servletPath == '/gallery' ? 'active':''}"><a href="/gallery">Галерея</a></li>
-                        <li th:classappend="${servletPath == '/sketches' ? 'active':''}"><a href="/sketches" >Эскизы</a></li>
-                        <li th:classappend="${servletPath == '/about-me' ? 'active':''}"><a href="/about-me">О бо мне</a></li>
+                        <li th:classappend="${servletPath == '/gallery' ? 'active':''}"><a href="/gallery">Галерея</a>
+                        </li>
+                        <li th:classappend="${servletPath == '/sketches' ? 'active':''}"><a href="/sketches">Эскизы</a>
+                        </li>
+                        <li th:classappend="${servletPath == '/about-me' ? 'active':''}"><a href="/about-me">О бо
+                            мне</a></li>
                         <li th:classappend="${servletPath == '/blog' ? 'active':''}"><a href="/blog">Блог</a></li>
-                        <li th:classappend="${servletPath == '/reviews' ? 'active':''}"><a href="/reviews">Отзывы</a></li>
-                        <li th:classappend="${servletPath == '/contact' ? 'active':''}"><a href="/contact">Контакты</a></li>
+                        <li th:classappend="${servletPath == '/reviews' ? 'active':''}"><a href="/reviews">Отзывы</a>
+                        </li>
+                        <li th:classappend="${servletPath == '/contact' ? 'active':''}"><a href="/contact">Контакты</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -138,5 +143,78 @@
     </div>
 </footer>
 <!-- Footer Section End -->
+<!-- first-fragment Section -->
+<div class="container-lk-info" th:fragment="first-fragment">
+    <h6>Мой тату </h6>
+    <div class="scroll-container">
+
+        <div class="gallery" th:each="current : ${images}">
+            <div class="gallery-item">
+                <img alt="" th:src="@{'/images/'+${current.imageName}}">
+            </div>
+            <!-- Добавьте больше элементов, если нужно -->
+        </div>
+    </div>
+</div>
+<div class="profile-editing" th:fragment="profile-editing">
+    <h6>Редактирование профиля </h6>
+    <form action="#" method="post" id="profile-form">
+        <label for="username">Имя пользователя:</label>
+        <input type="text" id="username" name="username" placeholder="Введите ваше имя пользователя" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Введите ваш email" required><br><br>
+
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" placeholder="Введите новый пароль"><br><br>
+
+        <label for="confirm-password">Подтверждение пароля:</label>
+        <input type="password" id="confirm-password" name="confirm-password"
+               placeholder="Повторите новый пароль"><br><br>
+
+        <button class="btn leave-btn mt-3 btn-sm btn-block w-50
+            mx-auto" type="submit">Сохранить изменения</button>
+    </form>
+</div>
+<div th:fragment="second-fragment">
+    <div class="scroll-container">
+        <section class="review">
+            <div class="review-header">
+                <img src="images/user1.jpg" alt="Фото автора отзыва" class="avatar">
+                <div class="author-info">
+                    <h2>Иван Иванов</h2>
+                    <p>20 мая 2023 года</p>
+                </div>
+            </div>
+            <p class="review-text">Отличный сервис! Быстрое обслуживание и вежливое отношение персонала. Буду обращаться
+                еще!</p>
+        </section>
+
+        <section class="review">
+            <div class="review-header">
+                <img src="images/user2.jpg" alt="Фото автора отзыва" class="avatar">
+                <div class="author-info">
+                    <h2>Марина Петрова</h2>
+                    <p>10 июня 2023 года</p>
+                </div>
+            </div>
+            <p class="review-text">Прекрасная атмосфера и уютное место. Качество продуктов на высоте. Рекомендую
+                всем!</p>
+        </section>
+
+        <section class="review">
+            <div class="review-header">
+                <img src="images/user3.jpg" alt="Фото автора отзыва" class="avatar">
+                <div class="author-info">
+                    <h2>Алексей Сидоров</h2>
+                    <p>30 июля 2023 года</p>
+                </div>
+            </div>
+            <p class="review-text">Очень доволен работой команды. Все сделано качественно и в срок. Спасибо за
+                профессионализм!</p>
+        </section>
+    </div>
+</div>
+<!-- first-fragment Section End -->
 </body>
 </html>

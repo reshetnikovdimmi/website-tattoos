@@ -182,7 +182,10 @@ input[type=file] {
 	background-position: top center;
 
 }
-.set-bg img{
+
+
+
+.set-bg img :not(.container-lk){
 	width: 350px;
                 height: 350px;
                 position: absolute;
@@ -392,6 +395,128 @@ input[type=file] {
 /*---------------------
   LK
 -----------------------*/
+#profile-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+}
+
+
+
+.review {
+    max-width: 600px;
+    margin: 40px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 16px;
+}
+
+.author-info h2 {
+    margin-top: 0;
+    margin-bottom: 4px;
+}
+
+.review-text {
+    line-height: 1.5;
+}
+.scroll-container {
+           max-height: 630px; /* Фиксированная высота контейнера */
+            overflow-y: scroll; /* Включаем вертикальную прокрутку */
+        }
+.gallery {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item::before {
+            content: '';
+            display: block;
+            padding-top: 75%; /* соотношение сторон 4:3 */
+        }
+
+.set-bg-user-info {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: top center;
+
+}
+
+
+.container-lk h6 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+.container-lk-info h6 {
+            text-align: center;
+            margin-bottom: 30px;
+
+        }
+
+.container-lk {
+margin:30px;
+
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .container-lk-info {
+        margin:30px;
+ height:695px;
+                    background-color: #fff;
+                    padding: 10px;
+                    border-radius: 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+                }
   .profile-info {
             margin-bottom: 50px;
         }
@@ -405,7 +530,8 @@ input[type=file] {
             height: 150px;
             object-fit: cover;
             border-radius: 50%;
-            margin-right: 20px;
+
+            margin: 20px;
         }
 
         .profile-info div {
@@ -413,7 +539,7 @@ input[type=file] {
             vertical-align: top;
         }
 
-        .links a {
+        .links button {
             display: block;
             margin-bottom: 10px;
             text-decoration: none;

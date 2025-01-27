@@ -384,11 +384,11 @@
                     <h3 style="color: #FFFFFF; margin: 10px;">Пользователи</h3>
                     <section class="scroll" style="margin: 10px;">
                         <div class="row gallery-filter" th:each="current : ${user}">
-                            <div class="col-6">
-                                <h3 style="color: #FFFFFF; margin: 10px;" th:text="${current.login}"></h3>
+                            <div class="col-6 col-md-4 themed-grid-col">
+                                <h6 style="color: #FFFFFF; margin: 10px;" th:text="${current.login}"></h6>
                             </div>
-                            <div class="col-6">
-                                <h3 style="color: #FFFFFF; margin: 10px;" th:text="${current.email}"></h3>
+                            <div class="col-6 col-md-4 themed-grid-col">
+                                <h6 style="color: #FFFFFF; margin: 10px;" th:text="${current.email}"></h6>
                             </div>
                         </div>
                     </section>

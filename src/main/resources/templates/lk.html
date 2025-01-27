@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Тату омск">
@@ -29,31 +29,40 @@
 <!-- Header Section Begin -->
 <div th:replace="~{fragments::header}"></div>
 <!-- Header End -->
-<section class="breadcrumb-section set-bg spad" data-setbg="img/classes-title-bg.jpg" >
+<section class="breadcrumb-section set-bg spad" data-setbg="img/classes-title-bg.jpg">
+    <div class="container" >
+        <div class="row">
+            <div class="col">
+                <div class="container-lk"  >
+                    <h6>Добро пожаловать в личный кабинет!</h6>
 
-    <div class="container">
-        <h1>Добро пожаловать в личный кабинет!</h1>
+                    <!-- Информация о профиле -->
+                    <div class="profile-info">
+                        <img src="img/blog-single-2.jpg" alt="Profile Picture">
+                        <div>
+                            <p><strong>Имя:</strong> Иван Иванов</p>
+                            <p><strong>Email:</strong> ivan@example.com</p>
+                            <p><strong>Дата регистрации:</strong> 01.01.2023</p>
+                        </div>
+                    </div>
 
-        <!-- Информация о профиле -->
-        <div class="profile-info">
-            <img src="https://via.placeholder.com/150x150" alt="Profile Picture">
-            <div>
-                <p><strong>Имя:</strong> Иван Иванов</p>
-                <p><strong>Email:</strong> ivan@example.com</p>
-                <p><strong>Дата регистрации:</strong> 01.01.2023</p>
+                    <!-- Ссылки на другие страницы -->
+                    <div class="links">
+                        <button class="btn btn-outline-secondary btn-block" id="profile-editing">Редактировать профиль</button>
+                        <button class="btn btn-outline-secondary btn-block"  id="info">История заказов</button>
+                        <button class="btn btn-outline-secondary btn-block">Настройки уведомлений</button>
+                        <button class="btn btn-outline-secondary btn-block">Выход</button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-8 themed-grid-col">
+                <div class="container-lk-info" th:replace="~{fragments::first-fragment}">
+
+                </div>
             </div>
         </div>
-
-        <!-- Ссылки на другие страницы -->
-        <div class="links">
-            <a href="#">Редактировать профиль</a>
-            <a href="#">История заказов</a>
-            <a href="#">Настройки уведомлений</a>
-            <a href="#">Выход</a>
-        </div>
     </div>
-
-
 </section>
 
 <!-- Footer Section Begin -->
