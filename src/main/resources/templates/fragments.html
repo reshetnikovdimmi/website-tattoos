@@ -158,6 +158,7 @@
 </div>
 <div class="profile-editing" th:fragment="profile-editing">
     <h6>Редактирование профиля </h6>
+    <div class="row">
     <form action="#" method="post" id="profile-form">
         <label for="username">Имя пользователя:</label>
         <input type="text" id="username" name="username" placeholder="Введите ваше имя пользователя" required><br><br>
@@ -172,9 +173,18 @@
         <input type="password" id="confirm-password" name="confirm-password"
                placeholder="Повторите новый пароль"><br><br>
 
-        <button class="btn leave-btn mt-3 btn-sm btn-block w-50
-            mx-auto" type="submit">Сохранить изменения</button>
+        <button class="btn leave-btn btn-block" type="submit">Сохранить изменения</button>
     </form>
+    </div>
+    <div class="row">
+        <div class="input-group">
+            <div class="mb-3">
+                <label class="form-label">Ваш URL-адрес</label>
+            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Загрузка">
+            <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Кнопка</button>
+            </div>
+        </div>
+    </div>
 </div>
 <div th:fragment="second-fragment">
     <div class="scroll-container">
