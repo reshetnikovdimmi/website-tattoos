@@ -144,17 +144,29 @@
 </footer>
 <!-- Footer Section End -->
 <!-- first-fragment Section -->
-<div class="container-lk-info" th:fragment="first-fragment">
+<div th:fragment="first-fragment">
     <h6>Мой тату </h6>
-    <div class="scroll-container">
 
-        <div class="gallery" th:each="current : ${images}">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 scroll-container">
+
+        <div class="col gallery" th:each="current : ${images}">
             <div class="gallery-item">
                 <img alt="" th:src="@{'/images/'+${current.imageName}}">
             </div>
             <!-- Добавьте больше элементов, если нужно -->
         </div>
     </div>
+
+    <div class="row">
+        <div class="input-avatar">
+            <div class="mb-3">
+                <label class="form-label">Загрузить свое тату</label>
+                <input type="file" id="user-tattoos" name="file" required>
+                <button class="btn btn-outline-secondary" type="button" id="input-user-tattoos">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
 </div>
 <div class="profile-editing" th:fragment="profile-editing">
     <h6>Редактирование профиля </h6>
@@ -177,11 +189,11 @@
     </form>
     </div>
     <div class="row">
-        <div class="input-group">
+        <div class="input-avatar">
             <div class="mb-3">
-                <label class="form-label">Ваш URL-адрес</label>
-            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Загрузка">
-            <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Кнопка</button>
+                <label class="form-label">Загрузить аватар</label>
+                <input type="file" id="avatar" name="file" required>
+            <button class="btn btn-outline-secondary" type="button" id="input-avatar">Сохранить</button>
             </div>
         </div>
     </div>

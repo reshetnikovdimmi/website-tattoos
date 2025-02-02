@@ -30,15 +30,15 @@
 <div th:replace="~{fragments::header}"></div>
 <!-- Header End -->
 <section class="breadcrumb-section set-bg spad" data-setbg="img/classes-title-bg.jpg">
-    <div class="container" >
+    <div class="container">
         <div class="row">
             <div class="col">
-                <div class="container-lk"  >
+                <div class="container-lk">
                     <h6>Добро пожаловать в личный кабинет!</h6>
 
                     <!-- Информация о профиле -->
                     <div class="profile-info">
-                        <img  src="img/blog-single-2.jpg" alt="Profile Picture">
+                        <img src="img/blog-single-2.jpg" alt="Profile Picture">
                         <div>
                             <p><strong>Имя:</strong> Иван Иванов</p>
                             <p><strong>Email:</strong> ivan@example.com</p>
@@ -48,17 +48,19 @@
 
                     <!-- Ссылки на другие страницы -->
                     <div class="links">
-                        <button class="btn btn-outline-secondary btn-block" id="profile-editing">Редактировать профиль</button>
-                        <button class="btn btn-outline-secondary btn-block"  id="info">История заказов</button>
-                        <button class="btn btn-outline-secondary btn-block">Настройки уведомлений</button>
-                        <button class="btn btn-outline-secondary btn-block">Выход</button>
+                        <button class="btn btn-outline-secondary btn-block" id="profile-editing">Редактировать профиль
+                        </button>
+                        <button class="btn btn-outline-secondary btn-block" id="info">Мои отзывы</button>
+                        <button class="btn btn-outline-secondary btn-block" id="user-tattoos">Мои тату</button>
+                        <button class="btn btn-outline-secondary btn-block"><a href="/logout">Выход</a></button>
                     </div>
 
                 </div>
             </div>
             <div class="col-sm-6 col-lg-8 themed-grid-col">
-                <div class="container-lk-info" th:replace="~{fragments::first-fragment}">
-
+                <div class="container-lk-info">
+                    <div th:replace="~{fragments::first-fragment}">
+                    </div>
                 </div>
             </div>
         </div>

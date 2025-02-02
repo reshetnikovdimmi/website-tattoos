@@ -8,13 +8,10 @@
 ---------------------------------------------------------  */
 'use strict';
 (function($) {
-
     /*------------------
         Preloader
     --------------------*/
-
     $(window).on('load', function() {
-
         $(".loader").fadeOut();
         $("#preloder").delay(200).fadeOut("slow");
         /*------------------
@@ -33,32 +30,28 @@
             columnWidth: '.grid-sizer',
         });
     });
-
-
-/*------------------
-     User info
+    /*------------------
+         User info
     --------------------*/
-
-       $('#info').click(function(e){
-
+    $('#info').click(function(e) {
         $.get('/user-info', {}, function(data) {
-                            $(".container-lk-info").html(data);
-
-                        });
-         });
-$('#profile-editing').click(function(e){
-
+            $(".container-lk-info").html(data);
+        });
+    });
+    $('#profile-editing').click(function(e) {
         $.get('/profile-editing', {}, function(data) {
-                            $(".container-lk-info").html(data);
-
-                        });
-
-});
+            $(".container-lk-info").html(data);
+        });
+    });
+    $('#user-tattoos').click(function(e) {
+            $.get('/user-tattoos', {}, function(data) {
+                $(".container-lk-info").html(data);
+            });
+        });
     /*------------------
        Interesting works
     --------------------*/
     $('#img-interesting-works').on("submit", function(e) {
-
         e.preventDefault();
         const fileInput = document.getElementById('file-interesting-works');
         const file = fileInput.files[0];
@@ -84,121 +77,115 @@ $('#profile-editing').click(function(e){
         }
     });
     del()
+
     function del() {
-      $(document).find('.interesting-works-del').on('click', function() {
-              var id = $(this).parents('.row:first').find('.col:eq(0)').text(),
-                  data;
-              $.get('/interesting-works-delete/' + id, {}, function(data) {
-                  $(".interesting-works-import").html(data);
-                  $('.show-result-select').niceSelect();
-                  del()
-              });
-          });
+        $(document).find('.interesting-works-del').on('click', function() {
+            var id = $(this).parents('.row:first').find('.col:eq(0)').text(),
+                data;
+            $.get('/interesting-works-delete/' + id, {}, function(data) {
+                $(".interesting-works-import").html(data);
+                $('.show-result-select').niceSelect();
+                del()
+            });
+        });
     }
-/*------------------
-        Home
---------------------*/
-
-$('#myTab button').click(function(e){
-    e.preventDefault();
-    $(this).tab('show');
-  });
-   /*------------------
-     Contact info
+    /*------------------
+            Home
     --------------------*/
-
+    $('#myTab button').click(function(e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+    /*------------------
+      Contact info
+     --------------------*/
     window.addEventListener("DOMContentLoaded", function() {
         var input = document.querySelector("#tell");
         input.addEventListener("input", mask, false);
         input.focus();
         setCursorPosition(3, input);
-      });
- const body = {tell:null,email:null,address:null};
-
+    });
+    const body = {
+        tell: null,
+        email: null,
+        address: null
+    };
     $('#phone').on('click', function() {
-          var regex = /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
-          if (regex.test($('#tell').val())) {
-           body.tell = $('#tell').val();
-          }else{
-          modals("Введите номер телефона");
-          }
-          sendRequest('POST', '/contact-info', body).then(data =>{
-          $($("#tell-new").contents()[2]).replaceWith(data.tell);
-           $($("#tell-footer").contents()[4]).replaceWith(data.tell);
-          $('#tell').val('');
-          }).catch(err => modals(err))
+        var regex = /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
+        if (regex.test($('#tell').val())) {
+            body.tell = $('#tell').val();
+        } else {
+            modals("Введите номер телефона");
+        }
+        sendRequest('POST', '/contact-info', body).then(data => {
+            $($("#tell-new").contents()[2]).replaceWith(data.tell);
+            $($("#tell-footer").contents()[4]).replaceWith(data.tell);
+            $('#tell').val('');
+        }).catch(err => modals(err))
+    });
+    $('#email-btn').on('click', function() {
+        const emailField = document.getElementById('email');
+        if (emailField.checkValidity()) {
+            body.email = $('#email').val();
+        } else {
+            modals('Please enter a valid email address.');
+        }
+        sendRequest('POST', '/contact-info', body).then(data => {
+            $($("#email-new").contents()[2]).replaceWith(data.email);
+            $($("#email-footer").contents()[4]).replaceWith(data.email);
+            $('#email').val('');
+        }).catch(err => modals(err))
+    });
+    $('#address-btn').on('click', function() {
+        body.address = $('#address').val();
+        sendRequest('POST', '/contact-info', body).then(data => {
+            $($("#address-new").contents()[2]).replaceWith(data.address);
+            $($("#address-footer").contents()[4]).replaceWith(data.address);
+            $('#address').val('');
+        }).catch(err => modals(err))
+    });
+    /*------------------
+            Home-Carousel
+    --------------------*/
+    $('#img-carousel').on("submit", function(e) {
+        e.preventDefault();
+        const fileInput = document.getElementById('file-carousel');
+        const file = fileInput.files[0];
+        if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
+            modals('Размер файла превышен, выберите файл меньше 1МБ.');
+        } else {
+            const xhr = new XMLHttpRequest();
+            const formData = new FormData();
+            formData.append('file', file);
+            xhr.open('POST', '/carousel-import');
+            console.log(file.name)
+            xhr.send(formData);
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    $(".carousel-import").html(xhr.response);
+                    $('.show-result-select').niceSelect();
+                    document.getElementById('img-carousel').reset();
+                    deleteImg()
+                } else {
+                    modals("Server response: ", xhr.response);
+                }
+            };
+        }
+    });
+    deleteImg()
+
+    function deleteImg() {
+        $(document).find('.carousel-import button').on('click', function() {
+            var id = $(this).parents('.row:first').find('.col:eq(0)').text(),
+                data;
+            console.log(id)
+            $.get('/carousel-delete/' + id, {}, function(data) {
+                $(".carousel-import").html(data);
+                $('.show-result-select').niceSelect();
+                deleteImg()
+            });
         });
-
-        $('#email-btn').on('click', function() {
-
-                  const emailField = document.getElementById('email');
-                      if (emailField.checkValidity()) {
-                        body.email = $('#email').val();
-                      } else {
-                        modals('Please enter a valid email address.');
-                      }
-                       sendRequest('POST', '/contact-info', body).then(data =>{
-                                $($("#email-new").contents()[2]).replaceWith(data.email);
-                                $($("#email-footer").contents()[4]).replaceWith(data.email);
-                                $('#email').val('');
-                                }).catch(err => modals(err))
-
-                });
-
-
-                $('#address-btn').on('click', function() {
-                body.address = $('#address').val();
-                      sendRequest('POST', '/contact-info', body).then(data =>{
-                                                      $($("#address-new").contents()[2]).replaceWith(data.address);
-                                                      $($("#address-footer").contents()[4]).replaceWith(data.address);
-                                                      $('#address').val('');
-                                                      }).catch(err => modals(err))
-
-
-                                });
-
-  /*------------------
-          Home-Carousel
-  --------------------*/
-   $('#img-carousel').on("submit", function(e) {
-              e.preventDefault();
-
-           const fileInput = document.getElementById('file-carousel');
-           const file = fileInput.files[0];
-           if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
-               modals('Размер файла превышен, выберите файл меньше 1МБ.');
-           } else {
-               const xhr = new XMLHttpRequest();
-               const formData = new FormData();
-               formData.append('file', file);
-               xhr.open('POST', '/carousel-import');
-               console.log(file.name)
-               xhr.send(formData);
-               xhr.onload = () => {
-                   if (xhr.status == 200) {
-                       $(".carousel-import").html(xhr.response);
-                       $('.show-result-select').niceSelect();
-                       document.getElementById('img-carousel').reset();
-                       deleteImg()
-                   } else {
-                       modals("Server response: ", xhr.response);
-                   }
-               };
-           }
-       });
-       deleteImg()
-       function deleteImg() {
-                $(document).find('.carousel-import button').on('click', function() {
-                        var id = $(this).parents('.row:first').find('.col:eq(0)').text(),
-                            data;
-                            console.log(id)
-                            $.get('/carousel-delete/' + id, {}, function(data) {
-                            $(".carousel-import").html(data);
-                            $('.show-result-select').niceSelect();
-                            deleteImg()
-                        });
-                    });
-              }
+    }
     /*------------------
         Comments
     --------------------*/
@@ -346,30 +333,31 @@ function modals(message) {
     });
     $('.btn-primary').attr('disabled', true);
 }
+
 function setCursorPosition(pos, e) {
     e.focus();
     if (e.setSelectionRange) e.setSelectionRange(pos, pos);
     else if (e.createTextRange) {
-      var range = e.createTextRange();
-      range.collapse(true);
-      range.moveEnd("character", pos);
-      range.moveStart("character", pos);
-      range.select()
+        var range = e.createTextRange();
+        range.collapse(true);
+        range.moveEnd("character", pos);
+        range.moveStart("character", pos);
+        range.select()
     }
-  }
+}
 
-  function mask(e) {
+function mask(e) {
     //console.log('mask',e);
-    var matrix = this.placeholder,// .defaultValue
+    var matrix = this.placeholder, // .defaultValue
         i = 0,
         def = matrix.replace(/\D/g, ""),
         val = this.value.replace(/\D/g, "");
     def.length >= val.length && (val = def);
     matrix = matrix.replace(/[_\d]/g, function(a) {
-      return val.charAt(i++) || "_"
+        return val.charAt(i++) || "_"
     });
     this.value = matrix;
     i = matrix.lastIndexOf(val.substr(-1));
     i < matrix.length && matrix != this.placeholder ? i++ : i = matrix.indexOf("_");
     setCursorPosition(i, this)
-  }
+}

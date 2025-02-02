@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.service.interf.ImagesService;
 
+import java.security.Principal;
+
 @Controller
 public class LkController {
 
@@ -14,7 +16,8 @@ public class LkController {
     private ImagesService imagesService;
 
     @GetMapping("/lk")
-    public String login(Model model) {
+    public String login(Model model, Principal principal) {
+        System.out.println(principal.getName());
         model.addAttribute("images", imagesService.findAll());
         return "lk";
     }
@@ -27,4 +30,9 @@ public class LkController {
         return "fragments :: profile-editing";
     }
 
+    @GetMapping("/user-tattoos")
+    public String userTattoos(Model model) {
+        model.addAttribute("images", imagesService.findAll());
+        return "fragments :: first-fragment";
+    }
 }
