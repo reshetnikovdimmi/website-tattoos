@@ -30,7 +30,7 @@
 <div th:replace="~{fragments::header}"></div>
 <!-- Header End -->
 <section class="breadcrumb-section set-bg spad" data-setbg="img/classes-title-bg.jpg">
-    <div class="container">
+    <div class="container" th:object="${UserDTO}">
         <div class="row">
             <div class="col">
                 <div class="container-lk">
@@ -40,9 +40,9 @@
                     <div class="profile-info">
                         <img src="img/blog-single-2.jpg" alt="Profile Picture">
                         <div>
-                            <p><strong>Имя:</strong> Иван Иванов</p>
-                            <p><strong>Email:</strong> ivan@example.com</p>
-                            <p><strong>Дата регистрации:</strong> 01.01.2023</p>
+                            <p><strong>Имя:</strong> [(*{login})]</p>
+                            <p><strong>Email:</strong> [(*{email})]</p>
+                            <p><strong>Дата регистрации:</strong> [(*{date})]</p>
                         </div>
                     </div>
 

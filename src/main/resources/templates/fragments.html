@@ -171,12 +171,12 @@
 <div class="profile-editing" th:fragment="profile-editing">
     <h6>Редактирование профиля </h6>
     <div class="row">
-    <form action="#" method="post" id="profile-form">
+    <form action="#" method="post" id="profile-form"  th:object="${UserDTO}">
         <label for="username">Имя пользователя:</label>
-        <input type="text" id="username" name="username" placeholder="Введите ваше имя пользователя" required><br><br>
+        <input type="text" th:field="*{login}" id="username" name="username" placeholder="Введите ваше имя пользователя" required><br><br>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="Введите ваш email" required><br><br>
+        <label for="email"  >Email:</label>
+        <input type="email" th:field="*{email}" id="email" name="email" placeholder="Введите ваш email" required><br><br>
 
         <label for="password">Пароль:</label>
         <input type="password" id="password" name="password" placeholder="Введите новый пароль"><br><br>
