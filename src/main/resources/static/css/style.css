@@ -178,7 +178,7 @@ input[type=file] {
   background-position: top center;
 }
 
-.set-bg img :not(.container-lk) {
+.recent-news img{
   width: 350px;
   height: 350px;
   position: absolute;
@@ -450,6 +450,14 @@ input[type="password"] {
   border-radius: 4px;
 }
 
+.user-img {
+  max-width: 100%;
+  margin: 10px;
+  padding: 5px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
 .review {
   max-width: 100%;
   margin: 10px;
@@ -485,7 +493,7 @@ input[type="password"] {
 .scroll-container {
   max-height: 450px;
   overflow-y: scroll;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .gallery {
@@ -503,6 +511,19 @@ input[type="password"] {
 .gallery-item img {
   width: 350px;
     height: 350px;
+    top: 50%;
+    left: 50%;
+    max-width: 100%;
+    /* чтобы картинка не выходила за пределы контейнера */
+    max-height: 100%;
+    /* чтобы картинка не выходила за пределы контейнера */
+    object-fit: cover;
+    /* чтобы сохранить пропорции изображения при растяжении */
+}
+
+.gallery-user img {
+  width: 200px;
+    height: 200px;
     top: 50%;
     left: 50%;
     max-width: 100%;

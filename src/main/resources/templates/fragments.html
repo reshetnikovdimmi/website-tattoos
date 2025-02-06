@@ -147,18 +147,21 @@
 <div th:fragment="first-fragment">
     <h6>Мой тату </h6>
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 scroll-container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3 scroll-container ">
 
-        <div class="col gallery" th:each="current : ${images}">
-            <div class="gallery-item">
+        <div class="col gallery  user-img"  th:each="current : ${images}">
+
+            <div class="gallery-user">
                 <img alt="" th:src="@{'/images/'+${current.imageName}}">
             </div>
             <!-- Добавьте больше элементов, если нужно -->
+
         </div>
+
     </div>
 
     <div class="row">
-        <div class="input-avatar">
+        <div class="review">
             <div class="mb-3">
                 <label class="form-label">Загрузить свое тату</label>
                 <input type="file" id="user-tattoos" name="file" required>
@@ -189,7 +192,7 @@
     </form>
     </div>
     <div class="row">
-        <div class="input-avatar">
+        <div class="review">
             <div class="mb-3">
                 <label class="form-label">Загрузить аватар</label>
                 <input type="file" id="avatar" name="file" required>
@@ -199,7 +202,9 @@
     </div>
 </div>
 <div th:fragment="second-fragment">
-    <div class="scroll-container">
+    <h6>Мой тату </h6>
+    <div class="row scroll-container">
+
         <section class="review">
             <div class="review-header">
                 <img src="images/user1.jpg" alt="Фото автора отзыва" class="avatar">
@@ -235,6 +240,26 @@
             <p class="review-text">Очень доволен работой команды. Все сделано качественно и в срок. Спасибо за
                 профессионализм!</p>
         </section>
+    </div>
+    <div class="row">
+
+            <div class="review">
+                <form id="reviews">
+                    <div class="row">
+                        <div class="col-lg-4" style="margin-bottom: 20px;">
+                            <input type="file" id="file-reviews" name="file" required>
+                        </div>
+                        <input type="hidden" id="name" name="name" th:value="${#authentication.name}">
+                        <div class="col-lg-12">
+                            <textarea placeholder="Текст" id="Comment" name="Comment" required></textarea>
+                            <a sec:authorize="isAuthenticated()">
+                                <button type="submit" class="leave-btn">Сохранить комментарий</button>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
     </div>
 </div>
 <!-- first-fragment Section End -->
