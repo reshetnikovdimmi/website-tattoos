@@ -1220,12 +1220,12 @@ input[type="checkbox"] {
 }
 
 .reviews-admin img {
-  width: 300px;
-  height: 300px;
-  position: absolute;
+  width: 350px;
+  height: 350px;
+
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+
   max-width: 100%;
   /* чтобы картинка не выходила за пределы контейнера */
   max-height: 100%;
@@ -1236,7 +1236,6 @@ input[type="checkbox"] {
 
 .reviews-admin .trainer-text {
   position: absolute;
-  left: 0;
   bottom: 0;
   background: -o-linear-gradient(45deg, #e16521, #e4381C);
   background: linear-gradient(45deg, #e16521, #e4381C);

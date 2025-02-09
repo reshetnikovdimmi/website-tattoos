@@ -2,6 +2,9 @@ package ru.tattoo.maxsim.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +15,7 @@ import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ContactInfoRepository;
 import ru.tattoo.maxsim.service.interf.*;
+import ru.tattoo.maxsim.util.PageSize;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -20,6 +24,9 @@ import java.text.ParseException;
 @Controller
 
 public class AdminController {
+
+    private static final String ALL_GALLERY = "Вся галерея";
+    private static final int PAGE_NUMBER = 0;
 
     @Autowired
     private ImagesService imagesService;
@@ -57,6 +64,16 @@ public class AdminController {
         model.addAttribute("interestingWorks", interestingWorksService.findAll());
         model.addAttribute("commits", commitsService.findAll());
         model.addAttribute("carousel", homeService.findAll());
+
+        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
+        Page<Images> images = imagesService.partition(p);
+
+        model.addAttribute("number", PageSize.IMG_9.getPageSize());
+        model.addAttribute("page", images.getTotalPages());
+        model.addAttribute("currentPage", PAGE_NUMBER);
+        model.addAttribute("imagesTotal", images.getTotalElements());
+        model.addAttribute("imagesGallery", imagesService.pageList(images));
+        model.addAttribute("options", PageSize.getLisPageSize());
 
         return "admin";
     }

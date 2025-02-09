@@ -168,6 +168,62 @@
                                 </div>
                             </div>
                         </section>
+                        <!-- GalleryController Section Begin -->
+                        <section class="gallery-section spad">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="gallery-controls">
+                                            <ul>
+                                                <li class="active">Вся галерея</li>
+                                                <li>Классический</li>
+                                                <li>Винтажный</li>
+                                                <li>Граффити</li>
+                                                <li>Готический</li>
+                                                <li>Кельтский</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="galleryFilter" th:fragment="galleryFilter">
+                                    <div class="row gallery-filter" th:each="current, item : ${imagesGallery}">
+                                        <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="currents: ${current}">
+                                            <div class="reviews-admin">
+                                                <img alt="" th:src="@{'/images/'+${currents.imageName}}">
+                                                <div class="trainer-text">
+                                                    <label>
+                                                        <input class="checkbox" type="checkbox"
+                                                               th:checked="${currents.flag}"/> Лучшее тату
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="blog-option">
+                                        <div class="blog-pagination">
+                                            <a th:if="${currentPage!=0}" id="fa-long-arrow-left" type="submit"><i class="fa fa-long-arrow-left"></i></a>
+                                            <a class="active">[[${currentPage+1}]]</a>
+                                            of
+                                            <a>[[${page}]]</a>
+                                            <a  th:if="${currentPage+1 != page}" id="fa-long-arrow-right" type="submit"><i class="fa fa-long-arrow-right"></i></a>
+                                        </div>
+                                        <div class="blog-option-right">
+                                            <div class="blog-result">Showing [[${currentPage+1}]]–[[${page}]] of [[${imagesTotal}]]  results</div>
+                                            <div class="show-result">
+                                                <p>Show:</p>
+                                                <select class="show-result-select" id="number">
+                                                    <option th:each="option : ${options}" th:value="${option}" th:text="${option}" th:selected="${option == number}"  ></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>
@@ -411,6 +467,21 @@
                                     data-bs-toggle="pill" data-bs-target="#v-pills-profile2" type="button"
                                     role="tab" aria-controls="v-pills-profile" aria-selected="false">Профиль
                             </button>
+                            <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
+                                    href="#v-pills-feature-section" id="v-pills-feature-section-tab"
+                                    data-bs-toggle="pill" data-bs-target="#v-pills-feature-section" type="button"
+                                    role="tab" aria-controls="v-pills-feature-section" aria-selected="false">feature-section
+                            </button>
+                            <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
+                                    href="#v-pills-home-about" id="v-pills-home-about-tab"
+                                    data-bs-toggle="pill" data-bs-target="#v-pills-home-about" type="button"
+                                    role="tab" aria-controls="v-pills-home-about" aria-selected="false">home-about
+                            </button>
+                            <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
+                                    href="#v-pills-classes-section" id="v-pills-classes-section-tab"
+                                    data-bs-toggle="pill" data-bs-target="#v-pills-classes-section" type="button"
+                                    role="tab" aria-controls="v-pills-classes-section" aria-selected="false">classes-section
+                            </button>
                         </div>
                     </div>
                     <div class="col-sm-6 col-lg-8 themed-grid-col">
@@ -559,6 +630,128 @@
                                                 </div>
                                             </li>
                                         </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-home-about" role="tabpanel"
+                                 aria-labelledby="v-pills-profile-tab" tabindex="0">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="about-text">
+                                            <h3 style="color: #FFFFFF;">«ТАТУИРОВКА — ЭТО НАВСЕГДА»</h3>
+                                            <p class="short-details">Сделайте татуировку, которую вы сможете носить всю жизнь</p>
+                                            <p class="long-details">Ты набиваешь себе татуировку,
+                                                зная, что это тело принадлежит тебе, и ты можешь наслаждаться им,
+                                                пока ты здесь. Вы получаете от этого удовольствие,
+                                                и никто другой не может (предположительно) контролировать то, что вы с ним делаете.
+                                                Татуировки это выражение свободы — одно из немногих проявлений свободы. </p>
+                                            <a href="/gallery" class="primary-btn about-btn">Узнать больше</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="about-img">
+                                            <img src="img/home-about.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-feature-section" role="tabpanel"
+                                 aria-labelledby="v-pills-profile-tab" tabindex="0">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="feature-item set-bg" data-setbg="img/feature/feature-1.jpg">
+                                            <h3>ИНДИВИДУАЛЬНЫЙ ЭСКИЗ</h3>
+                                            <p>Разработка эскиза с учетом пожеланий клиента</p>
+                                            <a href="/sketches" class="primary-btn f-btn">Подробнее</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="feature-item set-bg" data-setbg="img/feature/feature-2.jpg">
+                                            <h3>КОНСУЛЬТАЦИЯ</h3>
+                                            <p>Помогаю определится с идеей эскиза, ориентирую по стоимости и количеству сеансов.</p>
+                                            <a href="/gallery" class="primary-btn f-btn">Подробнее</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="feature-item set-bg" data-setbg="img/feature/feature-3.jpg">
+                                            <h3>ТАТУ В ДЕНЬ ОБРАЩЕНИЯ</h3>
+                                            <p>Свободные скетчи по выгодной стоимости</p>
+                                            <a href="/gallery" class="primary-btn f-btn">Подробнее</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-classes-section" role="tabpanel"
+                                 aria-labelledby="v-pills-profile-tab" tabindex="0">
+                                <div class="row">
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="classes-item set-bg" data-setbg="img/classes/class-1.jpg">
+                                            <h4>1. Предплечье:</h4>
+                                            <p>это одно из самых популярных мест для татуировок, особенно среди мужчин.
+                                                Татуировка на предплечье легко видна и может быть выполнена в различных размерах и дизайнах.</p>
+                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="classes-item set-bg" data-setbg="img/classes/class-2.jpg">
+                                            <h4>2. Запястье:</h4>
+                                            <p>татуировка на запястье также является популярным выбором,
+                                                особенно среди женщин. Она может быть выполнена в виде браслета или небольшой надписи.
+                                            </p>
+                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="classes-item set-bg" data-setbg="img/classes/class-3.jpg">
+                                            <h4>3. Спина:</h4>
+                                            <p>татуировка на спине позволяет использовать большое пространство для создания больших и детальных
+                                                изображений.
+                                                Это также отличное место для скрытия татуировки.</p>
+                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="classes-item set-bg" data-setbg="img/classes/class-4.jpg">
+                                            <h4>4. Грудь:</h4>
+                                            <p>татуировка на груди может быть выполнена в виде большой картины или нескольких маленьких
+                                                изображений.
+                                                Это место также подходит для скрытия татуировки под одеждой.</p>
+                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="classes-item set-bg" data-setbg="img/classes/class-5.jpg">
+                                            <h4>5. Ноги:</h4>
+                                            <p>татуировки на ногах, включая бедра, икры и стопы, становятся все более популярными.
+                                                Они могут быть выполнены в виде узоров, животных или других изображений.</p>
+                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="classes-item set-bg" data-setbg="img/classes/class-6.jpg">
+                                            <h4>6. Руки:</h4>
+                                            <p>татуировки на руках, включая плечи, бицепсы и предплечья, являются классическим выбором.
+                                                Они могут быть выполнены в виде надписей, символов или сложных изображений.
+                                            </p>
+                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="classes-item set-bg" data-setbg="img/classes/class-7.jpg">
+                                            <h4>7. Шея:</h4>
+                                            <p>татуировки на шее могут быть выполнены в виде небольших надписей или узоров.
+                                                Tатуировки на шее могут быть заметны и вызывать внимание
+                                                окружающих.</p>
+                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="classes-item set-bg" data-setbg="img/classes/class-8.jpg">
+                                            <h4>8. Ребра:</h4>
+                                            <p>татуировки на ребрах, известные как "side boob", стали очень популярными в последние годы.
+                                                Они могут быть выполнены в виде узоров, надписей или изображений.</p>
+                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
