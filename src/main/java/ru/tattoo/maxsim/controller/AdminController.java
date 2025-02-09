@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ContactInfoRepository;
@@ -90,7 +91,6 @@ public class AdminController {
 
     @GetMapping("/carousel-delete/{id}")
     public String deleteCarousel(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
-
         homeService.deleteImg(id);
         model.addAttribute("carousel", homeService.findAll());
 

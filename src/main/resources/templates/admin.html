@@ -417,58 +417,88 @@
                         <div class="tab-content" id="v-pills-tabContent-carousel">
                             <div class="tab-pane fade show active" id="v-pills-carousel" role="tabpanel"
                                  aria-labelledby="v-pills-home-tab" tabindex="0">
-                                <div class="row">
+                                <div class="col-lg-12 text-center">
                                     <div class="section-title">
                                         <h2>Карусель</h2>
                                     </div>
-                                    <div class="container px-4">
-                                        <div class="carousel-import" th:fragment="carousel-import">
+                                </div>
+
+                                <div class="row mb-3 text-center">
+                                    <div class="col-6 col-lg-4 themed-grid-col">
+                                        <div class="upload-container">
+
                                             <form id="img-carousel">
-                                                <label>Загрузить фото</label>
-                                                <div class="row">
-                                                    <div class="col-md-8 themed-grid-col">
-                                                        <div class="input-group">
-                                                            <input type="file" class="form-control" id="file-carousel"
-                                                                   aria-describedby="inputGroupFileAddon04"
-                                                                   aria-label="Загрузка">
-                                                            <button type="submit" class="btn btn-outline-secondary"
-                                                                    id="inputGroupFileAddon04">Применить
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
+
+                                                <input type="file" id="file-carousel"  accept="image/*" hidden>
+                                                <label for="file-carousel" class="upload-button">Выбрать
+                                                    изображение</label>
+
+                                                <img id="preview" style="display: none; object-fit: cover; max-height: 100%; max-width: 100%;">
+
+                                                <button type="submit" class="btn leave-btn btn-block"
+                                                        id="inputGroupFileAddon04">Применить
+                                                </button>
+
                                             </form>
-                                            <section class="scroll" style="margin: 10px;">
-                                                <div class="reviews-admin" th:each="current : ${carousel}">
-                                                    <div class="row gallery-filter">
-                                                        <div class="col-lg-3">
-                                                            <div class="admin-img">
-                                                                <img alt=""
-                                                                     th:src="@{'/images/'+${current.imageName}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col" hidden="hidden">
-                                                            <div hidden="hidden" name="id"
-                                                                 th:text="${current.id}"></div>
-                                                        </div>
-                                                        <div class="col-lg-2">
-                                                            <button style="margin: 10px;"
-                                                                    class="btn btn-outline-secondary delete"
-                                                                    type="submit">Удалить
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </section>
+
                                         </div>
                                     </div>
+                                    <div class="col-sm-6 col-lg-8 themed-grid-col">
+
+                                        <div id="carouselExample" class="carousel slide">
+                                            <div class="carousel-import" th:fragment="carousel-import">
+                                            <div class="carousel-inner">
+                                                <div th:each="current, item : ${carousel}" th:if="${item.index == 0}"
+                                                     class="carousel-item active">
+                                                    <img th:src="@{'/images/'+${current.imageName}}"
+                                                         class="d-block w-100" alt="...">
+                                                    <div class="carousel-caption d-none d-md-block">
+                                                        <button style="margin: 10px;" th:id="${current.id}"
+                                                                class="btn btn-outline-secondary delete"
+                                                                type="submit">Удалить
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div th:each="current, item : ${carousel}" th:if="${item.index != 0}"
+                                                     class="carousel-item">
+                                                    <img th:src="@{'/images/'+${current.imageName}}"
+                                                         class="d-block w-100" alt="...">
+                                                    <div class="carousel-caption d-none d-md-block">
+                                                        <button style="margin: 10px;" th:id="${current.id}"
+                                                                class="btn btn-outline-secondary delete"
+                                                                type="submit">Удалить
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <button class="carousel-control-prev" id="Previous" type="button"
+                                                    data-bs-target="#carouselExample" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" id="Next"
+                                                    data-bs-target="#carouselExample" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
+                                        </div>
+
+                                    </div>
+
                                 </div>
+
+
                             </div>
                             <div class="tab-pane fade" id="v-pills-profile2" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab" tabindex="0">
                                 <div class="row">
                                     <div class="footer-widget" th:object="${contactInfo}">
-                                        <h5>Контактная информация</h5>
+                                        <div class="col-lg-12 text-center">
+                                            <div class="section-title">
+                                                <h3 style="color: #FFFFFF;">Контактная информация</h3>
+                                            </div>
+                                        </div>
                                         <ul class="admin-info">
                                             <li>
                                                 <div class="row">
@@ -479,11 +509,13 @@
                                                     </div>
                                                     <div class="col-6 col-md-4 themed-grid-col">
                                                         <span>Новый номер:</span>
-                                                        <input type="tel" class="form-control" id="tell" autofocus="autofocus" required="required"
+                                                        <input type="tel" class="form-control" id="tell"
+                                                               autofocus="autofocus" required="required"
                                                                placeholder="+7(___)___-__-__">
                                                     </div>
                                                     <div class="col-6 col-md-4 themed-grid-col">
-                                                            <button id="phone" type="submit" class="leave-btn">Сохранить</button>
+                                                        <button id="phone" type="submit" class="leave-btn">Сохранить
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </li>
@@ -497,18 +529,21 @@
                                                     <div class="col-6 col-md-4 themed-grid-col">
                                                         <span>Новый email:</span>
                                                         <input type="email" class="form-control" id="email"
-                                                               aria-describedby="emailHelp" prequired placeholder="name@example.com">
+                                                               aria-describedby="emailHelp" prequired
+                                                               placeholder="name@example.com">
                                                     </div>
                                                     <div class="col-6 col-md-4 themed-grid-col">
-                                                          <button id="email-btn" type="submit" class="leave-btn">Сохранить</button>
+                                                        <button id="email-btn" type="submit" class="leave-btn">
+                                                            Сохранить
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="row">
-                                                <i class="fa fa-map-marker"></i>
+                                                    <i class="fa fa-map-marker"></i>
                                                     <div class="col-6 col-md-4 themed-grid-col" id="address-new">
-                                                <span>Адрес</span>
+                                                        <span>Адрес</span>
                                                         [(*{address})]
                                                     </div>
                                                     <div class="col-6 col-md-4 themed-grid-col">
@@ -517,7 +552,9 @@
                                                                aria-describedby="emailHelp" placeholder="Enter адрес">
                                                     </div>
                                                     <div class="col-6 col-md-4 themed-grid-col">
-                                                        <button type="submit" id="address-btn" class="leave-btn">Сохранить</button>
+                                                        <button type="submit" id="address-btn" class="leave-btn">
+                                                            Сохранить
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </li>

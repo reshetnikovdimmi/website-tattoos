@@ -246,15 +246,15 @@
             <div class="review">
                 <form id="reviews">
                     <div class="row">
-                        <div class="col-lg-4" style="margin-bottom: 20px;">
-                            <input type="file" id="file-reviews" name="file" required>
+                        <div class="mb-3">
+                            <label for="avatar" class="form-label">Ваш URL-адрес</label>
+                            <div class="input-group">
+                            <input type="file" id="avatar" name="file" required>
+                            <button class="btn btn-outline-secondary" type="button" id="input-avatar">Сохранить</button>
+                            </div>
                         </div>
-                        <input type="hidden" id="name" name="name" th:value="${#authentication.name}">
-                        <div class="col-lg-12">
-                            <textarea placeholder="Текст" id="Comment" name="Comment" required></textarea>
-                            <a sec:authorize="isAuthenticated()">
-                                <button type="submit" class="leave-btn">Сохранить комментарий</button>
-                            </a>
+                        <div class="input-group">
+                            <textarea class="form-control" aria-label="С текстовым полем" placeholder="Текст" id="Comment" name="Comment" required></textarea>
                         </div>
                     </div>
                 </form>

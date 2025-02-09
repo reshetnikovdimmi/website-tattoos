@@ -29,7 +29,40 @@
             itemSelector: '.grid-item',
             columnWidth: '.grid-sizer',
         });
+  document.getElementById('file-carousel').onchange = function(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('preview');
+            output.src = reader.result;
+            output.style.display = 'block';
+            output.style.width = '200px';
+            output.style.height = '200px';
+
+            output.style.top = '50%';
+            output.style.left = '50%';
+
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    };
     });
+
+ /*------------------
+         carousel
+    --------------------*/
+ $('#carouselExample').carousel({
+    interval: 10000,
+    keyboard: false,
+    pause: 'hover',
+    ride: 'carousel',
+    wrap: false
+  });
+  $('#Next').click(function(e) {
+          $('#carouselExample').carousel('next');
+      });
+      $('#Previous').click(function(e) {
+                $('#carouselExample').carousel('prev');
+            });
+
     /*------------------
          User info
     --------------------*/
@@ -147,6 +180,7 @@
     /*------------------
             Home-Carousel
     --------------------*/
+
     $('#img-carousel').on("submit", function(e) {
         e.preventDefault();
         const fileInput = document.getElementById('file-carousel');
@@ -176,9 +210,9 @@
 
     function deleteImg() {
         $(document).find('.carousel-import button').on('click', function() {
-            var id = $(this).parents('.row:first').find('.col:eq(0)').text(),
-                data;
-            console.log(id)
+
+            var id = this.id;
+
             $.get('/carousel-delete/' + id, {}, function(data) {
                 $(".carousel-import").html(data);
                 $('.show-result-select').niceSelect();
