@@ -59,19 +59,18 @@
     <section class="contact-section spad">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-3" th:object="${contactInfo}">
                     <div class="contact-info">
                         <h4>Информация</h4>
                         <ul>
-                            <li><i class="fa fa-phone"></i>(906) 39917226</li>
-                            <li><i class="fa fa-envelope"></i>reshetnikov.m@list.ru</li>
+                            <li><i class="fa fa-phone"></i>[(*{tell})]</li>
+                            <li><i class="fa fa-envelope"></i>[(*{email})]</li>
                         </ul>
                     </div>
                     <div class="contact-address">
                         <h4>Адрес</h4>
                         <ul>
-                            <li><i class="fa fa-map-marker"></i> Почтовая ул., 4, Омск, Омская обл., 644024
-                            </li>
+                            <li><i class="fa fa-map-marker"></i>[(*{address})]</li>
                         </ul>
                     </div>
                 </div>
