@@ -1222,7 +1222,7 @@ input[type="checkbox"] {
 .reviews-admin img {
   width: 350px;
   height: 350px;
-
+  margin-bottom: 30px;
   top: 50%;
   left: 50%;
 
@@ -1233,18 +1233,65 @@ input[type="checkbox"] {
   object-fit: cover;
   /* чтобы сохранить пропорции изображения при растяжении */
 }
+.carousel-caption {
+	position: absolute;
+	right: 15%;
+	bottom: 100px;
+	left: 15%;
+	z-index: 10;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	color: #fff;
+	text-align: center;
+}
+.delete-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    width: 40px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
 
+.delete-button::before,
+.delete-button::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 4px;
+    background-color: red;
+}
+
+.delete-button::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.delete-button::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.delete-button:hover::before,
+.delete-button:hover::after {
+    background-color: darkred;
+}
 .reviews-admin .trainer-text {
   position: absolute;
   bottom: 0;
   background: -o-linear-gradient(45deg, #e16521, #e4381C);
   background: linear-gradient(45deg, #e16521, #e4381C);
-  width: 100%;
+  width: 90%;
   padding-left: 20px;
   padding-top: 15px;
   padding-bottom: 12px;
   -webkit-clip-path: polygon(0 0, 100% 0%, 81% 0, 100% 100%, 0 100%);
   clip-path: polygon(0 0, 100% 0%, 81% 0, 100% 100%, 0 100%);
+  margin-bottom: 30px;
 }
 
 .reviews-admin .trainer-text h5 {

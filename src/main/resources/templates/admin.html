@@ -98,76 +98,8 @@
         <!-- Tab panes -->
         <div class="tab-content">
             <div id="home_hom" class="container tab-pane active"><br>
-                <h3 style="color: #FFFFFF; margin: 10px;">Галерея</h3>
                 <div class="container px-4">
                     <div class="img-import" th:fragment="img-import">
-                        <form id="img-import">
-                            <label><p>Загрузить фото</p></label>
-                            <div class="row">
-                                <div class="col-md-8 themed-grid-col">
-                                    <div class="row g-2">
-                                        <div class="col" style="margin: 10px;">
-                                            <input type="file" accept="image/png, image/gif, image/jpeg"
-                                                   id="file-Gallery" name="file" required>
-                                        </div>
-                                        <div class="col" style="margin: 10px;">
-                                            <select class="show-result-select" id="select" name="category" required>
-                                                <option disabled selected>Выберите категорию</option>
-                                                <option value="Классический">Классический</option>
-                                                <option value="Винтажный">Винтажный</option>
-                                                <option value="Граффити">Граффити</option>
-                                                <option value="Винтажный">Готический</option>
-                                                <option value="Граффити">Кельтский</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row g-2">
-                                        <div class="col" style="margin: 10px;">
-                                            <input style="width: 100%; height: 100px" type="text" placeholder="Описание"
-                                                   id="description" name="description" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-4 themed-grid-col" style="margin: 10px;">
-                                    <button id="btn-img" class="leave-btn">Применить</button>
-                                </div>
-                            </div>
-                        </form>
-                        <section class="scroll" style="margin: 10px;">
-                            <div class="reviews-admin" th:each="current : ${images}">
-                                <div class="row gallery-filter">
-                                    <div class="col-lg-3">
-                                        <div class="admin-img">
-                                            <img alt="" th:src="@{'/images/'+${current.imageName}}" class="img-fluid">
-                                            <div class="trainer-text">
-                                                <label>
-                                                    <input class="checkbox" type="checkbox"
-                                                           th:checked="${current.flag}"/> Лучшее тату
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="row mb-3 text-center">
-                                            <h4 style="color: #FFFFFF; margin: 10px;"
-                                                th:text="${current.category}"></h4>
-                                        </div>
-                                        <div class="row mb-3 text-center">
-                                            <h5 style="color: #FFFFFF; margin: 10px;"
-                                                th:text="${current.description}"></h5>
-                                        </div>
-                                    </div>
-                                    <div class="col" hidden="hidden">
-                                        <div hidden="hidden" name="id" th:text="${current.id}"></div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <button style="margin: 10px;" class="btn btn-outline-secondary delimg"
-                                                type="submit">Удалить
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
                         <!-- GalleryController Section Begin -->
                         <section class="gallery-section spad">
                             <div class="container">
@@ -186,11 +118,41 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <form id="img-import">
+
+                                        <div class="input-group">
+
+
+                                                <input  class="form-control" type="file" accept="image/png, image/gif, image/jpeg"
+                                                       id="file-Gallery" name="file" required>
+
+                                                <button id="btn-img"  class="btn btn-outline-secondary" type="button">Применить</button>
+
+                                            <input style="width: 100%; height: 100px" type="text"
+                                                   placeholder="Описание"
+                                                   id="description" name="description" required>
+                                        </div>
+
+                                        <div class="col" style="margin: 10px;">
+
+                                        </div>
+
+
+                                    </form>
+                                </div>
+
                                 <div class="galleryFilter" th:fragment="galleryFilter">
                                     <div class="row gallery-filter" th:each="current, item : ${imagesGallery}">
-                                        <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="currents: ${current}">
+                                        <div class="col-lg-4 col-sm-6 mix crossfit workout "
+                                             th:each="currents: ${current}">
                                             <div class="reviews-admin">
                                                 <img alt="" th:src="@{'/images/'+${currents.imageName}}">
+                                                <button onclick="removeImage()" class="delete-button"></button>
+                                                <div class="carousel-caption d-none d-md-block">
+                                                    <h5>First slide label</h5>
+                                                    <p>Some representative placeholder content for the first slide.</p>
+                                                </div>
                                                 <div class="trainer-text">
                                                     <label>
                                                         <input class="checkbox" type="checkbox"
@@ -205,18 +167,24 @@
 
                                     <div class="blog-option">
                                         <div class="blog-pagination">
-                                            <a th:if="${currentPage!=0}" id="fa-long-arrow-left" type="submit"><i class="fa fa-long-arrow-left"></i></a>
+                                            <a th:if="${currentPage!=0}" id="fa-long-arrow-left" type="submit"><i
+                                                    class="fa fa-long-arrow-left"></i></a>
                                             <a class="active">[[${currentPage+1}]]</a>
                                             of
                                             <a>[[${page}]]</a>
-                                            <a  th:if="${currentPage+1 != page}" id="fa-long-arrow-right" type="submit"><i class="fa fa-long-arrow-right"></i></a>
+                                            <a th:if="${currentPage+1 != page}" id="fa-long-arrow-right"
+                                               type="submit"><i class="fa fa-long-arrow-right"></i></a>
                                         </div>
                                         <div class="blog-option-right">
-                                            <div class="blog-result">Showing [[${currentPage+1}]]–[[${page}]] of [[${imagesTotal}]]  results</div>
+                                            <div class="blog-result">Showing [[${currentPage+1}]]–[[${page}]] of
+                                                [[${imagesTotal}]] results
+                                            </div>
                                             <div class="show-result">
                                                 <p>Show:</p>
                                                 <select class="show-result-select" id="number">
-                                                    <option th:each="option : ${options}" th:value="${option}" th:text="${option}" th:selected="${option == number}"  ></option>
+                                                    <option th:each="option : ${options}" th:value="${option}"
+                                                            th:text="${option}"
+                                                            th:selected="${option == number}"></option>
                                                 </select>
                                             </div>
                                         </div>
@@ -470,7 +438,8 @@
                             <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
                                     href="#v-pills-feature-section" id="v-pills-feature-section-tab"
                                     data-bs-toggle="pill" data-bs-target="#v-pills-feature-section" type="button"
-                                    role="tab" aria-controls="v-pills-feature-section" aria-selected="false">feature-section
+                                    role="tab" aria-controls="v-pills-feature-section" aria-selected="false">
+                                feature-section
                             </button>
                             <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
                                     href="#v-pills-home-about" id="v-pills-home-about-tab"
@@ -480,7 +449,8 @@
                             <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
                                     href="#v-pills-classes-section" id="v-pills-classes-section-tab"
                                     data-bs-toggle="pill" data-bs-target="#v-pills-classes-section" type="button"
-                                    role="tab" aria-controls="v-pills-classes-section" aria-selected="false">classes-section
+                                    role="tab" aria-controls="v-pills-classes-section" aria-selected="false">
+                                classes-section
                             </button>
                         </div>
                     </div>
@@ -500,11 +470,12 @@
 
                                             <form id="img-carousel">
 
-                                                <input type="file" id="file-carousel"  accept="image/*" hidden>
+                                                <input type="file" id="file-carousel" accept="image/*" hidden>
                                                 <label for="file-carousel" class="upload-button">Выбрать
                                                     изображение</label>
 
-                                                <img id="preview" style="display: none; object-fit: cover; max-height: 100%; max-width: 100%;">
+                                                <img id="preview"
+                                                     style="display: none; object-fit: cover; max-height: 100%; max-width: 100%;">
 
                                                 <button type="submit" class="btn leave-btn btn-block"
                                                         id="inputGroupFileAddon04">Применить
@@ -518,30 +489,32 @@
 
                                         <div id="carouselExample" class="carousel slide">
                                             <div class="carousel-import" th:fragment="carousel-import">
-                                            <div class="carousel-inner">
-                                                <div th:each="current, item : ${carousel}" th:if="${item.index == 0}"
-                                                     class="carousel-item active">
-                                                    <img th:src="@{'/images/'+${current.imageName}}"
-                                                         class="d-block w-100" alt="...">
-                                                    <div class="carousel-caption d-none d-md-block">
-                                                        <button style="margin: 10px;" th:id="${current.id}"
-                                                                class="btn btn-outline-secondary delete"
-                                                                type="submit">Удалить
-                                                        </button>
+                                                <div class="carousel-inner">
+                                                    <div th:each="current, item : ${carousel}"
+                                                         th:if="${item.index == 0}"
+                                                         class="carousel-item active">
+                                                        <img th:src="@{'/images/'+${current.imageName}}"
+                                                             class="d-block w-100" alt="...">
+                                                        <div class="carousel-caption d-none d-md-block">
+                                                            <button style="margin: 10px;" th:id="${current.id}"
+                                                                    class="btn btn-outline-secondary delete"
+                                                                    type="submit">Удалить
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div th:each="current, item : ${carousel}"
+                                                         th:if="${item.index != 0}"
+                                                         class="carousel-item">
+                                                        <img th:src="@{'/images/'+${current.imageName}}"
+                                                             class="d-block w-100" alt="...">
+                                                        <div class="carousel-caption d-none d-md-block">
+                                                            <button style="margin: 10px;" th:id="${current.id}"
+                                                                    class="btn btn-outline-secondary delete"
+                                                                    type="submit">Удалить
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div th:each="current, item : ${carousel}" th:if="${item.index != 0}"
-                                                     class="carousel-item">
-                                                    <img th:src="@{'/images/'+${current.imageName}}"
-                                                         class="d-block w-100" alt="...">
-                                                    <div class="carousel-caption d-none d-md-block">
-                                                        <button style="margin: 10px;" th:id="${current.id}"
-                                                                class="btn btn-outline-secondary delete"
-                                                                type="submit">Удалить
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             </div>
                                             <button class="carousel-control-prev" id="Previous" type="button"
                                                     data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -639,12 +612,15 @@
                                     <div class="col-lg-6">
                                         <div class="about-text">
                                             <h3 style="color: #FFFFFF;">«ТАТУИРОВКА — ЭТО НАВСЕГДА»</h3>
-                                            <p class="short-details">Сделайте татуировку, которую вы сможете носить всю жизнь</p>
+                                            <p class="short-details">Сделайте татуировку, которую вы сможете носить всю
+                                                жизнь</p>
                                             <p class="long-details">Ты набиваешь себе татуировку,
                                                 зная, что это тело принадлежит тебе, и ты можешь наслаждаться им,
                                                 пока ты здесь. Вы получаете от этого удовольствие,
-                                                и никто другой не может (предположительно) контролировать то, что вы с ним делаете.
-                                                Татуировки это выражение свободы — одно из немногих проявлений свободы. </p>
+                                                и никто другой не может (предположительно) контролировать то, что вы с
+                                                ним делаете.
+                                                Татуировки это выражение свободы — одно из немногих проявлений
+                                                свободы. </p>
                                             <a href="/gallery" class="primary-btn about-btn">Узнать больше</a>
                                         </div>
                                     </div>
@@ -668,7 +644,8 @@
                                     <div class="col-md-4">
                                         <div class="feature-item set-bg" data-setbg="img/feature/feature-2.jpg">
                                             <h3>КОНСУЛЬТАЦИЯ</h3>
-                                            <p>Помогаю определится с идеей эскиза, ориентирую по стоимости и количеству сеансов.</p>
+                                            <p>Помогаю определится с идеей эскиза, ориентирую по стоимости и количеству
+                                                сеансов.</p>
                                             <a href="/gallery" class="primary-btn f-btn">Подробнее</a>
                                         </div>
                                     </div>
@@ -688,7 +665,8 @@
                                         <div class="classes-item set-bg" data-setbg="img/classes/class-1.jpg">
                                             <h4>1. Предплечье:</h4>
                                             <p>это одно из самых популярных мест для татуировок, особенно среди мужчин.
-                                                Татуировка на предплечье легко видна и может быть выполнена в различных размерах и дизайнах.</p>
+                                                Татуировка на предплечье легко видна и может быть выполнена в различных
+                                                размерах и дизайнах.</p>
                                             <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
                                         </div>
                                     </div>
@@ -696,7 +674,8 @@
                                         <div class="classes-item set-bg" data-setbg="img/classes/class-2.jpg">
                                             <h4>2. Запястье:</h4>
                                             <p>татуировка на запястье также является популярным выбором,
-                                                особенно среди женщин. Она может быть выполнена в виде браслета или небольшой надписи.
+                                                особенно среди женщин. Она может быть выполнена в виде браслета или
+                                                небольшой надписи.
                                             </p>
                                             <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
                                         </div>
@@ -704,7 +683,8 @@
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="classes-item set-bg" data-setbg="img/classes/class-3.jpg">
                                             <h4>3. Спина:</h4>
-                                            <p>татуировка на спине позволяет использовать большое пространство для создания больших и детальных
+                                            <p>татуировка на спине позволяет использовать большое пространство для
+                                                создания больших и детальных
                                                 изображений.
                                                 Это также отличное место для скрытия татуировки.</p>
                                             <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
@@ -713,7 +693,8 @@
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="classes-item set-bg" data-setbg="img/classes/class-4.jpg">
                                             <h4>4. Грудь:</h4>
-                                            <p>татуировка на груди может быть выполнена в виде большой картины или нескольких маленьких
+                                            <p>татуировка на груди может быть выполнена в виде большой картины или
+                                                нескольких маленьких
                                                 изображений.
                                                 Это место также подходит для скрытия татуировки под одеждой.</p>
                                             <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
@@ -722,16 +703,20 @@
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="classes-item set-bg" data-setbg="img/classes/class-5.jpg">
                                             <h4>5. Ноги:</h4>
-                                            <p>татуировки на ногах, включая бедра, икры и стопы, становятся все более популярными.
-                                                Они могут быть выполнены в виде узоров, животных или других изображений.</p>
+                                            <p>татуировки на ногах, включая бедра, икры и стопы, становятся все более
+                                                популярными.
+                                                Они могут быть выполнены в виде узоров, животных или других
+                                                изображений.</p>
                                             <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="classes-item set-bg" data-setbg="img/classes/class-6.jpg">
                                             <h4>6. Руки:</h4>
-                                            <p>татуировки на руках, включая плечи, бицепсы и предплечья, являются классическим выбором.
-                                                Они могут быть выполнены в виде надписей, символов или сложных изображений.
+                                            <p>татуировки на руках, включая плечи, бицепсы и предплечья, являются
+                                                классическим выбором.
+                                                Они могут быть выполнены в виде надписей, символов или сложных
+                                                изображений.
                                             </p>
                                             <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
                                         </div>
@@ -739,7 +724,8 @@
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="classes-item set-bg" data-setbg="img/classes/class-7.jpg">
                                             <h4>7. Шея:</h4>
-                                            <p>татуировки на шее могут быть выполнены в виде небольших надписей или узоров.
+                                            <p>татуировки на шее могут быть выполнены в виде небольших надписей или
+                                                узоров.
                                                 Tатуировки на шее могут быть заметны и вызывать внимание
                                                 окружающих.</p>
                                             <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
@@ -748,7 +734,8 @@
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="classes-item set-bg" data-setbg="img/classes/class-8.jpg">
                                             <h4>8. Ребра:</h4>
-                                            <p>татуировки на ребрах, известные как "side boob", стали очень популярными в последние годы.
+                                            <p>татуировки на ребрах, известные как "side boob", стали очень популярными
+                                                в последние годы.
                                                 Они могут быть выполнены в виде узоров, надписей или изображений.</p>
                                             <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
                                         </div>
