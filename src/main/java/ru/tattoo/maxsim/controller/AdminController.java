@@ -84,7 +84,15 @@ public class AdminController {
 
         imagesService.saveImg(fileImport,description,category);
         model.addAttribute("images", imagesService.findAll());
+        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
+        Page<Images> images = imagesService.partition(p);
 
+        model.addAttribute("number", PageSize.IMG_9.getPageSize());
+        model.addAttribute("page", images.getTotalPages());
+        model.addAttribute("currentPage", PAGE_NUMBER);
+        model.addAttribute("imagesTotal", images.getTotalElements());
+        model.addAttribute("imagesGallery", imagesService.pageList(images));
+        model.addAttribute("options", PageSize.getLisPageSize());
         return "admin::img-import";
     }
 
