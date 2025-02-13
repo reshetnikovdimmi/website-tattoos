@@ -43,6 +43,7 @@
 
         };
         reader.readAsDataURL(event.target.files[0]);
+
     };
 
     $('#img-import').on("submit", function(e) {

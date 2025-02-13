@@ -100,26 +100,27 @@
             <div id="home_hom" class="container tab-pane active"><br>
                 <div class="container px-4">
 
-                        <!-- GalleryController Section Begin -->
-                        <section class="gallery-section spad">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="gallery-controls">
-                                            <ul>
-                                                <li class="active">Вся галерея</li>
-                                                <li>Классический</li>
-                                                <li>Винтажный</li>
-                                                <li>Граффити</li>
-                                                <li>Готический</li>
-                                                <li>Кельтский</li>
-                                            </ul>
-                                        </div>
+                    <!-- GalleryController Section Begin -->
+                    <section class="gallery-section spad">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="gallery-controls">
+                                        <ul>
+                                            <li class="active">Вся галерея</li>
+                                            <li>Классический</li>
+                                            <li>Винтажный</li>
+                                            <li>Граффити</li>
+                                            <li>Готический</li>
+                                            <li>Кельтский</li>
+                                        </ul>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="row">
-                                    <form id="img-import">
+                            <div class="row">
+                                <form id="img-import" class="form-admin">
+                                    <div class="row">
                                         <div class="input-group">
                                             <input class="form-control" type="file"
                                                    accept="image/png, image/gif, image/jpeg"
@@ -127,63 +128,68 @@
                                             <button id="btn-img" class="btn btn-outline-secondary" type="submit">
                                                 Применить
                                             </button>
-                                            <input style="width: 100%; height: 100px" type="text"
-                                                   placeholder="Описание"
-                                                   id="description" name="description" required>
                                         </div>
-                                    </form>
-                                </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-group input-text">
+                                        <input type="text" class="form-control"
+                                               placeholder="Описание"
+                                               id="description" name="description" required>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
 
-                                <div class="img-import" th:fragment="img-import">
-                                    <div class="row gallery-filter" th:each="current, item : ${imagesGallery}">
-                                        <div class="col-lg-4 col-sm-6 mix crossfit workout "
-                                             th:each="currents: ${current}">
-                                            <div class="reviews-admin">
-                                                <img alt="" th:src="@{'/images/'+${currents.imageName}}">
-                                                <button onclick="removeImage()" class="delete-button"></button>
-                                                <div class="carousel-caption d-none d-md-block">
-                                                    <h5>First slide label</h5>
-                                                    <p>Some representative placeholder content for the first slide.</p>
-                                                </div>
-                                                <div class="trainer-text">
-                                                    <label>
-                                                        <input class="checkbox" type="checkbox"
-                                                               th:checked="${currents.flag}"/> Лучшее тату
-                                                    </label>
-                                                </div>
+                            <div class="img-import" th:fragment="img-import">
+                                <div class="row gallery-filter" th:each="current, item : ${imagesGallery}">
+                                    <div class="col-lg-4 col-sm-6 mix crossfit workout "
+                                         th:each="currents: ${current}">
+                                        <div class="reviews-admin" th:id="${currents.id}">
+                                            <img alt="" th:src="@{'/images/'+${currents.imageName}}">
+                                            <button onclick="removeImage()" class="delete-button"></button>
+                                            <div class="carousel-caption d-none d-md-block">
+                                                <h5>First slide label</h5>
+                                                <p>Some representative placeholder content for the first slide.</p>
+                                            </div>
+                                            <div class="trainer-text">
+                                                <label>
+                                                    <input class="checkbox" type="checkbox"
+                                                           th:checked="${currents.flag}"/> Лучшее тату
+                                                </label>
                                             </div>
                                         </div>
-
                                     </div>
 
+                                </div>
 
-                                    <div class="blog-option">
-                                        <div class="blog-pagination">
-                                            <a th:if="${currentPage!=0}" id="fa-long-arrow-left" type="submit"><i
-                                                    class="fa fa-long-arrow-left"></i></a>
-                                            <a class="active">[[${currentPage+1}]]</a>
-                                            of
-                                            <a>[[${page}]]</a>
-                                            <a th:if="${currentPage+1 != page}" id="fa-long-arrow-right"
-                                               type="submit"><i class="fa fa-long-arrow-right"></i></a>
+
+                                <div class="blog-option">
+                                    <div class="blog-pagination">
+                                        <a th:if="${currentPage!=0}" id="fa-long-arrow-left" type="submit"><i
+                                                class="fa fa-long-arrow-left"></i></a>
+                                        <a class="active">[[${currentPage+1}]]</a>
+                                        of
+                                        <a>[[${page}]]</a>
+                                        <a th:if="${currentPage+1 != page}" id="fa-long-arrow-right"
+                                           type="submit"><i class="fa fa-long-arrow-right"></i></a>
+                                    </div>
+                                    <div class="blog-option-right">
+                                        <div class="blog-result">Showing [[${currentPage+1}]]–[[${page}]] of
+                                            [[${imagesTotal}]] results
                                         </div>
-                                        <div class="blog-option-right">
-                                            <div class="blog-result">Showing [[${currentPage+1}]]–[[${page}]] of
-                                                [[${imagesTotal}]] results
-                                            </div>
-                                            <div class="show-result">
-                                                <p>Show:</p>
-                                                <select class="show-result-select" id="number">
-                                                    <option th:each="option : ${options}" th:value="${option}"
-                                                            th:text="${option}"
-                                                            th:selected="${option == number}"></option>
-                                                </select>
-                                            </div>
+                                        <div class="show-result">
+                                            <p>Show:</p>
+                                            <select class="show-result-select" id="number">
+                                                <option th:each="option : ${options}" th:value="${option}"
+                                                        th:text="${option}"
+                                                        th:selected="${option == number}"></option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </section>
+                        </div>
+                    </section>
 
                 </div>
             </div>

@@ -835,6 +835,18 @@ padding:10px;
 .upload-button:hover {
     background-color: #555;
 }
+/*--------------------
+Form admin Section
+----------------------*/
+.form-admin{
+padding:30px;
+}
+.input-group.input-text {
+    padding-top: 10px;
+}
+.input-text input {
+    height: 100px;
+}
 
 /*---------------------
   Hero Section
