@@ -1,11 +1,12 @@
 $(document).ready(function() {
-       importImg()
+
        sketches()
        reviews()
 
 
 
 });
+
 function reviews() {
  $(document).find('.del').on('click', function() {
             var id = $(this).parents('.row:first').find('.col:eq(0)').text(),

@@ -145,7 +145,7 @@
                                     <div class="col-lg-4 col-sm-6 mix crossfit workout "
                                          th:each="currents: ${current}">
                                         <div class="reviews-admin" th:id="${currents.id}">
-                                            <img alt="" th:src="@{'/images/'+${currents.imageName}}">
+                                            <img alt="" th:src="@{'/images/'+${currents.imageName}}" >
                                             <button onclick="removeImage()" class="delete-button"></button>
                                             <div class="carousel-caption d-none d-md-block">
                                                 <h5>First slide label</h5>

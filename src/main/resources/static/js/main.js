@@ -74,25 +74,8 @@
             }
         });
 
+
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
  /*------------------
@@ -115,7 +98,7 @@
     /*------------------
          User info
     --------------------*/
-    $('#info').click(function(e) {
+         $('#info').click(function(e) {
         $.get('/user-info', {}, function(data) {
             $(".container-lk-info").html(data);
         });
@@ -293,15 +276,22 @@
     /*------------------
         Gallery admin
     --------------------*/
+
     $(document).find('.checkbox').on('click', function() {
-        var id = $(this).parents('.row:first').find('.col:eq(0)').text(),
-            data;
         const body = {};
-        body.id = $(this).parents('.row:first').find('.col:eq(0)').text(), data;
+        body.id = $(this).parents('.reviews-admin').attr('id');
         body.flag = this.checked;
         sendRequest('POST', '/best-tattoos', body).then(data => modals(data)).catch(err => modals(err))
     });
 
+$('.reviews-admin button').click(function(e) {
+           var id = $(this).parent().attr("id");
+            $.get('/img-delete/' + id, {}, function(data) {
+                           $(".img-import").html(data);
+                           $('.show-result-select').niceSelect();
+
+                       });
+        })
 
     /*------------------
         Background Set
