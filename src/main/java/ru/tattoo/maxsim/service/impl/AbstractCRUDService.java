@@ -1,7 +1,6 @@
 package ru.tattoo.maxsim.service.impl;
 
 
-import org.checkerframework.checker.units.qual.K;
 import org.springframework.data.repository.CrudRepository;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import java.io.IOException;

@@ -22,7 +22,6 @@ public class UserDetailsImpl implements UserDetails {
         return Stream.of(user.getRole())
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-
     }
 
     @Override

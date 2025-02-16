@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.repository.SketchesRepository;
 import ru.tattoo.maxsim.service.interf.SketchesService;

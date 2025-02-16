@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import ru.tattoo.maxsim.model.Commits;
 import ru.tattoo.maxsim.repository.CommitsRepository;
 import ru.tattoo.maxsim.service.interf.CommitsService;
-
 import java.io.IOException;
 import java.util.Date;
 

@@ -7,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.InterestingWorks;
 import ru.tattoo.maxsim.repository.InterestingWorksRepository;
 import ru.tattoo.maxsim.service.interf.InterestingWorksService;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
