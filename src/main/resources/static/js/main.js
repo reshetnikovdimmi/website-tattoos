@@ -30,75 +30,56 @@
             columnWidth: '.grid-sizer',
         });
         document.getElementById('file-carousel').onchange = function(event) {
-        var reader = new FileReader();
-        reader.onload = function() {
-            var output = document.getElementById('preview');
-            output.src = reader.result;
-            output.style.display = 'block';
-            output.style.width = '200px';
-            output.style.height = '200px';
-
-            output.style.top = '50%';
-            output.style.left = '50%';
-
+            var reader = new FileReader();
+            reader.onload = function() {
+                var output = document.getElementById('preview');
+                output.src = reader.result;
+                output.style.display = 'block';
+                output.style.width = '200px';
+                output.style.height = '200px';
+                output.style.top = '50%';
+                output.style.left = '50%';
+            };
+            reader.readAsDataURL(event.target.files[0]);
         };
-        reader.readAsDataURL(event.target.files[0]);
-
-    };
-
-    $('#img-import').on("submit", function(e) {
-     alert("file")
-            e.preventDefault();
-            const fileInput = document.getElementById('file-Gallery');
-            const file = fileInput.files[0];
-            if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
-                alert('Размер файла превышен, выберите файл меньше 1МБ.');
-            } else {
-            alert(file)
-                const xhr = new XMLHttpRequest();
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append('category', $('#select').val())
-                formData.append('description', $('#description').val())
-                xhr.open('POST', '/img-import');
-                xhr.send(formData);
-                xhr.onload = () => {
-                    if (xhr.status == 200) {
-                        $(".img-import").html(xhr.response);
-                        $('.show-result-select').niceSelect();
-                        importImg()
-                    } else {
-                        alert("Server response: ", xhr.response);
-                    }
-                };
-            }
+        galleryAdmin()
+        reviews()
+        sketches()
+        var target = document.querySelector('.img-import');
+        MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+        var observer = new MutationObserver(function(mutations, observer) {
+            galleryAdmin()
+            reviews()
+            ketches()
+            $('.show-result-select').niceSelect();
         });
-
-
+        var config = {
+            attributes: true,
+            childList: true,
+            characterData: true
+        }
+        observer.observe(target, config);
     });
-
-
- /*------------------
-         carousel
-    --------------------*/
- $('#carouselExample').carousel({
-    interval: 10000,
-    keyboard: false,
-    pause: 'hover',
-    ride: 'carousel',
-    wrap: false
-  });
-  $('#Next').click(function(e) {
-          $('#carouselExample').carousel('next');
-      });
-      $('#Previous').click(function(e) {
-                $('#carouselExample').carousel('prev');
-            });
-
+    /*------------------
+            carousel
+       --------------------*/
+    $('#carouselExample').carousel({
+        interval: 10000,
+        keyboard: false,
+        pause: 'hover',
+        ride: 'carousel',
+        wrap: false
+    });
+    $('#Next').click(function(e) {
+        $('#carouselExample').carousel('next');
+    });
+    $('#Previous').click(function(e) {
+        $('#carouselExample').carousel('prev');
+    });
     /*------------------
          User info
     --------------------*/
-         $('#info').click(function(e) {
+    $('#info').click(function(e) {
         $.get('/user-info', {}, function(data) {
             $(".container-lk-info").html(data);
         });
@@ -109,10 +90,10 @@
         });
     });
     $('#user-tattoos').click(function(e) {
-            $.get('/user-tattoos', {}, function(data) {
-                $(".container-lk-info").html(data);
-            });
+        $.get('/user-tattoos', {}, function(data) {
+            $(".container-lk-info").html(data);
         });
+    });
     /*------------------
        Interesting works
     --------------------*/
@@ -212,7 +193,6 @@
     /*------------------
             Home-Carousel
     --------------------*/
-
     $('#img-carousel').on("submit", function(e) {
         e.preventDefault();
         const fileInput = document.getElementById('file-carousel');
@@ -242,9 +222,7 @@
 
     function deleteImg() {
         $(document).find('.carousel-import button').on('click', function() {
-
             var id = this.id;
-
             $.get('/carousel-delete/' + id, {}, function(data) {
                 $(".carousel-import").html(data);
                 $('.show-result-select').niceSelect();
@@ -274,25 +252,137 @@
         };
     });
     /*------------------
-        Gallery admin
-    --------------------*/
+        Admin sketchers
+        ------------------*/
+    $('#img-sketches').on("submit", function(e) {
 
-    $(document).find('.checkbox').on('click', function() {
-        const body = {};
-        body.id = $(this).parents('.reviews-admin').attr('id');
-        body.flag = this.checked;
-        sendRequest('POST', '/best-tattoos', body).then(data => modals(data)).catch(err => modals(err))
+            e.preventDefault();
+            const fileInput = document.getElementById('file-sketches');
+            const file = fileInput.files[0];
+            if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
+                alert('Размер файла превышен, выберите файл меньше 1МБ.');
+            } else {
+                const xhr = new XMLHttpRequest();
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('description', $('#description-sketches').val())
+                xhr.open('POST', '/sketches-import');
+                xhr.send(formData);
+                xhr.onload = () => {
+                    if (xhr.status == 200) {
+                        $(".sketches-import").html(xhr.response);
+                        $('.show-result-select').niceSelect();
+                        sketches()
+                    } else {
+                        alert("Server response: ", xhr.response);
+                    }
+                };
+            }
+        });
+
+
+function sketches() {
+
+     $('.sketches-import button').click(function(e) {
+
+        var id = $(this).attr("id");
+        console.log(id)
+        $.get('/sketches-delete/' + id, {}, function(data) {
+            $(".sketches-import").html(data);
+
+            sketches()
+        });
+
     });
 
-$('.reviews-admin button').click(function(e) {
-           var id = $(this).parent().attr("id");
+}
+
+    /*------------------
+    Admin reviews
+    ------------------*/
+    function reviews() {
+     $(document).find('.del-reviews').on('click', function() {
+                var id = $(this).attr("id");
+
+                $.get('/reviews-delete/' + id, {}, function(data) {
+                    $(".reviews").html(data);
+
+                });
+
+            });
+    }
+
+    /*------------------
+        Gallery admin
+    --------------------*/
+    var style = "Вся галерея";
+    var page = 0;
+    var number = 9;
+    $('#number').on('change', function() {
+        number = $('#number').val();
+        page = 0;
+        galleryControls()
+    });
+    $('#fa-long-arrow-left').on('click', function() {
+        page = page - 1;
+        galleryControls()
+    });
+    $('#fa-long-arrow-right').on('click', function() {
+        page = page + 1;
+        galleryControls()
+    });
+    $('.gallery-controls ul li').on('click', function() {
+        page = 0;
+        style = $(this).text();
+        galleryControls()
+        return false;
+    });
+
+    function galleryControls() {
+        $.get('/admin' + '/' + style + '/' + page + '/' + number, {}, function(data) {
+            $(".img-import").html(data);
+        });
+    }
+
+    function galleryAdmin() {
+        $('#img-import').on("submit", function(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('file-Gallery');
+            const file = fileInput.files[0];
+            if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
+                alert('Размер файла превышен, выберите файл меньше 1МБ.');
+            } else {
+                const xhr = new XMLHttpRequest();
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('category', style)
+                formData.append('description', $('#description').val())
+                xhr.open('POST', '/img-import');
+                xhr.send(formData);
+                xhr.onload = () => {
+                    if (xhr.status == 200) {
+                        $(".img-import").html(xhr.response);
+                        $('.show-result-select').niceSelect();
+                    } else {
+                        alert("Server response: ", xhr.response);
+                    }
+                };
+            }
+        });
+        $(document).find('.checkbox').on('click', function() {
+            const body = {};
+            body.id = $(this).parents('.reviews-admin').attr('id');
+            body.flag = this.checked;
+            sendRequest('POST', '/best-tattoos', body).then(data => modals(data)).catch(err => modals(err))
+        });
+        $('.img-import button').click(function(e) {
+            var id = $(this).parent().attr("id");
             $.get('/img-delete/' + id, {}, function(data) {
-                           $(".img-import").html(data);
-                           $('.show-result-select').niceSelect();
-
-                       });
+                $(".img-import").html(data);
+                $('.show-result-select').niceSelect();
+            });
         })
-
+    }
     /*------------------
         Background Set
     --------------------*/

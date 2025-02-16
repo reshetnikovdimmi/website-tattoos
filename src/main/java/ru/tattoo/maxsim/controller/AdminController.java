@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.repository.ContactInfoRepository;
 import ru.tattoo.maxsim.service.interf.*;
 import ru.tattoo.maxsim.util.PageSize;
@@ -56,8 +57,12 @@ public class AdminController {
     @GetMapping("/admin")
     public String admin(Model model) {
 
+        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
+        Page<Images> images = imagesService.partition(p);
+        Page<Sketches> sketches = sketchesService.partition(p);
+
         model.addAttribute("images", imagesService.findAll());
-        model.addAttribute("sketches", sketchesService.findAll());
+        model.addAttribute("sketches", sketchesService.pageList(sketches));
         model.addAttribute("reviews", reviewService.findAll());
         model.addAttribute("user", userService.findAll());
         model.addAttribute("flag", true);
@@ -65,8 +70,7 @@ public class AdminController {
         model.addAttribute("commits", commitsService.findAll());
         model.addAttribute("carousel", homeService.findAll());
 
-        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
-        Page<Images> images = imagesService.partition(p);
+
 
         model.addAttribute("number", PageSize.IMG_9.getPageSize());
         model.addAttribute("page", images.getTotalPages());
@@ -100,7 +104,14 @@ public class AdminController {
     public String sketchesImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("description") String description, Model model, HttpServletRequest request) throws IOException, ParseException {
 
         sketchesService.saveImg(fileImport,description);
-        model.addAttribute("sketches", sketchesService.findAll());
+        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
+        Page<Sketches> sketches = sketchesService.partition(p);
+        model.addAttribute("sketches", sketchesService.pageList(sketches));
+        model.addAttribute("page", sketches.getTotalPages());
+        model.addAttribute("currentPage", PAGE_NUMBER);
+        model.addAttribute("imagesTotal", sketches.getTotalElements());
+
+        model.addAttribute("options", PageSize.getLisPageSize());
 
         return "admin::sketches-import";
     }
@@ -144,7 +155,15 @@ public class AdminController {
     public String deleteSketches(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
 
         sketchesService.deleteImg(id);
-        model.addAttribute("sketches", sketchesService.findAll());
+
+        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
+        Page<Sketches> sketches = sketchesService.partition(p);
+        model.addAttribute("sketches", sketchesService.pageList(sketches));
+        model.addAttribute("page", sketches.getTotalPages());
+        model.addAttribute("currentPage", PAGE_NUMBER);
+        model.addAttribute("imagesTotal", sketches.getTotalElements());
+
+        model.addAttribute("options", PageSize.getLisPageSize());
 
         return "admin::sketches-import";
     }
@@ -154,6 +173,35 @@ public class AdminController {
         System.out.println(id);
         imagesService.deleteImg(id);
         model.addAttribute("images", imagesService.findAll());
+        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
+        Page<Images> images = imagesService.partition(p);
+
+        model.addAttribute("number", PageSize.IMG_9.getPageSize());
+        model.addAttribute("page", images.getTotalPages());
+        model.addAttribute("currentPage", PAGE_NUMBER);
+        model.addAttribute("imagesTotal", images.getTotalElements());
+        model.addAttribute("imagesGallery", imagesService.pageList(images));
+        model.addAttribute("options", PageSize.getLisPageSize());
+        return "admin::img-import";
+    }
+
+    @RequestMapping(value = "/admin/{style}/{page}/{number}", method = RequestMethod.GET)
+
+    private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
+
+        Page<Images> images;
+        Pageable p = PageRequest.of(page, number);
+        if (style.equals(ALL_GALLERY)) {
+            images = imagesService.partition(p);
+        } else {
+            images = imagesService.findByCategory(style, p);
+        }
+        model.addAttribute("imagesGallery", imagesService.pageList(images));
+        model.addAttribute("number", number);
+        model.addAttribute("page", images.getTotalPages());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("imagesTotal", images.getTotalElements());
+        model.addAttribute("options", PageSize.getLisPageSize());
 
         return "admin::img-import";
     }

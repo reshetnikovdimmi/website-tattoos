@@ -147,15 +147,15 @@
 <div th:fragment="first-fragment">
     <h6>Мой тату </h6>
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3 scroll-container ">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 scroll-container ">
 
-        <div class="col gallery  user-img"  th:each="current : ${images}">
-
+        <div class="col"  th:each="current : ${images}">
+<div class="card shadow-sm">
             <div class="gallery-user">
                 <img alt="" th:src="@{'/images/'+${current.imageName}}">
             </div>
             <!-- Добавьте больше элементов, если нужно -->
-
+</div>
         </div>
 
     </div>
