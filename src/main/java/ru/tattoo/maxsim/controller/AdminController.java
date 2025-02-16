@@ -170,7 +170,7 @@ public class AdminController {
 
     @GetMapping("/img-delete/{id}")
     public String deleteImg(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
-        System.out.println(id);
+
         imagesService.deleteImg(id);
         model.addAttribute("images", imagesService.findAll());
         Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());

@@ -45,12 +45,12 @@
         galleryAdmin()
         reviews()
         sketches()
-        var target = document.querySelector('.img-import');
+        var target = document.querySelector('#gallery1');
         MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
         var observer = new MutationObserver(function(mutations, observer) {
             galleryAdmin()
             reviews()
-            ketches()
+            sketches()
             $('.show-result-select').niceSelect();
         });
         var config = {
@@ -343,9 +343,7 @@ function sketches() {
             $(".img-import").html(data);
         });
     }
-
-    function galleryAdmin() {
-        $('#img-import').on("submit", function(e) {
+$('#img-import').on("submit", function(e) {
             e.preventDefault();
             const fileInput = document.getElementById('file-Gallery');
             const file = fileInput.files[0];
@@ -369,6 +367,9 @@ function sketches() {
                 };
             }
         });
+    function galleryAdmin() {
+
+
         $(document).find('.checkbox').on('click', function() {
             const body = {};
             body.id = $(this).parents('.reviews-admin').attr('id');

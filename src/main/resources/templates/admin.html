@@ -139,7 +139,7 @@
                                 </form>
                             </div>
 
-                            <div class="img-import" th:fragment="img-import">
+                            <div class="img-import" id="gallery1" th:fragment="img-import">
                                 <div class="row gallery-filter" th:each="current, item : ${imagesGallery}">
                                     <div class="col-lg-4 col-sm-6 mix crossfit workout "
                                          th:each="currents: ${current}">
@@ -251,7 +251,7 @@
                                 <div class="input-group input-text">
                                     <input type="text" class="form-control"
                                            placeholder="Описание" style="height: 100px;"
-                                           name="description" required>
+                                        id="description-sketches"   name="description" required>
                                 </div>
                             </div>
                         </form>
