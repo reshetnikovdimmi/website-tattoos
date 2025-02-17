@@ -106,7 +106,7 @@
                     <div class="blog-result">Showing [[${currentPage+1}]]–[[${page}]] of [[${imagesTotal}]]  results</div>
                     <div class="show-result">
                         <p>Show:</p>
-                        <select class="show-result-select" id="number">
+                        <select class="show-result-select" id="number" >
                             <option th:each="option : ${options}" th:value="${option}" th:text="${option}" th:selected="${option == number}"  ></option>
                         </select>
                     </div>

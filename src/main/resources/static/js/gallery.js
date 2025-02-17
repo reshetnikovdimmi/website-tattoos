@@ -6,6 +6,7 @@ $(document).ready(function() {
         pagesLeft()
         styles()
         numbers()
+$('.show-result-select').niceSelect();
  var target = document.querySelector('.galleryFilter');
 
     MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
@@ -59,6 +60,6 @@ function galleryControls() {
 
         $(".galleryFilter").html(data);
 
-$('.show-result-select').niceSelect();
+
     });
 }

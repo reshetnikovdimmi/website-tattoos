@@ -255,121 +255,108 @@
         Admin sketchers
         ------------------*/
     $('#img-sketches').on("submit", function(e) {
-
-            e.preventDefault();
-            const fileInput = document.getElementById('file-sketches');
-            const file = fileInput.files[0];
-            if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
-                alert('Размер файла превышен, выберите файл меньше 1МБ.');
-            } else {
-                const xhr = new XMLHttpRequest();
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append('description', $('#description-sketches').val())
-                xhr.open('POST', '/sketches-import');
-                xhr.send(formData);
-                xhr.onload = () => {
-                    if (xhr.status == 200) {
-                        $(".sketches-import").html(xhr.response);
-                        $('.show-result-select').niceSelect();
-                        sketches()
-                    } else {
-                        alert("Server response: ", xhr.response);
-                    }
-                };
-            }
-        });
-
-
-function sketches() {
-
-     $('.sketches-import button').click(function(e) {
-
-        var id = $(this).attr("id");
-        console.log(id)
-        $.get('/sketches-delete/' + id, {}, function(data) {
-            $(".sketches-import").html(data);
-
-            sketches()
-        });
-
+        e.preventDefault();
+        const fileInput = document.getElementById('file-sketches');
+        const file = fileInput.files[0];
+        if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
+            alert('Размер файла превышен, выберите файл меньше 1МБ.');
+        } else {
+            const xhr = new XMLHttpRequest();
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('description', $('#description-sketches').val())
+            xhr.open('POST', '/sketches-import');
+            xhr.send(formData);
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    $(".sketches-import").html(xhr.response);
+                    $('.show-result-select').niceSelect();
+                    sketches()
+                } else {
+                    alert("Server response: ", xhr.response);
+                }
+            };
+        }
     });
 
-}
-
+    function sketches() {
+        $('.sketches-import button').click(function(e) {
+            var id = $(this).attr("id");
+            console.log(id)
+            $.get('/sketches-delete/' + id, {}, function(data) {
+                $(".sketches-import").html(data);
+                sketches()
+            });
+        });
+    }
     /*------------------
     Admin reviews
     ------------------*/
     function reviews() {
-     $(document).find('.del-reviews').on('click', function() {
-                var id = $(this).attr("id");
-
-                $.get('/reviews-delete/' + id, {}, function(data) {
-                    $(".reviews").html(data);
-
-                });
-
+        $(document).find('.del-reviews').on('click', function() {
+            var id = $(this).attr("id");
+            $.get('/reviews-delete/' + id, {}, function(data) {
+                $(".reviews").html(data);
             });
+        });
     }
-
     /*------------------
         Gallery admin
     --------------------*/
     var style = "Вся галерея";
     var page = 0;
     var number = 9;
-    $('#number').on('change', function() {
-        number = $('#number').val();
-        page = 0;
-        galleryControls()
-    });
-    $('#fa-long-arrow-left').on('click', function() {
-        page = page - 1;
-        galleryControls()
-    });
-    $('#fa-long-arrow-right').on('click', function() {
-        page = page + 1;
-        galleryControls()
-    });
-    $('.gallery-controls ul li').on('click', function() {
-        page = 0;
-        style = $(this).text();
-        galleryControls()
-        return false;
-    });
 
     function galleryControls() {
         $.get('/admin' + '/' + style + '/' + page + '/' + number, {}, function(data) {
             $(".img-import").html(data);
         });
     }
-$('#img-import').on("submit", function(e) {
-            e.preventDefault();
-            const fileInput = document.getElementById('file-Gallery');
-            const file = fileInput.files[0];
-            if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
-                alert('Размер файла превышен, выберите файл меньше 1МБ.');
-            } else {
-                const xhr = new XMLHttpRequest();
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append('category', style)
-                formData.append('description', $('#description').val())
-                xhr.open('POST', '/img-import');
-                xhr.send(formData);
-                xhr.onload = () => {
-                    if (xhr.status == 200) {
-                        $(".img-import").html(xhr.response);
-                        $('.show-result-select').niceSelect();
-                    } else {
-                        alert("Server response: ", xhr.response);
-                    }
-                };
-            }
-        });
+    $('#img-import').on("submit", function(e) {
+        e.preventDefault();
+        const fileInput = document.getElementById('file-Gallery');
+        const file = fileInput.files[0];
+        if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
+            alert('Размер файла превышен, выберите файл меньше 1МБ.');
+        } else {
+            const xhr = new XMLHttpRequest();
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('category', style)
+            formData.append('description', $('#description').val())
+            xhr.open('POST', '/img-import');
+            xhr.send(formData);
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    $(".img-import").html(xhr.response);
+                    $('.show-result-select').niceSelect();
+                } else {
+                    alert("Server response: ", xhr.response);
+                }
+            };
+        }
+    });
+
     function galleryAdmin() {
-
-
+        $('#number').on('change', function() {
+            number = $('#number').val();
+            page = 0;
+            galleryControls()
+        });
+        $('#fa-long-arrow-left').on('click', function() {
+            page = page - 1;
+            galleryControls()
+        });
+        $('#fa-long-arrow-right').on('click', function() {
+            page = page + 1;
+            galleryControls()
+        });
+        $('.gallery-controls ul li').on('click', function() {
+            page = 0;
+            style = $(this).text();
+            galleryControls()
+            return false;
+        });
         $(document).find('.checkbox').on('click', function() {
             const body = {};
             body.id = $(this).parents('.reviews-admin').attr('id');
