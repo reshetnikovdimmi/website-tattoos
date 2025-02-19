@@ -1,6 +1,7 @@
 package ru.tattoo.maxsim.controller;
 
 import com.google.common.collect.Lists;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +41,7 @@ public class SketchesController {
     }
 
     @RequestMapping(value = "/sketches/{page}/{number}", method = RequestMethod.GET)
-    private String remainsGroupShop(@PathVariable("page") int page, @PathVariable("number") int number, Model model) {
+    private String remainsGroupShop(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
 
         Page<Sketches> images = sketchesService.partition(PageRequest.of(page,number));
         model.addAttribute("images",sketchesService.pageList(images) );

@@ -275,12 +275,12 @@
 
                                 <div class="blog-option">
                                     <div class="blog-pagination">
-                                        <a th:if="${currentPage!=0}" id="fa-long-arrow-left" type="submit"><i
+                                        <a th:if="${currentPage!=0}" id="sketchers-left" type="submit"><i
                                                 class="fa fa-long-arrow-left"></i></a>
                                         <a class="active">[[${currentPage+1}]]</a>
                                         of
                                         <a>[[${page}]]</a>
-                                        <a th:if="${currentPage+1 != page}" id="fa-long-arrow-right" type="submit"><i
+                                        <a th:if="${currentPage+1 != page}" id="sketchers-right" type="submit"><i
                                                 class="fa fa-long-arrow-right"></i></a>
                                     </div>
                                     <div class="blog-option-right">
@@ -289,7 +289,7 @@
                                         </div>
                                         <div class="show-result">
                                             <p>Show:</p>
-                                            <select class="show-result-select" id="number">
+                                            <select class="show-result-select" id="sketchers-number">
                                                 <option th:each="option : ${options}" th:value="${option}"
                                                         th:text="${option}" th:selected="${option == number}"></option>
                                             </select>

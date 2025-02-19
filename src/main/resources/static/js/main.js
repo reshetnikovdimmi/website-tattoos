@@ -278,15 +278,37 @@
             };
         }
     });
-
+var s_page = 0;
+    var s_number = 9;
     function sketches() {
+    $('#sketchers-number').on('change', function() {
+                s_number = $('#sketches-number').val();
+                s_page = 0;
+                sketchesControls()
+            });
+            $('#sketchers-left').on('click', function() {
+                s_page = page - 1;
+                sketchesControls()
+            });
+            $('#sketchers-right').on('click', function() {
+                s_page = page + 1;
+
+                sketchesControls()
+            });
         $('.sketches-import button').click(function(e) {
             var id = $(this).attr("id");
-            console.log(id)
+
             $.get('/sketches-delete/' + id, {}, function(data) {
                 $(".sketches-import").html(data);
-                sketches()
+
             });
+        });
+    }
+
+    function sketchesControls() {
+        $.get('/sketches' + '/'  + page + '/' + number, {}, function(data) {
+            $(".sketches-import").html(data);
+            console.log(data)
         });
     }
     /*------------------
