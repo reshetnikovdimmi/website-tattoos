@@ -63,9 +63,11 @@ public class AdminController {
 
         model.addAttribute("images", imagesService.findAll());
         model.addAttribute("sketches", sketchesService.pageList(sketches));
+        model.addAttribute("pageSketches", sketches.getTotalPages());
+        model.addAttribute("imagesTotalSketches", sketches.getTotalElements());
+
         model.addAttribute("reviews", reviewService.findAll());
         model.addAttribute("user", userService.findAll());
-        model.addAttribute("flag", true);
         model.addAttribute("interestingWorks", interestingWorksService.findAll());
         model.addAttribute("commits", commitsService.findAll());
         model.addAttribute("carousel", homeService.findAll());
@@ -107,9 +109,9 @@ public class AdminController {
         Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
         Page<Sketches> sketches = sketchesService.partition(p);
         model.addAttribute("sketches", sketchesService.pageList(sketches));
-        model.addAttribute("page", sketches.getTotalPages());
+        model.addAttribute("pageSketches", sketches.getTotalPages());
         model.addAttribute("currentPage", PAGE_NUMBER);
-        model.addAttribute("imagesTotal", sketches.getTotalElements());
+        model.addAttribute("imagesTotalSketches", sketches.getTotalElements());
 
         model.addAttribute("options", PageSize.getLisPageSize());
 
@@ -159,9 +161,9 @@ public class AdminController {
         Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
         Page<Sketches> sketches = sketchesService.partition(p);
         model.addAttribute("sketches", sketchesService.pageList(sketches));
-        model.addAttribute("page", sketches.getTotalPages());
+        model.addAttribute("pageSketches", sketches.getTotalPages());
         model.addAttribute("currentPage", PAGE_NUMBER);
-        model.addAttribute("imagesTotal", sketches.getTotalElements());
+        model.addAttribute("imagesTotalSketches", sketches.getTotalElements());
 
         model.addAttribute("options", PageSize.getLisPageSize());
 
@@ -204,6 +206,23 @@ public class AdminController {
         model.addAttribute("options", PageSize.getLisPageSize());
 
         return "admin::img-import";
+    }
+
+    @RequestMapping(value = "/admin-sketches/{page}/{number}", method = RequestMethod.GET)
+
+    private String sketchesSearch(@PathVariable("page") int page, @PathVariable("number") int number, Model model) {
+
+        System.out.println(page + "-"+ number);
+
+        Page<Sketches> images = sketchesService.partition(PageRequest.of(page,number));
+        model.addAttribute("sketches",sketchesService.pageList(images) );
+        model.addAttribute("number", number);
+        model.addAttribute("pageSketches", images.getTotalPages());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("imagesTotalSketches", images.getTotalElements());
+        model.addAttribute("options", PageSize.getLisPageSize());
+
+        return "admin::sketches-import";
     }
 
     @GetMapping("/reviews-delete/{id}")

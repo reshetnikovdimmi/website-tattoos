@@ -3026,14 +3026,7 @@ input[type="checkbox"] {
   color: #222222;
 }
 
-.tab-content .show-result-select {
 
-  border-bottom: 1px solid #696969;
-  border-right: 1px solid #696969;
-  border-left: 1px solid #696969;
-  border-top: 1px solid #696969;
-  height: 45px;
-}
 
 .tab-content form .leave-btn {
   font-size: 14px;
@@ -3346,6 +3339,20 @@ input[type="checkbox"] {
   color: #ffffff;
   font-weight: 500;
   line-height: 26px;
+}
+.bs-recent-news img{
+  width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+    top: 50%;
+    left: 50%;
+
+    max-width: 100%;
+    /* чтобы картинка не выходила за пределы контейнера */
+    max-height: 100%;
+    /* чтобы картинка не выходила за пределы контейнера */
+    object-fit: cover;
+    /* чтобы сохранить пропорции изображения при растяжении */
 }
 
 .recent-news {

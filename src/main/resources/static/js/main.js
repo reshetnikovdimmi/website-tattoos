@@ -45,20 +45,28 @@
         galleryAdmin()
         reviews()
         sketches()
-        var target = document.querySelector('#gallery1');
+        var target = document.querySelector('.img-import');
+        var target1 = document.querySelector('.sketches-import');
         MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
         var observer = new MutationObserver(function(mutations, observer) {
             galleryAdmin()
             reviews()
-            sketches()
+
             $('.show-result-select').niceSelect();
         });
+         var observer1 = new MutationObserver(function(mutations, observer) {
+
+                    sketches()
+                    $('.show-result-select').niceSelect();
+                });
         var config = {
             attributes: true,
             childList: true,
             characterData: true
         }
         observer.observe(target, config);
+        observer1.observe(target1, config);
+
     });
     /*------------------
             carousel
@@ -281,17 +289,17 @@
 var s_page = 0;
     var s_number = 9;
     function sketches() {
-    $('#sketchers-number').on('change', function() {
+    $('#sketches-number').on('change', function() {
                 s_number = $('#sketches-number').val();
                 s_page = 0;
                 sketchesControls()
             });
             $('#sketchers-left').on('click', function() {
-                s_page = page - 1;
+                s_page = s_page - 1;
                 sketchesControls()
             });
             $('#sketchers-right').on('click', function() {
-                s_page = page + 1;
+                s_page = s_page + 1;
 
                 sketchesControls()
             });
@@ -306,9 +314,8 @@ var s_page = 0;
     }
 
     function sketchesControls() {
-        $.get('/sketches' + '/'  + page + '/' + number, {}, function(data) {
+        $.get('/admin-sketches/'  + s_page + '/' + s_number, {}, function(data) {
             $(".sketches-import").html(data);
-            console.log(data)
         });
     }
     /*------------------
@@ -389,7 +396,6 @@ var s_page = 0;
             var id = $(this).parent().attr("id");
             $.get('/img-delete/' + id, {}, function(data) {
                 $(".img-import").html(data);
-                $('.show-result-select').niceSelect();
             });
         })
     }

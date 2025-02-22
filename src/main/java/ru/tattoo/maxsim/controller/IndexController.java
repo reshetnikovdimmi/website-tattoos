@@ -26,7 +26,6 @@ public class IndexController {
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("reviewsLimit", reviewService.findLimit());
-        System.out.println(reviewService.findLimit());
         model.addAttribute("details", new EmailDetails());
         model.addAttribute("carousel", homeService.findAll());
         return "Index";
