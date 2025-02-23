@@ -45,8 +45,11 @@
         galleryAdmin()
         reviews()
         sketches()
+
+
         var target = document.querySelector('.img-import');
         var target1 = document.querySelector('.sketches-import');
+
         MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
         var observer = new MutationObserver(function(mutations, observer) {
             galleryAdmin()
@@ -54,11 +57,12 @@
 
             $('.show-result-select').niceSelect();
         });
-         var observer1 = new MutationObserver(function(mutations, observer) {
+         var observer1 = new MutationObserver(function(mutations, observer1) {
 
                     sketches()
                     $('.show-result-select').niceSelect();
                 });
+
         var config = {
             attributes: true,
             childList: true,
@@ -66,6 +70,7 @@
         }
         observer.observe(target, config);
         observer1.observe(target1, config);
+
 
     });
     /*------------------
@@ -100,8 +105,24 @@
     $('#user-tattoos').click(function(e) {
         $.get('/user-tattoos', {}, function(data) {
             $(".container-lk-info").html(data);
+            inputAvatar()
         });
     });
+  function inputAvatar() {
+$('#input-user-tattoos').on("submit", function(e) {
+
+            e.preventDefault();
+console.log("input-avatar")
+ });
+
+  }
+
+$('#input-user-tattoos').on("submit", function(e) {
+
+            e.preventDefault();
+console.log("input-avatar")
+ });
+
     /*------------------
        Interesting works
     --------------------*/

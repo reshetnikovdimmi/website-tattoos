@@ -149,24 +149,26 @@
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 scroll-container ">
 
-        <div class="col"  th:each="current : ${images}">
-<div class="card shadow-sm">
-            <div class="gallery-user">
-                <img alt="" th:src="@{'/images/'+${current.imageName}}">
+        <div class="col" th:each="current : ${images}">
+            <div class="card shadow-sm">
+                <div class="gallery-user">
+                    <img alt="" th:src="@{'/images/'+${current.imageName}}">
+                </div>
+                <!-- Добавьте больше элементов, если нужно -->
             </div>
-            <!-- Добавьте больше элементов, если нужно -->
-</div>
         </div>
 
     </div>
 
     <div class="row">
         <div class="review">
+            <form id="input-user-tattoos">
             <div class="mb-3">
                 <label class="form-label">Загрузить свое тату</label>
                 <input type="file" id="user-tattoos" name="file" required>
-                <button class="btn btn-outline-secondary" type="button" id="input-user-tattoos">Сохранить</button>
+                <button class="btn btn-outline-secondary" type="submit" >Сохранить</button>
             </div>
+            </form>
         </div>
     </div>
 
@@ -174,34 +176,38 @@
 <div class="profile-editing" th:fragment="profile-editing">
     <h6>Редактирование профиля </h6>
     <div class="row">
-    <form action="#" method="post" id="profile-form"  th:object="${UserDTO}">
-        <label for="username">Имя пользователя:</label>
-        <input type="text" th:field="*{login}" id="username" name="username" placeholder="Введите ваше имя пользователя" required><br><br>
+        <form action="#" method="post" id="profile-form" th:object="${UserDTO}">
+            <label for="username">Имя пользователя:</label>
+            <input type="text" th:field="*{login}" id="username" name="username"
+                   placeholder="Введите ваше имя пользователя" required><br><br>
 
-        <label for="email"  >Email:</label>
-        <input type="email" th:field="*{email}" id="email" name="email" placeholder="Введите ваш email" required><br><br>
+            <label for="email">Email:</label>
+            <input type="email" th:field="*{email}" id="email" name="email" placeholder="Введите ваш email"
+                   required><br><br>
 
-        <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password" placeholder="Введите новый пароль"><br><br>
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" placeholder="Введите новый пароль"><br><br>
 
-        <label for="confirm-password">Подтверждение пароля:</label>
-        <input type="password" id="confirm-password" name="confirm-password"
-               placeholder="Повторите новый пароль"><br><br>
+            <label for="confirm-password">Подтверждение пароля:</label>
+            <input type="password" id="confirm-password" name="confirm-password"
+                   placeholder="Повторите новый пароль"><br><br>
 
-        <button class="btn leave-btn btn-block" type="submit">Сохранить изменения</button>
-    </form>
+            <button class="btn leave-btn btn-block" type="submit">Сохранить изменения</button>
+        </form>
     </div>
     <div class="row">
         <div class="review">
-            <div class="mb-3">
-                <label class="form-label">Загрузить аватар</label>
-                <input type="file" id="avatar" name="file" required>
-            <button class="btn btn-outline-secondary" type="button" id="input-avatar">Сохранить</button>
-            </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Загрузить аватар</label>
+                    <input type="file" id="avatar" name="file" required>
+                    <button onclick="inputAvatar()"  class="btn btn-outline-secondary" id="input-avatar" type="submit" >Сохранить</button>
+                </div>
+
         </div>
     </div>
 </div>
-<div th:fragment="second-fragment">
+<div th:fragment="review-fragment">
     <h6>Мой тату </h6>
     <div class="row scroll-container">
 
@@ -243,22 +249,23 @@
     </div>
     <div class="row">
 
-            <div class="review">
-                <form id="reviews">
-                    <div class="row">
-                        <div class="mb-3">
-                            <label for="avatar" class="form-label">Ваш URL-адрес</label>
-                            <div class="input-group">
-                            <input type="file" id="avatar" name="file" required>
-                            <button class="btn btn-outline-secondary" type="button" id="input-avatar">Сохранить</button>
-                            </div>
-                        </div>
+        <div class="review">
+            <form id="reviews">
+                <div class="row">
+                    <div class="mb-3">
+                        <label for="avatar" class="form-label">Ваш URL-адрес</label>
                         <div class="input-group">
-                            <textarea class="form-control" aria-label="С текстовым полем" placeholder="Текст" id="Comment" name="Comment" required></textarea>
+                            <input type="file" id="" name="file" required>
+                            <button class="btn btn-outline-secondary" type="button" id="">Сохранить</button>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="input-group">
+                        <textarea class="form-control" aria-label="С текстовым полем" placeholder="Текст" id="Comment"
+                                  name="Comment" required></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
 
     </div>
 </div>

@@ -27,7 +27,7 @@ public class LkController {
 
     @GetMapping("/lk")
     public String login(Model model, Principal principal) {
-        User user = userRepository.findByLogin(principal.getName()).get();
+        User user = userRepository.findByLogin(principal.getName()).orElse(null);
         UserDTO userDTO = modelMapper.map(user, UserDTO.class);
         model.addAttribute("UserDTO", userDTO);
         model.addAttribute("images", imagesService.findAll());
@@ -35,7 +35,7 @@ public class LkController {
     }
     @GetMapping("/user-info")
     public String userInfo(Model model) {
-        return "fragments :: second-fragment";
+        return "fragments :: review-fragment";
     }
 
 

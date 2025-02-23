@@ -15,6 +15,9 @@ import ru.tattoo.maxsim.repository.UserRepository;
 import ru.tattoo.maxsim.service.interf.UserService;
 import ru.tattoo.maxsim.validator.UserValidator;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Controller
 public class RegistrationController {
     @Autowired
@@ -36,6 +39,7 @@ public class RegistrationController {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         user.setRole(UserRole.USER.toString());
+        user.setDate(new Date());
         userService.create(user);
         return "login";
     }
