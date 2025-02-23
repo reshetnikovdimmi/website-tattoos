@@ -120,7 +120,26 @@ console.log("input-avatar")
 $('#input-user-tattoos').on("submit", function(e) {
 
             e.preventDefault();
-console.log("input-avatar")
+ const fileInput = document.getElementById('user-tattoos-1');
+ console.log(fileInput)
+        const file = fileInput.files[0];
+        if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
+            modals('Размер файла превышен, выберите файл меньше 1МБ.');
+        } else {
+            const xhr = new XMLHttpRequest();
+            const formData = new FormData();
+            formData.append('file', file);
+            xhr.open('POST', '/avatar-import');
+            xhr.send(formData);
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    $(".profile-info").html(xhr.response);
+                   // document.getElementById('img-interesting-works').reset();
+                    } else {
+                    modals("Server response: ", xhr.response);
+                }
+            };
+        }
  });
 
     /*------------------

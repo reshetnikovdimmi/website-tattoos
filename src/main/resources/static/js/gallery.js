@@ -6,7 +6,7 @@ $(document).ready(function() {
         pagesLeft()
         styles()
         numbers()
-$('.show-result-select').niceSelect();
+
  var target = document.querySelector('.galleryFilter');
 
     MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
@@ -14,7 +14,7 @@ $('.show-result-select').niceSelect();
         pagesRight()
         pagesLeft()
         numbers()
-
+        styles()
 
     });
     var config = {
@@ -43,7 +43,6 @@ function styles() {
         page = 0;
         style = $(this).text();
         galleryControls()
-
         return false;
     });
 }
@@ -59,7 +58,6 @@ function galleryControls() {
     $.get('/gallery' + '/' + style + '/' + page + '/' + number, {}, function(data) {
 
         $(".galleryFilter").html(data);
-
 
     });
 }

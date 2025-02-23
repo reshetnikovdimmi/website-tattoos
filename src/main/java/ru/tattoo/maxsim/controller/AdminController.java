@@ -212,8 +212,6 @@ public class AdminController {
 
     private String sketchesSearch(@PathVariable("page") int page, @PathVariable("number") int number, Model model) {
 
-        System.out.println(page + "-"+ number);
-
         Page<Sketches> images = sketchesService.partition(PageRequest.of(page,number));
         model.addAttribute("sketches",sketchesService.pageList(images) );
         model.addAttribute("number", number);
