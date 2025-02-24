@@ -64,8 +64,9 @@ public class LkController {
 
     @PostMapping("/avatar-import")
     public String avatarImport(@RequestParam("file") MultipartFile fileImport, Model model, Principal principal) throws IOException, ParseException {
-        System.out.println(fileImport.getOriginalFilename());
+
         User user = userRepository.findByLogin(principal.getName()).orElse(null);
+        userService.deleteImg(user.getId());
         userService.saveImg(fileImport, user.getId());
         user = userRepository.findByLogin(principal.getName()).get();
         UserDTO userDTO = modelMapper.map(user, UserDTO.class);

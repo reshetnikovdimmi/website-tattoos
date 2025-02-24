@@ -45,24 +45,18 @@
         galleryAdmin()
         reviews()
         sketches()
-
-
         var target = document.querySelector('.img-import');
         var target1 = document.querySelector('.sketches-import');
-
         MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
         var observer = new MutationObserver(function(mutations, observer) {
             galleryAdmin()
             reviews()
-
             $('.show-result-select').niceSelect();
         });
-         var observer1 = new MutationObserver(function(mutations, observer1) {
-
-                    sketches()
-                    $('.show-result-select').niceSelect();
-                });
-
+        var observer1 = new MutationObserver(function(mutations, observer1) {
+            sketches()
+            $('.show-result-select').niceSelect();
+        });
         var config = {
             attributes: true,
             childList: true,
@@ -70,8 +64,6 @@
         }
         observer.observe(target, config);
         observer1.observe(target1, config);
-
-
     });
     /*------------------
             carousel
@@ -105,23 +97,21 @@
     $('#user-tattoos').click(function(e) {
         $.get('/user-tattoos', {}, function(data) {
             $(".container-lk-info").html(data);
-            inputAvatar()
+            $('#input-user-tattoos').on("submit", function(e) {
+                        e.preventDefault();
+                       userUpdate('user-tattoos-1', '/avatar-import', ".profile-info")
+                    });
         });
     });
-  function inputAvatar() {
-$('#input-user-tattoos').on("submit", function(e) {
 
-            e.preventDefault();
-console.log("input-avatar")
- });
 
-  }
+    $('#input-user-tattoos').on("submit", function(e) {
+        e.preventDefault();
+        userUpdate('user-tattoos-1', '/avatar-import', ".profile-info")
+    });
 
-$('#input-user-tattoos').on("submit", function(e) {
-
-            e.preventDefault();
- const fileInput = document.getElementById('user-tattoos-1');
- console.log(fileInput)
+    function userUpdate(inputFile, link, fragment) {
+        const fileInput = document.getElementById(inputFile);
         const file = fileInput.files[0];
         if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
             modals('Размер файла превышен, выберите файл меньше 1МБ.');
@@ -129,19 +119,18 @@ $('#input-user-tattoos').on("submit", function(e) {
             const xhr = new XMLHttpRequest();
             const formData = new FormData();
             formData.append('file', file);
-            xhr.open('POST', '/avatar-import');
+            xhr.open('POST', link);
             xhr.send(formData);
             xhr.onload = () => {
                 if (xhr.status == 200) {
-                    $(".profile-info").html(xhr.response);
-                   // document.getElementById('img-interesting-works').reset();
-                    } else {
+                    $(fragment).html(xhr.response);
+                    // document.getElementById('img-interesting-works').reset();
+                } else {
                     modals("Server response: ", xhr.response);
                 }
             };
         }
- });
-
+    }
     /*------------------
        Interesting works
     --------------------*/
@@ -326,35 +315,33 @@ $('#input-user-tattoos').on("submit", function(e) {
             };
         }
     });
-var s_page = 0;
+    var s_page = 0;
     var s_number = 9;
-    function sketches() {
-    $('#sketches-number').on('change', function() {
-                s_number = $('#sketches-number').val();
-                s_page = 0;
-                sketchesControls()
-            });
-            $('#sketchers-left').on('click', function() {
-                s_page = s_page - 1;
-                sketchesControls()
-            });
-            $('#sketchers-right').on('click', function() {
-                s_page = s_page + 1;
 
-                sketchesControls()
-            });
+    function sketches() {
+        $('#sketches-number').on('change', function() {
+            s_number = $('#sketches-number').val();
+            s_page = 0;
+            sketchesControls()
+        });
+        $('#sketchers-left').on('click', function() {
+            s_page = s_page - 1;
+            sketchesControls()
+        });
+        $('#sketchers-right').on('click', function() {
+            s_page = s_page + 1;
+            sketchesControls()
+        });
         $('.sketches-import button').click(function(e) {
             var id = $(this).attr("id");
-
             $.get('/sketches-delete/' + id, {}, function(data) {
                 $(".sketches-import").html(data);
-
             });
         });
     }
 
     function sketchesControls() {
-        $.get('/admin-sketches/'  + s_page + '/' + s_number, {}, function(data) {
+        $.get('/admin-sketches/' + s_page + '/' + s_number, {}, function(data) {
             $(".sketches-import").html(data);
         });
     }

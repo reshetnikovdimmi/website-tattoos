@@ -41,4 +41,9 @@ public class UserServiceImpl extends AbstractCRUDService<User, Long> implements 
         Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, fileImport.getOriginalFilename());
         Files.write(fileNameAndPath, fileImport.getBytes());
     }
+
+    @Override
+    public void deleteImg(Long id) throws IOException {
+        Files.delete(Paths.get(UPLOAD_DIRECTORY, userRepository.getName(id)));
+    }
 }
