@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.DTO.UserDTO;
+import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.repository.UserRepository;
 import ru.tattoo.maxsim.service.interf.ImagesService;
@@ -43,7 +44,9 @@ public class LkController {
         return "lk";
     }
     @GetMapping("/user-info")
-    public String userInfo(Model model) {
+    public String userInfo(Model model, Principal principal) {
+        User user = userRepository.findByLogin(principal.getName()).orElse(null);
+        model.addAttribute("review", user.getReviews());
         return "fragments :: review-fragment";
     }
 

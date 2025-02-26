@@ -87,11 +87,16 @@
     $('#info').click(function(e) {
         $.get('/user-info', {}, function(data) {
             $(".container-lk-info").html(data);
+
         });
     });
     $('#profile-editing').click(function(e) {
         $.get('/profile-editing', {}, function(data) {
             $(".container-lk-info").html(data);
+            $('#input-avatar').on("submit", function(e) {
+                                             e.preventDefault();
+                                                                    userUpdate('file-avatar', '/avatar-import', ".profile-info")
+                                            });
         });
     });
     $('#user-tattoos').click(function(e) {

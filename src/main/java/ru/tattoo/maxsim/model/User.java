@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -28,4 +29,8 @@ public class User {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date date;
 
+    @OneToMany(targetEntity = ReviewsUser.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "userName", referencedColumnName = "login")
+
+    private List<ReviewsUser> reviews;
 }
