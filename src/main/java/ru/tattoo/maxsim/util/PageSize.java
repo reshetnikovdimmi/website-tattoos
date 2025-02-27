@@ -1,5 +1,6 @@
 package ru.tattoo.maxsim.util;
 
+
 import lombok.Getter;
 
 import java.util.ArrayList;

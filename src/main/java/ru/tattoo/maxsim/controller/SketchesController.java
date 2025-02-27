@@ -1,6 +1,6 @@
 package ru.tattoo.maxsim.controller;
 
-import com.google.common.collect.Lists;
+
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,12 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.tattoo.maxsim.model.Sketches;
-import ru.tattoo.maxsim.repository.SketchesRepository;
 import ru.tattoo.maxsim.service.interf.SketchesService;
 import ru.tattoo.maxsim.util.PageSize;
 
-import java.util.Collections;
-import java.util.List;
 
 @Controller
 public class SketchesController {

@@ -8,6 +8,7 @@
 		<version>3.3.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>ru.tattoo</groupId>
 	<artifactId>maxsim</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -17,6 +18,9 @@
 	<properties>
 
 		<java.version>17</java.version>
+		<maven.compiler.source>23</maven.compiler.source>
+		<maven.compiler.target>23</maven.compiler.target>
+		<maven.compiler.proc>full</maven.compiler.proc>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -110,6 +114,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -132,6 +137,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 
 			</plugin>
+
 		</plugins>
 	</build>
 
