@@ -20,9 +20,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     @Size(min = 2, max = 20, message = "Login should be from 2 to 20 chars")
+    @Column(unique=true)
     private String login;
     private String password;
     private String role;
+    @Column(unique=true)
     private String email;
     private String avatar;
     @Temporal(TemporalType.DATE)

@@ -25,4 +25,18 @@ $(document).ready(function() {
               };
           }
       });
+
+
+
+
+
 });
+
+ function showModals() {
+ console.log("ok")
+              $('#infoModal').modal("show");
+          }
+
+          function hideModal(modalId) {
+              document.getElementById('infoModal').style.display = 'none';
+          }

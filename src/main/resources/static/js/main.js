@@ -87,7 +87,11 @@
     $('#info').click(function(e) {
         $.get('/user-info', {}, function(data) {
             $(".container-lk-info").html(data);
+$('#input-user-reviews').on("submit", function(e) {
+                                             e.preventDefault();
 
+                                                                  userUpdate('file-review', '/reviews-user-import', ".input-user-reviews")
+                                            });
         });
     });
     $('#profile-editing').click(function(e) {
@@ -104,31 +108,40 @@
             $(".container-lk-info").html(data);
             $('#input-user-tattoos').on("submit", function(e) {
                         e.preventDefault();
-                       userUpdate('user-tattoos-1', '/avatar-import', ".profile-info")
+                       userUpdate('user-tattoos-input', '/tattoos-user-import', ".tattoos-user-reviews")
                     });
         });
     });
 
 
     $('#input-user-tattoos').on("submit", function(e) {
+
         e.preventDefault();
-        userUpdate('user-tattoos-1', '/avatar-import', ".profile-info")
+        userUpdate('user-tattoos-input', '/tattoos-user-import', ".tattoos-user-reviews")
     });
 
     function userUpdate(inputFile, link, fragment) {
+
         const fileInput = document.getElementById(inputFile);
         const file = fileInput.files[0];
+
         if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
             modals('Размер файла превышен, выберите файл меньше 1МБ.');
         } else {
+         console.log("ok")
             const xhr = new XMLHttpRequest();
             const formData = new FormData();
             formData.append('file', file);
             xhr.open('POST', link);
+
+            if (typeof $('#Comment').val() != "undefined") {
+            formData.append('Comment', $('#Comment').val())
+            }
             xhr.send(formData);
             xhr.onload = () => {
                 if (xhr.status == 200) {
                     $(fragment).html(xhr.response);
+
                     // document.getElementById('img-interesting-works').reset();
                 } else {
                     modals("Server response: ", xhr.response);

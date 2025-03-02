@@ -32,12 +32,13 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
     }
 
     @Override
-    public void saveImg(MultipartFile fileImport, String description, String category) throws IOException {
+    public void saveImg(MultipartFile fileImport, String description, String category, String userName) throws IOException {
 
         Images img = new Images();
         img.setImageName(fileImport.getOriginalFilename());
-        img.setDescription(description);
-        img.setCategory(category);
+        if (description !=null)  img.setDescription(description);
+        if (category !=null)  img.setCategory(category);
+        if (userName !=null) img.setUserName(userName);
 
         imagesRepository.save(img);
 
@@ -54,6 +55,7 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
 
     @Override
     public Page<Images> partition(Pageable p) {
+
         return imagesRepository.findAll(p);
     }
 
@@ -65,8 +67,8 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
     @Override
     public Object pageList(Page<Images> images) {
         List<Images> objects = images.hasContent() ? images.getContent() : Collections.emptyList();
-        List<List<Images>> smallerLists = Lists.partition(objects, PARTITION_SIZE);
-        return smallerLists;
+
+        return Lists.partition(objects, PARTITION_SIZE);
     }
 
     @Override

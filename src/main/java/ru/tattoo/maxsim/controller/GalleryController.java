@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,8 +38,9 @@ public class GalleryController {
 
     @GetMapping("/gallery")
     public String gallery(Model model) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
 
-        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
+        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()).withSort(sort);
         Page<Images> images = imagesService.partition(p);
 
         model.addAttribute("number", PageSize.IMG_9.getPageSize());
@@ -56,7 +58,8 @@ public class GalleryController {
     private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
 
         Page<Images> images;
-        Pageable p = PageRequest.of(page, number);
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable p = PageRequest.of(page, number).withSort(sort);
         if (style.equals(ALL_GALLERY)) {
             images = imagesService.partition(p);
         } else {

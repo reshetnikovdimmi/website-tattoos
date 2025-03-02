@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,8 +57,8 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String admin(Model model) {
-
-        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()).withSort(sort);
         Page<Images> images = imagesService.partition(p);
         Page<Sketches> sketches = sketchesService.partition(p);
 
@@ -88,9 +89,10 @@ public class AdminController {
 
     public String imgImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("description") String description,@RequestParam("category") String category, Model model, HttpServletRequest request) throws IOException, ParseException {
 
-        imagesService.saveImg(fileImport,description,category);
+        imagesService.saveImg(fileImport,description,category,null);
         model.addAttribute("images", imagesService.findAll());
-        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()).withSort(sort);
         Page<Images> images = imagesService.partition(p);
 
         model.addAttribute("number", PageSize.IMG_9.getPageSize());
@@ -106,7 +108,8 @@ public class AdminController {
     public String sketchesImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("description") String description, Model model, HttpServletRequest request) throws IOException, ParseException {
 
         sketchesService.saveImg(fileImport,description);
-        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()).withSort(sort);
         Page<Sketches> sketches = sketchesService.partition(p);
         model.addAttribute("sketches", sketchesService.pageList(sketches));
         model.addAttribute("pageSketches", sketches.getTotalPages());
@@ -157,8 +160,8 @@ public class AdminController {
     public String deleteSketches(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
 
         sketchesService.deleteImg(id);
-
-        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()).withSort(sort);
         Page<Sketches> sketches = sketchesService.partition(p);
         model.addAttribute("sketches", sketchesService.pageList(sketches));
         model.addAttribute("pageSketches", sketches.getTotalPages());
@@ -175,7 +178,8 @@ public class AdminController {
 
         imagesService.deleteImg(id);
         model.addAttribute("images", imagesService.findAll());
-        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize());
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()).withSort(sort);
         Page<Images> images = imagesService.partition(p);
 
         model.addAttribute("number", PageSize.IMG_9.getPageSize());
@@ -192,7 +196,8 @@ public class AdminController {
     private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
 
         Page<Images> images;
-        Pageable p = PageRequest.of(page, number);
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable p = PageRequest.of(page, number).withSort(sort);
         if (style.equals(ALL_GALLERY)) {
             images = imagesService.partition(p);
         } else {
@@ -211,8 +216,8 @@ public class AdminController {
     @RequestMapping(value = "/admin-sketches/{page}/{number}", method = RequestMethod.GET)
 
     private String sketchesSearch(@PathVariable("page") int page, @PathVariable("number") int number, Model model) {
-
-        Page<Sketches> images = sketchesService.partition(PageRequest.of(page,number));
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Page<Sketches> images = sketchesService.partition(PageRequest.of(page,number).withSort(sort));
         model.addAttribute("sketches",sketchesService.pageList(images) );
         model.addAttribute("number", number);
         model.addAttribute("pageSketches", images.getTotalPages());

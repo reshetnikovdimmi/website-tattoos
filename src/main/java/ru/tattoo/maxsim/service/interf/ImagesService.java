@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public interface ImagesService extends CRUDService<Images, Long> {
 
-    void saveImg(MultipartFile fileImport, String description, String category) throws IOException;
+    void saveImg(MultipartFile fileImport, String description, String category, String userName) throws IOException;
 
     void deleteImg(Long id) throws IOException;
 

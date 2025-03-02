@@ -12,8 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.DTO.UserDTO;
 import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.model.User;
+import ru.tattoo.maxsim.repository.ImagesRepository;
 import ru.tattoo.maxsim.repository.UserRepository;
 import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.service.interf.ReviewService;
 import ru.tattoo.maxsim.service.interf.UserService;
 
 import java.io.IOException;
@@ -33,6 +35,12 @@ public class LkController {
     private UserService userService;
 
     @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private ImagesRepository imagesRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @GetMapping("/lk")
@@ -40,7 +48,7 @@ public class LkController {
         User user = userRepository.findByLogin(principal.getName()).orElse(null);
         UserDTO userDTO = modelMapper.map(user, UserDTO.class);
         model.addAttribute("UserDTO", userDTO);
-        model.addAttribute("images", imagesService.findAll());
+        model.addAttribute("images", imagesRepository.findByUserName(principal.getName()));
         return "lk";
     }
     @GetMapping("/user-info")
@@ -48,6 +56,24 @@ public class LkController {
         User user = userRepository.findByLogin(principal.getName()).orElse(null);
         model.addAttribute("review", user.getReviews());
         return "fragments :: review-fragment";
+    }
+
+    @PostMapping("/reviews-user-import")
+    public String reviewsImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("Comment") String Comment, Model model, Principal principal) throws IOException, ParseException  {
+        reviewService.saveImd(fileImport,Comment,principal.getName());
+        User user = userRepository.findByLogin(principal.getName()).orElse(null);
+
+        model.addAttribute("review", user.getReviews());
+        return "fragments :: input-user-reviews";
+    }
+
+    @PostMapping("/tattoos-user-import")
+    public String tattoosImport(@RequestParam("file") MultipartFile fileImport, Model model, Principal principal) throws IOException, ParseException  {
+
+        imagesService.saveImg(fileImport,null,null,principal.getName());
+
+        model.addAttribute("images", imagesRepository.findByUserName(principal.getName()));
+        return "fragments :: tattoos-user-reviews";
     }
 
 
@@ -60,8 +86,8 @@ public class LkController {
     }
 
     @GetMapping("/user-tattoos")
-    public String userTattoos(Model model) {
-        model.addAttribute("images", imagesService.findAll());
+    public String userTattoos(Model model, Principal principal) {
+      model.addAttribute("images", imagesRepository.findByUserName(principal.getName()));
         return "fragments :: first-fragment";
     }
 
