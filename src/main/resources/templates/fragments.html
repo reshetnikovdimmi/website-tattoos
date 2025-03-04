@@ -259,5 +259,40 @@
     </div>
 </div>
 <!-- first-fragment Section End -->
+<div class="modal fade" id="infoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true" th:fragment="modal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h7 class="modal-title">Сообщение</h7>
+                <button type="button" id="hide"
+                        class="btn-close btn-close-custom"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row gallery-filter" th:each="current, item : ${images}">
+                        <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="currents: ${current}">
+                            <div class="gallery-item">
+
+                                <img alt="" th:src="@{'/images/'+${currents.imageName}}">
+                                <div class="gi-hover-warp">
+                                    <div class="gi-hover">
+                                        <a th:href="@{'/images/'+${currents.imageName}}" class="image-popup"><i
+                                                class="fa fa-search-plus"></i></a>
+                                        <h6 th:text="${currents.description}"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Модальное окно End -->
 </body>
 </html>

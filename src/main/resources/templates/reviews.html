@@ -34,28 +34,7 @@
 <!-- Header Section Begin -->
 <div th:replace="~{fragments::header}"></div>
 <!-- Header End -->
-<div class="modal fade" id="infoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h7 class="modal-title">Сообщение</h7>
-                <button type="button" id="hide"
-                        class="btn-close btn-close-custom"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-            </div>
-        </div>
-    </div>
-</div>
+<div th:replace="~{fragments::modal}"></div>
 <!-- Модальное окно End -->
 <!-- Breadcrumb Section Begin -->
 <section class="blog-single-hero set-bg" data-setbg="img/about-me.PNG">
