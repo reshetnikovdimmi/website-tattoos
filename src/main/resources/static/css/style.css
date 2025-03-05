@@ -556,11 +556,34 @@ padding:10px;
   position: relative;
   overflow: hidden;
   cursor: pointer;
+
+}
+
+.gallery-modal {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 30px;
 }
 
 .gallery-item img {
   width: 350px;
     height: 350px;
+    top: 50%;
+    left: 50%;
+    max-width: 100%;
+    /* чтобы картинка не выходила за пределы контейнера */
+    max-height: 100%;
+    /* чтобы картинка не выходила за пределы контейнера */
+    object-fit: cover;
+    /* чтобы сохранить пропорции изображения при растяжении */
+}
+.gallery-modal img {
+  width: 200px;
+    height: 200px;
     top: 50%;
     left: 50%;
     max-width: 100%;
@@ -2818,8 +2841,13 @@ input[type="checkbox"] {
   padding-bottom: 100px;
 }
 
+.modal-footer {
+  display: contents;
+  }
+
 .blog-option {
   margin-top: 30px;
+  weight:100%;
 }
 
 .blog-option .blog-pagination {
