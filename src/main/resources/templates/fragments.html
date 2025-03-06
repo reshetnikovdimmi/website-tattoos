@@ -240,15 +240,12 @@
             <form id="input-user-reviews" class="form-admin">
 
                 <div class="mb-3">
-                    <label for="file-review" class="form-label">Выбрать тату для отзыва </label>
-                    <div class="input-group">
-                        <input class="form-control" type="file"
-                               accept="image/png, image/gif, image/jpeg"
-                               id="file-review" name="file" required>
-                        <button class="btn btn-outline-secondary" type="submit" id="">Сохранить</button>
-                    </div>
-                </div>
-                <div class="input-group">
+
+
+
+                            <button th:attr="onclick=|showModals()|" type="button" class="leave-btn">Выбрать изображение для отзыва</button>
+
+
                         <textarea class="form-control" aria-label="С текстовым полем" placeholder="Текст" id="Comment"
                                   name="Comment" required></textarea>
                 </div>
@@ -274,7 +271,7 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="gallery-filter">
-                        <div class="row gallery-filter" th:each="current, item : ${images}">
+                        <div class="row gallery-filter" th:each="current, item : ${images1}">
                             <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="currents: ${current}">
                                 <div class="gallery-modal">
 
@@ -290,24 +287,18 @@
             <div class="modal-footer">
                 <div class="blog-option">
                     <div class="blog-pagination">
-                        <a th:if="${currentPage!=0}" id="sketchers-left" type="submit"><i
-                                class="fa fa-long-arrow-left"></i></a>
+                        <a th:if="${currentPage!=0}" id="fa-long-arrow-left" type="submit"><i class="fa fa-long-arrow-left"></i></a>
                         <a class="active">[[${currentPage+1}]]</a>
                         of
-                        <a>[[${pageSketches}]]</a>
-                        <a th:if="${currentPage+1 != pageSketches}" id="sketchers-right" type="submit"><i
-                                class="fa fa-long-arrow-right"></i></a>
+                        <a>[[${page}]]</a>
+                        <a  th:if="${currentPage+1 != page}" id="fa-long-arrow-right" type="submit"><i class="fa fa-long-arrow-right"></i></a>
                     </div>
                     <div class="blog-option-right">
-                        <div class="blog-result">Showing [[${currentPage+1}]]–[[${pageSketches}]] of
-                            [[${imagesTotalSketches}]] results
-                        </div>
-
-                        <div class="show-result ">
+                        <div class="blog-result">Showing [[${currentPage+1}]]–[[${page}]] of [[${imagesTotal}]]  results</div>
+                        <div class="show-result">
                             <p>Show:</p>
-                            <select class="show-result-select" id="sketches-number">
-                                <option th:each="option : ${options}" th:value="${option}"
-                                        th:text="${option}" th:selected="${option == number}"></option>
+                            <select class="show-result-select" id="number">
+                                <option th:each="option : ${options}" th:value="${option}" th:text="${option}" th:selected="${option == number}"  ></option>
                             </select>
                         </div>
                     </div>

@@ -197,6 +197,10 @@ $('#input-user-reviews').on("submit", function(e) {
         e.preventDefault();
         $(this).tab('show');
     });
+      $('#tabOption button').click(function(e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
     /*------------------
       Contact info
      --------------------*/

@@ -33,7 +33,7 @@ $(document).ready(function() {
 });
 
  function showModals() {
- console.log("ok")
+
               $('#infoModal').modal("show");
           }
 

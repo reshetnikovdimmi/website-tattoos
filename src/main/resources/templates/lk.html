@@ -29,6 +29,8 @@
 <!-- Header Section Begin -->
 <div th:replace="~{fragments::header}"></div>
 <!-- Header End -->
+<div th:replace="~{fragments::modal}"></div>
+<!-- Модальное окно End -->
 <!-- Модальное окно -->
 <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -104,5 +106,6 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/masonry.pkgd.min.js"></script>
 <script src="js/main.js"></script>
+<script type="text/javascript" th:src="@{/js/lk.js}"></script>
 </body>
 </html>

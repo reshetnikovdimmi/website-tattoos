@@ -41,7 +41,7 @@ public class ReviewsController {
         model.addAttribute("page", images.getTotalPages());
         model.addAttribute("currentPage", PAGE_NUMBER);
         model.addAttribute("imagesTotal", images.getTotalElements());
-        model.addAttribute("images", sketchesService.pageList(images));
+        model.addAttribute("images1", sketchesService.pageList(images));
         model.addAttribute("options", PageSize.getLisPageSize());
 
         return "reviews";

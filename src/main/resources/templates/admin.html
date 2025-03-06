@@ -121,20 +121,20 @@
                             <div class="row">
                                 <form id="img-import" class="form-admin">
 
-                                        <div class="input-group mb-3">
-                                            <input class="form-control" type="file"
-                                                   accept="image/png, image/gif, image/jpeg"
-                                                   id="file-Gallery" name="file" required>
-                                            <button id="btn-img" class="btn btn-outline-secondary" type="submit">
-                                                Применить
-                                            </button>
-                                        </div>
+                                    <div class="input-group mb-3">
+                                        <input class="form-control" type="file"
+                                               accept="image/png, image/gif, image/jpeg"
+                                               id="file-Gallery" name="file" required>
+                                        <button id="btn-img" class="btn btn-outline-secondary" type="submit">
+                                            Применить
+                                        </button>
+                                    </div>
 
-                                        <div class="input-group input-text">
-                                            <input type="text" class="form-control"
-                                                   placeholder="Описание" style="height: 100px;"
-                                                   id="description" name="description" required>
-                                        </div>
+                                    <div class="input-group input-text">
+                                        <input type="text" class="form-control"
+                                               placeholder="Описание" style="height: 100px;"
+                                               id="description" name="description" required>
+                                    </div>
 
                                 </form>
                             </div>
@@ -196,9 +196,9 @@
                 <h3 style="color: #FFFFFF; margin: 10px;">Отзывы</h3>
                 <section class="scroll">
 
-                        <div class="container">
-                            <div class="row row-cols-1 g-4" >
-                                <div class="reviews" th:fragment="reviews">
+                    <div class="container">
+                        <div class="row row-cols-1 g-4">
+                            <div class="reviews" th:fragment="reviews">
                                 <div class="col" th:each="current : ${reviews}">
                                     <div class="row card">
                                         <div class="row mb-3 text-center">
@@ -212,16 +212,17 @@
                                             <div class="col-md-8 themed-grid-col">
                                                 <div class="card-header d-flex justify-content-between align-items-center">
 
-                                                    <div th:text="${current.userName}" >
+                                                    <div th:text="${current.userName}">
 
                                                     </div>
 
-                                                    <button type="button" th:id="${current.id}" class="btn btn-sm btn-danger del-reviews">
+                                                    <button type="button" th:id="${current.id}"
+                                                            class="btn btn-sm btn-danger del-reviews">
                                                         Удалить отзыв
                                                     </button>
                                                 </div>
                                                 <div class="card-body"
-                                                     th:text="${current.comment}"  >
+                                                     th:text="${current.comment}">
                                                 </div>
                                             </div>
                                         </div>
@@ -251,7 +252,7 @@
                                 <div class="input-group input-text">
                                     <input type="text" class="form-control"
                                            placeholder="Описание" style="height: 100px;"
-                                        id="description-sketches"   name="description" required>
+                                           id="description-sketches" name="description" required>
                                 </div>
                             </div>
                         </form>
@@ -280,7 +281,8 @@
                                         <a class="active">[[${currentPage+1}]]</a>
                                         of
                                         <a>[[${pageSketches}]]</a>
-                                        <a th:if="${currentPage+1 != pageSketches}" id="sketchers-right" type="submit"><i
+                                        <a th:if="${currentPage+1 != pageSketches}" id="sketchers-right"
+                                           type="submit"><i
                                                 class="fa fa-long-arrow-right"></i></a>
                                     </div>
                                     <div class="blog-option-right">
@@ -336,7 +338,7 @@
                                             <div class="input-group input-text">
                                                 <input type="text" class="form-control"
                                                        placeholder="Описание" style="height: 100px;"
-                                                       id="description-interesting-works"   name="description" required>
+                                                       id="description-interesting-works" name="description" required>
                                             </div>
                                         </div>
                                     </form>
@@ -422,19 +424,121 @@
                 </div>
             </div>
             <div id="menu4" class="container tab-pane fade"><br>
-                <div class="row mb-3">
-                    <h3 style="color: #FFFFFF; margin: 10px;">Пользователи</h3>
-                    <section class="scroll" style="margin: 10px;">
-                        <div class="row gallery-filter" th:each="current : ${user}">
-                            <div class="col-6 col-md-4 themed-grid-col">
-                                <h6 style="color: #FFFFFF; margin: 10px;" th:text="${current.login}"></h6>
+                <div class="row">
+                    <div class="col-6 col-lg-4 themed-grid-col">
+                        <div class="nav flex-column nav-pills me-3" id="tabOption" role="tablist"
+                             aria-orientation="vertical">
+                            <button style="margin: 10px;" class="nav-link active btn btn-outline-secondary"
+                                    href="#v-pills-users"
+                                    id="v-pills-users-tab" data-bs-toggle="pill" data-bs-target="#v-pills-users"
+                                    type="button" role="tab" aria-controls="v-pills-users" aria-selected="true">
+                                Пользователи
+                            </button>
+                            <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
+                                    href="#v-pills-contact"
+                                    id="v-pills-contact-tab" data-bs-toggle="pill" data-bs-target="#v-pills-contact"
+                                    type="button" role="tab" aria-controls="v-pills-contact" aria-selected="true">
+                                Пользователи
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-8 themed-grid-col">
+                        <div class="tab-content" id="v-pills-tabContent-option">
+                            <div class="tab-pane fade show active" id="v-pills-users" role="tabpanel"
+                                 aria-labelledby="v-pills-home-tab" tabindex="0">
+                                <div class="row mb-3">
+                                    <h3 style="color: #FFFFFF; margin: 10px;">Пользователи</h3>
+                                    <section class="scroll" style="margin: 10px;">
+                                        <div class="row gallery-filter" th:each="current : ${user}">
+                                            <div class="col-6 col-md-4 themed-grid-col">
+                                                <h6 style="color: #FFFFFF; margin: 10px;"
+                                                    th:text="${current.login}"></h6>
+                                            </div>
+                                            <div class="col-6 col-md-4 themed-grid-col">
+                                                <h6 style="color: #FFFFFF; margin: 10px;"
+                                                    th:text="${current.email}"></h6>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                </div>
                             </div>
-                            <div class="col-6 col-md-4 themed-grid-col">
-                                <h6 style="color: #FFFFFF; margin: 10px;" th:text="${current.email}"></h6>
+                            <div class="tab-pane fade" id="v-pills-contact" role="tabpanel"
+                                 aria-labelledby="v-pills-home-tab" tabindex="0">
+                                <div class="row mb-3">
+                                    <div class="footer-widget" th:object="${contactInfo}">
+                                        <div class="col-lg-12 text-center">
+                                            <div class="section-title">
+                                                <h3 style="color: #FFFFFF;">Контактная информация</h3>
+                                            </div>
+                                        </div>
+                                        <ul class="admin-info">
+                                            <li>
+                                                <div class="row">
+                                                    <i class="fa fa-phone"></i>
+                                                    <div class="col-6 col-md-4 themed-grid-col" id="tell-new">
+                                                        <span>Телефон:</span>
+                                                        [(*{tell})]
+                                                    </div>
+                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                        <span>Новый номер:</span>
+                                                        <input type="tel" class="form-control" id="tell"
+                                                               autofocus="autofocus" required="required"
+                                                               placeholder="+7(___)___-__-__">
+                                                    </div>
+                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                        <button id="phone" type="submit" class="leave-btn">Сохранить
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="row">
+                                                    <i class="fa fa-envelope-o"></i>
+                                                    <div class="col-6 col-md-4 themed-grid-col" id="email-new">
+                                                        <span>Email:</span>
+                                                        [(*{email})]
+                                                    </div>
+                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                        <span>Новый email:</span>
+                                                        <input type="email" class="form-control" id="email"
+                                                               aria-describedby="emailHelp" prequired
+                                                               placeholder="name@example.com">
+                                                    </div>
+                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                        <button id="email-btn" type="submit" class="leave-btn">
+                                                            Сохранить
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="row">
+                                                    <i class="fa fa-map-marker"></i>
+                                                    <div class="col-6 col-md-4 themed-grid-col" id="address-new">
+                                                        <span>Адрес</span>
+                                                        [(*{address})]
+                                                    </div>
+                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                        <span>Новый адрес:</span>
+                                                        <input type="text" class="form-control" id="address"
+                                                               aria-describedby="emailHelp" placeholder="Enter адрес">
+                                                    </div>
+                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                        <button type="submit" id="address-btn" class="leave-btn">
+                                                            Сохранить
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+
+                                </div>
                             </div>
                         </div>
-                    </section>
-
+                    </div>
                 </div>
             </div>
             <div id="menu5" class="container tab-pane fade"><br>
@@ -447,11 +551,6 @@
                                     id="v-pills-carousel-tab" data-bs-toggle="pill" data-bs-target="#v-pills-carousel"
                                     type="button" role="tab" aria-controls="v-pills-carousel" aria-selected="true">
                                 Карусель
-                            </button>
-                            <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
-                                    href="#v-pills-profile2" id="v-pills-profile-tab2"
-                                    data-bs-toggle="pill" data-bs-target="#v-pills-profile2" type="button"
-                                    role="tab" aria-controls="v-pills-profile" aria-selected="false">Профиль
                             </button>
                             <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
                                     href="#v-pills-feature-section" id="v-pills-feature-section-tab"
@@ -552,78 +651,7 @@
 
 
                             </div>
-                            <div class="tab-pane fade" id="v-pills-profile2" role="tabpanel"
-                                 aria-labelledby="v-pills-profile-tab" tabindex="0">
-                                <div class="row">
-                                    <div class="footer-widget" th:object="${contactInfo}">
-                                        <div class="col-lg-12 text-center">
-                                            <div class="section-title">
-                                                <h3 style="color: #FFFFFF;">Контактная информация</h3>
-                                            </div>
-                                        </div>
-                                        <ul class="admin-info">
-                                            <li>
-                                                <div class="row">
-                                                    <i class="fa fa-phone"></i>
-                                                    <div class="col-6 col-md-4 themed-grid-col" id="tell-new">
-                                                        <span>Телефон:</span>
-                                                        [(*{tell})]
-                                                    </div>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
-                                                        <span>Новый номер:</span>
-                                                        <input type="tel" class="form-control" id="tell"
-                                                               autofocus="autofocus" required="required"
-                                                               placeholder="+7(___)___-__-__">
-                                                    </div>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
-                                                        <button id="phone" type="submit" class="leave-btn">Сохранить
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="row">
-                                                    <i class="fa fa-envelope-o"></i>
-                                                    <div class="col-6 col-md-4 themed-grid-col" id="email-new">
-                                                        <span>Email:</span>
-                                                        [(*{email})]
-                                                    </div>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
-                                                        <span>Новый email:</span>
-                                                        <input type="email" class="form-control" id="email"
-                                                               aria-describedby="emailHelp" prequired
-                                                               placeholder="name@example.com">
-                                                    </div>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
-                                                        <button id="email-btn" type="submit" class="leave-btn">
-                                                            Сохранить
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="row">
-                                                    <i class="fa fa-map-marker"></i>
-                                                    <div class="col-6 col-md-4 themed-grid-col" id="address-new">
-                                                        <span>Адрес</span>
-                                                        [(*{address})]
-                                                    </div>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
-                                                        <span>Новый адрес:</span>
-                                                        <input type="text" class="form-control" id="address"
-                                                               aria-describedby="emailHelp" placeholder="Enter адрес">
-                                                    </div>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
-                                                        <button type="submit" id="address-btn" class="leave-btn">
-                                                            Сохранить
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="tab-pane fade" id="v-pills-home-about" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab" tabindex="0">
                                 <div class="row">

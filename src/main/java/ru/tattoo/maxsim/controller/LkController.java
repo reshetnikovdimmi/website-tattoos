@@ -3,6 +3,8 @@ package ru.tattoo.maxsim.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.DTO.UserDTO;
 import ru.tattoo.maxsim.model.ReviewsUser;
+import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.repository.ImagesRepository;
 import ru.tattoo.maxsim.repository.UserRepository;
 import ru.tattoo.maxsim.service.interf.ImagesService;
 import ru.tattoo.maxsim.service.interf.ReviewService;
+import ru.tattoo.maxsim.service.interf.SketchesService;
 import ru.tattoo.maxsim.service.interf.UserService;
+import ru.tattoo.maxsim.util.PageSize;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -41,7 +46,12 @@ public class LkController {
     private ImagesRepository imagesRepository;
 
     @Autowired
+    private SketchesService sketchesService;
+
+    @Autowired
     private ModelMapper modelMapper;
+
+    private static final int PAGE_NUMBER = 0;
 
     @GetMapping("/lk")
     public String login(Model model, Principal principal) {
@@ -49,6 +59,14 @@ public class LkController {
         UserDTO userDTO = modelMapper.map(user, UserDTO.class);
         model.addAttribute("UserDTO", userDTO);
         model.addAttribute("images", imagesRepository.findByUserName(principal.getName()));
+
+        Page<Sketches> images = sketchesService.partition(PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+        model.addAttribute("number", PageSize.IMG_9.getPageSize());
+        model.addAttribute("page", images.getTotalPages());
+        model.addAttribute("currentPage", PAGE_NUMBER);
+        model.addAttribute("imagesTotal", images.getTotalElements());
+        model.addAttribute("images1", sketchesService.pageList(images));
+        model.addAttribute("options", PageSize.getLisPageSize());
         return "lk";
     }
     @GetMapping("/user-info")
