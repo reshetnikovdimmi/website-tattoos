@@ -1,6 +1,7 @@
 package ru.tattoo.maxsim.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import ru.tattoo.maxsim.model.ContactInfo;
+import ru.tattoo.maxsim.model.DTO.CommitsDTO;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.repository.ContactInfoRepository;
@@ -54,6 +56,9 @@ public class AdminController {
     @Autowired
     private ContactInfoRepository contactInfoRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
 
     @GetMapping("/admin")
     public String admin(Model model) {
@@ -70,7 +75,7 @@ public class AdminController {
         model.addAttribute("reviews", reviewService.findAll());
         model.addAttribute("user", userService.findAll());
         model.addAttribute("interestingWorks", interestingWorksService.findAll());
-        model.addAttribute("commits", commitsService.findAll());
+        model.addAttribute("commits", commitsService.findAll().stream().map(commits->modelMapper.map(commits, CommitsDTO.class)));
         model.addAttribute("carousel", homeService.findAll());
 
 

@@ -144,38 +144,70 @@
 </footer>
 <!-- Footer Section End -->
 <!-- first-fragment Section -->
-<div th:fragment="first-fragment">
+<div class="tattoos-reviews" th:fragment="first-fragment">
     <h6>Мой тату </h6>
-    <div class="tattoos-user-reviews" th:fragment="tattoos-user-reviews">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 scroll-container ">
+    <div class="row scroll-container">
 
-            <div class="col " th:each="current : ${images}">
-                <div class="card shadow-sm">
-                    <div class="gallery-user">
-                        <img alt="" th:src="@{'/images/'+${current.imageName}}">
+        <div class="tattoos-user-reviews " th:fragment="tattoos-user-reviews">
+            <section class="review">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    <div class="col " th:each="current : ${images}">
+                        <div class="card-shadow-sm">
+
+                            <img alt="" th:src="@{'/images/'+${current.imageName}}">
+
+                            <!-- Добавьте больше элементов, если нужно -->
+                        </div>
                     </div>
-                    <!-- Добавьте больше элементов, если нужно -->
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="card shadow-sm p-3 mb-5 bg-white rounded">
+                    <div class="row mb-3 text-center">
+
+                        <div class="col-6 col-lg-4 themed-grid-col">
+
+
+                            <div class="avatar-container">
+                                <img id="preview-image" src="" alt="Ваш аватар">
+                                <button type="button" class="upload-btn btn btn-primary"
+                                        onclick="document.getElementById('avatar-input').click()">Выбрать файл
+                                </button>
+                                <input type="file" id="avatar-input" accept="image/*" onchange="loadImage(this)">
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-6 col-lg-8 themed-grid-col">
+
+
+                            <form id="input-user-reviews" class="form-admin">
+
+
+                                <div class="input-group">
+                                    <span class="input-group-text">Текст</span>
+                                    <textarea class="form-control" aria-label="С текстовым полем"></textarea>
+                                    <button class="btn leave-btn btn-block" type="submit">Сохранить изменения</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="review">
-            <form id="input-user-tattoos">
-                <div class="mb-3">
-                    <label class="form-label">Загрузить свое тату</label>
-                    <input type="file" id="user-tattoos-input" name="file" required>
-                    <button class="btn btn-outline-secondary" type="submit">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
 </div>
 <div class="profile-editing" th:fragment="profile-editing">
     <h6>Редактирование профиля </h6>
-    <div class="row">
+    <div class="row scroll-container">
         <form action="#" method="post" id="profile-form" th:object="${UserDTO}">
             <label for="username">Имя пользователя:</label>
             <input type="text" th:field="*{login}" id="username" name="username"
@@ -196,29 +228,46 @@
         </form>
     </div>
     <div class="row">
-        <div class="review">
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+
+                <div class="card shadow-sm p-3 mb-5 bg-white rounded">
+                    <div class="row mb-3 text-center">
+
+                        <div class="col-6 col-lg-4 themed-grid-col">
 
 
-            <form id="input-avatar" class="form-admin">
-                <div class="mb-3">
-                    <label for="file-avatar" class="form-label">Загрузить аватар</label>
-                    <div class="input-group">
+                            <div class="avatar-container">
+                                <img id="preview-image" src="" alt="Ваш аватар">
+                                <button type="button" class="upload-btn btn btn-primary"
+                                        onclick="document.getElementById('avatar-input').click()">Выбрать файл
+                                </button>
+                                <input type="file" id="avatar-input" accept="image/*" onchange="loadImage(this)">
+                            </div>
+                        </div>
 
-                        <input class="form-control" type="file"
-                               accept="image/png, image/gif, image/jpeg"
-                               id="file-avatar" name="file" required>
-                        <button class="btn btn-outline-secondary" type="submit">
-                            Применить
-                        </button>
+
+                        <div class="col-sm-6 col-lg-8 themed-grid-col">
+
+
+                            <form id="input-user-reviews" class="form-admin">
+
+
+                                <div class="input-group">
+                                    <button class="btn leave-btn btn-block" type="submit">Сохранить изменения</button>
+                                </div>
+
+                            </form>
+                        </div>
                     </div>
+
                 </div>
 
-            </form>
-
+            </div>
         </div>
     </div>
 </div>
-<div th:fragment="review-fragment">
+<div class="review-fragment" th:fragment="review-fragment">
     <h6>Мой отзывы</h6>
     <div class="row scroll-container">
         <div class="input-user-reviews" th:fragment="input-user-reviews">
@@ -236,23 +285,45 @@
     </div>
     <div class="row">
 
-        <div class="review">
-            <form id="input-user-reviews" class="form-admin">
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="card shadow-sm p-3 mb-5 bg-white rounded">
+                    <div class="row mb-3 text-center">
 
-                <div class="mb-3">
-
-
-
-                            <button th:attr="onclick=|showModals()|" type="button" class="leave-btn">Выбрать изображение для отзыва</button>
+                        <div class="col-6 col-lg-4 themed-grid-col">
 
 
-                        <textarea class="form-control" aria-label="С текстовым полем" placeholder="Текст" id="Comment"
-                                  name="Comment" required></textarea>
+                            <div class="avatar-container">
+                                <img id="preview-image" src="" alt="Ваш аватар">
+                                <button type="button" class="upload-btn btn btn-primary"
+                                        onclick="document.getElementById('avatar-input').click()">Выбрать файл
+                                </button>
+                                <input type="file" id="avatar-input" accept="image/*" onchange="loadImage(this)">
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-6 col-lg-8 themed-grid-col">
+
+
+                            <form id="input-user-reviews" class="form-admin">
+
+
+                                <div class="input-group">
+                                    <span class="input-group-text">Текст</span>
+                                    <textarea class="form-control" aria-label="С текстовым полем"></textarea>
+                                    <button class="btn leave-btn btn-block" type="submit">Сохранить изменения</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
 
-            </form>
-        </div>
 
+            </div>
+        </div>
     </div>
 </div>
 <!-- first-fragment Section End -->
@@ -287,18 +358,23 @@
             <div class="modal-footer">
                 <div class="blog-option">
                     <div class="blog-pagination">
-                        <a th:if="${currentPage!=0}" id="fa-long-arrow-left" type="submit"><i class="fa fa-long-arrow-left"></i></a>
+                        <a th:if="${currentPage!=0}" id="fa-long-arrow-left" type="submit"><i
+                                class="fa fa-long-arrow-left"></i></a>
                         <a class="active">[[${currentPage+1}]]</a>
                         of
                         <a>[[${page}]]</a>
-                        <a  th:if="${currentPage+1 != page}" id="fa-long-arrow-right" type="submit"><i class="fa fa-long-arrow-right"></i></a>
+                        <a th:if="${currentPage+1 != page}" id="fa-long-arrow-right" type="submit"><i
+                                class="fa fa-long-arrow-right"></i></a>
                     </div>
                     <div class="blog-option-right">
-                        <div class="blog-result">Showing [[${currentPage+1}]]–[[${page}]] of [[${imagesTotal}]]  results</div>
+                        <div class="blog-result">Showing [[${currentPage+1}]]–[[${page}]] of [[${imagesTotal}]]
+                            results
+                        </div>
                         <div class="show-result">
                             <p>Show:</p>
                             <select class="show-result-select" id="number">
-                                <option th:each="option : ${options}" th:value="${option}" th:text="${option}" th:selected="${option == number}"  ></option>
+                                <option th:each="option : ${options}" th:value="${option}" th:text="${option}"
+                                        th:selected="${option == number}"></option>
                             </select>
                         </div>
                     </div>

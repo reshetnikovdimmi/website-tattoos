@@ -58,8 +58,8 @@
 <section class="breadcrumb-section set-bg spad" data-setbg="img/classes-title-bg.jpg">
     <div class="container" th:object="${UserDTO}">
         <div class="row">
-            <div class="col">
-                <div class="container-lk">
+            <div class="col container-lk">
+
                     <h6>Добро пожаловать в личный кабинет!</h6>
 
                     <!-- Информация о профиле -->
@@ -73,7 +73,7 @@
                     </div>
 
                     <!-- Ссылки на другие страницы -->
-                    <div class="links">
+                    <div class="links profile-info">
                         <button class="btn btn-outline-secondary btn-block" id="profile-editing">Редактировать профиль
                         </button>
                         <button class="btn btn-outline-secondary btn-block" id="info">Мои отзывы</button>
@@ -81,7 +81,7 @@
                         <button class="btn btn-outline-secondary btn-block"><a href="/logout">Выход</a></button>
                     </div>
 
-                </div>
+
             </div>
             <div class="col-sm-6 col-lg-8 themed-grid-col">
                 <div class="container-lk-info">

@@ -1,6 +1,7 @@
 package ru.tattoo.maxsim.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.DTO.CommitsDTO;
 import ru.tattoo.maxsim.repository.CommitsRepository;
 import ru.tattoo.maxsim.repository.InterestingWorksRepository;
 import ru.tattoo.maxsim.repository.SketchesRepository;
@@ -34,12 +36,14 @@ public class BlogController {
     private SketchesRepository sketchesRepository;
     @Autowired
     private InterestingWorksRepository interestingWorksRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping ("/blog")
     public  String blog (Model model){
         model.addAttribute("localDateTime", LocalDateTime.now());
         model.addAttribute("count", reviewService.getCount());
-        model.addAttribute("commits", commitsRepository.findLimit());
+        model.addAttribute("commits", commitsRepository.findLimit().stream().map(commits->modelMapper.map(commits, CommitsDTO.class)));
         model.addAttribute("sketches", sketchesRepository.findLimit());
         model.addAttribute("interestingWorks", interestingWorksRepository.findLimit());
         return "blog";

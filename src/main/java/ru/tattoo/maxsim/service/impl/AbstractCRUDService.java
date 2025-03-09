@@ -2,6 +2,7 @@ package ru.tattoo.maxsim.service.impl;
 
 
 import org.springframework.data.repository.CrudRepository;
+import ru.tattoo.maxsim.model.DTO.CommitsDTO;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import java.io.IOException;
 import java.util.Collections;
