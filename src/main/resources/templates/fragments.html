@@ -169,25 +169,23 @@
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="card shadow-sm p-3 mb-5 bg-white rounded">
-                    <div class="row mb-3 text-center">
+                    <form id="input-user-reviews" class="form-admin">
+                        <div class="row mb-3 text-center">
 
-                        <div class="col-6 col-lg-4 themed-grid-col">
+                            <div class="col-6 col-lg-4 themed-grid-col">
 
 
-                            <div class="avatar-container">
-                                <img id="preview-image" src="" alt="Ваш аватар">
-                                <button type="button" class="upload-btn btn btn-primary"
-                                        onclick="document.getElementById('avatar-input').click()">Выбрать файл
-                                </button>
-                                <input type="file" id="avatar-input" accept="image/*" onchange="loadImage(this)">
+                                <div class="avatar-container">
+                                    <img id="preview-image" src="" alt="Ваш аватар">
+                                    <button type="button" class="upload-btn btn btn-primary"
+                                            onclick="document.getElementById('avatar-input').click()">Выбрать файл
+                                    </button>
+                                    <input type="file" id="avatar-input" accept="image/*" onchange="loadImage(this)">
+                                </div>
                             </div>
-                        </div>
 
 
-                        <div class="col-sm-6 col-lg-8 themed-grid-col">
-
-
-                            <form id="input-user-reviews" class="form-admin">
+                            <div class="col-sm-6 col-lg-8 themed-grid-col">
 
 
                                 <div class="input-group">
@@ -196,10 +194,11 @@
                                     <button class="btn leave-btn btn-block" type="submit">Сохранить изменения</button>
                                 </div>
 
-                            </form>
-                        </div>
-                    </div>
 
+                            </div>
+
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -232,39 +231,40 @@
             <div class="row justify-content-center">
 
                 <div class="card shadow-sm p-3 mb-5 bg-white rounded">
-                    <div class="row mb-3 text-center">
+                    <form id="input-user-reviews" class="form-admin">
+                        <div class="row mb-3 text-center">
 
-                        <div class="col-6 col-lg-4 themed-grid-col">
+                            <div class="col-6 col-lg-4 themed-grid-col">
 
 
-                            <div class="avatar-container">
-                                <img id="preview-image" src="" alt="Ваш аватар">
-                                <button type="button" class="upload-btn btn btn-primary"
-                                        onclick="document.getElementById('avatar-input').click()">Выбрать файл
-                                </button>
-                                <input type="file" id="avatar-input" accept="image/*" onchange="loadImage(this)">
+                                <div class="avatar-container">
+                                    <img id="preview-image" src="" alt="Ваш аватар">
+                                    <button type="button" class="upload-btn btn btn-primary"
+                                            onclick="document.getElementById('avatar-input').click()">Выбрать файл
+                                    </button>
+                                    <input type="file" id="avatar-input" accept="image/*" onchange="loadImage(this)">
+                                </div>
                             </div>
-                        </div>
 
 
-                        <div class="col-sm-6 col-lg-8 themed-grid-col">
-
-
-                            <form id="input-user-reviews" class="form-admin">
+                            <div class="col-sm-6 col-lg-8 themed-grid-col">
 
 
                                 <div class="input-group">
                                     <button class="btn leave-btn btn-block" type="submit">Сохранить изменения</button>
                                 </div>
 
-                            </form>
-                        </div>
-                    </div>
 
+                            </div>
+
+                        </div>
+                    </form>
                 </div>
 
             </div>
+
         </div>
+
     </div>
 </div>
 <div class="review-fragment" th:fragment="review-fragment">
@@ -288,37 +288,30 @@
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="card shadow-sm p-3 mb-5 bg-white rounded">
-                    <div class="row mb-3 text-center">
+                    <form id="input-user-reviews" class="form-admin">
+                        <div class="row mb-3 text-center">
 
-                        <div class="col-6 col-lg-4 themed-grid-col">
+                            <div class="col-6 col-lg-4 themed-grid-col">
 
 
-                            <div class="avatar-container">
-                                <img id="preview-image" src="" alt="Ваш аватар">
-                                <button type="button" class="upload-btn btn btn-primary"
-                                        onclick="document.getElementById('avatar-input').click()">Выбрать файл
-                                </button>
-                                <input type="file" id="avatar-input" accept="image/*" onchange="loadImage(this)">
+                                <div class="avatar-container">
+                                    <img id="preview-image" src="" alt="Ваш аватар">
+                                    <button type="button" class="upload-btn btn btn-primary"
+                                            onclick="document.getElementById('avatar-input').click()">Выбрать файл
+                                    </button>
+                                    <input type="file" id="avatar-input" accept="image/*" onchange="loadImage(this)">
+                                </div>
                             </div>
-                        </div>
-
-
-                        <div class="col-sm-6 col-lg-8 themed-grid-col">
-
-
-                            <form id="input-user-reviews" class="form-admin">
-
-
+                            <div class="col-sm-6 col-lg-8 themed-grid-col">
                                 <div class="input-group">
                                     <span class="input-group-text">Текст</span>
                                     <textarea class="form-control" aria-label="С текстовым полем"></textarea>
-                                    <button class="btn leave-btn btn-block" type="submit">Сохранить изменения</button>
+                                    <button class="btn leave-btn btn-block" type="submit">Сохранить изменения
+                                    </button>
                                 </div>
-
-                            </form>
+                            </div>
                         </div>
-                    </div>
-
+                    </form>
                 </div>
 
 
