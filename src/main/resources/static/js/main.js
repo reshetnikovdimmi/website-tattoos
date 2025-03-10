@@ -115,9 +115,9 @@ $('#input-user-reviews').on("submit", function(e) {
 
 
     $('#input-user-tattoos').on("submit", function(e) {
-
+alert(this)
         e.preventDefault();
-        userUpdate('user-tattoos-input', '/tattoos-user-import', ".tattoos-user-reviews")
+        userUpdate('avatar', '/tattoos-user-import', ".tattoos-user-reviews")
     });
 
     function userUpdate(inputFile, link, fragment) {

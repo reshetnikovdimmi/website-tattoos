@@ -169,18 +169,18 @@
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="card shadow-sm p-3 mb-5 bg-white rounded">
-                    <form id="input-user-reviews" class="form-admin">
+                    <form id="input-user-tattoos" class="form-admin">
                         <div class="row mb-3 text-center">
 
                             <div class="col-6 col-lg-4 themed-grid-col">
 
 
                                 <div class="avatar-container">
-                                    <img id="preview-image" src="" alt="Ваш аватар">
+                                    <img id="previewimage" src="" alt="Ваш аватар">
                                     <button type="button" class="upload-btn btn btn-primary"
-                                            onclick="document.getElementById('avatar-input').click()">Выбрать файл
+                                            onclick="document.getElementById('avatar').click()">Выбрать файл
                                     </button>
-                                    <input type="file" id="avatar-input" accept="image/*" onchange="loadImage(this)">
+                                    <input type="file" id="avatar" accept="image/*" onchange="loadImage(this)">
                                 </div>
                             </div>
 
@@ -191,7 +191,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text">Текст</span>
                                     <textarea class="form-control" aria-label="С текстовым полем"></textarea>
-                                    <button class="btn leave-btn btn-block" type="submit">Сохранить изменения</button>
+                                    <button  class="btn leave-btn btn-block" type="submit">Сохранить изменения</button>
                                 </div>
 
 
