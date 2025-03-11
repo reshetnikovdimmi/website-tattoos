@@ -115,7 +115,7 @@ $('#input-user-reviews').on("submit", function(e) {
 
 
     $('#input-user-tattoos').on("submit", function(e) {
-alert(this)
+
         e.preventDefault();
         userUpdate('avatar', '/tattoos-user-import', ".tattoos-user-reviews")
     });
@@ -128,7 +128,7 @@ alert(this)
         if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
             modals('Размер файла превышен, выберите файл меньше 1МБ.');
         } else {
-         console.log("ok")
+
             const xhr = new XMLHttpRequest();
             const formData = new FormData();
             formData.append('file', file);

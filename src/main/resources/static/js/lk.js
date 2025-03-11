@@ -19,3 +19,6 @@
                       }
                   }
 
+function addFragmet(dfeg){
+console.log(dfeg)
+}
