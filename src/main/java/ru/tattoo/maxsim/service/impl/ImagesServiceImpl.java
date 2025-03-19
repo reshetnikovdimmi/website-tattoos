@@ -58,7 +58,10 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
 
         return imagesRepository.findAll(p);
     }
-
+    @Override
+    public Page<Images> partition(String userName, Pageable p) {
+        return imagesRepository.findByUserName(userName, p);
+    }
     @Override
     public Page<Images> findByCategory(String style, Pageable p) {
         return imagesRepository.findByCategory(style, p);
@@ -80,5 +83,7 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
 
         return images.isFlag();
     }
+
+
 
 }

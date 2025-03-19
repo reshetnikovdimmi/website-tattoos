@@ -166,32 +166,25 @@
     </div>
 
     <div class="row">
-        <div class="container mt-5">
+        <div class="container">
             <div class="row justify-content-center">
                 <div class="card shadow-sm p-3 mb-5 bg-white rounded">
-                    <form id="input-user-tattoos" action="/eggthyhnyn" class="form-admin">
+                    <form id="input-user-tattoos" action="/tattoos-user-import" method="POST" enctype="multipart/form-data" class="form-admin">
                         <div class="row mb-3 text-center">
-
                             <div class="col-6 col-lg-4 themed-grid-col">
-
-
                                 <div class="avatar-container">
-                                    <img id="previewimage" src="" alt="Ваш аватар">
+                                    <img id="previewimage" src="" alt="Выберите фото тату">
                                     <button type="button" class="upload-btn btn btn-primary"
-                                            onclick="document.getElementById('avatar').click()">Выбрать файл
+                                            onclick="document.getElementById('tattoos').click()">Выбрать файл
                                     </button>
-                                    <input type="file" id="avatar" accept="image/*" onchange="loadImage(this)">
+                                    <input type="file" name="file" id="tattoos" accept="image/*" onchange="loadImage(this)" required>
                                 </div>
                             </div>
-
-
                             <div class="col-sm-6 col-lg-8 themed-grid-col">
-
-
                                 <div class="input-group">
-                                    <span class="input-group-text">Текст</span>
-                                    <textarea class="form-control" aria-label="С текстовым полем"></textarea>
-                                    <button onclick="addFragmet($('#input-user-tattoos').attr('action'))" id="ih" class="btn leave-btn btn-block" >Сохранить изменения</button>
+                                    <span class="input-group-text" style="height: 158px;">Текст</span>
+                                    <textarea class="form-control" aria-label="С текстовым полем" required></textarea>
+                                    <button onclick="uploadFragment($('#input-user-tattoos'), '.tattoos-user-reviews')" class="btn leave-btn btn-block" >Сохранить тату</button>
                                 </div>
 
 
@@ -227,22 +220,22 @@
         </form>
     </div>
     <div class="row">
-        <div class="container mt-5">
+        <div class="container">
             <div class="row justify-content-center">
 
                 <div class="card shadow-sm p-3 mb-5 bg-white rounded">
-                    <form id="input-user-reviews" class="form-admin">
+                    <form id="input-avatar" action="/avatar-import" method="POST" enctype="multipart/form-data" class="form-admin">
                         <div class="row mb-3 text-center">
 
                             <div class="col-6 col-lg-4 themed-grid-col">
 
 
                                 <div class="avatar-container">
-                                    <img id="preview-image" src="" alt="Ваш аватар">
-                                    <button type="button" class="upload-btn btn btn-primary"
-                                            onclick="document.getElementById('avatar-input').click()">Выбрать файл
+                                    <img id="previewimage" src="" alt="Ваш аватар">
+                                    <button type="button" onclick="document.getElementById('avatar').click()" class="upload-btn btn btn-primary"
+                                           >Выбрать файл
                                     </button>
-                                    <input type="file" id="avatar-input" accept="image/*" onchange="loadImage(this)">
+                                    <input type="file" name="file" id="avatar"  accept="image/*" onchange="loadImage(this)">
                                 </div>
                             </div>
 
@@ -251,7 +244,9 @@
 
 
                                 <div class="input-group">
-                                    <button class="btn leave-btn btn-block" type="submit">Сохранить изменения</button>
+                                    <span class="input-group-text" style="height: 158px; opacity: 0;">Текст</span>
+                                    <textarea style="opacity: 0;" class="form-control" aria-label="С текстовым полем" ></textarea>
+                                    <button onclick="uploadFragment($('#input-avatar'), '.profile-info')" class="btn leave-btn btn-block" >Сохранить аватар</button>
                                 </div>
 
 
@@ -284,37 +279,31 @@
         </div>
     </div>
     <div class="row">
-
-        <div class="container mt-5">
+        <div class="container">
             <div class="row justify-content-center">
                 <div class="card shadow-sm p-3 mb-5 bg-white rounded">
-                    <form id="input-user-reviews" class="form-admin">
+                    <form id="file-review" method="POST" enctype="multipart/form-data" action="/reviews-user-import" class="form-admin">
                         <div class="row mb-3 text-center">
-
                             <div class="col-6 col-lg-4 themed-grid-col">
-
-
                                 <div class="avatar-container">
-                                    <img id="preview-image" src="" alt="Ваш аватар">
-                                    <button type="button" class="upload-btn btn btn-primary"
-                                            onclick="document.getElementById('avatar-input').click()">Выбрать файл
+                                    <img id="imageID" src="" alt="Выберите тату для отзыва">
+                                    <button type="button" class="upload-btn btn btn-primary" onclick="showModals()" id="" >Выбрать файл
                                     </button>
-                                    <input type="file" id="avatar-input" accept="image/*" onchange="loadImage(this)">
+                                    <input type="file"  name="file"  id="avatar-input" accept="image/*" onchange="loadImage(this)">
+                                    <input type="text" id="imageName"  style="display: none;" name="imageName">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-lg-8 themed-grid-col">
                                 <div class="input-group">
-                                    <span class="input-group-text">Текст</span>
-                                    <textarea class="form-control" aria-label="С текстовым полем"></textarea>
-                                    <button class="btn leave-btn btn-block" type="submit">Сохранить изменения
+                                    <span class="input-group-text" style="height: 158px;">Текст</span>
+                                    <textarea class="form-control" name="Comment" aria-label="С текстовым полем"  required></textarea>
+                                    <button onclick="uploadFragment($('#file-review'), '.input-user-reviews')" class="btn leave-btn btn-block" type="submit">Сохранить отзыв
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -322,11 +311,12 @@
 <!-- first-fragment Section End -->
 <div class="modal fade" id="infoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true" th:fragment="modal">
-    <div class="modal-dialog modal-xl modal-dialog-centered ">
-        <div class="modal-content">
+    <div class="modal-img"  th:fragment="modal-img">
+    <div class="modal-dialog modal-xl modal-dialog-centered " >
+        <div class="modal-content" th:fragment="modal-content">
             <div class="modal-header">
-                <h7 class="modal-title">Сообщение</h7>
-                <button type="button" id="hide"
+                <h7 class="modal-title">Выберите тату</h7>
+                <button type="button" id="hide" onclick="closeModal()"
                         class="btn-close btn-close-custom"
                         data-bs-dismiss="modal"
                         aria-label="Close">
@@ -337,9 +327,9 @@
                     <div class="gallery-filter">
                         <div class="row gallery-filter" th:each="current, item : ${images1}">
                             <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="currents: ${current}">
-                                <div class="gallery-modal">
+                                <div class="gallery-modal" >
 
-                                    <img alt="" th:src="@{'/images/'+${currents.imageName}}">
+                                    <img onclick="hideModal(this.alt)" accept="image/*"  th:alt="${currents.imageName}" th:src="@{'/images/'+${currents.imageName}}">
 
                                 </div>
                             </div>
@@ -351,12 +341,12 @@
             <div class="modal-footer">
                 <div class="blog-option">
                     <div class="blog-pagination">
-                        <a th:if="${currentPage!=0}" id="fa-long-arrow-left" type="submit"><i
+                        <a th:if="${currentPage!=0}" onclick="pagesLeft()" id="fa-long-arrow-left" type="submit"><i
                                 class="fa fa-long-arrow-left"></i></a>
                         <a class="active">[[${currentPage+1}]]</a>
                         of
                         <a>[[${page}]]</a>
-                        <a th:if="${currentPage+1 != page}" id="fa-long-arrow-right" type="submit"><i
+                        <a th:if="${currentPage+1 != page}" onclick="pagesRight()" id="fa-long-arrow-right" type="submit"><i
                                 class="fa fa-long-arrow-right"></i></a>
                     </div>
                     <div class="blog-option-right">
@@ -365,7 +355,7 @@
                         </div>
                         <div class="show-result">
                             <p>Show:</p>
-                            <select class="show-result-select" id="number">
+                            <select class="show-result-select" onchange="numbers()" id="number">
                                 <option th:each="option : ${options}" th:value="${option}" th:text="${option}"
                                         th:selected="${option == number}"></option>
                             </select>
@@ -374,6 +364,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
 <!-- Модальное окно End -->

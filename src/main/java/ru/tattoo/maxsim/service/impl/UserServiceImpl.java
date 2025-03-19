@@ -1,10 +1,13 @@
 package ru.tattoo.maxsim.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.DTO.CommitsDTO;
+import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.repository.UserRepository;
 import ru.tattoo.maxsim.service.interf.UserService;
@@ -45,4 +48,5 @@ public class UserServiceImpl extends AbstractCRUDService<User, Long> implements 
     public void deleteImg(Long id) throws IOException {
         Files.delete(Paths.get(UPLOAD_DIRECTORY, userRepository.getName(id)));
     }
+
 }

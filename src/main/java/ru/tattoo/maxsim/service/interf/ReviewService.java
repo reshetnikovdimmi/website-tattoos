@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ReviewService extends CRUDService<ReviewsUser,Long>{
 
-    void saveImd(MultipartFile fileImport, String comment, String name) throws IOException;
+    void saveImd(String fileImport, String comment, String name) throws IOException;
 
     void deleteImg(Long id) throws IOException;
 

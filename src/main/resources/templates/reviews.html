@@ -3,8 +3,10 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="отзывы о тату мастере, отзывы тату, максим тату мастер, Татуировка,эскизы тату для мужчин">
-    <meta name="keywords" content="Татуировка,эскизы тату для мужчин, эскизы тату на руку,эскизы тату на руку мужские, татуировка омск, тату салон, сделать татуировку">
+    <meta name="description"
+          content="отзывы о тату мастере, отзывы тату, максим тату мастер, Татуировка,эскизы тату для мужчин">
+    <meta name="keywords"
+          content="Татуировка,эскизы тату для мужчин, эскизы тату на руку,эскизы тату на руку мужские, татуировка омск, тату салон, сделать татуировку">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>R1-TАТТОO/reviews</title>
@@ -67,9 +69,9 @@
                     <table>
                         <tbody>
                         <tr th:each="current, item : ${reviews}">
-                            <td class="reviews" >
+                            <td class="reviews">
 
-                                    <img th:src="@{'/images/'+${current.imageName}}" alt="">
+                                <img th:src="@{'/images/'+${current.imageName}}" alt="">
 
                             </td>
                             <td class="hover-bg ts-item" data-tsmeta="crossfit">
@@ -87,24 +89,47 @@
             <div class="col-lg-12">
                 <div class="leave-comment-form">
                     <h4>Оставте свой отзыв</h4>
-                    <form id="reviews">
+                    <form id="reviews" method="POST" enctype="multipart/form-data" action="/reviews-import" class="form-admin">
                         <div class="row">
                             <div class="col-lg-4" style="margin-bottom: 20px;">
-                                <button th:attr="onclick=|showModals()|" type="button" class="leave-btn">Выбрать изображение для отзыва</button>
+                                <button th:attr="onclick=|showModals()|" type="button" class="leave-btn">Выбрать
+                                    изображение для отзыва
+                                </button>
                             </div>
+
                             <input type="hidden" id="name" name="name" th:value="${#authentication.name}">
-                            <div class="col-lg-12">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-2" style="margin-bottom: 20px;">
+                                <div class="review-container">
+                                    <img id="imageID" src="" alt="">
+                                    <input type="file" name="file" id="avatar-input" accept="image/*"
+                                           onchange="loadImage(this)">
+                                    <input type="text" id="imageName" style="display: none;" name="imageName">
+                                </div>
+                            </div>
+                            <div class="col-lg-10">
                                 <textarea placeholder="Текст" id="Comment" name="Comment" required></textarea>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4" style="margin-bottom: 20px;">
                                 <a sec:authorize="isAuthenticated()">
-                                    <button type="submit" class="leave-btn">Сохранить комментарий</button>
+                                    <button onclick="uploadFragment($('#reviews'))" type="submit" class="leave-btn">Сохранить комментарий</button>
                                 </a>
                             </div>
                         </div>
+
                     </form>
-                    <a sec:authorize="!isAuthenticated()" href="/login">
-                        <button class="leave-btn">Войти</button>
-                        <p>Комментарии могут оставлять только зарегистрированные пользователи.</p>
-                    </a>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <a sec:authorize="!isAuthenticated()" href="/login">
+                                <button  class="leave-btn">Войти</button>
+                                <p>Комментарии могут оставлять только зарегистрированные пользователи.</p>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

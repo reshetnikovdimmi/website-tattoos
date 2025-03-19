@@ -1,42 +1,66 @@
+var page = 0;
+var number = 9;
+$(document).ready(function() {});
 
-$(document).ready(function() {
-  $('#reviews').on("submit", function(e) {
-          e.preventDefault();
-          const fileInput = document.getElementById('file-reviews');
-          const file = fileInput.files[0];
-          if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
-              alert('Размер файла превышен, выберите файл меньше 1МБ.');
-          } else {
-              const xhr = new XMLHttpRequest();
-              const formData = new FormData();
-              formData.append('file', file);
-              formData.append('name', $('#name').val())
-              formData.append('Comment', $('#Comment').val())
-              xhr.open('POST', '/reviews-import');
-              xhr.send(formData);
-              xhr.onload = () => {
-                  if (xhr.status == 200) {
-                      $(".fragment-reviews").html(xhr.response);
-                      $('.show-result-select').niceSelect();
-                      document.getElementById('reviews').reset();
-                  } else {
-                      alert("Server response: ", xhr.response);
-                  }
-              };
-          }
-      });
+function pagesRight() {
+    page = page + 1;
+    console.log(page)
+    galleryControls()
+}
 
+function pagesLeft() {
+    page = page - 1;
+    galleryControls()
+}
 
+function numbers() {
+    number = $('#number').val();
+    page = 0;
+    galleryControls()
+}
 
+function galleryControls() {
+    $.get('/gallery/reviews/' + page + '/' + number, {}, function(data) {
+        $(".modal-img").html(data);
+    });
+}
 
+function uploadFragment(form) {
+    form.on("submit", function(e) {
+        const formData = new FormData(document.getElementById(form.attr('id')));
+        e.preventDefault();
+        const file = formData.get('file')
+        console.log(file)
+        if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
+            modals('Размер файла превышен, выберите файл меньше 1МБ.');
+        } else {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', form.attr('action'));
+            xhr.send(formData);
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    $(".fragment-reviews").html(xhr.response);
+                    document.getElementById('reviews').reset();
+                    document.getElementById('imageID').reset();
+                } else {
+                    modals("Server response: ", xhr.response);
+                }
+            };
+        }
+    });
+}
 
-});
+function showModals() {
+    $('#infoModal').modal("show");
+}
 
- function showModals() {
+function hideModal(modalId) {
+    $('#imageID').attr('src', '/images/' + modalId);
+    $('#imageName').val(modalId);
+    // document.getElementById('imageID').src = modalId;
+    $('#infoModal').modal("hide");
+}
 
-              $('#infoModal').modal("show");
-          }
-
-          function hideModal(modalId) {
-              document.getElementById('infoModal').style.display = 'none';
-          }
+function closeModal() {
+    $('#infoModal').modal("hide");
+}

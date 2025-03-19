@@ -15,6 +15,8 @@ public interface ImagesRepository extends JpaRepository<Images, Long> {
 
     Page<Images> findByCategory(String c, Pageable p);
 
+    Page<Images> findByUserName(String c, Pageable p);
+
     @Query("SELECT imageName  FROM Images WHERE id = ?1")
     String getName(Long id);
 

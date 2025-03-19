@@ -4,6 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.model.Sketches;
+
 import java.io.IOException;
 
 public interface ImagesService extends CRUDService<Images, Long> {
@@ -19,4 +21,6 @@ public interface ImagesService extends CRUDService<Images, Long> {
     Object pageList(Page<Images> images);
 
     boolean bestImage(Images images);
+
+    Page<Images> partition(String userName, Pageable p);
 }

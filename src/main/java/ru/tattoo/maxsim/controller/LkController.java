@@ -7,11 +7,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.DTO.UserDTO;
+import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.model.User;
@@ -45,6 +44,7 @@ public class LkController {
     @Autowired
     private ImagesRepository imagesRepository;
 
+
     @Autowired
     private SketchesService sketchesService;
 
@@ -60,14 +60,27 @@ public class LkController {
         model.addAttribute("UserDTO", userDTO);
         model.addAttribute("images", imagesRepository.findByUserName(principal.getName()));
 
-        Page<Sketches> images = sketchesService.partition(PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+        Page<Images> images = imagesService.partition(principal.getName(), PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+
         model.addAttribute("number", PageSize.IMG_9.getPageSize());
         model.addAttribute("page", images.getTotalPages());
         model.addAttribute("currentPage", PAGE_NUMBER);
         model.addAttribute("imagesTotal", images.getTotalElements());
-        model.addAttribute("images1", sketchesService.pageList(images));
+        model.addAttribute("images1", imagesService.pageList(images));
         model.addAttribute("options", PageSize.getLisPageSize());
         return "lk";
+    }
+    @RequestMapping(value = "/sketchesrs/{page}/{number}", method = RequestMethod.GET)
+    private String sketchesrsModal(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
+
+        Page<Sketches> images = sketchesService.partition(PageRequest.of(page,number));
+        model.addAttribute("number", number);
+        model.addAttribute("page", images.getTotalPages());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("imagesTotal", images.getTotalElements());
+        model.addAttribute("images1", sketchesService.pageList(images));
+        model.addAttribute("options", PageSize.getLisPageSize());
+        return "fragments::modal-img";
     }
     @GetMapping("/user-info")
     public String userInfo(Model model, Principal principal) {
@@ -77,8 +90,9 @@ public class LkController {
     }
 
     @PostMapping("/reviews-user-import")
-    public String reviewsImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("Comment") String Comment, Model model, Principal principal) throws IOException, ParseException  {
-        reviewService.saveImd(fileImport,Comment,principal.getName());
+    public String reviewsImport(@RequestParam("imageName") String imageName, @RequestParam("Comment") String Comment, Model model, Principal principal) throws IOException, ParseException  {
+
+        reviewService.saveImd(imageName,Comment,principal.getName());
         User user = userRepository.findByLogin(principal.getName()).orElse(null);
 
         model.addAttribute("review", user.getReviews());

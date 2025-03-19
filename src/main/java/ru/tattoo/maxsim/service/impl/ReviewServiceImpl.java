@@ -43,17 +43,16 @@ public class ReviewServiceImpl extends AbstractCRUDService<ReviewsUser,Long> imp
     }
 
     @Override
-    public void saveImd(MultipartFile fileImport, String comment, String name) throws IOException {
+    public void saveImd(String fileImport, String comment, String name) throws IOException {
         ReviewsUser reviewsUser = new ReviewsUser();
-        reviewsUser.setImageName(fileImport.getOriginalFilename());
+        reviewsUser.setImageName(fileImport);
         reviewsUser.setComment(comment);
         reviewsUser.setUserName(name);
         reviewsUser.setDate(new Date());
 
         reviewsUserRepository.save(reviewsUser);
 
-        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY , fileImport.getOriginalFilename());
-        Files.write(fileNameAndPath, fileImport.getBytes());
+
     }
 
 

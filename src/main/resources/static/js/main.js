@@ -87,38 +87,24 @@
     $('#info').click(function(e) {
         $.get('/user-info', {}, function(data) {
             $(".container-lk-info").html(data);
-$('#input-user-reviews').on("submit", function(e) {
-                                             e.preventDefault();
 
-                                                                  userUpdate('file-review', '/reviews-user-import', ".input-user-reviews")
-                                            });
         });
     });
     $('#profile-editing').click(function(e) {
         $.get('/profile-editing', {}, function(data) {
             $(".container-lk-info").html(data);
-            $('#input-avatar').on("submit", function(e) {
-                                             e.preventDefault();
-                                                                    userUpdate('file-avatar', '/avatar-import', ".profile-info")
-                                            });
+
         });
     });
     $('#user-tattoos').click(function(e) {
         $.get('/user-tattoos', {}, function(data) {
             $(".container-lk-info").html(data);
-            $('#input-user-tattoos').on("submit", function(e) {
-                        e.preventDefault();
-                       userUpdate('user-tattoos-input', '/tattoos-user-import', ".tattoos-user-reviews")
-                    });
+
         });
     });
 
 
-    $('#input-user-tattoos').on("submit", function(e) {
 
-        e.preventDefault();
-        userUpdate('avatar', '/tattoos-user-import', ".tattoos-user-reviews")
-    });
 
     function userUpdate(inputFile, link, fragment) {
 

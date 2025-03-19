@@ -412,7 +412,7 @@ input[type=file] {
                     background-color: #202020;
                     border: none;
                     margin: 10px;
-                    height: 300px;
+
                     width: 100%;
 
                 }
@@ -466,18 +466,32 @@ input[type=file] {
 -----------------------*/
 
  .avatar-container {
-            width: 200px;
-            height: 200px;
-            margin: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            border-radius: 5%;
-            overflow: hidden;
-            background-color: #f2f2f2;
+      width: 200px;
+      height: 200px;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      border-radius: 2%;
+      overflow: hidden;
+      background-color: #f2f2f2;
+      border: 1px solid #9b9494;
         }
+   .review-container {
+        width: 200px;
+          height: 200px;
+          margin: auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
 
+          overflow: hidden;
+          background-color: #2d2d2d;
+
+          color: #696969;
+}
         .avatar-container img {
             max-width: 100%;
             max-height: 100%;
@@ -498,7 +512,6 @@ input[type=file] {
               cursor: pointer;
               background: linear-gradient(45deg, #e16521, #e4381C);
               font-family: "Oswald", sans-serif;
-              z-index: 9999;
               width: 100%;
               height: 40px;
         }
@@ -506,11 +519,24 @@ input[type=file] {
       .container-lk-info  input[type="file"] {
             display: none;
         }
+
+       .reviews input[type="file"] {
+                   display: none;
+               }
+
+  .leave-comment-form input[type="file"] {
+                   display: none;
+               }
+
+
 .avatar-container img {
-  max-width: 150px;
-  max-height: 150px;
-  object-fit: cover;
-  border-radius: 50%;
+  width: 200px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
 }
 
 #profile-form {
@@ -721,9 +747,14 @@ padding:10px;
 .links {
 position: absolute;
 bottom: 0px;
+margin-bottom: 50px;
 }
 
 .profile-info {
+  margin-bottom: 50px;
+}
+
+.avatar {
   margin-bottom: 50px;
 }
 
@@ -739,7 +770,20 @@ bottom: 0px;
   margin: 20px;
 }
 
+.avatar img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 20px;
+}
+
 .profile-info div {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.avatar div {
   display: inline-block;
   vertical-align: top;
 }
@@ -1324,7 +1368,7 @@ td {
   width: 300px;
   height: 300px;
   position: absolute;
-  padding: 10px;
+
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -3092,7 +3136,12 @@ input[type="checkbox"] {
   border: 1px solid #696969;
   height: 100%;
 }
-
+.form-admin {
+ padding:10px;
+}
+#img-sketches{
+margin-left: 15px;
+}
 .tab-content input {
   border-radius: 5px;
   background: transparent;
@@ -3523,21 +3572,21 @@ input[type="checkbox"] {
 
 .leave-comment-form form textarea {
   width: 100%;
-  height: 198px;
-  border-radius: 2px;
-  background: #2d2d2d;
-  border: none;
-  padding-left: 20px;
-  padding-top: 15px;
-  font-size: 16px;
-  color: #a6a6a6;
-  -webkit-transition: all 0.3s;
-  -webkit-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
-  resize: none;
-  margin-bottom: 32px;
-  border: 1px solid #131313;
+    height: 200px;
+    border-radius: 2px;
+    background: #2d2d2d;
+    border: none;
+    padding-left: 20px;
+    padding-top: 15px;
+    font-size: 16px;
+    color: #a6a6a6;
+    -webkit-transition: all 0.3s;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    resize: none;
+    margin-bottom: 32px;
+
 }
 
 .leave-comment-form form textarea::-webkit-input-placeholder {
@@ -3581,17 +3630,17 @@ input[type="checkbox"] {
 }
 
 .leave-btn {
-  font-size: 14px;
-  color: #ffffff;
-  font-weight: 500;
-  text-transform: uppercase;
-  background: -o-linear-gradient(45deg, #e16521, #e4381C);
-  background: linear-gradient(45deg, #e16521, #e4381C);
-  padding: 10px 47px;
-  border: none;
-  font-family: "Oswald", sans-serif;
-  border: 1px solid #000000;
-  border-radius: 2px;
+ font-size: 14px;
+   color: #ffffff;
+   font-weight: 500;
+   text-transform: uppercase;
+   background: -o-linear-gradient(45deg, #e16521, #e4381C);
+   background: linear-gradient(45deg, #e16521, #e4381C);
+   padding: 10px 47px;
+   border: none;
+   font-family: "Oswald", sans-serif;
+   border: 1px solid #9b9494;
+   border-radius: 5px;
 }
 
 /*---------------------

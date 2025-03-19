@@ -1,6 +1,7 @@
 package ru.tattoo.maxsim.controller;
 
 import com.google.common.collect.Lists;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.repository.ImagesRepository;
 import ru.tattoo.maxsim.service.interf.ImagesService;
 import ru.tattoo.maxsim.util.PageSize;
@@ -75,6 +77,17 @@ public class GalleryController {
         return "gallery::galleryFilter";
     }
 
+    @RequestMapping(value = "/gallery/reviews/{page}/{number}", method = RequestMethod.GET)
+    private String reviewsModal(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
 
+        Page<Images> images = imagesService.partition(PageRequest.of(page,number));
+        model.addAttribute("number", number);
+        model.addAttribute("page", images.getTotalPages());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("imagesTotal", images.getTotalElements());
+        model.addAttribute("images1", imagesService.pageList(images));
+        model.addAttribute("options", PageSize.getLisPageSize());
+        return "fragments::modal-img";
+    }
 
 }
