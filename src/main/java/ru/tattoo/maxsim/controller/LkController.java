@@ -55,9 +55,8 @@ public class LkController {
 
     @GetMapping("/lk")
     public String login(Model model, Principal principal) {
-        User user = userRepository.findByLogin(principal.getName()).orElse(null);
-        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-        model.addAttribute("UserDTO", userDTO);
+
+        model.addAttribute("UserDTO", modelMapper.map(userRepository.findByLogin(principal.getName()), UserDTO.class));
         model.addAttribute("images", imagesRepository.findByUserName(principal.getName()));
 
         Page<Images> images = imagesService.partition(principal.getName(), PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
@@ -68,6 +67,8 @@ public class LkController {
         model.addAttribute("imagesTotal", images.getTotalElements());
         model.addAttribute("images1", imagesService.pageList(images));
         model.addAttribute("options", PageSize.getLisPageSize());
+        System.out.println(imagesService.pageList(principal));
+        model.addAttribute("gallery", imagesService.pageList(principal));
         return "lk";
     }
     @RequestMapping(value = "/sketchesrs/{page}/{number}", method = RequestMethod.GET)
@@ -105,7 +106,7 @@ public class LkController {
         imagesService.saveImg(fileImport,null,null,principal.getName());
 
         model.addAttribute("images", imagesRepository.findByUserName(principal.getName()));
-        return "fragments :: tattoos-user-reviews";
+        return "fragments :: first-fragment";
     }
 
 
@@ -127,7 +128,7 @@ public class LkController {
     public String avatarImport(@RequestParam("file") MultipartFile fileImport, Model model, Principal principal) throws IOException, ParseException {
 
         User user = userRepository.findByLogin(principal.getName()).orElse(null);
-        userService.deleteImg(user.getId());
+        if (user.getAvatar()!=null)userService.deleteImg(user.getId());
         userService.saveImg(fileImport, user.getId());
         user = userRepository.findByLogin(principal.getName()).get();
         UserDTO userDTO = modelMapper.map(user, UserDTO.class);

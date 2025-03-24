@@ -11,6 +11,7 @@ import java.util.List;
 
 public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K>{
 
+    public static final int PAGE_NUMBER = 0;
     public static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/img/images/";
 
     abstract CrudRepository<E, K> getRepository();

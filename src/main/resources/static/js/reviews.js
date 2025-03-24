@@ -30,7 +30,6 @@ function uploadFragment(form) {
         const formData = new FormData(document.getElementById(form.attr('id')));
         e.preventDefault();
         const file = formData.get('file')
-        console.log(file)
         if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
             modals('Размер файла превышен, выберите файл меньше 1МБ.');
         } else {

@@ -148,7 +148,7 @@
     <h6>Мой тату </h6>
     <div class="row scroll-container">
 
-        <div class="tattoos-user-reviews " th:fragment="tattoos-user-reviews">
+        <div class="tattoos-user-reviews" style="width: 100%;" th:fragment="tattoos-user-reviews">
             <section class="review">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     <div class="col " th:each="current : ${images}">
@@ -173,7 +173,7 @@
                         <div class="row mb-3 text-center">
                             <div class="col-6 col-lg-4 themed-grid-col">
                                 <div class="avatar-container">
-                                    <img id="previewimage" src="" alt="Выберите фото тату">
+                                    <img id="previewimage" src="img/avatar.jpg" alt="Выберите фото тату">
                                     <button type="button" class="upload-btn btn btn-primary"
                                             onclick="document.getElementById('tattoos').click()">Выбрать файл
                                     </button>
@@ -184,7 +184,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text" style="height: 158px;">Текст</span>
                                     <textarea class="form-control" aria-label="С текстовым полем" required></textarea>
-                                    <button onclick="uploadFragment($('#input-user-tattoos'), '.tattoos-user-reviews')" class="btn leave-btn btn-block" >Сохранить тату</button>
+                                    <button onclick="uploadFragment($('#input-user-tattoos'), '.tattoos-reviews')" class="btn leave-btn btn-block" >Сохранить тату</button>
                                 </div>
 
 
@@ -231,7 +231,8 @@
 
 
                                 <div class="avatar-container">
-                                    <img id="previewimage" src="" alt="Ваш аватар">
+                                    <img id="previewimage" src="img/avatar.jpg" alt="Ваш аватар">
+
                                     <button type="button" onclick="document.getElementById('avatar').click()" class="upload-btn btn btn-primary"
                                            >Выбрать файл
                                     </button>
@@ -286,7 +287,8 @@
                         <div class="row mb-3 text-center">
                             <div class="col-6 col-lg-4 themed-grid-col">
                                 <div class="avatar-container">
-                                    <img id="imageID" src="" alt="Выберите тату для отзыва">
+
+                                    <img id="imageID" src="img/avatar.jpg" alt="Выберите тату для отзыва">
                                     <button type="button" class="upload-btn btn btn-primary" onclick="showModals()" id="" >Выбрать файл
                                     </button>
                                     <input type="file"  name="file"  id="avatar-input" accept="image/*" onchange="loadImage(this)">

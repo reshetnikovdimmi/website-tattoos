@@ -3,17 +3,22 @@ package ru.tattoo.maxsim.service.impl;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.DTO.GalleryDTO;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ImagesRepository;
 import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.util.PageSize;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,17 +67,28 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
     public Page<Images> partition(String userName, Pageable p) {
         return imagesRepository.findByUserName(userName, p);
     }
+
+
+
     @Override
     public Page<Images> findByCategory(String style, Pageable p) {
         return imagesRepository.findByCategory(style, p);
     }
 
     @Override
-    public Object pageList(Page<Images> images) {
+    public List<List<Images>> pageList(Page<Images> images) {
         List<Images> objects = images.hasContent() ? images.getContent() : Collections.emptyList();
 
         return Lists.partition(objects, PARTITION_SIZE);
     }
+
+    @Override
+    public GalleryDTO pageList(Principal principal) {
+        Page<Images> images = partition(principal.getName(), PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+        List<List<Images>> objects = Lists.partition(images.hasContent() ? images.getContent() : Collections.emptyList(),PARTITION_SIZE);
+        return new GalleryDTO(objects,PageSize.IMG_9.getPageSize(),PAGE_NUMBER,PageSize.getLisPageSize(),images.getTotalElements());
+    }
+
 
     @Override
     public boolean bestImage(Images images) {

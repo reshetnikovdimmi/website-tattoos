@@ -398,20 +398,20 @@
                             <div class="row">
                                 <form id="img-sketches" class="form-admin">
 
-                                        <div class="input-group">
-                                            <input class="form-control" type="file"
-                                                   accept="image/png, image/gif, image/jpeg"
-                                                   id="file-sketches" name="file" required>
-                                            <button class="btn btn-outline-secondary" type="submit">
-                                                Применить
-                                            </button>
-                                        </div>
+                                    <div class="input-group">
+                                        <input class="form-control" type="file"
+                                               accept="image/png, image/gif, image/jpeg"
+                                               id="file-sketches" name="file" required>
+                                        <button class="btn btn-outline-secondary" type="submit">
+                                            Применить
+                                        </button>
+                                    </div>
 
-                                        <div class="input-group input-text">
-                                            <input type="text" class="form-control"
-                                                   placeholder="Описание" style="height: 100px;"
-                                                   id="description-sketches" name="description" required>
-                                        </div>
+                                    <div class="input-group input-text">
+                                        <input type="text" class="form-control"
+                                               placeholder="Описание" style="height: 100px;"
+                                               id="description-sketches" name="description" required>
+                                    </div>
 
                                 </form>
                             </div>
@@ -607,8 +607,15 @@
                                                         <div class="col-6 col-md-4 themed-grid-col">
                                                             <div class="admin-img">
 
-                                                                <img th:src="@{'/images/'+${current.avatar}}" alt="">
 
+                                                                <span th:if="${current.avatar}">
+                                                                         <img th:src="@{'/images/'+${current.avatar}}"
+                                                                              alt="Profile Picture">
+                                                                        </span>
+                                                                <span th:unless="${current.avatar}">
+                                                                    <img src="img/avatar.jpg" alt="Profile Picture">
+
+                                                                        </span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-8 themed-grid-col">

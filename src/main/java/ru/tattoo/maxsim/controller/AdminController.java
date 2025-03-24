@@ -68,6 +68,7 @@ public class AdminController {
         Page<Sketches> sketches = sketchesService.partition(p);
 
         model.addAttribute("images", imagesService.findAll());
+
         model.addAttribute("sketches", sketchesService.pageList(sketches));
         model.addAttribute("pageSketches", sketches.getTotalPages());
         model.addAttribute("imagesTotalSketches", sketches.getTotalElements());

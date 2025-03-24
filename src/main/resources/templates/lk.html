@@ -64,7 +64,12 @@
 
                     <!-- Информация о профиле -->
                     <div class="profile-info" th:fragment="avatar" th:object="${UserDTO}">
-                        <img th:src="@{'/images/'+*{avatar}}" alt="Profile Picture">
+                        <span th:if="*{avatar}">
+                        <img  th:src="@{'/images/'+*{avatar}}" alt="Profile Picture">
+                        </span>
+                        <span th:unless="*{avatar}">
+                        <img  src="img/avatar.jpg" alt="Profile Picture">
+                        </span>
                         <div>
                             <p><strong>Имя:</strong> [(*{login})]</p>
                             <p><strong>Email:</strong> [(*{email})]</p>

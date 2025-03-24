@@ -30,6 +30,8 @@ public class User {
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date date;
+    @Transient
+    private Integer pagesPerSheet;
 
     @OneToMany(targetEntity = ReviewsUser.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "userName", referencedColumnName = "login")

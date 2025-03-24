@@ -4,6 +4,7 @@ package ru.tattoo.maxsim.util;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public enum PageSize {
@@ -18,8 +19,8 @@ public enum PageSize {
         this.pageSize = pageSize;
     }
 
-    public static ArrayList<Integer> getLisPageSize() {
-        ArrayList<Integer> lisPageSize = new ArrayList<>();
+    public static List<Integer> getLisPageSize() {
+        List<Integer> lisPageSize = new ArrayList<>();
         for (PageSize size : PageSize.values()) {
             lisPageSize.add(size.pageSize);
         }

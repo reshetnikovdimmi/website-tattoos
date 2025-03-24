@@ -4,7 +4,6 @@
 
  function pagesRight() {
      page = page + 1;
-     console.log(page)
      galleryControls()
  }
 
