@@ -9,14 +9,15 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-@XmlAccessorType(value = XmlAccessType.NONE)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "url")
-
 public class XmlUrl {
-    public enum Priority {
-        HIGH("1.0"), MEDIUM("0.1");
 
-        private String value;
+    public enum Priority {
+        HIGH("1.0"),
+        MEDIUM("0.8");
+
+        private final String value;
 
         Priority(String value) {
             this.value = value;
@@ -31,20 +32,19 @@ public class XmlUrl {
     private String loc;
 
     @XmlElement
-    private String lastmod = String.valueOf(LocalDateTime.now());
+    private String lastmod;
 
     @XmlElement
-    private String changefreq = "daily";
+    private String changefreq = "weekly"; // Частоту можно изменить на daily или weekly
 
     @XmlElement
     private String priority;
 
-    public XmlUrl() {
-    }
+    public XmlUrl() {}
 
     public XmlUrl(String loc, Priority priority) {
         this.loc = loc;
+        this.lastmod = LocalDateTime.now().toString(); // Динамическая дата обновления
         this.priority = priority.getValue();
     }
-
 }

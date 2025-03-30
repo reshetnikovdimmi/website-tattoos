@@ -419,7 +419,7 @@
 
                             <div class="container">
                                 <div class="sketches-import" th:fragment="sketches-import">
-                                    <div class="row gallery-filter" th:each="current, item : ${sketches}">
+                                    <div class="row gallery-filter" th:each="current, item : ${sketches.sketchesImg}">
                                         <div class="col-lg-4 col-sm-6 mix crossfit workout "
                                              th:each="currents: ${current}">
                                             <div class="reviews-admin">
@@ -436,25 +436,23 @@
 
                                     <div class="blog-option">
                                         <div class="blog-pagination">
-                                            <a th:if="${currentPage!=0}" id="sketchers-left" type="submit"><i
+                                            <a th:if="${sketches.currentPage!=0}"  id="sketchers-left" type="submit"><i
                                                     class="fa fa-long-arrow-left"></i></a>
-                                            <a class="active">[[${currentPage+1}]]</a>
+                                            <a class="active">[[${sketches.currentPage+1}]]</a>
                                             of
-                                            <a>[[${pageSketches}]]</a>
-                                            <a th:if="${currentPage+1 != pageSketches}" id="sketchers-right"
-                                               type="submit"><i
+                                            <a>[[${sketches.pageSize}]]</a>
+                                            <a th:if="${sketches.currentPage+1 != sketches.pageSize}" id="sketchers-right" type="submit"><i
                                                     class="fa fa-long-arrow-right"></i></a>
                                         </div>
                                         <div class="blog-option-right">
-                                            <div class="blog-result">Showing [[${currentPage+1}]]–[[${pageSketches}]] of
-                                                [[${imagesTotalSketches}]] results
+                                            <div class="blog-result">Showing [[${sketches.currentPage+1}]]–[[${sketches.pageSize}]] of [[${sketches.imagesTotal}]]
+                                                results
                                             </div>
                                             <div class="show-result">
                                                 <p>Show:</p>
-                                                <select class="show-result-select" id="sketches-number">
-                                                    <option th:each="option : ${options}" th:value="${option}"
-                                                            th:text="${option}"
-                                                            th:selected="${option == number}"></option>
+                                                <select class="show-result-select" onchange="numbers()" id="sketchers-number">
+                                                    <option th:each="option : ${sketches.select}" th:value="${option}" th:text="${option}"
+                                                            th:selected="${option == sketches.number}"></option>
                                                 </select>
                                             </div>
                                         </div>
@@ -600,7 +598,7 @@
                                         <div class="container">
 
                                             <div class="reviews" th:fragment="reviews">
-                                                <div class="row card " th:each="current : ${user}">
+                                                <div class="row card " th:each="current : ${users}">
                                                     <div class="row mb-3 text-center">
 
 
@@ -766,7 +764,7 @@
                             </div>
 
                             <div class="img-import" id="gallery1" th:fragment="img-import">
-                                <div class="row gallery-filter" th:each="current, item : ${imagesGallery}">
+                                <div class="row gallery-filter" th:each="current, item : ${gallery.galleryImg}">
                                     <div class="col-lg-4 col-sm-6 mix crossfit workout "
                                          th:each="currents: ${current}">
                                         <div class="reviews-admin" th:id="${currents.id}">
@@ -786,28 +784,25 @@
                                     </div>
 
                                 </div>
-
-
                                 <div class="blog-option">
                                     <div class="blog-pagination">
-                                        <a th:if="${currentPage!=0}" id="fa-long-arrow-left" type="submit"><i
+                                        <a th:if="${gallery.currentPage!=0}"  id="fa-long-arrow-left" type="submit"><i
                                                 class="fa fa-long-arrow-left"></i></a>
-                                        <a class="active">[[${currentPage+1}]]</a>
+                                        <a class="active">[[${gallery.currentPage+1}]]</a>
                                         of
-                                        <a>[[${page}]]</a>
-                                        <a th:if="${currentPage+1 != page}" id="fa-long-arrow-right"
-                                           type="submit"><i class="fa fa-long-arrow-right"></i></a>
+                                        <a>[[${gallery.pageSize}]]</a>
+                                        <a th:if="${gallery.currentPage+1 != gallery.pageSize}" id="fa-long-arrow-right" type="submit"><i
+                                                class="fa fa-long-arrow-right"></i></a>
                                     </div>
                                     <div class="blog-option-right">
-                                        <div class="blog-result">Showing [[${currentPage+1}]]–[[${page}]] of
-                                            [[${imagesTotal}]] results
+                                        <div class="blog-result">Showing [[${gallery.currentPage+1}]]–[[${gallery.pageSize}]] of [[${gallery.imagesTotal}]]
+                                            results
                                         </div>
                                         <div class="show-result">
                                             <p>Show:</p>
-                                            <select class="show-result-select" id="number">
-                                                <option th:each="option : ${options}" th:value="${option}"
-                                                        th:text="${option}"
-                                                        th:selected="${option == number}"></option>
+                                            <select class="show-result-select" onchange="numbers()" id="number">
+                                                <option th:each="option : ${gallery.select}" th:value="${option}" th:text="${option}"
+                                                        th:selected="${option == gallery.number}"></option>
                                             </select>
                                         </div>
                                     </div>

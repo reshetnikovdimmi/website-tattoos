@@ -40,17 +40,9 @@ public class GalleryController {
 
     @GetMapping("/gallery")
     public String gallery(Model model) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
 
-        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()).withSort(sort);
-        Page<Images> images = imagesService.partition(p);
+        model.addAttribute("gallery", imagesService.pageList(null,null,PageSize.IMG_9.getPageSize(),PAGE_NUMBER));
 
-        model.addAttribute("number", PageSize.IMG_9.getPageSize());
-        model.addAttribute("page", images.getTotalPages());
-        model.addAttribute("currentPage", PAGE_NUMBER);
-        model.addAttribute("imagesTotal", images.getTotalElements());
-        model.addAttribute("images", imagesService.pageList(images));
-        model.addAttribute("options", PageSize.getLisPageSize());
         return "gallery";
     }
 
@@ -59,20 +51,7 @@ public class GalleryController {
 
     private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
 
-        Page<Images> images;
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        Pageable p = PageRequest.of(page, number).withSort(sort);
-        if (style.equals(ALL_GALLERY)) {
-            images = imagesService.partition(p);
-        } else {
-            images = imagesService.findByCategory(style, p);
-        }
-        model.addAttribute("images", imagesService.pageList(images));
-        model.addAttribute("number", number);
-        model.addAttribute("page", images.getTotalPages());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("imagesTotal", images.getTotalElements());
-        model.addAttribute("options", PageSize.getLisPageSize());
+        model.addAttribute("gallery", imagesService.pageList(style.equals(ALL_GALLERY) ?null:style,null, number,page));
 
         return "gallery::galleryFilter";
     }
@@ -80,13 +59,8 @@ public class GalleryController {
     @RequestMapping(value = "/gallery/reviews/{page}/{number}", method = RequestMethod.GET)
     private String reviewsModal(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
 
-        Page<Images> images = imagesService.partition(PageRequest.of(page,number));
-        model.addAttribute("number", number);
-        model.addAttribute("page", images.getTotalPages());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("imagesTotal", images.getTotalElements());
-        model.addAttribute("images1", imagesService.pageList(images));
-        model.addAttribute("options", PageSize.getLisPageSize());
+        model.addAttribute("gallery", imagesService.pageList(null,null,number,page));
+
         return "fragments::modal-img";
     }
 

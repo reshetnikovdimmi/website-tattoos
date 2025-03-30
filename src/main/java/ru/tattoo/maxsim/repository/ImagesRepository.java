@@ -24,4 +24,6 @@ public interface ImagesRepository extends JpaRepository<Images, Long> {
     Iterable<Images> findByFlagTrue();
 
     List<Images> findByUserName(String s);
+
+    Optional<String> findNameById(Long id);
 }

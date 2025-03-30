@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.DTO.UserDTO;
 import ru.tattoo.maxsim.model.Images;
-import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.repository.ImagesRepository;
@@ -33,106 +32,111 @@ public class LkController {
     private ImagesService imagesService;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
     private ReviewService reviewService;
 
-    @Autowired
-    private ImagesRepository imagesRepository;
-
-
-    @Autowired
-    private SketchesService sketchesService;
-
-    @Autowired
-    private ModelMapper modelMapper;
-
     private static final int PAGE_NUMBER = 0;
 
+    /**
+     * Загружает личную страницу пользователя.
+     */
     @GetMapping("/lk")
-    public String login(Model model, Principal principal) {
-
-        model.addAttribute("UserDTO", modelMapper.map(userRepository.findByLogin(principal.getName()), UserDTO.class));
-        model.addAttribute("images", imagesRepository.findByUserName(principal.getName()));
-
-        Page<Images> images = imagesService.partition(principal.getName(), PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
-
-        model.addAttribute("number", PageSize.IMG_9.getPageSize());
-        model.addAttribute("page", images.getTotalPages());
-        model.addAttribute("currentPage", PAGE_NUMBER);
-        model.addAttribute("imagesTotal", images.getTotalElements());
-        model.addAttribute("images1", imagesService.pageList(images));
-        model.addAttribute("options", PageSize.getLisPageSize());
-        System.out.println(imagesService.pageList(principal));
-        model.addAttribute("gallery", imagesService.pageList(principal));
+    public String loadPersonalPage(Model model, Principal principal) {
+        loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
+        loadUserGallery(model, principal);       // Загружаем галерею пользователя
         return "lk";
     }
-    @RequestMapping(value = "/sketchesrs/{page}/{number}", method = RequestMethod.GET)
-    private String sketchesrsModal(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
 
-        Page<Sketches> images = sketchesService.partition(PageRequest.of(page,number));
-        model.addAttribute("number", number);
-        model.addAttribute("page", images.getTotalPages());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("imagesTotal", images.getTotalElements());
-        model.addAttribute("images1", sketchesService.pageList(images));
-        model.addAttribute("options", PageSize.getLisPageSize());
+    /**
+     * Отображение фрагмента с эскизами работ пользователя.
+     */
+    @GetMapping("/sketchesrs/{page}/{number}")
+    public String showSketchesFragment(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model, Principal principal) {
+        loadUserGallery(model, principal, number, page); // Загружаем галерею пользователя
         return "fragments::modal-img";
     }
+
+    /**
+     * Загружает фрагмент с информацией о пользователе.
+     */
     @GetMapping("/user-info")
-    public String userInfo(Model model, Principal principal) {
-        User user = userRepository.findByLogin(principal.getName()).orElse(null);
-        model.addAttribute("review", user.getReviews());
-        return "fragments :: review-fragment";
+    public String loadUserInfoFragment(Model model, Principal principal) {
+        loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
+        return "fragments::review-fragment";
     }
 
+    /**
+     * Сохраняет отзыв пользователя.
+     */
     @PostMapping("/reviews-user-import")
-    public String reviewsImport(@RequestParam("imageName") String imageName, @RequestParam("Comment") String Comment, Model model, Principal principal) throws IOException, ParseException  {
-
-        reviewService.saveImd(imageName,Comment,principal.getName());
-        User user = userRepository.findByLogin(principal.getName()).orElse(null);
-
-        model.addAttribute("review", user.getReviews());
-        return "fragments :: input-user-reviews";
+    public String saveUserReview(@RequestParam("imageName") String imageName, @RequestParam("comment") String comment, Model model, Principal principal) throws IOException, ParseException {
+        reviewService.saveImd(imageName, comment, principal.getName()); // Сохраняем отзыв
+        loadUserDataIntoModel(model, principal);                         // Обновляем данные пользователя
+        return "fragments::input-user-reviews";
     }
 
+    /**
+     * Загружает новое тату пользователя.
+     */
     @PostMapping("/tattoos-user-import")
-    public String tattoosImport(@RequestParam("file") MultipartFile fileImport, Model model, Principal principal) throws IOException, ParseException  {
-
-        imagesService.saveImg(fileImport,null,null,principal.getName());
-
-        model.addAttribute("images", imagesRepository.findByUserName(principal.getName()));
-        return "fragments :: first-fragment";
+    public String uploadUserTattoo(@RequestParam("file") MultipartFile fileImport, Model model, Principal principal) throws IOException, ParseException {
+        imagesService.saveImg(fileImport,null,null, principal.getName()); // Сохраняем изображение
+        loadUserDataIntoModel(model, principal);                     // Обновляем данные пользователя
+        return "fragments::first-fragment";
     }
 
-
+    /**
+     * Загружает форму редактирования профиля.
+     */
     @GetMapping("/profile-editing")
-    public String profileEditing(Model model, Principal principal) {
-        User user = userRepository.findByLogin(principal.getName()).get();
-        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-        model.addAttribute("UserDTO", userDTO);
-        return "fragments :: profile-editing";
+    public String loadProfileEditForm(Model model, Principal principal) {
+        loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
+        return "fragments::profile-editing";
     }
 
+    /**
+     * Загружает галерею татуировок пользователя.
+     */
     @GetMapping("/user-tattoos")
-    public String userTattoos(Model model, Principal principal) {
-      model.addAttribute("images", imagesRepository.findByUserName(principal.getName()));
-        return "fragments :: first-fragment";
+    public String loadUserTattoos(Model model, Principal principal) {
+        loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
+        return "fragments::first-fragment";
     }
 
+    /**
+     * Загружает аватар пользователя.
+     */
     @PostMapping("/avatar-import")
-    public String avatarImport(@RequestParam("file") MultipartFile fileImport, Model model, Principal principal) throws IOException, ParseException {
-
-        User user = userRepository.findByLogin(principal.getName()).orElse(null);
-        if (user.getAvatar()!=null)userService.deleteImg(user.getId());
-        userService.saveImg(fileImport, user.getId());
-        user = userRepository.findByLogin(principal.getName()).get();
-        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-        model.addAttribute("UserDTO", userDTO);
+    public String uploadUserAvatar(@RequestParam("file") MultipartFile fileImport, Model model, Principal principal) throws IOException, ParseException {
+        UserDTO user = userService.findByLogin(principal.getName());
+        if (user.getAvatar() != null) { // Удаляем старый аватар, если он есть
+            userService.deleteImg(user.getId());
+        }
+        userService.saveImg(fileImport, user.getId()); // Сохраняем новый аватар
+        loadUserDataIntoModel(model, principal);       // Обновляем данные пользователя
         return "lk::avatar";
+    }
+
+    /**
+     * Загружает данные пользователя в модель.
+     */
+    private void loadUserDataIntoModel(Model model, Principal principal) {
+        model.addAttribute("UserDTO", userService.findByLogin(principal.getName()));
+    }
+
+    /**
+     * Загружает галерею пользователя в модель.
+     */
+    private void loadUserGallery(Model model, Principal principal, int number, int page) {
+        model.addAttribute("gallery", imagesService.pageList(null, principal, number, page));
+    }
+
+    /**
+     * Загружает галерею пользователя в модель (используется в личной странице).
+     */
+    private void loadUserGallery(Model model, Principal principal) {
+        loadUserGallery(model, principal, PageSize.IMG_9.getPageSize(), PAGE_NUMBER);
     }
 }

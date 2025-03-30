@@ -27,26 +27,16 @@ public class SketchesController {
     @GetMapping("/sketches")
     public String sketches(Model model) {
 
-        Page<Sketches> images = sketchesService.partition(PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
-        model.addAttribute("number", PageSize.IMG_9.getPageSize());
-        model.addAttribute("page", images.getTotalPages());
-        model.addAttribute("currentPage", PAGE_NUMBER);
-        model.addAttribute("imagesTotal", images.getTotalElements());
-        model.addAttribute("images", sketchesService.pageList(images));
-        model.addAttribute("options", PageSize.getLisPageSize());
+        model.addAttribute("sketches", sketchesService.pageList(null,null,PageSize.IMG_9.getPageSize(),PAGE_NUMBER));
+
         return "sketches";
     }
 
     @RequestMapping(value = "/sketches/{page}/{number}", method = RequestMethod.GET)
     private String remainsGroupShop(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
 
-        Page<Sketches> images = sketchesService.partition(PageRequest.of(page,number));
-        model.addAttribute("images",sketchesService.pageList(images) );
-        model.addAttribute("number", number);
-        model.addAttribute("page", images.getTotalPages());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("imagesTotal", images.getTotalElements());
-        model.addAttribute("options", PageSize.getLisPageSize());
+        model.addAttribute("sketches", sketchesService.pageList(null,null,number,page));
+
         return "sketches::galleryFilter";
     }
 

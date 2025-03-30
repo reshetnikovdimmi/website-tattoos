@@ -7,6 +7,7 @@ import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.model.Sketches;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SketchesRepository extends JpaRepository<Sketches, Long> {
 
@@ -16,4 +17,5 @@ public interface SketchesRepository extends JpaRepository<Sketches, Long> {
     @Query("SELECT e FROM Sketches e ORDER BY ID DESC LIMIT 3")
     List<Sketches> findLimit();
 
+    Optional<String> findNameById(Long id);
 }

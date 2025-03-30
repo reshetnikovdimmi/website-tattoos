@@ -2,7 +2,7 @@ package ru.tattoo.maxsim.model.DTO;
 
 
 import lombok.*;
-import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.model.Sketches;
 import java.util.List;
 
 @NoArgsConstructor
@@ -10,8 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class GalleryDTO {
-    private List<List<Images>> galleryImg;
+public class SketchesDTO {
+    private List<List<Sketches>> sketchesImg;
     private Integer pageSize;
     private Integer currentPage;
     private Integer number;

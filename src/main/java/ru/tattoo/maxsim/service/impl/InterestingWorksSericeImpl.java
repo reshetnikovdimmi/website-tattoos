@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class InterestingWorksSericeImpl extends AbstractCRUDService<InterestingWorks, Long> implements InterestingWorksService {
@@ -41,5 +42,10 @@ public class InterestingWorksSericeImpl extends AbstractCRUDService<InterestingW
     public void deleteImg(Long id) throws IOException {
         Files.delete(Paths.get(UPLOAD_DIRECTORY, interestingWorksRepository.getName(id)));
         interestingWorksRepository.deleteById(id);
+    }
+
+    @Override
+    public List<InterestingWorks> findLimit() {
+        return interestingWorksRepository.findTop4ByOrderByIdDesc();
     }
 }

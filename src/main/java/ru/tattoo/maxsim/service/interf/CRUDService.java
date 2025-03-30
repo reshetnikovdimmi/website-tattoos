@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface CRUDService<E, K> {
+
     void create(E entity);
 
     E findById(K id);

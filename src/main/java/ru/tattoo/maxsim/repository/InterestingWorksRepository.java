@@ -9,8 +9,7 @@ import java.util.List;
 @Repository
 public interface InterestingWorksRepository extends JpaRepository<InterestingWorks, Long> {
 
-    @Query("SELECT e FROM InterestingWorks e ORDER BY ID DESC LIMIT 4")
-    List<InterestingWorks> findLimit();
+    List<InterestingWorks> findTop4ByOrderByIdDesc();
 
     @Query("SELECT imageName  FROM InterestingWorks WHERE id = ?1")
     String getName(Long id);

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ImagesRepository;
+import ru.tattoo.maxsim.service.interf.ImagesService;
 import ru.tattoo.maxsim.service.interf.ReviewService;
 
 import java.util.List;
@@ -20,12 +21,12 @@ public class AboutMeController {
     @Autowired
     private ReviewService reviewService;
     @Autowired
-    private ImagesRepository imagesRepository;
+    private ImagesService imagesService;
 
     @GetMapping("/about-me")
     public String about(Model model) {
         model.addAttribute("reviewsLimit", reviewService.findLimit());
-        model.addAttribute("bestTattoos", imagesRepository.findByFlagTrue());
+        model.addAttribute("bestTattoos", imagesService.findByFlagTrue());
         return "about-me";
     }
 

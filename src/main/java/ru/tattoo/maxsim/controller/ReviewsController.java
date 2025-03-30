@@ -40,13 +40,8 @@ public class ReviewsController {
         model.addAttribute("reviews", reviewService.findAll());
         model.addAttribute("localDateTime", LocalDateTime.now());
         model.addAttribute("count", reviewService.getCount());
-        Page<Images> images = imagesService.partition(PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
-        model.addAttribute("number", PageSize.IMG_9.getPageSize());
-        model.addAttribute("page", images.getTotalPages());
-        model.addAttribute("currentPage", PAGE_NUMBER);
-        model.addAttribute("imagesTotal", images.getTotalElements());
-        model.addAttribute("images1", imagesService.pageList(images));
-        model.addAttribute("options", PageSize.getLisPageSize());
+        model.addAttribute("gallery", imagesService.pageList(null,null,PageSize.IMG_9.getPageSize(),PAGE_NUMBER));
+
 
         return "reviews";
     }

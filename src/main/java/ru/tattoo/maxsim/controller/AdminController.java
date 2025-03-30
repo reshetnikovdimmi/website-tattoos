@@ -23,10 +23,11 @@ import ru.tattoo.maxsim.util.PageSize;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.stream.Collectors;
 
 
 @Controller
-
+@RequestMapping("/admin")
 public class AdminController {
 
     private static final String ALL_GALLERY = "Вся галерея";
@@ -60,207 +61,130 @@ public class AdminController {
     private ModelMapper modelMapper;
 
 
-    @GetMapping("/admin")
-    public String admin(Model model) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()).withSort(sort);
-        Page<Images> images = imagesService.partition(p);
-        Page<Sketches> sketches = sketchesService.partition(p);
-
-        model.addAttribute("images", imagesService.findAll());
-
-        model.addAttribute("sketches", sketchesService.pageList(sketches));
-        model.addAttribute("pageSketches", sketches.getTotalPages());
-        model.addAttribute("imagesTotalSketches", sketches.getTotalElements());
-
-        model.addAttribute("reviews", reviewService.findAll());
-        model.addAttribute("user", userService.findAll());
-        model.addAttribute("interestingWorks", interestingWorksService.findAll());
-        model.addAttribute("commits", commitsService.findAll().stream().map(commits->modelMapper.map(commits, CommitsDTO.class)));
-        model.addAttribute("carousel", homeService.findAll());
-
-
-
-        model.addAttribute("number", PageSize.IMG_9.getPageSize());
-        model.addAttribute("page", images.getTotalPages());
-        model.addAttribute("currentPage", PAGE_NUMBER);
-        model.addAttribute("imagesTotal", images.getTotalElements());
-        model.addAttribute("imagesGallery", imagesService.pageList(images));
-        model.addAttribute("options", PageSize.getLisPageSize());
-
+    @GetMapping
+    public String adminDashboard(Model model) {
+        populateAdminDashboard(model);
         return "admin";
     }
 
     @PostMapping("/img-import")
-
-    public String imgImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("description") String description,@RequestParam("category") String category, Model model, HttpServletRequest request) throws IOException, ParseException {
-
-        imagesService.saveImg(fileImport,description,category,null);
-        model.addAttribute("images", imagesService.findAll());
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()).withSort(sort);
-        Page<Images> images = imagesService.partition(p);
-
-        model.addAttribute("number", PageSize.IMG_9.getPageSize());
-        model.addAttribute("page", images.getTotalPages());
-        model.addAttribute("currentPage", PAGE_NUMBER);
-        model.addAttribute("imagesTotal", images.getTotalElements());
-        model.addAttribute("imagesGallery", imagesService.pageList(images));
-        model.addAttribute("options", PageSize.getLisPageSize());
+    public String uploadGalleryImage(@RequestParam("file") MultipartFile fileImport,
+                                     @RequestParam("description") String description,
+                                     @RequestParam("category") String category,
+                                     Model model) throws IOException, ParseException {
+        imagesService.saveImg(fileImport, description, category, null);
+        updateGallery(model);
         return "admin::img-import";
     }
 
     @PostMapping("/sketches-import")
-    public String sketchesImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("description") String description, Model model, HttpServletRequest request) throws IOException, ParseException {
-
-        sketchesService.saveImg(fileImport,description);
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()).withSort(sort);
-        Page<Sketches> sketches = sketchesService.partition(p);
-        model.addAttribute("sketches", sketchesService.pageList(sketches));
-        model.addAttribute("pageSketches", sketches.getTotalPages());
-        model.addAttribute("currentPage", PAGE_NUMBER);
-        model.addAttribute("imagesTotalSketches", sketches.getTotalElements());
-
-        model.addAttribute("options", PageSize.getLisPageSize());
-
+    public String uploadSketch(@RequestParam("file") MultipartFile fileImport,
+                               @RequestParam("description") String description,
+                               Model model) throws IOException, ParseException {
+        sketchesService.saveImg(fileImport, description);
+        updateSketches(model);
         return "admin::sketches-import";
     }
 
     @PostMapping("/carousel-import")
-    public String carouselImport(@RequestParam("file") MultipartFile fileImport, Model model, HttpServletRequest request) throws IOException, ParseException {
-
+    public String uploadCarouselImage(@RequestParam("file") MultipartFile fileImport,
+                                      Model model) throws IOException, ParseException {
         homeService.saveImg(fileImport, "carousel");
-        model.addAttribute("carousel", homeService.findAll());
-
+        updateCarousel(model);
         return "admin::carousel-import";
     }
 
     @GetMapping("/carousel-delete/{id}")
-    public String deleteCarousel(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
+    public String deleteCarouselImage(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
         homeService.deleteImg(id);
-        model.addAttribute("carousel", homeService.findAll());
-
+        updateCarousel(model);
         return "admin::carousel-import";
     }
 
     @PostMapping("/interesting-works-import")
-    public String interestingWorksImport(@RequestParam("file") MultipartFile fileImport, @RequestParam("description") String description, Model model, HttpServletRequest request) throws IOException, ParseException {
-
-        interestingWorksService.saveImg(fileImport,description);
-        model.addAttribute("interestingWorks", interestingWorksService.findAll());
-
+    public String uploadInterestingWork(@RequestParam("file") MultipartFile fileImport,
+                                        @RequestParam("description") String description,
+                                        Model model) throws IOException, ParseException {
+        interestingWorksService.saveImg(fileImport, description);
+        updateInterestingWorks(model);
         return "admin::interesting-works-import";
     }
 
     @GetMapping("/interesting-works-delete/{id}")
-    public String deleteInterestingWorks(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
-
+    public String deleteInterestingWork(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
         interestingWorksService.deleteImg(id);
-        model.addAttribute("interestingWorks", interestingWorksService.findAll());
-
+        updateInterestingWorks(model);
         return "admin::interesting-works-import";
     }
 
     @GetMapping("/sketches-delete/{id}")
-    public String deleteSketches(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
-
+    public String deleteSketch(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
         sketchesService.deleteImg(id);
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()).withSort(sort);
-        Page<Sketches> sketches = sketchesService.partition(p);
-        model.addAttribute("sketches", sketchesService.pageList(sketches));
-        model.addAttribute("pageSketches", sketches.getTotalPages());
-        model.addAttribute("currentPage", PAGE_NUMBER);
-        model.addAttribute("imagesTotalSketches", sketches.getTotalElements());
-
-        model.addAttribute("options", PageSize.getLisPageSize());
-
+        updateSketches(model);
         return "admin::sketches-import";
     }
 
     @GetMapping("/img-delete/{id}")
-    public String deleteImg(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
-
+    public String deleteGalleryImage(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
         imagesService.deleteImg(id);
-        model.addAttribute("images", imagesService.findAll());
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        Pageable p = PageRequest.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize()).withSort(sort);
-        Page<Images> images = imagesService.partition(p);
-
-        model.addAttribute("number", PageSize.IMG_9.getPageSize());
-        model.addAttribute("page", images.getTotalPages());
-        model.addAttribute("currentPage", PAGE_NUMBER);
-        model.addAttribute("imagesTotal", images.getTotalElements());
-        model.addAttribute("imagesGallery", imagesService.pageList(images));
-        model.addAttribute("options", PageSize.getLisPageSize());
+        updateGallery(model);
         return "admin::img-import";
     }
 
-    @RequestMapping(value = "/admin/{style}/{page}/{number}", method = RequestMethod.GET)
-
-    private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
-
-        Page<Images> images;
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        Pageable p = PageRequest.of(page, number).withSort(sort);
-        if (style.equals(ALL_GALLERY)) {
-            images = imagesService.partition(p);
-        } else {
-            images = imagesService.findByCategory(style, p);
-        }
-        model.addAttribute("imagesGallery", imagesService.pageList(images));
-        model.addAttribute("number", number);
-        model.addAttribute("page", images.getTotalPages());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("imagesTotal", images.getTotalElements());
-        model.addAttribute("options", PageSize.getLisPageSize());
-
+    @GetMapping("/{style}/{page}/{number}")
+    public String searchGallery(@PathVariable("style") String style,
+                                @PathVariable("page") int page,
+                                @PathVariable("number") int number,
+                                Model model) {
+        model.addAttribute("gallery", imagesService.pageList(style.equals(ALL_GALLERY) ? null : style, null, number, page));
         return "admin::img-import";
     }
 
-    @RequestMapping(value = "/admin-sketches/{page}/{number}", method = RequestMethod.GET)
-
-    private String sketchesSearch(@PathVariable("page") int page, @PathVariable("number") int number, Model model) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        Page<Sketches> images = sketchesService.partition(PageRequest.of(page,number).withSort(sort));
-        model.addAttribute("sketches",sketchesService.pageList(images) );
-        model.addAttribute("number", number);
-        model.addAttribute("pageSketches", images.getTotalPages());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("imagesTotalSketches", images.getTotalElements());
-        model.addAttribute("options", PageSize.getLisPageSize());
-
+    @GetMapping("/sketches/{page}/{number}")
+    public String searchSketches(@PathVariable("page") int page,
+                                 @PathVariable("number") int number,
+                                 Model model) {
+        model.addAttribute("sketches", sketchesService.pageList(null, null, number, page));
         return "admin::sketches-import";
     }
 
     @GetMapping("/reviews-delete/{id}")
-    public String deleteReviews(@PathVariable("id") Long id, Model model, HttpServletRequest request) throws IOException, ParseException {
-
+    public String deleteReview(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
         reviewService.deleteImg(id);
-        model.addAttribute("reviews", reviewService.findAll());
-
+        updateReviews(model);
         return "admin::reviews";
     }
 
-
-    //Response controller
-
-    @PostMapping(path = "/best-tattoos")
-    private ResponseEntity saveSparkSale(@RequestBody Images images) {
-        return ResponseEntity.ok(imagesService.bestImage(images));
+    // Вспомогательные методы для уменьшения дублирования кода
+    private void populateAdminDashboard(Model model) {
+        model.addAttribute("gallery", imagesService.pageList(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
+        model.addAttribute("sketches", sketchesService.pageList(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
+        model.addAttribute("reviews", reviewService.findAll());
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("interestingWorks", interestingWorksService.findAll());
+        model.addAttribute("commits", commitsService.findAll().stream()
+                .map(commits -> modelMapper.map(commits, CommitsDTO.class)).collect(Collectors.toList()));
+        model.addAttribute("carousel", homeService.findAll());
     }
 
+    private void updateGallery(Model model) {
+        model.addAttribute("gallery", imagesService.pageList(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
+    }
 
-    @PostMapping(path = "/contact-info")
-    private ResponseEntity<ContactInfo> contactInfo(@RequestBody ContactInfo newContact, Model model) {
-        ContactInfo contactInfo = contactInfoRepository.findLimit();
-        if (newContact.getTell()!=null) contactInfo.setTell(newContact.getTell());
-        if (newContact.getEmail()!=null) contactInfo.setEmail(newContact.getEmail());
-        if (newContact.getAddress()!=null) contactInfo.setAddress(newContact.getAddress());
-        contactInfoRepository.save(contactInfo);
+    private void updateSketches(Model model) {
+        model.addAttribute("sketches", sketchesService.pageList(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
+    }
 
-        return ResponseEntity.ok(contactInfoRepository.findLimit());
+    private void updateCarousel(Model model) {
+        model.addAttribute("carousel", homeService.findAll());
+    }
+
+    private void updateInterestingWorks(Model model) {
+        model.addAttribute("interestingWorks", interestingWorksService.findAll());
+    }
+
+    private void updateReviews(Model model) {
+        model.addAttribute("reviews", reviewService.findAll());
     }
 
 }

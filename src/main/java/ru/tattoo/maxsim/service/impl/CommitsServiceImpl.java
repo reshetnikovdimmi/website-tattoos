@@ -6,14 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import ru.tattoo.maxsim.model.Commits;
+import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.model.DTO.CommitsDTO;
 import ru.tattoo.maxsim.repository.CommitsRepository;
 import ru.tattoo.maxsim.service.interf.CommitsService;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CommitsServiceImpl extends AbstractCRUDService<Commits,Long> implements CommitsService {
@@ -39,6 +38,15 @@ public class CommitsServiceImpl extends AbstractCRUDService<Commits,Long> implem
 
         commitsRepository.save(commits);
 
+    }
+
+    @Override
+    public List<CommitsDTO>  findLimit() {
+
+        return commitsRepository.findLimit()
+                .stream()
+                .map(commit -> modelMapper.map(commit, CommitsDTO.class))
+                .collect(Collectors.toList());
     }
 
 

@@ -61,7 +61,7 @@
 <section class="gallery-section spad">
     <div class="container">
         <div class="galleryFilter" th:fragment="galleryFilter">
-            <div class="row gallery-filter" th:each="current, item : ${images}">
+            <div class="row gallery-filter" th:each="current, item : ${sketches.sketchesImg}">
                 <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="currents: ${current}">
                     <div class="gallery-item">
 
@@ -79,18 +79,23 @@
 
             <div class="blog-option">
                 <div class="blog-pagination">
-                    <a th:if="${currentPage!=0}" id="fa-long-arrow-left" type="submit"><i class="fa fa-long-arrow-left"></i></a>
-                    <a class="active">[[${currentPage+1}]]</a>
+                    <a th:if="${sketches.currentPage!=0}"  id="fa-long-arrow-left" type="submit"><i
+                            class="fa fa-long-arrow-left"></i></a>
+                    <a class="active">[[${sketches.currentPage+1}]]</a>
                     of
-                    <a>[[${page}]]</a>
-                    <a  th:if="${currentPage+1 != page}" id="fa-long-arrow-right" type="submit"><i class="fa fa-long-arrow-right"></i></a>
+                    <a>[[${sketches.pageSize}]]</a>
+                    <a th:if="${sketches.currentPage+1 != sketches.pageSize}" id="fa-long-arrow-right" type="submit"><i
+                            class="fa fa-long-arrow-right"></i></a>
                 </div>
                 <div class="blog-option-right">
-                    <div class="blog-result">Showing [[${currentPage+1}]]–[[${page}]] of [[${imagesTotal}]]  results</div>
+                    <div class="blog-result">Showing [[${sketches.currentPage+1}]]–[[${sketches.pageSize}]] of [[${sketches.imagesTotal}]]
+                        results
+                    </div>
                     <div class="show-result">
                         <p>Show:</p>
-                        <select class="show-result-select" id="number">
-                            <option th:each="option : ${options}" th:value="${option}" th:text="${option}" th:selected="${option == number}"  ></option>
+                        <select class="show-result-select" onchange="numbers()" id="number">
+                            <option th:each="option : ${sketches.select}" th:value="${option}" th:text="${option}"
+                                    th:selected="${option == sketches.number}"></option>
                         </select>
                     </div>
                 </div>

@@ -37,4 +37,9 @@ public class User {
     @JoinColumn(name = "userName", referencedColumnName = "login")
 
     private List<ReviewsUser> reviews;
+
+    @OneToMany(targetEntity = Images.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "userName", referencedColumnName = "login")
+
+    private List<Images> images;
 }

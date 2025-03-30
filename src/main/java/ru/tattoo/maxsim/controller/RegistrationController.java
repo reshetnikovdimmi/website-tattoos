@@ -20,32 +20,48 @@ import java.util.Date;
 
 @Controller
 public class RegistrationController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserValidator userValidator;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
+    // Паттерн Service Layer: выделение логики в отдельный сервис
+    private final UserService userService;
+    private final UserValidator userValidator;
+    private final PasswordEncoder passwordEncoder;
+
+    // Конструктор для внедрения зависимостей
+    public RegistrationController(UserService userService, UserValidator userValidator, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.userValidator = userValidator;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @PostMapping("/process-registration")
-    public String processRegistration(@ModelAttribute("user") @Valid User user,Model model,
-                                      BindingResult bindingResult) {
-
-        userValidator.validate(user, bindingResult);
-
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("login", bindingResult);
+    public String processRegistration(@ModelAttribute("user") @Valid User user, Model model, BindingResult bindingResult) {
+        if (!validateUser(user, bindingResult)) {
+            model.addAttribute("errors", bindingResult.getAllErrors());
             return "registration";
         }
+
+        registerUser(user);
+        return "login";
+    }
+
+    @GetMapping("/registration")
+    public String registrationPage(Model model) {
+        model.addAttribute("user", new User());
+        return "registration";
+    }
+
+    // Метод для валидации пользователя
+    private boolean validateUser(User user, BindingResult bindingResult) {
+        userValidator.validate(user, bindingResult);
+        return !bindingResult.hasErrors();
+    }
+
+    // Метод для регистрации нового пользователя
+    private void registerUser(User user) {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         user.setRole(UserRole.USER.toString());
         user.setDate(new Date());
         userService.create(user);
-        return "login";
-    }
-
-    @GetMapping("/registration")
-    public String registrationPage(@ModelAttribute("user") User user) {
-        return "registration";
     }
 }
