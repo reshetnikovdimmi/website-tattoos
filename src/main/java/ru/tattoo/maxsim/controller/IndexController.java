@@ -22,28 +22,29 @@ public class IndexController {
     @Autowired
     private HomeService homeService;
 
-
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("reviewsLimit", reviewService.findLimit());
-        model.addAttribute("details", new EmailDetails());
-        model.addAttribute("carousel", homeService.findAll());
+        prepareModel(model);
         return "Index";
     }
 
     @PostMapping("/mail")
-    public String  sendMail(@ModelAttribute("details") EmailDetails details, Model model) {
+    public String sendMail(@ModelAttribute("details") EmailDetails details, Model model) {
         boolean isSuccess = emailService.sendSimpleMail(details);
 
-        if(isSuccess){
+        if (isSuccess) {
             model.addAttribute("status", "Mail Sent Successfully...");
-        }else{
+        } else {
             model.addAttribute("status", "Error while Sending Mail");
         }
 
+        prepareModel(model);
+        return "Index";
+    }
+
+    private void prepareModel(Model model) {
         model.addAttribute("reviewsLimit", reviewService.findLimit());
         model.addAttribute("details", new EmailDetails());
         model.addAttribute("carousel", homeService.findAll());
-        return "/Index";
     }
 }

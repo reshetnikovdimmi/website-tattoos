@@ -2,14 +2,9 @@ package ru.tattoo.maxsim.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import ru.tattoo.maxsim.model.Images;
-import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.service.interf.ImagesService;
 import ru.tattoo.maxsim.service.interf.ReviewService;
 import ru.tattoo.maxsim.service.interf.SketchesService;

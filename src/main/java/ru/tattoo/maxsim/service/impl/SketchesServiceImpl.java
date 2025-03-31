@@ -50,7 +50,7 @@ public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> imp
         Optional.ofNullable(description).ifPresent(img::setDescription);
         Optional.of(new Date()).ifPresent(img::setDate);
 
-        sketchesRepository.save(img);
+        getRepository().save(img);
 
         ImageUtils.saveImage(fileImport, img.getImageName());
 
@@ -68,7 +68,7 @@ public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> imp
                 throw new RuntimeException("Ошибка удаления файла", e);
             }
         });
-        sketchesRepository.deleteById(id);
+        getRepository().deleteById(id);
     }
 
     @Override

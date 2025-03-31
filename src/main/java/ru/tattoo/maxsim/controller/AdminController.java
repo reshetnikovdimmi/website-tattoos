@@ -96,6 +96,7 @@ public class AdminController {
 
     @GetMapping("/carousel-delete/{id}")
     public String deleteCarouselImage(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
+
         homeService.deleteImg(id);
         updateCarousel(model);
         return "admin::carousel-import";

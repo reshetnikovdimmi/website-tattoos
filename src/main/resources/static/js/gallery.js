@@ -1,4 +1,4 @@
-var style = "";
+var style = "Вся галерея";
 var page = 0;
 var number = 9;
 $(document).ready(function() {

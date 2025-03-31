@@ -46,9 +46,7 @@ public class GalleryController {
         return "gallery";
     }
 
-
     @RequestMapping(value = "/gallery/{style}/{page}/{number}", method = RequestMethod.GET)
-
     private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
 
         model.addAttribute("gallery", imagesService.pageList(style.equals(ALL_GALLERY) ?null:style,null, number,page));

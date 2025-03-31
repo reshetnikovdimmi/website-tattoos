@@ -149,7 +149,7 @@
             const formData = new FormData();
             formData.append('file', file);
             formData.append('description', $('#description-interesting-works').val())
-            xhr.open('POST', '/interesting-works-import');
+            xhr.open('POST', '/admin/interesting-works-import');
             xhr.send(formData);
             xhr.onload = () => {
                 if (xhr.status == 200) {
@@ -169,7 +169,7 @@
         $(document).find('.interesting-works-del').on('click', function() {
             var id = $(this).parents('.row:first').find('.col:eq(0)').text(),
                 data;
-            $.get('/interesting-works-delete/' + id, {}, function(data) {
+            $.get('/admin/interesting-works-delete/' + id, {}, function(data) {
                 $(".interesting-works-import").html(data);
                 $('.show-result-select').niceSelect();
                 del()
@@ -248,7 +248,7 @@
             const xhr = new XMLHttpRequest();
             const formData = new FormData();
             formData.append('file', file);
-            xhr.open('POST', '/carousel-import');
+            xhr.open('POST', '/admin/carousel-import');
             console.log(file.name)
             xhr.send(formData);
             xhr.onload = () => {
@@ -268,7 +268,7 @@
     function deleteImg() {
         $(document).find('.carousel-import button').on('click', function() {
             var id = this.id;
-            $.get('/carousel-delete/' + id, {}, function(data) {
+            $.get('/admin/carousel-delete/' + id, {}, function(data) {
                 $(".carousel-import").html(data);
                 $('.show-result-select').niceSelect();
                 deleteImg()
@@ -310,7 +310,7 @@
             const formData = new FormData();
             formData.append('file', file);
             formData.append('description', $('#description-sketches').val())
-            xhr.open('POST', '/sketches-import');
+            xhr.open('POST', '/admin/sketches-import');
             xhr.send(formData);
             xhr.onload = () => {
                 if (xhr.status == 200) {
@@ -342,14 +342,14 @@
         });
         $('.sketches-import button').click(function(e) {
             var id = $(this).attr("id");
-            $.get('/sketches-delete/' + id, {}, function(data) {
+            $.get('/admin/sketches-delete/' + id, {}, function(data) {
                 $(".sketches-import").html(data);
             });
         });
     }
 
     function sketchesControls() {
-        $.get('/admin-sketches/' + s_page + '/' + s_number, {}, function(data) {
+        $.get('/admin/admin-sketches/' + s_page + '/' + s_number, {}, function(data) {
             $(".sketches-import").html(data);
         });
     }
@@ -359,7 +359,7 @@
     function reviews() {
         $(document).find('.del-reviews').on('click', function() {
             var id = $(this).attr("id");
-            $.get('/reviews-delete/' + id, {}, function(data) {
+            $.get('/admin/reviews-delete/' + id, {}, function(data) {
                 $(".reviews").html(data);
             });
         });
@@ -388,7 +388,7 @@
             formData.append('file', file);
             formData.append('category', style)
             formData.append('description', $('#description').val())
-            xhr.open('POST', '/img-import');
+            xhr.open('POST', '/admin/img-import');
             xhr.send(formData);
             xhr.onload = () => {
                 if (xhr.status == 200) {
@@ -429,7 +429,7 @@
         });
         $('.img-import button').click(function(e) {
             var id = $(this).parent().attr("id");
-            $.get('/img-delete/' + id, {}, function(data) {
+            $.get('/admin/img-delete/' + id, {}, function(data) {
                 $(".img-import").html(data);
             });
         })

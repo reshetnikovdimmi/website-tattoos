@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import ru.tattoo.maxsim.model.Commits;
-import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.model.DTO.CommitsDTO;
 import ru.tattoo.maxsim.repository.CommitsRepository;
 import ru.tattoo.maxsim.service.interf.CommitsService;
@@ -15,7 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class CommitsServiceImpl extends AbstractCRUDService<Commits,Long> implements CommitsService {
+public class CommitsServiceImpl extends AbstractCRUDService<Commits, Long> implements CommitsService {
 
     @Autowired
     private CommitsRepository commitsRepository;
@@ -30,24 +29,19 @@ public class CommitsServiceImpl extends AbstractCRUDService<Commits,Long> implem
 
     @Override
     public void saveImd(String comment, String name) throws IOException {
+        Commits commit = new Commits();
+        commit.setComment(comment);
+        commit.setUserName(name);
+        commit.setDate(new Date());
 
-        Commits commits = new Commits();
-        commits.setComment(comment);
-        commits.setUserName(name);
-        commits.setDate(new Date());
-
-        commitsRepository.save(commits);
-
+        getRepository().save(commit);
     }
 
     @Override
-    public List<CommitsDTO>  findLimit() {
-
+    public List<CommitsDTO> findLimit() {
         return commitsRepository.findLimit()
                 .stream()
                 .map(commit -> modelMapper.map(commit, CommitsDTO.class))
                 .collect(Collectors.toList());
     }
-
-
 }

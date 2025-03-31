@@ -4,7 +4,9 @@ package ru.tattoo.maxsim.util;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public enum PageSize {
@@ -19,11 +21,15 @@ public enum PageSize {
         this.pageSize = pageSize;
     }
 
-    public static List<Integer> getLisPageSize() {
-        List<Integer> lisPageSize = new ArrayList<>();
-        for (PageSize size : PageSize.values()) {
-            lisPageSize.add(size.pageSize);
+    private static volatile List<Integer> cachedSizes;
+
+    public static synchronized List<Integer> getLisPageSize() {
+        if (cachedSizes == null) {
+            cachedSizes = Arrays.stream(values())
+                    .mapToInt(PageSize::getPageSize)
+                    .boxed()
+                    .collect(Collectors.toList());
         }
-        return lisPageSize;
+        return cachedSizes;
     }
 }
