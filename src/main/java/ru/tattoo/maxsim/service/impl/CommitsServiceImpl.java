@@ -10,6 +10,7 @@ import ru.tattoo.maxsim.model.DTO.CommitsDTO;
 import ru.tattoo.maxsim.repository.CommitsRepository;
 import ru.tattoo.maxsim.service.interf.CommitsService;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,7 @@ public class CommitsServiceImpl extends AbstractCRUDService<Commits, Long> imple
     }
 
     @Override
-    public void saveImd(String comment, String name) throws IOException {
+    public void saveCommit(String comment, String name) throws IOException {
         Commits commit = new Commits();
         commit.setComment(comment);
         commit.setUserName(name);

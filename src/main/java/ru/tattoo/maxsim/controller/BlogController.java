@@ -46,7 +46,7 @@ public class BlogController {
     }
     @PostMapping("/commits-import")
     public String reviewsImport(@RequestParam("Comment") String Comment, Principal principal, Model model) throws IOException, ParseException {
-        commitsService.saveImd(Comment,principal.getName());
+        commitsService.saveCommit(Comment,principal.getName());
         model.addAttribute("commits", commitsService.findLimit());
         return "blog::fragment-commits";
     }

@@ -6,9 +6,10 @@ import java.io.IOException;
 import java.util.List;
 
 public interface InterestingWorksService extends CRUDService<InterestingWorks, Long>{
-    void saveImg(MultipartFile fileImport, String description) throws IOException;
 
-    void deleteImg(Long id) throws IOException;
+    void saveInterestingWorks(MultipartFile fileImport, String description) throws IOException;
+
+    void deleteInterestingWorks(Long id) throws IOException;
 
     List<InterestingWorks> findLimit();
 }

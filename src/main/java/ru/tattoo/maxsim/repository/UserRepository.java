@@ -14,6 +14,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
     Optional<User> findByLogin(String login);
 
     @Query("SELECT avatar  FROM User WHERE id = ?1")
-    String getName(Long id);
-
+    Optional<String> findNameById(Long id);
 }

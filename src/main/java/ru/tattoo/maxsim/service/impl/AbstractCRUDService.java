@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K>{
 
-    public static final int PAGE_NUMBER = 0;
+
     public static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/img/images/";
 
     abstract CrudRepository<E, K> getRepository();
@@ -28,16 +28,16 @@ public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K>{
 
     @Override
     public List<E> findAll() {
-        List<E> o = (List<E>) getRepository().findAll();
-        Collections.reverse(o);
-        return o;
+        List<E> entities = (List<E>) getRepository().findAll();
+        Collections.reverse(entities);
+        return entities;
     }
 
     @Override
     public E update(E entity){
     getRepository().save(entity);
         return entity;
-}
+    }
 
     @Override
     public void delete(E entity) {
@@ -58,7 +58,5 @@ public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K>{
     public List<E> saveAll(List<E> l) {
         return List.of();
     }
-
-
 
 }

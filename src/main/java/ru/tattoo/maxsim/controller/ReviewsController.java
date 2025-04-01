@@ -35,7 +35,7 @@ public class ReviewsController {
         model.addAttribute("reviews", reviewService.findAll());
         model.addAttribute("localDateTime", LocalDateTime.now());
         model.addAttribute("count", reviewService.getCount());
-        model.addAttribute("gallery", imagesService.pageList(null,null,PageSize.IMG_9.getPageSize(),PAGE_NUMBER));
+        model.addAttribute("gallery", imagesService.getGalleryDto(null,null,PageSize.IMG_9.getPageSize(),PAGE_NUMBER));
 
 
         return "reviews";

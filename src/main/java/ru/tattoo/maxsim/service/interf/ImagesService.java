@@ -8,7 +8,6 @@ import ru.tattoo.maxsim.model.Images;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
 
 public interface ImagesService extends CRUDService<Images, Long> {
 
@@ -16,15 +15,15 @@ public interface ImagesService extends CRUDService<Images, Long> {
 
     void deleteImg(Long id) throws IOException;
 
-    Page<Images> partition(Pageable p);
+    Page<Images> getPagedImages(Pageable p);
 
     Page<Images> findByCategory(String style, Pageable p);
 
     boolean bestImage(Images images);
 
-    Page<Images> partition(String userName, Pageable p);
+    Page<Images> getPagedImages(String userName, Pageable p);
 
-    GalleryDTO pageList(String category, Principal principal, int pageSize, int pageNumber);
+    GalleryDTO getGalleryDto(String category, Principal principal, int pageSize, int pageNumber);
 
     Iterable<Images> findByFlagTrue();
 }

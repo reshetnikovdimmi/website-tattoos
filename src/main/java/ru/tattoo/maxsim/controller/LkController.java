@@ -1,23 +1,14 @@
 package ru.tattoo.maxsim.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.DTO.UserDTO;
-import ru.tattoo.maxsim.model.Images;
-import ru.tattoo.maxsim.model.Sketches;
-import ru.tattoo.maxsim.model.User;
-import ru.tattoo.maxsim.repository.ImagesRepository;
-import ru.tattoo.maxsim.repository.UserRepository;
 import ru.tattoo.maxsim.service.interf.ImagesService;
 import ru.tattoo.maxsim.service.interf.ReviewService;
-import ru.tattoo.maxsim.service.interf.SketchesService;
 import ru.tattoo.maxsim.service.interf.UserService;
 import ru.tattoo.maxsim.util.PageSize;
 
@@ -114,7 +105,7 @@ public class LkController {
         if (user.getAvatar() != null) { // Удаляем старый аватар, если он есть
             userService.deleteImg(user.getId());
         }
-        userService.saveImg(fileImport, user.getId()); // Сохраняем новый аватар
+        userService.updateUserAvatar(fileImport, user.getId()); // Сохраняем новый аватар
         loadUserDataIntoModel(model, principal);       // Обновляем данные пользователя
         return "lk::avatar";
     }
@@ -130,7 +121,7 @@ public class LkController {
      * Загружает галерею пользователя в модель.
      */
     private void loadUserGallery(Model model, Principal principal, int number, int page) {
-        model.addAttribute("gallery", imagesService.pageList(null, principal, number, page));
+        model.addAttribute("gallery", imagesService.getGalleryDto(null, principal, number, page));
     }
 
     /**

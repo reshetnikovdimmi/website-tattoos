@@ -1,22 +1,13 @@
 package ru.tattoo.maxsim.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.model.DTO.CommitsDTO;
-import ru.tattoo.maxsim.model.Images;
-import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.repository.ContactInfoRepository;
 import ru.tattoo.maxsim.service.interf.*;
 import ru.tattoo.maxsim.util.PageSize;
@@ -106,14 +97,14 @@ public class AdminController {
     public String uploadInterestingWork(@RequestParam("file") MultipartFile fileImport,
                                         @RequestParam("description") String description,
                                         Model model) throws IOException, ParseException {
-        interestingWorksService.saveImg(fileImport, description);
+        interestingWorksService.saveInterestingWorks(fileImport, description);
         updateInterestingWorks(model);
         return "admin::interesting-works-import";
     }
 
     @GetMapping("/interesting-works-delete/{id}")
     public String deleteInterestingWork(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
-        interestingWorksService.deleteImg(id);
+        interestingWorksService.deleteInterestingWorks(id);
         updateInterestingWorks(model);
         return "admin::interesting-works-import";
     }
@@ -137,7 +128,7 @@ public class AdminController {
                                 @PathVariable("page") int page,
                                 @PathVariable("number") int number,
                                 Model model) {
-        model.addAttribute("gallery", imagesService.pageList(style.equals(ALL_GALLERY) ? null : style, null, number, page));
+        model.addAttribute("gallery", imagesService.getGalleryDto(style.equals(ALL_GALLERY) ? null : style, null, number, page));
         return "admin::img-import";
     }
 
@@ -145,7 +136,7 @@ public class AdminController {
     public String searchSketches(@PathVariable("page") int page,
                                  @PathVariable("number") int number,
                                  Model model) {
-        model.addAttribute("sketches", sketchesService.pageList(null, null, number, page));
+        model.addAttribute("sketches", sketchesService.getSketchesDto(null, null, number, page));
         return "admin::sketches-import";
     }
 
@@ -158,8 +149,8 @@ public class AdminController {
 
     // Вспомогательные методы для уменьшения дублирования кода
     private void populateAdminDashboard(Model model) {
-        model.addAttribute("gallery", imagesService.pageList(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
-        model.addAttribute("sketches", sketchesService.pageList(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
+        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
+        model.addAttribute("sketches", sketchesService.getSketchesDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
         model.addAttribute("reviews", reviewService.findAll());
         model.addAttribute("users", userService.findAll());
         model.addAttribute("interestingWorks", interestingWorksService.findAll());
@@ -169,11 +160,11 @@ public class AdminController {
     }
 
     private void updateGallery(Model model) {
-        model.addAttribute("gallery", imagesService.pageList(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
+        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
     }
 
     private void updateSketches(Model model) {
-        model.addAttribute("sketches", sketchesService.pageList(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
+        model.addAttribute("sketches", sketchesService.getSketchesDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
     }
 
     private void updateCarousel(Model model) {

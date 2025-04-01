@@ -1,6 +1,5 @@
 package ru.tattoo.maxsim.service.impl;
 
-import com.google.common.collect.Lists;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,9 +17,6 @@ import ru.tattoo.maxsim.util.ImageUtils;
 import ru.tattoo.maxsim.util.PageSize;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
@@ -31,8 +27,6 @@ import java.util.Optional;
 public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> implements ImagesService {
 
     private static final int PARTITION_SIZE = 3;
-    private static final String ALL_GALLERY = "Вся галерея";
-    private static final int PAGE_NUMBER = 0;
 
     @Autowired
     private ImagesRepository imagesRepository;
@@ -69,12 +63,12 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
     }
 
     @Override
-    public Page<Images> partition(Pageable p) {
+    public Page<Images> getPagedImages(Pageable p) {
         return imagesRepository.findAll(p);
     }
 
     @Override
-    public Page<Images> partition(String userName, Pageable p) {
+    public Page<Images> getPagedImages(String userName, Pageable p) {
         return imagesRepository.findByUserName(userName, p);
     }
 
@@ -93,17 +87,17 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
     }
 
     @Override
-    public GalleryDTO pageList(String category, Principal principal, int pageSize, int pageNumber) {
+    public GalleryDTO getGalleryDto(String category, Principal principal, int pageSize, int pageNumber) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable p = PageRequest.of(pageNumber, pageSize).withSort(sort);
 
         Page<Images> images;
         if (principal != null && category == null) {
-            images = partition(principal.getName(), p);
+            images = getPagedImages(principal.getName(), p);
         } else if (category != null) {
             images = findByCategory(category, p);
         } else {
-            images = partition(p); // Все изображения
+            images = getPagedImages(p); // Все изображения
         }
 
         List<List<Images>> objects = ImageUtils.partition(

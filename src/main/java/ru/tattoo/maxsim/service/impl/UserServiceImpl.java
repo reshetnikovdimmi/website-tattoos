@@ -5,16 +5,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.exceptions.UserNotFoundException;
 import ru.tattoo.maxsim.model.DTO.UserDTO;
+import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.repository.UserRepository;
 import ru.tattoo.maxsim.service.interf.UserService;
+import ru.tattoo.maxsim.util.ImageUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl extends AbstractCRUDService<User, Long> implements UserService {
@@ -31,23 +35,34 @@ public class UserServiceImpl extends AbstractCRUDService<User, Long> implements 
 
     @Override
     public List<User> findAll() {
-        return (List<User>) userRepository.findAll();
+        return (List<User>) getRepository().findAll();
     }
 
     @Override
-    public void saveImg(MultipartFile fileImport, Long id) throws IOException {
-        User user = userRepository.findById(id).orElse(null);
-        assert user != null;
-        user.setAvatar(fileImport.getOriginalFilename());
-        userRepository.save(user);
+    public void updateUserAvatar(MultipartFile fileImport, Long id) throws IOException {
 
-        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, fileImport.getOriginalFilename());
-        Files.write(fileNameAndPath, fileImport.getBytes());
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Пользователь с ID " + id + " не найден"));
+
+        String uniqueFileName = ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename());
+        user.setAvatar(uniqueFileName);
+
+        ImageUtils.saveImage(fileImport, uniqueFileName);
+
+        userRepository.save(user);
     }
 
     @Override
     public void deleteImg(Long id) throws IOException {
-        Files.delete(Paths.get(UPLOAD_DIRECTORY, userRepository.getName(id)));
+        Optional<String> imageName = userRepository.findNameById(id);
+        imageName.ifPresent(name -> {
+            try {
+                ImageUtils.deleteImage(name);
+            } catch (IOException e) {
+                throw new RuntimeException("Ошибка удаления файла", e);
+            }
+        });
+        getRepository().deleteById(id);
     }
 
     @Override

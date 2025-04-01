@@ -22,7 +22,4 @@ public interface CRUDService<E, K> {
 
     List<E> saveAll(List<E> l);
 
-
-
-
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.tattoo.maxsim.model.ReviewsUser;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ReviewsUserRepository extends JpaRepository<ReviewsUser, Long> {
@@ -14,9 +15,10 @@ public interface ReviewsUserRepository extends JpaRepository<ReviewsUser, Long> 
     List<ReviewsUser> findLimit();
 
     @Query("SELECT imageName  FROM ReviewsUser WHERE id = ?1")
-    String getName(Long id);
+    Optional<String> findNameById(Long id);
 
     @Query("SELECT COUNT(id) FROM ReviewsUser")
     int getCount();
+
 
 }

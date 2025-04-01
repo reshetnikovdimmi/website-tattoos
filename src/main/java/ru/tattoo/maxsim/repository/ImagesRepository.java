@@ -18,7 +18,7 @@ public interface ImagesRepository extends JpaRepository<Images, Long> {
     Page<Images> findByUserName(String c, Pageable p);
 
     @Query("SELECT imageName  FROM Images WHERE id = ?1")
-    String findNameById(Long id);
+    Optional<String> findNameById(Long id);
 
     @Query("SELECT c FROM Images c WHERE c.flag = true")
     Iterable<Images> findByFlagTrue();

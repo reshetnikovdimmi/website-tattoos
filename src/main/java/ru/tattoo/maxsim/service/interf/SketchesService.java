@@ -3,7 +3,6 @@ package ru.tattoo.maxsim.service.interf;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
-import ru.tattoo.maxsim.model.DTO.GalleryDTO;
 import ru.tattoo.maxsim.model.DTO.SketchesDTO;
 import ru.tattoo.maxsim.model.Sketches;
 import java.io.IOException;
@@ -16,9 +15,9 @@ public interface SketchesService extends CRUDService<Sketches, Long>{
 
     void deleteImg(Long id) throws IOException;
 
-    Page<Sketches> partition(Pageable p);
+    Page<Sketches> getPagedImages(Pageable p);
 
-    SketchesDTO pageList(String category, Principal principal, int pageSize, int pageNumber);
+    SketchesDTO getSketchesDto(String category, Principal principal, int pageSize, int pageNumber);
 
     List<Sketches> findLimit();
 }
