@@ -101,11 +101,8 @@ public class LkController {
      */
     @PostMapping("/avatar-import")
     public String uploadUserAvatar(@RequestParam("file") MultipartFile fileImport, Model model, Principal principal) throws IOException, ParseException {
-        UserDTO user = userService.findByLogin(principal.getName());
-        if (user.getAvatar() != null) { // Удаляем старый аватар, если он есть
-            userService.deleteImg(user.getId());
-        }
-        userService.updateUserAvatar(fileImport, user.getId()); // Сохраняем новый аватар
+
+        userService.updateUserAvatar(fileImport, principal); // Сохраняем новый аватар
         loadUserDataIntoModel(model, principal);       // Обновляем данные пользователя
         return "lk::avatar";
     }

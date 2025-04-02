@@ -5,10 +5,11 @@ import ru.tattoo.maxsim.model.DTO.UserDTO;
 import ru.tattoo.maxsim.model.User;
 
 import java.io.IOException;
+import java.security.Principal;
 
 
 public interface UserService extends CRUDService<User, Long> {
-    void updateUserAvatar(MultipartFile fileImport, Long id) throws IOException;
-    void deleteImg(Long id) throws IOException;
+    void updateUserAvatar(MultipartFile fileImport, Principal principal) throws IOException;
+
     UserDTO findByLogin(String login);
 }
