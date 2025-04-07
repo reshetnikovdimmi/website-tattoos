@@ -2,12 +2,15 @@ package ru.tattoo.maxsim.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.model.DTO.CommitsDTO;
+import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ContactInfoRepository;
 import ru.tattoo.maxsim.service.interf.*;
 import ru.tattoo.maxsim.util.PageSize;
@@ -179,5 +182,22 @@ public class AdminController {
         model.addAttribute("reviews", reviewService.findAll());
     }
 
+
+    @PostMapping(path = "/best-tattoos")
+    private ResponseEntity bestImage(@RequestBody Images images) {
+        return ResponseEntity.ok(imagesService.bestImage(images));
+    }
+
+
+    @PostMapping(path = "/contact-info")
+    private ResponseEntity<ContactInfo> contactInfo(@RequestBody ContactInfo newContact, Model model) {
+        ContactInfo contactInfo = contactInfoRepository.findLimit();
+        if (newContact.getTell()!=null) contactInfo.setTell(newContact.getTell());
+        if (newContact.getEmail()!=null) contactInfo.setEmail(newContact.getEmail());
+        if (newContact.getAddress()!=null) contactInfo.setAddress(newContact.getAddress());
+        contactInfoRepository.save(contactInfo);
+
+        return ResponseEntity.ok(contactInfoRepository.findLimit());
+    }
 }
 

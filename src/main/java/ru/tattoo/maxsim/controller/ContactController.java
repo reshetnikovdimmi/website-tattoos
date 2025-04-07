@@ -35,8 +35,4 @@ public class ContactController {
         model.addAttribute("details", new EmailDetails());
         return "/contact";
     }
-
-
-
-
 }

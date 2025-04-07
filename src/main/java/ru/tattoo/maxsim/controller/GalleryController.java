@@ -49,5 +49,4 @@ public class GalleryController {
 
         return "fragments::modal-img";
     }
-
 }

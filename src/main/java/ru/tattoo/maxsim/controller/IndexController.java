@@ -24,6 +24,10 @@ public class IndexController {
 
     @GetMapping("/")
     public String home(Model model) {
+        String uploadDirectory = System.getProperty("os.name").toLowerCase().startsWith("win")
+                ? System.getenv("USERPROFILE") + "/img/images/"
+                : System.getenv("HOME") + "/img/images/";
+        System.out.println(uploadDirectory);
         prepareModel(model);
         return "Index";
     }

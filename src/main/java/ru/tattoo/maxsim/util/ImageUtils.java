@@ -6,20 +6,21 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
 import java.util.UUID;
+
 
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ImageUtils {
-    private static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/img/images/"; // Указываете путь к директории загрузки
+    private static final Path UPLOAD_DIRECTORY = Paths.get(System.getProperty("user.dir"), "img", "images");
 
     /**
      * Сохраняет изображение на сервере.
      */
     public static void saveImage(MultipartFile file, String fileName) throws IOException {
-        Path filePath = Paths.get(UPLOAD_DIRECTORY, fileName);
+        Path filePath = UPLOAD_DIRECTORY.resolve(fileName);
         Files.write(filePath, file.getBytes());
     }
 
@@ -27,7 +28,7 @@ public class ImageUtils {
      * Удаляет изображение с сервера.
      */
     public static void deleteImage(String fileName) throws IOException {
-        Path filePath = Paths.get(UPLOAD_DIRECTORY, fileName);
+        Path filePath = UPLOAD_DIRECTORY.resolve(fileName);
         Files.deleteIfExists(filePath);
     }
 
@@ -35,7 +36,7 @@ public class ImageUtils {
      * Проверяет наличие изображения на сервере.
      */
     public static boolean existsImage(String fileName) {
-        Path filePath = Paths.get(UPLOAD_DIRECTORY, fileName);
+        Path filePath = UPLOAD_DIRECTORY.resolve(fileName);
         return Files.exists(filePath);
     }
 
