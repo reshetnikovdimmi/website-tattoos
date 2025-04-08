@@ -1,41 +1,13 @@
-package ru.tattoo.maxsim.controller;
+package UI;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import UI.baseActions.BaseSeleniumTest;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GalleryControllerTest {
-
-    private WebDriver driver;
-    private WebDriverWait wait;
-
-    @BeforeEach
-    public void setup() {
-        WebDriverManager.firefoxdriver().setup();
-
-        // Создайте экземпляр WebDriver для Chrome
-        driver = new FirefoxDriver();
-
-        // Настройте WebDriverWait для ожидания загрузки элементов
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    }
-
-    @AfterEach
-    public void teardown() {
-        // Закройте браузер после завершения теста
-        driver.quit();
-    }
+public class GalleryControllerTest extends BaseSeleniumTest {
 
     @Test
     public void testGalleryPageLoad() {
