@@ -2,6 +2,7 @@ package UI.baseActions;
 
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.WebDriver;
@@ -23,18 +24,20 @@ abstract public class BaseSeleniumTest {
     public static void setUp() {
         // Настройка GeckoDriver (для Firefox)
         WebDriverManager.firefoxdriver().setup();
+
         // Создание экземпляра WebDriver
         driver = new FirefoxDriver(new FirefoxOptions());
 
         // Создание EventFiringDecorator и регистрация слушателей
-        EventFiringDecorator decorator = new EventFiringDecorator(new CustomEventListener());
-        WebDriver decoratedDriver = decorator.decorate(driver);
-        // Настройте WebDriverWait для ожидания загрузки элементов
-        wait = new WebDriverWait(decoratedDriver, Duration.ofSeconds(10));
+        EventFiringDecorator eventFiringDecorator = new EventFiringDecorator(new CustomEventListener());
+        driver = eventFiringDecorator.decorate(driver);
 
-        decoratedDriver.manage().window().maximize();
-        decoratedDriver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
-        decoratedDriver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        // Настройка WebDriverWait
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        driver.manage().window().maximize();
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
     }
 
     @BeforeAll
@@ -42,8 +45,8 @@ abstract public class BaseSeleniumTest {
         setUp();
     }
 
-    @AfterEach
-    public void tearDown() {
+    @AfterAll
+    public static void tearDown() {
         driver.close();
     }
 

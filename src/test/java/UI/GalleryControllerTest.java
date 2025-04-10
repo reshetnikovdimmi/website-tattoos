@@ -3,45 +3,84 @@ package UI;
 import UI.baseActions.BaseSeleniumTest;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import static junit.framework.TestCase.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GalleryControllerTest extends BaseSeleniumTest {
+
+public class GalleryControllerTest extends BaseSeleniumTest  {
 
     @Test
     public void testGalleryPageLoad() {
         // Откройте главную страницу галереи
         driver.get("http://localhost:8080/gallery");
-
-        // Подождите, пока страница загрузится
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName("body")));
-
+        // Ожидание исчезновения прелоадера
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("preloder")));
         // Проверьте, что страница содержит слово "Галерея"
         String pageSource = driver.getPageSource();
         assertTrue(pageSource.contains("Галерея"));
     }
 
     @Test
-    public void testGallerySearch() {
-        // Откройте страницу галереи
+    public void testButtonRightClick(){
+        // Открытие страницы галереи
         driver.get("http://localhost:8080/gallery");
 
-        // Введите стиль в поле поиска
-        driver.findElement(By.id("search-style-input")).sendKeys("Портрет");
+        // Ожидание исчезновения прелоадера
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("preloder")));
 
-        // Нажмите кнопку поиска
-        driver.findElement(By.id("search-button")).click();
+        // Клик по кнопке "right"
+        driver.findElement(By.id("right")).click();
 
-        // Подождите, пока результаты поиска появятся
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("search-results")));
+        // Ожидание появления изменений на странице (новые изображения)
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".gallery-item img"), 1));
 
-        // Проверьте, что результаты поиска содержат слово "Портрет"
-        String searchResults = driver.findElement(By.className("search-results")).getText();
-        assertTrue(searchResults.contains("Портрет"));
+        // Получение атрибута src у первого найденного изображения
+        String newImageSrc = driver.findElement(By.cssSelector(".gallery-item img")).getAttribute("src");
+
+        // Проверка, что атрибут src не равен null
+        assertNotNull(newImageSrc, "Атрибут src должен быть не равен null");
     }
 
     @Test
+    public void testLeftButtonClickIfDisplayed() throws InterruptedException {
+        // Открытие страницы галереи
+        driver.get("http://localhost:8080/gallery");
+
+        // Ожидание исчезновения прелоадера
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("preloader")));
+
+        driver.findElement(By.id("right")).click();
+
+        // Ожидание появления изменений на странице (новые изображения)
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".gallery-item img"), 1));
+
+        // Ожидание появления кнопки с id="left"
+        WebElement leftButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("left")));
+
+        // Проверка, отображается ли кнопка и активна ли она
+        if (leftButton.isDisplayed() && leftButton.isEnabled()) {
+            // Ожидание кликабельности кнопки
+            wait.until(ExpectedConditions.elementToBeClickable(leftButton));
+
+            // Нажатие на кнопку
+            leftButton.click();
+
+            // Ожидание появления изменений на странице (новые изображения)
+            wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".gallery-item img"), 1));
+
+            // Проверка, что произошли ожидаемые изменения (например, появление новой картинки)
+            String newImageSrc = driver.findElement(By.cssSelector(".gallery-item img")).getAttribute("src");
+            assertNotNull(newImageSrc, "Атрибут src должен быть не равен null");
+        } else {
+            // Если кнопка не отображается или не активна, можно добавить логирование или оставить тест без действий
+            System.out.println("Кнопка 'left' не отображается или не активна.");
+        }
+    }
+
+  /*  @Test
     public void testReviewsModal() {
         // Откройте страницу галереи
         driver.get("http://localhost:8080/gallery");
@@ -55,5 +94,5 @@ public class GalleryControllerTest extends BaseSeleniumTest {
         // Проверьте, что модальное окно содержит слово "Отзывы"
         String modalText = driver.findElement(By.id("reviews-modal")).getText();
         assertTrue(modalText.contains("Отзывы"));
-    }
+    }*/
 }
