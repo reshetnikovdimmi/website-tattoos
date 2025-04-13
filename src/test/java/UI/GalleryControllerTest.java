@@ -1,14 +1,22 @@
 package UI;
 
 import UI.baseActions.BaseSeleniumTest;
+import UI.baseActions.TestListener;
+
+import io.qameta.allure.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import static io.qameta.allure.SeverityLevel.CRITICAL;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
+@ExtendWith(TestListener.class)
 
 public class GalleryControllerTest extends BaseSeleniumTest  {
 

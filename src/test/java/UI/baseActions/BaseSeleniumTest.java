@@ -25,12 +25,11 @@ abstract public class BaseSeleniumTest {
         // Настройка GeckoDriver (для Firefox)
         WebDriverManager.firefoxdriver().setup();
 
-        // Создание экземпляра WebDriver
-        driver = new FirefoxDriver(new FirefoxOptions());
-
         // Создание EventFiringDecorator и регистрация слушателей
         EventFiringDecorator eventFiringDecorator = new EventFiringDecorator(new CustomEventListener());
-        driver = eventFiringDecorator.decorate(driver);
+
+        // Создание экземпляра WebDriver
+        driver = eventFiringDecorator.decorate(new FirefoxDriver(new FirefoxOptions()));
 
         // Настройка WebDriverWait
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
