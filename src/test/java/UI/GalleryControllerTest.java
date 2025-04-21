@@ -2,105 +2,97 @@ package UI;
 
 import UI.baseActions.BaseSeleniumTest;
 import UI.baseActions.TestListener;
-
+import UI.page.GalleryPage;
 import io.qameta.allure.*;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import static io.qameta.allure.SeverityLevel.CRITICAL;
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.List;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
+// Аннотация @Slf4j добавляет удобный доступ к слогу (логгеру)
+@Slf4j
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(TestListener.class)
+public class GalleryControllerTest extends BaseSeleniumTest {
 
-public class GalleryControllerTest extends BaseSeleniumTest  {
+    private GalleryPage galleryPage;
+
+    @BeforeEach
+    public void setup() {
+        galleryPage = new GalleryPage(driver);
+    }
 
     @Test
+    @DisplayName("Проверка загрузки главной страницы галереи")
+    @Description("Тестирует загрузку страницы галереи и проверку наличия ключевого текста \"Галерея\".")
+    @Severity(SeverityLevel.CRITICAL)
+    @Owner("John Doe")
+    @Link(name = "Сайт", url = "http://localhost:8080/gallery")
+    @Issue("AUTH-123")
+    @TmsLink("TMS-456")
     public void testGalleryPageLoad() {
-        // Откройте главную страницу галереи
-        driver.get("http://localhost:8080/gallery");
-        // Ожидание исчезновения прелоадера
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("preloder")));
-        // Проверьте, что страница содержит слово "Галерея"
+        driver.get(GalleryPage.URL);
+        galleryPage.waitForPreloaderDisappear();
+        galleryPage.waitForGalleryImagesVisibility();
         String pageSource = driver.getPageSource();
-        assertTrue(pageSource.contains("Галерея"));
+        Assertions.assertTrue(pageSource.contains("Галерея"), "Страница должна содержать слово 'Галерея'");
     }
 
     @Test
-    public void testButtonRightClick(){
-        // Открытие страницы галереи
-        driver.get("http://localhost:8080/gallery");
+    @DisplayName("Нажатие правой кнопки навигации")
+    @Description("Тест проверяет нажатие кнопки \"Правая\", ожидая смену изображений.")
+    @Severity(SeverityLevel.NORMAL)
+    public void testImagesChangeWhenRightClicked() {
+        driver.get(GalleryPage.URL);
+        galleryPage.waitForPreloaderDisappear();
+        galleryPage.waitForGalleryImagesVisibility();
 
-        // Ожидание исчезновения прелоадера
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("preloder")));
+        // ШАГ 1: Фиксируем исходные изображения
+        List<String> originalImageSources = galleryPage.getAllImageSrcs();
 
-        // Клик по кнопке "right"
-        driver.findElement(By.id("right")).click();
+        // ШАГ 2: Кликаем правую кнопку
+        galleryPage.clickRightButton();
 
-        // Ожидание появления изменений на странице (новые изображения)
-        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".gallery-item img"), 1));
+        // ШАГ 3: Ждём, пока изображения сменятся
+        galleryPage.waitForImagesToChange(originalImageSources);
 
-        // Получение атрибута src у первого найденного изображения
-        String newImageSrc = driver.findElement(By.cssSelector(".gallery-item img")).getAttribute("src");
-
-        // Проверка, что атрибут src не равен null
-        assertNotNull(newImageSrc, "Атрибут src должен быть не равен null");
+        // ШАГ 4: Проверяем, что изображения действительно сменились
+        List<String> updatedImageSources = galleryPage.getAllImageSrcs();
+        assertFalse(updatedImageSources.equals(originalImageSources), "Изображения не сменились!");
     }
 
     @Test
-    public void testLeftButtonClickIfDisplayed() throws InterruptedException {
-        // Открытие страницы галереи
-        driver.get("http://localhost:8080/gallery");
+    @DisplayName("Проверка левого перехода")
+    @Description("Тестируется возможность возврата назад с использованием левой кнопки.")
+    @Severity(SeverityLevel.NORMAL)
+    public void testLeftButtonClickIfDisplayed() {
+        // Заходим на сайт
+        driver.get(GalleryPage.URL);
+        galleryPage.waitForPreloaderDisappear();
+        galleryPage.waitForGalleryImagesVisibility();
 
-        // Ожидание исчезновения прелоадера
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("preloader")));
+        // ШАГ 1: Фиксируем исходные изображения
+        List<String> originalImageSources = galleryPage.getAllImageSrcs();
 
-        driver.findElement(By.id("right")).click();
+        // ШАГ 2: Переходим вперед (используем правую кнопку)
+        galleryPage.clickRightButton();
+        galleryPage.waitForImagesToChange(originalImageSources); // Ждём, пока изображения сменятся
 
-        // Ожидание появления изменений на странице (новые изображения)
-        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".gallery-item img"), 1));
+        // ШАГ 3: Убеждаемся, что левая кнопка стала доступной
+        if (galleryPage.isLeftButtonDisplayedAndEnabled()) {
+            // ШАГ 4: Возврат назад с помощью левой кнопки
+            galleryPage.clickLeftButton();
+            galleryPage.waitForImagesToChange(galleryPage.getAllImageSrcs()); // Ждём ещё раз, чтобы убедиться, что вернулись к исходникам
 
-        // Ожидание появления кнопки с id="left"
-        WebElement leftButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("left")));
-
-        // Проверка, отображается ли кнопка и активна ли она
-        if (leftButton.isDisplayed() && leftButton.isEnabled()) {
-            // Ожидание кликабельности кнопки
-            wait.until(ExpectedConditions.elementToBeClickable(leftButton));
-
-            // Нажатие на кнопку
-            leftButton.click();
-
-            // Ожидание появления изменений на странице (новые изображения)
-            wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".gallery-item img"), 1));
-
-            // Проверка, что произошли ожидаемые изменения (например, появление новой картинки)
-            String newImageSrc = driver.findElement(By.cssSelector(".gallery-item img")).getAttribute("src");
-            assertNotNull(newImageSrc, "Атрибут src должен быть не равен null");
+            // ШАГ 5: Проверяем, что мы вернулись к исходным изображениям
+            List<String> returnedImageSources = galleryPage.getAllImageSrcs();
+            assertEquals(originalImageSources, returnedImageSources, "Возвращение назад привело к неправильным изображениям");
         } else {
-            // Если кнопка не отображается или не активна, можно добавить логирование или оставить тест без действий
-            System.out.println("Кнопка 'left' не отображается или не активна.");
+            log.warn("Кнопка 'левый переход' не доступна или неактивна.");
         }
     }
-
-  /*  @Test
-    public void testReviewsModal() {
-        // Откройте страницу галереи
-        driver.get("http://localhost:8080/gallery");
-
-        // Нажмите кнопку открытия модального окна с отзывами
-        driver.findElement(By.id("open-reviews-modal")).click();
-
-        // Подождите, пока модальное окно откроется
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("reviews-modal")));
-
-        // Проверьте, что модальное окно содержит слово "Отзывы"
-        String modalText = driver.findElement(By.id("reviews-modal")).getText();
-        assertTrue(modalText.contains("Отзывы"));
-    }*/
 }
