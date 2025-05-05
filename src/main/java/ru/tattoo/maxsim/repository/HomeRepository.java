@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.tattoo.maxsim.model.Home;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,5 +17,7 @@ public interface HomeRepository extends JpaRepository<Home, Long> {
 
 
     String findImageNameById(Long id);
+
+    List<Home> findByCategory(String s);
 }
 

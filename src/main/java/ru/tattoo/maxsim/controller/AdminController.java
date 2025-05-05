@@ -80,12 +80,16 @@ public class AdminController {
         return "admin::sketches-import";
     }
 
-    @PostMapping("/carousel-import")
-    public String uploadCarouselImage(@RequestParam("file") MultipartFile fileImport,
+    @PostMapping("/home-import/{category}")
+    public String uploadHome(@RequestParam("file") MultipartFile fileImport,
+                             @RequestParam("textH1") String textH1,
+                             @RequestParam("textH2") String textH2,
+                             @RequestParam("textH3") String textH3,
+                             @PathVariable("category") String category,
                                       Model model) throws IOException, ParseException {
-        homeService.saveImg(fileImport, "carousel");
+        homeService.saveImg(fileImport, category, textH1,textH2,textH3);
         updateCarousel(model);
-        return "admin::carousel-import";
+        return "admin::"+category;
     }
 
     @GetMapping("/carousel-delete/{id}")
@@ -159,7 +163,8 @@ public class AdminController {
         model.addAttribute("interestingWorks", interestingWorksService.findAll());
         model.addAttribute("commits", commitsService.findAll().stream()
                 .map(commits -> modelMapper.map(commits, CommitsDTO.class)).collect(Collectors.toList()));
-        model.addAttribute("carousel", homeService.findAll());
+        model.addAttribute("home", homeService.findAll());
+        model.addAttribute("category", homeService.findByCategory("carousel-import"));
     }
 
     private void updateGallery(Model model) {
@@ -171,7 +176,8 @@ public class AdminController {
     }
 
     private void updateCarousel(Model model) {
-        model.addAttribute("carousel", homeService.findAll());
+        model.addAttribute("category", homeService.findByCategory("carousel-import"));
+        model.addAttribute("home", homeService.findAll());
     }
 
     private void updateInterestingWorks(Model model) {

@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -30,9 +31,13 @@ public class HomeServiceImpl extends AbstractCRUDService <Home, Long> implements
     }
 
     @Override
-    public void saveImg(MultipartFile fileImport, String category) throws IOException {
+    public void saveImg(MultipartFile fileImport, String category, String textH1, String textH2, String textH3) throws IOException {
         Home home = new Home();
         home.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
+        home.setCategory(category);
+        home.setTextH1(textH1);
+        home.setTextH2(textH2);
+        home.setTextH3(textH3);
         homeRepository.save(home);
 
         ImageUtils.saveImage(fileImport, home.getImageName());
@@ -52,5 +57,10 @@ public class HomeServiceImpl extends AbstractCRUDService <Home, Long> implements
         });
         getRepository().deleteById(id);
 
+    }
+
+    @Override
+    public List<Home> findByCategory(String s) {
+        return homeRepository.findByCategory(s);
     }
 }

@@ -29,19 +29,7 @@
             itemSelector: '.grid-item',
             columnWidth: '.grid-sizer',
         });
-        document.getElementById('file-carousel').onchange = function(event) {
-            var reader = new FileReader();
-            reader.onload = function() {
-                var output = document.getElementById('preview');
-                output.src = reader.result;
-                output.style.display = 'block';
-                output.style.width = '200px';
-                output.style.height = '200px';
-                output.style.top = '50%';
-                output.style.left = '50%';
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        };
+
         galleryAdmin()
         reviews()
         sketches()
@@ -235,46 +223,7 @@
             $('#address').val('');
         }).catch(err => modals(err))
     });
-    /*------------------
-            Home-Carousel
-    --------------------*/
-    $('#img-carousel').on("submit", function(e) {
-        e.preventDefault();
-        const fileInput = document.getElementById('file-carousel');
-        const file = fileInput.files[0];
-        if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
-            modals('Размер файла превышен, выберите файл меньше 1МБ.');
-        } else {
-            const xhr = new XMLHttpRequest();
-            const formData = new FormData();
-            formData.append('file', file);
-            xhr.open('POST', '/admin/carousel-import');
-            console.log(file.name)
-            xhr.send(formData);
-            xhr.onload = () => {
-                if (xhr.status == 200) {
-                    $(".carousel-import").html(xhr.response);
-                    $('.show-result-select').niceSelect();
-                    document.getElementById('img-carousel').reset();
-                    deleteImg()
-                } else {
-                    modals("Server response: ", xhr.response);
-                }
-            };
-        }
-    });
-    deleteImg()
 
-    function deleteImg() {
-        $(document).find('.carousel-import button').on('click', function() {
-            var id = this.id;
-            $.get('/admin/carousel-delete/' + id, {}, function(data) {
-                $(".carousel-import").html(data);
-                $('.show-result-select').niceSelect();
-                deleteImg()
-            });
-        });
-    }
     /*------------------
         Comments
     --------------------*/

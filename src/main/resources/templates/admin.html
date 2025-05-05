@@ -126,6 +126,18 @@
                                     role="tab" aria-controls="v-pills-classes-section" aria-selected="false">
                                 classes-section
                             </button>
+                            <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
+                                    href="#v-pills-price-section" id="v-pills-price-section-tab"
+                                    data-bs-toggle="pill" data-bs-target="#v-pills-classes-section" type="button"
+                                    role="tab" aria-controls="v-pills-price-section" aria-selected="false">
+                                price-section
+                            </button>
+                            <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
+                                    href="#v-pills-chooseus-section" id="v-pills-chooseus-section-tab"
+                                    data-bs-toggle="pill" data-bs-target="#v-pills-classes-section" type="button"
+                                    role="tab" aria-controls="v-pills-chooseus-section" aria-selected="false">
+                                chooseus-section
+                            </button>
                         </div>
                     </div>
                     <div class="col-sm-6 col-lg-8 themed-grid-col">
@@ -137,55 +149,78 @@
                                         <h2>Карусель</h2>
                                     </div>
                                 </div>
-
                                 <div class="row mb-3 text-center">
-                                    <div class="col-6 col-lg-4 themed-grid-col">
-                                        <div class="upload-container">
+                                    <div class="container ">
+                                        <div class="row justify-content-center">
+                                            <div class="card">
+                                                <form id="img-carousel" action="/admin/home-import/carousel-import"
+                                                      onsubmit="uploadHome(event)" class="form-admin">
+                                                    <div class="row mb-3 text-center">
+                                                        <div class="col-6 col-lg-4 themed-grid-col">
+                                                            <div class="avatar-container">
+                                                                <img class="preview-image" id="hero-section"
+                                                                     src="img/avatar.jpg" alt="Выберите фото тату">
+                                                                <button type="button" class="upload-btn btn btn-primary"
+                                                                        onclick="document.getElementById('file-carousel').click()">
+                                                                    Выбрать файл
+                                                                </button>
+                                                                <input type="file" name="file" id="file-carousel"
+                                                                       accept="image/*"
+                                                                       onchange="loadImage(this, document.getElementById('hero-section'))"
+                                                                       required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6 col-lg-8 themed-grid-col">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">H2</span>
+                                                                <textarea class="form-control" name="textH2"
+                                                                          aria-label="С текстовым полем"
+                                                                          required></textarea>
+                                                            </div>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">H1</span>
+                                                                <textarea class="form-control" name="textH1"
+                                                                          aria-label="С текстовым полем"
+                                                                          required></textarea>
+                                                            </div>
 
-                                            <form id="img-carousel">
+                                                            <div hidden class="input-group">
+                                                                <span class="input-group-text">H3</span>
+                                                                <textarea class="form-control" name="textH3"
+                                                                          aria-label="С текстовым полем"></textarea>
+                                                            </div>
+                                                            <div class="input-group">
+                                                                <button type="submit" class="btn leave-btn btn-block">
+                                                                    Сохранить тату
+                                                                </button>
+                                                            </div>
 
-                                                <input type="file" id="file-carousel" accept="image/*" hidden>
-                                                <label for="file-carousel" class="upload-button">Выбрать
-                                                    изображение</label>
 
-                                                <img id="preview"
-                                                     style="display: none; object-fit: cover; max-height: 100%; max-width: 100%;">
+                                                        </div>
 
-                                                <button type="submit" class="btn leave-btn btn-block"
-                                                        id="inputGroupFileAddon04">Применить
-                                                </button>
-
-                                            </form>
-
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 col-lg-8 themed-grid-col">
-
+                                </div>
+                                <div class="row mb-3 text-center">
+                                    <div class="col themed-grid-col">
                                         <div id="carouselExample" class="carousel slide">
                                             <div class="carousel-import" th:fragment="carousel-import">
                                                 <div class="carousel-inner">
-                                                    <div th:each="current, item : ${carousel}"
-                                                         th:if="${item.index == 0}"
-                                                         class="carousel-item active">
-                                                        <img th:src="@{'/images/'+${current.imageName}}"
-                                                             class="d-block w-100" alt="...">
+                                                    <div th:each="current, item : ${category}" class="carousel-item"
+                                                         th:attrappend="class=${item.index == 0}? ' active':''">
+                                                        <img th:src="@{'/images/' + ${current.imageName}}"
+                                                             class="d-block w-100 stretched-image" alt="..."/>
                                                         <div class="carousel-caption d-none d-md-block">
+                                                            <div class="hero-text">
+                                                                <h6 th:text="${current.textH2}"></h6>
+                                                                <h5 th:text="${current.textH1}"></h5>
+                                                            </div>
                                                             <button style="margin: 10px;" th:id="${current.id}"
-                                                                    class="btn btn-outline-secondary delete"
-                                                                    type="submit">Удалить
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div th:each="current, item : ${carousel}"
-                                                         th:if="${item.index != 0}"
-                                                         class="carousel-item">
-                                                        <img th:src="@{'/images/'+${current.imageName}}"
-                                                             class="d-block w-100" alt="...">
-                                                        <div class="carousel-caption d-none d-md-block">
-                                                            <button style="margin: 10px;" th:id="${current.id}"
-                                                                    class="btn btn-outline-secondary delete"
-                                                                    type="submit">Удалить
-                                                            </button>
+                                                                    onclick="deleteImg(this.id)" class="delete-button"
+                                                                    type="submit"></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -201,7 +236,6 @@
                                                 <span class="visually-hidden">Next</span>
                                             </button>
                                         </div>
-
                                     </div>
 
                                 </div>
@@ -236,116 +270,283 @@
                             </div>
                             <div class="tab-pane fade" id="v-pills-feature-section" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab" tabindex="0">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="feature-item set-bg" data-setbg="img/feature/feature-1.jpg">
-                                            <h3>ИНДИВИДУАЛЬНЫЙ ЭСКИЗ</h3>
-                                            <p>Разработка эскиза с учетом пожеланий клиента</p>
-                                            <a href="/sketches" class="primary-btn f-btn">Подробнее</a>
+                                <div class="row mb-3 text-center">
+                                    <div class="container ">
+                                        <div class="row justify-content-center">
+                                            <div class="card">
+                                                <form id="img-carousel" action="/admin/home-import/feature-import"
+                                                      onsubmit="uploadHome(event)" class="form-admin">
+                                                    <div class="row mb-3 text-center">
+                                                        <div class="col-6 col-lg-4 themed-grid-col">
+                                                            <div class="avatar-container">
+                                                                <img class="feature-section" id="feature-section"
+                                                                     src="img/avatar.jpg" alt="Выберите фото тату">
+                                                                <button type="button" class="upload-btn btn btn-primary"
+                                                                        onclick="document.getElementById('file-feature').click()">
+                                                                    Выбрать файл
+                                                                </button>
+                                                                <input type="file" name="file" id="file-feature"
+                                                                       accept="image/*"
+                                                                       onchange="loadImage(this, document.getElementById('feature-section'))"
+                                                                       required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6 col-lg-8 themed-grid-col">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">H2</span>
+                                                                <textarea class="form-control" name="textH2"
+                                                                          aria-label="С текстовым полем"
+                                                                          required></textarea>
+                                                            </div>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">H1</span>
+                                                                <textarea class="form-control" name="textH1"
+                                                                          aria-label="С текстовым полем"
+                                                                          required></textarea>
+                                                            </div>
+
+                                                            <div hidden class="input-group">
+                                                                <span class="input-group-text">H3</span>
+                                                                <textarea class="form-control" name="textH3"
+                                                                          aria-label="С текстовым полем"></textarea>
+                                                            </div>
+                                                            <div class="input-group">
+                                                                <button type="submit" class="btn leave-btn btn-block">
+                                                                    Сохранить тату
+                                                                </button>
+                                                            </div>
+
+
+                                                        </div>
+
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="feature-item set-bg" data-setbg="img/feature/feature-2.jpg">
-                                            <h3>КОНСУЛЬТАЦИЯ</h3>
-                                            <p>Помогаю определится с идеей эскиза, ориентирую по стоимости и количеству
-                                                сеансов.</p>
-                                            <a href="/gallery" class="primary-btn f-btn">Подробнее</a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="feature-item set-bg" data-setbg="img/feature/feature-3.jpg">
-                                            <h3>ТАТУ В ДЕНЬ ОБРАЩЕНИЯ</h3>
-                                            <p>Свободные скетчи по выгодной стоимости</p>
-                                            <a href="/gallery" class="primary-btn f-btn">Подробнее</a>
+                                </div>
+                                <div class="feature-import" th:fragment="feature-import">
+                                    <div class="feature-import" th:fragment="feature-import">
+                                        <div class="row">
+                                            <div class="col-md-4" th:each="current, item : ${home}" th:if="${current.category=='feature-import'}">
+                                                <div class="feature-item set-bg" th:attr="data-setbg=@{'/images/'+${current.imageName}}">
+                                                    <h3 th:text="${current.textH2}"></h3> <!-- Добавили закрывающий тег -->
+                                                    <p th:text="${current.textH1}"></p>
+                                                    <button style="margin: 10px;" th:id="${current.id}" onclick="deleteImg(this.id)" class="delete-button" type="submit"></button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-classes-section" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab" tabindex="0">
+
                                 <div class="row">
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="classes-item set-bg" data-setbg="img/classes/class-1.jpg">
-                                            <h4>1. Предплечье:</h4>
-                                            <p>это одно из самых популярных мест для татуировок, особенно среди мужчин.
-                                                Татуировка на предплечье легко видна и может быть выполнена в различных
-                                                размерах и дизайнах.</p>
-                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
+                                    <section class="scroll">
+
+                                        <div class="container">
+
+                                            <div class="reviews" th:fragment="reviews">
+                                                <div class="row card " th:each="current : ${users}">
+                                                    <div class="row mb-3 text-center">
+
+
+                                                        <div class="col-6 col-md-4 themed-grid-col">
+                                                            <div class="admin-img">
+
+
+                                                                <span th:if="${current.avatar}">
+                                                                         <img th:src="@{'/images/'+${current.avatar}}"
+                                                                              alt="Profile Picture">
+                                                                        </span>
+                                                                <span th:unless="${current.avatar}">
+                                                                    <img src="img/avatar.jpg" alt="Profile Picture">
+
+                                                                        </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-8 themed-grid-col">
+                                                            <div class="card-header d-flex justify-content-between align-items-center">
+
+                                                                <div th:text="${current.login}">
+
+                                                                </div>
+
+                                                                <button type="button" th:id="${current.id}"
+                                                                        class="btn btn-outline-secondary del-reviews">
+                                                                    Удалить
+                                                                </button>
+                                                            </div>
+                                                            <div class="card-body"
+                                                                 th:text="${current.email}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-price-section" role="tabpanel"
+                                 aria-labelledby="v-pills-profile-tab" tabindex="0">
+                                <div class="row">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="section-title">
+                                                    <h2>ЦЕНЫ И УСЛУГИ</h2>
+                                                    <p>Стоимость татуировки может сильно варьироваться в зависимости от
+                                                        многих факторов,
+                                                        таких как размер, сложность дизайна, опыт мастера.
+                                                        В среднем, стоимость одной татуировки может начинаться от 2000
+                                                        рублей и достигать до 20 000
+                                                        рублей и выше,
+                                                        в зависимости от всех этих факторов</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="single-price-plan">
+                                                    <h4>Эскиз</h4>
+                                                    <div class="price-plan">
+                                                        <h2>от 1000р </h2>
+                                                        <p>Бесплатная консультация</p>
+                                                    </div>
+                                                    <ul>
+                                                        <li>Индивидуальность</li>
+                                                        <li>Эксклюзивность</li>
+                                                    </ul>
+                                                    <a href="/contact" class="primary-btn price-btn">Начать</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="single-price-plan">
+                                                    <h4>Татуировка</h4>
+                                                    <div class="price-plan">
+                                                        <h2>от 1000р</h2>
+                                                        <p>Бесплатная консультация</p>
+                                                    </div>
+                                                    <ul>
+                                                        <li>Привлечь внимание</li>
+                                                        <li>Подчеркнуть красоту</li>
+                                                    </ul>
+                                                    <a href="/contact" class="primary-btn price-btn">Начать</a>
+                                                    <div class="tic-text">
+                                                        <i class="fa fa-star"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="single-price-plan">
+                                                    <h4>Перекрытие</h4>
+                                                    <div class="price-plan">
+                                                        <h2>от 1000р</h2>
+                                                        <p>Бесплатная консультация</p>
+                                                    </div>
+                                                    <ul>
+                                                        <li>Исправление ошибок</li>
+                                                        <li>Изменение стиля</li>
+                                                    </ul>
+                                                    <a href="/contact" class="primary-btn price-btn">Начать</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="classes-item set-bg" data-setbg="img/classes/class-2.jpg">
-                                            <h4>2. Запястье:</h4>
-                                            <p>татуировка на запястье также является популярным выбором,
-                                                особенно среди женщин. Она может быть выполнена в виде браслета или
-                                                небольшой надписи.
-                                            </p>
-                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-chooseus-section" role="tabpanel"
+                                 aria-labelledby="v-pills-profile-tab" tabindex="0">
+                                <div class="row">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="section-title">
+                                                    <h2>Почему выбирают меня</h2>
+                                                    <p>Я могу привести несколько причин, почему именно меня следует
+                                                        выбрать в качестве мастера
+                                                        татуировок:</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="classes-item set-bg" data-setbg="img/classes/class-3.jpg">
-                                            <h4>3. Спина:</h4>
-                                            <p>татуировка на спине позволяет использовать большое пространство для
-                                                создания больших и детальных
-                                                изображений.
-                                                Это также отличное место для скрытия татуировки.</p>
-                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="choose-item">
+                                                    <img src="img/icons/chose-icon-1.png" alt="">
+                                                    <h5>1. Опыт и профессионализм:</h5>
+                                                    <p>Я имею многолетний опыт работы в сфере татуировок и постоянно
+                                                        совершенствую свои навыки.
+                                                        Могу гарантировать качественное выполнение работы и учет всех
+                                                        ваших пожеланий.</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="choose-item">
+                                                    <img src="img/icons/chose-icon-2.png" alt="">
+                                                    <h5>2. Креативность:</h5>
+                                                    <p>Я всегда открыт для новых идей и готов работать вместе с вами,
+                                                        чтобы создать уникальный и индивидуальный дизайн татуировки,
+                                                        который будет отражать вашу
+                                                        личность и стиль.</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="choose-item">
+                                                    <img src="img/icons/chose-icon-3.png" alt="">
+                                                    <h5>3. Безопасность:</h5>
+                                                    <p>Я строго соблюдаю все нормы гигиены и безопасности, использую
+                                                        только высококачественные материалы
+                                                        и инструменты,
+                                                        чтобы минимизировать риск инфекции и обеспечить комфорт во время
+                                                        процедуры.</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="choose-item">
+                                                    <img src="img/icons/chose-icon-4.png" alt="">
+                                                    <h5>4. Комфортная атмосфера:</h5>
+                                                    <p>Я стараюсь создать дружественную и расслабляющую атмосферу в
+                                                        студии,
+                                                        чтобы вы чувствовали себя комфортно и уверенно во время сеанса
+                                                        татуировки.</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="choose-item">
+                                                    <img src="img/icons/chose-icon-5.png" alt="">
+                                                    <h5>5. Индивидуальный подход:</h5>
+                                                    <p>Я ценю каждого клиента и стремлюсь предоставить индивидуальный
+                                                        подход к каждому проекту.
+                                                        Ваше удовлетворение и радость от результата являются моей
+                                                        главной целью.</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="choose-item">
+                                                    <img src="img/icons/chose-icon-6.png" alt="">
+                                                    <h5>5. Стоимость:</h5>
+                                                    <p>Цена должна быть разумной и соответствовать качеству работы.</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="classes-item set-bg" data-setbg="img/classes/class-4.jpg">
-                                            <h4>4. Грудь:</h4>
-                                            <p>татуировка на груди может быть выполнена в виде большой картины или
-                                                нескольких маленьких
-                                                изображений.
-                                                Это место также подходит для скрытия татуировки под одеждой.</p>
-                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="classes-item set-bg" data-setbg="img/classes/class-5.jpg">
-                                            <h4>5. Ноги:</h4>
-                                            <p>татуировки на ногах, включая бедра, икры и стопы, становятся все более
-                                                популярными.
-                                                Они могут быть выполнены в виде узоров, животных или других
-                                                изображений.</p>
-                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="classes-item set-bg" data-setbg="img/classes/class-6.jpg">
-                                            <h4>6. Руки:</h4>
-                                            <p>татуировки на руках, включая плечи, бицепсы и предплечья, являются
-                                                классическим выбором.
-                                                Они могут быть выполнены в виде надписей, символов или сложных
-                                                изображений.
-                                            </p>
-                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="classes-item set-bg" data-setbg="img/classes/class-7.jpg">
-                                            <h4>7. Шея:</h4>
-                                            <p>татуировки на шее могут быть выполнены в виде небольших надписей или
-                                                узоров.
-                                                Tатуировки на шее могут быть заметны и вызывать внимание
-                                                окружающих.</p>
-                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="classes-item set-bg" data-setbg="img/classes/class-8.jpg">
-                                            <h4>8. Ребра:</h4>
-                                            <p>татуировки на ребрах, известные как "side boob", стали очень популярными
-                                                в последние годы.
-                                                Они могут быть выполнены в виде узоров, надписей или изображений.</p>
-                                            <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="about-text">
+                                                    <p class="short-details">Выбор мастера татуировок - это очень важный
+                                                        шаг, и я надеюсь, что мои
+                                                        качества и подходы помогут вам принять решение в мою пользу.</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -436,22 +637,27 @@
 
                                     <div class="blog-option">
                                         <div class="blog-pagination">
-                                            <a th:if="${sketches.currentPage!=0}"  id="sketchers-left" type="submit"><i
+                                            <a th:if="${sketches.currentPage!=0}" id="sketchers-left" type="submit"><i
                                                     class="fa fa-long-arrow-left"></i></a>
                                             <a class="active">[[${sketches.currentPage+1}]]</a>
                                             of
                                             <a>[[${sketches.pageSize}]]</a>
-                                            <a th:if="${sketches.currentPage+1 != sketches.pageSize}" id="sketchers-right" type="submit"><i
+                                            <a th:if="${sketches.currentPage+1 != sketches.pageSize}"
+                                               id="sketchers-right" type="submit"><i
                                                     class="fa fa-long-arrow-right"></i></a>
                                         </div>
                                         <div class="blog-option-right">
-                                            <div class="blog-result">Showing [[${sketches.currentPage+1}]]–[[${sketches.pageSize}]] of [[${sketches.imagesTotal}]]
+                                            <div class="blog-result">Showing
+                                                [[${sketches.currentPage+1}]]–[[${sketches.pageSize}]] of
+                                                [[${sketches.imagesTotal}]]
                                                 results
                                             </div>
                                             <div class="show-result">
                                                 <p>Show:</p>
-                                                <select class="show-result-select" onchange="numbers()" id="sketchers-number">
-                                                    <option th:each="option : ${sketches.select}" th:value="${option}" th:text="${option}"
+                                                <select class="show-result-select" onchange="numbers()"
+                                                        id="sketchers-number">
+                                                    <option th:each="option : ${sketches.select}" th:value="${option}"
+                                                            th:text="${option}"
                                                             th:selected="${option == sketches.number}"></option>
                                                 </select>
                                             </div>
@@ -786,22 +992,26 @@
                                 </div>
                                 <div class="blog-option">
                                     <div class="blog-pagination">
-                                        <a th:if="${gallery.currentPage!=0}"  id="fa-long-arrow-left" type="submit"><i
+                                        <a th:if="${gallery.currentPage!=0}" id="fa-long-arrow-left" type="submit"><i
                                                 class="fa fa-long-arrow-left"></i></a>
                                         <a class="active">[[${gallery.currentPage+1}]]</a>
                                         of
                                         <a>[[${gallery.pageSize}]]</a>
-                                        <a th:if="${gallery.currentPage+1 != gallery.pageSize}" id="fa-long-arrow-right" type="submit"><i
+                                        <a th:if="${gallery.currentPage+1 != gallery.pageSize}" id="fa-long-arrow-right"
+                                           type="submit"><i
                                                 class="fa fa-long-arrow-right"></i></a>
                                     </div>
                                     <div class="blog-option-right">
-                                        <div class="blog-result">Showing [[${gallery.currentPage+1}]]–[[${gallery.pageSize}]] of [[${gallery.imagesTotal}]]
+                                        <div class="blog-result">Showing
+                                            [[${gallery.currentPage+1}]]–[[${gallery.pageSize}]] of
+                                            [[${gallery.imagesTotal}]]
                                             results
                                         </div>
                                         <div class="show-result">
                                             <p>Show:</p>
                                             <select class="show-result-select" onchange="numbers()" id="number">
-                                                <option th:each="option : ${gallery.select}" th:value="${option}" th:text="${option}"
+                                                <option th:each="option : ${gallery.select}" th:value="${option}"
+                                                        th:text="${option}"
                                                         th:selected="${option == gallery.number}"></option>
                                             </select>
                                         </div>

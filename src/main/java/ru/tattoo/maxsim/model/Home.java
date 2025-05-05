@@ -19,4 +19,7 @@ public class Home {
     private Long id;
     private String imageName;
     private String category;
+    private String textH1;
+    private String textH2;
+    private String textH3;
 }
