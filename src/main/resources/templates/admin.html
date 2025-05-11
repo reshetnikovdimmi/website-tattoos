@@ -153,8 +153,9 @@
                                     <div class="container ">
                                         <div class="row justify-content-center">
                                             <div class="card">
-                                                <form id="img-carousel" action="/admin/home-import/carousel-import"
-                                                      onsubmit="uploadHome(event)" class="form-admin">
+                                                <form id="img-carousel" action="/hero/home-import"
+                                                      onsubmit="uploadHome(event, '.carousel-import')"
+                                                      class="form-admin">
                                                     <div class="row mb-3 text-center">
                                                         <div class="col-6 col-lg-4 themed-grid-col">
                                                             <div class="avatar-container">
@@ -209,18 +210,23 @@
                                         <div id="carouselExample" class="carousel slide">
                                             <div class="carousel-import" th:fragment="carousel-import">
                                                 <div class="carousel-inner">
-                                                    <div th:each="current, item : ${category}" class="carousel-item"
-                                                         th:attrappend="class=${item.index == 0}? ' active':''">
-                                                        <img th:src="@{'/images/' + ${current.imageName}}"
-                                                             class="d-block w-100 stretched-image" alt="..."/>
-                                                        <div class="carousel-caption d-none d-md-block">
-                                                            <div class="hero-text">
-                                                                <h6 th:text="${current.textH2}"></h6>
-                                                                <h5 th:text="${current.textH1}"></h5>
+                                                    <div th:each="current : ${home}">
+                                                        <div th:each="currents, item : ${current.banners}"
+                                                             class="carousel-item"
+                                                             th:attrappend="class=${item.index == 0}? ' active': ''">
+                                                            <img th:src="@{'/images/' + ${currents.imageName}}"
+                                                                 class="d-block w-100 stretched-image" alt="..."/>
+                                                            <div class="carousel-caption d-none d-md-block">
+                                                                <div class="hero-text">
+                                                                    <h6 th:text="${currents.textH2}"></h6>
+                                                                    <h5 th:text="${currents.textH1}"></h5>
+                                                                </div>
+                                                                <button style="margin: 10px;"
+                                                                        th:id="${currents.id}"
+                                                                        onclick="deleteImage(this.id, '.carousel-import', '/hero/delete-section')"
+                                                                        class="delete-button"
+                                                                        type="submit"></button>
                                                             </div>
-                                                            <button style="margin: 10px;" th:id="${current.id}"
-                                                                    onclick="deleteImg(this.id)" class="delete-button"
-                                                                    type="submit"></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -274,8 +280,9 @@
                                     <div class="container ">
                                         <div class="row justify-content-center">
                                             <div class="card">
-                                                <form id="img-carousel" action="/admin/home-import/feature-import"
-                                                      onsubmit="uploadHome(event)" class="form-admin">
+                                                <form id="img-carousel" action="/feature/home-import"
+                                                      onsubmit="uploadHome(event, '.feature-import')"
+                                                      class="form-admin">
                                                     <div class="row mb-3 text-center">
                                                         <div class="col-6 col-lg-4 themed-grid-col">
                                                             <div class="avatar-container">
@@ -304,7 +311,6 @@
                                                                           aria-label="С текстовым полем"
                                                                           required></textarea>
                                                             </div>
-
                                                             <div hidden class="input-group">
                                                                 <span class="input-group-text">H3</span>
                                                                 <textarea class="form-control" name="textH3"
@@ -315,28 +321,52 @@
                                                                     Сохранить тату
                                                                 </button>
                                                             </div>
-
-
                                                         </div>
-
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="feature-import" th:fragment="feature-import">
-                                    <div class="feature-import" th:fragment="feature-import">
-                                        <div class="row">
-                                            <div class="col-md-4" th:each="current, item : ${home}" th:if="${current.category=='feature-import'}">
-                                                <div class="feature-item set-bg" th:attr="data-setbg=@{'/images/'+${current.imageName}}">
-                                                    <h3 th:text="${current.textH2}"></h3> <!-- Добавили закрывающий тег -->
-                                                    <p th:text="${current.textH1}"></p>
-                                                    <button style="margin: 10px;" th:id="${current.id}" onclick="deleteImg(this.id)" class="delete-button" type="submit"></button>
+
+                                <div class="row">
+                                    <section class="scroll">
+                                        <div class="container">
+                                            <div class="feature-import" th:fragment="feature-import">
+                                                <div th:each="current: ${home}">
+                                                    <div class="row card" th:each="currents : ${current.feature}">
+                                                        <div class="row mb-3 text-center">
+                                                            <div class="col-6 col-md-4 themed-grid-col">
+                                                                <div class="admin-img">
+                                                                <span th:if="${currents.imageName}">
+                                                                         <img th:src="@{'/images/'+${currents.imageName}}"
+                                                                              alt="Profile Picture">
+                                                                        </span>
+                                                                    <span th:unless="${currents.imageName}">
+                                                                    <img src="img/avatar.jpg" alt="Profile Picture">
+                                                                        </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-8 themed-grid-col">
+                                                                <div class="card-header d-flex justify-content-between align-items-center">
+                                                                    <div th:text="${currents.textH2}">
+                                                                    </div>
+                                                                    <button type="button" th:id="${currents.id}" onclick="deleteImage(this.id, '.feature-import', '/feature/delete-section')"
+                                                                            class="btn btn-outline-secondary del-reviews">
+                                                                        Удалить
+                                                                    </button>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     th:text="${currents.textH1}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+
                                         </div>
-                                    </div>
+                                    </section>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-classes-section" role="tabpanel"

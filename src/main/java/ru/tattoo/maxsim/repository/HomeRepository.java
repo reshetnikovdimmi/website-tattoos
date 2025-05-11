@@ -18,6 +18,6 @@ public interface HomeRepository extends JpaRepository<Home, Long> {
 
     String findImageNameById(Long id);
 
-    List<Home> findByCategory(String s);
+    List<Home> findBySection(String s);
 }
 

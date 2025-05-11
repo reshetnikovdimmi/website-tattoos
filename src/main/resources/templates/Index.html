@@ -74,14 +74,14 @@
 <!-- Header End -->
 <!-- Hero Section Begin -->
 <section class="hero-section">
-    <div class="hero-items owl-carousel" >
-        <div class="single-hero-item set-bg" th:each="current : ${carousel}" th:attr="data-setbg=@{'/images/'+${current.imageName}}">
+    <div class="hero-items owl-carousel" th:each="current : ${carousel}">
+        <div class="single-hero-item set-bg" th:each="currents : ${current.banners}" th:attr="data-setbg=@{'/images/'+${currents.imageName}}">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="hero-text">
-                            <h2>Ваша кожа — чистый холст, а я — художник.</h2>
-                            <h1>ТАТУИРОВКА - ЭТО НЕ ПРОСТО РИСУНОК НА ТЕЛЕ</h1>
+                            <h2 th:text="${currents.textH2}"></h2>
+                            <h1 th:text="${currents.textH1}"></h1>
                             <a href="/gallery" class="primary-btn">Подробнее</a>
                         </div>
                     </div>
@@ -95,28 +95,15 @@
 <!-- Feature Section Begin -->
 <section class="feature-section">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="feature-item set-bg" data-setbg="img/feature/feature-1.jpg">
-                    <h3>ИНДИВИДУАЛЬНЫЙ ЭСКИЗ</h3>
-                    <p class="short-details">Разработка эскиза с учетом пожеланий клиента</p>
+        <div class="row" th:each="current: ${carousel}">
+            <div class="col-md-4" th:each="currents : ${current.feature}">
+                <div class="feature-item set-bg" th:attr="data-setbg=@{'/images/'+${currents.imageName}}">
+                    <h3 th:text="${currents.textH1}"></h3>
+                    <p class="short-details" th:text="${currents.textH2}"></p>
                     <a href="/sketches" class="primary-btn f-btn">Подробнее</a>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="feature-item set-bg" data-setbg="img/feature/feature-2.jpg">
-                    <h3>КОНСУЛЬТАЦИЯ</h3>
-                    <p class="short-details">Помогаю определится с идеей эскиза, ориентирую по стоимости и количеству сеансов.</p>
-                    <a href="/gallery" class="primary-btn f-btn">Подробнее</a>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-item set-bg" data-setbg="img/feature/feature-3.jpg">
-                    <h3>ТАТУ В ДЕНЬ ОБРАЩЕНИЯ</h3>
-                    <p class="short-details">Свободные скетчи по выгодной стоимости</p>
-                    <a href="/gallery" class="primary-btn f-btn">Подробнее</a>
-                </div>
-            </div>
+
         </div>
     </div>
 </section>

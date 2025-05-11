@@ -4,44 +4,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.tattoo.maxsim.model.Home;
-import ru.tattoo.maxsim.repository.HomeRepository;
-import ru.tattoo.maxsim.service.interf.HomeService;
+import ru.tattoo.maxsim.model.FeatureSection;
+import ru.tattoo.maxsim.model.HomeHeroSection;
+import ru.tattoo.maxsim.repository.FeatureSectionRepository;
+import ru.tattoo.maxsim.service.interf.FeatureSectionService;
 import ru.tattoo.maxsim.util.ImageUtils;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
-
 @Service
-public class HomeServiceImpl extends AbstractCRUDService <Home, Long> implements HomeService {
+public class FeatureSectionServiceImpl extends AbstractCRUDService<FeatureSection, Long> implements FeatureSectionService {
 
     @Autowired
-    private HomeRepository homeRepository;
+    private FeatureSectionRepository featureSectionRepository;
 
     @Override
-    CrudRepository<Home, Long> getRepository() {
-        return homeRepository;
+    CrudRepository<FeatureSection, Long> getRepository() {
+        return featureSectionRepository;
     }
 
     @Override
-    public void saveImg(MultipartFile fileImport, String category, String textH1, String textH2, String textH3) throws IOException {
-        Home home = new Home();
+    public void saveImg(MultipartFile fileImport, String textH1, String textH2, String textH3) throws IOException {
+        FeatureSection home = new FeatureSection();
         home.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        home.setSection(category);
         home.setTextH1(textH1);
         home.setTextH2(textH2);
         home.setTextH3(textH3);
-        homeRepository.save(home);
+        home.setSection("home");
+        getRepository().save(home);
 
         ImageUtils.saveImage(fileImport, home.getImageName());
     }
-
     @Override
     public void deleteImg(Long id) {
 
-        Optional<String> imageName = homeRepository.getName(id);
+        Optional<String> imageName = featureSectionRepository.getName(id);
 
         imageName.ifPresent(name -> {
             try {
@@ -54,8 +52,5 @@ public class HomeServiceImpl extends AbstractCRUDService <Home, Long> implements
 
     }
 
-    @Override
-    public List<Home> findByCategory(String s) {
-        return homeRepository.findBySection(s);
-    }
+
 }

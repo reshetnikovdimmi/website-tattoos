@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.model.DTO.CommitsDTO;
+import ru.tattoo.maxsim.model.Home;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ContactInfoRepository;
 import ru.tattoo.maxsim.service.interf.*;
@@ -21,11 +22,14 @@ import java.util.stream.Collectors;
 
 
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping(AdminController.ADMIN_URL)
+public class AdminController extends CRUDController<Home, Long> {
 
     private static final String ALL_GALLERY = "Вся галерея";
     private static final int PAGE_NUMBER = 0;
+    public static final String ADMIN_URL = "/admin";
+    public static final String ADMIN_NAME = "admin";
+
 
     @Autowired
     private ImagesService imagesService;
@@ -56,9 +60,9 @@ public class AdminController {
 
 
     @GetMapping
-    public String adminDashboard(Model model) {
+    public String showPage(Model model) {
         populateAdminDashboard(model);
-        return "admin";
+        return getEntityName();
     }
 
     @PostMapping("/img-import")
@@ -80,25 +84,9 @@ public class AdminController {
         return "admin::sketches-import";
     }
 
-    @PostMapping("/home-import/{category}")
-    public String uploadHome(@RequestParam("file") MultipartFile fileImport,
-                             @RequestParam("textH1") String textH1,
-                             @RequestParam("textH2") String textH2,
-                             @RequestParam("textH3") String textH3,
-                             @PathVariable("category") String category,
-                                      Model model) throws IOException, ParseException {
-        homeService.saveImg(fileImport, category, textH1,textH2,textH3);
-        updateCarousel(model);
-        return "admin::"+category;
-    }
 
-    @GetMapping("/carousel-delete/{id}")
-    public String deleteCarouselImage(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
 
-        homeService.deleteImg(id);
-        updateCarousel(model);
-        return "admin::carousel-import";
-    }
+
 
     @PostMapping("/interesting-works-import")
     public String uploadInterestingWork(@RequestParam("file") MultipartFile fileImport,
@@ -163,8 +151,9 @@ public class AdminController {
         model.addAttribute("interestingWorks", interestingWorksService.findAll());
         model.addAttribute("commits", commitsService.findAll().stream()
                 .map(commits -> modelMapper.map(commits, CommitsDTO.class)).collect(Collectors.toList()));
-        model.addAttribute("home", homeService.findAll());
-        model.addAttribute("category", homeService.findByCategory("carousel-import"));
+        model.addAttribute("home", getService().findAll());
+        System.out.println(getService().findAll());
+
     }
 
     private void updateGallery(Model model) {
@@ -204,6 +193,16 @@ public class AdminController {
         contactInfoRepository.save(contactInfo);
 
         return ResponseEntity.ok(contactInfoRepository.findLimit());
+    }
+
+    @Override
+    String getEntityName() {
+        return ADMIN_NAME;
+    }
+
+    @Override
+    CRUDService<Home, Long> getService() {
+        return homeService;
     }
 }
 

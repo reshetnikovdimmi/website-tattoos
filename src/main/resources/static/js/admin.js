@@ -1,4 +1,4 @@
-function uploadHome(event) {
+function uploadHome(event, fragment) {
     event.preventDefault(); // Отмена стандартной отправки формы
     const form = event.target; // получаем форму через событие
     const formAction = form.action; // Извлекаем адрес из атрибута action
@@ -14,7 +14,8 @@ function uploadHome(event) {
         success: function(data) {
             alert('Татуировка успешно сохранена!');
             console.log('Татуировка успешно сохранена!');
-            $('.'+formAction.split('/')[5]).html(data); // Замена текущего содержимого новым шаблоном
+            $(fragment).html(data); // Замена текущего содержимого новым шаблоном
+            form.reset(); // Очищаем форму после успешной отправки
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('Ошибка при загрузке:', errorThrown);
@@ -33,11 +34,21 @@ function loadImage(input, targetImage) {
     }
 }
 
-function deleteImg() {
-    $(document).find('.carousel-import button').on('click', function() {
-        var id = this.id;
-        $.get('/admin/carousel-delete/' + id, {}, function(data) {
-            $(".carousel-import").html(data);
-        });
+function deleteImage(imageId, selectorToRefresh, deletionUrl) {
+    if (!confirm("Вы действительно хотите удалить изображение?")) {
+        return; // Отмена операции
+    }
+
+    // Отправляем AJAX-запрос на сервер для удаления изображения
+    $.ajax({
+        url: deletionUrl + "/" + imageId, // Используется настраиваемый URL
+        type: 'GET',                      // Лучше использовать DELETE, но пока GET
+        success: function(response) {
+                // Обновляем контейнер с результатами
+                $(selectorToRefresh).html(response);
+        },
+        error: function(error) {
+            alert('Ошибка при обращении к серверу.');
+        }
     });
 }

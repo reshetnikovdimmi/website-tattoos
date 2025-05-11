@@ -43,6 +43,7 @@ public class UserServiceImpl extends AbstractCRUDService<User, Long> implements 
     }
 
 
+
     @Override
     public void updateUserAvatar(MultipartFile fileImport, Principal principal) throws IOException {
         User user = userRepository.findByLogin(principal.getName())
