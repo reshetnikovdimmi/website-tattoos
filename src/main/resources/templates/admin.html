@@ -251,27 +251,99 @@
 
                             <div class="tab-pane fade" id="v-pills-home-about" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab" tabindex="0">
+                                <div class="row mb-3 text-center">
+                                    <div class="container ">
+                                        <div class="row justify-content-center">
+                                            <div class="card">
+                                                <form id="img-carousel" action="/about/home-import"
+                                                      onsubmit="uploadHome(event, '.home-about')"
+                                                      class="form-admin">
+                                                    <div class="row mb-3 text-center">
+                                                        <div class="col-6 col-lg-4 themed-grid-col">
+                                                            <div class="avatar-container">
+                                                                <img class="about-section" id="about-section"
+                                                                     src="img/avatar.jpg" alt="Выберите фото тату">
+                                                                <button type="button" class="upload-btn btn btn-primary"
+                                                                        onclick="document.getElementById('file-about').click()">
+                                                                    Выбрать файл
+                                                                </button>
+                                                                <input type="file" name="file" id="file-about"
+                                                                       accept="image/*"
+                                                                       onchange="loadImage(this, document.getElementById('about-section'))"
+                                                                       required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6 col-lg-8 themed-grid-col">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">H1</span>
+                                                                <textarea class="form-control" name="textH2"
+                                                                          aria-label="С текстовым полем"
+                                                                          required></textarea>
+                                                            </div>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">H2</span>
+                                                                <textarea class="form-control" name="textH1"
+                                                                          aria-label="С текстовым полем"
+                                                                          required></textarea>
+                                                            </div>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">H3</span>
+                                                                <textarea class="form-control" name="textH3"
+                                                                          aria-label="С текстовым полем"></textarea>
+                                                            </div>
+                                                            <div class="input-group">
+                                                                <button type="submit" class="btn leave-btn btn-block">
+                                                                    Сохранить тату
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="about-text">
-                                            <h3 style="color: #FFFFFF;">«ТАТУИРОВКА — ЭТО НАВСЕГДА»</h3>
-                                            <p class="short-details">Сделайте татуировку, которую вы сможете носить всю
-                                                жизнь</p>
-                                            <p class="long-details">Ты набиваешь себе татуировку,
-                                                зная, что это тело принадлежит тебе, и ты можешь наслаждаться им,
-                                                пока ты здесь. Вы получаете от этого удовольствие,
-                                                и никто другой не может (предположительно) контролировать то, что вы с
-                                                ним делаете.
-                                                Татуировки это выражение свободы — одно из немногих проявлений
-                                                свободы. </p>
-                                            <a href="/gallery" class="primary-btn about-btn">Узнать больше</a>
+                                    <section class="scroll">
+                                        <div class="container">
+                                            <div class="home-about" th:fragment="home-about">
+                                                <div th:each="current: ${home}">
+                                                    <div class="row card" th:each="currents : ${current.about}">
+                                                        <div class="row mb-3 text-center">
+                                                            <div class="col-6 col-md-4 themed-grid-col">
+                                                                <div class="admin-img">
+                                                                <span th:if="${currents.imageName}">
+                                                                         <img th:src="@{'/images/'+${currents.imageName}}"
+                                                                              alt="Profile Picture">
+                                                                        </span>
+                                                                    <span th:unless="${currents.imageName}">
+                                                                    <img src="img/avatar.jpg" alt="Profile Picture">
+                                                                        </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-8 themed-grid-col">
+                                                                <div class="card-header d-flex justify-content-between align-items-center">
+                                                                    <div th:text="${currents.textH2}">
+                                                                    </div>
+                                                                    <button type="button" th:id="${currents.id}" onclick="deleteImage(this.id, '.home-about', '/about/delete-section')"
+                                                                            class="btn btn-outline-secondary del-reviews">
+                                                                        Удалить
+                                                                    </button>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     th:text="${currents.textH1}">
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     th:text="${currents.textH3}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="about-img">
-                                            <img src="img/home-about.png" alt="">
-                                        </div>
-                                    </div>
+                                    </section>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-feature-section" role="tabpanel"

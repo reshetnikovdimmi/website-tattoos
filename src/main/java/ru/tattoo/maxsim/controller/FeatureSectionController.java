@@ -23,4 +23,7 @@ public class FeatureSectionController extends CRUDController<FeatureSection, Lon
     CRUDService<FeatureSection, Long> getService() {
         return featureSectionService;
     }
+
+
+
 }

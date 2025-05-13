@@ -164,11 +164,6 @@ public class AdminController extends CRUDController<Home, Long> {
         model.addAttribute("sketches", sketchesService.getSketchesDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
     }
 
-    private void updateCarousel(Model model) {
-        model.addAttribute("category", homeService.findByCategory("carousel-import"));
-        model.addAttribute("home", homeService.findAll());
-    }
-
     private void updateInterestingWorks(Model model) {
         model.addAttribute("interestingWorks", interestingWorksService.findAll());
     }

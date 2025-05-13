@@ -111,23 +111,19 @@
 
 <!-- About Section Begin -->
 <section class="home-about spad">
-    <div class="container">
-        <div class="row">
+    <div class="container" th:each="current: ${carousel}">
+        <div class="row" th:each="currents : ${current.about}">
             <div class="col-lg-6">
                 <div class="about-text">
-                    <h3 style="color: #FFFFFF;">«ТАТУИРОВКА — ЭТО НАВСЕГДА»</h3>
-                    <p class="short-details">Сделайте татуировку, которую вы сможете носить всю жизнь</p>
-                    <p class="long-details">Ты набиваешь себе татуировку,
-                        зная, что это тело принадлежит тебе, и ты можешь наслаждаться им,
-                        пока ты здесь. Вы получаете от этого удовольствие,
-                        и никто другой не может (предположительно) контролировать то, что вы с ним делаете.
-                        Татуировки это выражение свободы — одно из немногих проявлений свободы. </p>
+                    <h3 style="color: #FFFFFF;" th:text="${currents.textH2}"></h3>
+                    <p class="short-details" th:text="${currents.textH1}"></p>
+                    <p class="long-details" th:text="${currents.textH3}"></p>
                     <a href="/gallery" class="primary-btn about-btn">Узнать больше</a>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="about-img">
-                    <img src="img/home-about.png" alt="">
+                    <img th:src="@{'/images/'+${currents.imageName}}" alt="">
                 </div>
             </div>
         </div>
