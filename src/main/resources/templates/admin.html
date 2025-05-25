@@ -325,7 +325,8 @@
                                                                 <div class="card-header d-flex justify-content-between align-items-center">
                                                                     <div th:text="${currents.textH2}">
                                                                     </div>
-                                                                    <button type="button" th:id="${currents.id}" onclick="deleteImage(this.id, '.home-about', '/about/delete-section')"
+                                                                    <button type="button" th:id="${currents.id}"
+                                                                            onclick="deleteImage(this.id, '.home-about', '/about/delete-section')"
                                                                             class="btn btn-outline-secondary del-reviews">
                                                                         Удалить
                                                                     </button>
@@ -423,7 +424,8 @@
                                                                 <div class="card-header d-flex justify-content-between align-items-center">
                                                                     <div th:text="${currents.textH2}">
                                                                     </div>
-                                                                    <button type="button" th:id="${currents.id}" onclick="deleteImage(this.id, '.feature-import', '/feature/delete-section')"
+                                                                    <button type="button" th:id="${currents.id}"
+                                                                            onclick="deleteImage(this.id, '.feature-import', '/feature/delete-section')"
                                                                             class="btn btn-outline-secondary del-reviews">
                                                                         Удалить
                                                                     </button>
@@ -443,7 +445,70 @@
                             </div>
                             <div class="tab-pane fade" id="v-pills-classes-section" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab" tabindex="0">
-
+                                <div class="row">
+                                    <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                                        <form id="edit-form" action="/section-title/home-import" onsubmit="uploadSection(this.id,event,'.section-title')">
+                                            <h2 id="editable-title" contenteditable="false">ВЫБЕРИТЕ СВОЮ ТАТУ</h2>
+                                            <p id="editable-details" contenteditable="false">Я могу помочь вам с другими вопросами о татуировках,
+                                                предложить идеи для дизайна,
+                                                рассказать о процессе нанесения татуировки или дать советы по уходу за ней.
+                                                Есть что-то конкретное, с чем я могу помочь?</p>
+                                            <button  type="submit" id="edit-button" class="btn btn-outline-secondary">Изменить</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row mb-3 text-center">
+                                    <div class="container ">
+                                        <div class="row justify-content-center">
+                                            <div class="card">
+                                                <form  action="/feature/home-import"
+                                                      onsubmit="uploadHome(event, '.feature-import')"
+                                                      class="form-admin">
+                                                    <div class="row mb-3 text-center">
+                                                        <div class="col-6 col-lg-4 themed-grid-col">
+                                                            <div class="avatar-container">
+                                                                <img class="feature-section" id="feature-section"
+                                                                     src="img/avatar.jpg" alt="Выберите фото тату">
+                                                                <button type="button" class="upload-btn btn btn-primary"
+                                                                        onclick="document.getElementById('file-feature').click()">
+                                                                    Выбрать файл
+                                                                </button>
+                                                                <input type="file" name="file" id="file-feature"
+                                                                       accept="image/*"
+                                                                       onchange="loadImage(this, document.getElementById('feature-section'))"
+                                                                       required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6 col-lg-8 themed-grid-col">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">H2</span>
+                                                                <textarea class="form-control" name="textH2"
+                                                                          aria-label="С текстовым полем"
+                                                                          required></textarea>
+                                                            </div>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">H1</span>
+                                                                <textarea class="form-control" name="textH1"
+                                                                          aria-label="С текстовым полем"
+                                                                          required></textarea>
+                                                            </div>
+                                                            <div hidden class="input-group">
+                                                                <span class="input-group-text">H3</span>
+                                                                <textarea class="form-control" name="textH3"
+                                                                          aria-label="С текстовым полем"></textarea>
+                                                            </div>
+                                                            <div class="input-group">
+                                                                <button type="submit" class="btn leave-btn btn-block">
+                                                                    Сохранить тату
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <section class="scroll">
 
