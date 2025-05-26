@@ -39,5 +39,9 @@ public class Home {
     @OneToMany(targetEntity = AboutSection.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "section", referencedColumnName = "section")
     private List<AboutSection> about;
+
+    @OneToMany(targetEntity = ClassesSection.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "section", referencedColumnName = "section")
+    private List<ClassesSection> classes;
 }
 
