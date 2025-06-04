@@ -152,7 +152,6 @@ public class AdminController extends CRUDController<Home, Long> {
         model.addAttribute("commits", commitsService.findAll().stream()
                 .map(commits -> modelMapper.map(commits, CommitsDTO.class)).collect(Collectors.toList()));
         model.addAttribute("home", getService().findAll());
-        System.out.println(getService().findAll());
 
     }
 

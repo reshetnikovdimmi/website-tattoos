@@ -7,6 +7,8 @@ import ru.tattoo.maxsim.model.ClassesSection;
 import ru.tattoo.maxsim.repository.ClassesSectionRepository;
 import ru.tattoo.maxsim.service.interf.ClassesSectionService;
 
+import java.util.List;
+
 @Service
 public class ClassesSectionServiceImpl extends AbstractCRUDService<ClassesSection, Long> implements ClassesSectionService {
 
@@ -16,5 +18,10 @@ public class ClassesSectionServiceImpl extends AbstractCRUDService<ClassesSectio
     @Override
     CrudRepository<ClassesSection, Long> getRepository() {
         return classesSectionRepository;
+    }
+
+    @Override
+    public List<ClassesSection> findByTitle(String s) {
+        return classesSectionRepository.findByTitle(s);
     }
 }

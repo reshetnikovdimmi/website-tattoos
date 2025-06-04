@@ -1,9 +1,6 @@
 package ru.tattoo.maxsim.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @NoArgsConstructor
@@ -20,7 +17,10 @@ public class ClassesSection {
     private String imageName;
     private String textH1;
     private String textH2;
+    @Lob
     private String textH3;
+
+    private String title;
 
     private String section;
 }

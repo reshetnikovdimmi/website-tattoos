@@ -446,11 +446,12 @@
                             <div class="tab-pane fade" id="v-pills-classes-section" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab" tabindex="0">
                                 <div class="classes-title" th:fragment="classes-title">
-                                    <div class="row">
-                                        <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
-                                            <form id="edit-form" action="/classes-title/home-import"
-                                                  onsubmit="uploadHome(event,'.classes-title')">
-                                                <h2 id="editable-title" contenteditable="false">ВЫБЕРИТЕ СВОЮ ТАТУ</h2>
+                                    <div class="row" th:each="current: ${home}">
+                                        <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0" th:each="currents : ${current.classes}">
+                                            <form th:id="${currents.id}" action="/classes/title"
+                                                  onsubmit="uploadTitle(event,'.classes-title')"  >
+                                                <h2 th:text="${currents.textH2}" id="editable-title" contenteditable="false">ВЫБЕРИТЕ СВОЮ ТАТУ</h2>
+
                                                 <p id="editable-details" contenteditable="false">Я могу помочь вам с
                                                     другими вопросами о татуировках,
                                                     предложить идеи для дизайна,
