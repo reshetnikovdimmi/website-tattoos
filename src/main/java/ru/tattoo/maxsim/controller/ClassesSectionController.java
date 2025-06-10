@@ -29,7 +29,7 @@ public class ClassesSectionController extends CRUDController<ClassesSection, Lon
 
     @Override
     String getEntityName() {
-        return "admin::classes-title";
+        return "admin::classes";
     }
 
     @Override
@@ -47,6 +47,6 @@ public class ClassesSectionController extends CRUDController<ClassesSection, Lon
         classesSection.setTitle("title");
         getService().create(classesSection);
         model.addAttribute("home", homeService.findAll());
-        return getEntityName();
+        return "admin::classes-title";
     }
 }

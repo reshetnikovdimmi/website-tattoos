@@ -447,7 +447,7 @@
                                  aria-labelledby="v-pills-profile-tab" tabindex="0">
                                 <div class="classes-title" th:fragment="classes-title">
                                     <div class="row" th:each="current: ${home}">
-                                        <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0" th:each="currents : ${current.classes}">
+                                        <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0" th:each="currents : ${current.classes}" th:if="${currents.title}">
                                             <form th:id="${currents.id}" action="/classes/title"
                                                   onsubmit="uploadTitle(event,'.classes-title')"  >
                                                 <h2 th:text="${currents.textH2}" id="editable-title" contenteditable="false">ВЫБЕРИТЕ СВОЮ ТАТУ</h2>
@@ -470,20 +470,20 @@
                                         <div class="row justify-content-center">
                                             <div class="card">
                                                 <form action="/classes/home-import"
-                                                      onsubmit="uploadHome(event, '.feature-import')"
+                                                      onsubmit="uploadHome(event, '.classes')"
                                                       class="form-admin">
                                                     <div class="row mb-3 text-center">
                                                         <div class="col-6 col-lg-4 themed-grid-col">
                                                             <div class="avatar-container">
-                                                                <img class="feature-section" id="feature-section"
+                                                                <img class="classes-section" id="classes-section"
                                                                      src="img/avatar.jpg" alt="Выберите фото тату">
                                                                 <button type="button" class="upload-btn btn btn-primary"
-                                                                        onclick="document.getElementById('file-feature').click()">
+                                                                        onclick="document.getElementById('file-classes').click()">
                                                                     Выбрать файл
                                                                 </button>
-                                                                <input type="file" name="file" id="file-feature"
+                                                                <input type="file" name="file" id="file-classes"
                                                                        accept="image/*"
-                                                                       onchange="loadImage(this, document.getElementById('feature-section'))"
+                                                                       onchange="loadImage(this, document.getElementById('classes-section'))"
                                                                        required>
                                                             </div>
                                                         </div>
@@ -523,19 +523,19 @@
                                         <div class="container">
 
                                             <div class="classes" th:fragment="classes">
-                                                <div class="row card " th:each="current : ${users}">
-                                                    <div class="row mb-3 text-center">
+                                                <div class="row card " th:each="current: ${home}">
+                                                    <div class="row mb-3 text-center" th:each="currents : ${current.classes}" th:unless="${currents.title}">
 
 
                                                         <div class="col-6 col-md-4 themed-grid-col">
                                                             <div class="admin-img">
 
 
-                                                                <span th:if="${current.avatar}">
-                                                                         <img th:src="@{'/images/'+${current.avatar}}"
+                                                                <span th:if="${currents.imageName}">
+                                                                         <img th:src="@{'/images/'+${currents.imageName}}"
                                                                               alt="Profile Picture">
                                                                         </span>
-                                                                <span th:unless="${current.avatar}">
+                                                                <span th:unless="${currents.imageName}">
                                                                     <img src="img/avatar.jpg" alt="Profile Picture">
 
                                                                         </span>
@@ -544,17 +544,17 @@
                                                         <div class="col-md-8 themed-grid-col">
                                                             <div class="card-header d-flex justify-content-between align-items-center">
 
-                                                                <div th:text="${current.login}">
+                                                                <div th:text="${currents.textH1}">
 
                                                                 </div>
 
-                                                                <button type="button" th:id="${current.id}"
+                                                                <button type="button" th:id="${currents.id}"
                                                                         class="btn btn-outline-secondary del-reviews">
                                                                     Удалить
                                                                 </button>
                                                             </div>
                                                             <div class="card-body"
-                                                                 th:text="${current.email}">
+                                                                 th:text="${currents.textH2}">
                                                             </div>
                                                         </div>
                                                     </div>
