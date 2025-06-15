@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.ClassesSection;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.service.interf.ClassesSectionService;
@@ -14,8 +13,7 @@ import ru.tattoo.maxsim.service.interf.HomeService;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 
 @Controller

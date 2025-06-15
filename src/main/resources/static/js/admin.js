@@ -25,35 +25,28 @@ async function uploadHome(event, fragment) {
             alert('Произошла ошибка при сохранении татуировки.');
         }
 }
-async function uploadTitle(event, fragment) {
+async function universalUploadHandler(event, fragmentPrefix) {
     event.preventDefault(); // Отмена стандартной отправки формы
 
-    const form = event.currentTarget; // получаем форму через событие
+    const form = event.currentTarget; // Получаем текущую форму
     const formAction = form.action; // Извлекаем адрес из атрибута action
     const formData = new FormData(form); // Создаем объект FormData с полями формы
+     // Добавляем id в FormData, если он передан
+        if (event.target.id) {
+            formData.append('id', event.currentTarget.id);
+        }
 
-    // Копируем значение заголовка в FormData ДО начала остальной логики
-    const editableTitle = document.getElementById('editable-title');
-    formData.append('textH2', editableTitle.innerHTML); // добавляем значение заголовка
-    const editableDetails = document.getElementById('editable-details');
-    formData.append('textH3', editableDetails.innerHTML); // добавляем значение заголовка
+    // Изменение статуса полей и текста кнопки
+    const inputs = form.querySelectorAll('input[type=text], textarea');
+    const button = form.querySelector('button[type="submit"]');
 
-    // Добавляем id в FormData, если он передан
-    if (event.target.id) {
-        formData.append('id', event.currentTarget.id);
-    }
-
-    // Переключение между режимами редактирования и отображения
-    const elements = form.querySelectorAll('[contenteditable]');
-    elements.forEach(element => {
-        element.contentEditable = !element.isContentEditable;
-    });
-
-    // Изменение текста кнопки
-    const button = document.getElementById('edit-button');
     if (button.textContent.trim().toLowerCase() === 'изменить') {
+        // Включаем поля для редактирования
+        inputs.forEach(input => input.disabled = false);
         button.textContent = 'Сохранить'; // Меняем надпись на кнопке
     } else {
+        // Деактивируем поля после сохранения
+        inputs.forEach(input => input.disabled = true);
         button.textContent = 'Изменить'; // Возвращаемся назад
 
         try {
@@ -67,12 +60,12 @@ async function uploadTitle(event, fragment) {
                 type: 'POST',
             });
 
-            alert('Татуировка успешно сохранена!');
-            console.log('Татуировка успешно сохранена!');
-            $(fragment).html(response); // Замена текущего содержимого новым шаблоном
+            alert('Информация успешно сохранена!');
+            console.log('Информация успешно сохранена!');
+            $(fragmentPrefix).html(response); // Замена текущего содержимого новым шаблоном
         } catch (error) {
             console.log('Ошибка при загрузке:', error);
-            alert('Произошла ошибка при сохранении татуировки.');
+            alert('Произошла ошибка при сохранении информации.');
         }
     }
 }
@@ -106,4 +99,52 @@ function deleteImage(imageId, selectorToRefresh, deletionUrl) {
             alert('Ошибка при обращении к серверу.');
         }
     });
+}
+
+let isEditing = false;
+
+function toggleEditMode(event, fragmentPrefix) {
+    event.preventDefault(); // Отмена стандартной отправки формы
+    const form = event.currentTarget; // Получаем текущую форму
+    const editButton = form.querySelector('.btn');
+    const formAction = form.action; // Извлекаем адрес из атрибута action
+    const inputs = form.querySelectorAll('input, textarea'); // Получаем поля только из текущей формы
+
+    if (!isEditing) {
+        // Переводим в режим редактирования
+        inputs.forEach(input => input.removeAttribute('disabled')); // Активируем поля
+        editButton.textContent = 'Сохранить'; // Меняем надпись на кнопке
+        isEditing = true;
+    } else {
+        // Собираем данные из полей и отправляем их на сервер
+        const entry = {
+            id: event.currentTarget.id,
+            textH1: form.querySelector('#textH1').value,
+            textH2: form.querySelector('#textH2').value,
+            textH3: form.querySelector('#textH3').value,
+            textH4: form.querySelector('#textH4').value,
+            textH5: form.querySelector('#textH5').value
+        };
+
+        // Отправляем данные на сервер (можете использовать Fetch API или XMLHttpRequest)
+        $.ajax({
+            url: formAction, // URL контроллера
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(entry),
+            success: function(response) {
+                alert('Данные успешно отправлены в контроллер!');
+                 $(fragmentPrefix).html(response); // Замена текущего содержимого новым шаблоном
+            },
+            error: function(err) {
+                console.error('Ошибка при отправке данных:', err.responseText);
+                alert('Ошибка при отправке данных. Попробуйте снова.');
+            }
+        });
+
+        // Возвращаем в режим просмотра
+        inputs.forEach(input => input.setAttribute('disabled', '')); // Блокируем поля
+        editButton.textContent = 'Изменить'; // Возвращаем старую надпись
+        isEditing = false;
+    }
 }
