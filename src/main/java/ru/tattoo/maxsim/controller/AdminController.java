@@ -44,9 +44,6 @@ public class AdminController extends CRUDController<Home, Long> {
     private SketchesService sketchesService;
 
     @Autowired
-    private InterestingWorksService interestingWorksService;
-
-    @Autowired
     private CommitsService commitsService;
 
     @Autowired
@@ -57,6 +54,12 @@ public class AdminController extends CRUDController<Home, Long> {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private BlogService blogService;
+
+    @Autowired
+    private SettingWebsiteService settingWebsiteService;
 
 
     @GetMapping
@@ -84,22 +87,18 @@ public class AdminController extends CRUDController<Home, Long> {
         return "admin::sketches-import";
     }
 
-
-
-
-
     @PostMapping("/interesting-works-import")
     public String uploadInterestingWork(@RequestParam("file") MultipartFile fileImport,
                                         @RequestParam("description") String description,
                                         Model model) throws IOException, ParseException {
-        interestingWorksService.saveInterestingWorks(fileImport, description);
+        blogService.saveInterestingWorks(fileImport, description);
         updateInterestingWorks(model);
         return "admin::interesting-works-import";
     }
 
     @GetMapping("/interesting-works-delete/{id}")
     public String deleteInterestingWork(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
-        interestingWorksService.deleteInterestingWorks(id);
+        blogService.deleteInterestingWorks(id);
         updateInterestingWorks(model);
         return "admin::interesting-works-import";
     }
@@ -148,10 +147,13 @@ public class AdminController extends CRUDController<Home, Long> {
         model.addAttribute("sketches", sketchesService.getSketchesDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
         model.addAttribute("reviews", reviewService.findAll());
         model.addAttribute("users", userService.findAll());
-        model.addAttribute("interestingWorks", interestingWorksService.findAll());
+        model.addAttribute("interestingWorks", blogService.findDescription());
+        model.addAttribute("blog", blogService.findAll());
+        model.addAttribute("setting", settingWebsiteService.findAll());
         model.addAttribute("commits", commitsService.findAll().stream()
                 .map(commits -> modelMapper.map(commits, CommitsDTO.class)).collect(Collectors.toList()));
         model.addAttribute("home", getService().findAll());
+
 
     }
 
@@ -164,7 +166,7 @@ public class AdminController extends CRUDController<Home, Long> {
     }
 
     private void updateInterestingWorks(Model model) {
-        model.addAttribute("interestingWorks", interestingWorksService.findAll());
+        model.addAttribute("interestingWorks", blogService.findDescription());
     }
 
     private void updateReviews(Model model) {
@@ -175,18 +177,6 @@ public class AdminController extends CRUDController<Home, Long> {
     @PostMapping(path = "/best-tattoos")
     private ResponseEntity bestImage(@RequestBody Images images) {
         return ResponseEntity.ok(imagesService.bestImage(images));
-    }
-
-
-    @PostMapping(path = "/contact-info")
-    private ResponseEntity<ContactInfo> contactInfo(@RequestBody ContactInfo newContact, Model model) {
-        ContactInfo contactInfo = contactInfoRepository.findLimit();
-        if (newContact.getTell()!=null) contactInfo.setTell(newContact.getTell());
-        if (newContact.getEmail()!=null) contactInfo.setEmail(newContact.getEmail());
-        if (newContact.getAddress()!=null) contactInfo.setAddress(newContact.getAddress());
-        contactInfoRepository.save(contactInfo);
-
-        return ResponseEntity.ok(contactInfoRepository.findLimit());
     }
 
     @Override

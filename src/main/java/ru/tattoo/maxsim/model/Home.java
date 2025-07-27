@@ -47,5 +47,9 @@ public class Home {
     @OneToMany(targetEntity = PriceSection.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "section", referencedColumnName = "section")
     private List<PriceSection> price;
+
+    @OneToMany(targetEntity = ChooseusSection.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "section", referencedColumnName = "section")
+    private List<ChooseusSection> chooseus;
 }
 

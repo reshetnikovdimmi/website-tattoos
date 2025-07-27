@@ -11,12 +11,19 @@ import java.util.Date;
 @Setter
 @Entity
 @ToString
-public class InterestingWorks {
+public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     private String imageName;
     private String description;
+    private String section;
+    @Lob
+    private String textH1;
+    @Lob
+    private String textH2;
+    @Lob
+    private String textH3;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)

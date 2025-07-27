@@ -3173,7 +3173,7 @@ container-price-admin
   -o-transition: 0.3s;
   transition: 0.3s;
   resize: none;
-  margin-bottom: 32px;
+  margin-bottom: 10px;
   border: 1px solid #696969;
 }
 
@@ -3238,6 +3238,7 @@ margin-left: 15px;
   border-radius: 5px;
   background: transparent;
   border: 1px solid #696969;
+  margin-bottom:10px;
 }
 
 .tab-content input:focus {
@@ -3957,6 +3958,47 @@ margin-left: 15px;
   font-family: "Oswald", sans-serif;
   border: 1px solid #000000;
   border-radius: 2px;
+}
+/*-----------------------------Blog----------------------*/
+.blog-pic .row {
+    border: 1px solid #ccc; /* Добавляем рамку вокруг каждой строки */
+    padding: 10px; /* Добавляем отступы внутри рамки */
+    margin-bottom: 20px; /* Добавляем отступ между строками */
+}
+
+.blog-pic form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.medium-image {
+    width: 375px;
+    height: 180px;
+    object-fit: cover; /* Сохраняет пропорции изображения и обрезает его при необходимости */
+}
+
+.smail-image {
+    width: 175px;
+    height: 175px;
+    object-fit: cover; /* Сохраняет пропорции изображения и обрезает его при необходимости */
+}
+
+.blog-pic input[type="file"] {
+    margin-bottom: 10px;
+}
+
+.blog-pic button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.blog-pic button:hover {
+    background-color: #0056b3;
 }
 
 /*---------------------------- Other Pages Styles ------------------------------*/

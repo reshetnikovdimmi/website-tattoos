@@ -39,9 +39,9 @@ public class ClassesSectionServiceImpl extends AbstractCRUDService<ClassesSectio
         home.setTextH3(textH3);
         home.setSection("home");
         getRepository().save(home);
-
         ImageUtils.saveImage(fileImport, home.getImageName());
     }
+
     @Override
     public void deleteImg(Long id) {
 
@@ -55,6 +55,5 @@ public class ClassesSectionServiceImpl extends AbstractCRUDService<ClassesSectio
             }
         });
         getRepository().deleteById(id);
-
     }
 }

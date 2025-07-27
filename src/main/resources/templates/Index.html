@@ -132,17 +132,14 @@
 <!-- About Section End -->
 
 <!-- Classes Section Begin -->
-<section class="classes-section">
+<section class="classes-section" th:each="current: ${carousel}">
     <div class="class-title set-bg" data-setbg="img/classes-title-bg.jpg">
-        <div class="container">
+        <div class="container" th:each="currents : ${current.classes}" th:if="${currents.title}" >
             <div class="row">
                 <div class="col-lg-7 m-auto text-center">
                     <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
-                        <h2>ВЫБЕРИТЕ СВОЮ ТАТУ</h2>
-                        <p class="short-details">Я могу помочь вам с другими вопросами о татуировках,
-                            предложить идеи для дизайна,
-                            рассказать о процессе нанесения татуировки или дать советы по уходу за ней.
-                            Есть что-то конкретное, с чем я могу помочь?</p>
+                        <h2 th:text="${currents.textH2}"></h2>
+                        <p class="short-details" th:text="${currents.textH3}" ></p>
                     </div>
                 </div>
             </div>
@@ -150,72 +147,10 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-3 col-sm-6">
-                <div class="classes-item set-bg" data-setbg="img/classes/class-1.jpg">
-                    <h4>1. Предплечье:</h4>
-                    <p class="short-details">это одно из самых популярных мест для татуировок, особенно среди мужчин.
-                        Татуировка на предплечье легко видна и может быть выполнена в различных размерах и дизайнах.</p>
-                    <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="classes-item set-bg" data-setbg="img/classes/class-2.jpg">
-                    <h4>2. Запястье:</h4>
-                    <p class="short-details">татуировка на запястье также является популярным выбором,
-                        особенно среди женщин. Она может быть выполнена в виде браслета или небольшой надписи.
-                    </p>
-                    <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="classes-item set-bg" data-setbg="img/classes/class-3.jpg">
-                    <h4>3. Спина:</h4>
-                    <p class="short-details">татуировка на спине позволяет использовать большое пространство для создания больших и детальных
-                        изображений.
-                        Это также отличное место для скрытия татуировки.</p>
-                    <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="classes-item set-bg" data-setbg="img/classes/class-4.jpg">
-                    <h4>4. Грудь:</h4>
-                    <p class="short-details">татуировка на груди может быть выполнена в виде большой картины или нескольких маленьких
-                        изображений.
-                        Это место также подходит для скрытия татуировки под одеждой.</p>
-                    <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="classes-item set-bg" data-setbg="img/classes/class-5.jpg">
-                    <h4>5. Ноги:</h4>
-                    <p class="short-details">татуировки на ногах, включая бедра, икры и стопы, становятся все более популярными.
-                        Они могут быть выполнены в виде узоров, животных или других изображений.</p>
-                    <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="classes-item set-bg" data-setbg="img/classes/class-6.jpg">
-                    <h4>6. Руки:</h4>
-                    <p class="short-details">татуировки на руках, включая плечи, бицепсы и предплечья, являются классическим выбором.
-                        Они могут быть выполнены в виде надписей, символов или сложных изображений.
-                    </p>
-                    <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="classes-item set-bg" data-setbg="img/classes/class-7.jpg">
-                    <h4>7. Шея:</h4>
-                    <p class="short-details">татуировки на шее могут быть выполнены в виде небольших надписей или узоров.
-                        Tатуировки на шее могут быть заметны и вызывать внимание
-                        окружающих.</p>
-                    <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="classes-item set-bg" data-setbg="img/classes/class-8.jpg">
-                    <h4>8. Ребра:</h4>
-                    <p class="short-details">татуировки на ребрах, известные как "side boob", стали очень популярными в последние годы.
-                        Они могут быть выполнены в виде узоров, надписей или изображений.</p>
+            <div class="col-lg-3 col-sm-6" th:each="currents : ${current.classes}" th:unless="${currents.title}">
+                <div class="classes-item set-bg" th:attr="data-setbg=@{'/images/'+${currents.imageName}}">
+                    <h4 th:text="${currents.textH1}"></h4>
+                    <p class="short-details" th:text="${currents.textH2}"></p>
                     <a href="/gallery" class="primary-btn class-btn">Подробнее</a>
                 </div>
             </div>
@@ -225,62 +160,27 @@
 <!-- Classes Section End -->
 
 <!-- Price Plan Section Begin -->
-<section class="price-section spad set-bg" data-setbg="img/price-bg.jpg">
+<section class="price-section spad set-bg" th:each="current: ${carousel}" data-setbg="img/price-bg.jpg">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
+        <div class="row" th:each="currents : ${current.price}" th:if="${currents.title}">
+            <div class="col-lg-12" >
                 <div class="section-title">
-                    <h2>ЦЕНЫ И УСЛУГИ</h2>
-                    <p class="short-details">Стоимость татуировки может сильно варьироваться в зависимости от многих факторов,
-                        таких как размер, сложность дизайна, опыт мастера.
-                        В среднем, стоимость одной татуировки может начинаться от 2000 рублей и достигать до 20 000
-                        рублей и выше,
-                        в зависимости от всех этих факторов</p>
+                    <h2 th:text="${currents.textH2}"></h2>
+                    <p class="short-details" th:text="${currents.textH3}"></p>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-4">
+        <div class="row" >
+            <div class="col-lg-4" th:each="currents : ${current.price}" th:unless="${currents.title}">
                 <div class="single-price-plan">
-                    <h4>Эскиз</h4>
+                    <h4 th:text="${currents.textH1}"></h4>
                     <div class="price-plan">
-                        <h2>от 1000р </h2>
-                        <p class="short-details">Бесплатная консультация</p>
+                        <h2 th:text="${currents.textH2}"></h2>
+                        <p class="short-details" th:text="${currents.textH3}"></p>
                     </div>
                     <ul>
-                        <li>Индивидуальность</li>
-                        <li>Эксклюзивность</li>
-                    </ul>
-                    <a href="/contact" class="primary-btn price-btn">Начать</a>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="single-price-plan">
-                    <h4>Татуировка</h4>
-                    <div class="price-plan">
-                        <h2>от 1000р</h2>
-                        <p class="short-details">Бесплатная консультация</p>
-                    </div>
-                    <ul>
-                        <li>Привлечь внимание</li>
-                        <li>Подчеркнуть красоту</li>
-                    </ul>
-                    <a href="/contact" class="primary-btn price-btn">Начать</a>
-                    <div class="tic-text">
-                        <i class="fa fa-star"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="single-price-plan">
-                    <h4>Перекрытие</h4>
-                    <div class="price-plan">
-                        <h2>от 1000р</h2>
-                        <p class="short-details">Бесплатная консультация</p>
-                    </div>
-                    <ul>
-                        <li>Исправление ошибок</li>
-                        <li>Изменение стиля</li>
+                        <li th:text="${currents.textH4}"></li>
+                        <li th:text="${currents.textH5}"></li>
                     </ul>
                     <a href="/contact" class="primary-btn price-btn">Начать</a>
                 </div>
@@ -292,17 +192,16 @@
 
 <!-- Choseus Section Begin -->
 <section class="chooseus-section spad">
-    <div class="container">
+    <div class="container" th:each="current: ${carousel}">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12" th:each="currents : ${current.chooseus}" th:if="${currents.title}">
                 <div class="section-title">
-                    <h2>Почему выбирают меня</h2>
-                    <p class="short-details">Я могу привести несколько причин, почему именно меня следует выбрать в качестве мастера
-                        татуировок:</p>
+                    <h2 th:text="${currents.textH1}"></h2>
+                    <p class="short-details" th:text="${currents.textH2}"></p>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" >
             <div class="col-lg-4 col-sm-6">
                 <div class="choose-item">
                     <img src="img/icons/chose-icon-1.png" alt="">
@@ -311,53 +210,11 @@
                         Могу гарантировать качественное выполнение работы и учет всех ваших пожеланий.</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-sm-6">
-                <div class="choose-item">
-                    <img src="img/icons/chose-icon-2.png" alt="">
-                    <h5>2. Креативность:</h5>
-                    <p class="short-details">Я всегда открыт для новых идей и готов работать вместе с вами,
-                        чтобы создать уникальный и индивидуальный дизайн татуировки, который будет отражать вашу
-                        личность и стиль.</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <div class="choose-item">
-                    <img src="img/icons/chose-icon-3.png" alt="">
-                    <h5>3. Безопасность:</h5>
-                    <p class="short-details">Я строго соблюдаю все нормы гигиены и безопасности, использую только высококачественные материалы
-                        и инструменты,
-                        чтобы минимизировать риск инфекции и обеспечить комфорт во время процедуры.</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <div class="choose-item">
-                    <img src="img/icons/chose-icon-4.png" alt="">
-                    <h5>4. Комфортная атмосфера:</h5>
-                    <p class="short-details">Я стараюсь создать дружественную и расслабляющую атмосферу в студии,
-                        чтобы вы чувствовали себя комфортно и уверенно во время сеанса татуировки.</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <div class="choose-item">
-                    <img src="img/icons/chose-icon-5.png" alt="">
-                    <h5>5. Индивидуальный подход:</h5>
-                    <p class="short-details">Я ценю каждого клиента и стремлюсь предоставить индивидуальный подход к каждому проекту.
-                        Ваше удовлетворение и радость от результата являются моей главной целью.</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <div class="choose-item">
-                    <img src="img/icons/chose-icon-6.png" alt="">
-                    <h5>5. Стоимость:</h5>
-                    <p class="short-details">Цена должна быть разумной и соответствовать качеству работы.</p>
-                </div>
-            </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12" th:each="currents : ${current.chooseus}" th:if="${currents.title}">
                 <div class="about-text">
-                    <p class="long-details">Выбор мастера татуировок - это очень важный шаг, и я надеюсь, что мои
-                        качества и подходы помогут вам принять решение в мою пользу.</p>
+                    <p class="long-details" th:text="${currents.textH2}"></p>
                 </div>
             </div>
         </div>

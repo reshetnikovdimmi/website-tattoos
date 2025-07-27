@@ -5,7 +5,10 @@ async function uploadHome(event, fragment) {
     const form = event.currentTarget; // получаем форму через событие
     const formAction = form.action; // Извлекаем адрес из атрибута action
     const formData = new FormData(form); // Создаем объект FormData с полями формы
-
+    // Добавляем id в FormData, если он передан
+        if (event.target.id) {
+            formData.append('id', event.currentTarget.id);
+        }
         try {
             const response = await $.ajax({
                 url: formAction, // Адрес контроллера Spring MVC
@@ -37,7 +40,7 @@ async function universalUploadHandler(event, fragmentPrefix) {
         }
 
     // Изменение статуса полей и текста кнопки
-    const inputs = form.querySelectorAll('input[type=text], textarea');
+    const inputs = form.querySelectorAll('input, textarea');
     const button = form.querySelector('button[type="submit"]');
 
     if (button.textContent.trim().toLowerCase() === 'изменить') {
@@ -118,14 +121,14 @@ function toggleEditMode(event, fragmentPrefix) {
     } else {
         // Собираем данные из полей и отправляем их на сервер
         const entry = {
-            id: event.currentTarget.id,
-            textH1: form.querySelector('#textH1').value,
-            textH2: form.querySelector('#textH2').value,
-            textH3: form.querySelector('#textH3').value,
-            textH4: form.querySelector('#textH4').value,
-            textH5: form.querySelector('#textH5').value
+            id: form.id,
+            textH1: form.querySelector('[name="textH1"]')?.value || null,
+            textH2: form.querySelector('[name="textH2"]')?.value || null,
+            textH3: form.querySelector('[name="textH3"]')?.value || null,
+            textH4: form.querySelector('[name="textH4"]')?.value || null,
+            textH5: form.querySelector('[name="textH5"]')?.value || null
         };
-
+console.log(entry)
         // Отправляем данные на сервер (можете использовать Fetch API или XMLHttpRequest)
         $.ajax({
             url: formAction, // URL контроллера

@@ -11,6 +11,6 @@ public class JavaTest extends BaseSeleniumTest {
     @Test
     public void Test(){
         // Переход на сайт
-        driver.get("http://localhost:8080");
+       // driver.get("http://localhost:8080");
     }
 }

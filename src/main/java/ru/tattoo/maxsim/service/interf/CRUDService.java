@@ -27,4 +27,5 @@ public interface CRUDService<E, K> {
     void saveImg(MultipartFile fileImport, String textH1, String textH2, String textH3) throws IOException;
 
     void deleteImg(Long id) throws IOException;
+
 }
