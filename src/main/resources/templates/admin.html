@@ -716,15 +716,12 @@
 
                                                     <div class="col-6 col-md-4 themed-grid-col">
                                                         <div class="admin-img">
-
-
                                                                 <span th:if="${currents.imageName}">
                                                                          <img th:src="@{'/images/'+${currents.imageName}}"
                                                                               alt="Profile Picture">
                                                                         </span>
                                                             <span th:unless="${currents.imageName}">
                                                                     <img src="img/avatar.jpg" alt="Profile Picture">
-
                                                                         </span>
                                                         </div>
                                                     </div>
