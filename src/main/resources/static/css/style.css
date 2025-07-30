@@ -2012,103 +2012,105 @@ ol {
 }
 
 .gallery-item {
-	text-align: center;
-	position: relative;
-	z-index: 1;
-	margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    overflow: hidden; /* Обрезает выступающие края */
+    width: 100%; /* Максимальный размер родителя */
+    height: auto; /* Высота рассчитывается автоматически */
+    margin-bottom: 30px;
+}
+
+.gallery-item img.gallery-img {
+    width: 300px; /* Изображение растянуто по ширине */
+    height: 300px; /* Сохраняет соотношение сторон */
+    object-fit: cover; /* Картинка покрывает весь блок */
+    transition: transform 0.3s ease-in-out; /* Плавный переход эффектов */
+}
+
+.gallery-item:hover .gallery-img {
+    transform: scale(1.1); /* Немного увеличиваем картинку при наведении */
 }
 
 .gallery-item:hover:after,
 .gallery-item:hover:before {
-	opacity: 1;
+    opacity: 1;
 }
 
 .gallery-item:hover .gi-hover {
-	opacity: 1;
-	visibility: visible;
+    opacity: 1;
+    visibility: visible;
 }
 
 .gallery-item:before {
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	height: 5px;
-	background: #e4381C;
-	content: "";
-	opacity: 0;
-	z-index: 2;
-	-webkit-transition: all 0.3s;
-	-o-transition: all 0.3s;
-	transition: all 0.3s;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+    background: #e4381C;
+    content: "";
+    opacity: 0;
+    z-index: 2;
+    transition: all 0.3s;
 }
 
 .gallery-item:after {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	content: "";
-	z-index: 1;
-	opacity: 0;
-	-webkit-transition: all 0.3s;
-	-o-transition: all 0.3s;
-	transition: all 0.3s;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    content: "";
+    z-index: 1;
+    opacity: 0;
+    transition: all 0.3s;
 }
 
 .gallery-item .gi-hover-warp {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	left: 0;
-	top: 0;
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	justify-content: center;
-	z-index: 9;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9;
 }
 
 .gallery-item .gi-hover {
-	opacity: 0;
-	visibility: hidden;
-	-webkit-transition: all 0.3s;
-	-o-transition: all 0.3s;
-	transition: all 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
 }
 
 .gallery-item .gi-hover a {
-	height: 60px;
-	width: 60px;
-	border: 2px solid #ffffff;
-	border-radius: 50%;
-	text-align: center;
-	line-height: 60px;
-	font-size: 24px;
-	display: inline-block;
-	color: #ffffff;
+    height: 60px;
+    width: 60px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 60px;
+    font-size: 24px;
+    display: inline-block;
+    color: #ffffff;
 }
 
 .gallery-item .gi-hover a:first-child {
-	margin-right: 15px;
+    margin-right: 15px;
 }
 
 .gallery-item .gi-hover h6 {
-	color: #ffffff;
-	margin-top: 25px;
+    color: #ffffff;
+    margin-top: 25px;
 }
 
 .gallery-item .gi-hover h6 span {
-	font-family: "Nunito Sans", sans-serif;
-	margin-top: 7px;
-	display: block;
+    font-family: "Nunito Sans", sans-serif;
+    margin-top: 7px;
+    display: block;
 }
 
 .mfp-zoom-out-cur,

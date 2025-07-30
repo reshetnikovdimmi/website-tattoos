@@ -64,8 +64,7 @@
             <div class="row gallery-filter" th:each="current, item : ${sketches.sketchesImg}">
                 <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="currents: ${current}">
                     <div class="gallery-item">
-
-                        <img alt="" th:src="@{'/images/'+${currents.imageName}}">
+                        <img alt="" th:src="@{'/images/'+${currents.imageName}}" class="gallery-img">
                         <div class="gi-hover-warp">
                             <div class="gi-hover">
                                 <a th:href="@{'/images/'+${currents.imageName}}" class="image-popup"><i
