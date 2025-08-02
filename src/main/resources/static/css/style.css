@@ -109,6 +109,23 @@ ol {
 	margin: 0;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  overflow-x: none;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 0.3em;
+  background: #090a11;
+  margin-block: 0.25em;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00c6ff;
+  background: -webkit-linear-gradient(to right, #00c6ff, #0072ff);
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+  border-radius: 0.3em;
+}
 /*---------------------
   Helper CSS
 -----------------------*/
@@ -805,151 +822,174 @@ ol {
 }
 
 /*---------------------
-  Classes Time Table Section
+  Review Section
 -----------------------*/
-
-.classtime-section {
-	background: #151515;
-	padding-top: 90px;
+/* Стили для таблицы с прокруткой */
+.classtime-table.scroll{
+    /* enable div scrolling */
+     overflow: scroll;
+     overflow-x: hidden;
+     height: 600px;
+     border: 1px black solid;
+     padding: 2%;
+     width: 100%;
+     margin: 0 auto;
+     /*white-space: nowrap;*/
+     font-size: large;
 }
 
-.classtime-section .section-title {
-	margin-bottom: 48px;
+/* Общие стили для отзывов */
+.reviews  {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #222, #333);
+    color: #fff;
+    transition: box-shadow 0.3s, transform 0.3s;
+    overflow: hidden;
+    position: relative;
 }
 
-.timetable-controls {
-	text-align: center;
-	margin-bottom: 40px;
+.review-container  {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #222, #333);
+    color: #fff;
+    transition: box-shadow 0.3s, transform 0.3s;
+    overflow: hidden;
+    position: relative;
 }
 
-.timetable-controls ul li {
-	list-style: none;
-	font-size: 16px;
-	font-weight: 600;
-	font-family: "Oswald", sans-serif;
-	text-transform: uppercase;
-	color: #ffffff;
-	display: inline-block;
-	margin-right: 80px;
-	cursor: pointer;
-	position: relative;
+.review-container img {
+     width: 200px; /* Увеличенный размер */
+     height: 170px; /* Квадратный размер */
+     object-fit: cover;
+     transition: transform 0.3s;
 }
 
-.timetable-controls ul li.active {
-	color: #e4381C;
+
+.reviews:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
 }
 
-.timetable-controls ul li.active:after {
-	opacity: 1;
+/* Стили для изображения пользователя */
+.reviews img {
+    width: 200px; /* Увеличенный размер */
+    height: 200px; /* Квадратный размер */
+    object-fit: cover;
+    transition: transform 0.3s;
 }
 
-.timetable-controls ul li:after {
-	position: absolute;
-	left: 0;
-	bottom: -7px;
-	width: 100%;
-	height: 2px;
-	background: #e4381C;
-	content: "";
-	opacity: 0;
+.reviews:hover img {
+    transform: scale(1.1);
+}
+/* Стили для ячейки */
+.classtime-table table tbody tr td {
+    position: relative; /* Устанавливаем относительное позиционирование для ячейки */
+    padding: 20px;
 }
 
-.timetable-controls ul li:last-child {
-	margin-right: 0;
+/* Стили для ячейки с серым фоном и закруглёнными углами */
+.classtime-table table tbody tr td.hover-bg.ts-item {
+background-color: #333;
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
+  margin-top: 20px;
+  display: table-column-group;
 }
 
-.classtime-table .ts-item {
-	-webkit-transition: all 0.4s;
-	-o-transition: all 0.4s;
-	transition: all 0.4s;
+/* Стили для даты */
+.classtime-table table tbody tr td span {
+    font-size: 14px;
+    color: #ffffff;
+    display: block;
+    bottom: 10px; /* Расстояние от нижнего края */
+    right: 10px; /* Расстояние от правого края */
 }
 
-.classtime-table.filtering .ts-item {
-	opacity: 0;
+/* Стили для имени пользователя */
+.classtime-table table tbody tr td h4 {
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: 500;
+    margin-bottom: 5px;
+    bottom: 30px; /* Расстояние от нижнего края */
+    right: 10px; /* Расстояние от правого края */
 }
 
-.classtime-table.filtering .ts-item.show {
-	opacity: 1;
+/* Стили для комментария */
+.classtime-table table tbody tr td h5 {
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 500;
+    margin: 0;
+}
+
+.classtime-table table tbody tr td h5 {
+    font-size: 16px;
+    color: #afb4bf;
+}
+
+.reviews:hover h4, .reviews:hover h5 {
+    opacity: 1;
+}
+
+/* Эффект наведения */
+.reviews:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.reviews:hover:before {
+    opacity: 1;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .reviews {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .reviews img {
+        margin-bottom: 10px;
+    }
+
+}
+
+/* Стили для таблицы отзывов */
+.classtime-table {
+    overflow-x: auto;
+    width: 100%;
 }
 
 .classtime-table table {
-	width: 100%;
-	border: 1px solid #1f1f1f;
-	background: #212121;
-	text-align: center;
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.classtime-table table thead tr th {
-	font-size: 16px;
-	color: #ffffff;
-	font-weight: 500;
-	text-transform: uppercase;
-	font-family: "Oswald", sans-serif;
-	padding: 25px 5px;
+.classtime-table td {
+    padding: 15px;
+    vertical-align: top;
 }
 
-.classtime-table table tbody {
-	border-top: 1px solid #171717;
+/* Стили для фрагмента отзывов */
+.fragment-reviews {
+    margin: 20px;
 }
-
-.classtime-table table tbody tr td {
-	text-align: center;
-	border-right: 1px solid #171717;
-	border-bottom: 1px solid #171717;
-	width: 146px;
-	padding: 26px 10px 28px;
-	position: relative;
-	z-index: 1;
-}
-
-.classtime-table table tbody tr td:after {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background: -webkit-gradient(linear, left top, right top, from(#e16521), to(#e4381C));
-	background: -o-linear-gradient(left, #e16521, #e4381C);
-	background: linear-gradient(to right, #e16521, #e4381C);
-	content: "";
-	opacity: 0;
-	z-index: -1;
-	-webkit-transition: all 0.3s;
-	-o-transition: all 0.3s;
-	transition: all 0.3s;
-}
-
-.classtime-table table tbody tr td.hover-bg:hover:after {
-	opacity: 1;
-}
-
-.classtime-table table tbody tr td.hover-bg:hover h6 {
-	color: #ffffff;
-}
-
-.classtime-table table tbody tr td.workout-time {
-	font-size: 16px;
-	color: #ffffff;
-	font-weight: 500;
-	font-family: "Oswald", sans-serif;
-}
-
-.classtime-table table tbody tr td span {
-	font-size: 16px;
-	color: #ffffff;
-	display: block;
-	margin-bottom: 7px;
-}
-
-.classtime-table table tbody tr td h6 {
-	color: #e4381C;
-	font-weight: 500;
-	text-transform: uppercase;
-	-webkit-transition: all 0.3s;
-	-o-transition: all 0.3s;
-	transition: all 0.3s;
-}
-
 /*---------------------
   Price Section
 -----------------------*/
@@ -2590,12 +2630,14 @@ ol {
     .recent-item {
         margin-bottom: 20px;
     }
+
 }
 
 @media (max-width: 576px) {
     .recent-item {
         margin-bottom: 15px;
     }
+
 }
 
 .recent-item {
@@ -2721,7 +2763,7 @@ ol {
 	font-weight: 600;
 }
 
-.leave-comment-form form .leave-btn {
+.leave-comment-form .leave-btn {
 	font-size: 14px;
 	color: #ffffff;
 	font-weight: 500;

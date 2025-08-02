@@ -25,28 +25,28 @@ function galleryControls() {
     });
 }
 
-function uploadFragment(form) {
-    form.on("submit", function(e) {
-        const formData = new FormData(document.getElementById(form.attr('id')));
-        e.preventDefault();
-        const file = formData.get('file')
-        if (file.size > 1048576) { // Ограничение размера файла до 1МБ: 1024 * 1024
-            modals('Размер файла превышен, выберите файл меньше 1МБ.');
-        } else {
+function uploadFragment(event) {
+console.log("ok");
+           event.preventDefault(); // Отмена стандартной отправки формы
+           const form = event.currentTarget; // Получаем текущую форму
+           const formAction = form.action; // Извлекаем адрес из атрибута action
+           const formData = new FormData(form); // Создаем объект FormData с полями формы
+           const image = document.getElementById('imageID'); // Получаем элемент изображения
+           const fileName = image.src.split('/').pop();// Получаем имя файла из атрибута src
+            formData.append('imageName', fileName);
+            console.log(formAction)
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', form.attr('action'));
+            xhr.open('POST', formAction);
             xhr.send(formData);
             xhr.onload = () => {
                 if (xhr.status == 200) {
                     $(".fragment-reviews").html(xhr.response);
-                    document.getElementById('reviews').reset();
-                    document.getElementById('imageID').reset();
-                } else {
+                   } else {
                     modals("Server response: ", xhr.response);
                 }
             };
-        }
-    });
+
+
 }
 
 function showModals() {
