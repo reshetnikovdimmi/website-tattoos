@@ -118,6 +118,7 @@ function toggleEditMode(event, fragmentPrefix) {
         // Переводим в режим редактирования
         inputs.forEach(input => input.removeAttribute('disabled')); // Активируем поля
         editButton.textContent = 'Сохранить'; // Меняем надпись на кнопке
+        form.classList.add('active'); // Добавляем класс 'active' к форме
         isEditing = true;
     } else {
         // Собираем данные из полей и отправляем их на сервер
@@ -129,7 +130,7 @@ function toggleEditMode(event, fragmentPrefix) {
             textH4: form.querySelector('[name="textH4"]')?.value || null,
             textH5: form.querySelector('[name="textH5"]')?.value || null
         };
-console.log(entry)
+ form.classList.remove('active'); // Убираем класс 'active' у формы
         // Отправляем данные на сервер (можете использовать Fetch API или XMLHttpRequest)
         $.ajax({
             url: formAction, // URL контроллера

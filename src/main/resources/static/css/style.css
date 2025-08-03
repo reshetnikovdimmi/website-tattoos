@@ -1236,14 +1236,14 @@ background-color: #333;
 }
 
 /* Стили для формы */
-.classes-title form {
+.section-title  form {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 /* Стили для текстовых полей */
-.classes-title form input,
+.section-title form input,
 form textarea {
     width: 100%;
     padding: 10px;
@@ -1278,6 +1278,120 @@ form.active textarea {
     .btn {
         font-size: 14px;
     }
+}
+/* Стили для контейнера */
+.container-price-admin {
+    padding: 20px;
+    background-color: #333; /* Тёмный фон */
+    color: #fff; /* Белый текст */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для single-price-plan */
+.single-price-plan-admin {
+    background-color: #444; /* Тёмный фон */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Стили для заголовка */
+.single-price-plan-admin h4 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Стили для цены */
+.price-plan-admin {
+    margin-bottom: 20px;
+}
+
+.price-plan-admin h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.price-plan-admin p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Стили для списка */
+.single-price-plan-admin ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.single-price-plan-admin ul li {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Стили для input и textarea */
+.single-price-plan-admin input,
+.single-price-plan-admin textarea {
+    width: 100%; /* Полная ширина */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #444;
+    color: #fff;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+/* Стили для input и textarea в активном состоянии */
+form.active input,
+form.active textarea {
+    background-color: #e4381C !important; /* Красный фон */
+    color: #fff !important; /* Белый текст */
+}
+
+/* Стили для textarea */
+.single-price-plan-admin textarea {
+    resize: vertical; /* Возможность изменения высоты */
+}
+
+/* Стили для списка */
+.single-price-plan-admin ul li input {
+    width: 100%; /* Полная ширина */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #444;
+    color: #fff;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .container-price-admin {
+        padding: 10px;
+    }
+
+    .single-price-plan-admin {
+        padding: 10px;
+    }
+
+    .single-price-plan-admin h4 {
+        font-size: 20px;
+    }
+
+    .price-plan-admin h2 {
+        font-size: 30px;
+    }
+
+    .single-price-plan-admin ul li {
+        font-size: 14px;
+    }
+
 }
 /*---------------------
   Price Section

@@ -575,11 +575,15 @@
                             </div>
                             <div class="tab-pane fade" id="v-pills-price-section" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab" tabindex="0">
-                                <div class="price-title" th:fragment="price-title">
-                                    <div class="row">
-                                        <div class="container">
-
-                                            <div class="row" th:each="current: ${home}">
+                                <div class="col-lg-12 text-center">
+                                    <div class="section-title">
+                                        <h2>price-section</h2>
+                                    </div>
+                                </div>
+                                <div class="container">
+                                    <div class="price-title" th:fragment="price-title">
+                                        <div class="row justify-content-center" th:each="current: ${home}">
+                                            <div class="card">
                                                 <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0"
                                                      th:each="currents : ${current.price}"
                                                      th:if="${currents.title}">
@@ -587,17 +591,16 @@
                                                           onsubmit="universalUploadHandler(event,'.price-title')">
                                                         <input type="text" th:name="'textH2'"
                                                                th:value="${currents.textH2}"
-                                                               id="editprice-title" disabled/>
+                                                               id="" disabled/>
                                                         <textarea rows="4" cols="50" th:name="'textH3'"
-                                                                  th:text="${currents.textH3}" id="editpricedetails"
+                                                                  th:text="${currents.textH3}" id=""
                                                                   disabled></textarea>
-                                                        <button type="submit" id="editprice-button"
+                                                        <button type="submit" id=""
                                                                 class="btn btn-outline-secondary">Изменить
                                                         </button>
                                                     </form>
                                                 </div>
                                             </div>
-
                                         </div>
                                         <div class="container-price-admin">
                                             <div class="row" th:each="current: ${home}">
@@ -605,26 +608,26 @@
                                                      th:unless="${currents.title}">
                                                     <form th:id="${currents.id}" action="/price/update-prices"
                                                           onsubmit="toggleEditMode(event, '.price-title')">
-                                                        <div class="single-price-plan">
-                                                            <input id="textH1" th:value="${currents.textH1}"
+                                                        <div class="single-price-plan-admin">
+                                                            <input name="textH1" th:value="${currents.textH1}"
                                                                    type="text"
                                                                    class="h4-input"
                                                                    value="Эскиз" disabled/>
-                                                            <div class="price-plan">
-                                                                <input id="textH2" th:value="${currents.textH2}"
+                                                            <div class="price-plan-admin">
+                                                                <input name="textH2" th:value="${currents.textH2}"
                                                                        type="text" class="h2-input"
                                                                        value="от 1000р" disabled/>
                                                                 <p>
-                                                                    <textarea id="textH3" th:value="${currents.textH3}"
+                                                                    <textarea name="textH3" th:value="${currents.textH3}"
                                                                               class="p-input" disabled>Бесплатная консультация</textarea>
                                                                 </p>
                                                             </div>
                                                             <ul>
-                                                                <li><input id="textH4" type="text"
+                                                                <li><input name="textH4" type="text"
                                                                            th:value="${currents.textH4}"
                                                                            class="list-item-input"
                                                                            value="Индивидуальность" disabled/></li>
-                                                                <li><input id="textH5" type="text"
+                                                                <li><input name="textH5" type="text"
                                                                            th:value="${currents.textH5}"
                                                                            class="list-item-input"
                                                                            value="Эксклюзивность" disabled/></li>
