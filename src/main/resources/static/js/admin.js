@@ -47,11 +47,12 @@ async function universalUploadHandler(event, fragmentPrefix) {
         // Включаем поля для редактирования
         inputs.forEach(input => input.disabled = false);
         button.textContent = 'Сохранить'; // Меняем надпись на кнопке
+        form.classList.add('active'); // Добавляем класс 'active' к форме
     } else {
         // Деактивируем поля после сохранения
         inputs.forEach(input => input.disabled = true);
         button.textContent = 'Изменить'; // Возвращаемся назад
-
+        form.classList.remove('active'); // Убираем класс 'active' у формы
         try {
             const response = await $.ajax({
                 url: formAction, // Адрес контроллера Spring MVC

@@ -149,11 +149,12 @@
                                         <h2>Карусель</h2>
                                     </div>
                                 </div>
-                                <div class="row mb-3 text-center">
-                                    <div class="container ">
+
+                                <div class="container ">
+                                    <div class="carousel-import" th:fragment="carousel-import">
                                         <div class="row justify-content-center">
                                             <div class="card">
-                                                <form id="img-carousel" action="/hero/home-import"
+                                                <form action="/hero/home-import"
                                                       onsubmit="uploadHome(event, '.carousel-import')"
                                                       class="form-admin">
                                                     <div class="row mb-3 text-center">
@@ -161,7 +162,8 @@
                                                             <div class="avatar-container">
                                                                 <img class="preview-image" id="hero-section"
                                                                      src="img/avatar.jpg" alt="Выберите фото тату">
-                                                                <button type="button" class="upload-btn btn btn-primary"
+                                                                <button type="button"
+                                                                        class="upload-btn btn btn-primary"
                                                                         onclick="document.getElementById('file-carousel').click()">
                                                                     Выбрать файл
                                                                 </button>
@@ -190,36 +192,36 @@
                                                                 <textarea class="form-control" name="textH3"
                                                                           aria-label="С текстовым полем"></textarea>
                                                             </div>
-                                                            <div class="input-group">
-                                                                <button type="submit" class="btn leave-btn btn-block">
-                                                                    Сохранить тату
-                                                                </button>
-                                                            </div>
-
 
                                                         </div>
-
+                                                    </div>
+                                                    <div class="row mb-3 text-center">
+                                                        <div class="d-grid gap-2 col-6 mx-auto">
+                                                            <button type="submit" class="btn btn-primary">
+                                                                Сохранить тату
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-3 text-center">
-                                    <div class="col themed-grid-col">
-                                        <div id="carouselExample" class="carousel slide">
-                                            <div class="carousel-import" th:fragment="carousel-import">
-                                                <div class="carousel-inner">
-                                                    <div th:each="current : ${home}">
-                                                        <div th:each="currents, item : ${current.banners}"
-                                                             class="carousel-item"
-                                                             th:attrappend="class=${item.index == 0}? ' active': ''">
-                                                            <img th:src="@{'/images/' + ${currents.imageName}}"
-                                                                 class="d-block w-100 stretched-image" alt="..."/>
-                                                            <div class="carousel-caption d-none d-md-block">
-                                                                <div class="hero-text">
-                                                                    <h6 th:text="${currents.textH2}"></h6>
-                                                                    <h5 th:text="${currents.textH1}"></h5>
+                                        <div class="row justify-content-center">
+                                            <div class="card">
+                                                <div id="carouselExample" class="carousel slide">
+                                                    <div class="carousel-inner">
+                                                        <div th:each="current : ${home}">
+                                                            <div th:each="currents, item : ${current.banners}"
+                                                                 class="carousel-item"
+                                                                 th:attrappend="class=${item.index == 0}? ' active': ''">
+                                                                <img th:src="@{'/images/' + ${currents.imageName}}"
+                                                                     class="d-block w-100 stretched-image"
+                                                                     alt="..."/>
+                                                                <div class="carousel-caption d-none d-md-block">
+                                                                    <div class="hero-text">
+                                                                        <h6 th:text="${currents.textH2}"></h6>
+                                                                        <h5 th:text="${currents.textH1}"></h5>
+                                                                    </div>
+
                                                                 </div>
                                                                 <button style="margin: 10px;"
                                                                         th:id="${currents.id}"
@@ -229,128 +231,139 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <button class="carousel-control-prev" id="Previous"
+                                                            type="button"
+                                                            data-bs-target="#carouselExample" data-bs-slide="prev">
+                                                            <span class="carousel-control-prev-icon"
+                                                                  aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Previous</span>
+                                                    </button>
+                                                    <button class="carousel-control-next" type="button" id="Next"
+                                                            data-bs-target="#carouselExample" data-bs-slide="next">
+                                                            <span class="carousel-control-next-icon"
+                                                                  aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Next</span>
+                                                    </button>
                                                 </div>
                                             </div>
-                                            <button class="carousel-control-prev" id="Previous" type="button"
-                                                    data-bs-target="#carouselExample" data-bs-slide="prev">
-                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                <span class="visually-hidden">Previous</span>
-                                            </button>
-                                            <button class="carousel-control-next" type="button" id="Next"
-                                                    data-bs-target="#carouselExample" data-bs-slide="next">
-                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                <span class="visually-hidden">Next</span>
-                                            </button>
                                         </div>
                                     </div>
-
                                 </div>
-
-
                             </div>
-
                             <div class="tab-pane fade" id="v-pills-home-about" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab" tabindex="0">
-                                <div class="row mb-3 text-center">
-                                    <div class="container ">
-                                        <div class="row justify-content-center">
-                                            <div class="card">
-                                                <form id="img-carousel" action="/about/home-import"
-                                                      onsubmit="uploadHome(event, '.home-about')"
-                                                      class="form-admin">
-                                                    <div class="row mb-3 text-center">
-                                                        <div class="col-6 col-lg-4 themed-grid-col">
-                                                            <div class="avatar-container">
-                                                                <img class="about-section" id="about-section"
-                                                                     src="img/avatar.jpg" alt="Выберите фото тату">
-                                                                <button type="button" class="upload-btn btn btn-primary"
-                                                                        onclick="document.getElementById('file-about').click()">
-                                                                    Выбрать файл
-                                                                </button>
-                                                                <input type="file" name="file" id="file-about"
-                                                                       accept="image/*"
-                                                                       onchange="loadImage(this, document.getElementById('about-section'))"
-                                                                       required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6 col-lg-8 themed-grid-col">
-                                                            <div class="input-group">
-                                                                <span class="input-group-text">H1</span>
-                                                                <textarea class="form-control" name="textH2"
-                                                                          aria-label="С текстовым полем"
-                                                                          required></textarea>
-                                                            </div>
-                                                            <div class="input-group">
-                                                                <span class="input-group-text">H2</span>
-                                                                <textarea class="form-control" name="textH1"
-                                                                          aria-label="С текстовым полем"
-                                                                          required></textarea>
-                                                            </div>
-                                                            <div class="input-group">
-                                                                <span class="input-group-text">H3</span>
-                                                                <textarea class="form-control" name="textH3"
-                                                                          aria-label="С текстовым полем"></textarea>
-                                                            </div>
-                                                            <div class="input-group">
-                                                                <button type="submit" class="btn leave-btn btn-block">
-                                                                    Сохранить тату
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
+                                <div class="col-lg-12 text-center">
+                                    <div class="section-title">
+                                        <h2>home-about</h2>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <section class="scroll">
-                                        <div class="container">
+                                <div class="container ">
+                                    <div class="row justify-content-center">
+                                        <div class="card">
+                                            <form action="/about/home-import"
+                                                  onsubmit="uploadHome(event, '.home-about')"
+                                                  class="form-admin">
+                                                <div class="row mb-3 text-center">
+                                                    <div class="col-6 col-lg-4 themed-grid-col">
+                                                        <div class="avatar-container">
+                                                            <img class="about-section" id="about-section"
+                                                                 src="img/avatar.jpg" alt="Выберите фото тату">
+                                                            <button type="button" class="upload-btn btn btn-primary"
+                                                                    onclick="document.getElementById('file-about').click()">
+                                                                Выбрать файл
+                                                            </button>
+                                                            <input type="file" name="file" id="file-about"
+                                                                   accept="image/*"
+                                                                   onchange="loadImage(this, document.getElementById('about-section'))"
+                                                                   required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-lg-8 themed-grid-col">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">H1</span>
+                                                            <textarea class="form-control" name="textH2"
+                                                                      aria-label="С текстовым полем"
+                                                                      required></textarea>
+                                                        </div>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">H2</span>
+                                                            <textarea class="form-control" name="textH1"
+                                                                      aria-label="С текстовым полем"
+                                                                      required></textarea>
+                                                        </div>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">H3</span>
+                                                            <textarea class="form-control" name="textH3"
+                                                                      aria-label="С текстовым полем"></textarea>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3 text-center">
+                                                    <div class="d-grid gap-2 col-6 mx-auto">
+                                                        <button type="submit" class="btn btn-primary">
+                                                            Сохранить тату
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <div class="classtime-table scroll" style="margin: 20px;">
                                             <div class="home-about" th:fragment="home-about">
                                                 <div th:each="current: ${home}">
-                                                    <div class="row card" th:each="currents : ${current.about}">
+                                                    <div th:each="currents : ${current.about}">
                                                         <div class="row mb-3 text-center">
-                                                            <div class="col-6 col-md-4 themed-grid-col">
-                                                                <div class="admin-img">
-                                                                <span th:if="${currents.imageName}">
+                                                            <div class="card">
+                                                                <div class="feature-img">
+                                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                                        <span th:if="${currents.imageName}">
                                                                          <img th:src="@{'/images/'+${currents.imageName}}"
                                                                               alt="Profile Picture">
                                                                         </span>
-                                                                    <span th:unless="${currents.imageName}">
-                                                                    <img src="img/avatar.jpg" alt="Profile Picture">
+                                                                        <span th:unless="${currents.imageName}">
+                                                                         <img src="img/avatar.jpg"
+                                                                              alt="Profile Picture">
                                                                         </span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-8 themed-grid-col">
-                                                                <div class="card-header d-flex justify-content-between align-items-center">
-                                                                    <div th:text="${currents.textH2}">
                                                                     </div>
-                                                                    <button type="button" th:id="${currents.id}"
-                                                                            onclick="deleteImage(this.id, '.home-about', '/about/delete-section')"
-                                                                            class="btn btn-outline-secondary del-reviews">
-                                                                        Удалить
-                                                                    </button>
-                                                                </div>
-                                                                <div class="card-body"
-                                                                     th:text="${currents.textH1}">
-                                                                </div>
-                                                                <div class="card-body"
-                                                                     th:text="${currents.textH3}">
+
+                                                                    <div class="col-md-8 themed-grid-col">
+                                                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                                                            <div th:text="${currents.textH2}">
+                                                                            </div>
+                                                                            <button type="button" th:id="${currents.id}"
+                                                                                    onclick="deleteImage(this.id, '.home-about', '/about/delete-section')"
+                                                                                    class="btn btn-outline-secondary del-reviews">
+                                                                                Удалить
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="card-body"
+                                                                             th:text="${currents.textH1}">
+                                                                        </div>
+                                                                        <div class="card-body"
+                                                                             th:text="${currents.textH3}">
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
-                                    </section>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-feature-section" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab" tabindex="0">
-                                <div class="row mb-3 text-center">
-                                    <div class="container ">
+                                <div class="col-lg-12 text-center">
+                                    <div class="section-title">
+                                        <h2>feature-section</h2>
+                                    </div>
+                                </div>
+                                <div class="container ">
+                                    <div class="feature-import" th:fragment="feature-import">
                                         <div class="row justify-content-center">
                                             <div class="card">
                                                 <form id="img-carousel" action="/feature/home-import"
@@ -389,82 +402,85 @@
                                                                 <textarea class="form-control" name="textH3"
                                                                           aria-label="С текстовым полем"></textarea>
                                                             </div>
-                                                            <div class="input-group">
-                                                                <button type="submit" class="btn leave-btn btn-block">
-                                                                    Сохранить тату
-                                                                </button>
-                                                            </div>
+                                                        </div>
+                                                        <div class="d-grid gap-2 col-6 mx-auto">
+                                                            <button type="submit" class="btn btn-primary">
+                                                                Сохранить тату
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <section class="scroll">
-                                        <div class="container">
-                                            <div class="feature-import" th:fragment="feature-import">
+                                        <div class="row justify-content-center">
+                                            <div class="classtime-table scroll" style="margin: 20px;">
                                                 <div th:each="current: ${home}">
-                                                    <div class="row card" th:each="currents : ${current.feature}">
+                                                    <div th:each="currents : ${current.feature}">
                                                         <div class="row mb-3 text-center">
-                                                            <div class="col-6 col-md-4 themed-grid-col">
-                                                                <div class="admin-img">
-                                                                <span th:if="${currents.imageName}">
-                                                                         <img th:src="@{'/images/'+${currents.imageName}}"
-                                                                              alt="Profile Picture">
+                                                            <div class="card">
+                                                                <div class="feature-img">
+                                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                                        <span th:if="${currents.imageName}">
+                                                                            <img th:src="@{'/images/'+${currents.imageName}}"
+                                                                                 alt="Profile Picture">
                                                                         </span>
-                                                                    <span th:unless="${currents.imageName}">
-                                                                    <img src="img/avatar.jpg" alt="Profile Picture">
+                                                                        <span th:unless="${currents.imageName}">
+                                                                            <img src="img/avatar.jpg"
+                                                                                 alt="Profile Picture">
                                                                         </span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-8 themed-grid-col">
-                                                                <div class="card-header d-flex justify-content-between align-items-center">
-                                                                    <div th:text="${currents.textH2}">
                                                                     </div>
-                                                                    <button type="button" th:id="${currents.id}"
-                                                                            onclick="deleteImage(this.id, '.feature-import', '/feature/delete-section')"
-                                                                            class="btn btn-outline-secondary del-reviews">
-                                                                        Удалить
-                                                                    </button>
-                                                                </div>
-                                                                <div class="card-body"
-                                                                     th:text="${currents.textH1}">
+                                                                    <div class="col-md-8 themed-grid-col">
+                                                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                                                            <div th:text="${currents.textH1}"></div>
+                                                                            <button type="button" th:id="${currents.id}"
+                                                                                    onclick="deleteImage(this.id, '.feature-import', '/feature/delete-section')"
+                                                                                    class="btn btn-outline-secondary del-reviews">
+                                                                                Удалить
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="card-body"
+                                                                             th:text="${currents.textH2}"></div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
-                                    </section>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-classes-section" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab" tabindex="0">
-                                <div class="classes-title" th:fragment="classes-title">
-                                    <div class="row" th:each="current: ${home}">
-                                        <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0"
-                                             th:each="currents : ${current.classes}" th:if="${currents.title}">
-                                            <form th:id="${currents.id}" action="/classes/title"
-                                                  onsubmit="universalUploadHandler(event,'.classes-title')">
-                                                <input type="text" th:name="'textH2'" th:value="${currents.textH2}"
-                                                       id="editable-title" disabled/>
-                                                <textarea rows="4" cols="50" th:name="'textH3'"
-                                                          th:text="${currents.textH3}" id="editable-details"
-                                                          disabled></textarea>
-                                                <button type="submit" id="edit-button"
-                                                        class="btn btn-outline-secondary">Изменить
-                                                </button>
-                                            </form>
-                                        </div>
+                                <div class="col-lg-12 text-center">
+                                    <div class="section-title">
+                                        <h2>classes-section</h2>
                                     </div>
                                 </div>
-                                <div class="row mb-3 text-center">
-                                    <div class="container ">
+                                <div class="container ">
+                                    <div class="classes-title" th:fragment="classes-title">
+                                        <div class="row justify-content-center" th:each="current: ${home}">
+                                            <div class="card">
+                                                <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0"
+                                                     th:each="currents : ${current.classes}" th:if="${currents.title}">
+                                                    <form th:id="${currents.id}" action="/classes/title"
+                                                          onsubmit="universalUploadHandler(event,'.classes-title')">
+                                                        <input type="text" th:name="'textH2'"
+                                                               th:value="${currents.textH2}"
+                                                               id="editable-title" disabled/>
+                                                        <textarea rows="4" cols="50" th:name="'textH3'"
+                                                                  th:text="${currents.textH3}" id="editable-details"
+                                                                  disabled></textarea>
+                                                        <button type="submit" id="edit-button"
+                                                                class="btn btn-outline-secondary">Изменить
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="classes" th:fragment="classes">
                                         <div class="row justify-content-center">
                                             <div class="card">
                                                 <form action="/classes/home-import"
@@ -475,7 +491,8 @@
                                                             <div class="avatar-container">
                                                                 <img class="classes-section" id="classes-section"
                                                                      src="img/avatar.jpg" alt="Выберите фото тату">
-                                                                <button type="button" class="upload-btn btn btn-primary"
+                                                                <button type="button"
+                                                                        class="upload-btn btn btn-primary"
                                                                         onclick="document.getElementById('file-classes').click()">
                                                                     Выбрать файл
                                                                 </button>
@@ -503,68 +520,56 @@
                                                                 <textarea class="form-control" name="textH3"
                                                                           aria-label="С текстовым полем"></textarea>
                                                             </div>
-                                                            <div class="input-group">
-                                                                <button type="submit" class="btn leave-btn btn-block">
-                                                                    Сохранить тату
-                                                                </button>
-                                                            </div>
+                                                        </div>
+                                                        <div class="d-grid gap-2 col-6 mx-auto">
+                                                            <button type="submit" class="btn btn-primary">
+                                                                Сохранить тату
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <section class="scroll">
-
-                                        <div class="container">
-
-                                            <div class="classes" th:fragment="classes">
-                                                <div class="row card " th:each="current: ${home}">
-                                                    <div class="row mb-3 text-center"
-                                                         th:each="currents : ${current.classes}"
+                                        <div class="row justify-content-center">
+                                            <div class="classtime-table scroll" style="margin: 20px;">
+                                                <div th:each="current: ${home}">
+                                                    <div th:each="currents : ${current.classes}"
                                                          th:unless="${currents.title}">
-
-
-                                                        <div class="col-6 col-md-4 themed-grid-col">
-                                                            <div class="admin-img">
-
-
-                                                                <span th:if="${currents.imageName}">
-                                                                         <img th:src="@{'/images/'+${currents.imageName}}"
-                                                                              alt="Profile Picture">
+                                                        <div class="row mb-3 text-center">
+                                                            <div class="card">
+                                                                <div class="feature-img">
+                                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                                        <span th:if="${currents.imageName}">
+                                                                            <img th:src="@{'/images/'+${currents.imageName}}"
+                                                                                 alt="Profile Picture">
                                                                         </span>
-                                                                <span th:unless="${currents.imageName}">
-                                                                    <img src="img/avatar.jpg" alt="Profile Picture">
-
+                                                                        <span th:unless="${currents.imageName}">
+                                                                            <img src="img/avatar.jpg"
+                                                                                 alt="Profile Picture">
                                                                         </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-8 themed-grid-col">
-                                                            <div class="card-header d-flex justify-content-between align-items-center">
-
-                                                                <div th:text="${currents.textH1}">
-
+                                                                    </div>
+                                                                    <div class="col-md-8 themed-grid-col">
+                                                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                                                            <div th:text="${currents.textH1}">
+                                                                            </div>
+                                                                            <button type="button" th:id="${currents.id}"
+                                                                                    onclick="deleteImage(this.id, '.classes', '/classes/delete-section')"
+                                                                                    class="btn btn-outline-secondary del-reviews">
+                                                                                Удалить
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="card-body"
+                                                                             th:text="${currents.textH2}">
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-
-                                                                <button type="button" th:id="${currents.id}"
-                                                                        onclick="deleteImage(this.id, '.classes', '/classes/delete-section')"
-                                                                        class="btn btn-outline-secondary del-reviews">
-                                                                    Удалить
-                                                                </button>
-                                                            </div>
-                                                            <div class="card-body"
-                                                                 th:text="${currents.textH2}">
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </div>
-
                                         </div>
-                                    </section>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-price-section" role="tabpanel"
@@ -575,7 +580,8 @@
 
                                             <div class="row" th:each="current: ${home}">
                                                 <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0"
-                                                     th:each="currents : ${current.price}" th:if="${currents.title}">
+                                                     th:each="currents : ${current.price}"
+                                                     th:if="${currents.title}">
                                                     <form th:id="${currents.id}" action="/price/title"
                                                           onsubmit="universalUploadHandler(event,'.price-title')">
                                                         <input type="text" th:name="'textH2'"
@@ -599,7 +605,8 @@
                                                     <form th:id="${currents.id}" action="/price/update-prices"
                                                           onsubmit="toggleEditMode(event, '.price-title')">
                                                         <div class="single-price-plan">
-                                                            <input id="textH1" th:value="${currents.textH1}" type="text"
+                                                            <input id="textH1" th:value="${currents.textH1}"
+                                                                   type="text"
                                                                    class="h4-input"
                                                                    value="Эскиз" disabled/>
                                                             <div class="price-plan">
@@ -621,10 +628,12 @@
                                                                            class="list-item-input"
                                                                            value="Эксклюзивность" disabled/></li>
                                                             </ul>
-                                                            <a href="/contact" class="primary-btn price-btn">Начать</a>
+                                                            <a href="/contact"
+                                                               class="primary-btn price-btn">Начать</a>
                                                         </div>
                                                         <button id="edit-price-Button1"
-                                                                class="btn btn-outline-secondary" type="submit">Изменить
+                                                                class="btn btn-outline-secondary" type="submit">
+                                                            Изменить
                                                         </button>
                                                     </form>
                                                 </div>
@@ -640,7 +649,8 @@
                                         <div class="container">
                                             <div class="row" th:each="current: ${home}">
                                                 <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0"
-                                                     th:each="currents : ${current.chooseus}" th:if="${currents.title}">
+                                                     th:each="currents : ${current.chooseus}"
+                                                     th:if="${currents.title}">
                                                     <form th:id="${currents.id}" action="/chooseus/update-chooseus"
                                                           onsubmit="toggleEditMode(event,'.chooseus-title')">
                                                         <input type="text" th:name="'textH1'"
@@ -667,13 +677,15 @@
                                                             <div class="col-6 col-lg-4 themed-grid-col">
                                                                 <div class="avatar-container">
                                                                     <img class="chooseus" id="chooseus-section"
-                                                                         src="img/avatar.jpg" alt="Выберите фото тату">
+                                                                         src="img/avatar.jpg"
+                                                                         alt="Выберите фото тату">
                                                                     <button type="button"
                                                                             class="upload-btn btn btn-primary"
                                                                             onclick="document.getElementById('file-chooseus').click()">
                                                                         Выбрать файл
                                                                     </button>
-                                                                    <input type="file" name="file" id="file-chooseus"
+                                                                    <input type="file" name="file"
+                                                                           id="file-chooseus"
                                                                            accept="image/*"
                                                                            onchange="loadImage(this, document.getElementById('chooseus-section'))"
                                                                            required>
@@ -823,7 +835,8 @@
 
                             <div class="container">
                                 <div class="sketches-import" th:fragment="sketches-import">
-                                    <div class="row gallery-filter" th:each="current, item : ${sketches.sketchesImg}">
+                                    <div class="row gallery-filter"
+                                         th:each="current, item : ${sketches.sketchesImg}">
                                         <div class="col-lg-4 col-sm-6 mix crossfit workout "
                                              th:each="currents: ${current}">
                                             <div class="reviews-admin">
@@ -859,7 +872,8 @@
                                                 <p>Show:</p>
                                                 <select class="show-result-select" onchange="numbers()"
                                                         id="sketchers-number">
-                                                    <option th:each="option : ${sketches.select}" th:value="${option}"
+                                                    <option th:each="option : ${sketches.select}"
+                                                            th:value="${option}"
                                                             th:text="${option}"
                                                             th:selected="${option == sketches.number}"></option>
                                                 </select>
@@ -881,13 +895,16 @@
                             <a class="nav-link active btn btn-outline-secondary" style="margin: 10px;"
                                id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
                                aria-controls="v-pills-home" aria-selected="true">Интересные работы</a>
-                            <a class="nav-link btn btn-outline-secondary" style="margin: 10px;" id="v-pills-profile-tab"
+                            <a class="nav-link btn btn-outline-secondary" style="margin: 10px;"
+                               id="v-pills-profile-tab"
                                data-toggle="pill" href="#v-pills-profile" role="tab"
                                aria-controls="v-pills-profile" aria-selected="false">Комментарии</a>
-                            <a class="nav-link btn btn-outline-secondary" style="margin: 10px;" id="v-pills-images-tab"
+                            <a class="nav-link btn btn-outline-secondary" style="margin: 10px;"
+                               id="v-pills-images-tab"
                                data-toggle="pill" href="#v-images-profile" role="tab"
                                aria-controls="v-images-profile" aria-selected="false">Images</a>
-                            <a class="nav-link btn btn-outline-secondary" style="margin: 10px;" id="v-pills-text-tab"
+                            <a class="nav-link btn btn-outline-secondary" style="margin: 10px;"
+                               id="v-pills-text-tab"
                                data-toggle="pill" href="#v-text-profile" role="tab"
                                aria-controls="v-text-profile" aria-selected="false">Text</a>
                         </div>
@@ -912,12 +929,14 @@
                                             <div class="input-group input-text">
                                                 <input type="text" class="form-control"
                                                        placeholder="Описание" style="height: 100px;"
-                                                       id="description-interesting-works" name="description" required>
+                                                       id="description-interesting-works" name="description"
+                                                       required>
                                             </div>
                                         </div>
                                     </form>
                                     <section class="scroll" style="margin: 10px;">
-                                        <div class="interesting-works-import" th:fragment="interesting-works-import">
+                                        <div class="interesting-works-import"
+                                             th:fragment="interesting-works-import">
                                             <div class="interesting-works-import"
                                                  th:each="current : ${interestingWorks}">
                                                 <div class="row gallery-filter">
@@ -931,7 +950,8 @@
                                                             th:text="${current.description}"></h5>
                                                     </div>
                                                     <div class="col" hidden="hidden">
-                                                        <div hidden="hidden" name="id" th:text="${current.id}"></div>
+                                                        <div hidden="hidden" name="id"
+                                                             th:text="${current.id}"></div>
                                                     </div>
                                                     <div class="col-lg-2">
                                                         <button style="margin: 10px;"
@@ -955,8 +975,10 @@
                                                 <div class="row card " th:each="current : ${commits}">
                                                     <div class="row mb-3 text-center">
                                                         <div class="col-6 col-md-4 themed-grid-col">
-                                                            <div class="admin-img" th:each="currents : ${current.user}">
-                                                                <img th:src="@{'/images/'+${currents.avatar}}" alt="">
+                                                            <div class="admin-img"
+                                                                 th:each="currents : ${current.user}">
+                                                                <img th:src="@{'/images/'+${currents.avatar}}"
+                                                                     alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-8 themed-grid-col">
@@ -982,7 +1004,8 @@
                             <div class="tab-pane fade" id="v-images-profile" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab">
                                 <div class="blog-pic" th:fragment="blog-pic">
-                                    <div class="row" th:each="current: ${blog}" th:if="${current.section=='big-image'}">
+                                    <div class="row" th:each="current: ${blog}"
+                                         th:if="${current.section=='big-image'}">
                                         <div class="col-lg-6">
                                             <img id="big-image" th:src="@{'/images/'+${current.imageName}}" alt="">
                                         </div>
@@ -1000,7 +1023,8 @@
                                     <div class="row" th:each="current: ${blog}"
                                          th:if="${current.section=='medium-image'}">
                                         <div class="col-lg-6">
-                                            <img id="medium-image" th:src="@{'/images/'+${current.imageName}}" alt=""
+                                            <img id="medium-image" th:src="@{'/images/'+${current.imageName}}"
+                                                 alt=""
                                                  class="medium-image">
                                         </div>
                                         <div class="col-lg-6">
@@ -1019,7 +1043,8 @@
                                         <div class="col-lg-6">
 
 
-                                            <img id="smail-1-image" th:src="@{'/images/'+${current.imageName}}" alt=""
+                                            <img id="smail-1-image" th:src="@{'/images/'+${current.imageName}}"
+                                                 alt=""
                                                  class="smail-image">
 
 
@@ -1040,7 +1065,8 @@
                                         <div class="col-lg-6">
 
 
-                                            <img id="smail-2-image" th:src="@{'/images/'+${current.imageName}}" alt=""
+                                            <img id="smail-2-image" th:src="@{'/images/'+${current.imageName}}"
+                                                 alt=""
                                                  class="smail-image">
 
 
@@ -1152,7 +1178,8 @@
                                     href="#v-breadcrumb-section"
                                     id="v-breadcrumb-section-tab" data-bs-toggle="pill"
                                     data-bs-target="#v-breadcrumb-section"
-                                    type="button" role="tab" aria-controls="v-breadcrumb-section" aria-selected="false">
+                                    type="button" role="tab" aria-controls="v-breadcrumb-section"
+                                    aria-selected="false">
                                 Breadcrumb Section
                             </button>
                             <button style="margin: 10px;" class="nav-link btn btn-outline-secondary"
@@ -1291,7 +1318,8 @@
                                                     <div class="col-6 col-md-4 themed-grid-col">
                                                         <span>Новый адрес:</span>
                                                         <input type="text" class="form-control" id="address"
-                                                               aria-describedby="emailHelp" placeholder="Enter адрес">
+                                                               aria-describedby="emailHelp"
+                                                               placeholder="Enter адрес">
                                                     </div>
                                                     <div class="col-6 col-md-4 themed-grid-col">
                                                         <button type="submit" id="address-btn" class="leave-btn">
@@ -1329,7 +1357,8 @@
                             <div class="tab-pane fade" id="v-logo" role="tabpanel"
                                  aria-labelledby="v-logo-tab" tabindex="0">
                                 <div class="logo" th:fragment="logo">
-                                    <div class="row" th:each="current: ${setting}" th:if="${current.section=='logo'}">
+                                    <div class="row" th:each="current: ${setting}"
+                                         th:if="${current.section=='logo'}">
                                         <div class="col-lg-6">
                                             <img id="logo-image" th:src="@{'/images/'+${current.imageName}}" alt="">
                                         </div>
@@ -1347,12 +1376,13 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-head" role="tabpanel" aria-labelledby="v-head-tab"
-                                 tabindex="0" >
+                                 tabindex="0">
                                 <h3>Редактирование страницы сайта</h3>
 
                                 <!-- Форма для Главной страницы -->
                                 <div class="row home-title">
-                                    <div class="container " th:fragment="home-title" th:each="current: ${setting}" th:if="${current.section=='home-title'}">
+                                    <div class="container " th:fragment="home-title" th:each="current: ${setting}"
+                                         th:if="${current.section=='home-title'}">
                                         <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                                             <form th:id="${current.id}" action="/setting/head/home-title"
                                                   onsubmit="toggleEditMode(event,'.home-title')">
@@ -1375,8 +1405,10 @@
                                 </div>
 
                                 <!-- Форма для Галереи -->
-                                <div class="row gallery-title" >
-                                    <div class="container " th:fragment="gallery-title" th:each="current: ${setting}" th:if="${current.section=='gallery-title'}">
+                                <div class="row gallery-title">
+                                    <div class="container " th:fragment="gallery-title"
+                                         th:each="current: ${setting}"
+                                         th:if="${current.section=='gallery-title'}">
                                         <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                                             <form th:id="${current.id}" action="/setting/head/gallery-title"
                                                   onsubmit="toggleEditMode(event,'.gallery-title')">
@@ -1398,8 +1430,10 @@
                                     </div>
                                 </div>
                                 <!-- Форма для Эскизов -->
-                                <div class="row sketchers-title" >
-                                    <div class="container" th:fragment="sketchers-title"  th:each="current: ${setting}" th:if="${current.section=='sketchers-title'}">
+                                <div class="row sketchers-title">
+                                    <div class="container" th:fragment="sketchers-title"
+                                         th:each="current: ${setting}"
+                                         th:if="${current.section=='sketchers-title'}">
                                         <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                                             <form th:id="${current.id}" action="/setting/head/sketchers-title"
                                                   onsubmit="toggleEditMode(event,'.sketchers-title')">
@@ -1422,7 +1456,8 @@
                                 </div>
                                 <!-- Форма для Блога -->
                                 <div class="row blog-title">
-                                    <div class="container" th:fragment="blog-title" th:each="current: ${setting}" th:if="${current.section=='blog-title'}" >
+                                    <div class="container" th:fragment="blog-title" th:each="current: ${setting}"
+                                         th:if="${current.section=='blog-title'}">
                                         <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                                             <form th:id="${current.id}" action="/setting/head/blog-title"
                                                   onsubmit="toggleEditMode(event,'.blog-title')">
@@ -1444,8 +1479,9 @@
                                     </div>
                                 </div>
                                 <!-- Форма для Отзывов -->
-                                <div class="row reviews-title" >
-                                    <div class="container" th:fragment="reviews-title" th:each="current: ${setting}" th:if="${current.section=='reviews-title'}">
+                                <div class="row reviews-title">
+                                    <div class="container" th:fragment="reviews-title" th:each="current: ${setting}"
+                                         th:if="${current.section=='reviews-title'}">
                                         <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                                             <form th:id="${current.id}" action="/setting/head/reviews-title"
                                                   onsubmit="toggleEditMode(event,'.reviews-title')">
@@ -1469,8 +1505,9 @@
                             </div>
                             <div class="tab-pane fade" id="v-footer" role="tabpanel"
                                  aria-labelledby="v-footer-tab" tabindex="0">
-                                <div class="row footer-title" >
-                                    <div class="container" th:fragment="footer-title" th:each="current: ${setting}" th:if="${current.section=='footer-title'}">
+                                <div class="row footer-title">
+                                    <div class="container" th:fragment="footer-title" th:each="current: ${setting}"
+                                         th:if="${current.section=='footer-title'}">
                                         <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                                             <form th:id="${current.id}" action="/setting/head/footer-title"
                                                   onsubmit="toggleEditMode(event,'.footer-title')">
@@ -1561,12 +1598,14 @@
                                 </div>
                                 <div class="blog-option">
                                     <div class="blog-pagination">
-                                        <a th:if="${gallery.currentPage!=0}" id="fa-long-arrow-left" type="submit"><i
+                                        <a th:if="${gallery.currentPage!=0}" id="fa-long-arrow-left"
+                                           type="submit"><i
                                                 class="fa fa-long-arrow-left"></i></a>
                                         <a class="active">[[${gallery.currentPage+1}]]</a>
                                         of
                                         <a>[[${gallery.pageSize}]]</a>
-                                        <a th:if="${gallery.currentPage+1 != gallery.pageSize}" id="fa-long-arrow-right"
+                                        <a th:if="${gallery.currentPage+1 != gallery.pageSize}"
+                                           id="fa-long-arrow-right"
                                            type="submit"><i
                                                 class="fa fa-long-arrow-right"></i></a>
                                     </div>

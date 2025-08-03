@@ -522,6 +522,199 @@ ol {
 .slicknav_menu {
 	display: none;
 }
+/*---------------------
+  Admin Section
+-----------------------*/
+.card {
+    width: 100%; /* Растягиваем по ширине родителя */
+    background-color: #333; /* Тёмный фон */
+    color: #fff; /* Белый текст для контраста */
+    padding: 20px; /* Внутренние отступы */
+    border-radius: 8px; /* Закруглённые углы */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
+    margin: 20px;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+   .card {
+       width: 100%; /* Растягиваем по ширине родителя */
+       background-color: #333; /* Тёмный фон */
+       color: #fff; /* Белый текст для контраста */
+       padding: 5px; /* Внутренние отступы */
+       border-radius: 8px; /* Закруглённые углы */
+       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
+       margin: 5px;
+   }
+}
+/* Стили для аватара */
+.avatar-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 5%;
+    border: 2px solid #ddd;
+}
+
+.avatar-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Стили для кнопки загрузки файла */
+.upload-btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* Скрываем стандартный input file */
+#file-carousel {
+    display: none;
+}
+
+/* Стили для текстовых полей */
+.form-control {
+    height: auto;
+    resize: vertical;
+}
+/* Стили для контейнера кнопки */
+.card-btn {
+    display: flex; /* Включаем Flexbox */
+    justify-content: center; /* Центрируем по горизонтали */
+    align-items: center; /* Центрируем по вертикали (если нужно) */
+}
+
+/* Стили для кнопок */
+
+.card-btn .btn {
+    width: 100%; /* Кнопка занимает всю ширину контейнера */
+    padding: 10px 20px; /* Внутренние отступы */
+    font-size: 16px; /* Размер шрифта */
+    font-weight: 500; /* Жирность шрифта */
+    color: #fff; /* Белый текст */
+    background-color: #e4381C; /* Красный фон */
+    border: none; /* Без границы */
+    border-radius: 4px; /* Закруглённые углы */
+    cursor: pointer; /* Курсор в виде указателя */
+    transition: background-color 0.3s; /* Плавный переход цвета */
+}
+
+/* Стили для кнопки при наведении */
+.card-btn .btn:hover {
+    background-color: #e16521; /* Более тёмный оттенок при наведении */
+}
+
+/* Стили для кнопки при нажатии */
+.card-btn .btn:active {
+    transform: scale(0.98); /* Немного уменьшаем при нажатии */
+}
+.btn-primary {
+    background-color: #e4381C;
+    color: #fff;
+    border-color: #f00;
+}
+
+.btn-primary:hover {
+    background-color: #e16521;
+}
+
+/* Стили для группы ввода */
+.input-group {
+    margin-bottom: 15px;
+}
+
+/* Стили для текста в группе ввода */
+.input-group-text {
+    background-color: #e4381C;
+    color: #fff;
+    border: none;
+    border-radius: 4px 0 0 4px;
+}
+
+/* Стили для скрытого поля H3 */
+.input-group[hidden] {
+    display: none;
+}
+
+/* Стили для слайдера */
+.carousel.slide {
+    height: 300px; /* Уменьшенная высота слайдера */
+    overflow: hidden; /* Скрываем выходящие за пределы элементы */
+}
+
+/* Стили для изображения в слайде */
+.carousel-item img {
+    width: 100%; /* Изображение растянуто по ширине */
+    height: 300px; /* Изображение растянуто по высоте */
+    object-fit: cover; /* Сохраняет пропорции изображения */
+}
+.carousel-item {
+
+    height: 300px /* Изображение растянуто по высоте */
+
+}
+/* Стили для текста в слайде */
+.carousel-caption .hero-text {
+    position: absolute; /* Позиционируем текст абсолютно */
+    bottom: 20px; /* Отступ снизу */
+    left: 20px; /* Отступ слева */
+    right: 20px; /* Отступ справа */
+    text-align: center; /* Выравнивание текста по центру */
+    color: #fff; /* Белый текст */
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон для текста */
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 1; /* Поднимаем текст над изображением */
+}
+
+.carousel-caption .hero-text h6,h5{
+    color: #fff; /* Белый текст */
+}
+
+/* Стили для кнопки удаления */
+.delete-button {
+    position: absolute; /* Позиционируем кнопку абсолютно */
+    top: 10px; /* Верхний отступ */
+    right: 10px; /* Правый отступ */
+    width: 30px; /* Ширина кнопки */
+    height: 30px; /* Высота кнопки */
+    border: none; /* Без границы */
+    background-color: transparent; /* Прозрачный фон */
+    cursor: pointer; /* Курсор в виде указателя */
+    transition: background-color 0.3s; /* Плавный переход цвета */
+    z-index: 2; /* Поднимаем кнопку над текстом */
+}
+
+/* Стили для крестика */
+.delete-button::before,
+.delete-button::after {
+    content: "";
+    position: absolute;
+    width: 20px; /* Длина линий */
+    height: 2px; /* Толщина линий */
+    background-color: #e4381C; /* Цвет линий */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.delete-button::before {
+    transform: translate(-50%, -50%) rotate(45deg); /* Первая линия */
+}
+
+.delete-button::after {
+    transform: translate(-50%, -50%) rotate(-45deg); /* Вторая линия */
+}
+
+.delete-button:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Лёгкая подсветка при наведении */
+}
 
 /*---------------------
   Hero Section
@@ -631,7 +824,7 @@ ol {
 	color: #ffffff;
 	text-transform: uppercase;
 	font-family: "Nunito Sans", sans-serif;
-	font-size: 60px;
+	font-size: 30px;
 	margin-bottom: 4px;
 	position: relative;
 	top: 50px;
@@ -640,7 +833,7 @@ ol {
 
 .single-hero-item .hero-text h1 {
 	color: #ffffff;
-	font-size: 90px;
+	font-size: 40px;
 	font-weight: 600;
 	text-transform: uppercase;
 	margin-bottom: 46px;
@@ -989,6 +1182,102 @@ background-color: #333;
 /* Стили для фрагмента отзывов */
 .fragment-reviews {
     margin: 20px;
+}
+/* Стили для feature-img */
+.feature-img {
+    display: flex; /* Используем Flexbox для выравнивания */
+    align-items: center; /* Выравниваем по вертикали */
+    margin-bottom: 20px;
+}
+
+/* Стили для изображения */
+.feature-img img {
+    width: 200px; /* Изображение растянуто по ширине */
+    height: 200px; /* Сохраняет пропорции изображения */
+    border-radius: 8px; /* Закруглённые углы */
+    object-fit: cover; /* Сохраняет пропорции изображения */
+}
+
+/* Стили для текста */
+.feature-img .card-header {
+    background-color: #333; /* Тёмный фон */
+    color: #fff; /* Белый текст */
+    padding: 10px;
+    border-radius: 8px 8px 0 0; /* Закруглённые углы сверху */
+}
+
+/* Стили для кнопки */
+.feature-img .del-reviews {
+    background-color: #e4381C; /* Красный фон */
+    color: #fff; /* Белый текст */
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .feature-img {
+        flex-direction: column; /* Меняем направление на вертикальное */
+        align-items: center; /* Центрируем содержимое */
+    }
+
+    .feature-img img {
+        width: 100%; /* Изображение занимает всю ширину */
+        margin-bottom: 10px; /* Добавляем отступ снизу */
+    }
+
+    .feature-img .card-header {
+        text-align: center; /* Центрируем текст */
+    }
+
+    .feature-img .del-reviews {
+        margin-top: 10px; /* Добавляем отступ сверху */
+    }
+}
+
+/* Стили для формы */
+.classes-title form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Стили для текстовых полей */
+.classes-title form input,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #444;
+    color: #fff;
+    font-size: 16px;
+}
+
+.classes-title form textarea {
+    resize: vertical;
+}
+/* Стили для изменённого состояния */
+form.active input,
+form.active textarea {
+    background-color: #e4381C !important; /* Красный фон */
+    color: #fff !important; /* Белый текст */
+}
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .classes-title {
+        padding: 10px;
+    }
+
+    form input,
+    form textarea {
+        font-size: 14px;
+    }
+
+    .btn {
+        font-size: 14px;
+    }
 }
 /*---------------------
   Price Section

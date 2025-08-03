@@ -26,15 +26,18 @@ function galleryControls() {
 }
 
 function uploadFragment(event) {
-console.log("ok");
            event.preventDefault(); // Отмена стандартной отправки формы
+
            const form = event.currentTarget; // Получаем текущую форму
            const formAction = form.action; // Извлекаем адрес из атрибута action
            const formData = new FormData(form); // Создаем объект FormData с полями формы
            const image = document.getElementById('imageID'); // Получаем элемент изображения
            const fileName = image.src.split('/').pop();// Получаем имя файла из атрибута src
+            if (fileName == 'avatar.jpg') { // Ограничение размера файла до 1МБ: 1024 * 1024
+                                    alert("Выберите изображение");
+                       }
             formData.append('imageName', fileName);
-            console.log(formAction)
+
             const xhr = new XMLHttpRequest();
             xhr.open('POST', formAction);
             xhr.send(formData);
