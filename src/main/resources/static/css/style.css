@@ -532,7 +532,7 @@ ol {
     padding: 20px; /* Внутренние отступы */
     border-radius: 8px; /* Закруглённые углы */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
-    margin: 20px;
+    margin-bottom: 20px;
 }
 
 /* Адаптивность для мобильных устройств */
@@ -1024,7 +1024,7 @@ ol {
      overflow-x: hidden;
      height: 600px;
      border: 1px black solid;
-     padding: 2%;
+     padding: 5%;
      width: 100%;
      margin: 0 auto;
      /*white-space: nowrap;*/
