@@ -130,7 +130,7 @@ function toggleEditMode(event, fragmentPrefix) {
             textH4: form.querySelector('[name="textH4"]')?.value || null,
             textH5: form.querySelector('[name="textH5"]')?.value || null
         };
- form.classList.remove('active'); // Убираем класс 'active' у формы
+            form.classList.remove('active'); // Убираем класс 'active' у формы
         // Отправляем данные на сервер (можете использовать Fetch API или XMLHttpRequest)
         $.ajax({
             url: formAction, // URL контроллера

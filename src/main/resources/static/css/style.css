@@ -1393,6 +1393,82 @@ form.active textarea {
     }
 
 }
+/* Стили для галереи */
+.gallery-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Стили для reviews-admin */
+.reviews-admin {
+    position: relative;
+    overflow: hidden;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.reviews-admin:hover {
+    transform: scale(1.05);
+}
+
+/* Стили для изображения */
+.reviews-admin img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    transition: opacity 0.3s;
+}
+
+.reviews-admin:hover img {
+    opacity: 0.8;
+}
+
+/* Стили для заголовка */
+.reviews-admin h4 {
+      font-size: 18px;
+      font-weight: 500;
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+      border-radius: 8px;
+      position: absolute;
+      top: -200px;
+      left: 40%;
+      transform: translateX(-50%);
+      z-index: 1;
+}
+
+/* Стили для чекбокса */
+.trainer-text {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: #fff;
+}
+
+.trainer-text label {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.trainer-text input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .gallery-filter .col-lg-4,
+    .gallery-filter .col-sm-6 {
+        width: 100%;
+        padding: 10px;
+    }
+}
 /*---------------------
   Price Section
 -----------------------*/
