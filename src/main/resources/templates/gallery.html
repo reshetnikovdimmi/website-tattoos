@@ -77,46 +77,48 @@
             </div>
         </div>
 
-        <div class="galleryFilter" th:fragment="galleryFilter">
-            <div class="row gallery-filter" th:each="current, item : ${gallery.galleryImg}">
-                <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="currents: ${current}">
-                    <div class="gallery-item">
-                        <img alt="" th:src="@{'/images/'+${currents.imageName}}" class="gallery-img">
-                        <div class="gi-hover-warp">
-                            <div class="gi-hover">
-                                <a th:href="@{'/images/'+${currents.imageName}}" class="image-popup"><i class="fa fa-search-plus"></i></a>
-                                <h6 th:text="${currents.description}"></h6>
+            <div class="galleryFilter" th:fragment="galleryFilter">
+                <div class="row gallery-filter" th:each="current, item : ${gallery.galleryImg}">
+                    <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="currents: ${current}">
+                        <div class="gallery-item">
+                            <img alt="" th:src="@{'/images/'+${currents.imageName}}" class="gallery-img">
+                            <div class="gi-hover-warp">
+                                <div class="gi-hover">
+                                    <a th:href="@{'/images/'+${currents.imageName}}" class="image-popup"><i
+                                            class="fa fa-search-plus"></i></a>
+                                    <h6 th:text="${currents.description}"></h6>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="blog-option">
-                <div class="blog-pagination">
-                    <a th:if="${gallery.currentPage!=0}" onclick="navigatePages(this.id)" id="left" type="submit"><i
-                            class="fa fa-long-arrow-left"></i></a>
-                    <a class="active">[[${gallery.currentPage+1}]]</a>
-                    of
-                    <a>[[${gallery.pageSize}]]</a>
-                    <a th:if="${gallery.currentPage+1 != gallery.pageSize}" onclick="navigatePages(this.id)" id="right"
-                       type="submit"><i
-                            class="fa fa-long-arrow-right"></i></a>
-                </div>
-                <div class="blog-option-right">
-                    <div class="blog-result">Showing [[${gallery.currentPage+1}]]–[[${gallery.pageSize}]] of
-                        [[${gallery.imagesTotal}]]
-                        results
+                <div class="blog-option">
+                    <div class="blog-pagination">
+                        <a th:if="${gallery.currentPage!=0}" onclick="navigatePages(this.id)" id="left" type="submit"><i
+                                class="fa fa-long-arrow-left"></i></a>
+                        <a class="active">[[${gallery.currentPage+1}]]</a>
+                        of
+                        <a>[[${gallery.pageSize}]]</a>
+                        <a th:if="${gallery.currentPage+1 != gallery.pageSize}" onclick="navigatePages(this.id)"
+                           id="right"
+                           type="submit"><i
+                                class="fa fa-long-arrow-right"></i></a>
                     </div>
-                    <div class="show-result">
-                        <p>Show:</p>
-                        <select class="show-result-select" onchange="navigatePages(this.id)" id="number">
-                            <option th:each="option : ${gallery.select}" th:value="${option}" th:text="${option}"
-                                    th:selected="${option == gallery.number}"></option>
-                        </select>
+                    <div class="blog-option-right">
+                        <div class="blog-result">Showing [[${gallery.currentPage+1}]]–[[${gallery.pageSize}]] of
+                            [[${gallery.imagesTotal}]]
+                            results
+                        </div>
+                        <div class="show-result">
+                            <p>Show:</p>
+                            <select class="show-result-select" onchange="navigatePages(this.id)" id="number">
+                                <option th:each="option : ${gallery.select}" th:value="${option}" th:text="${option}"
+                                        th:selected="${option == gallery.number}"></option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </section>
 <!-- GalleryController Section End -->
