@@ -1032,7 +1032,7 @@ ol {
 }
 
 /* Общие стили для отзывов */
-.reviews  {
+.fragment-reviews .reviews  {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
@@ -1066,7 +1066,7 @@ ol {
 }
 
 
-.reviews:hover {
+.fragment-reviews  .reviews:hover {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transform: scale(1.02);
 }
@@ -1135,7 +1135,7 @@ background-color: #333;
 }
 
 /* Эффект наведения */
-.reviews:before {
+.fragment-reviews .reviews:before {
     content: "";
     position: absolute;
     top: 0;
@@ -1147,17 +1147,17 @@ background-color: #333;
     transition: opacity 0.3s;
 }
 
-.reviews:hover:before {
+.fragment-reviews  .reviews:hover:before {
     opacity: 1;
 }
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
-    .reviews {
+    .fragment-reviews  .reviews {
         flex-direction: column;
         align-items: flex-start;
     }
-    .reviews img {
+    .fragment-reviews .reviews img {
         margin-bottom: 10px;
     }
 
