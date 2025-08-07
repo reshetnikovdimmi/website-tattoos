@@ -1081,24 +1081,33 @@
                             </div>
                             <div class="tab-pane fade" id="v-images-profile" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab">
-                                <div class="blog-pic" th:fragment="blog-pic">
-                                    <div class="row" th:each="current: ${blog}"
+                                <div class="col-lg-12 text-center">
+                                    <div class="section-title">
+                                        <h2>blog-pic</h2>
+                                    </div>
+                                </div>
+                                <div class="admin-blog-pic" th:fragment="blog-pic">
+                                    <div class="row justify-content-center" th:each="current: ${blog}"
                                          th:if="${current.section=='big-image'}">
                                         <div class="col-lg-6">
-                                            <img id="big-image" th:src="@{'/images/'+${current.imageName}}" alt="">
+                                            <img id="big-image" th:src="@{'/images/'+${current.imageName}}" alt=""
+                                                 class="big-image">
                                         </div>
                                         <div class="col-lg-6">
                                             <form th:id="${current.id}" action="/blog/upload-image/big-image"
                                                   method="post" enctype="multipart/form-data"
                                                   onsubmit="uploadHome(event, '.blog-pic')">
-                                                <input type="file" name="image" id="" accept="image/*"
-                                                       onchange="loadImage(this, document.getElementById('big-image'))">
+                                                <div class="custom-file-upload">
+                                                    <input type="file" name="image" id="file-input" accept="image/*"
+                                                           onchange="loadImage(this, document.getElementById('big-image'))">
+                                                    <label for="file-input" class="btn btn-primary">Выбрать файл</label>
+                                                </div>
                                                 <button type="submit" class="btn btn-primary">Загрузить изображение
                                                 </button>
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="row" th:each="current: ${blog}"
+                                    <div class="row justify-content-center" th:each="current: ${blog}"
                                          th:if="${current.section=='medium-image'}">
                                         <div class="col-lg-6">
                                             <img id="medium-image" th:src="@{'/images/'+${current.imageName}}"
@@ -1109,52 +1118,53 @@
                                             <form th:id="${current.id}" action="/blog/upload-image/medium-image"
                                                   method="post" enctype="multipart/form-data"
                                                   onsubmit="uploadHome(event, '.blog-pic')">
-                                                <input type="file" name="image" id="" accept="image/*"
-                                                       onchange="loadImage(this, document.getElementById('medium-image))">
+                                                <div class="custom-file-upload">
+                                                    <input type="file" name="image" id="" accept="image/*"
+                                                           onchange="loadImage(this, document.getElementById('medium-image'))">
+                                                    <label for="file-input" class="btn btn-primary">Выбрать файл</label>
+                                                </div>
                                                 <button type="submit" class="btn btn-primary">Загрузить изображение
                                                 </button>
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="row" th:each="current: ${blog}"
+                                    <div class="row justify-content-center" th:each="current: ${blog}"
                                          th:if="${current.section=='smail-1-image'}">
                                         <div class="col-lg-6">
-
-
                                             <img id="smail-1-image" th:src="@{'/images/'+${current.imageName}}"
                                                  alt=""
                                                  class="smail-image">
-
-
                                         </div>
                                         <div class="col-lg-6">
                                             <form th:id="${current.id}" action="/blog/upload-image/smail-1-image"
                                                   method="post" enctype="multipart/form-data"
                                                   onsubmit="uploadHome(event, '.blog-pic')">
-                                                <input type="file" name="image" id="" accept="image/*"
-                                                       onchange="loadImage(this, document.getElementById('smail-1-image'))">
+                                                <div class="custom-file-upload">
+                                                    <input type="file" name="image" id="" accept="image/*"
+                                                           onchange="loadImage(this, document.getElementById('smail-1-image'))">
+                                                    <label for="file-input" class="btn btn-primary">Выбрать файл</label>
+                                                </div>
                                                 <button type="submit" class="btn btn-primary">Загрузить изображение
                                                 </button>
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="row" th:each="current: ${blog}"
+                                    <div class="row justify-content-center" th:each="current: ${blog}"
                                          th:if="${current.section=='smail-2-image'}">
                                         <div class="col-lg-6">
-
-
                                             <img id="smail-2-image" th:src="@{'/images/'+${current.imageName}}"
                                                  alt=""
                                                  class="smail-image">
-
-
                                         </div>
                                         <div class="col-lg-6">
                                             <form th:id="${current.id}" action="/blog/upload-image/smail-2-image"
                                                   method="post" enctype="multipart/form-data"
                                                   onsubmit="uploadHome(event, '.blog-pic')">
-                                                <input type="file" name="image" id="" accept="image/*"
-                                                       onchange="loadImage(this, document.getElementById('smail-2-image))">
+                                                <div class="custom-file-upload">
+                                                    <input type="file" name="image" id="" accept="image/*"
+                                                           onchange="loadImage(this, document.getElementById('smail-2-image))">
+                                                    <label for="file-input" class="btn btn-primary">Выбрать файл</label>
+                                                </div>
                                                 <button type="submit" class="btn btn-primary">Загрузить изображение
                                                 </button>
                                             </form>
@@ -1164,70 +1174,93 @@
                             </div>
                             <div class="tab-pane fade" id="v-text-profile" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab">
-                                <div class="blog-single-text" th:fragment="blog-single-text">
-                                    <div class="blog-text" th:each="current: ${blog}"
-                                         th:if="${current.section=='blog-text'}">
-                                        <form th:id="${current.id}" action="/update-text/blog-text"
-                                              onsubmit="toggleEditMode(event,'.blog-single-text')">
-                                        <textarea rows="4" cols="50" th:name="'textH2'"
-                                                  th:text="${current.textH2}" id="textH2"
-                                                  disabled></textarea>
-                                            <textarea rows="4" cols="50" th:name="'textH3'"
-                                                      th:text="${current.textH3}" id="textH3"
-                                                      disabled></textarea>
-                                            <button type="submit" id=""
-                                                    class="btn btn-outline-secondary">Изменить
-                                            </button>
-                                        </form>
+                                <div class="col-lg-12 text-center">
+                                    <div class="section-title">
+                                        <h2>text</h2>
                                     </div>
-                                    <div class="blog-title" th:each="current: ${blog}"
-                                         th:if="${current.section=='blog-title'}">
-                                        <form th:id="${current.id}" action="/update-text/blog-title"
-                                              onsubmit="toggleEditMode(event,'.blog-single-text')">
-                                            <input rows="4" cols="50" th:name="'textH1'"
-                                                   th:value="${current.textH1}" id=""
-                                                   disabled>
-                                            <textarea rows="4" cols="50" th:name="'textH2'"
-                                                      th:text="${current.textH2}" id=""
-                                                      disabled></textarea>
-                                            <textarea rows="4" cols="50" th:name="'textH3'"
-                                                      th:text="${current.textH3}" id=""
-                                                      disabled></textarea>
-                                            <button type="submit" id=""
-                                                    class="btn btn-outline-secondary">Изменить
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <div class="blog-quote" th:each="current: ${blog}"
-                                         th:if="${current.section=='blog-quote'}">
-                                        <i class="fa fa-quote-left"></i>
-                                        <form th:id="${current.id}" action="/update-text/blog-quote"
-                                              onsubmit="toggleEditMode(event,'.blog-single-text')">
-                                            <input rows="4" cols="50" th:name="'textH1'"
-                                                   th:value="${current.textH1}" id=""
-                                                   disabled>
-                                            <textarea rows="4" cols="50" th:name="'textH2'"
-                                                      th:text="${current.textH2}" id=""
-                                                      disabled></textarea>
-                                            <button type="submit" id=""
-                                                    class="btn btn-outline-secondary">Изменить
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <div class="blog-more-title" th:each="current: ${blog}"
-                                         th:if="${current.section=='blog-more-title'}">
-                                        <form th:id="${current.id}" action="/update-text/blog-more-title"
-                                              onsubmit="toggleEditMode(event,'.blog-single-text')">
-                                            <input rows="4" cols="50" th:name="'textH1'"
-                                                   th:value="${current.textH1}" id=""
-                                                   disabled>
-                                            <textarea rows="4" cols="50" th:name="'textH2'"
-                                                      th:text="${current.textH2}" id=""
-                                                      disabled></textarea>
-                                            <button type="submit" id=""
-                                                    class="btn btn-outline-secondary">Изменить
-                                            </button>
-                                        </form>
+                                </div>
+                                <div class="container ">
+                                    <div class="blog-single-text" th:fragment="blog-single-text">
+                                        <div class="card">
+                                            <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                                                <div class="blog-text" th:each="current: ${blog}"
+                                                     th:if="${current.section=='blog-text'}">
+                                                    <form th:id="${current.id}" action="/update-text/blog-text"
+                                                          onsubmit="toggleEditMode(event,'.blog-single-text')">
+                                                     <textarea rows="4" cols="50" th:name="'textH2'"
+                                                               th:text="${current.textH2}" id="textH2"
+                                                               disabled></textarea>
+                                                        <textarea rows="4" cols="50" th:name="'textH3'"
+                                                                  th:text="${current.textH3}" id="textH3"
+                                                                  disabled></textarea>
+                                                        <button type="submit" id=""
+                                                                class="btn btn-outline-secondary">Изменить
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                                                <div class="blog-title" th:each="current: ${blog}"
+                                                     th:if="${current.section=='blog-title'}">
+                                                    <form th:id="${current.id}" action="/update-text/blog-title"
+                                                          onsubmit="toggleEditMode(event,'.blog-single-text')">
+                                                        <input type="text" rows="4" cols="50" th:name="'textH1'"
+                                                               th:value="${current.textH1}" id=""
+                                                               disabled>
+                                                        <textarea rows="4" cols="50" th:name="'textH2'"
+                                                                  th:text="${current.textH2}" id=""
+                                                                  disabled></textarea>
+                                                        <textarea rows="4" cols="50" th:name="'textH3'"
+                                                                  th:text="${current.textH3}" id=""
+                                                                  disabled></textarea>
+                                                        <button type="submit" id=""
+                                                                class="btn btn-outline-secondary">Изменить
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                                                <div class="blog-quote" th:each="current: ${blog}"
+                                                     th:if="${current.section=='blog-quote'}">
+                                                    <i class="fa fa-quote-left"></i>
+                                                    <form th:id="${current.id}" action="/update-text/blog-quote"
+                                                          onsubmit="toggleEditMode(event,'.blog-single-text')">
+                                                        <input rows="4" cols="50" th:name="'textH1'"
+                                                               th:value="${current.textH1}" id=""
+                                                               disabled>
+                                                        <textarea rows="4" cols="50" th:name="'textH2'"
+                                                                  th:text="${current.textH2}" id=""
+                                                                  disabled></textarea>
+                                                        <button type="submit" id=""
+                                                                class="btn btn-outline-secondary">Изменить
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                                                <div class="blog-more-title" th:each="current: ${blog}"
+                                                     th:if="${current.section=='blog-more-title'}">
+                                                    <form th:id="${current.id}" action="/update-text/blog-more-title"
+                                                          onsubmit="toggleEditMode(event,'.blog-single-text')">
+                                                        <input rows="4" cols="50" th:name="'textH1'"
+                                                               th:value="${current.textH1}" id=""
+                                                               disabled>
+                                                        <textarea rows="4" cols="50" th:name="'textH2'"
+                                                                  th:text="${current.textH2}" id=""
+                                                                  disabled></textarea>
+                                                        <button type="submit" id=""
+                                                                class="btn btn-outline-secondary">Изменить
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
