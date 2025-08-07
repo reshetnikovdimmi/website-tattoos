@@ -1350,379 +1350,262 @@
                                     <div class="footer-widget" th:object="${contactInfo}">
                                         <div class="col-lg-12 text-center">
                                             <div class="section-title">
-                                                <h2 style="color: #FFFFFF;">Контактная информация</h2>
+                                                <h2>Контактная информация</h2>
                                             </div>
                                         </div>
-                                        <ul class="admin-info">
-                                            <li>
-                                                <div class="row">
-                                                    <i class="fa fa-phone"></i>
-                                                    <div class="col-6 col-md-4 themed-grid-col" id="tell-new">
-                                                        <span>Телефон:</span>
-                                                        [(*{tell})]
-                                                    </div>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
-                                                        <span>Новый номер:</span>
-                                                        <input type="tel" class="form-control" id="tell"
-                                                               autofocus="autofocus" required="required"
-                                                               placeholder="+7(___)___-__-__">
-                                                    </div>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
-                                                        <button id="phone" type="submit" class="leave-btn">Сохранить
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="row">
-                                                    <i class="fa fa-envelope-o"></i>
-                                                    <div class="col-6 col-md-4 themed-grid-col" id="email-new">
-                                                        <span>Email:</span>
-                                                        [(*{email})]
-                                                    </div>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
-                                                        <span>Новый email:</span>
-                                                        <input type="email" class="form-control" id="email"
-                                                               aria-describedby="emailHelp" prequired
-                                                               placeholder="name@example.com">
-                                                    </div>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
-                                                        <button id="email-btn" type="submit" class="leave-btn">
-                                                            Сохранить
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="row">
-                                                    <i class="fa fa-map-marker"></i>
-                                                    <div class="col-6 col-md-4 themed-grid-col" id="address-new">
-                                                        <span>Адрес</span>
-                                                        [(*{address})]
-                                                    </div>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
-                                                        <span>Новый адрес:</span>
-                                                        <input type="text" class="form-control" id="address"
-                                                               aria-describedby="emailHelp"
-                                                               placeholder="Enter адрес">
-                                                    </div>
-                                                    <div class="col-6 col-md-4 themed-grid-col">
-                                                        <button type="submit" id="address-btn" class="leave-btn">
-                                                            Сохранить
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="v-breadcrumb-section" role="tabpanel"
-                                 aria-labelledby="v-breadcrumb-section-tab" tabindex="0">
-                                <div class="breadcrumb" th:fragment="breadcrumb">
-                                    <div class="row" th:each="current: ${setting}"
-                                         th:if="${current.section=='breadcrumb'}">
-                                        <div class="col-lg-6">
-                                            <img id="breadcrumb-image" th:src="@{'/images/'+${current.imageName}}"
-                                                 alt="">
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <form th:id="${current.id}" action="/setting/upload-image/breadcrumb"
-                                                  method="post" enctype="multipart/form-data"
-                                                  onsubmit="uploadHome(event, '.breadcrumb')">
-                                                <input type="file" name="image" id="" accept="image/*"
-                                                       onchange="loadImage(this, document.getElementById('breadcrumb-image'))">
-                                                <button type="submit" class="btn btn-primary">Загрузить изображение
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="v-logo" role="tabpanel"
-                                 aria-labelledby="v-logo-tab" tabindex="0">
-                                <div class="logo" th:fragment="logo">
-                                    <div class="row" th:each="current: ${setting}"
-                                         th:if="${current.section=='logo'}">
-                                        <div class="col-lg-6">
-                                            <img id="logo-image" th:src="@{'/images/'+${current.imageName}}" alt="">
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <form th:id="${current.id}" action="/setting/upload-image/logo"
-                                                  method="post"
-                                                  enctype="multipart/form-data"
-                                                  onsubmit="uploadHome(event, '.logo')">
-                                                <input type="file" name="image" id="" accept="image/*"
-                                                       onchange="loadImage(this, document.getElementById('logo-image'))">
-                                                <button type="submit" class="btn btn-primary">Загрузить</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="v-head" role="tabpanel" aria-labelledby="v-head-tab"
-                                 tabindex="0">
-                                <h3>Редактирование страницы сайта</h3>
+                                        <div class="container">
+                                            <div class="contact-info">
+                                                <div class="row justify-content-center">
+                                                    <form action="/about/home-import" onsubmit="uploadHome(event, '.home-about')" class="form-admin">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="fa fa-phone"></i> Новый номер:</span>
+                                                            <input type="tel" class="form-control" id="tell" autofocus="autofocus" required="required" th:value="*{tell}" disabled/>
 
-                                <!-- Форма для Главной страницы -->
-                                <div class="row home-title">
-                                    <div class="container " th:fragment="home-title" th:each="current: ${setting}"
-                                         th:if="${current.section=='home-title'}">
-                                        <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
-                                            <form th:id="${current.id}" action="/setting/head/home-title"
-                                                  onsubmit="toggleEditMode(event,'.home-title')">
-                                                <label for="home-title" class="form-label">Заголовок главной
-                                                    страницы:</label>
-                                                <input type="text" th:name="'textH1'"
-                                                       th:value="${current.textH1}"
-                                                       id="home-title" disabled/>
-                                                <label for="home-description" class="form-label">Description
-                                                    главной страницы:</label>
-                                                <textarea rows="4" cols="50" th:name="'textH2'"
-                                                          th:text="${current.textH2}" id="home-description"
-                                                          disabled></textarea>
-                                                <button type="submit" id=""
-                                                        class="btn btn-outline-secondary">Изменить
-                                                </button>
-                                            </form>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <!-- Форма для Галереи -->
-                                <div class="row gallery-title">
-                                    <div class="container " th:fragment="gallery-title"
-                                         th:each="current: ${setting}"
-                                         th:if="${current.section=='gallery-title'}">
-                                        <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
-                                            <form th:id="${current.id}" action="/setting/head/gallery-title"
-                                                  onsubmit="toggleEditMode(event,'.gallery-title')">
-                                                <label for="gallery-title" class="form-label">Заголовок
-                                                    галереи:</label>
-                                                <input type="text" th:name="'textH1'"
-                                                       th:value="${current.textH1}"
-                                                       id="gallery-title" disabled/>
-                                                <label for="gallery-description" class="form-label">Description
-                                                    Галереи:</label>
-                                                <textarea rows="4" cols="50" th:name="'textH2'"
-                                                          th:text="${current.textH2}" id="gallery-description"
-                                                          disabled></textarea>
-                                                <button type="submit" id=""
-                                                        class="btn btn-outline-secondary">Изменить
+                                    <li>
+                                        <div class="row">
+                                            <i class="fa fa-envelope-o"></i>
+                                            <div class="col-6 col-md-4 themed-grid-col" id="email-new">
+                                                <span>Email:</span>
+                                                [(*{email})]
+                                            </div>
+                                            <div class="col-6 col-md-4 themed-grid-col">
+                                                <span>Новый email:</span>
+                                                <input type="email" class="form-control" id="email"
+                                                       aria-describedby="emailHelp" prequired
+                                                       placeholder="name@example.com">
+                                            </div>
+                                            <div class="col-6 col-md-4 themed-grid-col">
+                                                <button id="email-btn" type="submit" class="leave-btn">
+                                                    Сохранить
                                                 </button>
-                                            </form>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <!-- Форма для Эскизов -->
-                                <div class="row sketchers-title">
-                                    <div class="container" th:fragment="sketchers-title"
-                                         th:each="current: ${setting}"
-                                         th:if="${current.section=='sketchers-title'}">
-                                        <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
-                                            <form th:id="${current.id}" action="/setting/head/sketchers-title"
-                                                  onsubmit="toggleEditMode(event,'.sketchers-title')">
-                                                <label for="sketchers-title" class="form-label">Заголовок
-                                                    эскизов:</label>
-                                                <input type="text" th:name="'textH1'"
-                                                       th:value="${current.textH1}"
-                                                       id="sketchers-title" disabled/>
-                                                <label for="sketchers-description" class="form-label">Description
-                                                    эскизов:</label>
-                                                <textarea rows="4" cols="50" th:name="'textH2'"
-                                                          th:text="${current.textH2}" id="sketchers-description"
-                                                          disabled></textarea>
-                                                <button type="submit" id=""
-                                                        class="btn btn-outline-secondary">Изменить
+                                    </li>
+                                    <li>
+                                        <div class="row">
+                                            <i class="fa fa-map-marker"></i>
+                                            <div class="col-6 col-md-4 themed-grid-col" id="address-new">
+                                                <span>Адрес</span>
+                                                [(*{address})]
+                                            </div>
+                                            <div class="col-6 col-md-4 themed-grid-col">
+                                                <span>Новый адрес:</span>
+                                                <input type="text" class="form-control" id="address"
+                                                       aria-describedby="emailHelp"
+                                                       placeholder="Enter адрес">
+                                            </div>
+                                            <div class="col-6 col-md-4 themed-grid-col">
+                                                <button type="submit" id="address-btn" class="leave-btn">
+                                                    Сохранить
                                                 </button>
-                                            </form>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <!-- Форма для Блога -->
-                                <div class="row blog-title">
-                                    <div class="container" th:fragment="blog-title" th:each="current: ${setting}"
-                                         th:if="${current.section=='blog-title'}">
-                                        <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
-                                            <form th:id="${current.id}" action="/setting/head/blog-title"
-                                                  onsubmit="toggleEditMode(event,'.blog-title')">
-                                                <label for="blog-title" class="form-label">Заголовок
-                                                    блога:</label>
-                                                <input type="text" th:name="'textH1'"
-                                                       th:value="${current.textH1}"
-                                                       id="blog-title" disabled/>
-                                                <label for="blog-description" class="form-label">Description
-                                                    блога:</label>
-                                                <textarea rows="4" cols="50" th:name="'textH2'"
-                                                          th:text="${current.textH2}" id="blog-description"
-                                                          disabled></textarea>
-                                                <button type="submit" id=""
-                                                        class="btn btn-outline-secondary">Изменить
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Форма для Отзывов -->
-                                <div class="row reviews-title">
-                                    <div class="container" th:fragment="reviews-title" th:each="current: ${setting}"
-                                         th:if="${current.section=='reviews-title'}">
-                                        <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
-                                            <form th:id="${current.id}" action="/setting/head/reviews-title"
-                                                  onsubmit="toggleEditMode(event,'.reviews-title')">
-                                                <label for="reviews-title" class="form-label">Заголовок
-                                                    отзывов:</label>
-                                                <input type="text" th:name="'textH1'"
-                                                       th:value="${current.textH1}"
-                                                       id="reviews-title" disabled/>
-                                                <label for="reviews-description" class="form-label">Description
-                                                    отзывов:</label>
-                                                <textarea rows="4" cols="50" th:name="'textH2'"
-                                                          th:text="${current.textH2}" id="reviews-description"
-                                                          disabled></textarea>
-                                                <button type="submit" id=""
-                                                        class="btn btn-outline-secondary">Изменить
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="v-footer" role="tabpanel"
-                                 aria-labelledby="v-footer-tab" tabindex="0">
-                                <div class="row footer-title">
-                                    <div class="container" th:fragment="footer-title" th:each="current: ${setting}"
-                                         th:if="${current.section=='footer-title'}">
-                                        <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
-                                            <form th:id="${current.id}" action="/setting/head/footer-title"
-                                                  onsubmit="toggleEditMode(event,'.footer-title')">
-                                                <label for="footer-title" class="form-label">Заголовок
-                                                    отзывов:</label>
-                                                <input type="text" th:name="'textH1'"
-                                                       th:value="${current.textH1}"
-                                                       id="footer-title" disabled/>
-                                                <label for="footer-description" class="form-label">Description
-                                                    отзывов:</label>
-                                                <textarea rows="4" cols="50" th:name="'textH2'"
-                                                          th:text="${current.textH2}" id="footer-description"
-                                                          disabled></textarea>
-                                                <button type="submit" id=""
-                                                        class="btn btn-outline-secondary">Изменить
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
+                                    </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div id="menu5" class="container tab-pane fade"><br>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <form action="/about/home-import"
-                                      onsubmit="uploadHome(event, '.home-about')"
-                                      class="form-admin">
-                                    <div class="row mb-3 text-center">
-                                        <div class="col-6 col-lg-4 themed-grid-col">
-                                            <div class="avatar-container">
-                                                <img class="about-section" id=""
-                                                     src="img/avatar.jpg" alt="Выберите фото тату">
-                                                <button type="button" class="upload-btn btn btn-primary"
-                                                        onclick="document.getElementById('file-about').click()">
-                                                    Выбрать файл
-                                                </button>
-                                                <input type="file" name="file" id=""
-                                                       accept="image/*"
-                                                       onchange="loadImage(this, document.getElementById('about-section'))"
-                                                       required>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-8 themed-grid-col">
-                                            <div class="input-group">
-                                                <span class="input-group-text">H1</span>
-                                                <textarea class="form-control" name="textH2"
-                                                          aria-label="С текстовым полем"
-                                                          required></textarea>
-                                            </div>
-                                        </div>
+                        <div class="tab-pane fade" id="v-breadcrumb-section" role="tabpanel"
+                             aria-labelledby="v-breadcrumb-section-tab" tabindex="0">
+                            <div class="breadcrumb" th:fragment="breadcrumb">
+                                <div class="row" th:each="current: ${setting}"
+                                     th:if="${current.section=='breadcrumb'}">
+                                    <div class="col-lg-6">
+                                        <img id="breadcrumb-image" th:src="@{'/images/'+${current.imageName}}"
+                                             alt="">
                                     </div>
-                                    <div class="row mb-3 text-center">
-                                        <div class="d-grid gap-2 col-6 mx-auto">
-                                            <button type="submit" class="btn btn-primary">
-                                                Сохранить тату
+                                    <div class="col-lg-6">
+                                        <form th:id="${current.id}" action="/setting/upload-image/breadcrumb"
+                                              method="post" enctype="multipart/form-data"
+                                              onsubmit="uploadHome(event, '.breadcrumb')">
+                                            <input type="file" name="image" id="" accept="image/*"
+                                                   onchange="loadImage(this, document.getElementById('breadcrumb-image'))">
+                                            <button type="submit" class="btn btn-primary">Загрузить изображение
                                             </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- GalleryController Section Begin -->
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="gallery-controls">
-                                <ul>
-                                    <li class="active">Вся галерея</li>
-                                    <li>Классический</li>
-                                    <li>Винтажный</li>
-                                    <li>Граффити</li>
-                                    <li>Готический</li>
-                                    <li>Кельтский</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="img-import" id="gallery1" th:fragment="img-import">
-                        <div class="row gallery-filter" th:each="current, item : ${gallery.galleryImg}">
-                            <div class="col-lg-4 col-sm-6 mix crossfit workout "
-                                 th:each="currents: ${current}">
-                                <div class="reviews-admin" th:id="${currents.id}">
-                                    <img alt="" th:src="@{'/images/'+${currents.imageName}}">
-                                    <button class="delete-button"></button>
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h4>[[${currents.description}]]</h4>
-                                    </div>
-                                    <div class="trainer-text">
-                                        <label>
-                                            <input class="checkbox" id="Comment" type="checkbox"
-                                                   th:checked="${currents.flag}"/> Лучшее тату
-                                        </label>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="blog-option">
-                            <div class="blog-pagination">
-                                <a th:if="${gallery.currentPage!=0}" id="fa-long-arrow-left"
-                                   type="submit"><i
-                                        class="fa fa-long-arrow-left"></i></a>
-                                <a class="active">[[${gallery.currentPage+1}]]</a>
-                                of
-                                <a>[[${gallery.pageSize}]]</a>
-                                <a th:if="${gallery.currentPage+1 != gallery.pageSize}"
-                                   id="fa-long-arrow-right"
-                                   type="submit"><i
-                                        class="fa fa-long-arrow-right"></i></a>
-                            </div>
-                            <div class="blog-option-right">
-                                <div class="blog-result">Showing
-                                    [[${gallery.currentPage+1}]]–[[${gallery.pageSize}]] of
-                                    [[${gallery.imagesTotal}]]
-                                    results
+                        <div class="tab-pane fade" id="v-logo" role="tabpanel"
+                             aria-labelledby="v-logo-tab" tabindex="0">
+                            <div class="logo" th:fragment="logo">
+                                <div class="row" th:each="current: ${setting}"
+                                     th:if="${current.section=='logo'}">
+                                    <div class="col-lg-6">
+                                        <img id="logo-image" th:src="@{'/images/'+${current.imageName}}" alt="">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <form th:id="${current.id}" action="/setting/upload-image/logo"
+                                              method="post"
+                                              enctype="multipart/form-data"
+                                              onsubmit="uploadHome(event, '.logo')">
+                                            <input type="file" name="image" id="" accept="image/*"
+                                                   onchange="loadImage(this, document.getElementById('logo-image'))">
+                                            <button type="submit" class="btn btn-primary">Загрузить</button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div class="show-result">
-                                    <p>Show:</p>
-                                    <select class="show-result-select" onchange="numbers()" id="number">
-                                        <option th:each="option : ${gallery.select}" th:value="${option}"
-                                                th:text="${option}"
-                                                th:selected="${option == gallery.number}"></option>
-                                    </select>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-head" role="tabpanel" aria-labelledby="v-head-tab"
+                             tabindex="0">
+                            <h3>Редактирование страницы сайта</h3>
+
+                            <!-- Форма для Главной страницы -->
+                            <div class="row home-title">
+                                <div class="container " th:fragment="home-title" th:each="current: ${setting}"
+                                     th:if="${current.section=='home-title'}">
+                                    <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                                        <form th:id="${current.id}" action="/setting/head/home-title"
+                                              onsubmit="toggleEditMode(event,'.home-title')">
+                                            <label for="home-title" class="form-label">Заголовок главной
+                                                страницы:</label>
+                                            <input type="text" th:name="'textH1'"
+                                                   th:value="${current.textH1}"
+                                                   id="home-title" disabled/>
+                                            <label for="home-description" class="form-label">Description
+                                                главной страницы:</label>
+                                            <textarea rows="4" cols="50" th:name="'textH2'"
+                                                      th:text="${current.textH2}" id="home-description"
+                                                      disabled></textarea>
+                                            <button type="submit" id=""
+                                                    class="btn btn-outline-secondary">Изменить
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Форма для Галереи -->
+                            <div class="row gallery-title">
+                                <div class="container " th:fragment="gallery-title"
+                                     th:each="current: ${setting}"
+                                     th:if="${current.section=='gallery-title'}">
+                                    <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                                        <form th:id="${current.id}" action="/setting/head/gallery-title"
+                                              onsubmit="toggleEditMode(event,'.gallery-title')">
+                                            <label for="gallery-title" class="form-label">Заголовок
+                                                галереи:</label>
+                                            <input type="text" th:name="'textH1'"
+                                                   th:value="${current.textH1}"
+                                                   id="gallery-title" disabled/>
+                                            <label for="gallery-description" class="form-label">Description
+                                                Галереи:</label>
+                                            <textarea rows="4" cols="50" th:name="'textH2'"
+                                                      th:text="${current.textH2}" id="gallery-description"
+                                                      disabled></textarea>
+                                            <button type="submit" id=""
+                                                    class="btn btn-outline-secondary">Изменить
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Форма для Эскизов -->
+                            <div class="row sketchers-title">
+                                <div class="container" th:fragment="sketchers-title"
+                                     th:each="current: ${setting}"
+                                     th:if="${current.section=='sketchers-title'}">
+                                    <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                                        <form th:id="${current.id}" action="/setting/head/sketchers-title"
+                                              onsubmit="toggleEditMode(event,'.sketchers-title')">
+                                            <label for="sketchers-title" class="form-label">Заголовок
+                                                эскизов:</label>
+                                            <input type="text" th:name="'textH1'"
+                                                   th:value="${current.textH1}"
+                                                   id="sketchers-title" disabled/>
+                                            <label for="sketchers-description" class="form-label">Description
+                                                эскизов:</label>
+                                            <textarea rows="4" cols="50" th:name="'textH2'"
+                                                      th:text="${current.textH2}" id="sketchers-description"
+                                                      disabled></textarea>
+                                            <button type="submit" id=""
+                                                    class="btn btn-outline-secondary">Изменить
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Форма для Блога -->
+                            <div class="row blog-title">
+                                <div class="container" th:fragment="blog-title" th:each="current: ${setting}"
+                                     th:if="${current.section=='blog-title'}">
+                                    <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                                        <form th:id="${current.id}" action="/setting/head/blog-title"
+                                              onsubmit="toggleEditMode(event,'.blog-title')">
+                                            <label for="blog-title" class="form-label">Заголовок
+                                                блога:</label>
+                                            <input type="text" th:name="'textH1'"
+                                                   th:value="${current.textH1}"
+                                                   id="blog-title" disabled/>
+                                            <label for="blog-description" class="form-label">Description
+                                                блога:</label>
+                                            <textarea rows="4" cols="50" th:name="'textH2'"
+                                                      th:text="${current.textH2}" id="blog-description"
+                                                      disabled></textarea>
+                                            <button type="submit" id=""
+                                                    class="btn btn-outline-secondary">Изменить
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Форма для Отзывов -->
+                            <div class="row reviews-title">
+                                <div class="container" th:fragment="reviews-title" th:each="current: ${setting}"
+                                     th:if="${current.section=='reviews-title'}">
+                                    <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                                        <form th:id="${current.id}" action="/setting/head/reviews-title"
+                                              onsubmit="toggleEditMode(event,'.reviews-title')">
+                                            <label for="reviews-title" class="form-label">Заголовок
+                                                отзывов:</label>
+                                            <input type="text" th:name="'textH1'"
+                                                   th:value="${current.textH1}"
+                                                   id="reviews-title" disabled/>
+                                            <label for="reviews-description" class="form-label">Description
+                                                отзывов:</label>
+                                            <textarea rows="4" cols="50" th:name="'textH2'"
+                                                      th:text="${current.textH2}" id="reviews-description"
+                                                      disabled></textarea>
+                                            <button type="submit" id=""
+                                                    class="btn btn-outline-secondary">Изменить
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-footer" role="tabpanel"
+                             aria-labelledby="v-footer-tab" tabindex="0">
+                            <div class="row footer-title">
+                                <div class="container" th:fragment="footer-title" th:each="current: ${setting}"
+                                     th:if="${current.section=='footer-title'}">
+                                    <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                                        <form th:id="${current.id}" action="/setting/head/footer-title"
+                                              onsubmit="toggleEditMode(event,'.footer-title')">
+                                            <label for="footer-title" class="form-label">Заголовок
+                                                отзывов:</label>
+                                            <input type="text" th:name="'textH1'"
+                                                   th:value="${current.textH1}"
+                                                   id="footer-title" disabled/>
+                                            <label for="footer-description" class="form-label">Description
+                                                отзывов:</label>
+                                            <textarea rows="4" cols="50" th:name="'textH2'"
+                                                      th:text="${current.textH2}" id="footer-description"
+                                                      disabled></textarea>
+                                            <button type="submit" id=""
+                                                    class="btn btn-outline-secondary">Изменить
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1730,7 +1613,119 @@
                 </div>
             </div>
         </div>
+        <div id="menu5" class="container tab-pane fade"><br>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <form action="/about/home-import"
+                                  onsubmit="uploadHome(event, '.home-about')"
+                                  class="form-admin">
+                                <div class="row mb-3 text-center">
+                                    <div class="col-6 col-lg-4 themed-grid-col">
+                                        <div class="avatar-container">
+                                            <img class="about-section" id=""
+                                                 src="img/avatar.jpg" alt="Выберите фото тату">
+                                            <button type="button" class="upload-btn btn btn-primary"
+                                                    onclick="document.getElementById('file-about').click()">
+                                                Выбрать файл
+                                            </button>
+                                            <input type="file" name="file" id=""
+                                                   accept="image/*"
+                                                   onchange="loadImage(this, document.getElementById('about-section'))"
+                                                   required>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-8 themed-grid-col">
+                                        <div class="input-group">
+                                            <span class="input-group-text">H1</span>
+                                            <textarea class="form-control" name="textH2"
+                                                      aria-label="С текстовым полем"
+                                                      required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3 text-center">
+                                    <div class="d-grid gap-2 col-6 mx-auto">
+                                        <button type="submit" class="btn btn-primary">
+                                            Сохранить тату
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- GalleryController Section Begin -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="gallery-controls">
+                            <ul>
+                                <li class="active">Вся галерея</li>
+                                <li>Классический</li>
+                                <li>Винтажный</li>
+                                <li>Граффити</li>
+                                <li>Готический</li>
+                                <li>Кельтский</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="img-import" id="gallery1" th:fragment="img-import">
+                    <div class="row gallery-filter" th:each="current, item : ${gallery.galleryImg}">
+                        <div class="col-lg-4 col-sm-6 mix crossfit workout "
+                             th:each="currents: ${current}">
+                            <div class="reviews-admin" th:id="${currents.id}">
+                                <img alt="" th:src="@{'/images/'+${currents.imageName}}">
+                                <button class="delete-button"></button>
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h4>[[${currents.description}]]</h4>
+                                </div>
+                                <div class="trainer-text">
+                                    <label>
+                                        <input class="checkbox" id="Comment" type="checkbox"
+                                               th:checked="${currents.flag}"/> Лучшее тату
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blog-option">
+                        <div class="blog-pagination">
+                            <a th:if="${gallery.currentPage!=0}" id="fa-long-arrow-left"
+                               type="submit"><i
+                                    class="fa fa-long-arrow-left"></i></a>
+                            <a class="active">[[${gallery.currentPage+1}]]</a>
+                            of
+                            <a>[[${gallery.pageSize}]]</a>
+                            <a th:if="${gallery.currentPage+1 != gallery.pageSize}"
+                               id="fa-long-arrow-right"
+                               type="submit"><i
+                                    class="fa fa-long-arrow-right"></i></a>
+                        </div>
+                        <div class="blog-option-right">
+                            <div class="blog-result">Showing
+                                [[${gallery.currentPage+1}]]–[[${gallery.pageSize}]] of
+                                [[${gallery.imagesTotal}]]
+                                results
+                            </div>
+                            <div class="show-result">
+                                <p>Show:</p>
+                                <select class="show-result-select" onchange="numbers()" id="number">
+                                    <option th:each="option : ${gallery.select}" th:value="${option}"
+                                            th:text="${option}"
+                                            th:selected="${option == gallery.number}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 </div>
 
 <!-- Footer Section Begin -->
