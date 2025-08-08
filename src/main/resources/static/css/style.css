@@ -716,7 +716,7 @@ ol {
     background-color: rgba(0, 0, 0, 0.1); /* Лёгкая подсветка при наведении */
 }
 /* Стили для admin-blog-pic */
-.admin-blog-pic {
+.breadcrumb, .admin-blog-pic {
     padding: 20px;
     background-color: #333; /* Тёмный фон */
     color: #fff; /* Белый текст */
@@ -735,7 +735,7 @@ ol {
     display: none;
 }
 /* Стили для изображений */
-.admin-blog-pic img {
+.breadcrumb, .admin-blog-pic img {
     width: 100%;
     height: auto;
     object-fit: cover;
@@ -743,16 +743,16 @@ ol {
     transition: opacity 0.3s;
 }
 /* Стили для строк */
-.admin-blog-pic .row {
+.breadcrumb, .admin-blog-pic .row {
     margin-bottom: 20px; /* Отступ между строками */
 }
 /* Стили для формы */
-.admin-blog-pic form {
+.breadcrumb, .admin-blog-pic form {
     margin-top: 20px;
 }
 
 /* Стили для big-image */
-.admin-blog-pic .big-image {
+.breadcrumb, .admin-blog-pic .big-image {
     width: 100%;
     height: 400px; /* Высота для большого изображения */
     object-fit: cover;
@@ -760,7 +760,7 @@ ol {
 }
 
 /* Стили для medium-image */
-.admin-blog-pic .medium-image {
+.breadcrumb, .admin-blog-pic .medium-image {
     width: 100%;
     height: 300px; /* Высота для среднего изображения */
     object-fit: cover;
@@ -775,14 +775,21 @@ ol {
     border-radius: 8px;
 }
 
+.breadcrumb .smail-image {
+    width: 100%;
+    height: 250px; /* Высота для маленького изображения */
+    object-fit: cover;
+    border-radius: 8px;
+}
+
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
-    .admin-blog-pic .row {
+    .breadcrumb, .admin-blog-pic .row {
         flex-direction: column; /* Меняем направление на вертикальное */
         align-items: center; /* Центрируем содержимое */
     }
 
-    .admin-blog-pic .col-lg-6 {
+    .breadcrumb, .admin-blog-pic .col-lg-6 {
         width: 100%; /* Полная ширина */
         padding: 10px;
     }
@@ -1548,6 +1555,7 @@ form.active textarea {
     color: #fff; /* Белый текст */
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin: 15px;
 }
 
 /* Стили для заголовка */
@@ -1562,6 +1570,8 @@ form.active textarea {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width:100%;
+    margin:15px;
 }
 
 /* Стили для input-group */
