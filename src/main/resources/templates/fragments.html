@@ -67,27 +67,19 @@
         <div class="row">
 
             <div class="col-lg-3">
-                <div class="footer-logo-item">
-
-
-                    <div class="f-logo">
-                        <a href="/"><img src="img/logo.png" alt=""></a>
+                <div class="footer-logo-item" th:each="current: ${setting}">
+                    <div class="f-logo" th:if="${current.section=='logo'}">
+                        <a href="/"><img th:src="@{'/images/'+${current.imageName}}" alt=""></a>
                     </div>
-                    <div class="social-links">
-                        <h6>Следуй за мной</h6>
+                    <div class="social-links" th:if="${current.section=='footer-title'}">
+                        <h6 th:text="${current.textH1}"></h6>
                         <a href="https://vk.com/r1tattoo"><i class="fa fa-vk"></i></a>
                     </div>
-
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="footer-widget">
-                    <p>Процесс создания татуировки довольно сложный и ответственный. Чтобы создать качественное
-                        изображение, которое будет радовать вас всю жизнь, мастер должен учесть множество факторов.
-                        Важно правильно подобрать эскиз, цветовую гамму, размер и место для будущей тату. Также
-                        необходимо выбрать подходящий стиль и технику нанесения. В результате вы получите уникальный
-                        рисунок, который будет подчеркивать вашу индивидуальность и придавать уверенности в себе..</p>
-
+                <div class="footer-widget" th:each="current: ${setting}" th:if="${current.section=='footer-title'}">
+                    <p th:text="${current.textH2}"></p>
                 </div>
             </div>
             <div class="col-lg-2">
@@ -231,7 +223,7 @@
 
 
                                 <div class="avatar-container">
-                                    <img id="previewimage" src="img/avatar.jpg" alt="Ваш аватар">
+                                    <img id="" src="img/avatar.jpg" alt="Ваш аватар">
 
                                     <button type="button" onclick="document.getElementById('avatar').click()" class="upload-btn btn btn-primary"
                                            >Выбрать файл

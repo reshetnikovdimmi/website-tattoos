@@ -22,6 +22,7 @@ public class IndexController {
     @Autowired
     private HomeService homeService;
 
+
     @GetMapping("/")
     public String home(Model model) {
         prepareModel(model);
@@ -30,6 +31,7 @@ public class IndexController {
 
     @PostMapping("/mail")
     public String sendMail(@ModelAttribute("details") EmailDetails details, Model model) {
+        System.out.println(details);
         boolean isSuccess = emailService.sendSimpleMail(details);
 
         if (isSuccess) {
@@ -38,8 +40,8 @@ public class IndexController {
             model.addAttribute("status", "Error while Sending Mail");
         }
 
-        prepareModel(model);
-        return "Index";
+        model.addAttribute("details", new EmailDetails());
+        return "Index::map-contact-form";
     }
 
     private void prepareModel(Model model) {

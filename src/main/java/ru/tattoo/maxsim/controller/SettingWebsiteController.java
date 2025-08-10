@@ -35,7 +35,6 @@ public class SettingWebsiteController {
     public String uploadHome(@RequestParam("image") MultipartFile fileImport, @RequestParam("id") Long id,
                              @PathVariable("section") String section,
                              Model model) throws IOException, ParseException {
-
         settingWebsiteService.saveImg(fileImport, section, id);
         model.addAttribute("setting", settingWebsiteService.findAll());
         return "admin::" + section;

@@ -303,6 +303,9 @@ ol {
 	animation: loader 0.8s linear infinite;
 	-webkit-animation: loader 0.8s linear infinite;
 }
+.advertisement{
+    padding: 35px;
+}
 
 @keyframes loader {
 	0% {
@@ -716,7 +719,7 @@ ol {
     background-color: rgba(0, 0, 0, 0.1); /* Лёгкая подсветка при наведении */
 }
 /* Стили для admin-blog-pic */
-.breadcrumb, .admin-blog-pic {
+.breadcrumb, .logo-admin, .admin-blog-pic {
     padding: 20px;
     background-color: #333; /* Тёмный фон */
     color: #fff; /* Белый текст */
@@ -735,7 +738,7 @@ ol {
     display: none;
 }
 /* Стили для изображений */
-.breadcrumb, .admin-blog-pic img {
+.breadcrumb, .logo-admin, .admin-blog-pic img {
     width: 100%;
     height: auto;
     object-fit: cover;
@@ -743,16 +746,16 @@ ol {
     transition: opacity 0.3s;
 }
 /* Стили для строк */
-.breadcrumb, .admin-blog-pic .row {
+.breadcrumb, .logo-admin, .admin-blog-pic .row {
     margin-bottom: 20px; /* Отступ между строками */
 }
 /* Стили для формы */
-.breadcrumb, .admin-blog-pic form {
+.breadcrumb, .logo-admin, .admin-blog-pic form {
     margin-top: 20px;
 }
 
 /* Стили для big-image */
-.breadcrumb, .admin-blog-pic .big-image {
+.breadcrumb, .logo-admin, .admin-blog-pic .big-image {
     width: 100%;
     height: 400px; /* Высота для большого изображения */
     object-fit: cover;
@@ -760,12 +763,13 @@ ol {
 }
 
 /* Стили для medium-image */
-.breadcrumb, .admin-blog-pic .medium-image {
+.breadcrumb, .logo-admin, .admin-blog-pic .medium-image {
     width: 100%;
     height: 300px; /* Высота для среднего изображения */
     object-fit: cover;
     border-radius: 8px;
 }
+
 
 /* Стили для smail-image */
 .admin-blog-pic .smail-image {
@@ -781,7 +785,24 @@ ol {
     object-fit: cover;
     border-radius: 8px;
 }
+.breadcrumb .smail-image {
+    width: 100%;
+    height: 250px; /* Высота для маленького изображения */
+    object-fit: cover;
+    border-radius: 8px;
+}
+.container-fluid img{
+    width: 100%;
+    height: 150px; /* Высота для маленького изображения */
+    object-fit: cover;
 
+}
+.f-logo img{
+    width: 100%;
+    height: 150px; /* Высота для маленького изображения */
+    object-fit: cover;
+
+}
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
     .breadcrumb, .admin-blog-pic .row {
@@ -1262,7 +1283,9 @@ background-color: #333;
 .fragment-reviews {
     margin: 20px;
 }
-/* Стили для feature-img */
+/*-----------------------
+ Стили для feature-section
+ -------------------------*/
 .feature-img {
     display: flex; /* Используем Flexbox для выравнивания */
     align-items: center; /* Выравниваем по вертикали */
@@ -1358,7 +1381,9 @@ form.active textarea {
         font-size: 14px;
     }
 }
-/* Стили для контейнера */
+/* --------------------
+Стили для price-admin
+-------------------------*/
 .container-price-admin {
     padding: 20px;
     background-color: #333; /* Тёмный фон */
@@ -1480,7 +1505,9 @@ form.active textarea {
     margin-top: 20px;
 }
 
-/* Стили для reviews-admin */
+/* -----------------------
+Стили для reviews-admin
+--------------------------*/
 .reviews-admin {
     position: relative;
     overflow: hidden;
@@ -1548,8 +1575,12 @@ form.active textarea {
         padding: 10px;
     }
 }
-/* Стили для контактной информации */
-.contact-info {
+
+
+/*-------------------------------
+Стили для контактной информации админ
+-------------------------------*/
+.contact-info-admin{
     padding: 20px;
     background-color: #333; /* Тёмный фон */
     color: #fff; /* Белый текст */
@@ -1559,14 +1590,14 @@ form.active textarea {
 }
 
 /* Стили для заголовка */
-.contact-info h2 {
+.contact-info-admin h2 {
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 20px;
 }
 
 /* Стили для формы */
-.contact-info form {
+.contact-info-admin form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1575,18 +1606,18 @@ form.active textarea {
 }
 
 /* Стили для input-group */
-.contact-info .input-group {
+.contact-info-admin .input-group {
     width: 100%;
     margin-bottom: 20px;
 }
 
 /* Стили для иконки */
-.contact-info .input-group-text i {
+.contact-info-admin .input-group-text i {
     color: #e4381C; /* Красный цвет иконки */
 }
 
 /* Стили для input */
-.contact-info input[type="tel"] {
+.contact-info-admin input[type="tel"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -1598,13 +1629,13 @@ form.active textarea {
 }
 
 /* Стили для input при фокусе */
-.contact-info input[type="tel"]:focus {
+.contact-info-admin input[type="tel"]:focus {
     border-color: #e4381C;
     outline: none;
 }
 
 /* Стили для кнопки */
-.contact-info .btn-primary {
+.contact-info-admin .btn-primary {
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -1616,21 +1647,21 @@ form.active textarea {
     transition: background-color 0.3s;
 }
 
-.contact-info .btn-primary:hover {
+.contact-info-admin .btn-primary:hover {
     background-color: #e16521;
 }
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
-    .contact-info {
+    .contact-info-admin {
         padding: 10px;
     }
 
-    .contact-info input[type="tel"] {
+    .contact-info-admin input[type="tel"] {
         font-size: 14px;
     }
 
-    .contact-info .btn-primary {
+    .contact-info-admin .btn-primary {
         font-size: 14px;
         padding: 8px 16px;
     }
@@ -2204,6 +2235,7 @@ form.active textarea {
 	padding-left: 20px;
 	padding-top: 10px;
 	margin-bottom: 18px;
+	background-color: white;
 }
 
 .map-contact-detalis .map-contact-form form textarea::-webkit-input-placeholder {

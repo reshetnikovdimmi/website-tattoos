@@ -7,7 +7,8 @@
     <meta name="yandex-verification" content="f8b395847f7983f2"/>
     <meta name="google-site-verification" content="ak05GnsY8ILSGx7kzGGDnbi8c1VZSEB62dR0KH595_U"/>
     <meta name="zen-verification" content="Qs3KIKkBpZHRG9QIS3E1heKpO8wXZqWQbhTTWt7wQrr7XB6Iexi1cA15htzot9cG"/>
-    <meta name="description" content="Тату омск, татуировки, Татуировка,сколько стоит татуировка,татуировка цена,татуировка на руке,тату на твоем теле, татуировка омск, тату салон, сделать татуировку">
+    <meta name="description"
+          content="Тату омск, татуировки, Татуировка,сколько стоит татуировка,татуировка цена,татуировка на руке,тату на твоем теле, татуировка омск, тату салон, сделать татуировку">
     <meta name="keywords"
           content="Татуировка,сколько стоит татуировка,татуировка цена,татуировка на руке,тату на твоем теле, татуировка омск, тату салон, сделать татуировку">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,9 +42,10 @@
 <!-- Header Section Begin -->
 <header class="header-section ">
     <div class="container-fluid">
-        <div class="logo">
+        <div class="logo" th:each="current: ${setting}"
+             th:if="${current.section=='logo'}">
             <a href="/">
-                <img src="img/logo.png" alt="">
+                <img th:src="@{'/images/'+${current.imageName}}" alt="">
             </a>
         </div>
         <div class="top-social">
@@ -59,7 +61,7 @@
                     <ul>
                         <li class="active"><a href="/">Главная</a></li>
                         <li><a href="/gallery">Галерея</a></li>
-                        <li><a href="/sketches" >Эскизы</a></li>
+                        <li><a href="/sketches">Эскизы</a></li>
                         <li><a href="/about-me">О бо мне</a></li>
                         <li><a href="/blog">Блог</a></li>
                         <li><a href="/reviews">Отзывы</a></li>
@@ -75,7 +77,8 @@
 <!-- Hero Section Begin -->
 <section class="hero-section">
     <div class="hero-items owl-carousel" th:each="current : ${carousel}">
-        <div class="single-hero-item set-bg" th:each="currents : ${current.banners}" th:attr="data-setbg=@{'/images/'+${currents.imageName}}">
+        <div class="single-hero-item set-bg" th:each="currents : ${current.banners}"
+             th:attr="data-setbg=@{'/images/'+${currents.imageName}}">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -134,12 +137,12 @@
 <!-- Classes Section Begin -->
 <section class="classes-section" th:each="current: ${carousel}">
     <div class="class-title set-bg" data-setbg="img/classes-title-bg.jpg">
-        <div class="container" th:each="currents : ${current.classes}" th:if="${currents.title}" >
+        <div class="container" th:each="currents : ${current.classes}" th:if="${currents.title}">
             <div class="row">
                 <div class="col-lg-7 m-auto text-center">
                     <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                         <h2 th:text="${currents.textH2}"></h2>
-                        <p class="short-details" th:text="${currents.textH3}" ></p>
+                        <p class="short-details" th:text="${currents.textH3}"></p>
                     </div>
                 </div>
             </div>
@@ -163,14 +166,14 @@
 <section class="price-section spad set-bg" th:each="current: ${carousel}" data-setbg="img/price-bg.jpg">
     <div class="container">
         <div class="row" th:each="currents : ${current.price}" th:if="${currents.title}">
-            <div class="col-lg-12" >
+            <div class="col-lg-12">
                 <div class="section-title">
                     <h2 th:text="${currents.textH2}"></h2>
                     <p class="short-details" th:text="${currents.textH3}"></p>
                 </div>
             </div>
         </div>
-        <div class="row" >
+        <div class="row">
             <div class="col-lg-4" th:each="currents : ${current.price}" th:unless="${currents.title}">
                 <div class="single-price-plan">
                     <h4 th:text="${currents.textH1}"></h4>
@@ -201,7 +204,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" >
+        <div class="row">
             <div class="col-lg-4 col-sm-6" th:each="currents : ${current.chooseus}"
                  th:unless="${currents.title}">
                 <div class="choose-item">
@@ -266,7 +269,8 @@
             <div class="col-lg-4 col-md-6 grid-item">
                 <div class="blog-item instagram-item">
                     <a href="#" class="instagram-text">
-                        <div class="categories">«Красота в деталях» <i href="https://vk.com/r1tattoo" class="fa fa-vk"></i></div>
+                        <div class="categories">«Красота в деталях» <i href="https://vk.com/r1tattoo"
+                                                                       class="fa fa-vk"></i></div>
                     </a>
                     <a href="/reviews" class="blog-text">
                         <h5>Оставьте отзыв, получите скидку</h5>
@@ -321,6 +325,7 @@
     <div class="row mb-3 text-center">
         <div class="col-sm-6 col-lg-8 themed-grid-col">
             <div class="map">
+                <div class="advertisement">
                 <div class="yandex" id="yandex_rtb_R-A-9839314-2">
                     <!-- Yandex.RTB R-A-9839314-2 -->
 
@@ -334,6 +339,7 @@
                     </script>
                 </div>
             </div>
+            </div>
         </div>
         <div class="col-6 col-lg-4 themed-grid-col">
             <div class="map">
@@ -344,14 +350,14 @@
                             <li>Пн-Пт: <span>09:00 - 18:00</span></li>
                         </ul>
                     </div>
-                    <div class="map-contact-form">
+                    <div class="map-contact-form" th:fragment="map-contact-form">
                         <h5>Связаться</h5>
-                        <form th:method="POST" th:action="@{/mail}" th:object="${details}">
-                            <input type="text" name="name" placeholder="Имя" required>
-                            <input type="text" name="subject" class="phone" placeholder="Телефон" required>
-                            <textarea name="msgBody" placeholder="Сообщение" required></textarea>
-                            <button type="submit" class="site-btn">Отправить</button>
-                            <div th:text="${status}"></div>
+                        <form th:method="POST" th:onsubmit="sendMail(event, '.map-contact-form')" th:action="@{/mail}" th:object="${details}">
+                                <input type="text" name="name" placeholder="Имя" required>
+                                <input type="tel" name="subject" class="phone" placeholder="Телефон" required>
+                                <textarea name="msgBody" placeholder="Сообщение" required></textarea>
+                                <button type="submit" class="site-btn">Отправить</button>
+                                <div class="status-message" style="display:none;" th:text="${status}"></div>
                         </form>
                     </div>
                 </div>
@@ -377,6 +383,7 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/masonry.pkgd.min.js"></script>
 <script src="js/main.js"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
 <!-- Yandex.RTB -->
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">

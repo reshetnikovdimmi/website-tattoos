@@ -68,78 +68,6 @@ public class AdminController extends CRUDController<Home, Long> {
         return getEntityName();
     }
 
-    @PostMapping("/img-import")
-    public String uploadGalleryImage(@RequestParam("file") MultipartFile fileImport,
-                                     @RequestParam("description") String description,
-                                     @RequestParam("category") String category,
-                                     Model model) throws IOException, ParseException {
-        imagesService.saveImg(fileImport, description, category, null);
-        updateGallery(model);
-        return "admin::img-import";
-    }
-
-    @PostMapping("/sketches-import")
-    public String uploadSketch(@RequestParam("file") MultipartFile fileImport,
-                               @RequestParam("description") String description,
-                               Model model) throws IOException, ParseException {
-        sketchesService.saveImg(fileImport, description);
-        updateSketches(model);
-        return "admin::sketches-import";
-    }
-
-    @PostMapping("/interesting-works-import")
-    public String uploadInterestingWork(@RequestParam("file") MultipartFile fileImport,
-                                        @RequestParam("description") String description,
-                                        Model model) throws IOException, ParseException {
-        blogService.saveInterestingWorks(fileImport, description);
-        updateInterestingWorks(model);
-        return "admin::interesting-works-import";
-    }
-
-    @GetMapping("/interesting-works-delete/{id}")
-    public String deleteInterestingWork(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
-        blogService.deleteInterestingWorks(id);
-        updateInterestingWorks(model);
-        return "admin::interesting-works-import";
-    }
-
-    @GetMapping("/sketches-delete/{id}")
-    public String deleteSketch(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
-        sketchesService.deleteImg(id);
-        updateSketches(model);
-        return "admin::sketches-import";
-    }
-
-    @GetMapping("/img-delete/{id}")
-    public String deleteGalleryImage(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
-        imagesService.deleteImg(id);
-        updateGallery(model);
-        return "admin::img-import";
-    }
-
-    @GetMapping("/{style}/{page}/{number}")
-    public String searchGallery(@PathVariable("style") String style,
-                                @PathVariable("page") int page,
-                                @PathVariable("number") int number,
-                                Model model) {
-        model.addAttribute("gallery", imagesService.getGalleryDto(style.equals(ALL_GALLERY) ? null : style, null, number, page));
-        return "admin::img-import";
-    }
-
-    @GetMapping("/sketches/{page}/{number}")
-    public String searchSketches(@PathVariable("page") int page,
-                                 @PathVariable("number") int number,
-                                 Model model) {
-        model.addAttribute("sketches", sketchesService.getSketchesDto(null, null, number, page));
-        return "admin::sketches-import";
-    }
-
-    @GetMapping("/reviews-delete/{id}")
-    public String deleteReview(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
-        reviewService.deleteImg(id);
-        updateReviews(model);
-        return "admin::reviews";
-    }
 
     // Вспомогательные методы для уменьшения дублирования кода
     private void populateAdminDashboard(Model model) {
@@ -154,23 +82,6 @@ public class AdminController extends CRUDController<Home, Long> {
                 .map(commits -> modelMapper.map(commits, CommitsDTO.class)).collect(Collectors.toList()));
         model.addAttribute("home", getService().findAll());
 
-
-    }
-
-    private void updateGallery(Model model) {
-        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
-    }
-
-    private void updateSketches(Model model) {
-        model.addAttribute("sketches", sketchesService.getSketchesDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
-    }
-
-    private void updateInterestingWorks(Model model) {
-        model.addAttribute("interestingWorks", blogService.findDescription());
-    }
-
-    private void updateReviews(Model model) {
-        model.addAttribute("reviews", reviewService.findAll());
     }
 
 
