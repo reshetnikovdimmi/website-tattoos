@@ -45,6 +45,16 @@ public class BlogController extends CRUDController  {
         return blogService;
     }
 
+    @Override
+    protected Object prepareObject(MultipartFile fileImport, Object object) {
+        return object;
+    }
+
+    @Override
+    void updateSection(Model model) {
+
+    }
+
     @GetMapping ("/blog")
     public  String blog (Model model){
         model.addAttribute("localDateTime", LocalDateTime.now());

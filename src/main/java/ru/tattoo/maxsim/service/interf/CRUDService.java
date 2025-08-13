@@ -1,7 +1,10 @@
 package ru.tattoo.maxsim.service.interf;
 
 
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.Home;
+import ru.tattoo.maxsim.model.HomeHeroSection;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,5 +30,7 @@ public interface CRUDService<E, K> {
     void saveImg(MultipartFile fileImport, String textH1, String textH2, String textH3) throws IOException;
 
     void deleteImg(Long id) throws IOException;
+
+    void imageImport(MultipartFile fileImport, E object);
 
 }

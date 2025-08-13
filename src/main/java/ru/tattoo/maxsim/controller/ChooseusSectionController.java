@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.ChooseusSection;
 import ru.tattoo.maxsim.model.PriceSection;
 import ru.tattoo.maxsim.service.interf.CRUDService;
@@ -34,6 +35,16 @@ public class ChooseusSectionController extends CRUDController {
     @Override
     CRUDService getService() {
         return chooseusSectionService;
+    }
+
+    @Override
+    protected Object prepareObject(MultipartFile fileImport, Object object) {
+        return object;
+    }
+
+    @Override
+    void updateSection(Model model) {
+
     }
 
     @PostMapping("/update-chooseus")

@@ -10,7 +10,7 @@ import lombok.*;
 @Setter
 @Entity
 @ToString
-public class ChooseusSection {
+public class ChooseusSection{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,4 +1,4 @@
-// Функция для загрузки данных формы
+Q// Функция для загрузки данных формы
 async function uploadHome(event, fragment) {
     event.preventDefault(); // Отмена стандартной отправки формы
 
@@ -21,7 +21,7 @@ async function uploadHome(event, fragment) {
             });
 
             alert('Татуировка успешно сохранена!');
-            console.log('Татуировка успешно сохранена!');
+      -      console.log('Татуировка успешно сохранена!');
             $(fragment).html(response); // Замена текущего содержимого новым шаблоном
         } catch (error) {
             console.log('Ошибка при загрузке:', error);

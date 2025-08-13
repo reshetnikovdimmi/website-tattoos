@@ -3,8 +3,10 @@ package ru.tattoo.maxsim.service.impl;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.web.multipart.MultipartFile;
-import ru.tattoo.maxsim.model.DTO.CommitsDTO;
+import ru.tattoo.maxsim.model.Home;
 import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.util.ImageUtils;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -67,5 +69,9 @@ public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K>{
     @Override
     public void deleteImg(Long id) throws IOException {
 
+    }
+    @Override
+    public void imageImport(MultipartFile fileImport, E object) {
+        getRepository().save(object);
     }
 }

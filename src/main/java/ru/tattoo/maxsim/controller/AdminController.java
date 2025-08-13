@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.model.DTO.CommitsDTO;
 import ru.tattoo.maxsim.model.Home;
+import ru.tattoo.maxsim.model.HomeHeroSection;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ContactInfoRepository;
 import ru.tattoo.maxsim.service.interf.*;
@@ -71,6 +72,7 @@ public class AdminController extends CRUDController<Home, Long> {
 
     // Вспомогательные методы для уменьшения дублирования кода
     private void populateAdminDashboard(Model model) {
+        model.addAttribute("hero", new HomeHeroSection());
         model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
         model.addAttribute("sketches", sketchesService.getSketchesDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
         model.addAttribute("reviews", reviewService.findAll());
@@ -98,6 +100,16 @@ public class AdminController extends CRUDController<Home, Long> {
     @Override
     CRUDService<Home, Long> getService() {
         return homeService;
+    }
+
+    @Override
+    protected Home prepareObject(MultipartFile fileImport, Home object) {
+        return object;
+    }
+
+    @Override
+    void updateSection(Model model) {
+
     }
 }
 

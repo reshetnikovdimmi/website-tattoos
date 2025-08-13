@@ -11,7 +11,7 @@ import java.util.Date;
 @Setter
 @Entity
 @ToString
-public class Sketches {
+public class Sketches{
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;

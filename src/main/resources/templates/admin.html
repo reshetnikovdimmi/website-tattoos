@@ -131,110 +131,99 @@
                         <div class="tab-content" id="v-carousel-tabContent">
                             <div class="tab-pane fade show active" id="v-pills-carousel" role="tabpanel"
                                  aria-labelledby="v-pills-carousel-tab">
-                                <div class="col-lg-12 text-center">
-                                    <div class="section-title">
-                                        <h2>carousel</h2>
-                                    </div>
-                                </div>
-                                <div class="container ">
-                                    <div class="carousel-import" th:fragment="carousel-import">
-                                        <div class="row justify-content-center">
-                                            <div class="card">
-                                                <form action="/hero/home-import"
-                                                      onsubmit="uploadHome(event, '.carousel-import')"
-                                                      class="form-admin">
-                                                    <div class="row mb-3 text-center">
-                                                        <div class="col-6 col-lg-4 themed-grid-col">
-                                                            <div class="avatar-container">
-                                                                <img class="preview-image" id="hero-section"
-                                                                     src="img/avatar.jpg" alt="Выберите фото тату">
-                                                                <button type="button"
-                                                                        class="upload-btn btn btn-primary"
-                                                                        onclick="document.getElementById('file-carousel').click()">
-                                                                    Выбрать файл
-                                                                </button>
-                                                                <input type="file" name="file" id="file-carousel"
-                                                                       accept="image/*"
-                                                                       onchange="loadImage(this, document.getElementById('hero-section'))"
-                                                                       required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6 col-lg-8 themed-grid-col">
-                                                            <div class="input-group">
-                                                                <span class="input-group-text">H2</span>
-                                                                <textarea class="form-control" name="textH2"
-                                                                          aria-label="С текстовым полем"
-                                                                          required></textarea>
-                                                            </div>
-                                                            <div class="input-group">
-                                                                <span class="input-group-text">H1</span>
-                                                                <textarea class="form-control" name="textH1"
-                                                                          aria-label="С текстовым полем"
-                                                                          required></textarea>
-                                                            </div>
-
-                                                            <div hidden class="input-group">
-                                                                <span class="input-group-text">H3</span>
-                                                                <textarea class="form-control" name="textH3"
-                                                                          aria-label="С текстовым полем"></textarea>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-3 text-center">
-                                                        <div class="d-grid gap-2 col-6 mx-auto">
-                                                            <button type="submit" class="btn btn-primary">
-                                                                Сохранить тату
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
+                                <section class="hero-section">
+                                    <div class="col-lg-12 text-center">
+                                        <div class="section-title">
+                                            <h2>carousel</h2>
                                         </div>
-                                        <div class="row justify-content-center">
-                                            <div class="card">
-                                                <div id="carouselExample" class="carousel slide">
-                                                    <div class="carousel-inner">
-                                                        <div th:each="current : ${home}">
-                                                            <div th:each="currents, item : ${current.banners}"
-                                                                 class="carousel-item"
-                                                                 th:attrappend="class=${item.index == 0}? ' active': ''">
-                                                                <img th:src="@{'/images/' + ${currents.imageName}}"
-                                                                     class="d-block w-100 stretched-image"
-                                                                     alt="..."/>
-                                                                <div class="carousel-caption d-none d-md-block">
-                                                                    <div class="hero-text">
-                                                                        <h6 th:text="${currents.textH2}"></h6>
-                                                                        <h5 th:text="${currents.textH1}"></h5>
-                                                                    </div>
-
+                                    </div>
+                                    <div class="container ">
+                                        <div class="carousel-import" th:fragment="carousel-import">
+                                            <div class="row justify-content-center">
+                                                <div class="card">
+                                                    <form action="/hero/image-import" onsubmit="uploadHome(event, '.carousel-import')" class="form-admin" th:object="${hero}">
+                                                        <div class="row mb-3 text-center">
+                                                            <div class="col-6 col-lg-4 themed-grid-col">
+                                                                <div class="avatar-container">
+                                                                    <img class="preview-image" id="hero-section" src="img/avatar.jpg" alt="Выберите фото тату">
+                                                                    <button type="button" class="upload-btn btn btn-primary" onclick="document.getElementById('file-carousel').click()">
+                                                                        Выбрать файл
+                                                                    </button>
+                                                                    <input type="file" name="file" id="file-carousel" accept="image/*" onchange="loadImage(this, document.getElementById('hero-section'))" required>
                                                                 </div>
-                                                                <button style="margin: 10px;"
-                                                                        th:id="${currents.id}"
-                                                                        onclick="deleteImage(this.id, '.carousel-import', '/hero/delete-section')"
-                                                                        class="delete-button"
-                                                                        type="submit"></button>
+                                                            </div>
+                                                            <div class="col-sm-6 col-lg-8 themed-grid-col">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text">H2</span>
+                                                                    <textarea class="form-control" name="textH2" th:field="*{textH2}" aria-label="С текстовым полем" required></textarea>
+                                                                </div>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text">H1</span>
+                                                                    <textarea class="form-control" name="textH1" th:field="*{textH1}" aria-label="С текстовым полем" required></textarea>
+                                                                </div>
+                                                                <div hidden class="input-group">
+                                                                    <span class="input-group-text">H3</span>
+                                                                    <textarea class="form-control" name="textH3" th:field="*{textH3}" aria-label="С текстовым полем"></textarea>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <button class="carousel-control-prev" id="Previous"
-                                                            type="button"
-                                                            data-bs-target="#carouselExample" data-bs-slide="prev" onclick="carousePrevious()">
+                                                        <div class="row mb-3 text-center">
+                                                            <div class="d-grid gap-2 col-6 mx-auto">
+                                                                <button type="submit" class="btn btn-primary">
+                                                                    Сохранить тату
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="card">
+                                                    <div id="carouselExample" class="carousel slide">
+                                                        <div class="carousel-inner">
+                                                            <div th:each="current : ${home}">
+                                                                <div th:each="currents, item : ${current.banners}"
+                                                                     class="carousel-item"
+                                                                     th:attrappend="class=${item.index == 0}? ' active': ''">
+                                                                    <img th:src="@{'/images/' + ${currents.imageName}}"
+                                                                         class="d-block w-100 stretched-image"
+                                                                         alt="..."/>
+                                                                    <div class="carousel-caption d-none d-md-block">
+                                                                        <div class="hero-text">
+                                                                            <h6 th:text="${currents.textH2}"></h6>
+                                                                            <h5 th:text="${currents.textH1}"></h5>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <button style="margin: 10px;"
+                                                                            th:id="${currents.id}"
+                                                                            onclick="deleteImage(this.id, '.carousel-import', '/hero/delete-section')"
+                                                                            class="delete-button"
+                                                                            type="submit"></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button class="carousel-control-prev" id="Previous"
+                                                                type="button"
+                                                                data-bs-target="#carouselExample" data-bs-slide="prev"
+                                                                onclick="carousePrevious()">
                                                             <span class="carousel-control-prev-icon"
                                                                   aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Previous</span>
-                                                    </button>
-                                                    <button class="carousel-control-next" type="button" id="Next"
-                                                            data-bs-target="#carouselExample" data-bs-slide="next" onclick="carouselNext()">
+                                                            <span class="visually-hidden">Previous</span>
+                                                        </button>
+                                                        <button class="carousel-control-next" type="button" id="Next"
+                                                                data-bs-target="#carouselExample" data-bs-slide="next"
+                                                                onclick="carouselNext()">
                                                             <span class="carousel-control-next-icon"
                                                                   aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Next</span>
-                                                    </button>
+                                                            <span class="visually-hidden">Next</span>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </section>
                             </div>
                             <div class="tab-pane fade" id="v-pills-feature" role="tabpanel"
                                  aria-labelledby="v-pills-featur-tab">

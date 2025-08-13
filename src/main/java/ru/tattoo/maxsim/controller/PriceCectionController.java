@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.ClassesSection;
 import ru.tattoo.maxsim.model.PriceSection;
 import ru.tattoo.maxsim.service.interf.CRUDService;
@@ -36,6 +37,16 @@ public class PriceCectionController extends CRUDController{
     @Override
     CRUDService getService() {
         return priceSectionService;
+    }
+
+    @Override
+    protected Object prepareObject(MultipartFile fileImport, Object object) {
+        return object;
+    }
+
+    @Override
+    void updateSection(Model model) {
+
     }
 
     @PostMapping("/update-prices")

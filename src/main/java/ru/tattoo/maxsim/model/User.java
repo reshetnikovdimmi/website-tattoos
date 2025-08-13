@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @Entity
 @ToString
-public class User {
+public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;

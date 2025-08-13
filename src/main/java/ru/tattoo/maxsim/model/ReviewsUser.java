@@ -12,7 +12,7 @@ import java.util.Date;
 @Setter
 @Entity
 @ToString
-public class ReviewsUser {
+public class ReviewsUser{
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
