@@ -141,29 +141,45 @@
                                         <div class="carousel-import" th:fragment="carousel-import">
                                             <div class="row justify-content-center">
                                                 <div class="card">
-                                                    <form action="/hero/image-import" onsubmit="uploadHome(event, '.carousel-import')" class="form-admin" th:object="${hero}">
+                                                    <form action="/hero/image-import"
+                                                          onsubmit="uploadHome(event, '.carousel-import')"
+                                                          class="form-admin" th:object="${hero}">
                                                         <div class="row mb-3 text-center">
                                                             <div class="col-6 col-lg-4 themed-grid-col">
                                                                 <div class="avatar-container">
-                                                                    <img class="preview-image" id="hero-section" src="img/avatar.jpg" alt="Выберите фото тату">
-                                                                    <button type="button" class="upload-btn btn btn-primary" onclick="document.getElementById('file-carousel').click()">
+                                                                    <img class="preview-image" id="hero-section"
+                                                                         src="img/avatar.jpg" alt="Выберите фото тату">
+                                                                    <button type="button"
+                                                                            class="upload-btn btn btn-primary"
+                                                                            onclick="document.getElementById('file-carousel').click()">
                                                                         Выбрать файл
                                                                     </button>
-                                                                    <input type="file" name="file" id="file-carousel" accept="image/*" onchange="loadImage(this, document.getElementById('hero-section'))" required>
+                                                                    <input type="file" name="file" id="file-carousel"
+                                                                           accept="image/*"
+                                                                           onchange="loadImage(this, document.getElementById('hero-section'))"
+                                                                           required>
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6 col-lg-8 themed-grid-col">
                                                                 <div class="input-group">
                                                                     <span class="input-group-text">H2</span>
-                                                                    <textarea class="form-control" name="textH2" th:field="*{textH2}" aria-label="С текстовым полем" required></textarea>
+                                                                    <textarea class="form-control" name="textH2"
+                                                                              th:field="*{textH2}"
+                                                                              aria-label="С текстовым полем"
+                                                                              required></textarea>
                                                                 </div>
                                                                 <div class="input-group">
                                                                     <span class="input-group-text">H1</span>
-                                                                    <textarea class="form-control" name="textH1" th:field="*{textH1}" aria-label="С текстовым полем" required></textarea>
+                                                                    <textarea class="form-control" name="textH1"
+                                                                              th:field="*{textH1}"
+                                                                              aria-label="С текстовым полем"
+                                                                              required></textarea>
                                                                 </div>
                                                                 <div hidden class="input-group">
                                                                     <span class="input-group-text">H3</span>
-                                                                    <textarea class="form-control" name="textH3" th:field="*{textH3}" aria-label="С текстовым полем"></textarea>
+                                                                    <textarea class="form-control" name="textH3"
+                                                                              th:field="*{textH3}"
+                                                                              aria-label="С текстовым полем"></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -227,89 +243,88 @@
                             </div>
                             <div class="tab-pane fade" id="v-pills-feature" role="tabpanel"
                                  aria-labelledby="v-pills-featur-tab">
-                                <div class="col-lg-12 text-center">
-                                    <div class="section-title">
-                                        <h2>feature-section</h2>
-                                    </div>
-                                </div>
-                                <div class="container ">
-                                    <div class="feature-import" th:fragment="feature-import">
-                                        <div class="row justify-content-center">
-                                            <div class="card">
-                                                <form id="img-carousel" action="/feature/home-import"
-                                                      onsubmit="uploadHome(event, '.feature-import')"
-                                                      class="form-admin">
-                                                    <div class="row mb-3 text-center">
-                                                        <div class="col-6 col-lg-4 themed-grid-col">
-                                                            <div class="avatar-container">
-                                                                <img class="feature-section" id="feature-section"
-                                                                     src="img/avatar.jpg" alt="Выберите фото тату">
-                                                                <button type="button" class="upload-btn btn btn-primary"
-                                                                        onclick="document.getElementById('file-feature').click()">
-                                                                    Выбрать файл
-                                                                </button>
-                                                                <input type="file" name="file" id="file-feature"
-                                                                       accept="image/*"
-                                                                       onchange="loadImage(this, document.getElementById('feature-section'))"
-                                                                       required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6 col-lg-8 themed-grid-col">
-                                                            <div class="input-group">
-                                                                <span class="input-group-text">H2</span>
-                                                                <textarea class="form-control" name="textH2"
-                                                                          aria-label="С текстовым полем"
-                                                                          required></textarea>
-                                                            </div>
-                                                            <div class="input-group">
-                                                                <span class="input-group-text">H1</span>
-                                                                <textarea class="form-control" name="textH1"
-                                                                          aria-label="С текстовым полем"
-                                                                          required></textarea>
-                                                            </div>
-                                                            <div hidden class="input-group">
-                                                                <span class="input-group-text">H3</span>
-                                                                <textarea class="form-control" name="textH3"
-                                                                          aria-label="С текстовым полем"></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-grid gap-2 col-6 mx-auto">
-                                                            <button type="submit" class="btn btn-primary">
-                                                                Сохранить тату
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
+                                <section class="feature-section">
+                                    <div class="col-lg-12 text-center">
+                                        <div class="section-title">
+                                            <h2>feature-section</h2>
                                         </div>
-                                        <div class="row justify-content-center">
-                                            <div class="classtime-table scroll" style="margin: 20px;">
-                                                <div th:each="current: ${home}">
-                                                    <div th:each="currents : ${current.feature}">
+                                    </div>
+                                    <div class="container ">
+                                        <div class="feature-import" th:fragment="feature-import">
+                                            <div class="row justify-content-center">
+                                                <div class="card">
+                                                    <form  action="/feature/image-import"
+                                                          onsubmit="uploadHome(event, '.feature-import')"
+                                                          class="form-admin" th:object="${feature}">
                                                         <div class="row mb-3 text-center">
-                                                            <div class="card">
-                                                                <div class="feature-img">
-                                                                    <div class="col-6 col-md-4 themed-grid-col">
+                                                            <div class="col-6 col-lg-4 themed-grid-col">
+                                                                <div class="avatar-container">
+                                                                    <img class="feature-section" id="feature-section"
+                                                                         src="img/avatar.jpg" alt="Выберите фото тату">
+                                                                    <button type="button"
+                                                                            class="upload-btn btn btn-primary"
+                                                                            onclick="document.getElementById('file-feature').click()">
+                                                                        Выбрать файл
+                                                                    </button>
+                                                                    <input type="file" name="file" id="file-feature"
+                                                                           accept="image/*"
+                                                                           onchange="loadImage(this, document.getElementById('feature-section'))"
+                                                                           required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6 col-lg-8 themed-grid-col">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text">H2</span>
+                                                                    <textarea class="form-control" name="textH2" th:field="*{textH2}"
+                                                                              aria-label="С текстовым полем"
+                                                                              required></textarea>
+                                                                </div>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text">H1</span>
+                                                                    <textarea class="form-control" name="textH1" th:field="*{textH1}"
+                                                                              aria-label="С текстовым полем"
+                                                                              required></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-grid gap-2 col-6 mx-auto">
+                                                                <button type="submit" class="btn btn-primary">
+                                                                    Сохранить тату
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="classtime-table scroll" style="margin: 20px;">
+                                                    <div th:each="current: ${home}">
+                                                        <div th:each="currents : ${current.feature}">
+                                                            <div class="row mb-3 text-center">
+                                                                <div class="card">
+                                                                    <div class="feature-img">
+                                                                        <div class="col-6 col-md-4 themed-grid-col">
                                                                         <span th:if="${currents.imageName}">
                                                                             <img th:src="@{'/images/'+${currents.imageName}}"
                                                                                  alt="Profile Picture">
                                                                         </span>
-                                                                        <span th:unless="${currents.imageName}">
+                                                                            <span th:unless="${currents.imageName}">
                                                                             <img src="img/avatar.jpg"
                                                                                  alt="Profile Picture">
                                                                         </span>
-                                                                    </div>
-                                                                    <div class="col-md-8 themed-grid-col">
-                                                                        <div class="card-header d-flex justify-content-between align-items-center">
-                                                                            <div th:text="${currents.textH1}"></div>
-                                                                            <button type="button" th:id="${currents.id}"
-                                                                                    onclick="deleteImage(this.id, '.feature-import', '/feature/delete-section')"
-                                                                                    class="btn btn-outline-secondary del-reviews">
-                                                                                Удалить
-                                                                            </button>
                                                                         </div>
-                                                                        <div class="card-body"
-                                                                             th:text="${currents.textH2}"></div>
+                                                                        <div class="col-md-8 themed-grid-col">
+                                                                            <div class="card-header d-flex justify-content-between align-items-center">
+                                                                                <div th:text="${currents.textH1}"></div>
+                                                                                <button type="button"
+                                                                                        th:id="${currents.id}"
+                                                                                        onclick="deleteImage(this.id, '.feature-import', '/feature/delete-section')"
+                                                                                        class="btn btn-outline-secondary del-reviews">
+                                                                                    Удалить
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="card-body"
+                                                                                 th:text="${currents.textH2}"></div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -319,7 +334,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </section>
                             </div>
                             <div class="tab-pane fade" id="v-pills-about" role="tabpanel"
                                  aria-labelledby="v-pills-about-tab">

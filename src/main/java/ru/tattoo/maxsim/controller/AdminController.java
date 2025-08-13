@@ -8,11 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import ru.tattoo.maxsim.model.ContactInfo;
+import ru.tattoo.maxsim.model.*;
 import ru.tattoo.maxsim.model.DTO.CommitsDTO;
-import ru.tattoo.maxsim.model.Home;
-import ru.tattoo.maxsim.model.HomeHeroSection;
-import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ContactInfoRepository;
 import ru.tattoo.maxsim.service.interf.*;
 import ru.tattoo.maxsim.util.PageSize;
@@ -73,6 +70,7 @@ public class AdminController extends CRUDController<Home, Long> {
     // Вспомогательные методы для уменьшения дублирования кода
     private void populateAdminDashboard(Model model) {
         model.addAttribute("hero", new HomeHeroSection());
+        model.addAttribute("feature", new FeatureSection());
         model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
         model.addAttribute("sketches", sketchesService.getSketchesDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
         model.addAttribute("reviews", reviewService.findAll());

@@ -6,8 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.FeatureSection;
+import ru.tattoo.maxsim.model.HomeHeroSection;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.service.interf.FeatureSectionService;
+import ru.tattoo.maxsim.service.interf.HomeService;
+import ru.tattoo.maxsim.util.ImageUtils;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/feature")
@@ -15,6 +20,9 @@ public class FeatureSectionController extends CRUDController<FeatureSection, Lon
 
     @Autowired
     private FeatureSectionService featureSectionService;
+
+    @Autowired
+    private HomeService homeService;
 
     @Override
     String getEntityName() {
@@ -27,13 +35,17 @@ public class FeatureSectionController extends CRUDController<FeatureSection, Lon
     }
 
     @Override
-    protected FeatureSection prepareObject(MultipartFile fileImport, FeatureSection object) {
-        return object;
+    protected FeatureSection prepareObject(MultipartFile fileImport, FeatureSection featureSection) throws IOException {
+        featureSection.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
+        featureSection.setSection("home");
+        ImageUtils.saveImage(fileImport, featureSection.getImageName());
+        return featureSection;
     }
 
     @Override
     void updateSection(Model model) {
-
+        model.addAttribute("home", homeService.findAll());
+        model.addAttribute("feature", new FeatureSection());
     }
 
 
