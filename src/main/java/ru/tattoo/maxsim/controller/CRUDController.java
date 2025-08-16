@@ -17,7 +17,15 @@ public abstract class CRUDController<E, K>  {
 
     abstract String getEntityName();
     abstract CRUDService<E, K> getService();
-    protected abstract E prepareObject(MultipartFile fileImport, E object) throws IOException;
+
+    protected E prepareObject(MultipartFile fileImport, E object) throws IOException {
+        return object;
+    }
+
+    protected E prepareObject(E object) throws IOException {
+        return object;
+    }
+
     abstract void updateSection(Model model);
 
 
@@ -33,8 +41,15 @@ public abstract class CRUDController<E, K>  {
     public String uploadImage(@ModelAttribute("hero") E object,
                              @RequestParam("file") MultipartFile fileImport,
                              Model model) throws IOException, ParseException {
-
         getService().create(prepareObject(fileImport, object));
+        updateSection(model);
+        return getEntityName();
+    }
+
+    @PostMapping("/import")
+    public String upload(@ModelAttribute("hero") E object,
+                              Model model) throws IOException, ParseException {
+        getService().create(prepareObject(object));
         updateSection(model);
         return getEntityName();
     }

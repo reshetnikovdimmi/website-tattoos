@@ -71,6 +71,9 @@ public class AdminController extends CRUDController<Home, Long> {
     private void populateAdminDashboard(Model model) {
         model.addAttribute("hero", new HomeHeroSection());
         model.addAttribute("feature", new FeatureSection());
+        model.addAttribute("about", new AboutSection());
+        model.addAttribute("classes", new ClassesSection());
+        model.addAttribute("chooseus", new ChooseusSection());
         model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
         model.addAttribute("sketches", sketchesService.getSketchesDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
         model.addAttribute("reviews", reviewService.findAll());

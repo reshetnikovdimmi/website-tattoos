@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.AboutSection;
 import ru.tattoo.maxsim.model.ClassesSection;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.service.interf.ClassesSectionService;
 import ru.tattoo.maxsim.service.interf.HomeService;
+import ru.tattoo.maxsim.util.ImageUtils;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -18,8 +20,11 @@ import java.text.ParseException;
 
 
 @Controller
-@RequestMapping("/classes")
+@RequestMapping(ClassesSectionController.URL)
 public class ClassesSectionController extends CRUDController<ClassesSection, Long>{
+
+    public static final String URL = "/classes";
+    public static final String PAGE_FRAGMENT = "admin::classes";
 
     @Autowired
     private ClassesSectionService classesSectionService;
@@ -28,7 +33,7 @@ public class ClassesSectionController extends CRUDController<ClassesSection, Lon
 
     @Override
     String getEntityName() {
-        return "admin::classes";
+        return PAGE_FRAGMENT;
     }
 
     @Override
@@ -37,25 +42,23 @@ public class ClassesSectionController extends CRUDController<ClassesSection, Lon
     }
 
     @Override
-    protected ClassesSection prepareObject(MultipartFile fileImport, ClassesSection object) {
-        return object;
+    protected ClassesSection prepareObject(MultipartFile fileImport, ClassesSection classesSection) throws IOException {
+        classesSection.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
+        classesSection.setSection("home");
+        ImageUtils.saveImage(fileImport, classesSection.getImageName());
+        return classesSection;
     }
 
     @Override
-    void updateSection(Model model) {
-
-    }
-
-    @PostMapping("/title")
-    public String classes(@RequestParam("textH2") String textH2,@RequestParam("textH3") String textH3, @RequestParam("id") Long id,Model model) throws IOException, ParseException {
-        ClassesSection classesSection = new ClassesSection();
-        classesSection.setId(id);
-        classesSection.setTextH2(textH2);
-        classesSection.setTextH3(textH3);
+    protected ClassesSection prepareObject(ClassesSection classesSection) throws IOException {
         classesSection.setSection("home");
         classesSection.setTitle("title");
-        getService().create(classesSection);
-        model.addAttribute("home", homeService.findAll());
-        return "admin::classes-title";
+        return classesSection;
+    }
+
+    @Override
+    void updateSection(Model model) {model.addAttribute("home", homeService.findAll());
+
+        model.addAttribute("classes", new ClassesSection());
     }
 }

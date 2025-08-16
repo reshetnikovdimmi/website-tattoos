@@ -199,3 +199,47 @@
     function carousePrevious() {
         $('#carouselExample').carousel('prev');
     }
+    /*----------------------------
+    Функция для загрузки данных формы
+    -----------------------------*/
+    async function submitForm(event, fragment) {
+        event.preventDefault(); // Отмена стандартной отправки формы
+
+        const form = event.currentTarget; // Получаем текущую форму
+        const formAction = form.action; // Извлекаем адрес из атрибута action
+        const formData = new FormData(form); // Создаем объект FormData с полями формы
+
+        // Добавляем id в FormData, если он передан
+        if (event.target.id) {
+            formData.append('id', event.currentTarget.id);
+        }
+
+        const inputs = form.querySelectorAll('input, textarea');
+        const button = form.querySelector('button[type="submit"]');
+
+        if (button.textContent.trim().toLowerCase() === 'изменить') {
+            // Включаем поля для редактирования
+            inputs.forEach(input => input.disabled = false);
+            button.textContent = 'Сохранить'; // Меняем надпись на кнопке
+            form.classList.add('active'); // Добавляем класс 'active' к форме
+        } else {
+            try {
+                const response = await $.ajax({
+                    url: formAction, // Адрес контроллера Spring MVC
+                    dataType: 'html', // Тип ожидаемого ответа — HTML-фрагмент
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    type: 'POST',
+                });
+
+                alert('Информация успешно сохранена!');
+                console.log('Информация успешно сохранена!');
+                $(fragment).html(response); // Замена текущего содержимого новым шаблоном
+            } catch (error) {
+                console.log('Ошибка при загрузке:', error);
+                alert('Произошла ошибка при сохранении информации.');
+            }
+        }
+    }

@@ -6,18 +6,30 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.AboutSection;
+import ru.tattoo.maxsim.model.HomeHeroSection;
 import ru.tattoo.maxsim.service.interf.AboutSectionService;
 import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.HomeService;
+import ru.tattoo.maxsim.util.ImageUtils;
+
+import java.io.IOException;
+
 @Controller
-@RequestMapping("/about")
+@RequestMapping(AboutSectionController.URL)
 public class AboutSectionController extends CRUDController<AboutSection, Long> {
+
+    public static final String URL = "/about";
+    public static final String PAGE_FRAGMENT = "admin::home-about";
 
     @Autowired
     private AboutSectionService aboutSectionService;
 
+    @Autowired
+    private HomeService homeService;
+
     @Override
     String getEntityName() {
-        return "admin::home-about";
+        return PAGE_FRAGMENT;
     }
 
     @Override
@@ -26,12 +38,16 @@ public class AboutSectionController extends CRUDController<AboutSection, Long> {
     }
 
     @Override
-    protected AboutSection prepareObject(MultipartFile fileImport, AboutSection object) {
-        return object;
+    protected AboutSection prepareObject(MultipartFile fileImport, AboutSection aboutSection) throws IOException {
+        aboutSection.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
+        aboutSection.setSection("home");
+        ImageUtils.saveImage(fileImport, aboutSection.getImageName());
+        return aboutSection;
     }
 
     @Override
     void updateSection(Model model) {
-
+        model.addAttribute("home", homeService.findAll());
+        model.addAttribute("about", new AboutSection());
     }
 }

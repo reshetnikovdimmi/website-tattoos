@@ -15,8 +15,11 @@ import ru.tattoo.maxsim.util.ImageUtils;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/feature")
+@RequestMapping(FeatureSectionController.URL)
 public class FeatureSectionController extends CRUDController<FeatureSection, Long>{
+
+    public static final String URL = "/feature";
+    public static final String PAGE_FRAGMENT = "admin::feature-import";
 
     @Autowired
     private FeatureSectionService featureSectionService;
@@ -26,7 +29,7 @@ public class FeatureSectionController extends CRUDController<FeatureSection, Lon
 
     @Override
     String getEntityName() {
-        return "admin::feature-import";
+        return PAGE_FRAGMENT;
     }
 
     @Override

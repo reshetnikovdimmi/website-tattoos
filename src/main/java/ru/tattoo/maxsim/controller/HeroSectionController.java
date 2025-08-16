@@ -15,8 +15,11 @@ import ru.tattoo.maxsim.util.ImageUtils;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/hero")
+@RequestMapping(HeroSectionController.URL)
 public class HeroSectionController extends CRUDController<HomeHeroSection, Long>{
+
+    public static final String URL = "/hero";
+    public static final String PAGE_FRAGMENT = "admin::carousel-import";
 
     @Autowired
     private HeroSectionService heroSectionService;
@@ -26,7 +29,7 @@ public class HeroSectionController extends CRUDController<HomeHeroSection, Long>
 
     @Override
     String getEntityName() {
-        return  "admin::carousel-import";
+        return  PAGE_FRAGMENT;
     }
 
     @Override
