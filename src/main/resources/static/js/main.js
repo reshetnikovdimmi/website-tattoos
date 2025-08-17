@@ -243,3 +243,12 @@
             }
         }
     }
+    /*---------------
+    Gallery controls
+    --------------*/
+ function goToPage(style, page, number) {
+     document.getElementById('category').value = style;
+     $.get(`/gallery/admin/${style}/${page}/${number}`, {}, function(data) {
+              $(".img-import").html(data);
+          });
+ }

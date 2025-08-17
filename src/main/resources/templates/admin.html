@@ -669,7 +669,8 @@
                                                          th:each="currents : ${current.chooseus}"
                                                          th:if="${currents.title}">
                                                         <form th:id="${currents.id}" action="/chooseus/import"
-                                                              onsubmit="submitForm(event,'.chooseus')" th:object="${currents}">
+                                                              onsubmit="submitForm(event,'.chooseus')"
+                                                              th:object="${currents}">
                                                             <input type="text" th:name="'textH1'"
                                                                    th:value="*{textH1}"
                                                                    id="editprice-title" disabled/>
@@ -709,13 +710,15 @@
                                                             <div class="col-sm-6 col-lg-8 themed-grid-col">
                                                                 <div class="input-group">
                                                                     <span class="input-group-text">H2</span>
-                                                                    <textarea class="form-control" name="textH2" th:field="*{textH2}"
+                                                                    <textarea class="form-control" name="textH2"
+                                                                              th:field="*{textH2}"
                                                                               aria-label="С текстовым полем"
                                                                               required></textarea>
                                                                 </div>
                                                                 <div class="input-group">
                                                                     <span class="input-group-text">H1</span>
-                                                                    <textarea class="form-control" name="textH1" th:field="*{textH1}"
+                                                                    <textarea class="form-control" name="textH1"
+                                                                              th:field="*{textH1}"
                                                                               aria-label="С текстовым полем"
                                                                               required></textarea>
                                                                 </div>
@@ -1670,63 +1673,62 @@
                 <!--Gallery panes -->
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <form action="/about/home-import"
-                                      onsubmit="uploadHome(event, '.home-about')"
-                                      class="form-admin">
-                                    <div class="row mb-3 text-center">
-                                        <div class="col-6 col-lg-4 themed-grid-col">
-                                            <div class="avatar-container">
-                                                <img class="about-section" id=""
-                                                     src="img/avatar.jpg" alt="Выберите фото тату">
-                                                <button type="button" class="upload-btn btn btn-primary"
-                                                        onclick="document.getElementById('file-about').click()">
-                                                    Выбрать файл
-                                                </button>
-                                                <input type="file" name="file" id=""
-                                                       accept="image/*"
-                                                       onchange="loadImage(this, document.getElementById('about-section'))"
-                                                       required>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-8 themed-grid-col">
-                                            <div class="input-group">
-                                                <span class="input-group-text">H1</span>
-                                                <textarea class="form-control" name="textH2"
-                                                          aria-label="С текстовым полем"
-                                                          required></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3 text-center">
-                                        <div class="d-grid gap-2 col-6 mx-auto">
-                                            <button type="submit" class="btn btn-primary">
-                                                Сохранить тату
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="row">
                         <div class="col-lg-12">
-                            <div class="gallery-controls">
+                            <div class="gallery-controls" th:each="current: ${gallery}">
                                 <ul>
-                                    <li class="active">Вся галерея</li>
-                                    <li>Классический</li>
-                                    <li>Винтажный</li>
-                                    <li>Граффити</li>
-                                    <li>Готический</li>
-                                    <li>Кельтский</li>
+                                    <li class="active" th:onclick="goToPage(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Вся галерея</li>
+                                    <li th:onclick="goToPage(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Классический</li>
+                                    <li th:onclick="goToPage(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Винтажный</li>
+                                    <li th:onclick="goToPage(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Граффити</li>
+                                    <li th:onclick="goToPage(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Готический</li>
+                                    <li th:onclick="goToPage(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Кельтский</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="img-import" id="gallery1" th:fragment="img-import">
+                    <div class="img-import" th:fragment="img-import">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <form action="/gallery/image-import"
+                                          onsubmit="submitForm(event, '.img-import')"
+                                          class="form-admin" th:object="${images}">
+                                        <div class="row mb-3 text-center">
+                                            <div class="col-6 col-lg-4 themed-grid-col">
+                                                <div class="avatar-container">
+                                                    <img class="img-section" id=""
+                                                         src="img/avatar.jpg" alt="Выберите фото тату">
+                                                    <button type="button" class="upload-btn btn btn-primary"
+                                                            onclick="document.getElementById('file-img').click()">
+                                                        Выбрать файл
+                                                    </button>
+                                                    <input type="file" name="file" id="file-img"
+                                                           accept="image/*"
+                                                           onchange="loadImage(this, document.getElementById('img-section'))"
+                                                           required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-lg-8 themed-grid-col">
+                                                <div class="input-group">
+                                                    <input hidden  id="category" type="text" name="category"  th:field="*{category}">
+                                                    <span class="input-group-text">H1</span>
+                                                    <textarea class="form-control" name="description"  th:field="*{description}"
+                                                              aria-label="С текстовым полем"
+                                                              required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3 text-center">
+                                            <div class="d-grid gap-2 col-6 mx-auto">
+                                                <button type="submit" class="btn btn-primary">
+                                                    Сохранить тату
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row gallery-filter" th:each="current, item : ${gallery.galleryImg}">
                             <div class="col-lg-4 col-sm-6 mix crossfit workout "
                                  th:each="currents: ${current}">
@@ -1748,13 +1750,13 @@
                         <div class="blog-option">
                             <div class="blog-pagination">
                                 <a th:if="${gallery.currentPage!=0}" id="fa-long-arrow-left"
-                                   type="submit"><i
+                                   type="submit" th:onclick="goToPage(document.querySelector('.gallery-controls ul li.active').textContent, [[${gallery.currentPage - 1}]], [[${gallery.number}]])" ><i
                                         class="fa fa-long-arrow-left"></i></a>
                                 <a class="active">[[${gallery.currentPage+1}]]</a>
                                 of
                                 <a>[[${gallery.pageSize}]]</a>
                                 <a th:if="${gallery.currentPage+1 != gallery.pageSize}"
-                                   id="fa-long-arrow-right"
+                                   th:onclick="goToPage(document.querySelector('.gallery-controls ul li.active').textContent, [[${gallery.currentPage + 1}]], [[${gallery.number}]])" id="fa-long-arrow-right"
                                    type="submit"><i
                                         class="fa fa-long-arrow-right"></i></a>
                             </div>
@@ -1766,7 +1768,7 @@
                                 </div>
                                 <div class="show-result">
                                     <p>Show:</p>
-                                    <select class="show-result-select" onchange="numbers()" id="number">
+                                    <select class="show-result-select" th:onchange="goToPage(document.querySelector('.gallery-controls ul li.active').textContent, [[${gallery.currentPage}]], this.value)" id="number">
                                         <option th:each="option : ${gallery.select}" th:value="${option}"
                                                 th:text="${option}"
                                                 th:selected="${option == gallery.number}"></option>

@@ -58,7 +58,6 @@ public class ClassesSectionController extends CRUDController<ClassesSection, Lon
 
     @Override
     void updateSection(Model model) {model.addAttribute("home", homeService.findAll());
-
         model.addAttribute("classes", new ClassesSection());
     }
 }
