@@ -247,8 +247,9 @@
     Gallery controls
     --------------*/
  function goToPage(style, page, number) {
-     document.getElementById('category').value = style;
+
      $.get(`/gallery/admin/${style}/${page}/${number}`, {}, function(data) {
+     document.getElementById('category').value = style;
               $(".img-import").html(data);
           });
  }

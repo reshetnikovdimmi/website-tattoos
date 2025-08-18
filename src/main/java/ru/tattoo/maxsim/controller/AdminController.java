@@ -88,12 +88,6 @@ public class AdminController extends CRUDController<Home, Long> {
 
     }
 
-
-    @PostMapping(path = "/best-tattoos")
-    private ResponseEntity bestImage(@RequestBody Images images) {
-        return ResponseEntity.ok(imagesService.bestImage(images));
-    }
-
     @Override
     String getEntityName() {
         return ADMIN_NAME;

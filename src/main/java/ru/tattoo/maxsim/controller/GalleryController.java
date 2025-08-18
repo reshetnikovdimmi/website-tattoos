@@ -2,6 +2,7 @@ package ru.tattoo.maxsim.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ import java.text.ParseException;
 
 @Controller
 @RequestMapping(GalleryController.URL)
-public class GalleryController extends CRUDController<Images, Long>{
+public class GalleryController extends CRUDController<Images, Long> {
 
     public static final String URL = "/gallery";
     private static final String ALL_GALLERY = "Вся галерея";
@@ -35,14 +36,15 @@ public class GalleryController extends CRUDController<Images, Long>{
     @GetMapping()
     public String gallery(Model model) {
 
-        model.addAttribute("gallery", imagesService.getGalleryDto(null,null,PageSize.IMG_9.getPageSize(),PAGE_NUMBER));
+        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
 
         return "gallery";
     }
+
     @RequestMapping(value = "/admin/{style}/{page}/{number}", method = RequestMethod.GET)
     private String galleryAdmin(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
 
-        model.addAttribute("gallery", imagesService.getGalleryDto(style.equals(ALL_GALLERY) ?null:style,null, number,page));
+        model.addAttribute("gallery", imagesService.getGalleryDto(style.equals(ALL_GALLERY) ? null : style, null, number, page));
         updateSection(model);
         return getEntityName();
     }
@@ -50,7 +52,7 @@ public class GalleryController extends CRUDController<Images, Long>{
     @RequestMapping(value = "{style}/{page}/{number}", method = RequestMethod.GET)
     private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
 
-        model.addAttribute("gallery", imagesService.getGalleryDto(style.equals(ALL_GALLERY) ?null:style,null, number,page));
+        model.addAttribute("gallery", imagesService.getGalleryDto(style.equals(ALL_GALLERY) ? null : style, null, number, page));
 
         return "gallery::galleryFilter";
     }
@@ -58,7 +60,7 @@ public class GalleryController extends CRUDController<Images, Long>{
     @RequestMapping(value = "reviews/{page}/{number}", method = RequestMethod.GET)
     private String reviewsModal(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
 
-        model.addAttribute("gallery", imagesService.getGalleryDto(null,null,number,page));
+        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, number, page));
 
         return "fragments::modal-img";
     }
@@ -75,8 +77,19 @@ public class GalleryController extends CRUDController<Images, Long>{
 
     @Override
     void updateSection(Model model) {
+
         model.addAttribute("images", new Images());
     }
+
+    @Override
+    @GetMapping("/admin/delete-section/{id}")
+    public String deleteCarouselImage(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
+        getService().deleteImg(id);
+        updateSection(model);
+        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
+        return getEntityName();
+    }
+
 
     @Override
     @PostMapping("/image-import")
@@ -86,8 +99,14 @@ public class GalleryController extends CRUDController<Images, Long>{
         object.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
         ImageUtils.saveImage(fileImport, object.getImageName());
         getService().create(object);
-        model.addAttribute("gallery", imagesService.getGalleryDto(object.getCategory().equals(ALL_GALLERY) ?null:object.getCategory(),null, PageSize.IMG_9.getPageSize(),PAGE_NUMBER));
+        model.addAttribute("gallery", imagesService.getGalleryDto(object.getCategory().equals(ALL_GALLERY) ? null : object.getCategory(), null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
         updateSection(model);
         return getEntityName();
     }
+
+    @PostMapping(path = "/best-tattoos")
+    private ResponseEntity bestImage(@RequestBody Images images) {
+        return ResponseEntity.ok(imagesService.bestImage(images));
+    }
+
 }

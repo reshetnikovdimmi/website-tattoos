@@ -1687,7 +1687,7 @@
                         </div>
                     </div>
                     <div class="img-import" th:fragment="img-import">
-                        <div class="row justify-content-center">
+                        <div class="row justify-content-center" >
                             <div class="col-lg-8">
                                 <div class="card">
                                     <form action="/gallery/image-import"
@@ -1696,7 +1696,7 @@
                                         <div class="row mb-3 text-center">
                                             <div class="col-6 col-lg-4 themed-grid-col">
                                                 <div class="avatar-container">
-                                                    <img class="img-section" id=""
+                                                    <img class="img-section" id="img-section"
                                                          src="img/avatar.jpg" alt="Выберите фото тату">
                                                     <button type="button" class="upload-btn btn btn-primary"
                                                             onclick="document.getElementById('file-img').click()">
@@ -1734,7 +1734,8 @@
                                  th:each="currents: ${current}">
                                 <div class="reviews-admin" th:id="${currents.id}">
                                     <img alt="" th:src="@{'/images/'+${currents.imageName}}">
-                                    <button class="delete-button"></button>
+                                    <button class="delete-button" th:id="${currents.id}"
+                                            onclick="deleteImage(this.id, '.img-import', '/gallery/admin/delete-section')"></button>
                                     <div class="carousel-caption d-none d-md-block">
                                         <h4>[[${currents.description}]]</h4>
                                     </div>
