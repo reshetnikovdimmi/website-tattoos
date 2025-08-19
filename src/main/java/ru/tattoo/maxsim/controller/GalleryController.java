@@ -16,6 +16,7 @@ import ru.tattoo.maxsim.util.PageSize;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Map;
 
 
 @Controller
@@ -104,9 +105,12 @@ public class GalleryController extends CRUDController<Images, Long> {
         return getEntityName();
     }
 
-    @PostMapping(path = "/best-tattoos")
-    private ResponseEntity bestImage(@RequestBody Images images) {
-        return ResponseEntity.ok(imagesService.bestImage(images));
-    }
+    @PostMapping("/admin/update-flag")
+    public String updateFlag(@ModelAttribute("hero") Images object,
+                             Model model) {
 
+        System.out.println(object);
+
+        return "Флаг обновлён";
+    }
 }

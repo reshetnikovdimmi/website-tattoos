@@ -40,6 +40,12 @@
             itemSelector: '.grid-item',
             columnWidth: '.grid-sizer',
         });
+        /*------------------
+            Gallery admin checkbox
+        --------------------*/
+         $(document).find('.checkbox').on('change', function() {
+                $(this).closest('form').submit();
+         });
     });
     /*------------------
         Background Set
@@ -253,3 +259,14 @@
               $(".img-import").html(data);
           });
  }
+function modals(message) {
+    $('#myModal').modal("show");
+    document.querySelector('.modal-body').textContent = message;
+    $('.btn-close').on('click', function() {
+        $('#myModal').modal('hide');
+    });
+    $('.btn-secondary').on('click', function() {
+        $('#myModal').modal('hide');
+    });
+    $('.btn-primary').attr('disabled', true);
+}
