@@ -526,6 +526,194 @@ ol {
 	display: none;
 }
 /*---------------------
+  Modals
+-----------------------*/
+/* Основная настройка модала */
+.modal.fade .modal-dialog {
+    transition: transform 0.3s ease-out;
+    transform: translateY(-20%);
+}
+
+.modal.show .modal-dialog {
+    transform: none;
+}
+
+/* Настройка заголовка модала */
+.modal-header h7.modal-title {
+    font-weight: bold;
+    color: #333;
+}
+
+.btn-close-custom {
+    background-color: transparent !important;
+    padding: 1rem;
+    margin-top: -0.5rem;
+    margin-bottom: -0.5rem;
+    margin-right: -0.5rem;
+    filter: invert(50%) sepia(100%) saturate(3000%) hue-rotate(180deg);
+}
+
+/* Основная зона сообщений */
+.modal-body div.container-fluid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    font-size: 1.1em;
+    color: #4c4c4c;
+    font-family: sans-serif;
+    word-wrap: break-word;
+}
+
+/* Футер модала */
+.modal-footer button.btn-secondary {
+    background-color: #ccc;
+    border: none;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s linear;
+}
+
+.modal-footer button.btn-secondary:hover {
+    background-color: #bbb;
+}
+
+/* Переход при закрытии модала */
+.modal.fade .modal-dialog.slide-down {
+    animation: slideDownOut 0.3s forwards;
+}
+
+@keyframes slideDownOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20%);
+    }
+}
+
+/* Анимация открытия модала */
+.modal.fade .modal-dialog.slide-up {
+    animation: slideUpIn 0.3s forwards;
+}
+
+@keyframes slideUpIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Кнопка закрытия */
+.btn-close-custom {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 100;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    padding: 0.5rem;
+    color: #aaa;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.btn-close-custom:hover {
+    color: #ff5c5c;
+}
+
+/* Макет модала */
+.modal-dialog {
+    max-width: 400px;
+    margin: auto;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    background-color: #f7f7f7;
+    border-top: 1px solid #ddd;
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-footer button {
+    margin-left: 0.5rem;
+}
+
+/* Темы цветов */
+.modal-content.light-theme {
+    background-color: #ffffff;
+    color: #333333;
+}
+
+.modal-content.dark-theme {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+/* Параметры шрифтов */
+.modal-content h7.modal-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.modal-content p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Оптимизация мобильной версии */
+@media screen and (max-width: 768px) {
+    .modal-dialog {
+        max-width: 300px;
+    }
+
+    .modal-body {
+        padding: 1rem;
+    }
+
+    .modal-footer button {
+        font-size: 0.9rem;
+    }
+}
+
+/* Минимальное улучшение для Retina-дисплеев */
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+       only screen and (min-resolution: 192dpi) {
+    .modal-content {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+}
+/*---------------------
   Admin Section
 -----------------------*/
 .card {

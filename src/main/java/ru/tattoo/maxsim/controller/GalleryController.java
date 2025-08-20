@@ -2,7 +2,6 @@ package ru.tattoo.maxsim.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import ru.tattoo.maxsim.util.PageSize;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Map;
 
 
 @Controller
@@ -106,11 +104,15 @@ public class GalleryController extends CRUDController<Images, Long> {
     }
 
     @PostMapping("/admin/update-flag")
-    public String updateFlag(@ModelAttribute("hero") Images object,
+    public String updateFlag(@RequestParam("id") Long id, @RequestParam("flag") boolean flag,
                              Model model) {
+        Images images = new Images();
+        images.setId(id);
+        images.setFlag(flag);
 
-        System.out.println(object);
+        String message = imagesService.bestImage(images) ? "установлено" : "снято";
+        model.addAttribute("message", message);
 
-        return "Флаг обновлён";
+        return "admin::modal-body";
     }
 }

@@ -61,8 +61,8 @@
                         aria-label="Close">
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="container-fluid">
+            <div class="modal-body" th:fragment="modal-body">
+                <div class="container-fluid" th:text="${message}">
                 </div>
             </div>
             <div class="modal-footer">
@@ -1741,8 +1741,11 @@
                                     </div>
                                     <div class="trainer-text">
                                         <label>
-                                            <input class="checkbox" id="Comment" type="checkbox"
-                                                   th:checked="${currents.flag}"/> Лучшее тату
+                                            <form th:id="${currents.id}"  method="post" th:object="${currents}">
+                                                <input  class="checkbox" type="checkbox"
+                                                        th:checked="*{flag}"
+                                                        name="flag" value="true"/>Лучшее тату
+                                            </form>
                                         </label>
                                     </div>
                                 </div>

@@ -43,9 +43,29 @@
         /*------------------
             Gallery admin checkbox
         --------------------*/
-         $(document).find('.checkbox').on('change', function() {
-                $(this).closest('form').submit();
-         });
+        $(document).find('.checkbox').on('change', function() {
+            const form = $(this).closest('form');
+            const isChecked = $(this).is(':checked');
+            const id = form.attr('id');
+            $.ajax({
+                url: '/gallery/admin/update-flag',
+                type: 'POST',
+                data: {
+                    id: id,
+                    flag: isChecked
+                },
+                success: function(response) {
+                    console.log('Флаг обновлён:');
+                    modals();
+                    $('.modal-body').html(response);
+                },
+                error: function(error) {
+                    console.log('Ошибка при обновлении флага:', error);
+                    modals();
+                    $('.modal-body').html(response);
+                }
+            });
+        });
     });
     /*------------------
         Background Set
@@ -210,19 +230,19 @@
     -----------------------------*/
     async function submitForm(event, fragment) {
         event.preventDefault(); // Отмена стандартной отправки формы
-
         const form = event.currentTarget; // Получаем текущую форму
         const formAction = form.action; // Извлекаем адрес из атрибута action
+        if (!form) {
+            console.error('Форма не найдена');
+            return;
+        }
         const formData = new FormData(form); // Создаем объект FormData с полями формы
-
         // Добавляем id в FormData, если он передан
         if (event.target.id) {
             formData.append('id', event.currentTarget.id);
         }
-
         const inputs = form.querySelectorAll('input, textarea');
         const button = form.querySelector('button[type="submit"]');
-
         if (button.textContent.trim().toLowerCase() === 'изменить') {
             // Включаем поля для редактирования
             inputs.forEach(input => input.disabled = false);
@@ -239,7 +259,6 @@
                     data: formData,
                     type: 'POST',
                 });
-
                 alert('Информация успешно сохранена!');
                 console.log('Информация успешно сохранена!');
                 $(fragment).html(response); // Замена текущего содержимого новым шаблоном
@@ -252,21 +271,22 @@
     /*---------------
     Gallery controls
     --------------*/
- function goToPage(style, page, number) {
-
-     $.get(`/gallery/admin/${style}/${page}/${number}`, {}, function(data) {
-     document.getElementById('category').value = style;
-              $(".img-import").html(data);
-          });
- }
-function modals(message) {
-    $('#myModal').modal("show");
-    document.querySelector('.modal-body').textContent = message;
-    $('.btn-close').on('click', function() {
-        $('#myModal').modal('hide');
-    });
-    $('.btn-secondary').on('click', function() {
-        $('#myModal').modal('hide');
-    });
-    $('.btn-primary').attr('disabled', true);
-}
+    function goToPage(style, page, number) {
+        $.get(`/gallery/admin/${style}/${page}/${number}`, {}, function(data) {
+            document.getElementById('category').value = style;
+            $(".img-import").html(data);
+        });
+    }
+    /*---------------
+        Modals controls
+     --------------*/
+    function modals() {
+        $('#myModal').modal("show");
+        $('.btn-close').on('click', function() {
+            $('#myModal').modal('hide');
+        });
+        $('.btn-secondary').on('click', function() {
+            $('#myModal').modal('hide');
+        });
+        $('.btn-primary').attr('disabled', true);
+    }
