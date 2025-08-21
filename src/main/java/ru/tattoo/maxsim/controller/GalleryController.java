@@ -110,7 +110,7 @@ public class GalleryController extends CRUDController<Images, Long> {
         images.setId(id);
         images.setFlag(flag);
 
-        String message = imagesService.bestImage(images) ? "установлено" : "снято";
+        String message = imagesService.bestImage(images) ? "Установлено" : "Снято";
         model.addAttribute("message", message);
 
         return "admin::modal-body";

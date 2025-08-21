@@ -539,37 +539,49 @@ ol {
 }
 
 /* Настройка заголовка модала */
+.modal-header {
+    background-color: #333;
+    color: #fff;
+    border-bottom: 1px solid #555;
+    padding: 1rem;
+}
+
 .modal-header h7.modal-title {
     font-weight: bold;
-    color: #333;
+    margin-bottom: 0;
 }
 
-.btn-close-custom {
-    background-color: transparent !important;
-    padding: 1rem;
-    margin-top: -0.5rem;
-    margin-bottom: -0.5rem;
-    margin-right: -0.5rem;
-    filter: invert(50%) sepia(100%) saturate(3000%) hue-rotate(180deg);
-}
 
 /* Основная зона сообщений */
+.modal-body {
+    background-color: #222;
+    color: #fff;
+    padding: 1.5rem;
+}
+
 .modal-body div.container-fluid {
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100px;
     font-size: 1.1em;
-    color: #4c4c4c;
-    font-family: sans-serif;
     word-wrap: break-word;
 }
 
 /* Футер модала */
+.modal-footer {
+    background-color: #333;
+    color: #fff;
+    border-top: 1px solid #555;
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
 .modal-footer button.btn-secondary {
-    background-color: #ccc;
+    background-color: #555;
     border: none;
-    color: white;
+    color: #fff;
     padding: 0.5rem 1.5rem;
     cursor: pointer;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -577,7 +589,7 @@ ol {
 }
 
 .modal-footer button.btn-secondary:hover {
-    background-color: #bbb;
+    background-color: #444;
 }
 
 /* Переход при закрытии модала */
@@ -612,26 +624,6 @@ ol {
     }
 }
 
-/* Кнопка закрытия */
-.btn-close-custom {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    z-index: 100;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    background-color: transparent;
-    padding: 0.5rem;
-    color: #aaa;
-    font-size: 1.5rem;
-    transition: color 0.3s ease;
-}
-
-.btn-close-custom:hover {
-    color: #ff5c5c;
-}
-
 /* Макет модала */
 .modal-dialog {
     max-width: 400px;
@@ -642,42 +634,9 @@ ol {
 }
 
 .modal-content {
-    background-color: #fff;
+    background-color: #222;
     border-radius: 0.5rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.modal-header {
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #ddd;
-    padding: 1rem;
-}
-
-.modal-body {
-    padding: 1.5rem;
-}
-
-.modal-footer {
-    background-color: #f7f7f7;
-    border-top: 1px solid #ddd;
-    padding: 1rem;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.modal-footer button {
-    margin-left: 0.5rem;
-}
-
-/* Темы цветов */
-.modal-content.light-theme {
-    background-color: #ffffff;
-    color: #333333;
-}
-
-.modal-content.dark-theme {
-    background-color: #333333;
-    color: #ffffff;
 }
 
 /* Параметры шрифтов */
@@ -3699,7 +3658,7 @@ form.active textarea {
 }
 
 /*---------------------
-  Contat Section
+  Contact Section
 -----------------------*/
 
 .contact-section {
