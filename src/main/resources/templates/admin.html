@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.2/mixitup.min.css">
 </head>
 
 
@@ -61,8 +62,10 @@
                         aria-label="Close">
                 </button>
             </div>
-            <div class="modal-body" th:fragment="modal-body">
-                <div class="container-fluid" th:text="${message}">
+            <div class="modal-body">
+                <div th:fragment="modal-body">
+                    <div class="container-fluid" th:text="${message}">
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -95,8 +98,10 @@
                 <a class="nav-link" data-toggle="tab" href="#settings"><p>Настройки</p></a>
             </li>
         </ul>
+        <!-- End nav tabs -->
         <!-- Tab panes -->
         <div class="tab-content">
+            <!--Home panes -->
             <div id="home_hom" class="container tab-pane active"><br>
                 <div class="row">
                     <div class="col-6 col-md-4 themed-grid-col">
@@ -781,8 +786,10 @@
                     </div>
                 </div>
             </div>
+            <!--End home panes -->
+            <!--Reviews panes -->
             <div id="reviews" class="container tab-pane fade"><br>
-                <!--Reviews panes -->
+
                 <div class="container">
                     <div class="classtime-table scroll" style="margin: 20px;">
                         <div class="reviews" th:fragment="reviews">
@@ -813,57 +820,54 @@
                         </div>
                     </div>
                 </div>
-                <!--End reviews panes -->
             </div>
+            <!--End reviews panes -->
+            <!--Sketches panes -->
             <div id="sketches" class="container tab-pane fade"><br>
-                <!--Sketches panes -->
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <form action="/about/home-import"
-                                      onsubmit="uploadHome(event, '.home-about')"
-                                      class="form-admin">
-                                    <div class="row mb-3 text-center">
-                                        <div class="col-6 col-lg-4 themed-grid-col">
-                                            <div class="avatar-container">
-                                                <img class="about-section" id=""
-                                                     src="img/avatar.jpg" alt="Выберите фото тату">
-                                                <button type="button" class="upload-btn btn btn-primary"
-                                                        onclick="document.getElementById('file-about').click()">
-                                                    Выбрать файл
-                                                </button>
-                                                <input type="file" name="file" id=""
-                                                       accept="image/*"
-                                                       onchange="loadImage(this, document.getElementById('about-section'))"
-                                                       required>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-8 themed-grid-col">
-                                            <div class="input-group">
-                                                <span class="input-group-text">H1</span>
-                                                <textarea class="form-control" name="textH2"
-                                                          aria-label="С текстовым полем"
-                                                          required></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3 text-center">
-                                        <div class="d-grid gap-2 col-6 mx-auto">
-                                            <button type="submit" class="btn btn-primary">
-                                                Сохранить тату
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="container">
                     <div class="sketches-import" th:fragment="sketches-import">
-                        <div class="row gallery-filter"
-                             th:each="current, item : ${sketches.sketchesImg}">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <form action="/about/home-import"
+                                          onsubmit="uploadHome(event, '.home-about')"
+                                          class="form-admin">
+                                        <div class="row mb-3 text-center">
+                                            <div class="col-6 col-lg-4 themed-grid-col">
+                                                <div class="avatar-container">
+                                                    <img class="about-section" id=""
+                                                         src="img/avatar.jpg" alt="Выберите фото тату">
+                                                    <button type="button" class="upload-btn btn btn-primary"
+                                                            onclick="document.getElementById('file-about').click()">
+                                                        Выбрать файл
+                                                    </button>
+                                                    <input type="file" name="file" id=""
+                                                           accept="image/*"
+                                                           onchange="loadImage(this, document.getElementById('about-section'))"
+                                                           required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-lg-8 themed-grid-col">
+                                                <div class="input-group">
+                                                    <span class="input-group-text">H1</span>
+                                                    <textarea class="form-control" name="textH2"
+                                                              aria-label="С текстовым полем"
+                                                              required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3 text-center">
+                                            <div class="d-grid gap-2 col-6 mx-auto">
+                                                <button type="submit" class="btn btn-primary">
+                                                    Сохранить тату
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row gallery-filter" th:each="current: ${sketches.sketchesImg}">
                             <div class="col-lg-4 col-sm-6 mix crossfit workout "
                                  th:each="currents: ${current}">
                                 <div class="reviews-admin">
@@ -872,7 +876,6 @@
                                             class="delete-button del-sketches"></button>
                                     <div class="carousel-caption d-none d-md-block">
                                         <h4>[[${currents.description}]]</h4>
-
                                     </div>
                                 </div>
                             </div>
@@ -908,8 +911,9 @@
                         </div>
                     </div>
                 </div>
-                <!--End sketches panes -->
             </div>
+            <!--End sketches panes -->
+            <!--Blog panes -->
             <div id="blog" class="container tab-pane fade"><br>
                 <div class="row">
                     <div class="col-6 col-md-4 themed-grid-col">
@@ -932,7 +936,7 @@
                                aria-controls="v-text-profile" aria-selected="false">Text</a>
                         </div>
                     </div>
-                    <!--Blog panes -->
+
                     <div class="col-md-8 themed-grid-col">
                         <div class="tab-content" id="v-pills-tabContent">
                             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
@@ -1259,9 +1263,10 @@
                             </div>
                         </div>
                     </div>
-                    <!--End blog panes -->
                 </div>
             </div>
+            <!--End blog panes -->
+            <!--Settings panes -->
             <div id="settings" class="container tab-pane fade"><br>
                 <div class="row">
                     <div class="col-6 col-lg-4 themed-grid-col">
@@ -1307,7 +1312,7 @@
                             </button>
                         </div>
                     </div>
-                    <!--Settings panes -->
+
                     <div class="col-sm-6 col-lg-8 themed-grid-col">
                         <div class="tab-content" id="v-pills-tabContent-option">
                             <div class="tab-pane fade show active" id="v-pills-users" role="tabpanel"
@@ -1666,28 +1671,42 @@
                             </div>
                         </div>
                     </div>
-                    <!--End settings panes -->
+
                 </div>
             </div>
+            <!--End settings panes -->
+            <!--Gallery panes -->
             <div id="gallery" class="container tab-pane fade"><br>
-                <!--Gallery panes -->
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
                             <div class="gallery-controls" th:each="current: ${gallery}">
                                 <ul>
-                                    <li class="active" th:onclick="goToPage(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Вся галерея</li>
-                                    <li th:onclick="goToPage(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Классический</li>
-                                    <li th:onclick="goToPage(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Винтажный</li>
-                                    <li th:onclick="goToPage(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Граффити</li>
-                                    <li th:onclick="goToPage(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Готический</li>
-                                    <li th:onclick="goToPage(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Кельтский</li>
+                                    <li class="active"
+                                        th:onclick="goToPage(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
+                                        Вся галерея
+                                    </li>
+                                    <li th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
+                                        Классический
+                                    </li>
+                                    <li th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
+                                        Винтажный
+                                    </li>
+                                    <li th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
+                                        Граффити
+                                    </li>
+                                    <li th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
+                                        Готический
+                                    </li>
+                                    <li th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
+                                        Кельтский
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="img-import" th:fragment="img-import">
-                        <div class="row justify-content-center" >
+                        <div class="row justify-content-center">
                             <div class="col-lg-8">
                                 <div class="card">
                                     <form action="/gallery/image-import"
@@ -1710,9 +1729,11 @@
                                             </div>
                                             <div class="col-sm-6 col-lg-8 themed-grid-col">
                                                 <div class="input-group">
-                                                    <input hidden  id="category" type="text" name="category"  th:field="*{category}">
+                                                    <input hidden id="category" type="text" name="category"
+                                                           th:field="*{category}">
                                                     <span class="input-group-text">H1</span>
-                                                    <textarea class="form-control" name="description"  th:field="*{description}"
+                                                    <textarea class="form-control" name="description"
+                                                              th:field="*{description}"
                                                               aria-label="С текстовым полем"
                                                               required></textarea>
                                                 </div>
@@ -1741,10 +1762,11 @@
                                     </div>
                                     <div class="trainer-text">
                                         <label>
-                                            <form th:id="${currents.id}"  method="post" th:object="${currents}">
-                                                <input  class="checkbox" type="checkbox"
-                                                        th:checked="*{flag}"
-                                                        name="flag" value="true"/>Лучшее тату
+                                            <form th:id="${currents.id}" method="post" th:object="${currents}">
+                                                <input class="checkbox" type="checkbox"
+                                                       th:checked="*{flag}"
+                                                       name="flag" value="true"
+                                                       onchange="handleCheckboxChange(this)"/>Лучшее тату
                                             </form>
                                         </label>
                                     </div>
@@ -1754,13 +1776,15 @@
                         <div class="blog-option">
                             <div class="blog-pagination">
                                 <a th:if="${gallery.currentPage!=0}" id="fa-long-arrow-left"
-                                   type="submit" th:onclick="goToPage(document.querySelector('.gallery-controls ul li.active').textContent, [[${gallery.currentPage - 1}]], [[${gallery.number}]])" ><i
+                                   type="submit"
+                                   th:onclick="goToPageGalleryAdmin(document.querySelector('.gallery-controls ul li.active').textContent, [[${gallery.currentPage - 1}]], [[${gallery.number}]])"><i
                                         class="fa fa-long-arrow-left"></i></a>
                                 <a class="active">[[${gallery.currentPage+1}]]</a>
                                 of
                                 <a>[[${gallery.pageSize}]]</a>
                                 <a th:if="${gallery.currentPage+1 != gallery.pageSize}"
-                                   th:onclick="goToPage(document.querySelector('.gallery-controls ul li.active').textContent, [[${gallery.currentPage + 1}]], [[${gallery.number}]])" id="fa-long-arrow-right"
+                                   th:onclick="goToPageGalleryAdmin(document.querySelector('.gallery-controls ul li.active').textContent, [[${gallery.currentPage + 1}]], [[${gallery.number}]])"
+                                   id="fa-long-arrow-right"
                                    type="submit"><i
                                         class="fa fa-long-arrow-right"></i></a>
                             </div>
@@ -1772,7 +1796,9 @@
                                 </div>
                                 <div class="show-result">
                                     <p>Show:</p>
-                                    <select class="show-result-select" th:onchange="goToPage(document.querySelector('.gallery-controls ul li.active').textContent, [[${gallery.currentPage}]], this.value)" id="number">
+                                    <select class="show-result-select"
+                                            th:onchange="goToPageGalleryAdmin(document.querySelector('.gallery-controls ul li.active').textContent, [[${gallery.currentPage}]], this.value)"
+                                            id="number">
                                         <option th:each="option : ${gallery.select}" th:value="${option}"
                                                 th:text="${option}"
                                                 th:selected="${option == gallery.number}"></option>
@@ -1801,6 +1827,7 @@
 <script src="js/jquery.slicknav.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/masonry.pkgd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.2/mixitup.min.js"></script>
 <script type="text/javascript" th:src="@{/js/main.js}"></script>
 <script type="text/javascript" th:src="@{/js/admin.js}"></script>
 </body>

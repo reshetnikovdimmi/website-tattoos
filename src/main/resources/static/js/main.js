@@ -40,32 +40,7 @@
             itemSelector: '.grid-item',
             columnWidth: '.grid-sizer',
         });
-        /*------------------
-            Gallery admin checkbox
-        --------------------*/
-        $(document).find('.checkbox').on('change', function() {
-            const form = $(this).closest('form');
-            const isChecked = $(this).is(':checked');
-            const id = form.attr('id');
-            $.ajax({
-                url: '/gallery/admin/update-flag',
-                type: 'POST',
-                data: {
-                    id: id,
-                    flag: isChecked
-                },
-                success: function(response) {
-                    console.log('Флаг обновлён:');
-                    modals();
-                    $('.modal-body').html(response);
-                },
-                error: function(error) {
-                    console.log('Ошибка при обновлении флага:', error);
-                    modals();
-                    $('.modal-body').html(response);
-                }
-            });
-        });
+
     });
     /*------------------
         Background Set
@@ -271,12 +246,17 @@
     /*---------------
     Gallery controls
     --------------*/
-    function goToPage(style, page, number) {
+    function goToPageGalleryAdmin(style, page, number) {
         $.get(`/gallery/admin/${style}/${page}/${number}`, {}, function(data) {
             document.getElementById('category').value = style;
             $(".img-import").html(data);
         });
     }
+    function goToPageGallery(style, page, number) {
+            $.get(`/gallery/admin/${style}/${page}/${number}`, {}, function(data) {
+                $(".galleryFilter").html(data);
+            });
+        }
     /*---------------
         Modals controls
      --------------*/
@@ -289,4 +269,31 @@
             $('#myModal').modal('hide');
         });
         $('.btn-primary').attr('disabled', true);
+    }
+    /*---------------
+        CheckboxChange
+    --------------*/
+    function handleCheckboxChange(checkbox) {
+        const form = $(checkbox).closest('form');
+        const isChecked = $(checkbox).is(':checked');
+        const id = form.attr('id');
+
+        $.ajax({
+            url: '/gallery/admin/update-flag',
+            type: 'POST',
+            data: {
+                id: id,
+                flag: isChecked
+            },
+            success: function(response) {
+                console.log('Флаг обновлён:');
+                modals();
+                $('.modal-body').html(response);
+            },
+            error: function(error) {
+                console.log('Ошибка при обновлении флага:', error);
+                modals();
+                $('.modal-body').html(response);
+            }
+        });
     }

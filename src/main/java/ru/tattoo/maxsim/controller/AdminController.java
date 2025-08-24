@@ -69,6 +69,7 @@ public class AdminController extends CRUDController<Home, Long> {
 
     // Вспомогательные методы для уменьшения дублирования кода
     private void populateAdminDashboard(Model model) {
+        model.addAttribute("sketches", sketchesService.getSketchesDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
         model.addAttribute("hero", new HomeHeroSection());
         model.addAttribute("feature", new FeatureSection());
         model.addAttribute("about", new AboutSection());
@@ -76,7 +77,7 @@ public class AdminController extends CRUDController<Home, Long> {
         model.addAttribute("chooseus", new ChooseusSection());
         model.addAttribute("images", new Images());
         model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
-        model.addAttribute("sketches", sketchesService.getSketchesDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
+
         model.addAttribute("reviews", reviewService.findAll());
         model.addAttribute("users", userService.findAll());
         model.addAttribute("interestingWorks", blogService.findDescription());
