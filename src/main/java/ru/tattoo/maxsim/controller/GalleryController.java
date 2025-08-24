@@ -42,7 +42,6 @@ public class GalleryController extends CRUDController<Images, Long> {
 
     @RequestMapping(value = "/admin/{style}/{page}/{number}", method = RequestMethod.GET)
     private String galleryAdmin(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
-
         model.addAttribute("gallery", imagesService.getGalleryDto(style.equals(ALL_GALLERY) ? null : style, null, number, page));
         updateSection(model);
         return getEntityName();

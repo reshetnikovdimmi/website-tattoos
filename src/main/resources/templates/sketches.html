@@ -60,8 +60,9 @@
 <!-- GalleryController Section Begin -->
 <section class="gallery-section spad">
     <div class="container">
-        <div class="galleryFilter" th:fragment="galleryFilter">
-            <div class="row gallery-filter" th:each="current, item : ${sketches.sketchesImg}">
+        <div class="galleryFilter" th:fragment="galleryFilter" >
+
+            <div class="row gallery-filter" th:each="current : ${sketches.sketchesImg}">
                 <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="currents: ${current}">
                     <div class="gallery-item">
                         <img alt="" th:src="@{'/images/'+${currents.imageName}}" class="gallery-img">
@@ -78,12 +79,12 @@
 
             <div class="blog-option">
                 <div class="blog-pagination">
-                    <a th:if="${sketches.currentPage!=0}" onclick="navigatePages(this.id)"  id="left" type="submit"><i
+                    <a th:if="${sketches.currentPage!=0}" th:ch="goToPageSketches([[${sketches.currentPage -1}]], [[${sketches.number}]])" id="left" type="submit"><i
                             class="fa fa-long-arrow-left"></i></a>
                     <a class="active">[[${sketches.currentPage+1}]]</a>
                     of
                     <a>[[${sketches.pageSize}]]</a>
-                    <a th:if="${sketches.currentPage+1 != sketches.pageSize}" onclick="navigatePages(this.id)" id="right" type="submit"><i
+                    <a th:if="${sketches.currentPage+1 != sketches.pageSize}" th:onclick="goToPageSketches([[${sketches.currentPage + 1}]], [[${sketches.number}]])" id="right" type="submit"><i
                             class="fa fa-long-arrow-right"></i></a>
                 </div>
                 <div class="blog-option-right">
@@ -92,7 +93,7 @@
                     </div>
                     <div class="show-result">
                         <p>Show:</p>
-                        <select class="show-result-select" onchange="navigatePages(this.id)" id="number">
+                        <select class="show-result-select" th:onchange="goToPageSketches([[${sketches.currentPage}]], this.value)" id="number">
                             <option th:each="option : ${sketches.select}" th:value="${option}" th:text="${option}"
                                     th:selected="${option == sketches.number}"></option>
                         </select>

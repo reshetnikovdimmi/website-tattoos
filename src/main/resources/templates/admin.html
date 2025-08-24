@@ -829,21 +829,21 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-8">
                                 <div class="card">
-                                    <form action="/about/home-import"
-                                          onsubmit="uploadHome(event, '.home-about')"
-                                          class="form-admin">
+                                    <form action="/sketches/image-import"
+                                          onsubmit="submitForm(event, '.sketches-import')"
+                                          class="form-admin" th:object="${sketchesEntity}">
                                         <div class="row mb-3 text-center">
                                             <div class="col-6 col-lg-4 themed-grid-col">
                                                 <div class="avatar-container">
-                                                    <img class="about-section" id=""
+                                                    <img class="about-section" id="sketches-section"
                                                          src="img/avatar.jpg" alt="Выберите фото тату">
                                                     <button type="button" class="upload-btn btn btn-primary"
-                                                            onclick="document.getElementById('file-about').click()">
+                                                            onclick="document.getElementById('file-sketches').click()">
                                                         Выбрать файл
                                                     </button>
-                                                    <input type="file" name="file" id=""
+                                                    <input type="file" name="file" id="file-sketches"
                                                            accept="image/*"
-                                                           onchange="loadImage(this, document.getElementById('about-section'))"
+                                                           onchange="loadImage(this, document.getElementById('sketches-section'))"
                                                            required>
                                                 </div>
                                             </div>
@@ -851,7 +851,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-text">H1</span>
                                                     <textarea class="form-control" name="textH2"
-                                                              aria-label="С текстовым полем"
+                                                              aria-label="С текстовым полем" th:field="*{description}"
                                                               required></textarea>
                                                 </div>
                                             </div>
@@ -868,12 +868,12 @@
                             </div>
                         </div>
                         <div class="row gallery-filter" th:each="current: ${sketches.sketchesImg}">
-                            <div class="col-lg-4 col-sm-6 mix crossfit workout "
+                            <div class="col-lg-4 col-sm-6 crossfit workout "
                                  th:each="currents: ${current}">
                                 <div class="reviews-admin">
                                     <img alt="" th:src="@{'/images/'+${currents.imageName}}">
                                     <button th:id="${currents.id}"
-                                            class="delete-button del-sketches"></button>
+                                            class="delete-button" onclick="deleteImage(this.id, '.sketches-import', '/sketches/delete-section')"></button>
                                     <div class="carousel-caption d-none d-md-block">
                                         <h4>[[${currents.description}]]</h4>
                                     </div>
@@ -882,13 +882,13 @@
                         </div>
                         <div class="blog-option">
                             <div class="blog-pagination">
-                                <a th:if="${sketches.currentPage!=0}" id="sketchers-left" type="submit"><i
+                                <a th:if="${sketches.currentPage!=0}" th:onclick="goToPageSketchesAdmin([[${sketches.currentPage -1}]], [[${sketches.number}]])" id="sketchers-left" type="submit"><i
                                         class="fa fa-long-arrow-left"></i></a>
                                 <a class="active">[[${sketches.currentPage+1}]]</a>
                                 of
                                 <a>[[${sketches.pageSize}]]</a>
                                 <a th:if="${sketches.currentPage+1 != sketches.pageSize}"
-                                   id="sketchers-right" type="submit"><i
+                                   id="sketchers-right" th:onclick="goToPageSketchesAdmin([[${sketches.currentPage +1}]], [[${sketches.number}]])" type="submit"><i
                                         class="fa fa-long-arrow-right"></i></a>
                             </div>
                             <div class="blog-option-right">
@@ -899,7 +899,7 @@
                                 </div>
                                 <div class="show-result">
                                     <p>Show:</p>
-                                    <select class="show-result-select" onchange="numbers()"
+                                    <select class="show-result-select" th:onclick="goToPageSketchesAdmin([[${sketches.currentPage}]], this.value)"
                                             id="sketchers-number">
                                         <option th:each="option : ${sketches.select}"
                                                 th:value="${option}"
@@ -1551,7 +1551,6 @@
                                         </div>
                                     </div>
                                     <!-- Форма для Эскизов -->
-
                                     <div class="sketchers-title" th:fragment="sketchers-title"
                                          th:each="current: ${setting}"
                                          th:if="${current.section=='sketchers-title'}">
@@ -1579,7 +1578,6 @@
                                         </div>
                                     </div>
                                     <!-- Форма для Блога -->
-
                                     <div class="blog-title" th:fragment="blog-title" th:each="current: ${setting}"
                                          th:if="${current.section=='blog-title'}">
                                         <div class="row justify-content-center">
@@ -1606,7 +1604,6 @@
                                         </div>
                                     </div>
                                     <!-- Форма для Отзывов -->
-
                                     <div class="reviews-title" th:fragment="reviews-title" th:each="current: ${setting}"
                                          th:if="${current.section=='reviews-title'}">
                                         <div class="row justify-content-center">
@@ -1683,7 +1680,7 @@
                             <div class="gallery-controls" th:each="current: ${gallery}">
                                 <ul>
                                     <li class="active"
-                                        th:onclick="goToPage(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
+                                        th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
                                         Вся галерея
                                     </li>
                                     <li th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">

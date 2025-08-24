@@ -247,16 +247,27 @@
     Gallery controls
     --------------*/
     function goToPageGalleryAdmin(style, page, number) {
-        $.get(`/gallery/admin/${style}/${page}/${number}`, {}, function(data) {
+        $.get(`/gallery/admin/${style.trim()}/${page}/${number}`, {}, function(data) {
             document.getElementById('category').value = style;
             $(".img-import").html(data);
         });
     }
     function goToPageGallery(style, page, number) {
-            $.get(`/gallery/admin/${style}/${page}/${number}`, {}, function(data) {
-                $(".galleryFilter").html(data);
-            });
-        }
+        $.get(`/gallery/${style.trim()}/${page}/${number}`, {}, function(data) {
+            $(".galleryFilter").html(data);
+        });
+    }
+    function goToPageSketches(page, number) {
+        $.get(`/sketches/${page}/${number}`, {}, function(data) {
+            $(".galleryFilter").html(data);
+        });
+    }
+    function goToPageSketchesAdmin(page, number) {
+        $.get(`/sketches/admin/${page}/${number}`, {}, function(data) {
+            $(".sketches-import").html(data);
+        });
+    }
+
     /*---------------
         Modals controls
      --------------*/
