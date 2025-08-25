@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.Blog;
 import ru.tattoo.maxsim.model.ChooseusSection;
+import ru.tattoo.maxsim.model.HomeHeroSection;
 import ru.tattoo.maxsim.model.PriceSection;
 import ru.tattoo.maxsim.repository.CommitsRepository;
 import ru.tattoo.maxsim.service.interf.*;
+import ru.tattoo.maxsim.util.ImageUtils;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -19,8 +21,10 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 
 @Controller
+@RequestMapping(BlogController.URL)
+public class BlogController extends CRUDController<Blog, Long>  {
 
-public class BlogController extends CRUDController  {
+    public static final String URL = "/blog";
 
     @Autowired
     private ReviewService reviewService;
@@ -37,7 +41,7 @@ public class BlogController extends CRUDController  {
 
     @Override
     String getEntityName() {
-        return "";
+        return "admin::blog-pic";
     }
 
     @Override
@@ -46,16 +50,11 @@ public class BlogController extends CRUDController  {
     }
 
     @Override
-    protected Object prepareObject(MultipartFile fileImport, Object object) {
-        return object;
-    }
-
-    @Override
     void updateSection(Model model) {
-
+        model.addAttribute("blog", blogService.findAll());
     }
 
-    @GetMapping ("/blog")
+    @GetMapping ()
     public  String blog (Model model){
         model.addAttribute("localDateTime", LocalDateTime.now());
         model.addAttribute("count", reviewService.getCount());
@@ -74,21 +73,10 @@ public class BlogController extends CRUDController  {
         return "blog::fragment-commits";
     }
 
-    @PostMapping("/update-text/{section}")
-    public String uploadText(@PathVariable("section") String section, @RequestBody Blog blog, Model model) {
-        blog.setSection(section);
-        getService().create(blog);
-        model.addAttribute("blog", blogService.findAll());
-        return "admin::blog-single-text";
-    }
-
-    @PostMapping("/blog/upload-image/{section}")
-    public String uploadHome(@RequestParam("image") MultipartFile fileImport, @RequestParam("id") Long id,
-                             @PathVariable("section") String section,
-                             Model model) throws IOException, ParseException {
-
-        blogService.saveImg(fileImport, section, id);
-        model.addAttribute("blog", blogService.findAll());
-        return "admin::blog-pic";
+    @Override
+    protected Blog prepareObject(MultipartFile fileImport, Blog blog) throws IOException {
+        blog.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
+        ImageUtils.saveImage(fileImport, blog.getImageName());
+        return blog;
     }
 }
