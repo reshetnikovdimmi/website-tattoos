@@ -1104,9 +1104,9 @@
                                                     <div class="custom-file-upload">
                                                         <input hidden type="text" name="section"
                                                                value="big-image">
-                                                        <input type="file" name="file" id="file-input" accept="image/*"
+                                                        <input type="file" name="file" id="file-big-image" accept="image/*"
                                                                onchange="loadImage(this, document.getElementById('big-image'))">
-                                                        <label for="file-input" class="btn btn-primary">Выбрать
+                                                        <label for="file-big-image" class="btn btn-primary">Выбрать
                                                             файл</label>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary">Загрузить изображение
@@ -1122,13 +1122,15 @@
                                                      class="medium-image">
                                             </div>
                                             <div class="col-lg-6">
-                                                <form th:id="${current.id}" action="/blog/upload-image/medium-image"
+                                                <form th:id="${current.id}" action="/blog/image-import"
                                                       method="post" enctype="multipart/form-data"
-                                                      onsubmit="uploadHome(event, '.blog-pic')">
+                                                      onsubmit="submitForm(event, '.admin-blog-pic')">
                                                     <div class="custom-file-upload">
-                                                        <input type="file" name="image" id="" accept="image/*"
+                                                        <input hidden type="text" name="section"
+                                                               value="medium-image">
+                                                        <input type="file" name="file" id="file-medium-image" accept="image/*"
                                                                onchange="loadImage(this, document.getElementById('medium-image'))">
-                                                        <label for="file-input" class="btn btn-primary">Выбрать
+                                                        <label for="file-medium-image" class="btn btn-primary">Выбрать
                                                             файл</label>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary">Загрузить изображение
@@ -1144,13 +1146,15 @@
                                                      class="smail-image">
                                             </div>
                                             <div class="col-lg-6">
-                                                <form th:id="${current.id}" action="/blog/upload-image/smail-1-image"
+                                                <form th:id="${current.id}" action="/blog/image-import"
                                                       method="post" enctype="multipart/form-data"
-                                                      onsubmit="uploadHome(event, '.blog-pic')">
+                                                      onsubmit="submitForm(event, '.admin-blog-pic')">
                                                     <div class="custom-file-upload">
-                                                        <input type="file" name="image" id="" accept="image/*"
+                                                        <input hidden type="text" name="section"
+                                                               value="smail-1-image">
+                                                        <input type="file" name="file" id="file-smail-1-image" accept="image/*"
                                                                onchange="loadImage(this, document.getElementById('smail-1-image'))">
-                                                        <label for="file-input" class="btn btn-primary">Выбрать
+                                                        <label for="file-smail-1-image" class="btn btn-primary">Выбрать
                                                             файл</label>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary">Загрузить изображение
@@ -1166,13 +1170,15 @@
                                                      class="smail-image">
                                             </div>
                                             <div class="col-lg-6">
-                                                <form th:id="${current.id}" action="/blog/upload-image/smail-2-image"
+                                                <form th:id="${current.id}" action="/blog/image-import"
                                                       method="post" enctype="multipart/form-data"
-                                                      onsubmit="uploadHome(event, '.blog-pic')">
+                                                      onsubmit="submitForm(event, '.admin-blog-pic')">
                                                     <div class="custom-file-upload">
-                                                        <input type="file" name="image" id="" accept="image/*"
+                                                        <input hidden type="text" name="section"
+                                                               value="smail-2-image">
+                                                        <input type="file" name="file" id="file-smail-2-image" accept="image/*"
                                                                onchange="loadImage(this, document.getElementById('smail-2-image))">
-                                                        <label for="file-input" class="btn btn-primary">Выбрать
+                                                        <label for="file-smail-2-image" class="btn btn-primary">Выбрать
                                                             файл</label>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary">Загрузить изображение
