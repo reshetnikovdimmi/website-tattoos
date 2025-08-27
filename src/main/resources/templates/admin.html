@@ -1094,7 +1094,7 @@
                                         <div class="row justify-content-center" th:each="current: ${blog}"
                                              th:if="${current.section=='big-image'}">
                                             <div class="col-lg-6">
-                                                <img id="big-image" th:src="@{'/images/'+${current.imageName}}" alt=""
+                                                <img id="big-image" th:src="@{'/images/'+${current.imageName}}" alt="big-image"
                                                      class="big-image">
                                             </div>
                                             <div class="col-lg-6">
@@ -1118,7 +1118,7 @@
                                              th:if="${current.section=='medium-image'}">
                                             <div class="col-lg-6">
                                                 <img id="medium-image" th:src="@{'/images/'+${current.imageName}}"
-                                                     alt=""
+                                                     alt="medium-image"
                                                      class="medium-image">
                                             </div>
                                             <div class="col-lg-6">
@@ -1142,7 +1142,7 @@
                                              th:if="${current.section=='smail-1-image'}">
                                             <div class="col-lg-6">
                                                 <img id="smail-1-image" th:src="@{'/images/'+${current.imageName}}"
-                                                     alt=""
+                                                     alt="smail-image"
                                                      class="smail-image">
                                             </div>
                                             <div class="col-lg-6">
@@ -1166,7 +1166,7 @@
                                              th:if="${current.section=='smail-2-image'}">
                                             <div class="col-lg-6">
                                                 <img id="smail-2-image" th:src="@{'/images/'+${current.imageName}}"
-                                                     alt=""
+                                                     alt="smail-image"
                                                      class="smail-image">
                                             </div>
                                             <div class="col-lg-6">
@@ -1177,7 +1177,7 @@
                                                         <input hidden type="text" name="section"
                                                                value="smail-2-image">
                                                         <input type="file" name="file" id="file-smail-2-image" accept="image/*"
-                                                               onchange="loadImage(this, document.getElementById('smail-2-image))">
+                                                               onchange="loadImage(this, document.getElementById('smail-2-image'))">
                                                         <label for="file-smail-2-image" class="btn btn-primary">Выбрать
                                                             файл</label>
                                                     </div>
@@ -1202,9 +1202,11 @@
                                             <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                                                 <div class="blog-text" th:each="current: ${blog}"
                                                      th:if="${current.section=='blog-text'}">
-                                                    <form th:id="${current.id}" action="/update-text/blog-text"
-                                                          onsubmit="toggleEditMode(event,'.blog-single-text')">
-                                                     <textarea rows="4" cols="50" th:name="'textH2'"
+                                                    <form th:id="${current.id}" action="/blog/import"
+                                                          onsubmit="submitForm(event,'.blog-single-text')">
+                                                        <input hidden type="text" name="section"
+                                                               value="blog-text">
+                                                        <textarea rows="4" cols="50" th:name="'textH2'"
                                                                th:text="${current.textH2}" id="textH2"
                                                                disabled></textarea>
                                                         <textarea rows="4" cols="50" th:name="'textH3'"
@@ -1221,8 +1223,10 @@
                                             <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                                                 <div class="blog-title" th:each="current: ${blog}"
                                                      th:if="${current.section=='blog-title'}">
-                                                    <form th:id="${current.id}" action="/update-text/blog-title"
-                                                          onsubmit="toggleEditMode(event,'.blog-single-text')">
+                                                    <form th:id="${current.id}" action="/blog/import"
+                                                          onsubmit="submitForm(event,'.blog-single-text')">
+                                                        <input hidden type="text" name="section"
+                                                               value="blog-title">
                                                         <input type="text" rows="4" cols="50" th:name="'textH1'"
                                                                th:value="${current.textH1}" id=""
                                                                disabled>
@@ -1244,8 +1248,10 @@
                                                 <div class="blog-quote" th:each="current: ${blog}"
                                                      th:if="${current.section=='blog-quote'}">
                                                     <i class="fa fa-quote-left"></i>
-                                                    <form th:id="${current.id}" action="/update-text/blog-quote"
-                                                          onsubmit="toggleEditMode(event,'.blog-single-text')">
+                                                    <form th:id="${current.id}" action="/blog/import"
+                                                          onsubmit="submitForm(event,'.blog-single-text')">
+                                                        <input hidden type="text" name="section"
+                                                               value="blog-quote">
                                                         <input rows="4" cols="50" th:name="'textH1'"
                                                                th:value="${current.textH1}" id=""
                                                                disabled>
@@ -1263,8 +1269,10 @@
                                             <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                                                 <div class="blog-more-title" th:each="current: ${blog}"
                                                      th:if="${current.section=='blog-more-title'}">
-                                                    <form th:id="${current.id}" action="/update-text/blog-more-title"
-                                                          onsubmit="toggleEditMode(event,'.blog-single-text')">
+                                                    <form th:id="${current.id}" action="/blog/import"
+                                                          onsubmit="submitForm(event,'.blog-single-text')">
+                                                        <input hidden type="text" name="section"
+                                                               value="blog-more-title">
                                                         <input rows="4" cols="50" th:name="'textH1'"
                                                                th:value="${current.textH1}" id=""
                                                                disabled>

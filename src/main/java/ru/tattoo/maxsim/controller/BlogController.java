@@ -79,4 +79,13 @@ public class BlogController extends CRUDController<Blog, Long>  {
         ImageUtils.saveImage(fileImport, blog.getImageName());
         return blog;
     }
+    @Override
+    @PostMapping("/import")
+    public String upload(@ModelAttribute("hero") Blog object,
+                         Model model) throws IOException, ParseException {
+        getService().create(object);
+        updateSection(model);
+        return "admin::blog-single-text";
+    }
+
 }
