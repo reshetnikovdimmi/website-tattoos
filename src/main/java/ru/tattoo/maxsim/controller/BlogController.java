@@ -66,13 +66,6 @@ public class BlogController extends CRUDController<Blog, Long>  {
         return "blog";
     }
 
-    @PostMapping("/commits-import")
-    public String reviewsImport(@RequestParam("Comment") String Comment, Principal principal, Model model) throws IOException, ParseException {
-        commitsService.saveCommit(Comment,principal.getName());
-        model.addAttribute("commits", commitsService.findLimit());
-        return "blog::fragment-commits";
-    }
-
     @Override
     protected Blog prepareObject(MultipartFile fileImport, Blog blog) throws IOException {
         blog.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));

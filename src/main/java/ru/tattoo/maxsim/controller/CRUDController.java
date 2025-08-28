@@ -41,7 +41,7 @@ public abstract class CRUDController<E, K>  {
     public String uploadImage(@ModelAttribute("hero") E object,
                              @RequestParam("file") MultipartFile fileImport,
                              Model model) throws IOException, ParseException {
-        System.out.println(fileImport.getOriginalFilename()+"--"+object);
+
         getService().create(prepareObject(fileImport, object));
         updateSection(model);
         return getEntityName();
