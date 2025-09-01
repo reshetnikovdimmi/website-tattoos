@@ -3155,9 +3155,29 @@ form.active textarea {
 .blog-single-text .blog-pic img {
 	margin-bottom: 20px;
 	width: 100%; /* Изображение растянуто по ширине */
-    height: auto; /* Сохраняет соотношение сторон */
     object-fit: cover; /* Картинка покрывает весь блок */
     transition: transform 0.3s ease-in-out; /* Плавный переход эффектов */
+}
+
+.blog-pic .big-image {
+    width: 100%;
+    height: 400px; /* Высота для большого изображения */
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.blog-pic .medium-image {
+    width: 100%;
+    height: 190px; /* Высота для большого изображения */
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.blog-pic .smail-image {
+    width: 100%;
+    height: 190px; /* Высота для большого изображения */
+    object-fit: cover;
+    border-radius: 8px;
 }
 
 .blog-single-text .blog-title {

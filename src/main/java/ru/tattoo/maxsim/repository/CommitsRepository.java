@@ -11,4 +11,5 @@ import java.util.List;
 public interface CommitsRepository extends JpaRepository<Commits, Long> {
     @Query("SELECT e FROM Commits e ORDER BY ID DESC LIMIT 4")
     List<Commits> findLimit();
+
 }

@@ -88,9 +88,9 @@
                     <div class="col-lg-12">
                         <div class="leave-comment-form">
                             <h4>Оставте свой отзыв</h4>
-                            <form onsubmit="uploadFragment(event)" id="reviews" method="POST"
-                                  enctype="multipart/form-data"
-                                  action="/reviews-import"
+                            <form onsubmit="submitForm(event, '.fragment-reviews')" method="POST"
+                                  enctype="multipart/form-data" th:object="${reviewsEntity}"
+                                  action="/reviews/reviews-import"
                                   class="form-admin">
                                 <div class="row">
                                     <div class="col-lg-4" style="margin-bottom: 20px;">
@@ -99,7 +99,7 @@
                                         </button>
                                     </div>
 
-                                    <input type="hidden" id="name" name="name" th:value="${#authentication.name}">
+                                    <input type="hidden" id="imageName" name="imageName">
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-2" style="margin-bottom: 20px;">
@@ -108,7 +108,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-10">
-                                        <textarea placeholder="Текст" id="Comment" name="Comment" required></textarea>
+                                        <textarea th:field="*{comment}" placeholder="Текст" id="Comment" name="Comment" required></textarea>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -120,7 +120,6 @@
                                         </a>
                                     </div>
                                 </div>
-
                             </form>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -168,8 +167,7 @@
 <script src="js/jquery.slicknav.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/masonry.pkgd.min.js"></script>
-<script src="js/main.js"></script>
-<script type="text/javascript" th:src="@{/js/reviews.js}"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
 </body>
 
 </html>

@@ -30,9 +30,6 @@ public class Commits {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "userName", referencedColumnName = "login", insertable = false, updatable = false,  foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
 
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
     private User user;
-
 
 }

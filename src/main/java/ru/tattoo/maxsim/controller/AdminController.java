@@ -77,6 +77,7 @@ public class AdminController extends CRUDController<Home, Long> {
         model.addAttribute("classes", new ClassesSection());
         model.addAttribute("chooseus", new ChooseusSection());
         model.addAttribute("images", new Images());
+        model.addAttribute("blogEntity", new Blog());
         model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
         model.addAttribute("reviews", reviewService.findAll());
         model.addAttribute("users", userService.findAll());

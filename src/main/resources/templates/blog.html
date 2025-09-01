@@ -4,8 +4,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Тату омск, эскизы, эскизы татуировок, красивые тату, тату мастер, цена татуировки, тату сколько стоит , тату цена, значение татуировки, мастер тату, индивидуальный эскиз, Символика и значение татуировок в разных культурах">
-    <meta name="keywords" content="Татуировка,эскизы тату для мужчин, татуировки мужские, эскизы тату на руку,эскизы тату на руку мужские, татуировка омск, тату салон, сделать татуировку">
+    <meta name="description"
+          content="Тату омск, эскизы, эскизы татуировок, красивые тату, тату мастер, цена татуировки, тату сколько стоит , тату цена, значение татуировки, мастер тату, индивидуальный эскиз, Символика и значение татуировок в разных культурах">
+    <meta name="keywords"
+          content="Татуировка,эскизы тату для мужчин, татуировки мужские, эскизы тату на руку,эскизы тату на руку мужские, татуировка омск, тату салон, сделать татуировку">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>R1-TАТТОO/blog</title>
@@ -81,139 +83,126 @@
 
 <!-- Blog Single Section Begin -->
 <section class="blog-single-section spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="blog-single-text">
-                    <div class="blog-text">
-                        <p>Татуировки давно перестали быть просто украшением тела – они стали символом,
-                            отражением внутреннего мира человека, его убеждений, воспоминаний и даже жизненных целей.
-                            Эта статья посвящена глубокому анализу того, какую роль играют татуировки в современной
-                            культуре и обществе,
-                            а также предлагает вдохновляющие истории тех, кто сделал себе татуировку в честь важных
-                            событий или людей.
-                        </p>
-                        <p>Таким образом, татуировки – это не просто рисунки на коже,
-                            а отражение души и жизненного пути каждого человека.
-                            Они могут рассказать историю, выразить чувства и напомнить о самых важных моментах
-                            жизни.</p>
-                    </div>
-                    <div class="blog-pic">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <img src="img/blog-single-1.jpg" alt="">
-                            </div>
-                            <div class="col-lg-6">
-                                <img src="img/blog-single-2.jpg" alt="">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <img src="img/blog-single-3.jpg" alt="">
+    <div class="container fragment-commits">
+        <div th:fragment="fragment-commits">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="blog-single-text">
+                        <div class="blog-text" th:each="current: ${blog}" th:if="${current.section=='blog-text'}">
+                            <p th:text="${current.textH2}"></p>
+                            <p th:text="${current.textH3}"></p>
+                        </div>
+                        <div class="blog-pic">
+                            <div class="row">
+                                <div class="col-lg-6" th:each="current: ${blog}"
+                                     th:if="${current.section=='big-image'}">
+                                    <img th:src="@{'/images/'+${current.imageName}}" alt="" class="big-image">
+                                </div>
+                                <div class="col-lg-6">
+                                    <div th:each="current: ${blog}" th:if="${current.section=='medium-image'}">
+                                        <img th:src="@{'/images/'+${current.imageName}}" alt="" class="medium-image">
                                     </div>
-                                    <div class="col-sm-6">
-                                        <img src="img/blog-single-4.jpg" alt="">
+                                    <div class="row">
+                                        <div class="col-sm-6" th:each="current: ${blog}"
+                                             th:if="${current.section=='smail-1-image'}">
+                                            <img th:src="@{'/images/'+${current.imageName}}" alt="" class="smail-image">
+                                        </div>
+                                        <div class="col-sm-6" th:each="current: ${blog}"
+                                             th:if="${current.section=='smail-2-image'}">
+                                            <img th:src="@{'/images/'+${current.imageName}}" alt="" class="smail-image">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="blog-title">
-                        <h4>Выбор студии и мастера</h4>
-                        <p>Выбор студии и мастера – ключевой момент при создании татуировки.
-                            Важно обратить внимание на репутацию салона, опыт работы мастеров и отзывы клиентов.
-                            Также стоит учитывать стиль работы художника,
-                            так как каждый мастер имеет свои особенности и предпочтения в дизайне.</p>
-                        <p>Перед посещением салона рекомендуется ознакомиться с портфолио мастера,
-                            задать вопросы о процессе работы и обсудить все детали будущего проекта.
-                            Это поможет избежать неприятных сюрпризов и получить именно ту татуировку,
-                            о которой вы мечтали. </p>
-                    </div>
-                    <div class="blog-quote">
-                        <i class="fa fa-quote-left"></i>
-                        <div class="quote-text">Татуировки – это способ выразить себя.
-                            Они рассказывают историю твоей жизни, твои ценности и убеждения
+                        <div class="blog-title" th:each="current: ${blog}" th:if="${current.section=='blog-title'}">
+                            <h4 th:text="${current.textH1}"></h4>
+                            <p th:text="${current.textH2}"></p>
+                            <p th:text="${current.textH3}"></p>
                         </div>
-                        <h5>Дэвид Бекхэм</h5>
-                    </div>
-                    <div class="blog-more-title">
-                        <h4>Символика и значение татуировок в разных культурах</h4>
-                        <p>Символы, используемые в татуировках, могут иметь разные значения в зависимости от культуры.
-                            Например, лотос в индийской традиции символизирует чистоту и просветление,
-                            тогда как в японской культуре он ассоциируется с верностью и преданностью.
-                            Крест может означать христианскую веру, но в других контекстах он может символизировать
-                            защиту или возрождение.
-                            Важно понимать, что каждый символ имеет свое уникальное значение,
-                            которое может меняться в зависимости от контекста.</p>
-                    </div>
-                    <div class="blog-tag-share">
-                        <div class="social-share">
-                            <span>Следуй за мной:</span>
-                            <a href="https://vk.com/r1tattoo"><i class="fa fa-vk"></i></a>
+                        <div class="blog-quote" th:each="current: ${blog}" th:if="${current.section=='blog-quote'}">
+                            <i class="fa fa-quote-left"></i>
+                            <div class="quote-text" th:text="${current.textH1}">
+                            </div>
+                            <h5 th:text="${current.textH2}"></h5>
+                        </div>
+                        <div class="blog-more-title" th:each="current: ${blog}"
+                             th:if="${current.section=='blog-more-title'}">
+                            <h4 th:text="${current.textH1}"></h4>
+                            <p th:text="${current.textH2}"></p>
+                        </div>
+                        <div class="blog-tag-share">
+                            <div class="social-share">
+                                <span>Следуй за мной:</span>
+                                <a href="https://vk.com/r1tattoo"><i class="fa fa-vk"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="blog-single-sidebar">
-                    <div class="bs-latest-news fragment-commits" th:fragment="fragment-commits">
-                        <h4>Комментарии</h4>
-                        <div th:each="current : ${commits}">
-                            <a href="#" class="bl-item set-bg" data-setbg="img/sidebar-latest.jpg">
-                                <h5 th:text="${current.comment}"></h5>
-                                <span th:text="${current.date}"></span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="bs-recent-news">
-                        <h4>Интересные работы</h4>
-                        <div th:each="current : ${interestingWorks}">
-                            <a href="#" class="br-item">
-                                <div class="bi-pic">
-                                    <img alt="" th:src="@{'/images/'+${current.imageName}}">
-                                </div>
-                                <div class="bi-text">
+                <div class="col-lg-4">
+                    <div class="blog-single-sidebar">
+                        <div class="bs-latest-news">
+                            <h4>Комментарии</h4>
+                            <div th:each="current : ${commits}">
+                                <a href="#" class="bl-item set-bg" data-setbg="img/sidebar-latest.jpg">
+                                    <h5 th:text="${current.comment}"></h5>
                                     <span th:text="${current.date}"></span>
-                                    <h5 th:text="${current.description}"></h5>
-                                </div>
-                            </a>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="bs-recent-news">
+                            <h4>Интересные работы</h4>
+                            <div th:each="current : ${interestingWorks}">
+                                <a href="#" class="br-item">
+                                    <div class="bi-pic">
+                                        <img alt="" th:src="@{'/images/'+${current.imageName}}">
+                                    </div>
+                                    <div class="bi-text">
+                                        <span th:text="${current.date}"></span>
+                                        <h5 th:text="${current.description}"></h5>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="recent-news">
-                    <h4>Новые эскизы</h4>
-                    <div class="row">
-                        <div class="col-lg-4" th:each="current : ${sketches}">
-                            <div class="recent-item set-bg">
-                                <img alt="" th:src="@{'/images/'+${current.imageName}}">
-                                <a href="#" class="recent-text">
-                                    <div class="categories" th:text="${current.date}"></div>
-                                    <h5 th:text="${current.description}"></h5>
-                                </a>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="recent-news">
+                        <h4>Новые эскизы</h4>
+                        <div class="row">
+                            <div class="col-lg-4" th:each="current : ${sketches}">
+                                <div class="recent-item set-bg">
+                                    <img alt="" th:src="@{'/images/'+${current.imageName}}">
+                                    <a href="#" class="recent-text">
+                                        <div class="categories" th:text="${current.date}"></div>
+                                        <h5 th:text="${current.description}"></h5>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="leave-comment-form">
-                    <h4>Оставь комментарий</h4>
-                    <form method="post" th:action="@{/commits-import}" id="commit">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <textarea id="Comment" name="Comment" placeholder="Comment"></textarea>
-                                <span type="hidden" id="name" name="name" th:value="${#authentication.name}"></span>
+                    <div class="leave-comment-form" th:object="${commitsEntity}">
+                        <h4>Оставь комментарий</h4>
+                        <form method="post" th:action="@{commits/commits-import}"
+                              onsubmit="submitForm(event,'.fragment-commits')">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <textarea name="comment" placeholder="comment" th:field="*{comment}"></textarea>
+                                    <span type="hidden" id="name" name="name" th:value="${#authentication.name}"></span>
 
-                                <a sec:authorize="isAuthenticated()">
-                                    <button type="submit" class="leave-btn">Сохранить комментарий</button>
-                                </a>
+                                    <a sec:authorize="isAuthenticated()">
+                                        <button type="submit" class="leave-btn">Сохранить комментарий</button>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                    <a sec:authorize="!isAuthenticated()" href="/login">
-                        <button class="leave-btn">Войти</button>
-                        <p>Комментарии могут оставлять только зарегистрированные пользователи.</p>
-                    </a>
+                        </form>
+                        <a sec:authorize="!isAuthenticated()" href="/login">
+                            <button class="leave-btn">Войти</button>
+                            <p>Комментарии могут оставлять только зарегистрированные пользователи.</p>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -268,6 +268,12 @@
         });
     }
 
+    function goToPageGalleryReviews(page, number) {
+        $.get(`/gallery/reviews/${page}/${number}`, {}, function(data) {
+            $(".modal-img").html(data);
+        });
+    }
+
     /*---------------
         Modals controls
      --------------*/
@@ -280,6 +286,20 @@
             $('#myModal').modal('hide');
         });
         $('.btn-primary').attr('disabled', true);
+    }
+    function showModals() {
+        $('#infoModal').modal("show");
+    }
+
+    function hideModal(modalId) {
+        $('#imageID').attr('src', '/images/' + modalId);
+        $('#imageName').val(modalId);
+        // document.getElementById('imageID').src = modalId;
+        $('#infoModal').modal("hide");
+    }
+
+    function closeModal() {
+        $('#infoModal').modal("hide");
     }
     /*---------------
         CheckboxChange
