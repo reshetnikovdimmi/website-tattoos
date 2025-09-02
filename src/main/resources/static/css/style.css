@@ -626,7 +626,7 @@ ol {
 
 /* Макет модала */
 .modal-dialog {
-    max-width: 400px;
+    max-width: 700px;
     margin: auto;
     border-radius: 0.5rem;
     overflow: hidden;
@@ -1297,7 +1297,6 @@ ol {
     align-items: center;
     margin-bottom: 20px;
     padding: 15px;
-    border-radius: 12px;
     background: linear-gradient(135deg, #222, #333);
     color: #fff;
     transition: box-shadow 0.3s, transform 0.3s;

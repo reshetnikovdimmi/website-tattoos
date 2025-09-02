@@ -216,6 +216,7 @@
         if (event.target.id) {
             formData.append('id', event.currentTarget.id);
         }
+
         const inputs = form.querySelectorAll('input, textarea');
         const button = form.querySelector('button[type="submit"]');
         if (button.textContent.trim().toLowerCase() === 'изменить') {
