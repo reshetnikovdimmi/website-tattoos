@@ -1359,7 +1359,7 @@
                                 <div class="container">
                                     <div class="row justify-content-center">
                                         <div class="classtime-table scroll" style="margin: 20px;">
-                                            <div class="reviews" th:fragment="reviews">
+                                            <div class="user" th:fragment="user">
                                                 <div th:each="current : ${users}">
                                                     <div class="row mb-3 text-center">
                                                         <div class="card">
@@ -1376,6 +1376,7 @@
                                                                     <div class="card-header d-flex justify-content-between align-items-center">
                                                                         <div th:text="${current.login}"></div>
                                                                         <button type="button" th:id="${current.id}"
+                                                                                onclick="deleteImage(this.id, '.user', '/user/delete')"
                                                                                 class="btn btn-outline-secondary del-reviews">
                                                                             Удалить
                                                                         </button>
@@ -1401,8 +1402,8 @@
                                     </div>
                                 </div>
                                 <div class="footer-widget" th:object="${contactInfo}">
-                                    <div class="container">
-                                        <div class="contact-info">
+                                    <div class="container-contact-info">
+                                        <div class="contact-info-admin">
                                             <div class="row justify-content-center">
                                                 <form action="/about/home-import"
                                                       onsubmit="uploadHome(event, '.home-about')" class="form-admin">
@@ -1418,7 +1419,7 @@
                                                 </form>
                                             </div>
                                         </div>
-                                        <div class="contact-info">
+                                        <div class="contact-info-admin">
                                             <div class="row justify-content-center">
                                                 <form action="/about/home-import"
                                                       onsubmit="uploadHome(event, '.home-about')" class="form-admin">
@@ -1434,7 +1435,7 @@
                                                 </form>
                                             </div>
                                         </div>
-                                        <div class="contact-info">
+                                        <div class="contact-info-admin">
                                             <div class="row justify-content-center">
                                                 <form action="/about/home-import"
                                                       onsubmit="uploadHome(event, '.home-about')" class="form-admin">

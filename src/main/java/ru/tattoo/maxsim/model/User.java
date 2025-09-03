@@ -33,12 +33,12 @@ public class User{
     @Transient
     private Integer pagesPerSheet;
 
-    @OneToMany(targetEntity = ReviewsUser.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = ReviewsUser.class, cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "userName", referencedColumnName = "login")
 
     private List<ReviewsUser> reviews;
 
-    @OneToMany(targetEntity = Images.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Images.class, cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "userName", referencedColumnName = "login")
 
     private List<Images> images;
