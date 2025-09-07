@@ -62,78 +62,75 @@
 </section>
 <!-- Cta Section End -->
 <!-- Footer Section Begin -->
-<footer class="footer-section" th:fragment="footer">
+<div class="container" th:fragment="footer">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="footer-logo-item" th:each="current: ${setting}">
+                <div class="f-logo" th:if="${current.section=='logo'}">
+                    <a href="/"><img th:src="@{'/images/'+${current.imageName}}" alt=""></a>
+                </div>
+                <div class="social-links" th:if="${current.section=='footer-title'}">
+                    <h6 th:text="${current.textH1}"></h6>
+                    <a href="https://vk.com/r1tattoo"><i class="fa fa-vk"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="footer-widget" th:each="current: ${setting}" th:if="${current.section=='footer-title'}">
+                <p th:text="${current.textH2}"></p>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="footer-widget">
+                <h5>Стили</h5>
+                <ul class="workout-program">
+                    <li><a href="/gallery">Классический</a></li>
+                    <li><a href="/gallery">Винтажный</a></li>
+                    <li><a href="/gallery">Граффити</a></li>
+                    <li><a href="/gallery">Готический</a></li>
+                    <li><a href="/gallery">Кельтский</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="footer-widget">
+                <h5>ПОЛУЧИТЬ ИНФОРМАЦИЮ</h5>
+                <ul class="footer-info" th:object="${contactInfo}">
+                    <li id="tell-footer">
+                        <i class="fa fa-phone"></i>
+                        <span>Телефон:</span>
+                        [(*{tell})]
+                    </li>
+                    <li id="email-footer">
+                        <i class="fa fa-envelope-o"></i>
+                        <span>Email:</span>
+                        [(*{email})]
+                    </li>
+                    <li id="address-footer">
+                        <i class="fa fa-map-marker"></i>
+                        <span>Адрес</span>
+                        [(*{address})]
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="copyright-text">
     <div class="container">
         <div class="row">
-
-            <div class="col-lg-3">
-                <div class="footer-logo-item" th:each="current: ${setting}">
-                    <div class="f-logo" th:if="${current.section=='logo'}">
-                        <a href="/"><img th:src="@{'/images/'+${current.imageName}}" alt=""></a>
-                    </div>
-                    <div class="social-links" th:if="${current.section=='footer-title'}">
-                        <h6 th:text="${current.textH1}"></h6>
-                        <a href="https://vk.com/r1tattoo"><i class="fa fa-vk"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="footer-widget" th:each="current: ${setting}" th:if="${current.section=='footer-title'}">
-                    <p th:text="${current.textH2}"></p>
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="footer-widget">
-                    <h5>Стили</h5>
-                    <ul class="workout-program">
-                        <li><a href="/gallery">Классический</a></li>
-                        <li><a href="/gallery">Винтажный</a></li>
-                        <li><a href="/gallery">Граффити</a></li>
-                        <li><a href="/gallery">Готический</a></li>
-                        <li><a href="/gallery">Кельтский</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="footer-widget">
-                    <h5>ПОЛУЧИТЬ ИНФОРМАЦИЮ</h5>
-                    <ul class="footer-info" th:object="${contactInfo}">
-                        <li id="tell-footer">
-                            <i class="fa fa-phone"></i>
-                            <span>Телефон:</span>
-                            [(*{tell})]
-                        </li>
-                        <li id="email-footer">
-                            <i class="fa fa-envelope-o"></i>
-                            <span>Email:</span>
-                            [(*{email})]
-                        </li>
-                        <li id="address-footer">
-                            <i class="fa fa-map-marker"></i>
-                            <span>Адрес</span>
-                            [(*{address})]
-                        </li>
-                    </ul>
-                </div>
+            <div class="col-lg-12 text-center">
+                <div class="ct-inside">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                    All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                                                        aria-hidden="true"></i> by <a
+                        href="https://colorlib.com" target="_blank">Colorlib</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> </div>
             </div>
         </div>
     </div>
-    <div class="copyright-text">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="ct-inside">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                        All rights reserved | This template is made with <i class="fa fa-heart-o"
-                                                                            aria-hidden="true"></i> by <a
-                            href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
+</div>
 <!-- Footer Section End -->
 <!-- first-fragment Section -->
 <div class="tattoos-reviews" th:fragment="first-fragment">
@@ -161,7 +158,8 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="card shadow-sm p-3 mb-5 bg-white rounded">
-                    <form id="input-user-tattoos" action="/tattoos-user-import" method="POST" enctype="multipart/form-data" class="form-admin">
+                    <form id="input-user-tattoos" action="/tattoos-user-import" method="POST"
+                          enctype="multipart/form-data" class="form-admin">
                         <div class="row mb-3 text-center">
                             <div class="col-6 col-lg-4 themed-grid-col">
                                 <div class="avatar-container">
@@ -169,14 +167,17 @@
                                     <button type="button" class="upload-btn btn btn-primary"
                                             onclick="document.getElementById('tattoos').click()">Выбрать файл
                                     </button>
-                                    <input type="file" name="file" id="tattoos" accept="image/*" onchange="loadImage(this)" required>
+                                    <input type="file" name="file" id="tattoos" accept="image/*"
+                                           onchange="loadImage(this)" required>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-lg-8 themed-grid-col">
                                 <div class="input-group">
                                     <span class="input-group-text" style="height: 158px;">Текст</span>
                                     <textarea class="form-control" aria-label="С текстовым полем" required></textarea>
-                                    <button onclick="uploadFragment($('#input-user-tattoos'), '.tattoos-reviews')" class="btn leave-btn btn-block" >Сохранить тату</button>
+                                    <button onclick="uploadFragment($('#input-user-tattoos'), '.tattoos-reviews')"
+                                            class="btn leave-btn btn-block">Сохранить тату
+                                    </button>
                                 </div>
 
 
@@ -216,7 +217,8 @@
             <div class="row justify-content-center">
 
                 <div class="card shadow-sm p-3 mb-5 bg-white rounded">
-                    <form id="input-avatar" action="/avatar-import" method="POST" enctype="multipart/form-data" class="form-admin">
+                    <form id="input-avatar" action="/avatar-import" method="POST" enctype="multipart/form-data"
+                          class="form-admin">
                         <div class="row mb-3 text-center">
 
                             <div class="col-6 col-lg-4 themed-grid-col">
@@ -225,10 +227,12 @@
                                 <div class="avatar-container">
                                     <img id="" src="img/avatar.jpg" alt="Ваш аватар">
 
-                                    <button type="button" onclick="document.getElementById('avatar').click()" class="upload-btn btn btn-primary"
-                                           >Выбрать файл
+                                    <button type="button" onclick="document.getElementById('avatar').click()"
+                                            class="upload-btn btn btn-primary"
+                                    >Выбрать файл
                                     </button>
-                                    <input type="file" name="file" id="avatar"  accept="image/*" onchange="loadImage(this)">
+                                    <input type="file" name="file" id="avatar" accept="image/*"
+                                           onchange="loadImage(this)">
                                 </div>
                             </div>
 
@@ -238,8 +242,11 @@
 
                                 <div class="input-group">
                                     <span class="input-group-text" style="height: 158px; opacity: 0;">Текст</span>
-                                    <textarea style="opacity: 0;" class="form-control" aria-label="С текстовым полем" ></textarea>
-                                    <button onclick="uploadFragment($('#input-avatar'), '.profile-info')" class="btn leave-btn btn-block" >Сохранить аватар</button>
+                                    <textarea style="opacity: 0;" class="form-control"
+                                              aria-label="С текстовым полем"></textarea>
+                                    <button onclick="uploadFragment($('#input-avatar'), '.profile-info')"
+                                            class="btn leave-btn btn-block">Сохранить аватар
+                                    </button>
                                 </div>
 
 
@@ -275,23 +282,28 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="card shadow-sm p-3 mb-5 bg-white rounded">
-                    <form id="file-review" method="POST" enctype="multipart/form-data" action="/reviews-user-import" class="form-admin">
+                    <form id="file-review" method="POST" enctype="multipart/form-data" action="/reviews-user-import"
+                          class="form-admin">
                         <div class="row mb-3 text-center">
                             <div class="col-6 col-lg-4 themed-grid-col">
                                 <div class="avatar-container">
 
                                     <img id="imageID" src="img/avatar.jpg" alt="Выберите тату для отзыва">
-                                    <button type="button" class="upload-btn btn btn-primary" onclick="showModals()" id="" >Выбрать файл
+                                    <button type="button" class="upload-btn btn btn-primary" onclick="showModals()"
+                                            id="">Выбрать файл
                                     </button>
-                                    <input type="file"  name="file"  id="avatar-input" accept="image/*" onchange="loadImage(this)">
-                                    <input type="text" id="imageName"  style="display: none;" name="imageName">
+                                    <input type="file" name="file" id="avatar-input" accept="image/*"
+                                           onchange="loadImage(this)">
+                                    <input type="text" id="imageName" style="display: none;" name="imageName">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-lg-8 themed-grid-col">
                                 <div class="input-group">
                                     <span class="input-group-text" style="height: 158px;">Текст</span>
-                                    <textarea class="form-control" name="Comment" aria-label="С текстовым полем"  required></textarea>
-                                    <button onclick="uploadFragment($('#file-review'), '.input-user-reviews')" class="btn leave-btn btn-block" type="submit">Сохранить отзыв
+                                    <textarea class="form-control" name="Comment" aria-label="С текстовым полем"
+                                              required></textarea>
+                                    <button onclick="uploadFragment($('#file-review'), '.input-user-reviews')"
+                                            class="btn leave-btn btn-block" type="submit">Сохранить отзыв
                                     </button>
                                 </div>
                             </div>
@@ -305,61 +317,69 @@
 <!-- first-fragment Section End -->
 <div class="modal fade" id="infoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true" th:fragment="modal">
-    <div class="modal-img"  th:fragment="modal-img">
-    <div class="modal-dialog modal-xl modal-dialog-centered " >
-        <div class="modal-content" th:fragment="modal-content">
-            <div class="modal-header">
-                <h7 class="modal-title">Выберите тату</h7>
-                <button type="button" id="hide" onclick="closeModal()"
-                        class="delete-button btn-close-custom"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="gallery-filter">
-                        <div class="row gallery-filter" th:each="currents: ${gallery.galleryImg}" >
-                            <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="img: ${currents}">
-                                <div class="gallery-modal" >
+    <div class="modal-img" th:fragment="modal-img">
+        <div class="modal-dialog modal-xl modal-dialog-centered ">
+            <div class="modal-content" th:fragment="modal-content">
+                <div class="modal-header">
+                    <h7 class="modal-title">Выберите тату</h7>
+                    <button type="button" id="hide" onclick="closeModal()"
+                            class="delete-button btn-close-custom"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="gallery-filter">
+                            <div class="row gallery-filter" th:each="currents: ${gallery.galleryImg}">
+                                <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="img: ${currents}">
+                                    <div class="gallery-modal">
 
-                                    <img onclick="hideModal(this.alt)" accept="image/*"  th:alt="${img.imageName}" th:src="@{'/images/'+${img.imageName}}">
+                                        <img onclick="hideModal(this.alt)" accept="image/*" th:alt="${img.imageName}"
+                                             th:src="@{'/images/'+${img.imageName}}">
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <div class="blog-option">
-                    <div class="blog-pagination">
-                        <a th:if="${gallery.currentPage!=0}" th:onclick="goToPageGalleryReviews([[${gallery.currentPage -1}]], [[${gallery.number}]])"
-                           id="fa-long-arrow-left" type="submit"><i
-                                class="fa fa-long-arrow-left"></i></a>
-                        <a class="active">[[${gallery.currentPage+1}]]</a>
-                        of
-                        <a>[[${gallery.pageSize}]]</a>
-                        <a th:if="${gallery.currentPage+1 != gallery.pageSize}" th:onclick="goToPageGalleryReviews([[${gallery.currentPage +1}]], [[${gallery.number}]])" id="fa-long-arrow-right" type="submit"><i
-                                class="fa fa-long-arrow-right"></i></a>
-                    </div>
-                    <div class="blog-option-right">
-                        <div class="blog-result">Showing [[${gallery.currentPage+1}]]–[[${gallery.pageSize}]] of [[${gallery.imagesTotal}]]
-                            results
+                <div class="modal-footer">
+                    <div class="blog-option">
+                        <div class="blog-pagination">
+                            <a th:if="${gallery.currentPage!=0}"
+                               th:onclick="goToPageGalleryReviews([[${gallery.currentPage -1}]], [[${gallery.number}]])"
+                               id="fa-long-arrow-left" type="submit"><i
+                                    class="fa fa-long-arrow-left"></i></a>
+                            <a class="active">[[${gallery.currentPage+1}]]</a>
+                            of
+                            <a>[[${gallery.pageSize}]]</a>
+                            <a th:if="${gallery.currentPage+1 != gallery.pageSize}"
+                               th:onclick="goToPageGalleryReviews([[${gallery.currentPage +1}]], [[${gallery.number}]])"
+                               id="fa-long-arrow-right" type="submit"><i
+                                    class="fa fa-long-arrow-right"></i></a>
                         </div>
-                        <div class="show-result">
-                            <p>Show:</p>
-                            <select class="show-result-select" th:onchange="goToPageGalleryReviews([[${gallery.currentPage}]], this.value)" id="number">
-                                <option th:each="option : ${gallery.select}" th:value="${option}" th:text="${option}"
-                                        th:selected="${option == gallery.number}"></option>
-                            </select>
+                        <div class="blog-option-right">
+                            <div class="blog-result">Showing [[${gallery.currentPage+1}]]–[[${gallery.pageSize}]] of
+                                [[${gallery.imagesTotal}]]
+                                results
+                            </div>
+                            <div class="show-result">
+                                <p>Show:</p>
+                                <select class="show-result-select"
+                                        th:onchange="goToPageGalleryReviews([[${gallery.currentPage}]], this.value)"
+                                        id="number">
+                                    <option th:each="option : ${gallery.select}" th:value="${option}"
+                                            th:text="${option}"
+                                            th:selected="${option == gallery.number}"></option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </div>
 <!-- Модальное окно End -->

@@ -40,7 +40,7 @@
 <!-- Header End -->
 
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg spad" data-setbg="img/about-me.PNG">
+<section class="breadcrumb-section-admin set-bg spad" th:each="current: ${setting}" th:if="${current.section=='breadcrumb'}" th:attr="data-setbg=@{'/images/'+${current.imageName}}">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -122,8 +122,10 @@
 <!-- Cta Section End -->
 
 <!-- Footer Section Begin -->
-<footer th:replace="~{fragments::footer}"></footer>
-<!-- Footer Section End -->
+<div class="footer-section">
+    <div th:replace="~{fragments::footer}"></div>
+</div>
+<!-- Footer Section End -->>
 
 <!-- Js Plugins -->
 <script src="js/jquery-3.3.1.min.js"></script>

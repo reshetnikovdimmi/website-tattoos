@@ -4,17 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.model.EmailDetails;
 import ru.tattoo.maxsim.repository.ContactInfoRepository;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.ContactInfoService;
 import ru.tattoo.maxsim.service.interf.EmailService;
+import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
 
 @Controller
-public class ContactController {
+@RequestMapping(ContactController.URL)
+public class ContactController extends CRUDController <ContactInfo, Long> {
+
+    public static final String URL = "/contact";
 
     @Autowired
     private EmailService emailService;
@@ -22,7 +25,13 @@ public class ContactController {
     @Autowired
     private ContactInfoRepository contactInfoRepository;
 
-    @GetMapping("/contact")
+    @Autowired
+    private ContactInfoService contactInfoService;
+
+    @Autowired
+    private SettingWebsiteService settingWebsiteService;
+
+    @GetMapping()
     public String gallery(Model model) {
         model.addAttribute("details", new EmailDetails());
         return "contact";
@@ -40,16 +49,22 @@ public class ContactController {
            }
 
         model.addAttribute("details", new EmailDetails());
-        return "/contact";
+        return "contact::contact-form";
     }
-    @PostMapping(path = "/contact-info")
-    private ResponseEntity<ContactInfo> contactInfo(@RequestBody ContactInfo newContact, Model model) {
-        ContactInfo contactInfo = contactInfoRepository.findLimit();
-        if (newContact.getTell()!=null) contactInfo.setTell(newContact.getTell());
-        if (newContact.getEmail()!=null) contactInfo.setEmail(newContact.getEmail());
-        if (newContact.getAddress()!=null) contactInfo.setAddress(newContact.getAddress());
-        contactInfoRepository.save(contactInfo);
 
-        return ResponseEntity.ok(contactInfoRepository.findLimit());
+    @Override
+    String getEntityName() {
+        return "fragments::footer";
+    }
+
+    @Override
+    CRUDService<ContactInfo, Long> getService() {
+        return contactInfoService;
+    }
+
+    @Override
+    void updateSection(Model model) {
+        model.addAttribute("contactInfo", contactInfoRepository.findLimit());
+        model.addAttribute("setting", settingWebsiteService.findAll());
     }
 }

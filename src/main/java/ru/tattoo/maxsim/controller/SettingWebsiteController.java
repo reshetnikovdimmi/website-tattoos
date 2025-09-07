@@ -5,45 +5,57 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.Blog;
 import ru.tattoo.maxsim.model.EmailDetails;
 import ru.tattoo.maxsim.model.PriceSection;
 import ru.tattoo.maxsim.model.SettingWebsite;
+import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
+import ru.tattoo.maxsim.util.ImageUtils;
 
 import java.io.IOException;
 import java.text.ParseException;
 
 @Controller
-public class SettingWebsiteController {
+@RequestMapping(SettingWebsiteController.URL)
+public class SettingWebsiteController extends CRUDController<SettingWebsite, Long> {
+
+    public static final String URL = "/setting";
 
     @Autowired
     private SettingWebsiteService settingWebsiteService;
 
-    @GetMapping("/breadcrumb")
-    public String gallery(Model model) {
-        model.addAttribute("details", new EmailDetails());
-        return "breadcrumb";
+
+    @Override
+    protected SettingWebsite prepareObject(MultipartFile fileImport, SettingWebsite settingWebsite) throws IOException {
+        settingWebsite.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
+        ImageUtils.saveImage(fileImport, settingWebsite.getImageName());
+        return settingWebsite;
     }
 
-    @PostMapping("/sends")
-    public String  sendMail(@ModelAttribute("details") EmailDetails details, Model model) {
+    @Override
+    @PostMapping("/logo-import")
+    public String uploadImage(@ModelAttribute("hero") SettingWebsite object,
+                              @RequestParam("file") MultipartFile fileImport,
+                              Model model) throws IOException, ParseException {
 
-        return "/contact";
+        getService().create(prepareObject(fileImport, object));
+        updateSection(model);
+        return "admin::logo";
     }
 
-    @PostMapping("/setting/upload-image/{section}")
-    public String uploadHome(@RequestParam("image") MultipartFile fileImport, @RequestParam("id") Long id,
-                             @PathVariable("section") String section,
-                             Model model) throws IOException, ParseException {
-        settingWebsiteService.saveImg(fileImport, section, id);
+    @Override
+    String getEntityName() {
+        return "admin::breadcrumb";
+    }
+
+    @Override
+    CRUDService<SettingWebsite, Long> getService() {
+        return settingWebsiteService;
+    }
+
+    @Override
+    void updateSection(Model model) {
         model.addAttribute("setting", settingWebsiteService.findAll());
-        return "admin::" + section;
-    }
-    @PostMapping("/setting/head/{section}")
-    public String uploadHome(@RequestBody SettingWebsite settingWebsite, @PathVariable("section") String section, Model model) {
-        settingWebsite.setSection(section);
-        settingWebsiteService.create(settingWebsite);
-        model.addAttribute("setting", settingWebsiteService.findAll());
-        return "admin::"+section;
     }
 }

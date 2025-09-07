@@ -238,6 +238,12 @@
                 alert('Информация успешно сохранена!');
                 console.log('Информация успешно сохранена!');
                 $(fragment).html(response); // Замена текущего содержимого новым шаблоном
+                // Меняем название кнопки на "Изменить"
+                button.textContent = 'Изменить';
+                // Делаем поля ввода неактивными
+                inputs.forEach(input => input.disabled = true);
+                // Удаляем класс 'active' у формы
+                form.classList.remove('active');
             } catch (error) {
                 console.log('Ошибка при загрузке:', error);
                 alert('Произошла ошибка при сохранении информации.');

@@ -39,7 +39,7 @@
 <div th:replace="~{fragments::modal}"></div>
 <!-- Модальное окно End -->
 <!-- Breadcrumb Section Begin -->
-<section class="blog-single-hero set-bg" data-setbg="img/about-me.PNG">
+<section class="breadcrumb-section-admin set-bg spad" th:each="current: ${setting}" th:if="${current.section=='breadcrumb'}" th:attr="data-setbg=@{'/images/'+${current.imageName}}">
     <div class="container">
         <div class="row">
             <div class="col-xl-7 col-lg-7 m-auto text-center">
@@ -155,7 +155,9 @@
 <!-- Cta Section End -->
 
 <!-- Footer Section Begin -->
-<footer th:replace="~{fragments::footer}"></footer>
+<div class="footer-section">
+    <div th:replace="~{fragments::footer}"></div>
+</div>
 <!-- Footer Section End -->
 
 <!-- Js Plugins -->
