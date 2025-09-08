@@ -10,9 +10,9 @@
 <div class="header-section header-normal" th:fragment="header">
 
     <div class="container-fluid">
-        <div class="logo">
+        <div class="logo" th:each="current: ${setting}" th:if="${current.section=='logo'}">
             <a href="/">
-                <img src="img/logo.png" alt="">
+                <img id="logo-header" th:src="@{'/images/'+${current.imageName}}" alt="">
             </a>
         </div>
         <div class="top-social">
@@ -67,7 +67,7 @@
         <div class="col-lg-3">
             <div class="footer-logo-item" th:each="current: ${setting}">
                 <div class="f-logo" th:if="${current.section=='logo'}">
-                    <a href="/"><img th:src="@{'/images/'+${current.imageName}}" alt=""></a>
+                    <a href="/"><img id="logo-footer" th:src="@{'/images/'+${current.imageName}}" alt=""></a>
                 </div>
                 <div class="social-links" th:if="${current.section=='footer-title'}">
                     <h6 th:text="${current.textH1}"></h6>

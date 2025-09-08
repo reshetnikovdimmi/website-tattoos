@@ -33,7 +33,7 @@
 <div th:replace="~{fragments::header}"></div>
 <!-- Header End -->
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section-admin set-bg spad" th:each="current: ${setting}"
+<section id="breadcrumb-section" class="breadcrumb-section-admin set-bg spad" th:each="current: ${setting}"
          th:if="${current.section=='breadcrumb'}" th:attr="data-setbg=@{'/images/'+${current.imageName}}">
     <div class="container">
         <div class="row">
@@ -1464,7 +1464,7 @@
                                                            value="breadcrumb">
                                                     <input type="file" name="file" id="file-input-breadcrumb"
                                                            accept="image/*"
-                                                           onchange="loadImage(this, document.getElementById('breadcrumb-image'))">
+                                                           onchange="updateBreadcrumbBackground(this, document.getElementById('breadcrumb-image'))">
                                                     <label for="file-input-breadcrumb" class="btn btn-primary">Выбрать
                                                         файл</label>
                                                 </div>
@@ -1501,7 +1501,7 @@
                                                            value="logo">
                                                     <input type="file" name="file" id="file-input-logo"
                                                            accept="image/*"
-                                                           onchange="loadImage(this, document.getElementById('logo-image'))">
+                                                           onchange="updateLogoImage(this, document.getElementById('logo-image'))">
                                                     <label for="file-input-logo" class="btn btn-primary">Выбрать
                                                         файл</label>
                                                 </div>
@@ -1528,7 +1528,7 @@
                                             <div class="card">
                                                 <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                                                     <form th:id="${current.id}" action="/setting/head/home-title"
-                                                          onsubmit="toggleEditMode(event,'.home-title')">
+                                                          onsubmit="submitForm(event,'.home-title')">
                                                         <label for="home-title" class="form-label">Заголовок главной
                                                             страницы:</label>
                                                         <input type="text" th:name="'textH1'"
@@ -1555,7 +1555,7 @@
                                             <div class="card">
                                                 <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                                                     <form th:id="${current.id}" action="/setting/head/gallery-title"
-                                                          onsubmit="toggleEditMode(event,'.gallery-title')">
+                                                          onsubmit="submitForm(event,'.gallery-title')">
                                                         <label for="gallery-title" class="form-label">Заголовок
                                                             галереи:</label>
                                                         <input type="text" th:name="'textH1'"
@@ -1582,7 +1582,7 @@
                                             <div class="card">
                                                 <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                                                     <form th:id="${current.id}" action="/setting/head/sketchers-title"
-                                                          onsubmit="toggleEditMode(event,'.sketchers-title')">
+                                                          onsubmit="submitForm(event,'.sketchers-title')">
                                                         <label for="sketchers-title" class="form-label">Заголовок
                                                             эскизов:</label>
                                                         <input type="text" th:name="'textH1'"
@@ -1608,7 +1608,7 @@
                                             <div class="card">
                                                 <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                                                     <form th:id="${current.id}" action="/setting/head/blog-title"
-                                                          onsubmit="toggleEditMode(event,'.blog-title')">
+                                                          onsubmit="submitForm(event,'.blog-title')">
                                                         <label for="blog-title" class="form-label">Заголовок
                                                             блога:</label>
                                                         <input type="text" th:name="'textH1'"
@@ -1634,7 +1634,7 @@
                                             <div class="card">
                                                 <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                                                     <form th:id="${current.id}" action="/setting/head/reviews-title"
-                                                          onsubmit="toggleEditMode(event,'.reviews-title')">
+                                                          onsubmit="submitForm(event,'.reviews-title')">
                                                         <label for="reviews-title" class="form-label">Заголовок
                                                             отзывов:</label>
                                                         <input type="text" th:name="'textH1'"

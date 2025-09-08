@@ -33,15 +33,23 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
         return settingWebsite;
     }
 
-    @Override
+
     @PostMapping("/logo-import")
-    public String uploadImage(@ModelAttribute("hero") SettingWebsite object,
+    public String uploadLogo(@ModelAttribute("hero") SettingWebsite object,
                               @RequestParam("file") MultipartFile fileImport,
                               Model model) throws IOException, ParseException {
 
         getService().create(prepareObject(fileImport, object));
         updateSection(model);
         return "admin::logo";
+    }
+
+    @PostMapping("/head/{section}")
+    public String uploadHome(@RequestBody SettingWebsite settingWebsite, @PathVariable("section") String section, Model model) {
+        settingWebsite.setSection(section);
+        settingWebsiteService.create(settingWebsite);
+        model.addAttribute("setting", settingWebsiteService.findAll());
+        return "admin::"+section;
     }
 
     @Override

@@ -204,9 +204,11 @@
     Функция для загрузки данных формы
     -----------------------------*/
     async function submitForm(event, fragment) {
+
         event.preventDefault(); // Отмена стандартной отправки формы
         const form = event.currentTarget; // Получаем текущую форму
         const formAction = form.action; // Извлекаем адрес из атрибута action
+        console.log(formAction);
         if (!form) {
             console.error('Форма не найдена');
             return;
