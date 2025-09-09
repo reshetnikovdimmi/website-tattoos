@@ -45,7 +45,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     }
 
     @PostMapping("/head/{section}")
-    public String uploadHome(@RequestBody SettingWebsite settingWebsite, @PathVariable("section") String section, Model model) {
+    public String uploadHome(@ModelAttribute()SettingWebsite settingWebsite, @PathVariable("section") String section, Model model) {
         settingWebsite.setSection(section);
         settingWebsiteService.create(settingWebsite);
         model.addAttribute("setting", settingWebsiteService.findAll());

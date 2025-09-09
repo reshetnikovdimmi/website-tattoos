@@ -3,13 +3,10 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Тату омск, тату мастер, индивидуальная татуировка">
-    <meta name="keywords"
-          content="татуировка эскиз, татуировка эскиз омск, тату салон, сделать эскиз татуировки, эскиз тату">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>R1-TАТТОO/admin</title>
-    <link href="img/logo.png" rel="icon" type="image/vnd.microsoft.icon">
+    <title>admin</title>
+    <link th:each="current: ${setting}" th:if="${current.section=='logo'}" th:href="@{'/images/'+${current.imageName}}" rel="icon" type="image/vnd.microsoft.icon">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900&display=swap" rel="stylesheet">
@@ -1531,12 +1528,12 @@
                                                           onsubmit="submitForm(event,'.home-title')">
                                                         <label for="home-title" class="form-label">Заголовок главной
                                                             страницы:</label>
-                                                        <input type="text" th:name="'textH1'"
+                                                        <input type="text" th:name="textH1"
                                                                th:value="${current.textH1}"
                                                                id="home-title" disabled/>
                                                         <label for="home-description" class="form-label">Description
                                                             главной страницы:</label>
-                                                        <textarea rows="4" cols="50" th:name="'textH2'"
+                                                        <textarea rows="4" cols="50" th:name="textH2"
                                                                   th:text="${current.textH2}" id="home-description"
                                                                   disabled></textarea>
                                                         <button type="submit" id=""

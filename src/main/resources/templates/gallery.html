@@ -5,16 +5,15 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
       layout:decorate="layout">
 
-<head>
+<head th:each="current: ${setting}"
+      th:if="${current.section=='gallery-title'}">
     <meta charset="UTF-8">
-    <meta name="description"
-          content="Тату омск, девушка с татуировкой,татуировки на руку для мужчин, татуировка в омске, тату мастер в омске, красивые татуировки, уникальные дизайны татуировки, галерея татуировок, рисунки с татуировками">
-    <meta name="keywords"
-          content="татуировка, татуировка омск,тату омск цены, 45 татуировок менеджера, тату для девушек,стили тату, тату салон, сделать татуировку в омске, тату в омске">
+    <meta name="description" th:content="${current.textH2}">
+    <meta name="keywords" th:content="${current.textH2}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>R1-TАТТОO/gallery</title>
-    <link href="img/logo.png" rel="icon" type="image/vnd.microsoft.icon">
+    <link th:each="current: ${setting}" th:if="${current.section=='logo'}" th:href="@{'/images/'+${current.imageName}}" rel="icon" type="image/vnd.microsoft.icon">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900&display=swap" rel="stylesheet">
