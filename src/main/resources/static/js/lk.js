@@ -73,3 +73,24 @@ $('#imageName').val(modalId);
          }
      });
  }
+     /*------------------
+          User info
+     --------------------*/
+     $('#info').click(function(e) {
+         $.get('/user-info', {}, function(data) {
+             $(".container-lk-info").html(data);
+
+         });
+     });
+     $('#profile-editing').click(function(e) {
+         $.get('/profile-editing', {}, function(data) {
+             $(".container-lk-info").html(data);
+
+         });
+     });
+     $('#user-tattoos').click(function(e) {
+         $.get('/user-tattoos', {}, function(data) {
+             $(".container-lk-info").html(data);
+
+         });
+     });

@@ -2,16 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
 
-<head>
+<head th:each="current: ${setting}"
+      th:if="${current.section=='blog-title'}">
     <meta charset="UTF-8">
-    <meta name="description"
-          content="Тату омск, эскизы, эскизы татуировок, красивые тату, тату мастер, цена татуировки, тату сколько стоит , тату цена, значение татуировки, мастер тату, индивидуальный эскиз, Символика и значение татуировок в разных культурах">
-    <meta name="keywords"
-          content="Татуировка,эскизы тату для мужчин, татуировки мужские, эскизы тату на руку,эскизы тату на руку мужские, татуировка омск, тату салон, сделать татуировку">
+    <meta name="description" th:content="${current.textH2}">
+    <meta name="keywords" th:content="${current.textH2}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>R1-TАТТОO/blog</title>
-    <link href="img/logo.png" rel="icon" type="image/vnd.microsoft.icon">
+    <title th:text="${current.textH1}"></title>
+    <link th:each="current: ${setting}" th:if="${current.section=='logo'}" th:href="@{'/images/'+${current.imageName}}" rel="icon" type="image/vnd.microsoft.icon">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900&display=swap" rel="stylesheet">

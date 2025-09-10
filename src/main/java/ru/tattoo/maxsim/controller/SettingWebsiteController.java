@@ -51,6 +51,14 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
         model.addAttribute("setting", settingWebsiteService.findAll());
         return "admin::"+section;
     }
+    @Override
+    @PostMapping("/import")
+    public String upload(@ModelAttribute("hero") SettingWebsite object,
+                         Model model) throws IOException, ParseException {
+        getService().create(prepareObject(object));
+        model.addAttribute("setting", settingWebsiteService.findAll());
+        return "fragments::footer";
+    }
 
     @Override
     String getEntityName() {
