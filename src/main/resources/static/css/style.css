@@ -110,21 +110,21 @@ ol {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
-  overflow-x: none;
+	width: 10px;
+	overflow-x: none;
 }
 
 ::-webkit-scrollbar-track {
-  border-radius: 0.3em;
-  background: #090a11;
-  margin-block: 0.25em;
+	border-radius: 0.3em;
+	background: #090a11;
+	margin-block: 0.25em;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00c6ff;
-  background: -webkit-linear-gradient(to right, #00c6ff, #0072ff);
-  background: linear-gradient(to right, #00c6ff, #0072ff);
-  border-radius: 0.3em;
+	background: #00c6ff;
+	background: -webkit-linear-gradient(to right, #00c6ff, #0072ff);
+	background: linear-gradient(to right, #00c6ff, #0072ff);
+	border-radius: 0.3em;
 }
 /*---------------------
   Helper CSS
@@ -304,7 +304,7 @@ ol {
 	-webkit-animation: loader 0.8s linear infinite;
 }
 .advertisement{
-    padding: 35px;
+	padding: 35px;
 }
 
 @keyframes loader {
@@ -530,439 +530,439 @@ ol {
 -----------------------*/
 /* Основная настройка модала */
 .modal.fade .modal-dialog {
-    transition: transform 0.3s ease-out;
-    transform: translateY(-20%);
+	transition: transform 0.3s ease-out;
+	transform: translateY(-20%);
 }
 
 .modal.show .modal-dialog {
-    transform: none;
+	transform: none;
 }
 
 /* Настройка заголовка модала */
 .modal-header {
-    background-color: #333;
-    color: #fff;
-    border-bottom: 1px solid #555;
-    padding: 1rem;
+	background-color: #333;
+	color: #fff;
+	border-bottom: 1px solid #555;
+	padding: 1rem;
 }
 
 .modal-header h7.modal-title {
-    font-weight: bold;
-    margin-bottom: 0;
+	font-weight: bold;
+	margin-bottom: 0;
 }
 
 
 /* Основная зона сообщений */
 .modal-body {
-    background-color: #222;
-    color: #fff;
-    padding: 1.5rem;
+	background-color: #222;
+	color: #fff;
+	padding: 1.5rem;
 }
 
 .modal-body div.container-fluid {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100px;
-    font-size: 1.1em;
-    word-wrap: break-word;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100px;
+	font-size: 1.1em;
+	word-wrap: break-word;
 }
 
 /* Футер модала */
 .modal-footer {
-    background-color: #333;
-    color: #fff;
-    border-top: 1px solid #555;
-    padding: 1rem;
-    display: flex;
-    justify-content: flex-end;
+	background-color: #333;
+	color: #fff;
+	border-top: 1px solid #555;
+	padding: 1rem;
+	display: flex;
+	justify-content: flex-end;
 }
 
 .modal-footer button.btn-secondary {
-    background-color: #555;
-    border: none;
-    color: #fff;
-    padding: 0.5rem 1.5rem;
-    cursor: pointer;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s linear;
+	background-color: #555;
+	border: none;
+	color: #fff;
+	padding: 0.5rem 1.5rem;
+	cursor: pointer;
+	box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s linear;
 }
 
 .modal-footer button.btn-secondary:hover {
-    background-color: #444;
+	background-color: #444;
 }
 
 /* Переход при закрытии модала */
 .modal.fade .modal-dialog.slide-down {
-    animation: slideDownOut 0.3s forwards;
+	animation: slideDownOut 0.3s forwards;
 }
 
 @keyframes slideDownOut {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateY(-20%);
-    }
+	from {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateY(-20%);
+	}
 }
 
 /* Анимация открытия модала */
 .modal.fade .modal-dialog.slide-up {
-    animation: slideUpIn 0.3s forwards;
+	animation: slideUpIn 0.3s forwards;
 }
 
 @keyframes slideUpIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20%);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+	from {
+		opacity: 0;
+		transform: translateY(-20%);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 /* Макет модала */
 .modal-dialog {
-    max-width: 700px;
-    margin: auto;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+	max-width: 700px;
+	margin: auto;
+	border-radius: 0.5rem;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .modal-content {
-    background-color: #222;
-    border-radius: 0.5rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	background-color: #222;
+	border-radius: 0.5rem;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Параметры шрифтов */
 .modal-content h7.modal-title {
-    font-size: 1.2rem;
-    font-weight: bold;
+	font-size: 1.2rem;
+	font-weight: bold;
 }
 
 .modal-content p {
-    font-size: 1rem;
-    line-height: 1.5;
+	font-size: 1rem;
+	line-height: 1.5;
 }
 
 /* Оптимизация мобильной версии */
 @media screen and (max-width: 768px) {
-    .modal-dialog {
-        max-width: 300px;
-    }
+	.modal-dialog {
+		max-width: 300px;
+	}
 
-    .modal-body {
-        padding: 1rem;
-    }
+	.modal-body {
+		padding: 1rem;
+	}
 
-    .modal-footer button {
-        font-size: 0.9rem;
-    }
+	.modal-footer button {
+		font-size: 0.9rem;
+	}
 }
 
 /* Минимальное улучшение для Retina-дисплеев */
 @media only screen and (-webkit-min-device-pixel-ratio: 2),
-       only screen and (min-resolution: 192dpi) {
-    .modal-content {
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    }
+only screen and (min-resolution: 192dpi) {
+	.modal-content {
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+	}
 }
 /*---------------------
   Admin Section
 -----------------------*/
 .card {
-    width: 100%; /* Растягиваем по ширине родителя */
-    background-color: #333; /* Тёмный фон */
-    color: #fff; /* Белый текст для контраста */
-    padding: 20px; /* Внутренние отступы */
-    border-radius: 8px; /* Закруглённые углы */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
-    margin-bottom: 20px;
+	width: 100%; /* Растягиваем по ширине родителя */
+	background-color: #333; /* Тёмный фон */
+	color: #fff; /* Белый текст для контраста */
+	padding: 20px; /* Внутренние отступы */
+	border-radius: 8px; /* Закруглённые углы */
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
+	margin-bottom: 20px;
 }
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
-   .card {
-       width: 100%; /* Растягиваем по ширине родителя */
-       background-color: #333; /* Тёмный фон */
-       color: #fff; /* Белый текст для контраста */
-       padding: 5px; /* Внутренние отступы */
-       border-radius: 8px; /* Закруглённые углы */
-       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
-       margin: 5px;
-   }
+	.card {
+		width: 100%; /* Растягиваем по ширине родителя */
+		background-color: #333; /* Тёмный фон */
+		color: #fff; /* Белый текст для контраста */
+		padding: 5px; /* Внутренние отступы */
+		border-radius: 8px; /* Закруглённые углы */
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
+		margin: 5px;
+	}
 }
 /* Стили для аватара */
 .avatar-container {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    overflow: hidden;
-    border-radius: 5%;
-    border: 2px solid #ddd;
+	position: relative;
+	width: 200px;
+	height: 200px;
+	overflow: hidden;
+	border-radius: 5%;
+	border: 2px solid #ddd;
 }
 
 .avatar-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 /* Стили для кнопки загрузки файла */
 .upload-btn {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 }
 
 /* Скрываем стандартный input file */
 #file-carousel {
-    display: none;
+	display: none;
 }
 
 /* Стили для текстовых полей */
 .form-control {
-    height: auto;
-    resize: vertical;
+	height: auto;
+	resize: vertical;
 }
 /* Стили для контейнера кнопки */
 .card-btn {
-    display: flex; /* Включаем Flexbox */
-    justify-content: center; /* Центрируем по горизонтали */
-    align-items: center; /* Центрируем по вертикали (если нужно) */
+	display: flex; /* Включаем Flexbox */
+	justify-content: center; /* Центрируем по горизонтали */
+	align-items: center; /* Центрируем по вертикали (если нужно) */
 }
 
 /* Стили для кнопок */
 
 .card-btn .btn {
-    width: 100%; /* Кнопка занимает всю ширину контейнера */
-    padding: 10px 20px; /* Внутренние отступы */
-    font-size: 16px; /* Размер шрифта */
-    font-weight: 500; /* Жирность шрифта */
-    color: #fff; /* Белый текст */
-    background-color: #e4381C; /* Красный фон */
-    border: none; /* Без границы */
-    border-radius: 4px; /* Закруглённые углы */
-    cursor: pointer; /* Курсор в виде указателя */
-    transition: background-color 0.3s; /* Плавный переход цвета */
+	width: 100%; /* Кнопка занимает всю ширину контейнера */
+	padding: 10px 20px; /* Внутренние отступы */
+	font-size: 16px; /* Размер шрифта */
+	font-weight: 500; /* Жирность шрифта */
+	color: #fff; /* Белый текст */
+	background-color: #e4381C; /* Красный фон */
+	border: none; /* Без границы */
+	border-radius: 4px; /* Закруглённые углы */
+	cursor: pointer; /* Курсор в виде указателя */
+	transition: background-color 0.3s; /* Плавный переход цвета */
 }
 
 /* Стили для кнопки при наведении */
 .card-btn .btn:hover {
-    background-color: #e16521; /* Более тёмный оттенок при наведении */
+	background-color: #e16521; /* Более тёмный оттенок при наведении */
 }
 
 /* Стили для кнопки при нажатии */
 .card-btn .btn:active {
-    transform: scale(0.98); /* Немного уменьшаем при нажатии */
+	transform: scale(0.98); /* Немного уменьшаем при нажатии */
 }
 .btn-primary {
-    background-color: #e4381C;
-    color: #fff;
-    border-color: #f00;
+	background-color: #e4381C;
+	color: #fff;
+	border-color: #f00;
 }
 
 .btn-primary:hover {
-    background-color: #e16521;
+	background-color: #e16521;
 }
 
 /* Стили для группы ввода */
 .input-group {
-    margin-bottom: 15px;
+	margin-bottom: 15px;
 }
 
 /* Стили для текста в группе ввода */
 .input-group-text {
-    background-color: #e4381C;
-    color: #fff;
-    border: none;
-    border-radius: 4px 0 0 4px;
-    width: 50px;
-    padding:15px;
+	background-color: #e4381C;
+	color: #fff;
+	border: none;
+	border-radius: 4px 0 0 4px;
+	width: 50px;
+	padding:15px;
 }
 
 /* Стили для скрытого поля H3 */
 .input-group[hidden] {
-    display: none;
+	display: none;
 }
 
 /* Стили для слайдера */
 .carousel.slide {
-    height: 300px; /* Уменьшенная высота слайдера */
-    overflow: hidden; /* Скрываем выходящие за пределы элементы */
+	height: 300px; /* Уменьшенная высота слайдера */
+	overflow: hidden; /* Скрываем выходящие за пределы элементы */
 }
 
 /* Стили для изображения в слайде */
 .carousel-item img {
-    width: 100%; /* Изображение растянуто по ширине */
-    height: 300px; /* Изображение растянуто по высоте */
-    object-fit: cover; /* Сохраняет пропорции изображения */
+	width: 100%; /* Изображение растянуто по ширине */
+	height: 300px; /* Изображение растянуто по высоте */
+	object-fit: cover; /* Сохраняет пропорции изображения */
 }
 .carousel-item {
 
-    height: 300px /* Изображение растянуто по высоте */
+	height: 300px /* Изображение растянуто по высоте */
 
 }
 /* Стили для текста в слайде */
 .carousel-caption .hero-text {
-    position: absolute; /* Позиционируем текст абсолютно */
-    bottom: 20px; /* Отступ снизу */
-    left: 20px; /* Отступ слева */
-    right: 20px; /* Отступ справа */
-    text-align: center; /* Выравнивание текста по центру */
-    color: #fff; /* Белый текст */
-    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон для текста */
-    padding: 10px;
-    border-radius: 8px;
-    z-index: 1; /* Поднимаем текст над изображением */
+	position: absolute; /* Позиционируем текст абсолютно */
+	bottom: 20px; /* Отступ снизу */
+	left: 20px; /* Отступ слева */
+	right: 20px; /* Отступ справа */
+	text-align: center; /* Выравнивание текста по центру */
+	color: #fff; /* Белый текст */
+	background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон для текста */
+	padding: 10px;
+	border-radius: 8px;
+	z-index: 1; /* Поднимаем текст над изображением */
 }
 
 .carousel-caption .hero-text h6,h5{
-    color: #fff; /* Белый текст */
+	color: #fff; /* Белый текст */
 }
 
 /* Стили для кнопки удаления */
 .delete-button {
-    position: absolute; /* Позиционируем кнопку абсолютно */
-    top: 10px; /* Верхний отступ */
-    right: 10px; /* Правый отступ */
-    width: 30px; /* Ширина кнопки */
-    height: 30px; /* Высота кнопки */
-    border: none; /* Без границы */
-    background-color: transparent; /* Прозрачный фон */
-    cursor: pointer; /* Курсор в виде указателя */
-    transition: background-color 0.3s; /* Плавный переход цвета */
-    z-index: 2; /* Поднимаем кнопку над текстом */
+	position: absolute; /* Позиционируем кнопку абсолютно */
+	top: 10px; /* Верхний отступ */
+	right: 10px; /* Правый отступ */
+	width: 30px; /* Ширина кнопки */
+	height: 30px; /* Высота кнопки */
+	border: none; /* Без границы */
+	background-color: transparent; /* Прозрачный фон */
+	cursor: pointer; /* Курсор в виде указателя */
+	transition: background-color 0.3s; /* Плавный переход цвета */
+	z-index: 2; /* Поднимаем кнопку над текстом */
 }
 
 /* Стили для крестика */
 .delete-button::before,
 .delete-button::after {
-    content: "";
-    position: absolute;
-    width: 20px; /* Длина линий */
-    height: 2px; /* Толщина линий */
-    background-color: #e4381C; /* Цвет линий */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+	content: "";
+	position: absolute;
+	width: 20px; /* Длина линий */
+	height: 2px; /* Толщина линий */
+	background-color: #e4381C; /* Цвет линий */
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .delete-button::before {
-    transform: translate(-50%, -50%) rotate(45deg); /* Первая линия */
+	transform: translate(-50%, -50%) rotate(45deg); /* Первая линия */
 }
 
 .delete-button::after {
-    transform: translate(-50%, -50%) rotate(-45deg); /* Вторая линия */
+	transform: translate(-50%, -50%) rotate(-45deg); /* Вторая линия */
 }
 
 .delete-button:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Лёгкая подсветка при наведении */
+	background-color: rgba(0, 0, 0, 0.1); /* Лёгкая подсветка при наведении */
 }
 /* Стили для admin-blog-pic */
 .breadcrumb, .logo-admin, .admin-blog-pic {
-    padding: 20px;
-    background-color: #333; /* Тёмный фон */
-    color: #fff; /* Белый текст */
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	background-color: #333; /* Тёмный фон */
+	color: #fff; /* Белый текст */
+	border-radius: 8px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 /* Стили для custom-file-upload */
 .custom-file-upload {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 10px;
+	position: relative;
+	display: inline-block;
+	margin-bottom: 10px;
 }
 
 /* Скрываем стандартный input file */
 .custom-file-upload input[type="file"] {
-    display: none;
+	display: none;
 }
 /* Стили для изображений */
 .breadcrumb, .logo-admin, .admin-blog-pic img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 8px;
-    transition: opacity 0.3s;
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	border-radius: 8px;
+	transition: opacity 0.3s;
 }
 /* Стили для строк */
 .breadcrumb, .logo-admin, .admin-blog-pic .row {
-    margin-bottom: 20px; /* Отступ между строками */
+	margin-bottom: 20px; /* Отступ между строками */
 }
 /* Стили для формы */
 .breadcrumb, .logo-admin, .admin-blog-pic form {
-    margin-top: 20px;
+	margin-top: 20px;
 }
 
 /* Стили для big-image */
 .breadcrumb, .logo-admin, .admin-blog-pic .big-image {
-    width: 100%;
-    height: 400px; /* Высота для большого изображения */
-    object-fit: cover;
-    border-radius: 8px;
+	width: 100%;
+	height: 400px; /* Высота для большого изображения */
+	object-fit: cover;
+	border-radius: 8px;
 }
 
 /* Стили для medium-image */
 .breadcrumb, .logo-admin, .admin-blog-pic .medium-image {
-    width: 100%;
-    height: 300px; /* Высота для среднего изображения */
-    object-fit: cover;
-    border-radius: 8px;
+	width: 100%;
+	height: 300px; /* Высота для среднего изображения */
+	object-fit: cover;
+	border-radius: 8px;
 }
 
 
 /* Стили для smail-image */
 .admin-blog-pic .smail-image {
-    width: 100%;
-    height: 200px; /* Высота для маленького изображения */
-    object-fit: cover;
-    border-radius: 8px;
+	width: 100%;
+	height: 200px; /* Высота для маленького изображения */
+	object-fit: cover;
+	border-radius: 8px;
 }
 
 .breadcrumb .smail-image {
-    width: 100%;
-    height: 250px; /* Высота для маленького изображения */
-    object-fit: cover;
-    border-radius: 8px;
+	width: 100%;
+	height: 250px; /* Высота для маленького изображения */
+	object-fit: cover;
+	border-radius: 8px;
 }
 .logo-admin .smail-image {
-    width: 200px;
-    height: 260px; /* Высота для маленького изображения */
-    object-fit: cover;
-    border-radius: 8px;
+	width: 200px;
+	height: 260px; /* Высота для маленького изображения */
+	object-fit: cover;
+	border-radius: 8px;
 }
 .container-fluid img{
-    width: 100%;
-    height: 150px; /* Высота для маленького изображения */
-    object-fit: cover;
+	width: 100%;
+	height: 150px; /* Высота для маленького изображения */
+	object-fit: cover;
 
 }
 .f-logo img{
-    width: 100%;
-    height: 150px; /* Высота для маленького изображения */
-    object-fit: cover;
+	width: 100%;
+	height: 150px; /* Высота для маленького изображения */
+	object-fit: cover;
 
 }
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
-    .breadcrumb, .admin-blog-pic .row {
-        flex-direction: column; /* Меняем направление на вертикальное */
-        align-items: center; /* Центрируем содержимое */
-    }
+	.breadcrumb, .admin-blog-pic .row {
+		flex-direction: column; /* Меняем направление на вертикальное */
+		align-items: center; /* Центрируем содержимое */
+	}
 
-    .breadcrumb, .admin-blog-pic .col-lg-6 {
-        width: 100%; /* Полная ширина */
-        padding: 10px;
-    }
+	.breadcrumb, .admin-blog-pic .col-lg-6 {
+		width: 100%; /* Полная ширина */
+		padding: 10px;
+	}
 }
 
 /*---------------------
@@ -1268,460 +1268,460 @@ ol {
 -----------------------*/
 /* Стили для таблицы с прокруткой */
 .classtime-table.scroll{
-    /* enable div scrolling */
-     overflow: scroll;
-     overflow-x: hidden;
-     height: 600px;
-     border: 1px black solid;
-     padding: 5%;
-     width: 100%;
-     margin: 0 auto;
-     /*white-space: nowrap;*/
-     font-size: large;
+/* enable div scrolling */
+	overflow: scroll;
+	overflow-x: hidden;
+	height: 600px;
+	border: 1px black solid;
+	padding: 5%;
+	width: 100%;
+	margin: 0 auto;
+	/*white-space: nowrap;*/
+	font-size: large;
 }
 
 /* Общие стили для отзывов */
 .fragment-reviews .reviews  {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 15px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #222, #333);
-    color: #fff;
-    transition: box-shadow 0.3s, transform 0.3s;
-    overflow: hidden;
-    position: relative;
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+	padding: 15px;
+	border-radius: 12px;
+	background: linear-gradient(135deg, #222, #333);
+	color: #fff;
+	transition: box-shadow 0.3s, transform 0.3s;
+	overflow: hidden;
+	position: relative;
 }
 
 .review-container  {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 15px;
-    background: linear-gradient(135deg, #222, #333);
-    color: #fff;
-    transition: box-shadow 0.3s, transform 0.3s;
-    overflow: hidden;
-    position: relative;
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+	padding: 15px;
+	background: linear-gradient(135deg, #222, #333);
+	color: #fff;
+	transition: box-shadow 0.3s, transform 0.3s;
+	overflow: hidden;
+	position: relative;
 }
 
 .review-container img {
-     width: 200px; /* Увеличенный размер */
-     height: 170px; /* Квадратный размер */
-     object-fit: cover;
-     transition: transform 0.3s;
+	width: 200px; /* Увеличенный размер */
+	height: 170px; /* Квадратный размер */
+	object-fit: cover;
+	transition: transform 0.3s;
 }
 
 
 .fragment-reviews  .reviews:hover {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transform: scale(1.02);
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+	transform: scale(1.02);
 }
 
 /* Стили для изображения пользователя */
 .reviews img {
-    width: 200px; /* Увеличенный размер */
-    height: 200px; /* Квадратный размер */
-    object-fit: cover;
-    transition: transform 0.3s;
+	width: 200px; /* Увеличенный размер */
+	height: 200px; /* Квадратный размер */
+	object-fit: cover;
+	transition: transform 0.3s;
 }
 
 .reviews:hover img {
-    transform: scale(1.1);
+	transform: scale(1.1);
 }
 /* Стили для ячейки */
 .classtime-table table tbody tr td {
-    position: relative; /* Устанавливаем относительное позиционирование для ячейки */
-    padding: 20px;
+	position: relative; /* Устанавливаем относительное позиционирование для ячейки */
+	padding: 20px;
 }
 
 /* Стили для ячейки с серым фоном и закруглёнными углами */
 .classtime-table table tbody tr td.hover-bg.ts-item {
-background-color: #333;
-  border-radius: 8px;
-  padding: 20px;
-  position: relative;
-  margin-top: 20px;
-  display: table-column-group;
+	background-color: #333;
+	border-radius: 8px;
+	padding: 20px;
+	position: relative;
+	margin-top: 20px;
+	display: table-column-group;
 }
 
 /* Стили для даты */
 .classtime-table table tbody tr td span {
-    font-size: 14px;
-    color: #ffffff;
-    display: block;
-    bottom: 10px; /* Расстояние от нижнего края */
-    right: 10px; /* Расстояние от правого края */
+	font-size: 14px;
+	color: #ffffff;
+	display: block;
+	bottom: 10px; /* Расстояние от нижнего края */
+	right: 10px; /* Расстояние от правого края */
 }
 
 /* Стили для имени пользователя */
 .classtime-table table tbody tr td h4 {
-    font-size: 18px;
-    color: #ffffff;
-    font-weight: 500;
-    margin-bottom: 5px;
-    bottom: 30px; /* Расстояние от нижнего края */
-    right: 10px; /* Расстояние от правого края */
+	font-size: 18px;
+	color: #ffffff;
+	font-weight: 500;
+	margin-bottom: 5px;
+	bottom: 30px; /* Расстояние от нижнего края */
+	right: 10px; /* Расстояние от правого края */
 }
 
 /* Стили для комментария */
 .classtime-table table tbody tr td h5 {
-    font-size: 16px;
-    color: #ffffff;
-    font-weight: 500;
-    margin: 0;
+	font-size: 16px;
+	color: #ffffff;
+	font-weight: 500;
+	margin: 0;
 }
 
 .classtime-table table tbody tr td h5 {
-    font-size: 16px;
-    color: #afb4bf;
+	font-size: 16px;
+	color: #afb4bf;
 }
 
 .reviews:hover h4, .reviews:hover h5 {
-    opacity: 1;
+	opacity: 1;
 }
 
 /* Эффект наведения */
 .fragment-reviews .reviews:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
-    opacity: 0;
-    transition: opacity 0.3s;
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+	opacity: 0;
+	transition: opacity 0.3s;
 }
 
 .fragment-reviews  .reviews:hover:before {
-    opacity: 1;
+	opacity: 1;
 }
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
-    .fragment-reviews  .reviews {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .fragment-reviews .reviews img {
-        margin-bottom: 10px;
-    }
+	.fragment-reviews  .reviews {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.fragment-reviews .reviews img {
+		margin-bottom: 10px;
+	}
 
 }
 
 /* Стили для таблицы отзывов */
 .classtime-table {
-    overflow-x: auto;
-    width: 100%;
+	overflow-x: auto;
+	width: 100%;
 }
 
 .classtime-table table {
-    width: 100%;
-    border-collapse: collapse;
+	width: 100%;
+	border-collapse: collapse;
 }
 
 .classtime-table td {
-    padding: 15px;
-    vertical-align: top;
+	padding: 15px;
+	vertical-align: top;
 }
 
 /* Стили для фрагмента отзывов */
 .fragment-reviews {
-    margin: 20px;
+	margin: 20px;
 }
 /*-----------------------
  Стили для feature-section
  -------------------------*/
 .feature-img {
-    display: flex; /* Используем Flexbox для выравнивания */
-    align-items: center; /* Выравниваем по вертикали */
-    margin-bottom: 20px;
+	display: flex; /* Используем Flexbox для выравнивания */
+	align-items: center; /* Выравниваем по вертикали */
+	margin-bottom: 20px;
 }
 
 /* Стили для изображения */
 .feature-img img {
-    width: 200px; /* Изображение растянуто по ширине */
-    height: 200px; /* Сохраняет пропорции изображения */
-    border-radius: 8px; /* Закруглённые углы */
-    object-fit: cover; /* Сохраняет пропорции изображения */
+	width: 200px; /* Изображение растянуто по ширине */
+	height: 200px; /* Сохраняет пропорции изображения */
+	border-radius: 8px; /* Закруглённые углы */
+	object-fit: cover; /* Сохраняет пропорции изображения */
 }
 
 /* Стили для текста */
 .feature-img .card-header {
-    background-color: #333; /* Тёмный фон */
-    color: #fff; /* Белый текст */
-    padding: 10px;
-    border-radius: 8px 8px 0 0; /* Закруглённые углы сверху */
+	background-color: #333; /* Тёмный фон */
+	color: #fff; /* Белый текст */
+	padding: 10px;
+	border-radius: 8px 8px 0 0; /* Закруглённые углы сверху */
 }
 
 /* Стили для кнопки */
 .feature-img .del-reviews {
-    background-color: #e4381C; /* Красный фон */
-    color: #fff; /* Белый текст */
-    border: none;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+	background-color: #e4381C; /* Красный фон */
+	color: #fff; /* Белый текст */
+	border: none;
+	border-radius: 4px;
+	transition: background-color 0.3s;
 }
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
-    .feature-img {
-        flex-direction: column; /* Меняем направление на вертикальное */
-        align-items: center; /* Центрируем содержимое */
-    }
+	.feature-img {
+		flex-direction: column; /* Меняем направление на вертикальное */
+		align-items: center; /* Центрируем содержимое */
+	}
 
-    .feature-img img {
-        width: 100%; /* Изображение занимает всю ширину */
-        margin-bottom: 10px; /* Добавляем отступ снизу */
-    }
+	.feature-img img {
+		width: 100%; /* Изображение занимает всю ширину */
+		margin-bottom: 10px; /* Добавляем отступ снизу */
+	}
 
-    .feature-img .card-header {
-        text-align: center; /* Центрируем текст */
-    }
+	.feature-img .card-header {
+		text-align: center; /* Центрируем текст */
+	}
 
-    .feature-img .del-reviews {
-        margin-top: 10px; /* Добавляем отступ сверху */
-    }
+	.feature-img .del-reviews {
+		margin-top: 10px; /* Добавляем отступ сверху */
+	}
 }
 
 /* Стили для формы */
 .section-title  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 /* Стили для текстовых полей */
 .section-title form input,
 form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #444;
-    color: #fff;
-    font-size: 16px;
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background-color: #444;
+	color: #fff;
+	font-size: 16px;
 }
 
 .classes-title form textarea {
-    resize: vertical;
+	resize: vertical;
 }
 /* Стили для изменённого состояния */
 form.active input,
 form.active textarea {
-    background-color: #e4381C !important; /* Красный фон */
-    color: #fff !important; /* Белый текст */
+	background-color: #e4381C !important; /* Красный фон */
+	color: #fff !important; /* Белый текст */
 }
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
-    .classes-title {
-        padding: 10px;
-    }
+	.classes-title {
+		padding: 10px;
+	}
 
-    form input,
-    form textarea {
-        font-size: 14px;
-    }
+	form input,
+	form textarea {
+		font-size: 14px;
+	}
 
-    .btn {
-        font-size: 14px;
-    }
+	.btn {
+		font-size: 14px;
+	}
 }
 /* --------------------
 Стили для price-admin
 -------------------------*/
 .container-price-admin {
-    padding: 20px;
-    background-color: #333; /* Тёмный фон */
-    color: #fff; /* Белый текст */
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	background-color: #333; /* Тёмный фон */
+	color: #fff; /* Белый текст */
+	border-radius: 8px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Стили для single-price-plan */
 .single-price-plan-admin {
-    background-color: #444; /* Тёмный фон */
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
+	background-color: #444; /* Тёмный фон */
+	border-radius: 8px;
+	padding: 20px;
+	margin-bottom: 20px;
 }
 
 /* Стили для заголовка */
 .single-price-plan-admin h4 {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 10px;
+	font-size: 24px;
+	font-weight: 600;
+	margin-bottom: 10px;
 }
 
 /* Стили для цены */
 .price-plan-admin {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .price-plan-admin h2 {
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 10px;
+	font-size: 36px;
+	font-weight: 700;
+	margin-bottom: 10px;
 }
 
 .price-plan-admin p {
-    font-size: 16px;
-    margin-bottom: 20px;
+	font-size: 16px;
+	margin-bottom: 20px;
 }
 
 /* Стили для списка */
 .single-price-plan-admin ul {
-    list-style: none;
-    padding-left: 0;
+	list-style: none;
+	padding-left: 0;
 }
 
 .single-price-plan-admin ul li {
-    font-size: 16px;
-    margin-bottom: 10px;
+	font-size: 16px;
+	margin-bottom: 10px;
 }
 
 /* Стили для input и textarea */
 .single-price-plan-admin input,
 .single-price-plan-admin textarea {
-    width: 100%; /* Полная ширина */
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #444;
-    color: #fff;
-    font-size: 16px;
-    transition: background-color 0.3s;
+	width: 100%; /* Полная ширина */
+	padding: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background-color: #444;
+	color: #fff;
+	font-size: 16px;
+	transition: background-color 0.3s;
 }
 
 /* Стили для input и textarea в активном состоянии */
 form.active input,
 form.active textarea {
-    background-color: #e4381C !important; /* Красный фон */
-    color: #fff !important; /* Белый текст */
+	background-color: #e4381C !important; /* Красный фон */
+	color: #fff !important; /* Белый текст */
 }
 
 /* Стили для textarea */
 .single-price-plan-admin textarea {
-    resize: vertical; /* Возможность изменения высоты */
+	resize: vertical; /* Возможность изменения высоты */
 }
 
 /* Стили для списка */
 .single-price-plan-admin ul li input {
-    width: 100%; /* Полная ширина */
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #444;
-    color: #fff;
-    font-size: 16px;
-    transition: background-color 0.3s;
+	width: 100%; /* Полная ширина */
+	padding: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background-color: #444;
+	color: #fff;
+	font-size: 16px;
+	transition: background-color 0.3s;
 }
 
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
-    .container-price-admin {
-        padding: 10px;
-    }
+	.container-price-admin {
+		padding: 10px;
+	}
 
-    .single-price-plan-admin {
-        padding: 10px;
-    }
+	.single-price-plan-admin {
+		padding: 10px;
+	}
 
-    .single-price-plan-admin h4 {
-        font-size: 20px;
-    }
+	.single-price-plan-admin h4 {
+		font-size: 20px;
+	}
 
-    .price-plan-admin h2 {
-        font-size: 30px;
-    }
+	.price-plan-admin h2 {
+		font-size: 30px;
+	}
 
-    .single-price-plan-admin ul li {
-        font-size: 14px;
-    }
+	.single-price-plan-admin ul li {
+		font-size: 14px;
+	}
 
 }
 /* Стили для галереи */
 .gallery-filter {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-top: 20px;
 }
 
 /* -----------------------
 Стили для reviews-admin
 --------------------------*/
 .reviews-admin {
-    position: relative;
-    overflow: hidden;
+	position: relative;
+	overflow: hidden;
 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s;
 }
 
 .reviews-admin:hover {
-    transform: scale(1.05);
+	transform: scale(1.05);
 }
 
 /* Стили для изображения */
 .reviews-admin img {
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
-    transition: opacity 0.3s;
+	width: 300px;
+	height: 300px;
+	object-fit: cover;
+	transition: opacity 0.3s;
 }
 
 .reviews-admin:hover img {
-    opacity: 0.8;
+	opacity: 0.8;
 }
 
 /* Стили для заголовка */
 .reviews-admin h4 {
-      font-size: 18px;
-      font-weight: 500;
-      color: #fff;
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 10px;
-      border-radius: 8px;
-      position: absolute;
-      top: -200px;
-      left: 40%;
-      transform: translateX(-50%);
-      z-index: 1;
+	font-size: 18px;
+	font-weight: 500;
+	color: #fff;
+	background-color: rgba(0, 0, 0, 0.5);
+	padding: 10px;
+	border-radius: 8px;
+	position: absolute;
+	top: -200px;
+	left: 40%;
+	transform: translateX(-50%);
+	z-index: 1;
 }
 
 /* Стили для чекбокса */
 .trainer-text {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    color: #fff;
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	color: #fff;
 }
 
 .trainer-text label {
-    display: inline-block;
-    padding: 5px 10px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 4px;
-    cursor: pointer;
+	display: inline-block;
+	padding: 5px 10px;
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 4px;
+	cursor: pointer;
 }
 
 .trainer-text input[type="checkbox"] {
-    margin-right: 5px;
+	margin-right: 5px;
 }
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
-    .gallery-filter .col-lg-4,
-    .gallery-filter .col-sm-6 {
-        width: 100%;
-        padding: 10px;
-    }
+	.gallery-filter .col-lg-4,
+	.gallery-filter .col-sm-6 {
+		width: 100%;
+		padding: 10px;
+	}
 }
 /*-------------------------------
 Стили для LK
@@ -1729,339 +1729,339 @@ form.active textarea {
 
 /* Настройка меток */
 .profile-editing label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
 }
 
 
 /* Медиа-запросы для адаптивности */
 @media (max-width: 768px) {
-    form {
-        max-width: 300px;
-    }
+	form {
+		max-width: 300px;
+	}
 }
 .container-lk-info .card {
-    background-color: #26252452;
+	background-color: #26252452;
 }
-   .review-container {
-        width: 200px;
-          height: 200px;
-          margin: auto;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          position: relative;
+.review-container {
+	width: 200px;
+	height: 200px;
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
 
-          overflow: hidden;
-          background-color: #2d2d2d;
+	overflow: hidden;
+	background-color: #2d2d2d;
 
-          color: #696969;
+	color: #696969;
 }
-        .avatar-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: cover;
-        }
-            .avatar-container img {
-              width: 200px;
-                height: 200px;
-                top: 50%;
-                left: 50%;
-                max-width: 100%;
-                max-height: 100%;
-                object-fit: cover;
-            }
+.avatar-container img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: cover;
+}
+.avatar-container img {
+	width: 200px;
+	height: 200px;
+	top: 50%;
+	left: 50%;
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: cover;
+}
 
-            #profile-form {
-              max-width: 400px;
-              margin: 0 auto;
-              margin-bottom: 10px;
-              padding: 10px;
-              background-color: #26252452;;
-              border-radius: 4px;
-              box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            }
+.profile-form {
+	max-width: 400px;
+	margin: 0 auto;
+	margin-bottom: 10px;
+	padding: 10px;
+	background-color: #26252452;;
+	border-radius: 4px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
 
 
 .user-img {
-  max-width: 100%;
-  margin: 10px;
-  padding: 5px;
-  background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+	max-width: 100%;
+	margin: 10px;
+	padding: 5px;
+	background-color: white;
+	border-radius: 4px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 .review {
 
-  margin: 10px;
-  padding: 20px;
-  background-color: #ae91775e;
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+	margin: 10px;
+	padding: 20px;
+	background-color: #ae91775e;
+	border-radius: 4px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .review-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
+	display: flex;
+	align-items: center;
+	margin-bottom: 16px;
 }
 
 .avatar {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin-right: 16px;
+	width: 60px;
+	height: 60px;
+	object-fit: cover;
+	border-radius: 50%;
+	margin-right: 16px;
 }
 
 .author-info h2 {
-  margin-top: 0;
-  margin-bottom: 4px;
+	margin-top: 0;
+	margin-bottom: 4px;
 }
 
 .review-text {
-  line-height: 1.5;
+	line-height: 1.5;
 }
 
 .scroll-container {
-  height: 500px;
-  overflow-y: scroll;
-  margin-bottom: 10px;
+	height: 500px;
+	overflow-y: scroll;
+	margin-bottom: 10px;
 }
 #form{
-padding:10px;
+	padding:10px;
 }
 .gallery {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	display: grid;
+	gap: 10px;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
 
 .gallery-item {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
 
 }
 
 .gallery-modal {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  text-align: center;
-    position: relative;
-    z-index: 1;
-    margin-bottom: 30px;
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+	text-align: center;
+	position: relative;
+	z-index: 1;
+	margin-bottom: 30px;
 }
 
 .gallery-item img {
-  width: 350px;
-    height: 350px;
-    top: 50%;
-    left: 50%;
-    max-width: 100%;
-    /* чтобы картинка не выходила за пределы контейнера */
-    max-height: 100%;
-    /* чтобы картинка не выходила за пределы контейнера */
-    object-fit: cover;
-    /* чтобы сохранить пропорции изображения при растяжении */
+	width: 350px;
+	height: 350px;
+	top: 50%;
+	left: 50%;
+	max-width: 100%;
+	/* чтобы картинка не выходила за пределы контейнера */
+	max-height: 100%;
+	/* чтобы картинка не выходила за пределы контейнера */
+	object-fit: cover;
+	/* чтобы сохранить пропорции изображения при растяжении */
 }
 .gallery-modal img {
-  width: 200px;
-    height: 200px;
-    top: 50%;
-    left: 50%;
-    max-width: 100%;
-    /* чтобы картинка не выходила за пределы контейнера */
-    max-height: 100%;
-    /* чтобы картинка не выходила за пределы контейнера */
-    object-fit: cover;
-    /* чтобы сохранить пропорции изображения при растяжении */
+	width: 200px;
+	height: 200px;
+	top: 50%;
+	left: 50%;
+	max-width: 100%;
+	/* чтобы картинка не выходила за пределы контейнера */
+	max-height: 100%;
+	/* чтобы картинка не выходила за пределы контейнера */
+	object-fit: cover;
+	/* чтобы сохранить пропорции изображения при растяжении */
 }
 .carousel-import img{
-    max-width: 100%;
-    /* чтобы картинка не выходила за пределы контейнера */
-    max-height: 100%;
-    /* чтобы картинка не выходила за пределы контейнера */
-    object-fit: cover;
-    /* чтобы сохранить пропорции изображения при растяжении */
+	max-width: 100%;
+	/* чтобы картинка не выходила за пределы контейнера */
+	max-height: 100%;
+	/* чтобы картинка не выходила за пределы контейнера */
+	object-fit: cover;
+	/* чтобы сохранить пропорции изображения при растяжении */
 }
 .carousel-inner{
-height: 300px;
-overflow-y: hidden;
+	height: 300px;
+	overflow-y: hidden;
 }
 .stretched-image {
-    min-height: 100%;
-    object-fit: contain;
+	min-height: 100%;
+	object-fit: contain;
 }
 
 .gallery-user img {
-  width: 200px;
-    height: 200px;
-    top: 50%;
-    left: 50%;
-    max-width: 100%;
-    /* чтобы картинка не выходила за пределы контейнера */
-    max-height: 100%;
-    /* чтобы картинка не выходила за пределы контейнера */
-    object-fit: cover;
-    /* чтобы сохранить пропорции изображения при растяжении */
+	width: 200px;
+	height: 200px;
+	top: 50%;
+	left: 50%;
+	max-width: 100%;
+	/* чтобы картинка не выходила за пределы контейнера */
+	max-height: 100%;
+	/* чтобы картинка не выходила за пределы контейнера */
+	object-fit: cover;
+	/* чтобы сохранить пропорции изображения при растяжении */
 }
 
 .gallery-item:hover img {
-  transform: scale(1.05);
+	transform: scale(1.05);
 }
 
 .gallery-item::before {
-  content: '';
-  display: block;
-  padding-top: 75%;
-  /* соотношение сторон 4:3 */
+	content: '';
+	display: block;
+	padding-top: 75%;
+	/* соотношение сторон 4:3 */
 }
 
 .set-bg-user-info {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: top center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: top center;
 }
 
 .container-lk h6 {
-  text-align: center;
-  margin-bottom: 30px;
+	text-align: center;
+	margin-bottom: 30px;
 }
 
 .container-lk-info h6 {
-  text-align: center;
-  margin-bottom: 30px;
+	text-align: center;
+	margin-bottom: 30px;
 }
 
 .container-lk {
-  margin: 30px;
-  background-color: #ffffff2b;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;  /* Создание колонок просто как 'А, Б, В' */
-  min-height: 80vh;
+	margin: 30px;
+	background-color: #ffffff2b;
+	padding: 40px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;  /* Создание колонок просто как 'А, Б, В' */
+	min-height: 80vh;
 }
 
 .container-lk-info {
-  margin: 30px;
-  background-color: #ffffff2b;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	margin: 30px;
+	background-color: #ffffff2b;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .links {
-position: absolute;
-bottom: 0px;
-margin-bottom: 50px;
+	position: absolute;
+	bottom: 0px;
+	margin-bottom: 50px;
 }
 
 .profile-info {
-  margin-bottom: 50px;
+	margin-bottom: 50px;
 }
 
 .avatar {
-  margin-bottom: 50px;
+	margin-bottom: 50px;
 }
 
 .profile-info p {
-  margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 .profile-info img {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin: 20px;
+	width: 150px;
+	height: 150px;
+	object-fit: cover;
+	border-radius: 50%;
+	margin: 20px;
 }
 
 .avatar img {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin: 20px;
+	width: 150px;
+	height: 150px;
+	object-fit: cover;
+	border-radius: 50%;
+	margin: 20px;
 }
 
 .profile-info div {
-  display: inline-block;
-  vertical-align: top;
+	display: inline-block;
+	vertical-align: top;
 }
 
 .avatar div {
-  display: inline-block;
-  vertical-align: top;
+	display: inline-block;
+	vertical-align: top;
 }
 
 .links button {
-  display: block;
-  margin-bottom: 10px;
-  text-decoration: none;
-  color: #333;
-  padding: 10px 20px;
-  background-color: #eaeaea;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+	display: block;
+	margin-bottom: 10px;
+	text-decoration: none;
+	color: #333;
+	padding: 10px 20px;
+	background-color: #eaeaea;
+	border-radius: 5px;
+	transition: background-color 0.3s;
 }
 
 .links a:hover {
-  background-color: #dcdcdc;
+	background-color: #dcdcdc;
 }
 
 /*-------------------------------
 Стили для контактной информации админ
 -------------------------------*/
 .contact-info-admin{
-    padding: 40px;
-    background-color: #333; /* Тёмный фон */
-    color: #fff; /* Белый текст */
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    margin: 15px;
+	padding: 40px;
+	background-color: #333; /* Тёмный фон */
+	color: #fff; /* Белый текст */
+	border-radius: 8px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	margin: 15px;
 }
 
 /* Стили для заголовка */
 .contact-info-admin h2 {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: 600;
+	margin-bottom: 20px;
 }
 
 /* Стили для формы */
 .contact-info-admin form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width:100%;
-    margin:15px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width:100%;
+	margin:15px;
 }
 
 /* Стили для input-group */
 .contact-info-admin .input-group {
-    width: 100%;
-    margin-bottom: 20px;
+	width: 100%;
+	margin-bottom: 20px;
 }
 
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
-    .contact-info-admin {
-        padding: 10px;
-    }
+	.contact-info-admin {
+		padding: 10px;
+	}
 
-    .contact-info-admin input[type="tel"] {
-        font-size: 14px;
-    }
+	.contact-info-admin input[type="tel"] {
+		font-size: 14px;
+	}
 
-    .contact-info-admin .btn-primary {
-        font-size: 14px;
-        padding: 8px 16px;
-    }
+	.contact-info-admin .btn-primary {
+		font-size: 14px;
+		padding: 8px 16px;
+	}
 }
 /*---------------------
   Price Section
@@ -2987,85 +2987,85 @@ margin-bottom: 50px;
 -----------------------*/
 
 .trainer-section {
-    background: #151515;
-    padding-top: 90px;
-    padding-bottom: 70px;
+	background: #151515;
+	padding-top: 90px;
+	padding-bottom: 70px;
 }
 
 .trainer-section .section-title {
-    text-align: center;
-    margin-bottom: 45px;
+	text-align: center;
+	margin-bottom: 45px;
 }
 
 .trainer-item {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 30px;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 30px;
 }
 
 .trainer-item:hover .ti-pic .ti-links {
-    left: 20px;
+	left: 20px;
 }
 
 .trainer-item .ti-pic img {
-    width: 300px; /* Изображение растянуто по ширине */
-    height: 400px; /* Сохраняет соотношение сторон */
-    object-fit: cover; /* Картинка покрывает весь блок */
-    transition: transform 0.3s ease-in-out; /* Плавный переход эффектов */
+	width: 300px; /* Изображение растянуто по ширине */
+	height: 400px; /* Сохраняет соотношение сторон */
+	object-fit: cover; /* Картинка покрывает весь блок */
+	transition: transform 0.3s ease-in-out; /* Плавный переход эффектов */
 }
 
 .trainer-item:hover .ti-pic img {
-    transform: scale(1.1); /* Немного увеличиваем картинку при наведении */
+	transform: scale(1.1); /* Немного увеличиваем картинку при наведении */
 }
 
 .trainer-item .ti-pic .ti-links {
-    position: absolute;
-    left: -50px;
-    top: 20px;
-    transition: all 0.5s;
+	position: absolute;
+	left: -50px;
+	top: 20px;
+	transition: all 0.5s;
 }
 
 .trainer-item .ti-pic .ti-links a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
-    color: #afb4bf;
-    background: #ffffff;
-    margin-bottom: 10px;
-    border-radius: 2px;
-    transition: all 0.3s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	font-size: 16px;
+	color: #afb4bf;
+	background: #ffffff;
+	margin-bottom: 10px;
+	border-radius: 2px;
+	transition: all 0.3s;
 }
 
 .trainer-item .ti-pic .ti-links a:hover {
-    background: linear-gradient(45deg, #e16521, #e4381C);
-    color: #ffffff;
+	background: linear-gradient(45deg, #e16521, #e4381C);
+	color: #ffffff;
 }
 
 .trainer-item .ti-pic .trainer-text {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, #e16521, #e4381C);
-    width: 100%;
-    padding-left: 20px;
-    padding-top: 15px;
-    padding-bottom: 12px;
-    clip-path: polygon(0 0, 100% 0%, 81% 0, 100% 100%, 0 100%);
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	background: linear-gradient(45deg, #e16521, #e4381C);
+	width: 100%;
+	padding-left: 20px;
+	padding-top: 15px;
+	padding-bottom: 12px;
+	clip-path: polygon(0 0, 100% 0%, 81% 0, 100% 100%, 0 100%);
 }
 
 .trainer-item .ti-pic .trainer-text h5 {
-    font-size: 20px;
-    color: #ffffff;
-    font-weight: 500;
+	font-size: 20px;
+	color: #ffffff;
+	font-weight: 500;
 }
 
 .trainer-item .ti-pic .trainer-text h5 span {
-    font-size: 14px;
-    color: #ffffff;
-    font-family: "Nunito Sans", sans-serif;
+	font-size: 14px;
+	color: #ffffff;
+	font-family: "Nunito Sans", sans-serif;
 }
 
 /*---------------------
@@ -3120,105 +3120,105 @@ margin-bottom: 50px;
 }
 
 .gallery-item {
-    text-align: center;
-    position: relative;
-    z-index: 1;
-    overflow: hidden; /* Обрезает выступающие края */
-    width: 100%; /* Максимальный размер родителя */
-    height: auto; /* Высота рассчитывается автоматически */
-    margin-bottom: 30px;
+	text-align: center;
+	position: relative;
+	z-index: 1;
+	overflow: hidden; /* Обрезает выступающие края */
+	width: 100%; /* Максимальный размер родителя */
+	height: auto; /* Высота рассчитывается автоматически */
+	margin-bottom: 30px;
 }
 
 .gallery-item img.gallery-img {
-    width: 300px; /* Изображение растянуто по ширине */
-    height: 300px; /* Сохраняет соотношение сторон */
-    object-fit: cover; /* Картинка покрывает весь блок */
-    transition: transform 0.3s ease-in-out; /* Плавный переход эффектов */
+	width: 300px; /* Изображение растянуто по ширине */
+	height: 300px; /* Сохраняет соотношение сторон */
+	object-fit: cover; /* Картинка покрывает весь блок */
+	transition: transform 0.3s ease-in-out; /* Плавный переход эффектов */
 }
 
 .gallery-item:hover .gallery-img {
-    transform: scale(1.1); /* Немного увеличиваем картинку при наведении */
+	transform: scale(1.1); /* Немного увеличиваем картинку при наведении */
 }
 
 .gallery-item:hover:after,
 .gallery-item:hover:before {
-    opacity: 1;
+	opacity: 1;
 }
 
 .gallery-item:hover .gi-hover {
-    opacity: 1;
-    visibility: visible;
+	opacity: 1;
+	visibility: visible;
 }
 
 .gallery-item:before {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 5px;
-    background: #e4381C;
-    content: "";
-    opacity: 0;
-    z-index: 2;
-    transition: all 0.3s;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 5px;
+	background: #e4381C;
+	content: "";
+	opacity: 0;
+	z-index: 2;
+	transition: all 0.3s;
 }
 
 .gallery-item:after {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    content: "";
-    z-index: 1;
-    opacity: 0;
-    transition: all 0.3s;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	content: "";
+	z-index: 1;
+	opacity: 0;
+	transition: all 0.3s;
 }
 
 .gallery-item .gi-hover-warp {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 9;
 }
 
 .gallery-item .gi-hover {
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.3s;
 }
 
 .gallery-item .gi-hover a {
-    height: 60px;
-    width: 60px;
-    border: 2px solid #ffffff;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 60px;
-    font-size: 24px;
-    display: inline-block;
-    color: #ffffff;
+	height: 60px;
+	width: 60px;
+	border: 2px solid #ffffff;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 60px;
+	font-size: 24px;
+	display: inline-block;
+	color: #ffffff;
 }
 
 .gallery-item .gi-hover a:first-child {
-    margin-right: 15px;
+	margin-right: 15px;
 }
 
 .gallery-item .gi-hover h6 {
-    color: #ffffff;
-    margin-top: 25px;
+	color: #ffffff;
+	margin-top: 25px;
 }
 
 .gallery-item .gi-hover h6 span {
-    font-family: "Nunito Sans", sans-serif;
-    margin-top: 7px;
-    display: block;
+	font-family: "Nunito Sans", sans-serif;
+	margin-top: 7px;
+	display: block;
 }
 
 .mfp-zoom-out-cur,
@@ -3405,29 +3405,29 @@ margin-bottom: 50px;
 .blog-single-text .blog-pic img {
 	margin-bottom: 20px;
 	width: 100%; /* Изображение растянуто по ширине */
-    object-fit: cover; /* Картинка покрывает весь блок */
-    transition: transform 0.3s ease-in-out; /* Плавный переход эффектов */
+	object-fit: cover; /* Картинка покрывает весь блок */
+	transition: transform 0.3s ease-in-out; /* Плавный переход эффектов */
 }
 
 .blog-pic .big-image {
-    width: 100%;
-    height: 400px; /* Высота для большого изображения */
-    object-fit: cover;
-    border-radius: 8px;
+	width: 100%;
+	height: 400px; /* Высота для большого изображения */
+	object-fit: cover;
+	border-radius: 8px;
 }
 
 .blog-pic .medium-image {
-    width: 100%;
-    height: 190px; /* Высота для большого изображения */
-    object-fit: cover;
-    border-radius: 8px;
+	width: 100%;
+	height: 190px; /* Высота для большого изображения */
+	object-fit: cover;
+	border-radius: 8px;
 }
 
 .blog-pic .smail-image {
-    width: 100%;
-    height: 190px; /* Высота для большого изображения */
-    object-fit: cover;
-    border-radius: 8px;
+	width: 100%;
+	height: 190px; /* Высота для большого изображения */
+	object-fit: cover;
+	border-radius: 8px;
 }
 
 .blog-single-text .blog-title {
@@ -3625,9 +3625,9 @@ margin-bottom: 50px;
 .blog-single-sidebar .bs-recent-news .br-item .bi-pic img {
 	border-radius: 3px;
 	width: 100px; /* Изображение растянуто по ширине */
-    height: 100px; /* Сохраняет соотношение сторон */
-    object-fit: cover; /* Картинка покрывает весь блок */
-    transition: transform 0.3s ease-in-out; /* Плавный переход эффектов */
+	height: 100px; /* Сохраняет соотношение сторон */
+	object-fit: cover; /* Картинка покрывает весь блок */
+	transition: transform 0.3s ease-in-out; /* Плавный переход эффектов */
 }
 
 .blog-single-sidebar .bs-recent-news .br-item .bi-text {
@@ -3660,77 +3660,77 @@ margin-bottom: 50px;
 }
 
 .recent-news {
-    padding: 30px 0;
+	padding: 30px 0;
 }
 
 .recent-item {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 30px;
+	border-radius: 8px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease-in-out;
 }
 
 .recent-item:hover {
-    transform: scale(1.05);
+	transform: scale(1.05);
 }
 
 .recent-item img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 8px;
-    transition: opacity 0.3s;
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	border-radius: 8px;
+	transition: opacity 0.3s;
 }
 
 .recent-item:hover img {
-    opacity: 0.8;
+	opacity: 0.8;
 }
 
 .recent-text {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    text-decoration: none;
-    transition: all 0.3s;
-    opacity: 0;
-    visibility: hidden;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding: 20px;
+	background: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	text-decoration: none;
+	transition: all 0.3s;
+	opacity: 0;
+	visibility: hidden;
 }
 
 .recent-item:hover .recent-text {
-    opacity: 1;
-    visibility: visible;
+	opacity: 1;
+	visibility: visible;
 }
 
 .categories {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
+	font-size: 14px;
+	color: #fff;
+	margin-bottom: 10px;
 }
 
 .recent-text h5 {
-    font-size: 18px;
-    font-weight: 500;
-    margin: 0;
+	font-size: 18px;
+	font-weight: 500;
+	margin: 0;
 }
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
-    .recent-item {
-        margin-bottom: 20px;
-    }
+	.recent-item {
+		margin-bottom: 20px;
+	}
 
 }
 
 @media (max-width: 576px) {
-    .recent-item {
-        margin-bottom: 15px;
-    }
+	.recent-item {
+		margin-bottom: 15px;
+	}
 
 }
 

@@ -7,14 +7,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.DTO.UserDTO;
+import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.model.ReviewsUser;
+import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.service.interf.ImagesService;
 import ru.tattoo.maxsim.service.interf.ReviewService;
 import ru.tattoo.maxsim.service.interf.UserService;
+import ru.tattoo.maxsim.util.ImageUtils;
 import ru.tattoo.maxsim.util.PageSize;
 
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
+import java.util.Date;
 
 @Controller
 public class LkController {
@@ -35,8 +40,9 @@ public class LkController {
      */
     @GetMapping("/lk")
     public String loadPersonalPage(Model model, Principal principal) {
+        model.addAttribute("userTattoo", new Images());
         loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
-        loadUserGallery(model, principal);       // Загружаем галерею пользователя
+        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
         return "lk";
     }
 
@@ -62,18 +68,24 @@ public class LkController {
      * Сохраняет отзыв пользователя.
      */
     @PostMapping("/reviews-user-import")
-    public String saveUserReview(@RequestParam("imageName") String imageName, @RequestParam("comment") String comment, Model model, Principal principal) throws IOException, ParseException {
-        reviewService.saveImd(imageName, comment, principal.getName()); // Сохраняем отзыв
+    public String saveUserReview(@ModelAttribute("reviewsEntity") ReviewsUser object, Model model, Principal principal) throws IOException, ParseException {
+        object.setUserName(principal.getName());
+        object.setDate(new Date());
+        reviewService.create(object); // Сохраняем отзыв
         loadUserDataIntoModel(model, principal);                         // Обновляем данные пользователя
-        return "fragments::input-user-reviews";
+        return "fragments::review-fragment";
     }
 
     /**
      * Загружает новое тату пользователя.
      */
     @PostMapping("/tattoos-user-import")
-    public String uploadUserTattoo(@RequestParam("file") MultipartFile fileImport, Model model, Principal principal) throws IOException, ParseException {
-        imagesService.saveImg(fileImport,null,null, principal.getName()); // Сохраняем изображение
+    public String uploadUserTattoo(@RequestParam("file") MultipartFile fileImport,@ModelAttribute("userTattoo") Images object, Model model, Principal principal) throws IOException, ParseException {
+        model.addAttribute("userTattoo", new Images());
+        object.setUserName(principal.getName());
+        object.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
+        ImageUtils.saveImage(fileImport, object.getImageName());
+        imagesService.create(object); // Сохраняем изображение
         loadUserDataIntoModel(model, principal);                     // Обновляем данные пользователя
         return "fragments::first-fragment";
     }
@@ -86,12 +98,17 @@ public class LkController {
         loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
         return "fragments::profile-editing";
     }
-
+    @PostMapping("/update/profile-editing")
+    public String loadProfileEditForm(@ModelAttribute("UserDTO") User object, Model model, Principal principal) {
+        loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
+        return "fragments::profile-editing";
+    }
     /**
      * Загружает галерею татуировок пользователя.
      */
     @GetMapping("/user-tattoos")
     public String loadUserTattoos(Model model, Principal principal) {
+        model.addAttribute("userTattoo", new Images());
         loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
         return "fragments::first-fragment";
     }
@@ -104,7 +121,7 @@ public class LkController {
 
         userService.updateUserAvatar(fileImport, principal); // Сохраняем новый аватар
         loadUserDataIntoModel(model, principal);       // Обновляем данные пользователя
-        return "lk::avatar";
+        return "fragments::profile-editing";
     }
 
     /**

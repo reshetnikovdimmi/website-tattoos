@@ -8,7 +8,6 @@
 <body>
 <!-- Header Section Begin -->
 <div class="header-section header-normal" th:fragment="header">
-
     <div class="container-fluid">
         <div class="logo" th:each="current: ${setting}" th:if="${current.section=='logo'}">
             <a href="/">
@@ -136,29 +135,24 @@
 <div class="tattoos-reviews" th:fragment="first-fragment">
     <h6>Мой тату </h6>
     <div class="row scroll-container">
-
         <div class="tattoos-user-reviews" style="width: 100%;" th:fragment="tattoos-user-reviews">
             <section class="review">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     <div class="col " th:each="current : ${UserDTO.images}">
                         <div class="card-shadow-sm">
-
                             <img alt="" th:src="@{'/images/'+${current.imageName}}">
-
                             <!-- Добавьте больше элементов, если нужно -->
                         </div>
                     </div>
                 </div>
             </section>
         </div>
-
     </div>
-
     <div class="row">
-        <div class="container">
+        <div class="container" th:object="${userTattoo}">
             <div class="row justify-content-center">
                 <div class="card shadow-sm p-3 mb-5 rounded">
-                    <form id="input-user-tattoos" action="/tattoos-user-import" method="POST"
+                    <form onsubmit="submitForm(event, '.container-lk-info')" action="/tattoos-user-import" method="POST"
                           enctype="multipart/form-data" class="form-admin">
                         <div class="row mb-3 text-center">
                             <div class="col-6 col-lg-4 themed-grid-col">
@@ -168,21 +162,18 @@
                                             onclick="document.getElementById('tattoos').click()">Выбрать файл
                                     </button>
                                     <input type="file" name="file" id="tattoos" accept="image/*"
-                                           onchange="loadImage(this)" required>
+                                           onchange="loadImage(this, document.getElementById('previewimage'))" required>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-lg-8 themed-grid-col">
                                 <div class="input-group">
                                     <span class="input-group-text" style="height: 158px;">Текст</span>
-                                    <textarea class="form-control" aria-label="С текстовым полем" required></textarea>
-                                    <button onclick="uploadFragment($('#input-user-tattoos'), '.tattoos-reviews')"
+                                    <textarea name="description"  th:field="*{description}" class="form-control" aria-label="С текстовым полем" required></textarea>
+                                    <button type="submit"
                                             class="btn btn-primary">Сохранить тату
                                     </button>
                                 </div>
-
-
                             </div>
-
                         </div>
                     </form>
                 </div>
@@ -192,74 +183,57 @@
 </div>
 <div class="profile-editing" th:fragment="profile-editing">
     <h6>Редактирование профиля </h6>
-    <div class="row scroll-container">
-        <form action="#" method="post" id="profile-form" th:object="${UserDTO}">
+    <div class="row scroll-container" th:object="${UserDTO}">
+        <form class="profile-form" action="/update/profile-editing" onsubmit="submitForm(event, '.container-lk-info')"
+              method="post" th:id="*{id}">
             <label for="username">Имя пользователя:</label>
             <input type="text" th:field="*{login}" id="username" name="username"
                    placeholder="Введите ваше имя пользователя" required><br><br>
-
             <label for="email">Email:</label>
             <input type="email" th:field="*{email}" id="email" name="email" placeholder="Введите ваш email"
                    required><br><br>
-
             <label for="password">Пароль:</label>
             <input type="password" id="password" name="password" placeholder="Введите новый пароль"><br><br>
-
             <label for="confirm-password">Подтверждение пароля:</label>
             <input type="password" id="confirm-password" name="confirm-password"
                    placeholder="Повторите новый пароль"><br><br>
-
             <button class="btn btn-primary" type="submit">Сохранить изменения</button>
         </form>
     </div>
     <div class="row">
         <div class="container">
             <div class="row justify-content-center">
-
                 <div class="card shadow-sm p-3 mb-5 rounded">
-                    <form id="input-avatar" action="/avatar-import" method="POST" enctype="multipart/form-data"
+                    <form onsubmit="submitForm(event, '.container-lk-info')" id="" action="/avatar-import" method="POST"
+                          enctype="multipart/form-data"
                           class="form-admin">
                         <div class="row mb-3 text-center">
-
                             <div class="col-6 col-lg-4 themed-grid-col">
-
-
                                 <div class="avatar-container">
-                                    <img id="" src="img/avatar.jpg" alt="Ваш аватар">
+                                    <img id="avatar" src="img/avatar.jpg" alt="Ваш аватар">
 
-                                    <button type="button" onclick="document.getElementById('avatar').click()"
+                                    <button type="button" onclick="document.getElementById('file-avatar').click()"
                                             class="upload-btn btn btn-primary"
                                     >Выбрать файл
                                     </button>
-                                    <input type="file" name="file" id="avatar" accept="image/*"
-                                           onchange="loadImage(this)">
+                                    <input type="file" name="file" id="file-avatar" accept="image/*"
+                                           onchange="updateAvatar(this, document.getElementById('avatar'))">
                                 </div>
                             </div>
-
-
                             <div class="col-sm-6 col-lg-8 themed-grid-col">
-
-
                                 <div class="input-group">
                                     <span class="input-group-text" style="height: 158px; opacity: 0;">Текст</span>
                                     <textarea style="opacity: 0;" class="form-control"
                                               aria-label="С текстовым полем"></textarea>
-                                    <button onclick="uploadFragment($('#input-avatar'), '.profile-info')"
-                                            class="btn btn-primary">Сохранить аватар
+                                    <button type="submit" class="btn btn-primary">Сохранить аватар
                                     </button>
                                 </div>
-
-
                             </div>
-
                         </div>
                     </form>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 </div>
 <div class="review-fragment" th:fragment="review-fragment">
@@ -270,7 +244,6 @@
                 <div class="review-header">
                     <img th:src="@{'/images/'+${current.imageName}}" alt="Фото автора отзыва" class="avatar">
                     <div class="author-info">
-
                         <p>[(${current.date})]</p>
                     </div>
                 </div>
@@ -282,11 +255,11 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="card shadow-sm p-3 mb-5 rounded">
-                    <form id="file-review" method="POST" enctype="multipart/form-data" action="/reviews-user-import">
+                    <form onsubmit="submitForm(event, '.container-lk-info')" method="POST"
+                          action="/reviews-user-import">
                         <div class="row mb-3 text-center">
                             <div class="col-6 col-lg-4 themed-grid-col">
                                 <div class="avatar-container">
-
                                     <img id="imageID" src="img/avatar.jpg" alt="Выберите тату для отзыва">
                                     <button type="button" class="upload-btn btn btn-primary" onclick="showModals()"
                                             id="">Выбрать файл
@@ -301,8 +274,7 @@
                                     <span class="input-group-text" style="height: 158px;">Текст</span>
                                     <textarea class="form-control" name="Comment" aria-label="С текстовым полем"
                                               required></textarea>
-                                    <button onclick="uploadFragment($('#file-review'), '.input-user-reviews')"
-                                            class="btn btn-primary" type="submit">Сохранить отзыв
+                                    <button class="btn btn-primary" type="submit">Сохранить отзыв
                                     </button>
                                 </div>
                             </div>
@@ -333,14 +305,11 @@
                             <div class="row gallery-filter" th:each="currents: ${gallery.galleryImg}">
                                 <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="img: ${currents}">
                                     <div class="gallery-modal">
-
                                         <img onclick="hideModal(this.alt)" accept="image/*" th:alt="${img.imageName}"
                                              th:src="@{'/images/'+${img.imageName}}">
-
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
