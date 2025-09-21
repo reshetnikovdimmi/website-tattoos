@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: initial-create-and-codec
+      id: create-homehero-section-table
       author: Dmitrii
       changes:
         - createTable:
-            tableName: home
+            tableName: home_hero_section
             columns:
               - column:
                   name: id
@@ -14,36 +14,33 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: title
+                  name: image_name
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: introText
+                  name: text_h1
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: metaDescription
+                  name: text_h2
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: imageName
+                  name: text_h3
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
                   name: section
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
-                  name: textH1
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
-                  name: textH2
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
-                  name: textH3
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
   - changeSet:
-      id: add-data-home
+      id: add-data-homehero
       author: Dmitrii
       changes:
         - insert:
-            tableName: home
+            tableName: home_hero_section
             columns:
               - column:
                   name: section
                   value: home
+              - column:
+                  name: texth1
+                  value: texth1
+              - column:
+                  name: texth2
+                  value: texth2
