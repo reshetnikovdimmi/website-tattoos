@@ -1,0 +1,70 @@
+databaseChangeLog:
+  - changeSet:
+      id: initial-create-and-codec
+      author: Dmitrii
+      changes:
+        - createTable:
+            tableName: home
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: introText
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: metaDescription
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: imageName
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: section
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH1
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH2
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH3
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+  - changeSet:
+      id: add-data-home
+      author: Dmitrii
+      changes:
+        - insert:
+            tableName: home
+            columns:
+              - column:
+                  name: title
+                  value: Добро пожаловать!
+              - column:
+                  name: introText
+                  value: Краткое приветственное сообщение.
+              - column:
+                  name: metaDescription
+                  value: Описание страницы.
+              - column:
+                  name: imageName
+                  value: welcome.jpg
+              - column:
+                  name: section
+                  value: home
+              - column:
+                  name: textH1
+                  value: Приветствуем вас на нашем сайте!
+              - column:
+                  name: textH2
+                  value: Что мы можем предложить?
+              - column:
+                  name: textH3
+                  value: Наши преимущества.
