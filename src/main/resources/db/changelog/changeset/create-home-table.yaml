@@ -47,3 +47,11 @@ databaseChangeLog:
               - column:
                   name: section
                   value: home
+  - changeSet:
+      id: index-section-home
+      author: Dmitrii
+      changes:
+        - addUniqueConstraint:
+            columnNames: section
+            tableName: home
+            constraintName: uk_home_section

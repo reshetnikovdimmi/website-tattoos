@@ -14,20 +14,21 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: image_name
+                  name: imageName
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: text_h1
+                  name: textH1
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: text_h2
+                  name: textH2
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: text_h3
+                  name: textH3
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
                   name: section
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+
   - changeSet:
       id: add-data-homehero
       author: Dmitrii
@@ -39,8 +40,18 @@ databaseChangeLog:
                   name: section
                   value: home
               - column:
-                  name: texth1
-                  value: texth1
+                  name: textH1
+                  value: textH1
               - column:
-                  name: texth2
-                  value: texth2
+                  name: textH1
+                  value: textH1
+  - changeSet:
+      id: add-fk-from-homehero-to-home
+      author: Dmitrii
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: home_hero_section
+            baseColumnNames: section
+            referencedTableName: home
+            referencedColumnNames: section
+            constraintName: fk_home_hero_section_to_home
