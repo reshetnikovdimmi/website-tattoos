@@ -3,3 +3,9 @@ databaseChangeLog:
       file: db/changelog/changeset/create-home-table.yaml
   - include:
       file: db/changelog/changeset/create-homehero-section-table.yaml
+  - include:
+      file: db/changelog/changeset/create-features-section-table.yaml
+  - include:
+      file: db/changelog/changeset/create-about-section-table.yaml
+  - include:
+      file: db/changelog/changeset/create-classes-section-table.yaml

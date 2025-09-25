@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-classes-section-table
+      author: Dmitrii
+      changes:
+        - createTable:
+            tableName: classes_section
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: imageName
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH1
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH2
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH3
+                  type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: title
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: section
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+  - changeSet:
+      id: add-data-classes
+      author: Dmitrii
+      changes:
+        - insert:
+            tableName: classes_section
+            columns:
+              - column:
+                  name: section
+                  value: home
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+              - column:
+                  name: title
+                  value: title
+  - changeSet:
+      id: add-fk-from-classes-to-home
+      author: Dmitrii
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: classes_section
+            baseColumnNames: section
+            referencedTableName: home
+            referencedColumnNames: section
+            constraintName: fk_classes_section_to_home
