@@ -1,0 +1,138 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-blog-table
+      author: Dmitrii
+      changes:
+        - createTable:
+            tableName: blog
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: image_name
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: description
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH1
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH2
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH3
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: section
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: date
+                  type: date
+  - changeSet:
+      id: add-data-blog-text
+      author: Dmitrii
+      changes:
+        - insert:
+            tableName: blog
+            columns:
+              - column:
+                  name: section
+                  value: blog-text
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+              - column:
+                  name: textH3
+                  value: textH3
+  - changeSet:
+      id: add-data-blog-title
+      author: Dmitrii
+      changes:
+        - insert:
+            tableName: blog
+            columns:
+              - column:
+                  name: section
+                  value: blog-title
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+              - column:
+                  name: textH3
+                  value: textH3
+  - changeSet:
+      id: add-data-blog-quote
+      author: Dmitrii
+      changes:
+        - insert:
+            tableName: blog
+            columns:
+              - column:
+                  name: section
+                  value: blog-quote
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+              - column:
+                  name: textH3
+                  value: textH3
+        - insert:
+            tableName: blog
+            columns:
+              - column:
+                  name: section
+                  value: blog-more-title
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+              - column:
+                  name: textH3
+                  value: textH3
+        - insert:
+            tableName: blog
+            columns:
+              - column:
+                  name: section
+                  value: blog-more-title
+        - insert:
+            tableName: blog
+            columns:
+              - column:
+                  name: section
+                  value: medium-image
+        - insert:
+            tableName: blog
+            columns:
+              - column:
+                  name: section
+                  value: smail-2-ima
+        - insert:
+            tableName: blog
+            columns:
+              - column:
+                  name: section
+                  value: smail-1-image
+        - insert:
+            tableName: blog
+            columns:
+              - column:
+                  name: section
+                  value: big-image

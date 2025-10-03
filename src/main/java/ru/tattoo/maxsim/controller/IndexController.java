@@ -31,7 +31,7 @@ public class IndexController {
 
     @PostMapping("/mail")
     public String sendMail(@ModelAttribute("details") EmailDetails details, Model model) {
-        System.out.println(details);
+
         boolean isSuccess = emailService.sendSimpleMail(details);
 
         if (isSuccess) {

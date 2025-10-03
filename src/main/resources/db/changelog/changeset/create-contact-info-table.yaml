@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-contact-info-table
+      author: Dmitrii
+      changes:
+        - createTable:
+            tableName: contact_info
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: tell
+                  type: varchar(255)
+              - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: address
+                  type: varchar(255)
+  - changeSet:
+      id: add-data-contact-info
+      author: Dmitrii
+      changes:
+        - insert:
+            tableName: contact_info
+            columns:
+              - column:
+                  name: tell
+                  value: tell
+              - column:
+                  name: email
+                  value: email
+              - column:
+                  name: address
+                  value: address

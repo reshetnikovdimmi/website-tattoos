@@ -1,5 +1,7 @@
 databaseChangeLog:
   - include:
+      file: db/changelog/changeset/create-user-table.yaml
+  - include:
       file: db/changelog/changeset/create-home-table.yaml
   - include:
       file: db/changelog/changeset/create-homehero-section-table.yaml
@@ -9,3 +11,21 @@ databaseChangeLog:
       file: db/changelog/changeset/create-about-section-table.yaml
   - include:
       file: db/changelog/changeset/create-classes-section-table.yaml
+  - include:
+      file: db/changelog/changeset/create-prices-section-table.yaml
+  - include:
+      file: db/changelog/changeset/create-choose-us-section-table.yaml
+  - include:
+      file: db/changelog/changeset/create-images-table.yaml
+  - include:
+      file: db/changelog/changeset/create-sketches-table.yaml
+  - include:
+      file: db/changelog/changeset/create-contact-info-table.yaml
+  - include:
+      file: db/changelog/changeset/create-blog-table.yaml
+  - include:
+      file: db/changelog/changeset/create-reviews-user-table.yaml
+  - include:
+      file: db/changelog/changeset/create-setting-website-table.yaml
+  - include:
+      file: db/changelog/changeset/create-interesting-works-table.yaml

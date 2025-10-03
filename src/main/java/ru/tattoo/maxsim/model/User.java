@@ -17,9 +17,9 @@ import java.util.List;
 @ToString
 public class User{
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(min = 2, max = 20, message = "Login should be from 2 to 20 chars")
+   // @Size(min = 2, max = 20, message = "Login should be from 2 to 20 chars")
     @Column(unique=true)
     private String login;
     private String password;

@@ -1,0 +1,127 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-setting-websiteon-table
+      author: Dmitrii
+      changes:
+        - createTable:
+            tableName: setting_website
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: image_name
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH1
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH2
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: section
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+  - changeSet:
+      id: add-data-setting-website
+      author: Dmitrii
+      changes:
+        - insert:
+            tableName: setting_website
+            columns:
+              - column:
+                  name: section
+                  value: breadcrumb
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+        - insert:
+            tableName: setting_website
+            columns:
+              - column:
+                  name: section
+                  value: logo
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+        - insert:
+            tableName: setting_website
+            columns:
+              - column:
+                  name: section
+                  value: home-title
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+        - insert:
+            tableName: setting_website
+            columns:
+              - column:
+                  name: section
+                  value: gallery-title
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+        - insert:
+            tableName: setting_website
+            columns:
+              - column:
+                  name: section
+                  value: sketchers-title
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+        - insert:
+            tableName: setting_website
+            columns:
+              - column:
+                  name: section
+                  value: blog-title
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+        - insert:
+            tableName: setting_website
+            columns:
+              - column:
+                  name: section
+                  value: reviews-title
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+        - insert:
+            tableName: setting_website
+            columns:
+              - column:
+                  name: section
+                  value: footer-title
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2

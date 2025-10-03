@@ -16,9 +16,10 @@ public class AdditionalResourceWebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        Path uploadDirectory = Paths.get(System.getProperty("user.dir"), "img", "images");
+        Path uploadDirectory = Paths.get("/app/img/images");  // Путь внутри контейнера
 
-        registry.addResourceHandler("/images/**").addResourceLocations(uploadDirectory.toUri().toString());
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:", uploadDirectory.toUri().toString());  // Обратите внимание на prefix "file:"
     }
     @Bean
     public ModelMapper modelMapper() {

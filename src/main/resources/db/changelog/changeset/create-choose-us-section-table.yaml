@@ -1,0 +1,80 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-chooseus-section-table
+      author: Dmitrii
+      changes:
+        - createTable:
+            tableName: chooseus_section
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: image_name
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH1
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH2
+                  type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH3
+                  type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH4
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH5
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: title
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: section
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+  - changeSet:
+      id: add-data-choose
+      author: Dmitrii
+      changes:
+        - insert:
+            tableName: chooseus_section
+            columns:
+              - column:
+                  name: title
+                  value: title
+              - column:
+                  name: section
+                  value: home
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+        - insert:
+            tableName: chooseus_section
+            columns:
+              - column:
+                  name: section
+                  value: home
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+  - changeSet:
+      id: add-fk-from-chooseus-to-home
+      author: Dmitrii
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: chooseus_section
+            baseColumnNames: section
+            referencedTableName: home
+            referencedColumnNames: section
+            constraintName: fk_chooseus_section_to_home

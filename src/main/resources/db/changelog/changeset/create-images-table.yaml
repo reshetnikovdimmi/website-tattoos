@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-images-table
+      author: Dmitrii
+      changes:
+        - createTable:
+            tableName: images
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: image_name
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: category
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: description
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: flag
+                  type: boolean
+                  defaultValueBoolean: false
+              - column:
+                  name: user_name
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+  - changeSet:
+      id: add-fk-from-images-to-user
+      author: Dmitrii
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: images
+            baseColumnNames: user_name
+            referencedTableName: user
+            referencedColumnNames: login
+            constraintName: fk_images_to_user

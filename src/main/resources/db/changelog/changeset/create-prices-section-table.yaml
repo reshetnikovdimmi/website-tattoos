@@ -1,0 +1,91 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-price-section-table
+      author: Dmitrii
+      changes:
+        - createTable:
+            tableName: price_section
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: image_name
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH1
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH2
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH3
+                  type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH4
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: textH5
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: title
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: section
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+
+  - changeSet:
+      id: add-data-price
+      author: Dmitrii
+      changes:
+        - insert:
+            tableName: price_section
+            columns:
+              - column:
+                  name: section
+                  value: home
+              - column:
+                  name: textH3
+                  value: textH3
+              - column:
+                  name: textH2
+                  value: textH2
+              - column:
+                  name: title
+                  value: title
+        - insert:
+            tableName: price_section
+            columns:
+              - column:
+                  name: section
+                  value: home
+              - column:
+                  name: textH1
+                  value: textH1
+              - column:
+                  name: textH2
+                  value: textH2
+              - column:
+                  name: textH3
+                  value: textH3
+              - column:
+                  name: textH4
+                  value: textH4
+              - column:
+                  name: textH5
+                  value: textH5
+
+  - changeSet:
+      id: add-fk-from-price-to-home
+      author: Dmitrii
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: price_section
+            baseColumnNames: section
+            referencedTableName: home
+            referencedColumnNames: section
+            constraintName: fk_price_section_to_home

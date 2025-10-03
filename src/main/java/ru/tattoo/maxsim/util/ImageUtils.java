@@ -14,7 +14,7 @@ import org.apache.commons.collections4.ListUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ImageUtils {
-    private static final Path UPLOAD_DIRECTORY = Paths.get(System.getProperty("user.dir"), "img", "images");
+    private static final Path UPLOAD_DIRECTORY = Paths.get("/app/img/images");  // Путь внутри контейнера
 
     /**
      * Сохраняет изображение на сервере.

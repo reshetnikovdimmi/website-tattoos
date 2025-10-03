@@ -42,7 +42,7 @@
 <header class="header-section ">
     <div class="container-fluid">
         <div class="logo" th:each="current: ${setting}"
-             th:if="${current.section=='logo'}">
+        th:if="${current.section=='logo'}">
             <a href="/">
                 <img th:src="@{'/images/'+${current.imageName}}" alt="">
             </a>

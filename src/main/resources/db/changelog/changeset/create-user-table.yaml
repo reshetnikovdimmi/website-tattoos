@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user-table
+      author: Dmitrii
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: avatar
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: email
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+                  constraints:
+                    unique: true  # ☞ Уникальность e-mail
+              - column:
+                  name: login
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+                  constraints:
+                    unique: true  # ☞ Уникальность логина
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: role
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: date
+                  type: date
+  - changeSet:
+      id: add-data-user
+      author: Dmitrii
+      changes:
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: login
+                  value: ADMIN
+              - column:
+                  name: password
+                  value: $2a$10$ZIdA0jAlkkPOOuxLcQBuW.3rZFmzvk9P5LTgp2pPkqmLKiV2Xae.i
+              - column:
+                  name: role
+                  value: ADMIN

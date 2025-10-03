@@ -23,7 +23,7 @@ databaseChangeLog:
                   name: metaDescription
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: imageName
+                  name: image_name
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
                   name: section

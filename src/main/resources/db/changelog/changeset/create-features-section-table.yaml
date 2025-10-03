@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-features-section-table
+      id: create-feature-section-table
       author: Dmitrii
       changes:
         - createTable:
-            tableName: features_section
+            tableName: feature_section
             columns:
               - column:
                   name: id
@@ -14,7 +14,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: imageName
+                  name: image_name
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
                   name: textH1
@@ -29,11 +29,11 @@ databaseChangeLog:
                   name: section
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
   - changeSet:
-      id: add-data-features
+      id: add-data-feature
       author: Dmitrii
       changes:
         - insert:
-            tableName: features_section
+            tableName: feature_section
             columns:
               - column:
                   name: section
@@ -45,12 +45,12 @@ databaseChangeLog:
                   name: textH2
                   value: textH2
   - changeSet:
-      id: add-fk-from-features-to-home
+      id: add-fk-from-feature-to-home
       author: Dmitrii
       changes:
         - addForeignKeyConstraint:
-            baseTableName: features_section
+            baseTableName: feature_section
             baseColumnNames: section
             referencedTableName: home
             referencedColumnNames: section
-            constraintName: fk_features_section_to_home
+            constraintName: fk_feature_section_to_home
