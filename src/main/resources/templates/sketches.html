@@ -80,7 +80,7 @@
 
             <div class="blog-option">
                 <div class="blog-pagination">
-                    <a th:if="${sketches.currentPage!=0}" th:ch="goToPageSketches([[${sketches.currentPage -1}]], [[${sketches.number}]])" id="left" type="submit"><i
+                    <a th:if="${sketches.currentPage!=0}" th:onclick="goToPageSketches([[${sketches.currentPage -1}]], [[${sketches.number}]])" id="left" type="submit"><i
                             class="fa fa-long-arrow-left"></i></a>
                     <a class="active">[[${sketches.currentPage+1}]]</a>
                     of
@@ -126,7 +126,7 @@
 <div class="footer-section">
     <div th:replace="~{fragments::footer}"></div>
 </div>
-<!-- Footer Section End -->>
+<!-- Footer Section End -->
 
 <!-- Js Plugins -->
 <script src="js/jquery-3.3.1.min.js"></script>
