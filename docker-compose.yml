@@ -17,6 +17,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=R870nt55@
       - SPRING_MAIL_USERNAME=reshetnikov.dim.mi@yandex.ru
       - SPRING_MAIL_PASSWORD=kkrhwhlmoiawjgcm
+    restart: unless-stopped
 
   db:
     image: mysql:5.7
@@ -28,6 +29,7 @@ services:
       - MYSQL_USER=a0722849_maxsim
       - MYSQL_PASSWORD=R870nt55@
       - MYSQL_ROOT_PASSWORD=R870nt55@
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "db", "-uroot", "-pR870nt55@"]
       interval: 10s

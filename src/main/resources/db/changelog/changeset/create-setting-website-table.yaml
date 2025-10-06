@@ -21,7 +21,7 @@ databaseChangeLog:
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
                   name: textH2
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+                  type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
                   name: section
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
