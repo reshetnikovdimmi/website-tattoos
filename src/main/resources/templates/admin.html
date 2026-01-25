@@ -62,7 +62,11 @@
             </div>
             <div class="modal-body">
                 <div th:fragment="modal-body">
-                    <div class="container-fluid" th:text="${message}">
+                    <div class="container-fluid">
+                        <p th:if="${message}" class="text-success" th:text="${message}"></p>
+
+                        <!-- Сообщение об ошибке -->
+                        <p th:if="${error}" class="text-danger" th:text="${error}"></p>
                     </div>
                 </div>
             </div>
@@ -611,7 +615,7 @@
                                                 <div class="row" th:each="current: ${home}">
                                                     <div class="col-lg-4" th:each="currents : ${current.price}"
                                                          th:unless="${currents.title}">
-                                                        <form th:id="${currents.id}" action="/price/import-prices"
+                                                        <form th:id="${currents.id}" action="/price/import"
                                                               onsubmit="submitForm(event, '.price')"
                                                               th:object="${currents}">
                                                             <div class="single-price-plan-admin">
@@ -1063,7 +1067,7 @@
                                                                         <div th:text="${current.userName}">
                                                                         </div>
                                                                         <button type="button" th:id="${current.id}"
-                                                                                onclick="deleteImage(this.id, '.commit', '/commits/delete')"
+                                                                                onclick="deleteImage(this.id, '.commit', '/commits/delete-section')"
                                                                                 class="btn btn-outline-secondary del-reviews">
                                                                             Удалить
                                                                         </button>
@@ -1489,7 +1493,7 @@
                                                  class="smail-image">
                                         </div>
                                         <div class="col-lg-6">
-                                            <form th:id="${current.id}" action="/setting/logo-import"
+                                            <form th:id="${current.id}" action="/setting/image-import"
                                                   method="post"
                                                   enctype="multipart/form-data"
                                                   onsubmit="submitForm(event, '.logo-admin')">
@@ -1776,7 +1780,7 @@
                                 <div class="reviews-admin" th:id="${currents.id}">
                                     <img alt="" th:src="@{'/images/'+${currents.imageName}}">
                                     <button class="delete-button" th:id="${currents.id}"
-                                            onclick="deleteImage(this.id, '.img-import', '/gallery/admin/delete-section')"></button>
+                                            onclick="deleteImage(this.id, '.img-import', '/gallery/delete-section')"></button>
                                     <div class="carousel-caption d-none d-md-block">
                                         <h4>[[${currents.description}]]</h4>
                                     </div>

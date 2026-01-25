@@ -226,8 +226,10 @@
             inputs.forEach(input => input.disabled = false);
             button.textContent = 'Сохранить'; // Меняем надпись на кнопке
             form.classList.add('active'); // Добавляем класс 'active' к форме
+            console.log(formData);
         } else {
             try {
+                console.log('[formAction] Отправка данных на сервер  ' + formAction);
                 const response = await $.ajax({
                     url: formAction, // Адрес контроллера Spring MVC
                     dataType: 'html', // Тип ожидаемого ответа — HTML-фрагмент
@@ -239,6 +241,7 @@
                 });
                 alert('Информация успешно сохранена!');
                 console.log('Информация успешно сохранена!');
+
                 $(fragment).html(response); // Замена текущего содержимого новым шаблоном
                 // Меняем название кнопки на "Изменить"
                 button.textContent = 'Изменить';
@@ -256,9 +259,10 @@
     Gallery controls
     --------------*/
     function goToPageGalleryAdmin(style, page, number) {
-        $.get(`/gallery/admin/${style.trim()}/${page}/${number}`, {}, function(data) {
-            document.getElementById('category').value = style;
+        $.get(`/gallery/${style.trim()}/${page}/${number}`, {}, function(data) {
             $(".img-import").html(data);
+
+            document.getElementById('category').value = style.trim();
         });
     }
     function goToPageGallery(style, page, number) {
@@ -319,7 +323,7 @@
         const id = form.attr('id');
 
         $.ajax({
-            url: '/gallery/admin/update-flag',
+            url: '/gallery/update-flag',
             type: 'POST',
             data: {
                 id: id,

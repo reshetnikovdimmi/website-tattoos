@@ -39,7 +39,7 @@ public class UserController extends CRUDController<User, Long> {
 
     @Override
     @GetMapping("/delete/{id}")
-    public String deleteCarouselImage(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
+    public String deleteEntity(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
         getService().deleteById(id);
         updateSection(model);
         return getEntityName();

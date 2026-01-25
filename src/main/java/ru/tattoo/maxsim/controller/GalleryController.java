@@ -1,23 +1,26 @@
 package ru.tattoo.maxsim.controller;
 
+
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.DTO.GalleryDTO;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ImagesRepository;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.service.interf.ImagesService;
-import ru.tattoo.maxsim.util.ImageUtils;
 import ru.tattoo.maxsim.util.PageSize;
 
-import java.io.IOException;
-import java.text.ParseException;
-
+import java.security.Principal;
 
 @Controller
+@Slf4j
 @RequestMapping(GalleryController.URL)
 public class GalleryController extends CRUDController<Images, Long> {
 
@@ -32,37 +35,6 @@ public class GalleryController extends CRUDController<Images, Long> {
     @Autowired
     private ImagesRepository imagesRepository;
 
-    @GetMapping()
-    public String gallery(Model model) {
-
-        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
-
-        return "gallery";
-    }
-
-    @RequestMapping(value = "/admin/{style}/{page}/{number}", method = RequestMethod.GET)
-    private String galleryAdmin(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
-        model.addAttribute("gallery", imagesService.getGalleryDto(style.equals(ALL_GALLERY) ? null : style, null, number, page));
-        updateSection(model);
-        return getEntityName();
-    }
-
-    @RequestMapping(value = "{style}/{page}/{number}", method = RequestMethod.GET)
-    private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
-
-        model.addAttribute("gallery", imagesService.getGalleryDto(style.equals(ALL_GALLERY) ? null : style, null, number, page));
-
-        return "gallery::galleryFilter";
-    }
-
-    @RequestMapping(value = "reviews/{page}/{number}", method = RequestMethod.GET)
-    private String reviewsModal(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
-
-        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, number, page));
-
-        return "fragments::modal-img";
-    }
-
     @Override
     String getEntityName() {
         return "admin::img-import";
@@ -73,45 +45,71 @@ public class GalleryController extends CRUDController<Images, Long> {
         return imagesService;
     }
 
+    @GetMapping()
+    public String gallery(Model model) {
+
+        model.addAttribute("gallery", prepareGalleryData(null, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+
+        return "gallery";
+    }
+
+
+    @RequestMapping(value = "{style}/{page}/{number}", method = RequestMethod.GET)
+    private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model, HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
+        boolean isAdminPage = referer != null && referer.contains("/admin/");
+        log.info("Получено page {} number {}",
+                page, number);
+        model.addAttribute("gallery", prepareGalleryData( style, page, number));
+        model.addAttribute("images", new Images());
+
+        return isAdminPage ? getEntityName() : "gallery::galleryFilter";
+    }
+
+    @RequestMapping(value = "reviews/{page}/{number}", method = RequestMethod.GET)
+    private String reviewsModal(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
+
+        model.addAttribute("gallery", prepareGalleryData(null, page, number));
+        model.addAttribute("images", new Images());
+        return "fragments::modal-img";
+    }
+
+    @PostMapping("/update-flag")
+
+    public String updateFlag(@RequestParam("id") Long id,
+                             @RequestParam("flag") boolean flag,
+                             Model model,
+                             Authentication auth) {
+
+        log.info("Обновление флага: id={}, flag={}, user={}", id, flag, auth.getName());
+
+        try {
+            String message = imagesService.updateImageFlag(id, flag);
+            model.addAttribute("message", message);
+            log.debug("Флаг обновлен успешно: {}", message);
+
+        } catch (EntityNotFoundException e) {
+            log.error("Изображение не найдено: id={}, error={}", id, e.getMessage());
+            model.addAttribute("error", e.getMessage());
+        } catch (Exception e) {
+            log.error("Ошибка обновления флага: id={}, error={}", id, e.getMessage(), e);
+            model.addAttribute("error", "Внутренняя ошибка");
+        }
+
+        return "admin::modal-body";
+    }
+
     @Override
     void updateSection(Model model) {
-
+        model.addAttribute("gallery", prepareGalleryData(null, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
         model.addAttribute("images", new Images());
     }
 
-    @Override
-    @GetMapping("/admin/delete-section/{id}")
-    public String deleteCarouselImage(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
-        getService().deleteImg(id);
-        updateSection(model);
-        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
-        return getEntityName();
-    }
 
-
-    @Override
-    @PostMapping("/image-import")
-    public String uploadImage(@ModelAttribute("hero") Images object,
-                              @RequestParam("file") MultipartFile fileImport,
-                              Model model) throws IOException, ParseException {
-        object.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        ImageUtils.saveImage(fileImport, object.getImageName());
-        getService().create(object);
-        model.addAttribute("gallery", imagesService.getGalleryDto(object.getCategory().equals(ALL_GALLERY) ? null : object.getCategory(), null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
-        updateSection(model);
-        return getEntityName();
-    }
-
-    @PostMapping("/admin/update-flag")
-    public String updateFlag(@RequestParam("id") Long id, @RequestParam("flag") boolean flag,
-                             Model model) {
-        Images images = new Images();
-        images.setId(id);
-        images.setFlag(flag);
-
-        String message = imagesService.bestImage(images) ? "Установлено" : "Снято";
-        model.addAttribute("message", message);
-
-        return "admin::modal-body";
+    // 🔄 метод для подготовки данных галереи
+    private GalleryDTO prepareGalleryData(String style, int page, int page_size) {
+        // ✅ Логика обработки стиля "Вся галерея"
+        String normalizedStyle = ALL_GALLERY.equals(style) ? null : style;
+        return imagesService.getGalleryDto(normalizedStyle, null, page_size, page);
     }
 }

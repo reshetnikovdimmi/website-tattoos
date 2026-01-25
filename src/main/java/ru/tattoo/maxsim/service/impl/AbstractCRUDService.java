@@ -1,9 +1,9 @@
 package ru.tattoo.maxsim.service.impl;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.web.multipart.MultipartFile;
-import ru.tattoo.maxsim.model.Home;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.util.ImageUtils;
 
@@ -11,12 +11,10 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-
+@Slf4j
 public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K>{
 
-
-    public static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/img/images/";
-
+    abstract void prepareObject(E entity, String s);
     abstract CrudRepository<E, K> getRepository();
 
     @Override
@@ -63,15 +61,36 @@ public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K>{
     }
 
     @Override
-    public void saveImg(MultipartFile fileImport, String textH1, String textH2, String textH3) throws IOException {
+    public void saveImg(MultipartFile fileImport, E entity) throws IOException {
+        log.info("Сохранение изображения: файл={}, размер={} байт",
+                fileImport.getOriginalFilename(),
+                fileImport.getSize());
 
-    }
-    @Override
-    public void deleteImg(Long id) throws IOException {
+        try {
+            // Генерация уникального имени файла
+            String uniqueFileName = ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename());
+            log.debug("Сгенерировано уникальное имя файла: {}", uniqueFileName);
 
-    }
-    @Override
-    public void imageImport(MultipartFile fileImport, E object) {
-        getRepository().save(object);
+            // Подготовка объекта
+            prepareObject(entity, uniqueFileName);
+            log.debug("Объект подготовлен для сохранения");
+
+            // Сохранение изображения на диск
+            ImageUtils.saveImage(fileImport, uniqueFileName);
+            log.debug("Изображение сохранено на диск: {}", uniqueFileName);
+
+            // Сохранение сущности в БД
+            getRepository().save(entity);
+            log.info("Изображение успешно сохранено: имя файла={}, сущность={}",
+                    uniqueFileName, entity);
+
+        } catch (IOException e) {
+            log.error("Ошибка при сохранении изображения {}: {}",
+                    fileImport.getOriginalFilename(), e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error("Неожиданная ошибка при сохранении изображения: {}", e.getMessage(), e);
+            throw new IOException("Ошибка сохранения изображения", e);
+        }
     }
 }

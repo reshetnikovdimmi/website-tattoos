@@ -37,13 +37,7 @@ public class AboutSectionController extends CRUDController<AboutSection, Long> {
         return aboutSectionService;
     }
 
-    @Override
-    protected AboutSection prepareObject(MultipartFile fileImport, AboutSection aboutSection) throws IOException {
-        aboutSection.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        aboutSection.setSection("home");
-        ImageUtils.saveImage(fileImport, aboutSection.getImageName());
-        return aboutSection;
-    }
+
 
     @Override
     void updateSection(Model model) {

@@ -184,7 +184,7 @@
                     </div>
                     <div class="leave-comment-form" th:object="${commitsEntity}">
                         <h4>Оставь комментарий</h4>
-                        <form method="post" th:action="@{commits/commits-import}"
+                        <form method="post" th:action="@{commits/import}"
                               onsubmit="submitForm(event,'.fragment-commits')">
                             <div class="row">
                                 <div class="col-lg-12">

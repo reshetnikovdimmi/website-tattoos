@@ -1,7 +1,11 @@
 package ru.tattoo.maxsim.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +20,12 @@ import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.util.Collection;
+
+import static ru.tattoo.maxsim.model.UserRole.ADMIN;
 
 @Controller
+@Slf4j
 @RequestMapping(ReviewsController.URL)
 public class ReviewsController extends CRUDController<ReviewsUser, Long> {
 
@@ -47,19 +55,38 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
     }
 
 
-    @PostMapping("/reviews-import")
-    public String upload(@ModelAttribute("reviewsEntity") ReviewsUser object, Principal principal,
-                         Model model) throws IOException, ParseException {
-        object.setUserName(principal.getName());
-        getService().create(prepareObject(object));
-        updateSection(model);
-        return "reviews::fragment-reviews";
-    }
-
-
     @Override
     String getEntityName() {
-        return "admin::reviews";
+        // Минимальное логирование для продакшена
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            log.trace("Неаутентифицированный доступ к отзывам");
+            return "reviews::fragment-reviews";
+        }
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        boolean isAdmin = authorities.stream()
+                .anyMatch(a -> {
+                    String authority = a.getAuthority();
+                    boolean matches = authority.equals("ADMIN");
+
+                    if (matches) {
+                        log.debug("✅ Найдена административная роль: {}", authority);
+                    }
+
+                    return matches;
+                });
+
+        if (isAdmin) {
+            log.debug("Админ {} получает доступ к админ-панели отзывов",
+                    authentication.getName());
+            return "admin::reviews";
+        }
+
+        log.trace("Пользователь {} получает публичный доступ к отзывам",
+                authentication.getName());
+        return "reviews::fragment-reviews";
     }
 
     @Override

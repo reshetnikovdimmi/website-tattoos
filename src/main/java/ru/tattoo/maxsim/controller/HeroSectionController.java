@@ -38,13 +38,7 @@ public class HeroSectionController extends CRUDController<HomeHeroSection, Long>
     }
 
 
-    @Override
-    protected HomeHeroSection prepareObject(MultipartFile fileImport, HomeHeroSection heroSection) throws IOException {
-        heroSection.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        heroSection.setSection("home");
-        ImageUtils.saveImage(fileImport, heroSection.getImageName());
-        return heroSection;
-    }
+
 
     @Override
     void updateSection(Model model) {

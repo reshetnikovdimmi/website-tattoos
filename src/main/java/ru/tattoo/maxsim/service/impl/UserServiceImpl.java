@@ -33,6 +33,11 @@ public class UserServiceImpl extends AbstractCRUDService<User, Long> implements 
     private ModelMapper modelMapper;
 
     @Override
+    void prepareObject(User entity, String s) {
+        
+    }
+
+    @Override
     CrudRepository<User, Long> getRepository() {
         return userRepository;
     }

@@ -13,7 +13,12 @@ public class ContactInfoServiceImpl extends AbstractCRUDService<ContactInfo, Lon
   private ContactInfoRepository contactInfoRepository;
 
 
-    @Override
+  @Override
+  void prepareObject(ContactInfo entity, String s) {
+
+  }
+
+  @Override
     CrudRepository<ContactInfo, Long> getRepository() {
         return contactInfoRepository;
     }

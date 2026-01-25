@@ -35,27 +35,11 @@ public class ChooseusSectionController extends CRUDController<ChooseusSection, L
     }
 
     @Override
-    CRUDService getService() {
+    CRUDService<ChooseusSection, Long> getService() {
         return chooseusSectionService;
     }
 
 
-    @Override
-    protected ChooseusSection prepareObject(MultipartFile fileImport,ChooseusSection chooseusSection) throws IOException {
-        chooseusSection.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        chooseusSection.setSection("home");
-        ImageUtils.saveImage(fileImport, chooseusSection.getImageName());
-        return chooseusSection;
-    }
-
-    @PostMapping("/import-chooseus")
-    public String uploadPrice(@ModelAttribute("prices") ChooseusSection chooseusSection,
-                              Model model) throws IOException, ParseException {
-        chooseusSection.setSection("home");
-        getService().create(chooseusSection);
-        updateSection(model);
-        return getEntityName();
-    }
 
 
     @Override

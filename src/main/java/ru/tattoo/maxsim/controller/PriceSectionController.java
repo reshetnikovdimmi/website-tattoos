@@ -35,22 +35,17 @@ public class PriceSectionController extends CRUDController<PriceSection, Long>{
     }
 
     @Override
-    CRUDService getService() {
+    CRUDService<PriceSection, Long> getService() {
         return priceSectionService;
     }
 
-    @Override
-    protected PriceSection prepareObject(PriceSection priceSection) throws IOException {
-        priceSection.setSection("home");
-        priceSection.setTitle("title");
-        return priceSection;
-    }
 
-    @PostMapping("/import-prices")
-    public String uploadPrice(@ModelAttribute("prices") PriceSection priceSection,
-                         Model model) throws IOException, ParseException {
-        priceSection.setSection("home");
-        getService().create(priceSection);
+
+    @PostMapping("/import")
+    public String createEntity(@ModelAttribute("hero") PriceSection object,
+                               Model model) throws IOException, ParseException {
+
+        getService().create(object);
         updateSection(model);
         return getEntityName();
     }

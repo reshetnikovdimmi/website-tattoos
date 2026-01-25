@@ -10,20 +10,17 @@ import java.io.IOException;
 import java.security.Principal;
 
 public interface ImagesService extends CRUDService<Images, Long> {
-
-    void saveImg(MultipartFile fileImport, String description, String category, String userName) throws IOException;
-
-    void deleteImg(Long id) throws IOException;
-
     Page<Images> getPagedImages(Pageable p);
 
     Page<Images> findByCategory(String style, Pageable p);
-
-    boolean bestImage(Images images);
 
     Page<Images> getPagedImages(String userName, Pageable p);
 
     GalleryDTO getGalleryDto(String category, Principal principal, int pageSize, int pageNumber);
 
+    boolean bestImage(Images images);
+
     Iterable<Images> findByFlagTrue();
+
+    String updateImageFlag(Long id, boolean flag);
 }

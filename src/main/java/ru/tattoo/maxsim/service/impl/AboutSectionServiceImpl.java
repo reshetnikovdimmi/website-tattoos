@@ -17,24 +17,19 @@ public class AboutSectionServiceImpl extends AbstractCRUDService<AboutSection, L
     private AboutSectionRepository aboutSectionRepository;
 
     @Override
+    void prepareObject(AboutSection entity, String s) {
+        entity.setImageName(s);
+        entity.setSection("home");
+    }
+
+    @Override
     CrudRepository<AboutSection, Long> getRepository() {
         return aboutSectionRepository;
     }
 
-    @Override
-    public void saveImg(MultipartFile fileImport, String textH1, String textH2, String textH3) throws IOException {
-        AboutSection home = new AboutSection();
-        home.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        home.setTextH1(textH1);
-        home.setTextH2(textH2);
-        home.setTextH3(textH3);
-        home.setSection("home");
-        getRepository().save(home);
 
-        ImageUtils.saveImage(fileImport, home.getImageName());
-    }
     @Override
-    public void deleteImg(Long id) {
+    public void deleteById(Long id) {
 
         Optional<String> imageName = aboutSectionRepository.getName(id);
 

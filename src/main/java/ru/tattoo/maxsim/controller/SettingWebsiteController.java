@@ -26,24 +26,6 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     private SettingWebsiteService settingWebsiteService;
 
 
-    @Override
-    protected SettingWebsite prepareObject(MultipartFile fileImport, SettingWebsite settingWebsite) throws IOException {
-        settingWebsite.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        ImageUtils.saveImage(fileImport, settingWebsite.getImageName());
-        return settingWebsite;
-    }
-
-
-    @PostMapping("/logo-import")
-    public String uploadLogo(@ModelAttribute("hero") SettingWebsite object,
-                              @RequestParam("file") MultipartFile fileImport,
-                              Model model) throws IOException, ParseException {
-
-        getService().create(prepareObject(fileImport, object));
-        updateSection(model);
-        return "admin::logo";
-    }
-
     @PostMapping("/head/{section}")
     public String uploadHome(@ModelAttribute()SettingWebsite settingWebsite, @PathVariable("section") String section, Model model) {
         settingWebsite.setSection(section);
@@ -53,16 +35,33 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     }
     @Override
     @PostMapping("/import")
-    public String upload(@ModelAttribute("hero") SettingWebsite object,
+    public String createEntity(@ModelAttribute("hero") SettingWebsite object,
                          Model model) throws IOException, ParseException {
-        getService().create(prepareObject(object));
+        getService().create(object);
         model.addAttribute("setting", settingWebsiteService.findAll());
         return "fragments::footer";
     }
 
+    @PostMapping("/image-import")
+    public String uploadImage(@ModelAttribute("hero") SettingWebsite object,
+                              @RequestParam("file") MultipartFile fileImport,
+                              Model model) throws IOException, ParseException {
+
+        object = getService().findById(object.getId());
+
+        getService().saveImg(fileImport, object);
+
+        updateSection(model);
+        return getEntityName(object);
+    }
+
+    String getEntityName(SettingWebsite object) {
+        return getEntityName() + object.getSection();
+    }
+
     @Override
     String getEntityName() {
-        return "admin::breadcrumb";
+        return "admin::";
     }
 
     @Override

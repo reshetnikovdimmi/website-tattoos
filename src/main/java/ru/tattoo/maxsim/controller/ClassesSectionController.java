@@ -42,21 +42,6 @@ public class ClassesSectionController extends CRUDController<ClassesSection, Lon
     }
 
     @Override
-    protected ClassesSection prepareObject(MultipartFile fileImport, ClassesSection classesSection) throws IOException {
-        classesSection.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        classesSection.setSection("home");
-        ImageUtils.saveImage(fileImport, classesSection.getImageName());
-        return classesSection;
-    }
-
-    @Override
-    protected ClassesSection prepareObject(ClassesSection classesSection) throws IOException {
-        classesSection.setSection("home");
-        classesSection.setTitle("title");
-        return classesSection;
-    }
-
-    @Override
     void updateSection(Model model) {model.addAttribute("home", homeService.findAll());
         model.addAttribute("classes", new ClassesSection());
     }

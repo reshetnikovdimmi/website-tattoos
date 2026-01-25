@@ -1,21 +1,16 @@
-
-
 package ru.tattoo.maxsim.sitemap;
 
 import jakarta.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.XmlElement;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-
-
+@XmlRootElement(name = "urlset")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "urlset", namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")
 public class XmlUrlSet {
 
-    @XmlElements({
-            @XmlElement(name = "url", type = XmlUrl.class)
-    })
+    @XmlElement(name = "url")
     private Collection<XmlUrl> urls = new ArrayList<>();
 
     public void addUrl(XmlUrl url) {
@@ -24,5 +19,9 @@ public class XmlUrlSet {
 
     public Collection<XmlUrl> getUrls() {
         return urls;
+    }
+
+    public void setUrls(Collection<XmlUrl> urls) {
+        this.urls = urls;
     }
 }

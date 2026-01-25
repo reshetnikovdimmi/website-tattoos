@@ -25,6 +25,16 @@ public class SketchesController extends CRUDController<Sketches, Long> {
     @Autowired
     private SketchesService sketchesService;
 
+    @Override
+    String getEntityName() {
+        return "admin::sketches-import";
+    }
+
+    @Override
+    CRUDService<Sketches, Long> getService() {
+        return sketchesService;
+    }
+
     @GetMapping()
     public String sketches(Model model) {
 
@@ -45,20 +55,11 @@ public class SketchesController extends CRUDController<Sketches, Long> {
     private String goToPageSketches(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
         model.addAttribute("sketchesEntity", new Sketches());
         model.addAttribute("sketches", sketchesService.getSketchesDto(null,null,number,page));
-
         return getEntityName();
     }
 
 
-    @Override
-    String getEntityName() {
-        return "admin::sketches-import";
-    }
 
-    @Override
-    CRUDService<Sketches, Long> getService() {
-        return sketchesService;
-    }
 
     @Override
     void updateSection(Model model) {

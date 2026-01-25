@@ -37,13 +37,6 @@ public class FeatureSectionController extends CRUDController<FeatureSection, Lon
         return featureSectionService;
     }
 
-    @Override
-    protected FeatureSection prepareObject(MultipartFile fileImport, FeatureSection featureSection) throws IOException {
-        featureSection.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        featureSection.setSection("home");
-        ImageUtils.saveImage(fileImport, featureSection.getImageName());
-        return featureSection;
-    }
 
     @Override
     void updateSection(Model model) {

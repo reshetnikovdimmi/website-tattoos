@@ -20,24 +20,19 @@ public class FeatureSectionServiceImpl extends AbstractCRUDService<FeatureSectio
     private FeatureSectionRepository featureSectionRepository;
 
     @Override
+    void prepareObject(FeatureSection entity, String s) {
+        entity.setImageName(s);
+        entity.setSection("home");
+    }
+
+    @Override
     CrudRepository<FeatureSection, Long> getRepository() {
         return featureSectionRepository;
     }
 
-    @Override
-    public void saveImg(MultipartFile fileImport, String textH1, String textH2, String textH3) throws IOException {
-        FeatureSection home = new FeatureSection();
-        home.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        home.setTextH1(textH1);
-        home.setTextH2(textH2);
-        home.setTextH3(textH3);
-        home.setSection("home");
-        getRepository().save(home);
 
-        ImageUtils.saveImage(fileImport, home.getImageName());
-    }
     @Override
-    public void deleteImg(Long id) {
+    public void deleteById(Long id) {
 
         Optional<String> imageName = featureSectionRepository.getName(id);
 

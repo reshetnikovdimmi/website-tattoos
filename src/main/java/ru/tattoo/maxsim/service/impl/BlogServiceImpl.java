@@ -21,37 +21,17 @@ public class BlogServiceImpl extends AbstractCRUDService<Blog, Long> implements 
     private BlogRepository blogRepository;
 
     @Override
+    void prepareObject(Blog entity, String s) {
+        entity.setImageName(s);
+        entity.setDate(new Date());
+    }
+    @Override
     CrudRepository<Blog, Long> getRepository() {
         return blogRepository;
     }
 
     @Override
-    public void saveInterestingWorks(MultipartFile fileImport, String description) throws IOException {
-        Blog interestingWorks = new Blog();
-        interestingWorks.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        Optional.ofNullable(description).ifPresent(interestingWorks::setDescription);
-        interestingWorks.setDate(new Date());
-
-        blogRepository.save(interestingWorks);
-
-        ImageUtils.saveImage(fileImport, interestingWorks.getImageName());
-
-    }
-
-
-    public void saveImg(MultipartFile fileImport, String section, Long id) throws IOException {
-        Blog home = new Blog();
-        home.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        home.setSection(section);
-        home.setId(id);
-
-        getRepository().save(home);
-
-        ImageUtils.saveImage(fileImport, home.getImageName());
-    }
-
-    @Override
-    public void deleteInterestingWorks(Long id) throws IOException {
+    public void deleteById(Long id) throws IOException {
 
         Optional<String> imageName = blogRepository.findNameById(id);
         imageName.ifPresent(name -> {

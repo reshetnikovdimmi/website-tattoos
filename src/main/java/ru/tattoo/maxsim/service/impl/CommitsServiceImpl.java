@@ -4,6 +4,8 @@ package ru.tattoo.maxsim.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.tattoo.maxsim.model.Commits;
 import ru.tattoo.maxsim.model.DTO.CommitsDTO;
@@ -24,18 +26,28 @@ public class CommitsServiceImpl extends AbstractCRUDService<Commits, Long> imple
     private ModelMapper modelMapper;
 
     @Override
+    void prepareObject(Commits entity, String s) {
+
+    }
+
+    @Override
     CrudRepository<Commits, Long> getRepository() {
         return commitsRepository;
     }
 
     @Override
-    public void saveCommit(String comment, String name) throws IOException {
-        Commits commit = new Commits();
-        commit.setComment(comment);
-        commit.setUserName(name);
-        commit.setDate(new Date());
+    public void create(Commits entity) {
 
-        getRepository().save(commit);
+        String username = getCurrentUsername();
+        entity.setUserName(username);
+        entity.setDate(new Date());
+
+        getRepository().save(entity);
+    }
+
+    private String getCurrentUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 
     @Override

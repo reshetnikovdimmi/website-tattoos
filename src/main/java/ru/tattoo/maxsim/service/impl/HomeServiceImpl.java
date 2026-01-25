@@ -21,25 +21,18 @@ public class HomeServiceImpl extends AbstractCRUDService <Home, Long> implements
     private HomeRepository homeRepository;
 
     @Override
+    void prepareObject(Home entity, String s) {
+
+    }
+
+    @Override
     CrudRepository<Home, Long> getRepository() {
         return homeRepository;
     }
 
-    @Override
-    public void saveImg(MultipartFile fileImport, String category, String textH1, String textH2, String textH3) throws IOException {
-        Home home = new Home();
-        home.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        home.setSection(category);
-        home.setTextH1(textH1);
-        home.setTextH2(textH2);
-        home.setTextH3(textH3);
-        homeRepository.save(home);
-
-        ImageUtils.saveImage(fileImport, home.getImageName());
-    }
 
     @Override
-    public void deleteImg(Long id) {
+    public void deleteById(Long id) {
 
         Optional<String> imageName = homeRepository.getName(id);
 
@@ -54,8 +47,4 @@ public class HomeServiceImpl extends AbstractCRUDService <Home, Long> implements
 
     }
 
-    @Override
-    public List<Home> findByCategory(String s) {
-        return homeRepository.findBySection(s);
-    }
 }

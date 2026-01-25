@@ -1,5 +1,6 @@
 package ru.tattoo.maxsim.service.impl;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +23,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> implements SketchesService {
 
@@ -32,28 +32,23 @@ public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> imp
     private SketchesRepository sketchesRepository;
 
     @Override
-    CrudRepository<Sketches, Long> getRepository() {
+    public List<Sketches> findLimit() {
+        return sketchesRepository.findLimit();
+    }
+
+    @Override
+    void prepareObject(Sketches entity, String s) {
+        entity.setDate(new Date());
+        entity.setImageName(s);
+    }
+
+    @Override
+    protected CrudRepository<Sketches, Long> getRepository() {
         return sketchesRepository;
     }
 
     @Override
-    public void saveImg(MultipartFile fileImport, String description) throws IOException {
-
-        Sketches img = new Sketches();
-        img.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        Optional.ofNullable(description).ifPresent(img::setDescription);
-        Optional.of(new Date()).ifPresent(img::setDate);
-
-        getRepository().save(img);
-
-        ImageUtils.saveImage(fileImport, img.getImageName());
-
-
-    }
-
-    @Override
-    public void deleteImg(Long id) throws IOException {
-
+    public void deleteById(Long id) throws IOException {
         Optional<String> imageName = sketchesRepository.findNameById(id);
         imageName.ifPresent(name -> {
             try {
@@ -66,17 +61,11 @@ public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> imp
     }
 
     @Override
-    public Page<Sketches> getPagedImages(Pageable p) {
-        return sketchesRepository.findAll(p);
-    }
-
-    @Override
     public SketchesDTO getSketchesDto(String category, Principal principal, int pageSize, int pageNumber) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable p = PageRequest.of(pageNumber, pageSize).withSort(sort);
 
-        Page<Sketches> images = getPagedImages(p); // Все изображения
-
+        Page<Sketches> images = sketchesRepository.findAll(p);
 
         List<List<Sketches>> objects = ImageUtils.partition(
                 images.hasContent() ? images.getContent() : Collections.emptyList(),
@@ -91,11 +80,6 @@ public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> imp
                 PageSize.getLisPageSize(),
                 images.getTotalElements()
         );
-    }
-
-    @Override
-    public List<Sketches> findLimit() {
-        return sketchesRepository.findLimit();
     }
 
 

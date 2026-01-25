@@ -1,5 +1,6 @@
 package ru.tattoo.maxsim.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
 import ru.tattoo.maxsim.util.ImageUtils;
 
 import java.io.IOException;
-
+@Slf4j
 @Service
 public class SettingWebsiteServiceImpl extends AbstractCRUDService<SettingWebsite, Long> implements SettingWebsiteService {
 
@@ -19,18 +20,15 @@ public class SettingWebsiteServiceImpl extends AbstractCRUDService<SettingWebsit
     private SettingWebsiteRepository settingWebsiteRepository;
 
     @Override
+    void prepareObject(SettingWebsite entity, String s) {
+        entity.setImageName(s);
+    }
+
+    @Override
     CrudRepository<SettingWebsite, Long> getRepository() {
         return settingWebsiteRepository;
     }
 
-    public void saveImg(MultipartFile fileImport, String section, Long id) throws IOException {
-        SettingWebsite home = new SettingWebsite();
-        home.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        home.setSection(section);
-        home.setId(id);
 
-        getRepository().save(home);
 
-        ImageUtils.saveImage(fileImport, home.getImageName());
-    }
 }

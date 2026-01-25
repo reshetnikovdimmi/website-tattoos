@@ -1,7 +1,11 @@
 package ru.tattoo.maxsim.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +21,11 @@ import ru.tattoo.maxsim.service.interf.SketchesService;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Controller
+@Slf4j
 @RequestMapping(CommitsController.URL)
 public class CommitsController extends CRUDController<Commits, Long> {
 
@@ -39,7 +45,36 @@ public class CommitsController extends CRUDController<Commits, Long> {
 
     @Override
     String getEntityName() {
-        return "admin::commit";
+        // Минимальное логирование для продакшена
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            log.trace("Неаутентифицированный доступ к отзывам");
+            return "reviews::fragment-reviews";
+        }
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        boolean isAdmin = authorities.stream()
+                .anyMatch(a -> {
+                    String authority = a.getAuthority();
+                    boolean matches = authority.equals("ADMIN");
+
+                    if (matches) {
+                        log.debug("✅ Найдена административная роль: {}", authority);
+                    }
+
+                    return matches;
+                });
+
+        if (isAdmin) {
+            log.debug("Админ {} получает доступ к админ-панели отзывов",
+                    authentication.getName());
+            return "admin::commit";
+        }
+
+        log.trace("Пользователь {} получает публичный доступ к отзывам",
+                authentication.getName());
+        return "blog::fragment-commits";
     }
 
     @Override
@@ -51,26 +86,11 @@ public class CommitsController extends CRUDController<Commits, Long> {
     void updateSection(Model model) {
         model.addAttribute("commits", commitsService.findAll().stream()
                 .map(commits -> modelMapper.map(commits, CommitsDTO.class)).collect(Collectors.toList()));
-    }
 
-
-    @PostMapping("/commits-import")
-    public String upload(@ModelAttribute("commitsEntity") Commits commits, Principal principal, Model model) throws IOException, ParseException {
-        commitsService.saveCommit(commits.getComment(),principal.getName());
-        model.addAttribute("commits", commitsService.findLimit());
         model.addAttribute("sketches", sketchesService.findLimit());
         model.addAttribute("interestingWorks", blogService.findLimit());
         model.addAttribute("blog", blogService.findAll());
         model.addAttribute("commitsEntity", new Commits());
-        return "blog::fragment-commits";
     }
-    @Override
-    @GetMapping("/delete/{id}")
-    public String deleteCarouselImage(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
 
-        commitsService.deleteById(id);
-
-        updateSection(model);
-        return getEntityName();
-    }
 }
