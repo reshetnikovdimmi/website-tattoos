@@ -37,13 +37,23 @@ public class IndexController {
 
     @GetMapping("/")
     public String home(@ModelAttribute("details") EmailDetails details) {
+        log.debug("Loading home page");
         return "Index";
     }
 
     @PostMapping("/mail")
-    public String sendMail(@Valid @ModelAttribute("details") EmailDetails details, Model model, BindingResult bindingResult) {
+    public String sendMail(
+            @Valid @ModelAttribute("details") EmailDetails details,
+            Model model,
+            BindingResult bindingResult) {
+
+        log.debug("Processing email request from: {}, subject: {}",
+                details.getName(), details.getSubject());
 
         if (bindingResult.hasErrors()){
+            log.warn("Validation errors: {}", bindingResult.getAllErrors());
+            // Валидация уже выполняется в JavaScript, но это резервная проверка
+            model.addAttribute("validationErrors", bindingResult.getAllErrors());
             return "Index::map-contact-form";
         }
 
@@ -52,6 +62,8 @@ public class IndexController {
             model.addAttribute("status", isSuccess ?
                     "Сообщение отправлено" :
                     "Ошибка при отправке сообщения");
+            log.info("Email sent successfully to: {}, from: {}",
+                    details.getRecipient(), details.getName());
         } catch (Exception e){
             model.addAttribute("status", "Ошибка сервера. Попробуйте позже.");
             log.error("Error sending email: {}", e.getMessage());

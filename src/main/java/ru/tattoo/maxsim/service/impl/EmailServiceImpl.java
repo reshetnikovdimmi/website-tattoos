@@ -1,6 +1,7 @@
 package ru.tattoo.maxsim.service.impl;
 
 import jakarta.mail.MessagingException;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,41 +12,70 @@ import org.springframework.stereotype.Service;
 import ru.tattoo.maxsim.model.EmailDetails;
 import ru.tattoo.maxsim.service.interf.EmailService;
 
+@Slf4j
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EmailServiceImpl.class);
+    private final JavaMailSender javaMailSender;
+    private final String senderAddress;
+    private final String defaultRecipient;
 
-    @Autowired
-    private JavaMailSender javaMailSender;
+    public EmailServiceImpl(JavaMailSender javaMailSender,
+                            @Value("${spring.mail.username}") String senderAddress,
+                            @Value("${app.email.default-recipient:}") String defaultRecipient) {
+        this.javaMailSender = javaMailSender;
+        this.senderAddress = senderAddress;
+        // Если defaultRecipient не указан в конфиге, используем senderAddress
+        this.defaultRecipient = defaultRecipient.isEmpty() ? senderAddress : defaultRecipient;
+    }
 
-    @Value("${spring.mail.username}")
-    private String senderAddress;
-
-    @Value("${spring.mail.username}")
-    private String recipientAddress;
-
+    @Override
     public boolean sendSimpleMail(EmailDetails details) {
         try {
-            sendMail(details);
+            SimpleMailMessage mailMessage = createMailMessage(details);
+            javaMailSender.send(mailMessage);
+            log.debug("Email sent successfully: {}", mailMessage.getSubject());
             return true;
-        } catch (MessagingException e) {
-            LOG.error("Error while sending out email: {}", e.getMessage());
-            return false;
         } catch (Exception e) {
-            LOG.error("Unexpected error while sending email: {}", e.getMessage());
+            log.error("Error sending email: {}", e.getMessage(), e);
             return false;
         }
     }
 
-    private void sendMail(EmailDetails details) throws MessagingException {
+    private SimpleMailMessage createMailMessage(EmailDetails details) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        mailMessage.setFrom(senderAddress);
-        mailMessage.setTo(recipientAddress);
-        mailMessage.setText(details.getMsgBody());
-        mailMessage.setSubject(details.getSubject() + "-" + details.getName());
+        // Используем recipient из details или дефолтный
+        String recipient = (details.getRecipient() != null && !details.getRecipient().isEmpty()) ?
+                details.getRecipient() : defaultRecipient;
 
-        javaMailSender.send(mailMessage);
+        mailMessage.setFrom(senderAddress);
+        mailMessage.setTo(recipient);
+        mailMessage.setSubject(formatSubject(details));
+        mailMessage.setText(formatMessageBody(details));
+
+        return mailMessage;
+    }
+
+    private String formatSubject(EmailDetails details) {
+        // Форматируем тему: телефон + имя
+        return String.format("Контактная форма: %s - %s",
+                details.getSubject(),
+                details.getName());
+    }
+
+    private String formatMessageBody(EmailDetails details) {
+        // Форматируем тело письма для лучшей читаемости
+        return String.format(
+                "Новое сообщение с сайта:\n\n" +
+                        "Имя: %s\n" +
+                        "Контакт (телефон/email): %s\n" +
+                        "Сообщение:\n%s\n\n" +
+                        "---\n" +
+                        "Отправлено автоматически с сайта",
+                details.getName(),
+                details.getSubject(),
+                details.getMsgBody()
+        );
     }
 }
