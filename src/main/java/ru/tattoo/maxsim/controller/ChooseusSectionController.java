@@ -21,7 +21,7 @@ import java.text.ParseException;
 public class ChooseusSectionController extends CRUDController<ChooseusSection, Long> {
 
     public static final String URL = "/chooseus";
-    public static final String PAGE_FRAGMENT = "admin::chooseus";
+    public static final String PAGE_FRAGMENT = "fragment-admin::chooseus";
 
     @Autowired
     private ChooseusSectionService chooseusSectionService;

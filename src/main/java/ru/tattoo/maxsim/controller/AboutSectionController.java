@@ -19,7 +19,7 @@ import java.io.IOException;
 public class AboutSectionController extends CRUDController<AboutSection, Long> {
 
     public static final String URL = "/about";
-    public static final String PAGE_FRAGMENT = "admin::home-about";
+    public static final String PAGE_FRAGMENT = "fragment-admin::home-about";
 
     @Autowired
     private AboutSectionService aboutSectionService;

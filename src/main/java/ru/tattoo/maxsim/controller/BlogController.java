@@ -1,6 +1,7 @@
 package ru.tattoo.maxsim.controller;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.*;
 import ru.tattoo.maxsim.repository.CommitsRepository;
 import ru.tattoo.maxsim.service.interf.*;
+import ru.tattoo.maxsim.util.PageSize;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -40,7 +42,7 @@ public class BlogController extends CRUDController<Blog, Long> {
 
     @Override
     String getEntityName() {
-        return "admin::blog-pic";
+        return "fragment-admin::blog-pic";
     }
 
     @Override
@@ -50,11 +52,6 @@ public class BlogController extends CRUDController<Blog, Long> {
 
     @Override
     void updateSection(Model model) {
-        model.addAttribute("blog", blogService.findAll());
-    }
-
-    @GetMapping()
-    public String blog(Model model) {
         model.addAttribute("localDateTime", LocalDateTime.now());
         model.addAttribute("count", reviewService.getCount());
         model.addAttribute("commits", commitsService.findLimit());
@@ -62,10 +59,24 @@ public class BlogController extends CRUDController<Blog, Long> {
         model.addAttribute("interestingWorks", blogService.findLimit());
         model.addAttribute("blog", blogService.findAll());
         model.addAttribute("commitsEntity", new Commits());
+        model.addAttribute("blogEntity", new Blog());
+    }
+
+    @GetMapping()
+    public String blog(Model model) {
+        updateSection(model);
         return "blog";
     }
 
+    @GetMapping("/admin")
 
+    private String getBlogFragment(Model model, HttpServletRequest request) {
+        log.info("Получено page {}",
+                request.getRequestURL());
+        updateSection(model);
+
+        return "fragment-admin::blog";
+    }
 
     @Override
     @PostMapping("/import")
@@ -74,7 +85,7 @@ public class BlogController extends CRUDController<Blog, Long> {
 
         getService().create(object);
         updateSection(model);
-        return "admin::blog-single-text"; // Прямо указываем нужный фрагмент
+        return "fragment-admin::blog-single-text"; // Прямо указываем нужный фрагмент
     }
     
     @PostMapping("/work-import")
@@ -83,18 +94,17 @@ public class BlogController extends CRUDController<Blog, Long> {
                              Model model) throws IOException, ParseException {
         object.setDate(new Date());
         getService().saveImg(fileImport, object);
-        model.addAttribute("interestingWorks", blogService.findDescription());
+        model.addAttribute("interestingWorks", blogService.findLimit());
         model.addAttribute("blogEntity", new Blog());
-        return "admin::interesting-works";
+        return "fragment-admin::interesting-works";
     }
 
     @Override
     @GetMapping("/delete-work/{id}")
     public String deleteEntity(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
         getService().deleteById(id);
-        model.addAttribute("interestingWorks", blogService.findDescription());
+        model.addAttribute("interestingWorks", blogService.findLimit());
         model.addAttribute("blogEntity", new Blog());
-        return "admin::interesting-works";
+        return "fragment-admin::interesting-works";
     }
-
 }

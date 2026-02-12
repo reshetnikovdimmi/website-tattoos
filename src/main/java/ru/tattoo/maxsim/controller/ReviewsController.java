@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.service.interf.ImagesService;
@@ -54,6 +55,16 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
         return "reviews";
     }
 
+    @GetMapping("/admin")
+
+    private String getGalleryFragment(Model model, HttpServletRequest request) {
+        log.info("Получено page {}",
+                request.getRequestURL());
+        model.addAttribute("reviewsEntity", new ReviewsUser());
+        model.addAttribute("reviews", reviewService.findAll());
+
+        return "fragment-admin::reviews";
+    }
 
     @Override
     String getEntityName() {
@@ -81,7 +92,7 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
         if (isAdmin) {
             log.debug("Админ {} получает доступ к админ-панели отзывов",
                     authentication.getName());
-            return "admin::reviews";
+            return "fragment-admin::reviews";
         }
 
         log.trace("Пользователь {} получает публичный доступ к отзывам",

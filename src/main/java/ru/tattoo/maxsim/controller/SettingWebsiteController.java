@@ -1,22 +1,23 @@
 package ru.tattoo.maxsim.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.tattoo.maxsim.model.Blog;
-import ru.tattoo.maxsim.model.EmailDetails;
-import ru.tattoo.maxsim.model.PriceSection;
-import ru.tattoo.maxsim.model.SettingWebsite;
+import ru.tattoo.maxsim.model.*;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
 import ru.tattoo.maxsim.util.ImageUtils;
+import ru.tattoo.maxsim.util.PageSize;
 
 import java.io.IOException;
 import java.text.ParseException;
 
 @Controller
+@Slf4j
 @RequestMapping(SettingWebsiteController.URL)
 public class SettingWebsiteController extends CRUDController<SettingWebsite, Long> {
 
@@ -25,13 +26,22 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     @Autowired
     private SettingWebsiteService settingWebsiteService;
 
+    @GetMapping("/admin")
+
+    private String getGalleryFragment(Model model, HttpServletRequest request) {
+        log.info("Получено page {}",
+                request.getRequestURL());
+        model.addAttribute("setting", settingWebsiteService.findAll());
+
+        return "fragment-admin::setting";
+    }
 
     @PostMapping("/head/{section}")
     public String uploadHome(@ModelAttribute()SettingWebsite settingWebsite, @PathVariable("section") String section, Model model) {
         settingWebsite.setSection(section);
         settingWebsiteService.create(settingWebsite);
         model.addAttribute("setting", settingWebsiteService.findAll());
-        return "admin::"+section;
+        return "Извлечь метод...::"+section;
     }
     @Override
     @PostMapping("/import")
@@ -61,7 +71,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
 
     @Override
     String getEntityName() {
-        return "admin::";
+        return "fragment-admin::";
     }
 
     @Override

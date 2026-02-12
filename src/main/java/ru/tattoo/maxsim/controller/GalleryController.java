@@ -37,7 +37,7 @@ public class GalleryController extends CRUDController<Images, Long> {
 
     @Override
     String getEntityName() {
-        return "admin::img-import";
+        return "fragment-admin::img-import";
     }
 
     @Override
@@ -53,17 +53,29 @@ public class GalleryController extends CRUDController<Images, Long> {
         return "gallery";
     }
 
+    @GetMapping("/admin")
+
+    private String getGalleryFragment(Model model, HttpServletRequest request) {
+        log.info("Получено page {}",
+                request.getRequestURL());
+        model.addAttribute("gallery", prepareGalleryData(null, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+        model.addAttribute("images", new Images());
+
+        return "fragment-admin::gallery";
+    }
 
     @RequestMapping(value = "{style}/{page}/{number}", method = RequestMethod.GET)
-    private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model, HttpServletRequest request) {
-        String referer = request.getHeader("Referer");
-        boolean isAdminPage = referer != null && referer.contains("/admin/");
+    private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model, HttpServletRequest request,Principal principal) {
+
+        boolean isAdmin = principal instanceof Authentication auth
+                && auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ADMIN"));
         log.info("Получено page {} number {}",
                 page, number);
         model.addAttribute("gallery", prepareGalleryData( style, page, number));
         model.addAttribute("images", new Images());
 
-        return isAdminPage ? getEntityName() : "gallery::galleryFilter";
+        return isAdmin ? getEntityName() : "gallery::galleryFilter";
     }
 
     @RequestMapping(value = "reviews/{page}/{number}", method = RequestMethod.GET)
@@ -71,6 +83,7 @@ public class GalleryController extends CRUDController<Images, Long> {
 
         model.addAttribute("gallery", prepareGalleryData(null, page, number));
         model.addAttribute("images", new Images());
+
         return "fragments::modal-img";
     }
 

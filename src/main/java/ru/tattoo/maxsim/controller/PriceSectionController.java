@@ -21,7 +21,7 @@ import java.text.ParseException;
 public class PriceSectionController extends CRUDController<PriceSection, Long>{
 
     public static final String URL = "/price";
-    public static final String PAGE_FRAGMENT = "admin::price";
+    public static final String PAGE_FRAGMENT = "fragment-admin::price";
 
     @Autowired
     private PriceSectionService priceSectionService;

@@ -17,10 +17,7 @@
         /*------------------
             Admin tab-content
         --------------------*/
-        $('#myTab button').click(function(e) {
-            e.preventDefault();
-            (this).tab('show');
-        });
+
         $('#tabOption button').click(function(e) {
             e.preventDefault();
             $(this).tab('show');
@@ -193,6 +190,13 @@
     /*------------------
          Carousel-admin
     --------------------*/
+    function updateAdminFragment(href) {
+    console.log(href)
+        $.get(href, {}, function(data) {
+
+            $(".tab-content").html(data);
+        });
+    }
     function carouselNext() {
         $('#carouselExample').carousel('next');
     }
@@ -241,7 +245,7 @@
                 });
                 alert('Информация успешно сохранена!');
                 console.log('Информация успешно сохранена!');
-
+               
                 $(fragment).html(response); // Замена текущего содержимого новым шаблоном
                 // Меняем название кнопки на "Изменить"
                 button.textContent = 'Изменить';

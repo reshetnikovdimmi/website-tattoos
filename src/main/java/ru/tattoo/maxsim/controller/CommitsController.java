@@ -69,7 +69,7 @@ public class CommitsController extends CRUDController<Commits, Long> {
         if (isAdmin) {
             log.debug("Админ {} получает доступ к админ-панели отзывов",
                     authentication.getName());
-            return "admin::commit";
+            return "fragment-admin::commit";
         }
 
         log.trace("Пользователь {} получает публичный доступ к отзывам",

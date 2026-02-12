@@ -24,7 +24,7 @@ import java.text.ParseException;
 public class ClassesSectionController extends CRUDController<ClassesSection, Long>{
 
     public static final String URL = "/classes";
-    public static final String PAGE_FRAGMENT = "admin::classes";
+    public static final String PAGE_FRAGMENT = "fragment-admin::classes";
 
     @Autowired
     private ClassesSectionService classesSectionService;

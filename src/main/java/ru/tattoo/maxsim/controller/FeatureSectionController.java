@@ -19,7 +19,7 @@ import java.io.IOException;
 public class FeatureSectionController extends CRUDController<FeatureSection, Long>{
 
     public static final String URL = "/feature";
-    public static final String PAGE_FRAGMENT = "admin::feature-import";
+    public static final String PAGE_FRAGMENT = "fragment-admin::feature-import";
 
     @Autowired
     private FeatureSectionService featureSectionService;

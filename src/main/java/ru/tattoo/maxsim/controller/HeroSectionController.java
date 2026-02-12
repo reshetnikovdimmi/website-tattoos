@@ -19,7 +19,7 @@ import java.io.IOException;
 public class HeroSectionController extends CRUDController<HomeHeroSection, Long>{
 
     public static final String URL = "/hero";
-    public static final String PAGE_FRAGMENT = "admin::carousel-import";
+    public static final String PAGE_FRAGMENT = "fragment-admin::carousel-import";
 
     @Autowired
     private HeroSectionService heroSectionService;
@@ -37,12 +37,10 @@ public class HeroSectionController extends CRUDController<HomeHeroSection, Long>
         return heroSectionService;
     }
 
-
-
-
     @Override
     void updateSection(Model model) {
         model.addAttribute("home", homeService.findAll());
+
         model.addAttribute("hero", new HomeHeroSection());
     }
 }
