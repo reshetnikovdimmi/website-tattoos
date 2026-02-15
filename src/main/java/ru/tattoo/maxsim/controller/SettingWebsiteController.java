@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.*;
 import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.ContactInfoService;
 import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
+import ru.tattoo.maxsim.service.interf.UserService;
 import ru.tattoo.maxsim.util.ImageUtils;
 import ru.tattoo.maxsim.util.PageSize;
 
@@ -25,13 +27,17 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
 
     @Autowired
     private SettingWebsiteService settingWebsiteService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ContactInfoService contactInfoService;
 
     @GetMapping("/admin")
-
     private String getGalleryFragment(Model model, HttpServletRequest request) {
         log.info("Получено page {}",
                 request.getRequestURL());
         model.addAttribute("setting", settingWebsiteService.findAll());
+        model.addAttribute("users", userService.findAll());
 
         return "fragment-admin::setting";
     }

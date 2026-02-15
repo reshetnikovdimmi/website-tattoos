@@ -191,9 +191,9 @@
          Carousel-admin
     --------------------*/
     function updateAdminFragment(href) {
-    console.log(href)
-        $.get(href, {}, function(data) {
 
+        $.get(href, {}, function(data) {
+            console.log(data)
             $(".tab-content").html(data);
         });
     }
