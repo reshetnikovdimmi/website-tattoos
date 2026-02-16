@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Фрагменты личного кабинета</title>
+</head>
+<body>
+<!-- ================= ФРАГМЕНТ: МОИ ТАТУИРОВКИ (first-fragment) ================= -->
+<div class="tattoos-reviews" th:fragment="first-fragment">
+    <h6>Мои тату</h6>
+
+    <!-- Список татуировок пользователя -->
+    <div class="row scroll-container">
+        <div class="tattoos-user-reviews" style="width: 100%;">
+            <section class="review">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    <div class="col" th:each="current : ${UserDTO.images}"
+                         th:if="${not #lists.isEmpty(UserDTO.images)}">
+                        <div class="card-shadow-sm">
+                            <img alt="" th:src="@{'/images/'+${current.imageName}}">
+                            <!-- Кнопка удаления (если нужно) -->
+                            <button class="delete-button" th:if="${current.id}"
+                                    th:onclick="'deleteTattoo(' + ${current.id} + ')'"
+                                    style="position: relative; top: -40px; left: 90%;"></button>
+                        </div>
+                    </div>
+
+                    <!-- Пустое состояние -->
+                    <div class="col-12 text-center" th:if="${#lists.isEmpty(UserDTO.images)}">
+                        <p class="text-muted">У вас пока нет добавленных татуировок</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Форма добавления новой татуировки -->
+    <div class="row">
+        <div class="container" th:object="${userTattoo}">
+            <div class="row justify-content-center">
+                <div class="card shadow-sm p-3 mb-5 rounded">
+                    <form onsubmit="submitForm(event, '.container-lk-info')"
+                          action="/tattoos-user-import"
+                          method="POST"
+                          enctype="multipart/form-data"
+                          class="modern-form lk-form">
+
+                        <div class="form-row">
+                            <!-- Блок загрузки изображения -->
+                            <div class="form-col form-col-image">
+                                <div class="image-upload-container">
+                                    <div class="image-preview">
+                                        <img id="previewimage" src="/img/placeholder.jpg" alt="Превью">
+                                        <div class="preview-placeholder" id="preview-placeholder">
+                                            <i class="fa fa-cloud-upload"></i>
+                                            <span>Выберите фото тату</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="upload-controls">
+                                        <button type="button" class="upload-file-btn"
+                                                onclick="document.getElementById('tattoos').click()">
+                                            <i class="fa fa-folder-open"></i>
+                                            Выбрать файл
+                                        </button>
+                                        <input type="file" name="file" id="tattoos" accept="image/*"
+                                               onchange="previewImage(this, document.getElementById('previewimage'))"
+                                               required="" style="display: none;">
+                                        <span class="file-hint">JPG, PNG, GIF (макс. 10MB)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Блок описания -->
+                            <div class="form-col form-col-content">
+                                <div class="form-group">
+                                    <label for="description">
+                                        <i class="fa fa-align-left"></i>
+                                        Описание татуировки
+                                    </label>
+                                    <textarea id="description"
+                                              name="description"
+                                              class="form-control"
+                                              placeholder="Опишите вашу татуировку: идея, стиль, значение..."
+                                              rows="6"
+                                              required></textarea>
+                                    <span class="field-hint">Минимум 10 символов, максимум 500</span>
+                                </div>
+
+                                <!-- Кнопки формы -->
+                                <div class="form-actions">
+                                    <button type="reset" class="btn btn-secondary" onclick="resetPreview()">
+                                        <i class="fa fa-undo"></i>
+                                        Очистить
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa fa-save"></i>
+                                        Сохранить тату
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= ФРАГМЕНТ: РЕДАКТИРОВАНИЕ ПРОФИЛЯ (profile-editing) ================= -->
+<div class="profile-editing" th:fragment="profile-editing">
+    <h6>Редактирование профиля</h6>
+
+    <!-- Форма редактирования данных -->
+    <div class="row scroll-container" th:object="${UserDTO}">
+        <form class="profile-form"
+              action="/update/profile-editing"
+              onsubmit="submitForm(event, '.container-lk-info')"
+              method="post"
+              th:id="*{id}">
+
+            <label for="username">Имя пользователя:</label>
+            <input type="text" th:field="*{login}" id="username" name="username"
+                   placeholder="Введите ваше имя пользователя" required><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" th:field="*{email}" id="email" name="email"
+                   placeholder="Введите ваш email" required><br><br>
+
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password"
+                   placeholder="Введите новый пароль"><br><br>
+
+            <label for="confirm-password">Подтверждение пароля:</label>
+            <input type="password" id="confirm-password" name="confirm-password"
+                   placeholder="Повторите новый пароль"><br><br>
+
+            <button class="btn btn-primary" type="submit">Сохранить изменения</button>
+        </form>
+    </div>
+
+    <!-- Форма загрузки аватара -->
+    <div class="row">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="card shadow-sm p-3 mb-5 rounded">
+                    <form onsubmit="submitForm(event, '.container-lk-info')"
+                          action="/avatar-import"
+                          method="POST"
+                          enctype="multipart/form-data"
+                          class="form-admin">
+
+                        <div class="row mb-3 text-center">
+                            <!-- Блок загрузки аватара -->
+                            <div class="col-6 col-lg-4 themed-grid-col">
+                                <div class="avatar-container">
+                                    <img id="avatar"
+                                         th:src="${UserDTO.avatar} ? @{'/images/'+${UserDTO.avatar}} : '/img/avatar.jpg'"
+                                         alt="Ваш аватар">
+                                    <button type="button" onclick="document.getElementById('file-avatar').click()"
+                                            class="upload-btn btn btn-primary">
+                                        Выбрать файл
+                                    </button>
+                                    <input type="file" name="file" id="file-avatar" accept="image/*"
+                                           onchange="updateAvatar(this, document.getElementById('avatar'))">
+                                </div>
+                            </div>
+
+                            <!-- Пустой блок для сохранения структуры -->
+                            <div class="col-sm-6 col-lg-8 themed-grid-col">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="height: 158px; opacity: 0;">Текст</span>
+                                    <textarea style="opacity: 0;" class="form-control"
+                                              aria-label="С текстовым полем"></textarea>
+                                    <button type="submit" class="btn btn-primary">
+                                        Сохранить аватар
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= ФРАГМЕНТ: МОИ ОТЗЫВЫ (review-fragment) ================= -->
+<div class="review-fragment" th:fragment="review-fragment">
+    <h6>Мои отзывы</h6>
+
+    <!-- Список отзывов -->
+    <div class="row scroll-container">
+        <div class="input-user-reviews">
+            <section class="review" th:each="current : ${UserDTO.reviews}"
+                     th:if="${not #lists.isEmpty(UserDTO.reviews)}">
+                <div class="review-header">
+                    <img th:if="${current.imageName}"
+                         th:src="@{'/images/'+${current.imageName}}"
+                         alt="Фото автора отзыва"
+                         class="avatar">
+                    <img th:unless="${current.imageName}"
+                         src="/img/default-avatar.jpg"
+                         alt="Фото автора отзыва"
+                         class="avatar">
+                    <div class="author-info">
+                        <p><strong>[[${UserDTO.login}]]</strong></p>
+                        <p>[[${current.date}]]</p>
+                    </div>
+                </div>
+                <p class="review-text">[[${current.comment}]]</p>
+
+                <!-- Кнопки действий (если нужны) -->
+                <div class="text-right" th:if="${current.id}">
+                    <button class="btn btn-sm btn-outline-danger"
+                            th:onclick="'deleteReview(' + ${current.id} + ')'">
+                        Удалить
+                    </button>
+                </div>
+            </section>
+
+            <!-- Пустое состояние -->
+            <div class="text-center p-4" th:if="${#lists.isEmpty(UserDTO.reviews)}">
+                <p class="text-muted">У вас пока нет отзывов</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Форма добавления нового отзыва -->
+    <div class="row">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="card shadow-sm p-3 mb-5 rounded">
+                    <form onsubmit="submitForm(event, '.container-lk-info')"
+                          method="POST"
+                          action="/reviews-user-import">
+
+                        <div class="row mb-3 text-center">
+                            <!-- Блок загрузки изображения -->
+                            <div class="col-6 col-lg-4 themed-grid-col">
+                                <div class="avatar-container">
+                                    <img id="imageID" src="/img/avatar.jpg" alt="Выберите тату для отзыва">
+                                    <button type="button" class="upload-btn btn btn-primary" onclick="showModals()">
+                                        Выбрать файл
+                                    </button>
+                                    <input type="file" name="file" id="avatar-input" accept="image/*"
+                                           onchange="loadImage(this)">
+                                    <input type="text" id="imageName" style="display: none;" name="imageName">
+                                </div>
+                            </div>
+
+                            <!-- Блок текста отзыва -->
+                            <div class="col-sm-6 col-lg-8 themed-grid-col">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="height: 158px;">Текст</span>
+                                    <textarea class="form-control" name="Comment"
+                                              aria-label="С текстовым полем"
+                                              placeholder="Напишите ваш отзыв..."
+                                              required></textarea>
+                                    <button class="btn btn-primary" type="submit">
+                                        Сохранить отзыв
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

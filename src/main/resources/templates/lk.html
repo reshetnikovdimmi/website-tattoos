@@ -1,19 +1,18 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Тату омск">
     <meta name="keywords" content="Татуировка, татуировка омск, тату салон, сделать татуировку">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>R1-TАТТОO/lk</title>
+    <title>R1-TАТТОO | Личный кабинет</title>
     <link href="img/logo.png" rel="icon" type="image/vnd.microsoft.icon">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet">
     <!-- Css Styles -->
-
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
@@ -23,75 +22,74 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
-
-
 <body>
 <!-- Header Section Begin -->
 <div th:replace="~{fragments::header}"></div>
 <!-- Header End -->
+
+<!-- Modals (как есть) -->
 <div th:replace="~{fragments::modal}"></div>
-<!-- Модальное окно End -->
-<!-- Модальное окно -->
-<div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h7 class="modal-title">Сообщение</h7>
-                <button type="button" id="hide"
-                        class="btn-close btn-close-custom"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Модальное окно End -->
-<section class="breadcrumb-section-admin set-bg spad" th:each="current: ${setting}" th:if="${current.section=='breadcrumb'}" th:attr="data-setbg=@{'/images/'+${current.imageName}}">
+<div class="modal fade" id="myModal" ...> ... </div>
+
+<!-- Основной блок Личного кабинета -->
+<section class="breadcrumb-section-admin set-bg spad"
+         th:each="current: ${setting}"
+         th:if="${current.section=='breadcrumb'}"
+         th:attr="data-setbg=@{'/images/'+${current.imageName}}">
     <div class="container" th:object="${UserDTO}">
-        <div class="row">
-            <div class="col container-lk">
-                <h6>Добро пожаловать в личный кабинет!</h6>
-                <!-- Информация о профиле -->
-                <div class="profile-info" th:fragment="avatar" th:object="${UserDTO}">
-                        <span th:if="*{avatar}">
-                        <img id="img-avatar" th:src="@{'/images/'+*{avatar}}" alt="Profile Picture">
-                        </span>
-                    <span th:unless="*{avatar}">
-                        <img  src="img/avatar.jpg" alt="Profile Picture">
-                        </span>
-                    <div>
-                        <p><strong>Имя:</strong> [(*{login})]</p>
-                        <p><strong>Email:</strong> [(*{email})]</p>
-                        <p><strong>Дата регистрации:</strong> [(*{date})]</p>
+        <!-- Добавляем обертку lk-wrapper -->
+        <div class="lk-wrapper">
+
+            <!-- Сайдбар с информацией о пользователе -->
+            <aside class="lk-sidebar">
+                <div class="profile-card">
+                    <!-- Аватар -->
+                    <div class="profile-avatar">
+                        <img th:if="*{avatar}" th:src="@{'/images/'+*{avatar}}" alt="Profile Picture">
+                        <img th:unless="*{avatar}" src="img/avatar.jpg" alt="Default Avatar">
+                    </div>
+                    <!-- Информация -->
+                    <div class="profile-info">
+                        <h3 class="profile-name" th:text="*{login}">Имя пользователя</h3>
+                        <p class="profile-email" th:text="*{email}">email@example.com</p>
+                        <p class="profile-reg-date">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                            Зарегистрирован: <span th:text="*{date}">01.01.2023</span>
+                        </p>
+                    </div>
+                    <!-- Навигационные кнопки -->
+                    <div class="profile-actions">
+                        <button class="action-btn" id="profile-editing">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Редактировать
+                        </button>
+                        <button class="action-btn" id="user-tattoos">
+                            <i class="fa fa-picture-o" aria-hidden="true"></i> Мои тату
+                        </button>
+                        <button class="action-btn" id="info">
+                            <i class="fa fa-comment-o" aria-hidden="true"></i> Мои отзывы
+                        </button>
+                        <a href="/logout" class="action-btn logout-btn">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i> Выйти
+                        </a>
                     </div>
                 </div>
-                <!-- Ссылки на другие страницы -->
-                <div class="links ">
-                    <button class="btn btn-outline-secondary btn-block" id="profile-editing">Редактировать профиль
-                    </button>
-                    <button class="btn btn-outline-secondary btn-block" id="info">Мои отзывы</button>
-                    <button class="btn btn-outline-secondary btn-block" id="user-tattoos">Мои тату</button>
-                    <button class="btn btn-outline-secondary btn-block"><a href="/logout">Выход</a></button>
+            </aside>
+
+            <!-- Основной контент (фрагменты будут подгружаться сюда) -->
+            <main class="lk-content">
+                <div class="content-header">
+                    <h2>Мои работы и отзывы</h2>
+                    <p>Управляйте своими татуировками и отзывами</p>
                 </div>
-            </div>
-            <div class="col-sm-6 col-lg-8 themed-grid-col">
-                <div class="container-lk-info">
-                    <div th:replace="~{fragments::first-fragment}">
-                    </div>
+                <div class="content-body" id="lk-content-body">
+                    <!-- Фрагмент по умолчанию (например, "Мои тату") -->
+                    <div th:replace="~{fragment-lk::first-fragment}"></div>
                 </div>
-            </div>
+            </main>
         </div>
     </div>
 </section>
+<!-- End LK block -->
 
 <!-- Footer Section Begin -->
 <div class="footer-section">
