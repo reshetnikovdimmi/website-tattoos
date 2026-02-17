@@ -41,4 +41,35 @@ function loadImage(input, targetImage) {
         };
         reader.readAsDataURL(input.files[0]);
     }
+
 }
+function previewImage(input, previewElement) {
+        const placeholder = document.getElementById('preview-placeholder');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                previewElement.src = e.target.result;
+                previewElement.style.display = 'block';
+                if (placeholder) {
+                    placeholder.style.display = 'none';
+                }
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function resetPreview() {
+        const previewImage = document.getElementById('previewimage');
+        const placeholder = document.getElementById('preview-placeholder');
+
+        previewImage.src = '/img/placeholder.jpg';
+        if (placeholder) {
+            placeholder.style.display = 'flex';
+        }
+
+        // Очистить input file
+        document.getElementById('tattoos').value = '';
+    }

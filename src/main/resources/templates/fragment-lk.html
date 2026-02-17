@@ -38,72 +38,68 @@
     <!-- Форма добавления новой татуировки -->
     <div class="row">
         <div class="container" th:object="${userTattoo}">
-            <div class="row justify-content-center">
-                <div class="card shadow-sm p-3 mb-5 rounded">
-                    <form onsubmit="submitForm(event, '.container-lk-info')"
-                          action="/tattoos-user-import"
-                          method="POST"
-                          enctype="multipart/form-data"
-                          class="modern-form lk-form">
+            <form onsubmit="submitForm(event, '.container-lk-info')"
+                  action="/tattoos-user-import"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  class="modern-form lk-form">
 
-                        <div class="form-row">
-                            <!-- Блок загрузки изображения -->
-                            <div class="form-col form-col-image">
-                                <div class="image-upload-container">
-                                    <div class="image-preview">
-                                        <img id="previewimage" src="/img/placeholder.jpg" alt="Превью">
-                                        <div class="preview-placeholder" id="preview-placeholder">
-                                            <i class="fa fa-cloud-upload"></i>
-                                            <span>Выберите фото тату</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="upload-controls">
-                                        <button type="button" class="upload-file-btn"
-                                                onclick="document.getElementById('tattoos').click()">
-                                            <i class="fa fa-folder-open"></i>
-                                            Выбрать файл
-                                        </button>
-                                        <input type="file" name="file" id="tattoos" accept="image/*"
-                                               onchange="previewImage(this, document.getElementById('previewimage'))"
-                                               required="" style="display: none;">
-                                        <span class="file-hint">JPG, PNG, GIF (макс. 10MB)</span>
-                                    </div>
+                <div class="form-row">
+                    <!-- Блок загрузки изображения -->
+                    <div class="form-col form-col-image">
+                        <div class="image-upload-container">
+                            <div class="image-preview">
+                                <img id="previewimage" src="/img/placeholder.jpg" alt="Превью">
+                                <div class="preview-placeholder" id="preview-placeholder">
+                                    <i class="fa fa-cloud-upload"></i>
+                                    <span>Выберите фото тату</span>
                                 </div>
                             </div>
 
-                            <!-- Блок описания -->
-                            <div class="form-col form-col-content">
-                                <div class="form-group">
-                                    <label for="description">
-                                        <i class="fa fa-align-left"></i>
-                                        Описание татуировки
-                                    </label>
-                                    <textarea id="description"
-                                              name="description"
-                                              class="form-control"
-                                              placeholder="Опишите вашу татуировку: идея, стиль, значение..."
-                                              rows="6"
-                                              required></textarea>
-                                    <span class="field-hint">Минимум 10 символов, максимум 500</span>
-                                </div>
-
-                                <!-- Кнопки формы -->
-                                <div class="form-actions">
-                                    <button type="reset" class="btn btn-secondary" onclick="resetPreview()">
-                                        <i class="fa fa-undo"></i>
-                                        Очистить
-                                    </button>
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-save"></i>
-                                        Сохранить тату
-                                    </button>
-                                </div>
+                            <div class="upload-controls">
+                                <button type="button" class="upload-file-btn"
+                                        onclick="document.getElementById('tattoos').click()">
+                                    <i class="fa fa-folder-open"></i>
+                                    Выбрать файл
+                                </button>
+                                <input type="file" name="file" id="tattoos" accept="image/*"
+                                       onchange="previewImage(this, document.getElementById('previewimage'))"
+                                       required="" style="display: none;">
+                                <span class="file-hint">JPG, PNG, GIF (макс. 10MB)</span>
                             </div>
                         </div>
-                    </form>
+                    </div>
+
+                    <!-- Блок описания -->
+                    <div class="form-col form-col-content">
+                        <div class="form-group">
+                            <label for="description">
+                                <i class="fa fa-align-left"></i>
+                                Описание татуировки
+                            </label>
+                            <textarea id="description"
+                                      name="description"
+                                      class="form-control"
+                                      placeholder="Опишите вашу татуировку: идея, стиль, значение..."
+                                      rows="6"
+                                      required></textarea>
+                            <span class="field-hint">Минимум 10 символов, максимум 500</span>
+                        </div>
+
+                        <!-- Кнопки формы -->
+                        <div class="form-actions">
+                            <button type="reset" class="btn btn-secondary" onclick="resetPreview()">
+                                <i class="fa fa-undo"></i>
+                                Очистить
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-save"></i>
+                                Сохранить тату
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
