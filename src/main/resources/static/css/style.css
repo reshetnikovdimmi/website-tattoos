@@ -1953,11 +1953,61 @@ form.active textarea {
 /*---------------------------------------
   Стили для текстовых подсказок и плейсхолдеров
 ---------------------------------------*/
+/*---------------------------------------
+  Растягивание контента в формах
+---------------------------------------*/
+
+/* Основная колонка контента */
+.form-col-content {
+    flex: 1; /* Растягивается на всё доступное пространство */
+    min-width: 0; /* Предотвращает переполнение */
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* На всякий случай */
+}
+
+/* Группа формы */
+.form-col-content .form-group {
+    width: 100%; /* Растягивается на всю ширину родителя */
+    margin-bottom: 20px;
+}
+
+/* Текстовое поле */
+.form-col-content .form-control {
+    width: 100%; /* Растягивается на всю ширину */
+    box-sizing: border-box; /* Учитывает padding в ширине */
+}
+
+/* Контейнер для кнопок */
+.form-col-content .form-actions {
+    width: 100%; /* Растягивается на всю ширину */
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* Кнопки внутри form-actions */
+.form-col-content .form-actions .btn {
+    flex: 1; /* Кнопки равномерно растягиваются */
+    min-width: 120px; /* Минимальная ширина кнопок */
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+    .form-col-content .form-actions {
+        flex-direction: column; /* Кнопки друг под другом */
+        gap: 10px;
+    }
+
+    .form-col-content .form-actions .btn {
+        width: 100%; /* На всю ширину */
+    }
+}
 
 /* Текст в плейсхолдере предпросмотра */
 .image-preview {
     position: relative;
-    width: 100%;
+    width: 200px;
     aspect-ratio: 1 / 1;
     border-radius: 8px;
     overflow: hidden;
@@ -2028,7 +2078,17 @@ form.active textarea {
     display: block;
     text-align: center;
 }
+/* Левая колонка с изображением */
+.form-col-image {
+    flex: 0 0 280px;
+    min-width: 250px;
+}
 
+/* Правая колонка с описанием */
+.form-col-content {
+    flex: 1;
+    min-width: 300px;
+}
 /* Убедимся, что текст в textarea тоже светлый */
 .form-control {
     width: 100%;
