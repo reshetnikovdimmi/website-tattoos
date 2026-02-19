@@ -1723,6 +1723,188 @@ form.active textarea {
 		padding: 10px;
 	}
 }
+/*---------------------------------------
+  Стили для редактирования профиля
+---------------------------------------*/
+
+/* Сетка профиля */
+.profile-edit-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+/* Колонки */
+.profile-edit-form-col,
+.profile-avatar-col {
+    width: 100%;
+}
+
+/* Карточка профиля */
+.profile-edit-card {
+    background: rgba(30, 30, 30, 0.8);
+    backdrop-filter: blur(5px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+/* Заголовок карточки */
+.card-header {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 18px 25px;
+    border-bottom: 1px solid rgba(228, 56, 28, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.card-header i {
+    color: #e4381C;
+    font-size: 22px;
+}
+
+.card-header h4 {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    font-family: "Oswald", sans-serif;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Тело карточки */
+.card-body {
+    padding: 25px;
+}
+
+.avatar-card-body {
+    padding: 30px 25px;
+    text-align: center;
+}
+
+/* Превью аватара */
+.avatar-preview-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.avatar-preview {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid transparent;
+    background: linear-gradient(45deg, #e16521, #e4381C) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    box-shadow: 0 10px 25px rgba(228, 56, 28, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.avatar-preview:hover {
+    transform: scale(1.05);
+}
+
+.avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Форма загрузки аватара */
+.avatar-upload-form {
+    width: 100%;
+}
+
+.avatar-upload-form .upload-controls.vertical {
+    margin-bottom: 20px;
+}
+
+/* Информационный блок */
+.info-box {
+    background: rgba(228, 56, 28, 0.1);
+    border-left: 4px solid #e4381C;
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.info-box i {
+    color: #e4381C;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.info-content h5 {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+    font-family: "Oswald", sans-serif;
+}
+
+.info-content p {
+    color: #afb4bf;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Кнопка на всю ширину */
+.btn-block {
+    width: 100%;
+}
+
+/* Заголовок секции */
+.section-badge {
+    color: #afb4bf;
+    font-size: 14px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+/* Адаптивность */
+@media (max-width: 992px) {
+    .profile-edit-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .profile-avatar-col {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-header {
+        padding: 15px 20px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .avatar-preview {
+        width: 120px;
+        height: 120px;
+    }
+
+    .info-box {
+        padding: 15px;
+    }
+}
 /*-------------------------------
 Стили для LK (улучшенная версия)
 -------------------------------*/
@@ -1951,6 +2133,291 @@ form.active textarea {
   Стили для фрагментов внутри LK
 ---------------------------------------*/
 /*---------------------------------------
+  Улучшенный список татуировок с фиксированной высотой
+---------------------------------------*/
+
+/* Секция с татуировками */
+.tattoos-section {
+    width: 100%;
+    margin-bottom: 30px;
+    background: rgba(20, 20, 20, 0.4);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+/* Заголовок секции */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(228, 56, 28, 0.3);
+}
+
+.section-header h3 {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: "Oswald", sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.section-header h3 i {
+    color: #e4381C;
+    font-size: 24px;
+}
+
+.section-count {
+    color: #afb4bf;
+    font-size: 14px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+/* Контейнер сетки с фиксированной высотой */
+.tattoos-grid-container {
+    height: 400px; /* Фиксированная высота */
+    overflow-y: auto; /* Вертикальный скролл */
+    overflow-x: hidden; /* Скрываем горизонтальный скролл */
+    padding-right: 10px; /* Отступ для скролла */
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Сама сетка */
+.tattoos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 5px 0;
+}
+
+/* Карточка татуировки */
+.tattoo-card {
+    border-radius: 10px;
+    overflow: hidden;
+    background: #2d2d2d;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.tattoo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(228, 56, 28, 0.2);
+}
+
+/* Обертка изображения */
+.tattoo-image-wrapper {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+/* Изображение */
+.tattoo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.tattoo-card:hover .tattoo-image {
+    transform: scale(1.1);
+}
+
+/* Оверлей при наведении */
+.tattoo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.tattoo-card:hover .tattoo-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Описание татуировки */
+.tattoo-description {
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+    word-break: break-word;
+    max-height: 80px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px;
+    border-radius: 4px;
+    border-left: 3px solid #e4381C;
+}
+
+/* Контейнер кнопок */
+.tattoo-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* Кнопки действий */
+.tattoo-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.tattoo-btn i {
+    font-size: 16px;
+}
+
+.edit-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.edit-btn:hover {
+    background: #007bff;
+    border-color: #007bff;
+    transform: scale(1.1);
+}
+
+.delete-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.delete-btn:hover {
+    background: #e4381C;
+    border-color: #e4381C;
+    transform: scale(1.1);
+}
+
+/* Стили для скролла */
+.tattoos-grid-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.tattoos-grid-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.tattoos-grid-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #e16521, #e4381C);
+    border-radius: 10px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.tattoos-grid-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #e4381C, #e16521);
+}
+
+/* Пустое состояние */
+.empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    border: 2px dashed rgba(228, 56, 28, 0.3);
+}
+
+.empty-state i {
+    font-size: 64px;
+    color: #e4381C;
+    opacity: 0.5;
+    margin-bottom: 15px;
+}
+
+.empty-state h4 {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    font-family: "Oswald", sans-serif;
+}
+
+.empty-state p {
+    color: #afb4bf;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .tattoos-grid-container {
+        height: 350px; /* Чуть меньше на планшетах */
+    }
+
+    .tattoos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .section-header h3 {
+        font-size: 18px;
+    }
+
+    .tattoo-description {
+        font-size: 12px;
+    }
+
+    .tattoo-btn {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tattoos-grid-container {
+        height: 300px; /* Еще меньше на телефонах */
+    }
+
+    .tattoos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 10px;
+    }
+
+    .empty-state i {
+        font-size: 48px;
+    }
+
+    .empty-state h4 {
+        font-size: 18px;
+    }
+}
+
+/* Опционально: если хочешь показывать градиент в конце списка */
+.tattoos-grid-container {
+    mask-image: linear-gradient(to bottom, black 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 95%, transparent 100%);
+}
+/*---------------------------------------
   Стили для текстовых подсказок и плейсхолдеров
 ---------------------------------------*/
 /*---------------------------------------
@@ -2168,7 +2635,7 @@ h6 {
     justify-content: center;
     gap: 10px;
     transition: all 0.3s ease;
-    width: 100%;
+    width: 200px;
     margin-bottom: 8px;
 }
 
@@ -2193,6 +2660,7 @@ h6 {
     font-size: 12px;
     display: block;
     text-align: center;
+    width: 200px;
 }
 
 /* Общие карточки для элементов внутри фрагментов */

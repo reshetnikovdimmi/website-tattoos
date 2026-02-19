@@ -52,7 +52,7 @@ public class LkController {
     @GetMapping("/sketchesrs/{page}/{number}")
     public String showSketchesFragment(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model, Principal principal) {
         loadUserGallery(model, principal, number, page); // Загружаем галерею пользователя
-        return "fragments::modal-img";
+        return "fragment-lk::modal-img";
     }
 
     /**
@@ -61,7 +61,7 @@ public class LkController {
     @GetMapping("/user-info")
     public String loadUserInfoFragment(Model model, Principal principal) {
         loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
-        return "fragments::review-fragment";
+        return "fragment-lk::review-fragment";
     }
 
     /**
@@ -73,7 +73,7 @@ public class LkController {
         object.setDate(new Date());
         reviewService.create(object); // Сохраняем отзыв
         loadUserDataIntoModel(model, principal);                         // Обновляем данные пользователя
-        return "fragments::review-fragment";
+        return "fragment-lk::review-fragment";
     }
 
     /**
@@ -81,13 +81,11 @@ public class LkController {
      */
     @PostMapping("/tattoos-user-import")
     public String uploadUserTattoo(@RequestParam("file") MultipartFile fileImport,@ModelAttribute("userTattoo") Images object, Model model, Principal principal) throws IOException, ParseException {
-        model.addAttribute("userTattoo", new Images());
         object.setUserName(principal.getName());
-        object.setImageName(ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename()));
-        ImageUtils.saveImage(fileImport, object.getImageName());
-        imagesService.create(object); // Сохраняем изображение
+        imagesService.saveImg(fileImport, object); // Сохраняем изображение
         loadUserDataIntoModel(model, principal);                     // Обновляем данные пользователя
-        return "fragments::first-fragment";
+        model.addAttribute("userTattoo", new Images());
+        return "fragment-lk::first-fragment";
     }
 
     /**
@@ -96,12 +94,12 @@ public class LkController {
     @GetMapping("/profile-editing")
     public String loadProfileEditForm(Model model, Principal principal) {
         loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
-        return "fragments::profile-editing";
+        return "fragment-lk::profile-editing";
     }
     @PostMapping("/update/profile-editing")
     public String loadProfileEditForm(@ModelAttribute("UserDTO") User object, Model model, Principal principal) {
         loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
-        return "fragments::profile-editing";
+        return "fragment-lk::profile-editing";
     }
     /**
      * Загружает галерею татуировок пользователя.
@@ -110,7 +108,7 @@ public class LkController {
     public String loadUserTattoos(Model model, Principal principal) {
         model.addAttribute("userTattoo", new Images());
         loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
-        return "fragments::first-fragment";
+        return "fragment-lk::first-fragment";
     }
 
     /**
@@ -121,7 +119,7 @@ public class LkController {
 
         userService.updateUserAvatar(fileImport, principal); // Сохраняем новый аватар
         loadUserDataIntoModel(model, principal);       // Обновляем данные пользователя
-        return "fragments::profile-editing";
+        return "fragment-lk::profile-editing";
     }
 
     /**

@@ -8,37 +8,58 @@
 <body>
 <!-- ================= ФРАГМЕНТ: МОИ ТАТУИРОВКИ (first-fragment) ================= -->
 <div class="tattoos-reviews" th:fragment="first-fragment">
-    <h6>Мои тату</h6>
-
     <!-- Список татуировок пользователя -->
-    <div class="row scroll-container">
-        <div class="tattoos-user-reviews" style="width: 100%;">
-            <section class="review">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    <div class="col" th:each="current : ${UserDTO.images}"
-                         th:if="${not #lists.isEmpty(UserDTO.images)}">
-                        <div class="card-shadow-sm">
-                            <img alt="" th:src="@{'/images/'+${current.imageName}}">
-                            <!-- Кнопка удаления (если нужно) -->
-                            <button class="delete-button" th:if="${current.id}"
-                                    th:onclick="'deleteTattoo(' + ${current.id} + ')'"
-                                    style="position: relative; top: -40px; left: 90%;"></button>
+    <div class="tattoos-section">
+        <div class="section-header">
+            <h3>
+                <i class="fa fa-picture-o"></i>
+                Мои татуировки
+            </h3>
+            <span class="section-count" th:if="${not #lists.isEmpty(UserDTO.images)}"
+                  th:text="'Всего: ' + ${#lists.size(UserDTO.images)}">Всего: 0</span>
+        </div>
+
+        <!-- Контейнер с фиксированной высотой и скроллом -->
+        <div class="tattoos-grid-container scrollable"
+             th:if="${not #lists.isEmpty(UserDTO.images)}">
+            <div class="tattoos-grid">
+                <div class="tattoo-card" th:each="current : ${UserDTO.images}">
+                    <div class="tattoo-image-wrapper">
+                        <img th:src="@{'/images/'+${current.imageName}}"
+                             th:alt="${current.description} ?: 'Татуировка'"
+                             class="tattoo-image">
+
+                        <!-- Оверлей с информацией при наведении -->
+                        <div class="tattoo-overlay">
+                            <p class="tattoo-description" th:text="${current.description} ?: 'Без описания'">
+                                Описание татуировки
+                            </p>
+                            <div class="tattoo-actions">
+                                <button class="tattoo-btn delete-btn"
+                                        th:if="${current.id}"
+                                        th:onclick="'deleteTattoo(' + ${current.id} + ')'"
+                                        title="Удалить">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Пустое состояние -->
-                    <div class="col-12 text-center" th:if="${#lists.isEmpty(UserDTO.images)}">
-                        <p class="text-muted">У вас пока нет добавленных татуировок</p>
-                    </div>
                 </div>
-            </section>
+            </div>
+        </div>
+
+        <!-- Пустое состояние с иконкой -->
+        <div class="empty-state" th:if="${#lists.isEmpty(UserDTO.images)}">
+            <i class="fa fa-picture-o"></i>
+            <h4>У вас пока нет татуировок</h4>
+            <p>Добавьте свою первую татуировку, используя форму ниже</p>
         </div>
     </div>
 
     <!-- Форма добавления новой татуировки -->
     <div class="row">
         <div class="container" th:object="${userTattoo}">
-            <form onsubmit="submitForm(event, '.container-lk-info')"
+            <form onsubmit="submitForm(event, '.content-body')"
                   action="/tattoos-user-import"
                   method="POST"
                   enctype="multipart/form-data"
@@ -106,76 +127,163 @@
 
 <!-- ================= ФРАГМЕНТ: РЕДАКТИРОВАНИЕ ПРОФИЛЯ (profile-editing) ================= -->
 <div class="profile-editing" th:fragment="profile-editing">
-    <h6>Редактирование профиля</h6>
-
-    <!-- Форма редактирования данных -->
-    <div class="row scroll-container" th:object="${UserDTO}">
-        <form class="profile-form"
-              action="/update/profile-editing"
-              onsubmit="submitForm(event, '.container-lk-info')"
-              method="post"
-              th:id="*{id}">
-
-            <label for="username">Имя пользователя:</label>
-            <input type="text" th:field="*{login}" id="username" name="username"
-                   placeholder="Введите ваше имя пользователя" required><br><br>
-
-            <label for="email">Email:</label>
-            <input type="email" th:field="*{email}" id="email" name="email"
-                   placeholder="Введите ваш email" required><br><br>
-
-            <label for="password">Пароль:</label>
-            <input type="password" id="password" name="password"
-                   placeholder="Введите новый пароль"><br><br>
-
-            <label for="confirm-password">Подтверждение пароля:</label>
-            <input type="password" id="confirm-password" name="confirm-password"
-                   placeholder="Повторите новый пароль"><br><br>
-
-            <button class="btn btn-primary" type="submit">Сохранить изменения</button>
-        </form>
+    <!-- Заголовок секции -->
+    <div class="section-header">
+        <h3>
+            <i class="fa fa-user-circle"></i>
+            Редактирование профиля
+        </h3>
+        <span class="section-badge">Настройки аккаунта</span>
     </div>
 
-    <!-- Форма загрузки аватара -->
-    <div class="row">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="card shadow-sm p-3 mb-5 rounded">
-                    <form onsubmit="submitForm(event, '.container-lk-info')"
-                          action="/avatar-import"
-                          method="POST"
-                          enctype="multipart/form-data"
-                          class="form-admin">
+    <!-- Две колонки: основная информация и аватар -->
+    <div class="profile-edit-grid">
 
-                        <div class="row mb-3 text-center">
-                            <!-- Блок загрузки аватара -->
-                            <div class="col-6 col-lg-4 themed-grid-col">
-                                <div class="avatar-container">
-                                    <img id="avatar"
-                                         th:src="${UserDTO.avatar} ? @{'/images/'+${UserDTO.avatar}} : '/img/avatar.jpg'"
-                                         alt="Ваш аватар">
-                                    <button type="button" onclick="document.getElementById('file-avatar').click()"
-                                            class="upload-btn btn btn-primary">
-                                        Выбрать файл
-                                    </button>
-                                    <input type="file" name="file" id="file-avatar" accept="image/*"
-                                           onchange="updateAvatar(this, document.getElementById('avatar'))">
-                                </div>
-                            </div>
+        <!-- Левая колонка: форма редактирования данных -->
+        <div class="profile-edit-form-col">
+            <div class="profile-edit-card">
+                <div class="card-header">
+                    <i class="fa fa-cog"></i>
+                    <h4>Основная информация</h4>
+                </div>
 
-                            <!-- Пустой блок для сохранения структуры -->
-                            <div class="col-sm-6 col-lg-8 themed-grid-col">
-                                <div class="input-group">
-                                    <span class="input-group-text" style="height: 158px; opacity: 0;">Текст</span>
-                                    <textarea style="opacity: 0;" class="form-control"
-                                              aria-label="С текстовым полем"></textarea>
-                                    <button type="submit" class="btn btn-primary">
-                                        Сохранить аватар
-                                    </button>
-                                </div>
-                            </div>
+                <div class="card-body">
+                    <form class="modern-form profile-form"
+                          action="/update/profile-editing"
+                          onsubmit="submitForm(event, '.container-lk-info')"
+                          method="post"
+                          th:id="*{id}"
+                          th:object="${UserDTO}">
+
+                        <!-- Имя пользователя -->
+                        <div class="form-group">
+                            <label for="username">
+                                <i class="fa fa-user"></i>
+                                Имя пользователя
+                            </label>
+                            <input type="text"
+                                   th:field="*{login}"
+                                   id="username"
+                                   name="username"
+                                   class="form-control"
+                                   placeholder="Введите ваше имя пользователя"
+                                   required>
+                            <span class="field-hint">Будет отображаться в профиле и отзывах</span>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email">
+                                <i class="fa fa-envelope"></i>
+                                Email
+                            </label>
+                            <input type="email"
+                                   th:field="*{email}"
+                                   id="email"
+                                   name="email"
+                                   class="form-control"
+                                   placeholder="Введите ваш email"
+                                   required>
+                            <span class="field-hint">Используется для входа и уведомлений</span>
+                        </div>
+
+                        <!-- Пароль (необязательно) -->
+                        <div class="form-group">
+                            <label for="password">
+                                <i class="fa fa-lock"></i>
+                                Новый пароль
+                            </label>
+                            <input type="password"
+                                   id="password"
+                                   name="password"
+                                   class="form-control"
+                                   placeholder="Оставьте пустым, если не хотите менять">
+                            <span class="field-hint">Минимум 6 символов</span>
+                        </div>
+
+                        <!-- Подтверждение пароля -->
+                        <div class="form-group">
+                            <label for="confirm-password">
+                                <i class="fa fa-lock"></i>
+                                Подтверждение пароля
+                            </label>
+                            <input type="password"
+                                   id="confirm-password"
+                                   name="confirm-password"
+                                   class="form-control"
+                                   placeholder="Повторите новый пароль">
+                        </div>
+
+                        <!-- Кнопка сохранения -->
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fa fa-save"></i>
+                                Сохранить изменения
+                            </button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Правая колонка: аватар -->
+        <div class="profile-avatar-col">
+            <div class="profile-edit-card">
+                <div class="card-header">
+                    <i class="fa fa-camera"></i>
+                    <h4>Фото профиля</h4>
+                </div>
+
+                <div class="card-body avatar-card-body">
+                    <!-- Текущий аватар -->
+                    <div class="avatar-preview-container">
+                        <div class="avatar-preview">
+                            <img id="avatar"
+                                 th:src="${UserDTO.avatar} ? @{'/images/'+${UserDTO.avatar}} : '/img/default-avatar.jpg'"
+                                 alt="Ваш аватар"
+                                 class="avatar-image">
+                        </div>
+                    </div>
+
+                    <!-- Форма загрузки аватара -->
+                    <form class="avatar-upload-form"
+                          onsubmit="submitForm(event, '.container-lk-info')"
+                          action="/avatar-import"
+                          method="POST"
+                          enctype="multipart/form-data">
+
+                        <div class="upload-controls vertical">
+                            <button type="button" class="upload-file-btn"
+                                    onclick="document.getElementById('file-avatar').click()">
+                                <i class="fa fa-folder-open"></i>
+                                Выбрать новое фото
+                            </button>
+                            <input type="file" name="file" id="file-avatar"
+                                   accept="image/*"
+                                   onchange="updateAvatar(this, document.getElementById('avatar'))"
+                                   style="display: none;">
+                            <span class="file-hint">
+                                <i class="fa fa-info-circle"></i>
+                                Рекомендуемый размер: 500x500px. Форматы: JPG, PNG, GIF
+                            </span>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fa fa-upload"></i>
+                                Загрузить аватар
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Дополнительная информация -->
+            <div class="info-box">
+                <i class="fa fa-shield"></i>
+                <div class="info-content">
+                    <h5>Безопасность</h5>
+                    <p>Рекомендуем использовать надежный пароль и регулярно его обновлять. Никогда не передавайте свои данные третьим лицам.</p>
                 </div>
             </div>
         </div>

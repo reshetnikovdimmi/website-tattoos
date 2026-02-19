@@ -4,19 +4,19 @@
 --------------------*/
 $('#info').click(function(e) {
     $.get('/user-info', {}, function(data) {
-        $(".container-lk-info").html(data);
+        $(".content-body").html(data);
 
     });
 });
 $('#profile-editing').click(function(e) {
     $.get('/profile-editing', {}, function(data) {
-        $(".container-lk-info").html(data);
+        $(".content-body").html(data);
 
     });
 });
 $('#user-tattoos').click(function(e) {
     $.get('/user-tattoos', {}, function(data) {
-        $(".container-lk-info").html(data);
+        $(".content-body").html(data);
 
     });
 });
