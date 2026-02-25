@@ -1633,25 +1633,8 @@
             <div class="col-lg-12">
                 <div class="gallery-controls" th:each="current: ${gallery}">
                     <ul>
-                        <li class="active"
-                            th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
-                            Вся галерея
-                        </li>
-                        <li th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
-                            Классический
-                        </li>
-                        <li th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
-                            Винтажный
-                        </li>
-                        <li th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
-                            Граффити
-                        </li>
-                        <li th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
-                            Готический
-                        </li>
-                        <li th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
-                            Кельтский
-                        </li>
+                        <li class="active" th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Вся галерея</li>
+                        <li th:each="currents: ${styleList}" th:unless="${currents.title}" th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">[[${currents.textH1}]]</li>
                     </ul>
                 </div>
             </div>
@@ -1750,7 +1733,8 @@
                         <select class="show-result-select"
                                 th:onchange="goToPageGalleryAdmin(document.querySelector('.gallery-controls ul li.active').textContent, [[${gallery.currentPage}]], this.value)"
                                 id="number">
-                            <option th:each="option : ${gallery.select}" th:value="${option}"
+                            <option th:each="option : ${gallery.select}"
+                                    th:value="${option}"
                                     th:text="${option}"
                                     th:selected="${option == gallery.number}"></option>
                         </select>

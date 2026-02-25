@@ -304,20 +304,190 @@
         });
         $('.btn-primary').attr('disabled', true);
     }
-    function showModals() {
-        $('#infoModal').modal("show");
+   /*------------------
+        Функции для работы с модальным окном и отзывами
+   --------------------*/
+
+   // Показать модальное окно с галереей
+   function showModals() {
+       console.log('showModals вызвана');
+       $('#infoModal').modal('show');
+   }
+
+   // Закрыть модальное окно
+   function closeModal() {
+       console.log('closeModal вызвана');
+       $('#infoModal').modal('hide');
+   }
+
+   // Выбрать изображение из галереи и вставить в отзыв
+function hideModal(imageName) {
+    console.log('hideModal вызвана с imageName:', imageName);
+
+    const reviewImage = document.getElementById('reviewImage');
+    const container = reviewImage.closest('.review-image-preview');
+    const placeholder = document.getElementById('review-placeholder');
+
+    if (reviewImage) {
+        reviewImage.src = '/images/' + imageName;
+        reviewImage.classList.add('image-loaded');
+
+        // Скрываем плейсхолдер
+        if (container) {
+            container.classList.add('has-image');
+        }
+        if (placeholder) {
+            placeholder.classList.add('hidden');
+        }
     }
 
-    function hideModal(modalId) {
-        $('#imageID').attr('src', '/images/' + modalId);
-        $('#imageName').val(modalId);
-        // document.getElementById('imageID').src = modalId;
-        $('#infoModal').modal("hide");
+    // Сохраняем имя изображения в скрытом поле
+    const imageNameInput = document.getElementById('reviewImageName');
+    if (imageNameInput) {
+        imageNameInput.value = imageName;
     }
 
-    function closeModal() {
-        $('#infoModal').modal("hide");
+    $('#infoModal').modal('hide');
+}
+// Предпросмотр загруженного изображения
+function previewReviewImage(input) {
+    console.log('previewReviewImage вызвана');
+
+    const preview = document.getElementById('reviewImage');
+    const container = preview.closest('.review-image-preview');
+    const placeholder = document.getElementById('review-placeholder');
+    const imageNameInput = document.getElementById('reviewImageName');
+
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+
+        // Проверка типа файла
+        if (!file.type.match('image.*')) {
+            alert('Пожалуйста, выберите файл изображения (JPEG, PNG, GIF)');
+            input.value = '';
+            return;
+        }
+
+        // Проверка размера файла (5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('Файл слишком большой. Максимальный размер: 5MB');
+            input.value = '';
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.add('image-loaded');
+
+            // Скрываем плейсхолдер через добавление класса к контейнеру
+            if (container) {
+                container.classList.add('has-image');
+            }
+
+            // ИЛИ скрываем плейсхолдер напрямую
+            if (placeholder) {
+                placeholder.classList.add('hidden');
+            }
+
+            // Очищаем скрытое поле, так как мы загружаем новый файл
+            if (imageNameInput) {
+                imageNameInput.value = '';
+            }
+
+            console.log('Изображение загружено');
+        };
+
+        reader.readAsDataURL(file);
     }
+}
+// Сброс формы отзыва
+function resetReviewForm() {
+    const preview = document.getElementById('reviewImage');
+    const container = preview.closest('.review-image-preview');
+    const placeholder = document.getElementById('review-placeholder');
+    const fileInput = document.getElementById('review-image-file');
+    const imageNameInput = document.getElementById('reviewImageName');
+    const textarea = document.getElementById('review-comment');
+
+    if (preview) {
+        preview.src = '/img/placeholder-image.jpg';
+        preview.classList.remove('image-loaded');
+    }
+
+    // Показываем плейсхолдер обратно
+    if (container) {
+        container.classList.remove('has-image');
+    }
+    if (placeholder) {
+        placeholder.classList.remove('hidden');
+    }
+
+    if (fileInput) {
+        fileInput.value = '';
+    }
+
+    if (imageNameInput) {
+        imageNameInput.value = '';
+    }
+
+    if (textarea) {
+        textarea.value = '';
+    }
+
+    // Сбрасываем рейтинг на 5 звезд
+    const ratingInputs = document.querySelectorAll('input[name="rating"]');
+    if (ratingInputs.length > 0) {
+        document.getElementById('star5').checked = true;
+    }
+}
+   // Предпросмотр загруженного изображения
+   function previewReviewImage(input) {
+       console.log('previewReviewImage вызвана');
+
+       const preview = document.getElementById('reviewImage');
+       const placeholder = document.getElementById('review-placeholder');
+       const imageNameInput = document.getElementById('reviewImageName');
+
+       if (input.files && input.files[0]) {
+           const file = input.files[0];
+
+           // Проверка типа файла
+           if (!file.type.match('image.*')) {
+               alert('Пожалуйста, выберите файл изображения (JPEG, PNG, GIF)');
+               input.value = '';
+               return;
+           }
+
+           // Проверка размера файла (5MB)
+           if (file.size > 5 * 1024 * 1024) {
+               alert('Файл слишком большой. Максимальный размер: 5MB');
+               input.value = '';
+               return;
+           }
+
+           const reader = new FileReader();
+
+           reader.onload = function(e) {
+               preview.src = e.target.result;
+               preview.classList.add('image-loaded');
+
+               if (placeholder) {
+                   placeholder.style.display = 'none';
+               }
+
+               // Очищаем скрытое поле, так как мы загружаем новый файл
+               if (imageNameInput) {
+                   imageNameInput.value = '';
+               }
+
+               console.log('Изображение загружено');
+           };
+
+           reader.readAsDataURL(file);
+       }
+   }
     /*---------------
         CheckboxChange
     --------------*/

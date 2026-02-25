@@ -119,7 +119,8 @@ public class LkController {
 
         userService.updateUserAvatar(fileImport, principal); // Сохраняем новый аватар
         loadUserDataIntoModel(model, principal);       // Обновляем данные пользователя
-        return "fragment-lk::profile-editing";
+        model.addAttribute("userTattoo", new Images());
+        return "lk::profile-avatar";
     }
 
     /**

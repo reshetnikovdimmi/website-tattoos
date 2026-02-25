@@ -55,76 +55,117 @@
 </section>
 <!-- Breadcrumb End -->
 
-<!-- Review Section -->
+<!-- Review Section Begin -->
 <section class="blog-single-section spad">
-    <div class="container ">
+    <div class="container">
         <div class="fragment-reviews">
             <div th:fragment="fragment-reviews">
-                <div class="row">
-                    <h3 style="color: #FFFFFF;">Все отзывы</h3>
-                    <div class="classtime-table scroll" style="margin: 20px;">
-                        <table>
-                            <tbody>
-                            <tr th:each="current, item : ${reviews}">
-                                <td class="reviews">
-                                    <div class="col-lg-2">
-                                        <img th:src="@{'/images/'+${current.imageName}}" alt="">
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <h5 th:text="${current.comment}"></h5>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <span th:text="${#dates.format(current.date, 'dd MMMM yy')}"></span>
-                                        <h4 th:text="${current.userName}"></h4>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <!-- Заголовок секции -->
+                <div class="section-title text-center mb-5">
+                    <h2>Все отзывы</h2>
+                    <p>Что говорят наши клиенты</p>
                 </div>
-                <div class="row">
+
+                <!-- Таблица с отзывами -->
+                <div class="classtime-table scroll">
+                    <table>
+                        <tbody>
+                        <tr th:each="current, item : ${reviews}">
+                            <td class="reviews">
+                                <div class="row align-items-center g-0">
+                                    <div class="col-lg-2 text-center">
+                                        <div class="review-avatar">
+                                            <img th:src="@{'/images/'+${current.imageName != null ? current.imageName : 'avatar.jpg'}}"
+                                                 alt=""
+                                                 th:unless="${current.imageName == null}">
+                                            <img src="/img/avatar.jpg"
+                                                 alt=""
+                                                 th:if="${current.imageName == null}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <div class="review-content">
+                                            <h5 th:text="${current.comment}"></h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="review-meta">
+                                            <span class="review-date" th:text="${#dates.format(current.date, 'dd MMMM yyyy')}"></span>
+                                            <h4 class="review-author" th:text="${current.userName}"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Форма добавления отзыва -->
+                <div class="row mt-5">
                     <div class="col-lg-12">
                         <div class="leave-comment-form">
-                            <h4>Оставте свой отзыв</h4>
-                            <form onsubmit="submitForm(event, '.fragment-reviews')" method="POST"
-                                  enctype="multipart/form-data" th:object="${reviewsEntity}"
-                                  action="/reviews/import"
-                                  class="form-admin">
-                                <div class="row">
-                                    <div class="col-lg-4" style="margin-bottom: 20px;">
-                                        <button onclick="showModals()" type="button" class="leave-btn">Выбрать
-                                            изображение для отзыва
-                                        </button>
-                                    </div>
+                            <h4>Оставьте свой отзыв</h4>
 
-                                    <input type="hidden" id="imageName" name="imageName">
+                            <form onsubmit="submitForm(event, '.fragment-reviews')"
+                                  method="POST"
+                                  enctype="multipart/form-data"
+                                  th:object="${reviewsEntity}"
+                                  action="/reviews/import"
+                                  class="review-form">
+
+                                <!-- Кнопка выбора изображения -->
+                                <div class="row mb-4">
+                                    <div class="col-lg-4">
+                                        <button type="button"
+                                                onclick="showModals()"
+                                                class="leave-btn upload-btn">
+                                            <i class="fa fa-image"></i>
+                                            Выбрать изображение
+                                        </button>
+                                        <input type="hidden" id="imageName" name="imageName">
+                                    </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-2" style="margin-bottom: 20px;">
-                                        <div class="review-container">
-                                            <img id="imageID" src="img/avatar.jpg" alt="">
+
+                                <!-- Превью изображения и текст отзыва -->
+                                <div class="row mb-4">
+                                    <div class="col-lg-2">
+                                        <div class="review-preview">
+                                            <img id="imageID" src="/img/avatar.jpg" alt="">
                                         </div>
                                     </div>
                                     <div class="col-lg-10">
-                                        <textarea th:field="*{comment}" placeholder="Текст" id="Comment" name="Comment" required></textarea>
+                                        <textarea th:field="*{comment}"
+                                                  placeholder="Ваш отзыв..."
+                                                  id="Comment"
+                                                  name="Comment"
+                                                  required></textarea>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-4" style="margin-bottom: 20px;">
-                                        <a sec:authorize="isAuthenticated()">
-                                            <button type="submit" class="leave-btn">
-                                                Сохранить комментарий
-                                            </button>
-                                        </a>
+
+                                <!-- Кнопка отправки для авторизованных -->
+                                <div class="row" sec:authorize="isAuthenticated()">
+                                    <div class="col-lg-4">
+                                        <button type="submit" class="leave-btn submit-review">
+                                            <i class="fa fa-paper-plane"></i>
+                                            Отправить отзыв
+                                        </button>
                                     </div>
                                 </div>
                             </form>
-                            <div class="row">
+
+                            <!-- Блок для неавторизованных -->
+                            <div class="row" sec:authorize="!isAuthenticated()">
                                 <div class="col-lg-12">
-                                    <a sec:authorize="!isAuthenticated()" href="/login">
-                                        <button class="leave-btn">Войти</button>
-                                        <p>Комментарии могут оставлять только зарегистрированные пользователи.</p>
+                                    <a href="/login" class="login-link">
+                                        <button class="leave-btn login-btn">
+                                            <i class="fa fa-sign-in"></i>
+                                            Войти
+                                        </button>
+                                        <p class="login-note">
+                                            <i class="fa fa-info-circle"></i>
+                                            Комментарии могут оставлять только зарегистрированные пользователи.
+                                        </p>
                                     </a>
                                 </div>
                             </div>

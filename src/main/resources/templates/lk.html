@@ -13,14 +13,14 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet">
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/elegant-icons.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/nice-select.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/owl.carousel.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/magnific-popup.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/slicknav.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/style.css}" type="text/css">
 </head>
 <body>
 <!-- Header Section Begin -->
@@ -44,12 +44,12 @@
             <aside class="lk-sidebar">
                 <div class="profile-card">
                     <!-- Аватар -->
-                    <div class="profile-avatar">
-                        <img th:if="*{avatar}" th:src="@{'/images/'+*{avatar}}" alt="Profile Picture">
-                        <img th:unless="*{avatar}" src="img/avatar.jpg" alt="Default Avatar">
+                    <div class="profile-avatar" th:fragment="profile-avatar">
+                        <img th:src="${UserDTO.avatar} ? @{'/images/'+${UserDTO.avatar}} : '/img/avatar.jpg'"
+                             alt="Ваш аватар">
                     </div>
                     <!-- Информация -->
-                    <div class="profile-info">
+                    <div class="profile-info" th:fragment="profile-info">
                         <h3 class="profile-name" th:text="*{login}">Имя пользователя</h3>
                         <p class="profile-email" th:text="*{email}">email@example.com</p>
                         <p class="profile-reg-date">
@@ -97,15 +97,16 @@
 </div>
 <!-- Footer Section End -->
 
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/masonry.pkgd.min.js"></script>
-<script type="text/javascript" th:src="@{/js/main.js}"></script>
-<script type="text/javascript" th:src="@{/js/lk.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.magnific-popup.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/mixitup.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.nice-select.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/owl.carousel.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/masonry.pkgd.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/gallery.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/lk.js}"></script>
 </body>
 </html>

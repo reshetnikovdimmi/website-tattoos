@@ -92,6 +92,7 @@ public class AdminController {
         model.addAttribute("chooseus", new ChooseusSection());
         model.addAttribute("images", new Images());
         model.addAttribute("blogEntity", new Blog());
+
        /* String normalizedStyle =  null;
         model.addAttribute("gallery", imagesService.getGalleryDto(normalizedStyle, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
         model.addAttribute("reviews", reviewService.findAll());

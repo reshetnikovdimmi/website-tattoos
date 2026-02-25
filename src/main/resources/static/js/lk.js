@@ -22,11 +22,12 @@ $('#user-tattoos').click(function(e) {
 });
 
 function updateAvatar(input, targetImage) {
+console.log("load image");
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function(e) {
             targetImage.src = e.target.result;
-            const avatar = document.getElementById('img-avatar');
+            const avatar = document.getElementById('avatar');
             avatar.src = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -34,6 +35,7 @@ function updateAvatar(input, targetImage) {
 }
 
 function loadImage(input, targetImage) {
+
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function(e) {
@@ -41,7 +43,6 @@ function loadImage(input, targetImage) {
         };
         reader.readAsDataURL(input.files[0]);
     }
-
 }
 function previewImage(input, previewElement) {
         const placeholder = document.getElementById('preview-placeholder');

@@ -89,14 +89,21 @@
                             class="fa fa-long-arrow-right"></i></a>
                 </div>
                 <div class="blog-option-right">
-                    <div class="blog-result">Showing [[${sketches.currentPage+1}]]–[[${sketches.pageSize}]] of [[${sketches.imagesTotal}]]
-                        results
+                    <div class="blog-result">
+                        Показано [[${sketches.currentPage+1}]]–[[${sketches.pageSize}]]
+                        из [[${sketches.imagesTotal}]] работ
                     </div>
                     <div class="show-result">
                         <p>Show:</p>
-                        <select class="show-result-select" th:onchange="goToPageSketches([[${sketches.currentPage}]], this.value)" id="number">
-                            <option th:each="option : ${sketches.select}" th:value="${option}" th:text="${option}"
-                                    th:selected="${option == sketches.number}"></option>
+                        <select class="show-result-select"
+                                th:onchange="goToPageSketches([[${sketches.currentPage}]], this.value)"
+                                id="number">
+                            <option
+                                    th:each="option : ${sketches.select}"
+                                    th:value="${option}"
+                                    th:text="${option}"
+                                    th:selected="${option == sketches.number}">
+                            </option>
                         </select>
                     </div>
                 </div>

@@ -8,8 +8,9 @@
 <body>
 <!-- ================= ФРАГМЕНТ: МОИ ТАТУИРОВКИ (first-fragment) ================= -->
 <div class="tattoos-reviews" th:fragment="first-fragment">
-    <!-- Список татуировок пользователя -->
+    <!-- Секция с татуировками -->
     <div class="tattoos-section">
+        <!-- Заголовок секции -->
         <div class="section-header">
             <h3>
                 <i class="fa fa-picture-o"></i>
@@ -19,9 +20,8 @@
                   th:text="'Всего: ' + ${#lists.size(UserDTO.images)}">Всего: 0</span>
         </div>
 
-        <!-- Контейнер с фиксированной высотой и скроллом -->
-        <div class="tattoos-grid-container scrollable"
-             th:if="${not #lists.isEmpty(UserDTO.images)}">
+        <!-- Контейнер с татуировками (если есть) -->
+        <div class="tattoos-grid-container" th:if="${not #lists.isEmpty(UserDTO.images)}">
             <div class="tattoos-grid">
                 <div class="tattoo-card" th:each="current : ${UserDTO.images}">
                     <div class="tattoo-image-wrapper">
@@ -29,7 +29,7 @@
                              th:alt="${current.description} ?: 'Татуировка'"
                              class="tattoo-image">
 
-                        <!-- Оверлей с информацией при наведении -->
+                        <!-- Оверлей при наведении -->
                         <div class="tattoo-overlay">
                             <p class="tattoo-description" th:text="${current.description} ?: 'Без описания'">
                                 Описание татуировки
@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <!-- Пустое состояние с иконкой -->
+        <!-- Пустое состояние -->
         <div class="empty-state" th:if="${#lists.isEmpty(UserDTO.images)}">
             <i class="fa fa-picture-o"></i>
             <h4>У вас пока нет татуировок</h4>
@@ -57,71 +57,77 @@
     </div>
 
     <!-- Форма добавления новой татуировки -->
-    <div class="row">
-        <div class="container" th:object="${userTattoo}">
-            <form onsubmit="submitForm(event, '.content-body')"
-                  action="/tattoos-user-import"
-                  method="POST"
-                  enctype="multipart/form-data"
-                  class="modern-form lk-form">
+    <div class="add-section">
+        <div class="section-header" style="margin-top: 30px;">
+            <h4>
+                <i class="fa fa-plus-circle"></i>
+                Добавить новую татуировку
+            </h4>
+        </div>
 
-                <div class="form-row">
-                    <!-- Блок загрузки изображения -->
-                    <div class="form-col form-col-image">
-                        <div class="image-upload-container">
-                            <div class="image-preview">
-                                <img id="previewimage" src="/img/placeholder.jpg" alt="Превью">
-                                <div class="preview-placeholder" id="preview-placeholder">
-                                    <i class="fa fa-cloud-upload"></i>
-                                    <span>Выберите фото тату</span>
-                                </div>
-                            </div>
+        <form class="modern-form"
+              onsubmit="submitForm(event, '.content-body')"
+              action="/tattoos-user-import"
+              method="POST"
+              enctype="multipart/form-data"
+              th:object="${userTattoo}">
 
-                            <div class="upload-controls">
-                                <button type="button" class="upload-file-btn"
-                                        onclick="document.getElementById('tattoos').click()">
-                                    <i class="fa fa-folder-open"></i>
-                                    Выбрать файл
-                                </button>
-                                <input type="file" name="file" id="tattoos" accept="image/*"
-                                       onchange="previewImage(this, document.getElementById('previewimage'))"
-                                       required="" style="display: none;">
-                                <span class="file-hint">JPG, PNG, GIF (макс. 10MB)</span>
+            <div class="form-row">
+                <!-- Левая колонка: загрузка изображения -->
+                <div class="form-col-image">
+                    <div class="image-upload-container">
+                        <div class="image-preview">
+                            <img id="previewimage" src="/img/placeholder.jpg" alt="Превью">
+                            <div class="preview-placeholder" id="preview-placeholder">
+                                <i class="fa fa-cloud-upload"></i>
+                                <span>Выберите фото тату</span>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Блок описания -->
-                    <div class="form-col form-col-content">
-                        <div class="form-group">
-                            <label for="description">
-                                <i class="fa fa-align-left"></i>
-                                Описание татуировки
-                            </label>
-                            <textarea id="description"
-                                      name="description"
-                                      class="form-control"
-                                      placeholder="Опишите вашу татуировку: идея, стиль, значение..."
-                                      rows="6"
-                                      required=""></textarea>
-                            <span class="field-hint">Минимум 10 символов, максимум 500</span>
-                        </div>
-
-                        <!-- Кнопки формы -->
-                        <div class="form-actions">
-                            <button type="reset" class="btn btn-secondary" onclick="resetPreview()">
-                                <i class="fa fa-undo"></i>
-                                Очистить
+                        <div class="upload-controls">
+                            <button type="button" class="upload-file-btn"
+                                    onclick="document.getElementById('tattoos').click()">
+                                <i class="fa fa-folder-open"></i>
+                                Выбрать файл
                             </button>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa fa-save"></i>
-                                Сохранить тату
-                            </button>
+                            <input type="file" name="file" id="tattoos" accept="image/*"
+                                   onchange="previewImage(this, document.getElementById('previewimage'))"
+                                   required style="display: none;">
+                            <span class="file-hint">JPG, PNG, GIF (макс. 10MB)</span>
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
+
+                <!-- Правая колонка: описание -->
+                <div class="form-col-content">
+                    <div class="form-group">
+                        <label for="description">
+                            <i class="fa fa-align-left"></i>
+                            Описание татуировки
+                        </label>
+                        <textarea id="description"
+                                  name="description"
+                                  class="form-control"
+                                  placeholder="Опишите вашу татуировку: идея, стиль, значение..."
+                                  rows="6"
+                                  required></textarea>
+                        <span class="field-hint">Минимум 10 символов, максимум 500</span>
+                    </div>
+
+                    <!-- Кнопки формы -->
+                    <div class="form-actions">
+                        <button type="reset" class="btn btn-secondary" onclick="resetPreview()">
+                            <i class="fa fa-undo"></i>
+                            Очистить
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-save"></i>
+                            Сохранить тату
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -136,10 +142,9 @@
         <span class="section-badge">Настройки аккаунта</span>
     </div>
 
-    <!-- Две колонки: основная информация и аватар -->
+    <!-- Две колонки -->
     <div class="profile-edit-grid">
-
-        <!-- Левая колонка: форма редактирования данных -->
+        <!-- Левая колонка: форма с данными -->
         <div class="profile-edit-form-col">
             <div class="profile-edit-card">
                 <div class="card-header">
@@ -150,7 +155,7 @@
                 <div class="card-body">
                     <form class="modern-form profile-form"
                           action="/update/profile-editing"
-                          onsubmit="submitForm(event, '.container-lk-info')"
+                          onsubmit="submitForm(event, '.content-body')"
                           method="post"
                           th:id="*{id}"
                           th:object="${UserDTO}">
@@ -187,7 +192,7 @@
                             <span class="field-hint">Используется для входа и уведомлений</span>
                         </div>
 
-                        <!-- Пароль (необязательно) -->
+                        <!-- Пароль -->
                         <div class="form-group">
                             <label for="password">
                                 <i class="fa fa-lock"></i>
@@ -245,9 +250,9 @@
                         </div>
                     </div>
 
-                    <!-- Форма загрузки аватара -->
+                    <!-- Форма загрузки -->
                     <form class="avatar-upload-form"
-                          onsubmit="submitForm(event, '.container-lk-info')"
+                          onsubmit="submitForm(event, '.profile-avatar')"
                           action="/avatar-import"
                           method="POST"
                           enctype="multipart/form-data">
@@ -264,7 +269,7 @@
                                    style="display: none;">
                             <span class="file-hint">
                                 <i class="fa fa-info-circle"></i>
-                                Рекомендуемый размер: 500x500px. Форматы: JPG, PNG, GIF
+                                Рекомендуемый размер: 500x500px
                             </span>
                         </div>
 
@@ -278,12 +283,12 @@
                 </div>
             </div>
 
-            <!-- Дополнительная информация -->
+            <!-- Информационный блок -->
             <div class="info-box">
                 <i class="fa fa-shield"></i>
                 <div class="info-content">
                     <h5>Безопасность</h5>
-                    <p>Рекомендуем использовать надежный пароль и регулярно его обновлять. Никогда не передавайте свои данные третьим лицам.</p>
+                    <p>Рекомендуем использовать надежный пароль и регулярно его обновлять.</p>
                 </div>
             </div>
         </div>
@@ -291,87 +296,169 @@
 </div>
 
 <!-- ================= ФРАГМЕНТ: МОИ ОТЗЫВЫ (review-fragment) ================= -->
-<div class="review-fragment" th:fragment="review-fragment">
-    <h6>Мои отзывы</h6>
+<div class="reviews-fragment" th:fragment="review-fragment">
+    <!-- Заголовок секции -->
+    <div class="section-header">
+        <h3>
+            <i class="fa fa-comments"></i>
+            Мои отзывы
+        </h3>
+        <span class="section-count" th:if="${not #lists.isEmpty(UserDTO.reviews)}"
+              th:text="'Всего: ' + ${#lists.size(UserDTO.reviews)}">Всего: 0</span>
+    </div>
 
-    <!-- Список отзывов -->
-    <div class="row scroll-container">
-        <div class="input-user-reviews">
-            <section class="review" th:each="current : ${UserDTO.reviews}"
-                     th:if="${not #lists.isEmpty(UserDTO.reviews)}">
-                <div class="review-header">
-                    <img th:if="${current.imageName}"
-                         th:src="@{'/images/'+${current.imageName}}"
-                         alt="Фото автора отзыва"
-                         class="avatar">
-                    <img th:unless="${current.imageName}"
-                         src="/img/default-avatar.jpg"
-                         alt="Фото автора отзыва"
-                         class="avatar">
-                    <div class="author-info">
-                        <p><strong>[[${UserDTO.login}]]</strong></p>
-                        <p>[[${current.date}]]</p>
+    <!-- Контейнер с отзывами -->
+    <div class="reviews-container" th:if="${not #lists.isEmpty(UserDTO.reviews)}">
+        <div class="reviews-list-container">
+            <div class="reviews-list">
+                <div class="review-card" th:each="review : ${UserDTO.reviews}">
+                    <!-- Шапка отзыва -->
+                    <div class="review-card-header">
+                        <div class="review-author-avatar">
+                            <img th:if="${review.imageName}"
+                                 th:src="@{'/images/'+${review.imageName}}"
+                                 alt="Фото автора"
+                                 class="avatar-img">
+                            <img th:unless="${review.imageName}"
+                                 src="/img/default-avatar.jpg"
+                                 alt="Фото автора"
+                                 class="avatar-img">
+                        </div>
+                        <div class="review-author-info">
+                            <h4 class="review-author-name" th:text="${UserDTO.login}">Имя пользователя</h4>
+                            <div class="review-meta">
+                                <span class="review-date">
+                                    <i class="fa fa-calendar"></i>
+                                    [[${review.date}]]
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Кнопка удаления -->
+                        <button class="review-delete-btn"
+                                th:if="${review.id}"
+                                th:onclick="'deleteReview(' + ${review.id} + ')'"
+                                title="Удалить отзыв">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+
+                    <!-- Тело отзыва -->
+                    <div class="review-card-body">
+                        <p class="review-content" th:text="${review.comment}">Текст отзыва</p>
                     </div>
                 </div>
-                <p class="review-text">[[${current.comment}]]</p>
-
-                <!-- Кнопки действий (если нужны) -->
-                <div class="text-right" th:if="${current.id}">
-                    <button class="btn btn-sm btn-outline-danger"
-                            th:onclick="'deleteReview(' + ${current.id} + ')'">
-                        Удалить
-                    </button>
-                </div>
-            </section>
-
-            <!-- Пустое состояние -->
-            <div class="text-center p-4" th:if="${#lists.isEmpty(UserDTO.reviews)}">
-                <p class="text-muted">У вас пока нет отзывов</p>
             </div>
         </div>
     </div>
 
-    <!-- Форма добавления нового отзыва -->
-    <div class="row">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="card shadow-sm p-3 mb-5 rounded">
-                    <form onsubmit="submitForm(event, '.container-lk-info')"
-                          method="POST"
-                          action="/reviews-user-import">
+    <!-- Пустое состояние -->
+    <div class="empty-state" th:if="${#lists.isEmpty(UserDTO.reviews)}">
+        <i class="fa fa-comments"></i>
+        <h4>У вас пока нет отзывов</h4>
+        <p>Оставьте свой первый отзыв о нашей работе!</p>
+    </div>
 
-                        <div class="row mb-3 text-center">
-                            <!-- Блок загрузки изображения -->
-                            <div class="col-6 col-lg-4 themed-grid-col">
-                                <div class="avatar-container">
-                                    <img id="imageID" src="/img/avatar.jpg" alt="Выберите тату для отзыва">
-                                    <button type="button" class="upload-btn btn btn-primary" onclick="showModals()">
-                                        Выбрать файл
-                                    </button>
-                                    <input type="file" name="file" id="avatar-input" accept="image/*"
-                                           onchange="loadImage(this)">
-                                    <input type="text" id="imageName" style="display: none;" name="imageName">
-                                </div>
-                            </div>
+    <!-- Форма добавления отзыва -->
+    <div class="add-review-section">
+        <div class="section-header" style="margin-top: 30px;">
+            <h4>
+                <i class="fa fa-plus-circle"></i>
+                Оставить новый отзыв
+            </h4>
+        </div>
 
-                            <!-- Блок текста отзыва -->
-                            <div class="col-sm-6 col-lg-8 themed-grid-col">
-                                <div class="input-group">
-                                    <span class="input-group-text" style="height: 158px;">Текст</span>
-                                    <textarea class="form-control" name="Comment"
-                                              aria-label="С текстовым полем"
-                                              placeholder="Напишите ваш отзыв..."
-                                              required></textarea>
-                                    <button class="btn btn-primary" type="submit">
-                                        Сохранить отзыв
-                                    </button>
-                                </div>
+        <form class="modern-form"
+              onsubmit="submitForm(event, '.content-body')"
+              method="POST"
+              action="/reviews-user-import"
+              enctype="multipart/form-data">
+
+            <div class="form-row">
+                <!-- Левая колонка: фото -->
+                <div class="form-col-image-small">
+                    <div class="image-upload-container">
+                        <div class="image-preview">
+                            <img id="reviewImage" src="/img/placeholder-image.jpg" alt="Превью">
+                            <div class="preview-placeholder small" id="review-placeholder">
+                                <i class="fa fa-camera"></i>
+                                <span>Добавить фото</span>
                             </div>
                         </div>
-                    </form>
+
+                        <div class="upload-controls">
+                            <button type="button" class="upload-file-btn small"
+                                    onclick="showModals()">
+                                <i class="fa fa-folder-open"></i>
+                                Выбрать из галереи
+                            </button>
+                            <span class="file-hint or-divider">или</span>
+                            <button type="button" class="upload-file-btn small"
+                                    onclick="document.getElementById('review-image-file').click()">
+                                <i class="fa fa-cloud-upload"></i>
+                                Загрузить новое
+                            </button>
+                            <input type="file" name="file" id="review-image-file"
+                                   accept="image/*"
+                                   onchange="previewReviewImage(this)"
+                                   style="display: none;">
+                            <input type="hidden" id="reviewImageName" name="imageName">
+                            <span class="file-hint">Необязательно, макс. 5MB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Правая колонка: текст отзыва -->
+                <div class="form-col-content">
+                    <!-- Рейтинг -->
+                    <div class="rating-group">
+                        <label>
+                            <i class="fa fa-star"></i>
+                            Ваша оценка
+                        </label>
+                        <div class="rating-stars">
+                            <input type="radio" name="rating" id="star5" value="5" checked>
+                            <label for="star5" title="5 звезд">★</label>
+                            <input type="radio" name="rating" id="star4" value="4">
+                            <label for="star4" title="4 звезды">★</label>
+                            <input type="radio" name="rating" id="star3" value="3">
+                            <label for="star3" title="3 звезды">★</label>
+                            <input type="radio" name="rating" id="star2" value="2">
+                            <label for="star2" title="2 звезды">★</label>
+                            <input type="radio" name="rating" id="star1" value="1">
+                            <label for="star1" title="1 звезда">★</label>
+                        </div>
+                    </div>
+
+                    <!-- Текст отзыва -->
+                    <div class="form-group">
+                        <label for="review-comment">
+                            <i class="fa fa-comment"></i>
+                            Ваш отзыв
+                        </label>
+                        <textarea id="review-comment"
+                                  name="Comment"
+                                  class="form-control"
+                                  placeholder="Поделитесь своими впечатлениями..."
+                                  rows="4"
+                                  required></textarea>
+                        <span class="field-hint">Минимум 10 символов, максимум 1000</span>
+                    </div>
+
+                    <!-- Кнопки -->
+                    <div class="form-actions">
+                        <button type="reset" class="btn btn-secondary" onclick="resetReviewForm()">
+                            <i class="fa fa-undo"></i>
+                            Очистить
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-paper-plane"></i>
+                            Отправить отзыв
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 </body>

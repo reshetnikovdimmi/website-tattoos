@@ -10,10 +10,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.tattoo.maxsim.model.ClassesSection;
 import ru.tattoo.maxsim.model.DTO.GalleryDTO;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ImagesRepository;
 import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.ClassesSectionService;
 import ru.tattoo.maxsim.service.interf.ImagesService;
 import ru.tattoo.maxsim.util.PageSize;
 
@@ -35,6 +37,9 @@ public class GalleryController extends CRUDController<Images, Long> {
     @Autowired
     private ImagesRepository imagesRepository;
 
+    @Autowired
+    private ClassesSectionService classesSectionService;
+
     @Override
     String getEntityName() {
         return "fragment-admin::img-import";
@@ -49,6 +54,7 @@ public class GalleryController extends CRUDController<Images, Long> {
     public String gallery(Model model) {
 
         model.addAttribute("gallery", prepareGalleryData(null, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+        model.addAttribute("classes", classesSectionService.findAll());
 
         return "gallery";
     }
@@ -60,7 +66,7 @@ public class GalleryController extends CRUDController<Images, Long> {
                 request.getRequestURL());
         model.addAttribute("gallery", prepareGalleryData(null, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
         model.addAttribute("images", new Images());
-
+        model.addAttribute("styleList", classesSectionService.findAll());
         return "fragment-admin::gallery";
     }
 
@@ -77,6 +83,15 @@ public class GalleryController extends CRUDController<Images, Long> {
 
         return isAdmin ? getEntityName() : "gallery::galleryFilter";
     }
+
+    @RequestMapping(value ="/filter/style/{style}", method = RequestMethod.GET)
+    public String galleryFilter(@PathVariable("style") String style, Model model) {
+        System.out.println("Style:" + style);
+        model.addAttribute("gallery", prepareGalleryData(style, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+        model.addAttribute("classes", classesSectionService.findAll());
+        return "gallery";
+    }
+
 
     @RequestMapping(value = "reviews/{page}/{number}", method = RequestMethod.GET)
     private String reviewsModal(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {

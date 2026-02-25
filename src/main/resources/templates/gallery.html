@@ -13,21 +13,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>R1-TАТТОO/gallery</title>
-    <link th:each="current: ${setting}" th:if="${current.section=='logo'}" th:href="@{'/images/'+${current.imageName}}" rel="icon" type="image/vnd.microsoft.icon">
+    <link th:each="current: ${setting}" th:if="${current.section=='logo'}" th:href="@{'/images/'+${current.imageName}}"
+          rel="icon" type="image/vnd.microsoft.icon">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/elegant-icons.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/nice-select.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/owl.carousel.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/magnific-popup.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/slicknav.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/style.css}" type="text/css">
 </head>
 
 <body>
@@ -41,7 +42,7 @@
 <!-- Header End -->
 
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg spad"  th:each="current: ${setting}"
+<section class="breadcrumb-section set-bg spad" th:each="current: ${setting}"
          th:if="${current.section=='breadcrumb'}" th:attr="data-setbg=@{'/images/'+${current.imageName}}">
     <div class="container">
         <div class="row">
@@ -66,60 +67,100 @@
             <div class="col-lg-12">
                 <div class="gallery-controls" th:each="current: ${gallery}">
                     <ul>
-                        <li class="active" th:onclick="goToPageGallery(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Вся галерея</li>
-                        <li th:onclick="goToPageGallery(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Классический</li>
-                        <li th:onclick="goToPageGallery(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Винтажный</li>
-                        <li th:onclick="goToPageGallery(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Граффити</li>
-                        <li th:onclick="goToPageGallery(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Готический</li>
-                        <li th:onclick="goToPageGallery(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Кельтский</li>
+                        <li class="active"
+                            th:onclick="goToPageGallery(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
+                            Вся галерея
+                        </li>
+                        <li th:each="currents: ${classes}" th:unless="${currents.title}"
+                            th:onclick="goToPageGallery(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
+                            [[${currents.textH1}]]
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
 
-            <div class="galleryFilter" th:fragment="galleryFilter">
-                <div class="row gallery-filter" th:each="current, item : ${gallery.galleryImg}">
-                    <div class="col-lg-4 col-sm-6 mix crossfit workout " th:each="currents: ${current}">
-                        <div class="gallery-item">
-                            <img alt="" th:src="@{'/images/'+${currents.imageName}}" class="gallery-img">
-                            <div class="gi-hover-warp">
-                                <div class="gi-hover">
-                                    <a th:href="@{'/images/'+${currents.imageName}}" class="image-popup"><i
-                                            class="fa fa-search-plus"></i></a>
-                                    <h6 th:text="${currents.description}"></h6>
-                                </div>
+        <!-- Gallery Filter Section Begin -->
+        <div class="galleryFilter" th:fragment="galleryFilter">
+            <!-- Галерея изображений -->
+            <div class="row gallery-filter" th:each="current, item : ${gallery.galleryImg}">
+                <div class="col-lg-4 col-sm-6 mix" th:each="currents: ${current}">
+                    <div class="gallery-item">
+                        <img alt="" th:src="@{'/images/'+${currents.imageName}}" class="gallery-img">
+                        <div class="gi-hover-warp">
+                            <div class="gi-hover">
+                                <a th:href="@{'/images/'+${currents.imageName}}" class="image-popup">
+                                    <i class="fa fa-search-plus"></i>
+                                </a>
+                                <h6 th:text="${currents.description}">Описание</h6>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="blog-option">
-                    <div class="blog-pagination">
-                        <a th:if="${gallery.currentPage!=0}" th:onclick="goToPageGallery(document.querySelector('.gallery-controls ul li.active').textContent, [[${gallery.currentPage - 1}]], [[${gallery.number}]])" id="left" type="submit"><i
-                                class="fa fa-long-arrow-left"></i></a>
-                        <a class="active">[[${gallery.currentPage+1}]]</a>
-                        of
-                        <a>[[${gallery.pageSize}]]</a>
-                        <a th:if="${gallery.currentPage+1 != gallery.pageSize}" th:onclick="goToPageGallery(document.querySelector('.gallery-controls ul li.active').textContent, [[${gallery.currentPage + 1}]], [[${gallery.number}]])"
-                           id="right"
-                           type="submit"><i
-                                class="fa fa-long-arrow-right"></i></a>
+            </div>
+
+            <!-- Пагинация и настройки отображения -->
+            <div class="blog-option">
+                <div class="blog-pagination">
+                    <!-- Кнопка "Назад" -->
+                    <a th:if="${gallery.currentPage != 0}"
+                       th:onclick="goToPageGallery(
+                   document.querySelector('.gallery-controls ul li.active')?.textContent || 'all',
+                   [[${gallery.currentPage - 1}]],
+                   [[${gallery.number}]]
+               )"
+                       class="page-nav">
+                        <i class="fa fa-long-arrow-left"></i>
+                    </a>
+
+                    <!-- Текущая страница -->
+                    <a class="active">[[${gallery.currentPage + 1}]]</a>
+
+                    <!-- Разделитель -->
+                    <span class="page-separator">из</span>
+
+                    <!-- Всего страниц -->
+                    <a>[[${gallery.pageSize}]]</a>
+
+                    <!-- Кнопка "Вперед" -->
+                    <a th:if="${gallery.currentPage + 1 != gallery.pageSize}"
+                       th:onclick="goToPageGallery(
+                   document.querySelector('.gallery-controls ul li.active')?.textContent || 'all',
+                   [[${gallery.currentPage + 1}]],
+                   [[${gallery.number}]]
+               )"
+                       class="page-nav">
+                        <i class="fa fa-long-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Настройки отображения -->
+                <div class="blog-option-right">
+                    <div class="blog-result">
+                        Показано [[${gallery.currentPage * gallery.number + 1}]]–[[${gallery.currentPage *
+                        gallery.number + gallery.number}]]
+                        из [[${gallery.imagesTotal}]] работ
                     </div>
-                    <div class="blog-option-right">
-                        <div class="blog-result">Showing [[${gallery.currentPage+1}]]–[[${gallery.pageSize}]] of
-                            [[${gallery.imagesTotal}]]
-                            results
-                        </div>
-                        <div class="show-result">
-                            <p>Show:</p>
-                            <select class="show-result-select" th:onchange="goToPageGallery(document.querySelector('.gallery-controls ul li.active').textContent, [[${gallery.currentPage}]], this.value)" id="number">
-                                <option th:each="option : ${gallery.select}" th:value="${option}" th:text="${option}"
-                                        th:selected="${option == gallery.number}"></option>
-                            </select>
-                        </div>
+                    <div class="show-result">
+                        <p>Show:</p>
+                        <select class="show-result-select"
+                                th:onchange="goToPageGallery(
+                            document.querySelector('.gallery-controls ul li.active')?.textContent || 'all',
+                            [[${gallery.currentPage}]],
+                            this.value
+                        )"
+                                id="number">
+                            <option th:each="option : ${gallery.select}"
+                                    th:value="${option}"
+                                    th:text="${option}"
+                                    th:selected="${option == gallery.number}">
+                            </option>
+                        </select>
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
+        <!-- Gallery Filter Section End -->
 </section>
 <!-- GalleryController Section End -->
 
@@ -146,16 +187,16 @@
 <!-- Footer Section End -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/uery.nice-select.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/masonry.pkgd.min.js"></script>
-<script src="js/main.js"></script>
-<script type="text/javascript" th:src="@{/js/gallery.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.magnific-popup.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/mixitup.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.nice-select.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/owl.carousel.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/masonry.pkgd.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/gallery.js}"></script>
 </body>
 
 </html>
