@@ -291,9 +291,9 @@
         });
     }
 
-    /*---------------
-        Modals controls
-     --------------*/
+       /*------------------
+            Функции для работы с модальным окном и отзывами
+       --------------------*/
     function modals() {
         $('#myModal').modal("show");
         $('.btn-close').on('click', function() {
@@ -304,9 +304,7 @@
         });
         $('.btn-primary').attr('disabled', true);
     }
-   /*------------------
-        Функции для работы с модальным окном и отзывами
-   --------------------*/
+
 
    // Показать модальное окно с галереей
    function showModals() {
@@ -320,88 +318,88 @@
        $('#infoModal').modal('hide');
    }
 
-   // Выбрать изображение из галереи и вставить в отзыв
-function hideModal(imageName) {
-    console.log('hideModal вызвана с imageName:', imageName);
+// Функция для выбора изображения из модального окна (для отзывов)
+function selectReviewImage(imageName) {
+    console.log('selectReviewImage вызвана с imageName:', imageName);
 
     const reviewImage = document.getElementById('reviewImage');
-    const container = reviewImage.closest('.review-image-preview');
-    const placeholder = document.getElementById('review-placeholder');
+    const placeholder = document.getElementById('reviewPlaceholder');
+    const container = document.getElementById('reviewPreviewContainer');
+    const imageNameInput = document.getElementById('reviewImageName');
 
-    if (reviewImage) {
+    if (reviewImage && placeholder && container) {
+        // Устанавливаем новый src
         reviewImage.src = '/images/' + imageName;
-        reviewImage.classList.add('image-loaded');
 
-        // Скрываем плейсхолдер
-        if (container) {
-            container.classList.add('has-image');
-        }
-        if (placeholder) {
-            placeholder.classList.add('hidden');
-        }
+        // Показываем изображение, скрываем плейсхолдер
+        reviewImage.style.display = 'block';
+        placeholder.style.display = 'none';
+        container.classList.add('has-image');
+
+        console.log('Изображение установлено:', reviewImage.src);
+    } else {
+        console.error('Элементы не найдены:', {
+            reviewImage: !!reviewImage,
+            placeholder: !!placeholder,
+            container: !!container
+        });
     }
 
     // Сохраняем имя изображения в скрытом поле
-    const imageNameInput = document.getElementById('reviewImageName');
     if (imageNameInput) {
         imageNameInput.value = imageName;
+        console.log('Сохранено имя:', imageName);
     }
 
+    // Закрываем модальное окно
     $('#infoModal').modal('hide');
 }
-// Предпросмотр загруженного изображения
-function previewReviewImage(input) {
-    console.log('previewReviewImage вызвана');
 
-    const preview = document.getElementById('reviewImage');
-    const container = preview.closest('.review-image-preview');
-    const placeholder = document.getElementById('review-placeholder');
-    const imageNameInput = document.getElementById('reviewImageName');
-
+// Функция для загрузки изображения в админке
+function handleAdminImageUpload(input) {
+ console.log('handleAdminImageUpload вызвана');
     if (input.files && input.files[0]) {
         const file = input.files[0];
 
-        // Проверка типа файла
-        if (!file.type.match('image.*')) {
-            alert('Пожалуйста, выберите файл изображения (JPEG, PNG, GIF)');
-            input.value = '';
+        // Проверка размера файла (10MB)
+        if (file.size > 10 * 1024 * 1024) {
+            alert('Файл слишком большой. Максимальный размер 10MB');
+            input.value = ''; // Очищаем input
             return;
         }
 
-        // Проверка размера файла (5MB)
-        if (file.size > 5 * 1024 * 1024) {
-            alert('Файл слишком большой. Максимальный размер: 5MB');
-            input.value = '';
+        // Проверка типа файла
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (!validTypes.includes(file.type)) {
+            alert('Поддерживаются только JPG, PNG, GIF и WEBP форматы');
+            input.value = ''; // Очищаем input
             return;
         }
 
         const reader = new FileReader();
 
         reader.onload = function(e) {
-            preview.src = e.target.result;
-            preview.classList.add('image-loaded');
+            const preview = document.getElementById('adminPreviewImage');
+            const placeholder = document.getElementById('adminPlaceholder');
+            const container = document.getElementById('adminPreviewContainer');
 
-            // Скрываем плейсхолдер через добавление класса к контейнеру
-            if (container) {
+            if (preview && placeholder && container) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
                 container.classList.add('has-image');
             }
-
-            // ИЛИ скрываем плейсхолдер напрямую
-            if (placeholder) {
-                placeholder.classList.add('hidden');
-            }
-
-            // Очищаем скрытое поле, так как мы загружаем новый файл
-            if (imageNameInput) {
-                imageNameInput.value = '';
-            }
-
-            console.log('Изображение загружено');
-        };
+        }
 
         reader.readAsDataURL(file);
     }
 }
+
+// Функция для закрытия модального окна
+function closeModal() {
+    $('#infoModal').modal('hide');
+}
+
 // Сброс формы отзыва
 function resetReviewForm() {
     const preview = document.getElementById('reviewImage');
@@ -446,9 +444,11 @@ function resetReviewForm() {
    function previewReviewImage(input) {
        console.log('previewReviewImage вызвана');
 
+
        const preview = document.getElementById('reviewImage');
-       const placeholder = document.getElementById('review-placeholder');
+       const placeholder = document.getElementById('reviewPlaceholder');
        const imageNameInput = document.getElementById('reviewImageName');
+       const container = document.getElementById('reviewPreviewContainer');
 
        if (input.files && input.files[0]) {
            const file = input.files[0];
@@ -470,17 +470,13 @@ function resetReviewForm() {
            const reader = new FileReader();
 
            reader.onload = function(e) {
-               preview.src = e.target.result;
-               preview.classList.add('image-loaded');
 
-               if (placeholder) {
-                   placeholder.style.display = 'none';
-               }
-
-               // Очищаем скрытое поле, так как мы загружаем новый файл
-               if (imageNameInput) {
-                   imageNameInput.value = '';
-               }
+            if (preview && placeholder && container) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+                container.classList.add('has-image');
+            }
 
                console.log('Изображение загружено');
            };

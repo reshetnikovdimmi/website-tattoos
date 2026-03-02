@@ -19,14 +19,14 @@
     <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet">
     <!-- Css Styles -->
 
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/elegant-icons.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/nice-select.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/owl.carousel.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/magnific-popup.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/slicknav.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/style.css}" type="text/css">
     <script>window.yaContextCb=window.yaContextCb||[]</script>
     <script src="https://vk.com/js/api/videoplayer.js"></script>
     <script src="https://yandex.ru/ads/system/context.js" async></script>
@@ -314,134 +314,51 @@
 
 <!-- Map Section Begin -->
 <section class="map-section">
-    <div class="container-fluid p-0">
+    <div class="container-fluid px-0">
         <div class="row g-0">
             <!-- Яндекс.Карта -->
             <div class="col-lg-8">
                 <div class="map-container">
-                    <!-- Тестовый элемент для обнаружения блокировщика -->
-                    <div class="ad-bait">
-                        <script>
-                            // Если этот скрипт выполнится, значит блокировщика нет
-                            window.adBlockDetected = false;
-                        </script>
-                    </div>
+                    <!-- Контейнер для рекламы -->
+                    <div class="yandex-ad-container" id="yandex_rtb_R-A-9839314-2"></div>
 
-                    <!-- Контейнер для рекламы Яндекса -->
-                    <div id="yandex_rtb_R-A-9839314-2"></div>
-
-                    <!-- Резервный контент (покажется если реклама не загрузится) -->
-                    <div id="adblock-message">
-                        <div class="fallback-content">
-                            <h3>🌟 Специальное предложение</h3>
-                            <p>Реклама не загрузилась, но это не проблема! Мы подготовили для вас особые условия:</p>
-
-                            <div class="support-options">
-                                <a href="/special-offer" class="support-btn">
-                                    🎁 Получить скидку 15%
-                                </a>
-                                <a href="/free-consultation" class="support-btn">
-                                    📞 Бесплатная консультация
-                                </a>
-                                <a href="/catalog" class="support-btn">
-                                    📚 Перейти в каталог
-                                </a>
-                            </div>
-
-                            <div class="social-icons">
-                                <a href="#" title="Telegram">📱</a>
-                                <a href="#" title="VK">📘</a>
-                            </div>
-
-                            <p style="margin-top: 20px; font-size: 14px;">
-                                <small>✉️ Или напишите нам через форму справа</small>
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Скрипт Яндекса и проверка загрузки -->
+                    <!-- Скрипт Яндекса -->
                     <script>
-                        // Функция для проверки загрузки рекламы
-                        function checkAdBlock() {
-                            var adContainer = document.getElementById('yandex_rtb_R-A-9839314-2');
-                            var fallback = document.getElementById('adblock-message');
-                            var adBait = document.querySelector('.ad-bait');
-
-                            // Проверяем через 3 секунды после загрузки страницы
-                            setTimeout(function() {
-                                // Условия для показа резервного контента:
-                                // 1. Блокировщик обнаружен (скрипт в ad-bait не выполнился)
-                                // 2. Рекламный контейнер пуст или содержит только текст об ошибке
-                                // 3. В контейнере нет iframe (реклама не загрузилась)
-
-                                if (window.adBlockDetected === false ||
-                                    !adContainer.querySelector('iframe') ||
-                                    adContainer.innerHTML.trim() === '' ||
-                                    adContainer.innerHTML.includes('ad block')) {
-
-                                    // Прячем рекламный контейнер
-                                    adContainer.style.display = 'none';
-                                    // Показываем резервный контент
-                                    fallback.style.display = 'block';
-
-                                    console.log('AdBlock detected or ad not loaded - showing fallback content');
-                                }
-                            }, 3000); // Ждем 3 секунды
-                        }
-
-                        // Инициализация Яндекс.Рекламы
                         window.yaContextCb = window.yaContextCb || [];
-
-                        // Добавляем рендеринг рекламы
                         window.yaContextCb.push(() => {
                             try {
                                 Ya.Context.AdvManager.render({
                                     "blockId": "R-A-9839314-2",
-                                    "renderTo": "yandex_rtb_R-A-9839314-2",
-                                    "onError": function(error) {
-                                        console.log('Ad render error:', error);
-                                        // Если ошибка рендеринга - показываем резервный контент
-                                        document.getElementById('yandex_rtb_R-A-9839314-2').style.display = 'none';
-                                        document.getElementById('adblock-message').style.display = 'block';
-                                    }
+                                    "renderTo": "yandex_rtb_R-A-9839314-2"
                                 });
                             } catch (e) {
-                                console.log('Ad exception:', e);
-                                // Если исключение - показываем резервный контент
-                                document.getElementById('yandex_rtb_R-A-9839314-2').style.display = 'none';
-                                document.getElementById('adblock-message').style.display = 'block';
+                                console.log('Ad render error:', e);
                             }
                         });
-
-                        // Запускаем проверку после загрузки страницы
-                        if (document.readyState === 'complete') {
-                            checkAdBlock();
-                        } else {
-                            window.addEventListener('load', checkAdBlock);
-                        }
                     </script>
-
-                    <!-- Подключаем скрипт Яндекса (обязательно) -->
-                    <script src="https://yandex.ru/ads/system/context.js" async></script>
                 </div>
             </div>
 
             <!-- Блок с контактами -->
             <div class="col-lg-4">
-                <div class="map-contact-detalis">
-                    <div class="open-time">
-                        <h5>Режим:</h5>
-                        <ul>
-                            <li>Пн-Пт: <span>09:00 - 18:00</span></li>
-                        </ul>
+                <div class="map-contact-info">
+                    <div class="info-block">
+                        <h5>РЕЖИМ:</h5>
+                        <p>Пн-Пт: 09:00 - 18:00</p>
                     </div>
-                    <div class="map-contact-form" th:fragment="map-contact-form">
-                        <h5>Связаться</h5>
-                        <form th:method="POST" th:onsubmit="sendMail(event, '.map-contact-form')" th:action="@{/mail}" th:object="${details}">
+
+                    <div class="info-block">
+                        <h5>СВЯЗАТЬСЯ</h5>
+                        <form th:method="POST"
+                              th:onsubmit="sendMail(event, '.map-contact-form')"
+                              th:action="@{/mail}"
+                              th:object="${details}">
+
                             <input type="text" name="name" placeholder="Имя" required>
                             <input type="tel" name="subject" class="phone" placeholder="Телефон" required>
                             <textarea name="msgBody" placeholder="Сообщение" required></textarea>
-                            <button type="submit" class="site-btn">Отправить</button>
+
+                            <button type="submit">ОТПРАВИТЬ</button>
                             <div class="status-message" style="display:none;" th:text="${status}"></div>
                         </form>
                     </div>
@@ -451,6 +368,7 @@
     </div>
 </section>
 <!-- Map Section End -->
+
 <!-- Error Modal -->
 <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -503,16 +421,15 @@
 
 <!-- Js Plugins -->
 
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/masonry.pkgd.min.js"></script>
-<script src="js/main.js"></script>
-<script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.magnific-popup.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/mixitup.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.nice-select.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/owl.carousel.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/masonry.pkgd.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
 <!-- Yandex.RTB -->
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">

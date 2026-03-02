@@ -61,7 +61,7 @@ public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K>{
     }
 
     @Override
-    public void saveImg(MultipartFile fileImport, E entity) throws IOException {
+    public E saveImg(MultipartFile fileImport, E entity) throws IOException {
         log.info("Сохранение изображения: файл={}, размер={} байт",
                 fileImport.getOriginalFilename(),
                 fileImport.getSize());
@@ -80,9 +80,12 @@ public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K>{
             log.debug("Изображение сохранено на диск: {}", uniqueFileName);
 
             // Сохранение сущности в БД
-            getRepository().save(entity);
+            E savedEntity = getRepository().save(entity);
             log.info("Изображение успешно сохранено: имя файла={}, сущность={}",
-                    uniqueFileName, entity);
+                    uniqueFileName, savedEntity);
+
+            return savedEntity; // Возвращаем сохраненную сущность
+
 
         } catch (IOException e) {
             log.error("Ошибка при сохранении изображения {}: {}",

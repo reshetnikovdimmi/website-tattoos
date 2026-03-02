@@ -12,7 +12,7 @@
     <meta name="keywords" th:content="${current.textH2}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>R1-TАТТОO/gallery</title>
+    <title th:text="${current.textH1}"></title>
     <link th:each="current: ${setting}" th:if="${current.section=='logo'}" th:href="@{'/images/'+${current.imageName}}"
           rel="icon" type="image/vnd.microsoft.icon">
 
@@ -160,7 +160,8 @@
                 </div>
             </div>
         </div>
-        <!-- Gallery Filter Section End -->
+    </div>
+    <!-- Gallery Filter Section End -->
 </section>
 <!-- GalleryController Section End -->
 

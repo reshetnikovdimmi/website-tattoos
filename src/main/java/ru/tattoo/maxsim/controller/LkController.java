@@ -1,6 +1,7 @@
 package ru.tattoo.maxsim.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.util.Date;
 
+@Slf4j
 @Controller
 public class LkController {
 
@@ -68,7 +70,18 @@ public class LkController {
      * Сохраняет отзыв пользователя.
      */
     @PostMapping("/reviews-user-import")
-    public String saveUserReview(@ModelAttribute("reviewsEntity") ReviewsUser object, Model model, Principal principal) throws IOException, ParseException {
+    public String saveUserReview(@RequestParam("file") MultipartFile fileImport, @ModelAttribute("reviewsEntity") ReviewsUser object, Model model, Principal principal) throws IOException, ParseException {
+
+        if (!fileImport.isEmpty()) {
+            log.info("Получено file {}", fileImport.getOriginalFilename());
+            Images images = new Images();
+            images.setDescription(object.getComment());
+            Images savedImage = imagesService.saveImg(fileImport, images);
+
+            String savedImageName = savedImage.getImageName();
+            log.info("savedImageName {}", savedImageName);
+            object.setImageName(savedImageName);
+        }
         object.setUserName(principal.getName());
         object.setDate(new Date());
         reviewService.create(object); // Сохраняем отзыв
@@ -80,7 +93,7 @@ public class LkController {
      * Загружает новое тату пользователя.
      */
     @PostMapping("/tattoos-user-import")
-    public String uploadUserTattoo(@RequestParam("file") MultipartFile fileImport,@ModelAttribute("userTattoo") Images object, Model model, Principal principal) throws IOException, ParseException {
+    public String uploadUserTattoo(@RequestParam("file") MultipartFile fileImport, @ModelAttribute("userTattoo") Images object, Model model, Principal principal) throws IOException, ParseException {
         object.setUserName(principal.getName());
         imagesService.saveImg(fileImport, object); // Сохраняем изображение
         loadUserDataIntoModel(model, principal);                     // Обновляем данные пользователя
@@ -96,11 +109,13 @@ public class LkController {
         loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
         return "fragment-lk::profile-editing";
     }
+
     @PostMapping("/update/profile-editing")
     public String loadProfileEditForm(@ModelAttribute("UserDTO") User object, Model model, Principal principal) {
         loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
         return "fragment-lk::profile-editing";
     }
+
     /**
      * Загружает галерею татуировок пользователя.
      */

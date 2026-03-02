@@ -23,4 +23,7 @@ public interface ImagesService extends CRUDService<Images, Long> {
     Iterable<Images> findByFlagTrue();
 
     String updateImageFlag(Long id, boolean flag);
+
+
+
 }

@@ -22,7 +22,7 @@ public interface CRUDService<E, K> {
 
     List<E> saveAll(List<E> l);
 
-    void saveImg(MultipartFile fileImport, E entity) throws IOException;
+    E saveImg(MultipartFile fileImport, E entity) throws IOException;
 
     void deleteById(K id) throws IOException;
 

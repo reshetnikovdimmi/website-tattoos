@@ -946,6 +946,12 @@ only screen and (min-resolution: 192dpi) {
 	object-fit: cover;
 
 }
+.container-fluid {
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-sizing: border-box; /* Это уже должно быть, но проверьте */
+}
 .f-logo img{
 	width: 100%;
 	height: 150px; /* Высота для маленького изображения */
@@ -1350,19 +1356,31 @@ only screen and (min-resolution: 192dpi) {
     margin: 0 auto;
     border-radius: 50%;
     overflow: hidden;
-    border: 3px solid transparent;
-    background: linear-gradient(45deg, #e16521, #e4381C) border-box;
-    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
+    position: relative;
     box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+}
+
+.review-avatar::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, #e16521, #e4381C);
+    border-radius: 50%;
+    z-index: 1;
 }
 
 .review-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    position: relative;
+    z-index: 2;
+    background: #151515;
 }
 
 /* Текст отзыва */
@@ -1431,12 +1449,54 @@ only screen and (min-resolution: 192dpi) {
 
 /* Превью изображения */
 .review-preview {
-    width: 150px;
-    height: 150px;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 2px solid rgba(228, 56, 28, 0.3);
+    width: 100%;
+    height: 100%;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0 !important;
+}
+.review-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex: 1;
+}
+.review-preview .preview-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+.review-preview .preview-placeholder i {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+.review-preview .preview-placeholder span {
+    font-size: 14px;
+}
+/* Стили для textarea */
+.review-textarea {
+    width: 100%;
+    height: 100%;
+    min-height: 150px;
+    resize: vertical;
     background: #2d2d2d;
+    border: 1px solid #3d3d3d;
+    border-radius: 8px;
+    padding: 15px 20px;
+    color: #ffffff;
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+.review-textarea:focus {
+    outline: none;
+    border-color: #e4381C;
+    box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.1);
 }
 
 .review-preview img {
@@ -1448,7 +1508,6 @@ only screen and (min-resolution: 192dpi) {
 /* Поле ввода */
 .review-form textarea {
     width: 100%;
-    height: 150px;
     background: #2d2d2d;
     border: 1px solid #3d3d3d;
     border-radius: 8px;
@@ -1544,7 +1603,25 @@ only screen and (min-resolution: 192dpi) {
         margin: 0 auto 20px;
     }
 }
+/* Адаптивность */
+@media (max-width: 992px) {
+    .review-row {
+        flex-direction: column;
+    }
 
+    .review-row > [class*="col-"] {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .review-preview {
+        min-height: 200px;
+    }
+
+    .review-textarea {
+        min-height: 200px;
+    }
+}
 @media (max-width: 768px) {
     .fragment-reviews .section-title h2 {
         font-size: 36px;
@@ -2438,6 +2515,14 @@ textarea.form-control {
     padding: var(--spacing-md);
     text-align: center;
 }
+/* Выравнивание по высоте */
+.review-row {
+    display: flex;
+    align-items: stretch;
+}
+.review-row > [class*="col-"] {
+    display: flex;
+}
 
 /* Превью изображения */
 .image-preview {
@@ -2508,7 +2593,9 @@ textarea.form-control {
 .image-preview.has-image .preview-placeholder {
     display: none;
 }
-
+.image-preview.has-image {
+    border: 2px solid rgba(228, 56, 28, 0.8);
+}
 /*---------------------------------------
   LK - АВАТАРЫ
 ---------------------------------------*/
@@ -3321,442 +3408,154 @@ textarea.form-control {
 	}
 }
 /*---------------------
-  Map Section Begin
+  Map Section Styles
 -----------------------*/
-.map-section {
 
-    padding: 0;
+.map-section {
     position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #f8f9fa;
 }
 
 .map-container {
     position: relative;
     width: 100%;
-    min-height: 590px; /* Как в оригинальном .map */
+    height: 100%;
+    min-height: 500px;
     background: #e9ecef;
     overflow: hidden;
 }
 
-/* Тестовый элемент для обнаружения блокировщика */
-.ad-bait {
-    height: 1px;
-    width: 1px;
-    position: absolute;
-    left: -9999px;
-    top: -9999px;
-}
-
 /* Контейнер для рекламы */
-#yandex_rtb_R-A-9839314-2 {
-    width: 100%;
-    min-height: 590px;
-    position: relative;
-    z-index: 2;
-}
-
-/* Резервный контент (скрыт по умолчанию) */
-#adblock-message {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
+.yandex-ad-container {
     width: 100%;
     height: 100%;
-    z-index: 3;
-    background: linear-gradient(45deg, #9d9d9d, #fffcfb); /* Градиент как в других секциях */
-    color: #ffffff;
+    min-height: 500px;
+    background: #ffffff;
+}
+
+/* Карта если будет iframe */
+.yandex-ad-container iframe {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 500px;
+    display: block;
+}
+
+/*---------------------
+  Map Contact Info
+-----------------------*/
+
+.map-contact-info {
+    background: #ffffff;
     padding: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Стили для резервного контента */
-.fallback-content {
-    max-width: 400px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.fallback-content h3 {
-    color: #ffffff;
-    font-size: 30px;
-    font-weight: 500;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    font-family: "Oswald", sans-serif;
-}
-
-.fallback-content p {
-    color: #ffffff;
-    font-size: 16px;
-    margin-bottom: 30px;
-    opacity: 0.9;
-    line-height: 24px;
-    font-family: "Nunito Sans", sans-serif;
-}
-
-.support-options {
+    height: 100%;
+    min-height: 590px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-top: 30px;
-}
-
-.support-btn {
-    display: inline-block;
-    padding: 15px 30px;
-    background: #ffffff;
-    color: #e4381C;
-    text-decoration: none;
-    border-radius: 2px;
-    font-weight: 600;
-    font-family: "Oswald", sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 14px;
-    transition: all 0.3s;
-    border-left: 2px solid #e16521;
-    border-right: 2px solid #e4381C;
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-}
-
-.support-btn:after {
-    color: #fff;
-    transition-duration: 500ms;
-    background: linear-gradient(to right, #e16521, #e4381C);
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    border-radius: 2px;
-    opacity: 0;
-}
-
-.support-btn:hover {
-    color: #ffffff;
-    transform: translateY(-2px);
-}
-
-.support-btn:hover:after {
-    opacity: 1;
-}
-
-.social-icons {
-    margin-top: 25px;
-    display: flex;
     justify-content: center;
-    gap: 20px;
 }
 
-.social-icons a {
-    color: #ffffff;
-    font-size: 24px;
-    text-decoration: none;
-    opacity: 0.8;
-    transition: opacity 0.3s;
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.2);
+/* Блоки информации */
+.info-block {
+    margin-bottom: 30px;
 }
 
-.social-icons a:hover {
-    opacity: 1;
-    background: rgba(0, 0, 0, 0.3);
-}
-
-/* Контейнер для карты и контактов - как в оригинале */
-.map {
-    height: 590px;
-    position: relative;
-}
-
-.map iframe {
-    width: 100%;
-}
-
-/* Блок с контактами - стили из оригинального style.css */
-.map-contact-detalis {
-    width: 420px;
-    padding: 40px;
-    background: #ffffff;
-    position: absolute;
-    right: 120px;
-    top: 80px;
-    box-shadow: 6px 6px 50px rgba(198, 198, 198, 0.2);
-    z-index: 10;
-}
-
-/* Адаптация для мобильных */
-@media (max-width: 992px) {
-    .map-contact-detalis {
-        position: static;
-        width: 100%;
-        margin-top: 0;
-        box-shadow: none;
-        right: auto;
-        top: auto;
-    }
-
-    .map-container,
-    #yandex_rtb_R-A-9839314-2 {
-        min-height: 450px;
-    }
-}
-
-@media (max-width: 768px) {
-    .map-contact-detalis {
-        padding: 30px;
-    }
-
-    .fallback-content h3 {
-        font-size: 24px;
-    }
-}
-
-@media (max-width: 480px) {
-    .map-contact-detalis {
-        width: 100%;
-        right: 0;
-    }
-}
-
-/* Стили из оригинального .open-time */
-.map-contact-detalis .open-time {
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-
-.map-contact-detalis .open-time h5 {
+.info-block h5 {
     font-size: 20px;
     color: #000000;
-    font-weight: 500;
-    text-transform: uppercase;
-    float: left;
-    font-family: "Oswald", sans-serif;
-}
-
-.map-contact-detalis .open-time ul {
-    float: right;
-}
-
-.map-contact-detalis .open-time ul li {
-    font-size: 14px;
-    color: #000000;
-    list-style: none;
     font-weight: 600;
-    line-height: 30px;
-    position: relative;
-    padding-right: 108px;
-    font-family: "Nunito Sans", sans-serif;
-}
-
-.map-contact-detalis .open-time ul li span {
-    position: absolute;
-    right: 0;
-    top: 0;
-    color: #e4381C;
-    font-weight: 700;
-}
-
-/* Стили из оригинального .map-contact-form */
-.map-contact-detalis .map-contact-form h5 {
-    font-size: 20px;
-    color: #000000;
-    font-weight: 500;
     text-transform: uppercase;
     margin-bottom: 20px;
     font-family: "Oswald", sans-serif;
 }
 
-.map-contact-detalis .map-contact-form form input {
-    width: calc(53% - 20px);
-    margin-right: 20px;
-    float: left;
-    height: 40px;
-    margin-bottom: 20px;
+.info-block p {
     font-size: 16px;
-    color: #272727;
-    border: 1px solid #e1e1e1;
-    padding-left: 20px;
-    border-radius: 2px;
+    color: #333333;
     font-family: "Nunito Sans", sans-serif;
+    margin: 0;
+    padding: 5px 0;
 }
 
-.map-contact-detalis .map-contact-form form input.phone {
-    width: 47%;
-    margin-right: 0;
-}
-
-.map-contact-detalis .map-contact-form form input::placeholder {
-    color: #272727;
-    font-weight: 600;
-}
-
-.map-contact-detalis .map-contact-form form textarea {
+/* Форма */
+.info-block form input,
+.info-block form textarea {
     width: 100%;
-    height: 80px;
-    resize: none;
-    font-size: 16px;
-    color: #272727;
+    padding: 12px 15px;
+    margin-bottom: 15px;
     border: 1px solid #e1e1e1;
-    border-radius: 2px;
-    padding-left: 20px;
-    padding-top: 10px;
-    margin-bottom: 18px;
-    background-color: white;
-    font-family: "Nunito Sans", sans-serif;
-}
-
-.map-contact-detalis .map-contact-form form textarea::placeholder {
-    color: #272727;
-    font-weight: 600;
-}
-
-/* Кнопка из оригинального style.css */
-.map-contact-detalis .map-contact-form .site-btn {
-    display: inline-block;
-    font-size: 12px;
-    font-family: "Oswald", sans-serif;
-    font-weight: 600;
-    padding: 0 12px;
-    color: #000000;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    text-align: center;
-    background: none;
-    width: 127px;
-    height: 40px;
-    border-left: 2px solid #e16521;
-    border-right: 2px solid #e4381C;
-    border-top: none;
-    border-bottom: none;
-    box-sizing: border-box;
-    background-position: 0 0, 0 100%;
-    background-repeat: no-repeat;
-    background-size: 100% 2px;
-    background-image: linear-gradient(to right, #e16521 100%, #e4381C 0%), linear-gradient(to right, #e16521 0%, #e4381C 0%);
-    transition-duration: 1000ms;
-    line-height: 38px;
-    position: relative;
-    z-index: 1;
     border-radius: 4px;
-    cursor: pointer;
+    font-size: 15px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #333333;
+    background: #ffffff;
 }
 
-.map-contact-detalis .map-contact-form .site-btn:after {
-    color: #fff;
-    transition-duration: 500ms;
-    background: linear-gradient(to right, #e16521, #e4381C);
-    content: "";
-    position: absolute;
+.info-block form input:focus,
+.info-block form textarea:focus {
+    border-color: #e4381C;
+    outline: none;
+}
+
+.info-block form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.info-block form button {
     width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    border-radius: 2px;
-    opacity: 0;
-}
-
-.map-contact-detalis .map-contact-form .site-btn:hover {
+    padding: 14px 20px;
+    background: #e4381C;
     color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
 }
 
-.map-contact-detalis .map-contact-form .site-btn:hover:after {
-    opacity: 1;
+.info-block form button:hover {
+    background: #e16521;
 }
 
-/* Статус сообщение */
-.map-contact-detalis .map-contact-form .status-message {
+/* Статус сообщения */
+.status-message {
     margin-top: 15px;
     padding: 10px;
     border-radius: 4px;
     font-size: 14px;
     text-align: center;
     font-family: "Nunito Sans", sans-serif;
-    clear: both;
 }
 
-.map-contact-detalis .map-contact-form .status-message[th\:text="${status}"]:not(:empty) {
+.status-message[th\:text]:not(:empty) {
     background: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
 }
 
-/* Очистка float после формы */
-.map-contact-detalis .map-contact-form form:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-/* Адаптация для мобильных устройств */
+/* Адаптивность */
 @media (max-width: 992px) {
-    .map-contact-detalis {
-        width: 100%;
-        position: static;
-        margin-top: 0;
-        box-shadow: none;
-    }
-
-    .map-container,
-    #yandex_rtb_R-A-9839314-2 {
-        min-height: 450px;
+    .map-contact-info {
+        min-height: auto;
+        padding: 30px;
     }
 }
 
 @media (max-width: 768px) {
-    .map-contact-detalis .open-time h5,
-    .map-contact-detalis .map-contact-form h5 {
-        float: none;
-        margin-bottom: 15px;
+    .map-contact-info {
+        padding: 25px;
     }
 
-    .map-contact-detalis .open-time ul {
-        float: none;
-    }
-
-    .map-contact-detalis .open-time ul li {
-        padding-right: 0;
-    }
-
-    .map-contact-detalis .open-time ul li span {
-        position: static;
-        margin-left: 10px;
-    }
-
-    .map-contact-detalis .map-contact-form form input,
-    .map-contact-detalis .map-contact-form form input.phone {
-        width: 100%;
-        margin-right: 0;
-    }
-}
-
-@media (max-width: 480px) {
-    .map-contact-detalis {
-        padding: 20px;
-    }
-
-    .fallback-content h3 {
-        font-size: 24px;
-    }
-
-    .support-options {
-        gap: 10px;
-    }
-
-    .support-btn {
-        padding: 12px 20px;
-        font-size: 12px;
+    .info-block h5 {
+        font-size: 18px;
     }
 }
 /*---------------------
@@ -4220,17 +4019,6 @@ textarea.form-control {
 
 .map iframe {
 	width: 100%;
-}
-
-.map-contact-detalis {
-	width: 420px;
-	padding: 40px;
-	background: #ffffff;
-	position: absolute;
-	right: 120px;
-	top: 80px;
-	-webkit-box-shadow: 6px 6px 50px rgba(198, 198, 198, 0.2);
-	box-shadow: 6px 6px 50px rgba(198, 198, 198, 0.2);
 }
 
 .map-contact-detalis .open-time {
@@ -5781,20 +5569,6 @@ textarea.form-control {
     font-size: 24px;
 }
 
-.leave-comment-form form textarea {
-    width: 100%;
-    height: 150px;
-    border-radius: 4px;
-    background: #2d2d2d;
-    border: 1px solid #3d3d3d;
-    padding: 15px 20px;
-    margin-bottom: 25px;
-    font-size: 16px;
-    color: #ffffff;
-    font-family: "Nunito Sans", sans-serif;
-    transition: all 0.3s;
-    resize: vertical;
-}
 
 .leave-comment-form form textarea::placeholder {
     color: #8f8fa8;
@@ -5883,61 +5657,6 @@ textarea.form-control {
     .recent-item {
         height: 200px;
     }
-}
-/*---------------------
-  Contact Map Section
------------------------*/
-
-.contact-map {
-	height: 530px;
-	position: relative;
-}
-
-.contact-map iframe {
-	width: 100%;
-}
-
-.contact-map .map-hover {
-	background: #ffffff;
-	display: inline-block;
-	padding: 20px 40px 20px 28px;
-	position: absolute;
-	left: 50%;
-	top: 130px;
-	-webkit-box-shadow: 6px 6px 50px rgba(0, 0, 0, 0.2);
-	box-shadow: 6px 6px 50px rgba(0, 0, 0, 0.2);
-}
-
-.contact-map .map-hover:after {
-	position: absolute;
-	left: 107px;
-	bottom: -20px;
-	border-left: 15px solid transparent;
-	border-right: 15px solid transparent;
-	border-top: 28px solid #ffffff;
-	content: "";
-}
-
-.contact-map .map-hover h5 {
-	font-size: 20px;
-	color: #252525;
-	font-weight: 500;
-	margin-bottom: 10px;
-}
-
-.contact-map .map-hover ul li {
-	font-size: 14px;
-	color: #151515;
-	line-height: 20px;
-	list-style: none;
-}
-
-.contact-map .map-hover i {
-	font-size: 48px;
-	color: #e4381C;
-	position: absolute;
-	left: 98px;
-	bottom: -72px;
 }
 
 /*---------------------

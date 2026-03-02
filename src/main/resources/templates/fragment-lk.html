@@ -76,9 +76,11 @@
                 <!-- Левая колонка: загрузка изображения -->
                 <div class="form-col-image">
                     <div class="image-upload-container">
-                        <div class="image-preview">
-                            <img id="previewimage" src="/img/placeholder.jpg" alt="Превью">
-                            <div class="preview-placeholder" id="preview-placeholder">
+                        <div class="image-preview" id="adminPreviewContainer">
+                            <!-- Изображение (скрыто по умолчанию) -->
+                            <img id="adminPreviewImage" src="#" alt="Превью" style="display: none;">
+                            <!-- Плейсхолдер -->
+                            <div class="preview-placeholder" id="adminPlaceholder">
                                 <i class="fa fa-cloud-upload"></i>
                                 <span>Выберите фото тату</span>
                             </div>
@@ -86,14 +88,17 @@
 
                         <div class="upload-controls">
                             <button type="button" class="upload-file-btn"
-                                    onclick="document.getElementById('tattoos').click()">
+                                    onclick="document.getElementById('adminFileInput').click()">
                                 <i class="fa fa-folder-open"></i>
                                 Выбрать файл
                             </button>
-                            <input type="file" name="file" id="tattoos" accept="image/*"
-                                   onchange="previewImage(this, document.getElementById('previewimage'))"
-                                   required style="display: none;">
-                            <span class="file-hint">JPG, PNG, GIF (макс. 10MB)</span>
+                            <input type="file"
+                                   name="file"
+                                   id="adminFileInput"
+                                   accept="image/jpeg,image/png,image/gif,image/webp"
+                                   onchange="handleAdminImageUpload(this)"
+                                   style="display: none;">
+                            <span class="file-hint">JPG, PNG, GIF, WEBP (макс. 10MB)</span>
                         </div>
                     </div>
                 </div>
@@ -378,9 +383,9 @@
                 <!-- Левая колонка: фото -->
                 <div class="form-col-image-small">
                     <div class="image-upload-container">
-                        <div class="image-preview">
+                        <div class="image-preview" id="reviewPreviewContainer">
                             <img id="reviewImage" src="/img/placeholder-image.jpg" alt="Превью">
-                            <div class="preview-placeholder small" id="review-placeholder">
+                            <div class="preview-placeholder small" id="reviewPlaceholder">
                                 <i class="fa fa-camera"></i>
                                 <span>Добавить фото</span>
                             </div>
