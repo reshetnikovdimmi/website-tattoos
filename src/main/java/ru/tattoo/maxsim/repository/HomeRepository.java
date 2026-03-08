@@ -11,13 +11,5 @@ import java.util.Optional;
 @Repository
 public interface HomeRepository extends JpaRepository<Home, Long> {
 
-    @Query("SELECT imageName  FROM Home WHERE id = ?1")
-    Optional<String>  getName(Long id);
-
-
-
-    String findImageNameById(Long id);
-
-    List<Home> findBySection(String s);
 }
 

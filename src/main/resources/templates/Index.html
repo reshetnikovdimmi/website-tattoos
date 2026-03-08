@@ -76,14 +76,17 @@
 <!-- Hero Section Begin -->
 <section class="hero-section">
     <div class="hero-items owl-carousel" th:each="current : ${carousel}">
-        <div class="single-hero-item set-bg" th:each="currents : ${current.banners}"
-             th:attr="data-setbg=@{'/images/'+${currents.imageName}}">
+        <div class="single-hero-item set-bg"
+             th:each="currents : ${current.banners}"
+             th:attr="data-setbg=@{${currents.imageName != null && !currents.imageName.isEmpty() ?
+                               '/images/' + currents.imageName :
+                               '/img/avatar.jpg'}}">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="hero-text">
-                            <h2 th:text="${currents.textH2}"></h2>
-                            <h1 th:text="${currents.textH1}"></h1>
+                            <h2 th:text="${currents.title}"></h2>
+                            <h1 th:text="${currents.subtitle}"></h1>
                             <a href="/gallery" class="primary-btn">Подробнее</a>
                         </div>
                     </div>

@@ -30,8 +30,13 @@
 <div th:replace="~{fragments::header}"></div>
 <!-- Header End -->
 <!-- Breadcrumb Section Begin -->
-<section id="breadcrumb-section" class="breadcrumb-section-admin set-bg spad" th:each="current: ${setting}"
-         th:if="${current.section=='breadcrumb'}" th:attr="data-setbg=@{'/images/'+${current.imageName}}">
+<section id="breadcrumb-section"
+         class="breadcrumb-section-admin set-bg spad"
+         th:each="current: ${setting}"
+         th:if="${current.section=='breadcrumb'}"
+         th:attr="data-setbg=@{${current.imageName != null and !current.imageName.isEmpty() ?
+                                   '/images/' + current.imageName :
+                                   '/img/avatar.jpg'}}">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">

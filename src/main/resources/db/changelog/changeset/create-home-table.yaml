@@ -14,28 +14,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: title
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
-                  name: introText
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
-                  name: metaDescription
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
-                  name: image_name
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
                   name: section
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
-                  name: textH1
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
-                  name: textH2
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
-                  name: textH3
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
   - changeSet:
       id: add-data-home

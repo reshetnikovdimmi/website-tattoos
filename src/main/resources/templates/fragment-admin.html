@@ -42,105 +42,154 @@
                 <!-- Hero Section Begin -->
                 <div class="tab-pane fade show active" id="v-pills-carousel" role="tabpanel"
                      aria-labelledby="v-pills-carousel-tab">
-                    <section class="hero-section">
-                        <div class="col-lg-12 text-center">
-                            <div class="section-title">
-                                <h2>carousel</h2>
+                    <section class="hero-section spad">
+                        <div class="container">
+                            <div class="section-title modern text-center">
+                                <h2>Управление каруселью</h2>
+                                <p>Добавляйте и редактируйте слайды главной страницы</p>
                             </div>
-                        </div>
-                        <div class="container ">
+
                             <div class="carousel-import">
                                 <div th:fragment="carousel-import">
-                                    <div class="row justify-content-center">
-                                        <div class="card">
+                                    <!-- Форма загрузки -->
+                                    <div class="admin-card fade-in-up">
+                                        <div class="modern-grid">
+                                            <!-- Левая колонка с загрузкой изображения -->
                                             <form action="/hero/image-import"
                                                   onsubmit="submitForm(event, '.carousel-import')"
-                                                  class="form-admin" th:object="${hero}">
-                                                <div class="row mb-3 text-center">
-                                                    <div class="col-6 col-lg-4 themed-grid-col">
-                                                        <div class="avatar-container">
-                                                            <img class="preview-image" id="hero-section"
-                                                                 src="img/avatar.jpg" alt="Выберите фото тату">
-                                                            <button type="button"
-                                                                    class="upload-btn btn btn-primary"
-                                                                    onclick="document.getElementById('file-carousel').click()">
-                                                                Выбрать файл
-                                                            </button>
-                                                            <input type="file" name="file" id="file-carousel"
-                                                                   accept="image/*"
-                                                                   onchange="loadImage(this, document.getElementById('hero-section'))"
-                                                                   required>
+                                                  class="modern-form" th:object="${hero}">
+                                                <div class="upload-column">
+                                                    <div class="upload-area" id="upload-area-hero"
+                                                         onclick="document.getElementById('file-carousel').click()">
+                                                        <img class="preview-image" id="hero-section"
+                                                             src="/img/avatar.jpg" alt="Preview">
+                                                        <div class="upload-overlay">
+                                                            <i class="fa fa-cloud-upload"></i>
+                                                            <span>Выбрать изображение</span>
                                                         </div>
+                                                        <input type="file" name="file" id="file-carousel"
+                                                               accept="image/*"
+                                                               onchange="loadImage(this, document.getElementById('hero-section'))"
+                                                               required>
                                                     </div>
-                                                    <div class="col-sm-6 col-lg-8 themed-grid-col">
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">H2</span>
-                                                            <textarea class="form-control" name="textH2"
-                                                                      th:field="*{textH2}"
-                                                                      aria-label="С текстовым полем"
-                                                                      required></textarea>
-                                                        </div>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">H1</span>
-                                                            <textarea class="form-control" name="textH1"
-                                                                      th:field="*{textH1}"
-                                                                      aria-label="С текстовым полем"
-                                                                      required></textarea>
-                                                        </div>
+                                                    <div class="file-info text-center">
+                                                        <i class="fa fa-info-circle"></i>
+                                                        <small>Поддерживаются форматы JPG, PNG, GIF. Макс. размер
+                                                            5MB</small>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-3 text-center">
-                                                    <div class="d-grid gap-2 col-6 mx-auto">
-                                                        <button type="submit" class="btn btn-primary">
-                                                            Сохранить тату
-                                                        </button>
+
+                                                <!-- Правая колонка с формой -->
+                                                <div class="form-column">
+                                                    <div class="modern-input-group">
+                                                        <span class="input-label">Заголовок (H2)</span>
+                                                        <div class="input-wrapper">
+                                                            <i class="input-icon fa fa-header"></i>
+                                                            <textarea class="form-control" name="title"
+                                                                      th:field="*{title}"
+                                                                      placeholder="Введите заголовок..."
+                                                                      required></textarea>
+                                                        </div>
                                                     </div>
+
+                                                    <div class="modern-input-group">
+                                                        <span class="input-label">Подзаголовок (H1)</span>
+                                                        <div class="input-wrapper">
+                                                            <i class="input-icon fa fa-header"></i>
+                                                            <textarea class="form-control" name="subtitle"
+                                                                      th:field="*{subtitle}"
+                                                                      placeholder="Введите подзаголовок..."
+                                                                      required></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <button type="submit" class="btn-modern">
+                                                        <i class="fa fa-save"></i>
+                                                        Сохранить слайд
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-center">
-                                        <div class="card">
-                                            <div id="carouselExample" class="carousel slide">
-                                                <div class="carousel-inner">
-                                                    <div th:each="current : ${home}">
-                                                        <div th:each="currents, item : ${current.banners}"
-                                                             class="carousel-item"
-                                                             th:attrappend="class=${item.index == 0}? ' active': ''">
-                                                            <img th:src="@{'/images/' + ${currents.imageName}}"
-                                                                 class="d-block w-100 stretched-image"
-                                                                 alt="..."/>
-                                                            <div class="carousel-caption d-none d-md-block">
-                                                                <div class="hero-text">
-                                                                    <h6 th:text="${currents.textH2}"></h6>
-                                                                    <h5 th:text="${currents.textH1}"></h5>
-                                                                </div>
 
+                                    <!-- Превью карусели -->
+                                    <div class="admin-card fade-in-up" style="animation-delay: 0.2s">
+                                        <div class="section-title modern text-center">
+                                            <h4>Текущие слайды</h4>
+                                        </div>
+
+                                        <div id="adminCarousel" class="carousel slide admin-carousel"
+                                             data-bs-ride="carousel">
+                                            <div class="carousel-indicators">
+                                                <div th:each="current : ${home}" th:if="${current.banners != null}">
+                                                    <button th:each="currents, item : ${current.banners}"
+                                                            type="button"
+                                                            th:data-bs-target="'#adminCarousel'"
+                                                            th:data-bs-slide-to="${item.index}"
+                                                            th:classappend="${item.index == 0}? 'active' : ''"
+                                                            th:aria-label="'Slide ' + ${item.index + 1}">
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="carousel-inner">
+                                                <div th:each="current : ${home}">
+                                                    <div th:each="currents, item : ${current.banners}"
+                                                         class="carousel-item"
+                                                         th:classappend="${item.index == 0}? 'active' : ''">
+
+                                                        <!-- Изображение с проверкой -->
+                                                        <img th:if="${currents.imageName != null and !currents.imageName.isEmpty()}"
+                                                             th:src="@{'/images/' + ${currents.imageName}}"
+                                                             class="d-block w-100"
+                                                             th:alt="${currents.description} ?: 'Изображение слайда'">
+
+                                                        <img th:if="${currents.imageName == null or currents.imageName.isEmpty()}"
+                                                             th:src="@{/img/avatar.jpg}"
+                                                             class="d-block w-100 placeholder-image"
+                                                             th:alt="'Изображение по умолчанию'">
+
+                                                        <div class="carousel-caption">
+                                                            <div class="hero-text">
+                                                                <h6 th:text="${currents.title}"></h6>
+                                                                <h5 th:text="${currents.subtitle}"></h5>
                                                             </div>
-                                                            <button style="margin: 10px;"
-                                                                    th:id="${currents.id}"
-                                                                    onclick="deleteImage(this.id, '.carousel-import', '/hero/delete-section')"
-                                                                    class="delete-button"
-                                                                    type="submit"></button>
                                                         </div>
+
+                                                        <button th:id="${currents.id}"
+                                                                onclick="deleteImage(this.id, '.carousel-import', '/hero/delete-section')"
+                                                                class="admin-delete-btn"
+                                                                title="Удалить слайд">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
-                                                <button class="carousel-control-prev" id="Previous"
-                                                        type="button"
-                                                        data-bs-target="#carouselExample" data-bs-slide="prev"
-                                                        onclick="carousePrevious()">
-                                                            <span class="carousel-control-prev-icon"
-                                                                  aria-hidden="true"></span>
-                                                    <span class="visually-hidden">Previous</span>
+                                            </div>
+
+                                            <!-- Элементы управления каруселью -->
+                                            <div class="carousel-controls">
+                                                <button class="carousel-control-prev custom-carousel-btn" type="button"
+                                                        data-bs-target="#adminCarousel" data-bs-slide="prev"
+                                                        onclick="carouselPrev()">
+                                                    <i class="fa fa-chevron-left"></i>
+                                                    <span class="visually-hidden"></span>
                                                 </button>
-                                                <button class="carousel-control-next" type="button" id="Next"
-                                                        data-bs-target="#carouselExample" data-bs-slide="next"
+
+                                                <button class="carousel-control-next custom-carousel-btn" type="button"
+                                                        data-bs-target="#adminCarousel" data-bs-slide="next"
                                                         onclick="carouselNext()">
-                                                            <span class="carousel-control-next-icon"
-                                                                  aria-hidden="true"></span>
-                                                    <span class="visually-hidden">Next</span>
+                                                    <i class="fa fa-chevron-right"></i>
+                                                    <span class="visually-hidden"></span>
                                                 </button>
                                             </div>
+                                        </div>
+
+                                        <!-- Информация о слайдах -->
+                                        <div th:if="${home != null and home[0].banners != null}"
+                                             class="slides-info text-center mt-4">
+                        <span class="badge bg-primary">
+                            Всего слайдов: <span th:text="${home[0].banners.size()}"></span>
+                        </span>
                                         </div>
                                     </div>
                                 </div>
@@ -1217,11 +1266,11 @@
                    class="nav-link active btn btn-outline-secondary"
                    id="v-pills-users-tab"
                    data-toggle="pill"
-                href="#v-pills-users"
-                role="tab"
-                aria-controls="v-pills-users"
-                aria-selected="true">
-                Пользователи
+                   href="#v-pills-users"
+                   role="tab"
+                   aria-controls="v-pills-users"
+                   aria-selected="true">
+                    Пользователи
                 </a>
                 <a style="margin: 10px;"
                    class="nav-link btn btn-outline-secondary"
@@ -1251,7 +1300,7 @@
                    role="tab"
                    aria-controls="v-logo"
                    aria-selected="false">
-                     Logo
+                    Logo
                 </a>
                 <a style="margin: 10px;"
                    class="nav-link btn btn-outline-secondary"
@@ -1261,7 +1310,7 @@
                    role="tab"
                    aria-controls="v-head"
                    aria-selected="false">
-                     Head
+                    Head
                 </a>
                 <a style="margin: 10px;"
                    class="nav-link btn btn-outline-secondary"
@@ -1271,7 +1320,7 @@
                    role="tab"
                    aria-controls="v-footer"
                    aria-selected="false">
-                     Footer
+                    Footer
                 </a>
             </div>
         </div>
@@ -1633,8 +1682,14 @@
             <div class="col-lg-12">
                 <div class="gallery-controls" th:each="current: ${gallery}">
                     <ul>
-                        <li class="active" th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">Вся галерея</li>
-                        <li th:each="currents: ${styleList}" th:unless="${currents.title}" th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">[[${currents.textH1}]]</li>
+                        <li class="active"
+                            th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
+                            Вся галерея
+                        </li>
+                        <li th:each="currents: ${styleList}" th:unless="${currents.title}"
+                            th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
+                            [[${currents.textH1}]]
+                        </li>
                     </ul>
                 </div>
             </div>

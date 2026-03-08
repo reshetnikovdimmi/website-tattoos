@@ -62,6 +62,7 @@ public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K>{
 
     @Override
     public E saveImg(MultipartFile fileImport, E entity) throws IOException {
+
         log.info("Сохранение изображения: файл={}, размер={} байт",
                 fileImport.getOriginalFilename(),
                 fileImport.getSize());

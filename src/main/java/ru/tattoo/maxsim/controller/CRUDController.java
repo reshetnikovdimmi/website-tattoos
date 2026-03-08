@@ -31,6 +31,19 @@ public abstract class CRUDController<E, K>  {
     public String uploadImage(@ModelAttribute("hero") E object,
                              @RequestParam("file") MultipartFile fileImport,
                              Model model) throws IOException, ParseException {
+
+
+        String fileName = fileImport != null ? fileImport.getOriginalFilename() : "null";
+        long fileSize = fileImport != null ? fileImport.getSize() : 0;
+
+
+        log.info("Файл: '{}', Размер: {} байт, Тип: {}",
+                fileName, fileSize, fileImport != null ? fileImport.getContentType() : "unknown");
+
+        log.debug("Детали объекта до обработки: {}", object != null ? object.toString() : "null");
+
+
+
         getService().saveImg(fileImport, object);
 
         updateSection(model);

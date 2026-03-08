@@ -17,19 +17,11 @@ public class Home {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
-    private String title; // Заголовок главной страницы
-    private String introText; // Приветственный текст
-    private String metaDescription; // Meta-информация для поисковиков
-
-    private String imageName;
     private String section;
-    private String textH1;
-    private String textH2;
-    private String textH3;
-
 
     @OneToMany(targetEntity = HomeHeroSection.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "section", referencedColumnName = "section")
+    @OrderBy("displayOrder DESC")
     private List<HomeHeroSection> banners;
 
     @OneToMany(targetEntity = FeatureSection.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)

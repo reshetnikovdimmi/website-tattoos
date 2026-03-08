@@ -17,17 +17,25 @@ databaseChangeLog:
                   name: image_name
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH1
+                  name: title
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH2
+                  name: subtitle
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH3
+                  name: description
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
                   name: section
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: display_order
+                  type: int
+                  defaultValueNumeric: 0
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
 
   - changeSet:
       id: add-data-homehero
@@ -40,11 +48,20 @@ databaseChangeLog:
                   name: section
                   value: home
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH1
-                  value: textH1
+                  name: subtitle
+                  value: subtitle
+              - column:
+                  name: description
+                  value: description
+              - column:
+                  name: display_order
+                  valueNumeric: 1
+              - column:
+                  name: is_active
+                  valueBoolean: true
   - changeSet:
       id: add-fk-from-homehero-to-home
       author: Dmitrii

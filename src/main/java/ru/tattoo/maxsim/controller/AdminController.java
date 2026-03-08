@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     private static final String ALL_GALLERY = "Вся галерея";
-    private static final int PAGE_NUMBER = 0;
     public static final String ADMIN_URL = "/admin";
     public static final String ADMIN_NAME = "admin";
 
@@ -93,15 +92,6 @@ public class AdminController {
         model.addAttribute("images", new Images());
         model.addAttribute("blogEntity", new Blog());
 
-       /* String normalizedStyle =  null;
-        model.addAttribute("gallery", imagesService.getGalleryDto(normalizedStyle, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
-        model.addAttribute("reviews", reviewService.findAll());
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("interestingWorks", blogService.findDescription());
-        model.addAttribute("blog", blogService.findAll());
-        model.addAttribute("setting", settingWebsiteService.findAll());
-        model.addAttribute("commits", commitsService.findAll().stream()
-                .map(commits -> modelMapper.map(commits, CommitsDTO.class)).collect(Collectors.toList()));*/
         model.addAttribute("home", homeService.findAll());
 
     }

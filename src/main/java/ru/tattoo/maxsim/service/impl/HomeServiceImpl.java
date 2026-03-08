@@ -31,20 +31,4 @@ public class HomeServiceImpl extends AbstractCRUDService <Home, Long> implements
     }
 
 
-    @Override
-    public void deleteById(Long id) {
-
-        Optional<String> imageName = homeRepository.getName(id);
-
-        imageName.ifPresent(name -> {
-            try {
-                ImageUtils.deleteImage(name);
-            } catch (IOException e) {
-                throw new RuntimeException("Ошибка удаления файла", e);
-            }
-        });
-        getRepository().deleteById(id);
-
-    }
-
 }

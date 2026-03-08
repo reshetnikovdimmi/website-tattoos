@@ -197,13 +197,14 @@
             $(".tab-content").html(data);
         });
     }
-    function carouselNext() {
-        $('#carouselExample').carousel('next');
-    }
+   // Функции для управления каруселью
+   function carouselPrev() {
+       $('#adminCarousel').carousel('prev');
+   }
 
-    function carousePrevious() {
-        $('#carouselExample').carousel('prev');
-    }
+   function carouselNext() {
+       $('#adminCarousel').carousel('next');
+   }
     /*----------------------------
     Функция для загрузки данных формы
     -----------------------------*/
