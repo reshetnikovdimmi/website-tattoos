@@ -124,29 +124,31 @@ public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K> {
         log.info("   Размер: {} байт", fileImport.getSize());
         log.info("   Тип: {}", fileImport.getContentType());
 
-        // Валидация файла
         validateFile(fileImport);
 
         try {
-            // 1. Генерируем уникальное имя файла через ImageStorage
-            String uniqueFileName = getImageStorage().generateUniqueFileName(
-                    fileImport.getOriginalFilename()
-            );
-            log.debug("📄 Сгенерировано уникальное имя: {}", uniqueFileName);
+            // Убираем генерацию имени здесь - пусть Storage сам генерирует!
+            // String uniqueFileName = getImageStorage().generateUniqueFileName(
+            //     fileImport.getOriginalFilename()
+            // );
 
-            // 2. Подготавливаем объект (устанавливаем имя файла)
-            setImageFileName(entity, uniqueFileName);
-            prepareObject(entity, uniqueFileName); // для обратной совместимости
+            // Просто передаем оригинальное имя
+            String originalFileName = fileImport.getOriginalFilename();
+            log.debug("📄 Оригинальное имя файла: {}", originalFileName);
+
+            // Сохраняем файл через ImageStorage (он сам сгенерирует имя)
+            String savedFileName = getImageStorage().saveImage(fileImport, originalFileName);
+            log.debug("💾 Файл сохранен в хранилище с именем: {}", savedFileName);
+
+            // Устанавливаем имя файла в сущность
+            setImageFileName(entity, savedFileName);
+            prepareObject(entity, savedFileName);
             log.debug("🔄 Объект подготовлен: {}", entity);
 
-            // 3. Сохраняем файл через ImageStorage
-            getImageStorage().saveImage(fileImport, uniqueFileName);
-            log.debug("💾 Файл сохранен в хранилище");
-
-            // 4. Сохраняем сущность в БД
+            // Сохраняем сущность в БД
             E savedEntity = getRepository().save(entity);
             log.info("✅ Изображение успешно сохранено!");
-            log.info("   Имя файла: {}", uniqueFileName);
+            log.info("   Имя файла: {}", savedFileName);
             log.info("   Сущность ID: {}", getEntityId(savedEntity));
 
             return savedEntity;

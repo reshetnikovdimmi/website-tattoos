@@ -3,15 +3,10 @@ package ru.tattoo.maxsim.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.FeatureSection;
-import ru.tattoo.maxsim.model.HomeHeroSection;
 import ru.tattoo.maxsim.repository.FeatureSectionRepository;
 import ru.tattoo.maxsim.service.interf.FeatureSectionService;
-import ru.tattoo.maxsim.util.ImageUtils;
-
-import java.io.IOException;
-import java.util.Optional;
+import ru.tattoo.maxsim.storage.ImageStorage;
 
 @Service
 public class FeatureSectionServiceImpl extends AbstractCRUDService<FeatureSection, Long> implements FeatureSectionService {
@@ -19,33 +14,34 @@ public class FeatureSectionServiceImpl extends AbstractCRUDService<FeatureSectio
     @Autowired
     private FeatureSectionRepository featureSectionRepository;
 
+    @Autowired
+    private ImageStorage imageStorage;
+
     @Override
-    void prepareObject(FeatureSection entity, String s) {
-        entity.setImageName(s);
-        entity.setSection("home");
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    protected String getImageFileName(FeatureSection entity) {
+        return entity != null ? entity.getImageName() : null; // Обратите внимание: iconName
+    }
+
+    @Override
+    protected void setImageFileName(FeatureSection entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+            entity.setSection("home");
+        }
+    }
+
+    @Override
+    void prepareObject(FeatureSection entity, String fileName) {
+        setImageFileName(entity, fileName);
     }
 
     @Override
     CrudRepository<FeatureSection, Long> getRepository() {
         return featureSectionRepository;
     }
-
-
-    @Override
-    public void deleteById(Long id) {
-
-        Optional<String> imageName = featureSectionRepository.getName(id);
-
-        imageName.ifPresent(name -> {
-            try {
-                ImageUtils.deleteImage(name);
-            } catch (IOException e) {
-                throw new RuntimeException("Ошибка удаления файла", e);
-            }
-        });
-        getRepository().deleteById(id);
-
-    }
-
-
 }

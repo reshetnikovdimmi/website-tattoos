@@ -1,4 +1,4 @@
-package UI.baseActions;
+package ru.tattoo.maxsim.UI.baseActions;
 
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -13,7 +13,6 @@ import org.openqa.selenium.support.events.*;
 
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 abstract public class BaseSeleniumTest {
     protected static WebDriver driver;

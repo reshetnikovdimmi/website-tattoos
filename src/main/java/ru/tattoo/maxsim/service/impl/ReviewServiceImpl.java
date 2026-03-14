@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.repository.ReviewsUserRepository;
 import ru.tattoo.maxsim.service.interf.ReviewService;
+import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.ImageUtils;
 
 import java.io.IOException;
@@ -29,9 +30,20 @@ public class ReviewServiceImpl extends AbstractCRUDService<ReviewsUser,Long> imp
     @Autowired
     private ReviewsUserRepository reviewsUserRepository;
 
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
     @Override
     void prepareObject(ReviewsUser entity, String imageName) {
+
         log.debug("Подготовка объекта ReviewsUser для сохранения");
+
+        setImageFileName(entity, imageName);
 
         // 1. Устанавливаем имя изображения
         entity.setImageName(imageName);
@@ -69,18 +81,17 @@ public class ReviewServiceImpl extends AbstractCRUDService<ReviewsUser,Long> imp
     }
 
     @Override
-    public void deleteById(Long id) throws IOException {
-
-        Optional<String> imageName = reviewsUserRepository.findNameById(id);
-        imageName.ifPresent(name -> {
-            try {
-                ImageUtils.deleteImage(name);
-            } catch (IOException e) {
-                throw new RuntimeException("Ошибка удаления файла", e);
-            }
-        });
-        reviewsUserRepository.deleteById(id);
+    protected String getImageFileName(ReviewsUser entity) {
+        return entity != null ? entity.getImageName() : null; // Обратите внимание: image
     }
+
+    @Override
+    protected void setImageFileName(ReviewsUser entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+        }
+    }
+
 
     @Override
     public List<ReviewsUser> findLimit() {

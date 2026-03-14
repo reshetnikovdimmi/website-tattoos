@@ -3,16 +3,12 @@ package ru.tattoo.maxsim.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import ru.tattoo.maxsim.model.AboutSection;
 import ru.tattoo.maxsim.model.ClassesSection;
 import ru.tattoo.maxsim.repository.ClassesSectionRepository;
 import ru.tattoo.maxsim.service.interf.ClassesSectionService;
-import ru.tattoo.maxsim.util.ImageUtils;
+import ru.tattoo.maxsim.storage.ImageStorage;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClassesSectionServiceImpl extends AbstractCRUDService<ClassesSection, Long> implements ClassesSectionService {
@@ -20,17 +16,30 @@ public class ClassesSectionServiceImpl extends AbstractCRUDService<ClassesSectio
     @Autowired
     private ClassesSectionRepository classesSectionRepository;
 
+    @Autowired
+    private ImageStorage imageStorage;
+
     @Override
-    void prepareObject(ClassesSection entity, String s) {
-        entity.setImageName(s);
-        entity.setSection("home");
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
     }
 
     @Override
-    public void create(ClassesSection entity) {
+    protected String getImageFileName(ClassesSection entity) {
+        return entity != null ? entity.getImageName() : null;
+    }
+
+    @Override
+    protected void setImageFileName(ClassesSection entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+        }
+    }
+
+    @Override
+    void prepareObject(ClassesSection entity, String fileName) {
+        setImageFileName(entity, fileName);
         entity.setSection("home");
-        entity.setTitle("title");
-        getRepository().save(entity);
     }
 
     @Override
@@ -44,17 +53,9 @@ public class ClassesSectionServiceImpl extends AbstractCRUDService<ClassesSectio
     }
 
     @Override
-    public void deleteById(Long id) {
-
-        Optional<String> imageName = classesSectionRepository.getName(id);
-
-        imageName.ifPresent(name -> {
-            try {
-                ImageUtils.deleteImage(name);
-            } catch (IOException e) {
-                throw new RuntimeException("Ошибка удаления файла", e);
-            }
-        });
-        getRepository().deleteById(id);
+    public void create(ClassesSection entity) {
+        entity.setSection("home");
+        entity.setTitle("title");
+        getRepository().save(entity);
     }
 }

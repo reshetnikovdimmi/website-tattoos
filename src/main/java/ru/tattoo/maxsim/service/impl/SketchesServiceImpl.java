@@ -13,6 +13,7 @@ import ru.tattoo.maxsim.model.DTO.SketchesDTO;
 import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.repository.SketchesRepository;
 import ru.tattoo.maxsim.service.interf.SketchesService;
+import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.ImageUtils;
 import ru.tattoo.maxsim.util.PageSize;
 
@@ -31,15 +32,23 @@ public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> imp
     @Autowired
     private SketchesRepository sketchesRepository;
 
+    @Autowired
+    private ImageStorage imageStorage;
+
     @Override
     public List<Sketches> findLimit() {
         return sketchesRepository.findLimit();
     }
 
     @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
     void prepareObject(Sketches entity, String s) {
+        setImageFileName(entity, s);
         entity.setDate(new Date());
-        entity.setImageName(s);
     }
 
     @Override
@@ -48,17 +57,17 @@ public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> imp
     }
 
     @Override
-    public void deleteById(Long id) throws IOException {
-        Optional<String> imageName = sketchesRepository.findNameById(id);
-        imageName.ifPresent(name -> {
-            try {
-                ImageUtils.deleteImage(name);
-            } catch (IOException e) {
-                throw new RuntimeException("Ошибка удаления файла", e);
-            }
-        });
-        getRepository().deleteById(id);
+    protected String getImageFileName(Sketches entity) {
+        return entity != null ? entity.getImageName() : null;
     }
+
+    @Override
+    protected void setImageFileName(Sketches entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+        }
+    }
+
 
     @Override
     public SketchesDTO getSketchesDto(String category, Principal principal, int pageSize, int pageNumber) {

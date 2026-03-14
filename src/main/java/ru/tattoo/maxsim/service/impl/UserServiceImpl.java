@@ -13,6 +13,7 @@ import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.repository.UserRepository;
 import ru.tattoo.maxsim.service.interf.UserService;
+import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.ImageUtils;
 
 import java.io.FileNotFoundException;
@@ -30,16 +31,36 @@ public class UserServiceImpl extends AbstractCRUDService<User, Long> implements 
     private UserRepository userRepository;
 
     @Autowired
+    private ImageStorage imageStorage;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @Override
-    void prepareObject(User entity, String s) {
-        
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    void prepareObject(User entity, String fileName) {
+        setImageFileName(entity, fileName);
     }
 
     @Override
     CrudRepository<User, Long> getRepository() {
         return userRepository;
+    }
+
+    @Override
+    protected String getImageFileName(User entity) {
+        return entity != null ? entity.getAvatar() : null; // Обратите внимание: avatarName
+    }
+
+    @Override
+    protected void setImageFileName(User entity, String fileName) {
+        if (entity != null) {
+            entity.setAvatar(fileName);
+        }
     }
 
     @Override

@@ -3,15 +3,11 @@ package ru.tattoo.maxsim.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.ChooseusSection;
-import ru.tattoo.maxsim.model.ClassesSection;
-import ru.tattoo.maxsim.model.PriceSection;
 import ru.tattoo.maxsim.repository.ChooseusSectionRepository;
 import ru.tattoo.maxsim.service.interf.ChooseusSectionService;
-import ru.tattoo.maxsim.util.ImageUtils;
+import ru.tattoo.maxsim.storage.ImageStorage;
 
-import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -20,6 +16,36 @@ public class ChooseusSectionServiceImpl extends AbstractCRUDService<ChooseusSect
     @Autowired
     private ChooseusSectionRepository chooseusSectionRepository;
 
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    protected String getImageFileName(ChooseusSection entity) {
+        return entity != null ? entity.getImageName() : null; // Обратите внимание: iconName
+    }
+
+    @Override
+    protected void setImageFileName(ChooseusSection entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+        }
+    }
+
+    @Override
+    void prepareObject(ChooseusSection entity, String fileName) {
+        setImageFileName(entity, fileName);
+        entity.setSection("home");
+    }
+
+    @Override
+    CrudRepository<ChooseusSection, Long> getRepository() {
+        return chooseusSectionRepository;
+    }
     @Override
     public void create(ChooseusSection entity) {
 
@@ -29,32 +55,5 @@ public class ChooseusSectionServiceImpl extends AbstractCRUDService<ChooseusSect
         entity.setTitle(object.get().getTitle());
 
         getRepository().save(entity);
-    }
-
-    @Override
-    void prepareObject(ChooseusSection entity, String s) {
-        entity.setImageName(s);
-        entity.setSection("home");
-    }
-
-    @Override
-    CrudRepository<ChooseusSection, Long> getRepository() {
-        return chooseusSectionRepository;
-    }
-
-    @Override
-    public void deleteById(Long id) {
-
-        Optional<String> imageName = chooseusSectionRepository.getName(id);
-
-        imageName.ifPresent(name -> {
-            try {
-                ImageUtils.deleteImage(name);
-            } catch (IOException e) {
-                throw new RuntimeException("Ошибка удаления файла", e);
-            }
-        });
-        getRepository().deleteById(id);
-
     }
 }

@@ -6,20 +6,39 @@ import org.springframework.stereotype.Service;
 import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.repository.ContactInfoRepository;
 import ru.tattoo.maxsim.service.interf.ContactInfoService;
+import ru.tattoo.maxsim.storage.ImageStorage;
 
 @Service
 public class ContactInfoServiceImpl extends AbstractCRUDService<ContactInfo, Long> implements ContactInfoService {
+
   @Autowired
   private ContactInfoRepository contactInfoRepository;
 
+  @Autowired
+  private ImageStorage imageStorage;
 
   @Override
-  void prepareObject(ContactInfo entity, String s) {
+  protected ImageStorage getImageStorage() {
+    return imageStorage;
+  }
+
+  @Override
+  protected String getImageFileName(ContactInfo entity) {
+    return null;
+  }
+
+  @Override
+  protected void setImageFileName(ContactInfo entity, String fileName) {
 
   }
 
   @Override
-    CrudRepository<ContactInfo, Long> getRepository() {
-        return contactInfoRepository;
-    }
+  void prepareObject(ContactInfo entity, String fileName) {
+    setImageFileName(entity, fileName);
+  }
+
+  @Override
+  CrudRepository<ContactInfo, Long> getRepository() {
+    return contactInfoRepository;
+  }
 }

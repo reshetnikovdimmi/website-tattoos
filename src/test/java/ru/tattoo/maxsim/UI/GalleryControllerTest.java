@@ -1,8 +1,8 @@
-package UI;
+package ru.tattoo.maxsim.UI;
 
-import UI.baseActions.BaseSeleniumTest;
-import UI.baseActions.TestListener;
-import UI.page.GalleryPage;
+import ru.tattoo.maxsim.UI.baseActions.BaseSeleniumTest;
+import ru.tattoo.maxsim.UI.baseActions.TestListener;
+import ru.tattoo.maxsim.UI.page.GalleryPage;
 import io.qameta.allure.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;

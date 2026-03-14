@@ -1,4 +1,4 @@
-package UI.baseActions;
+package ru.tattoo.maxsim.UI.baseActions;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;

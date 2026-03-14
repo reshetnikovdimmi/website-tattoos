@@ -13,6 +13,7 @@ import ru.tattoo.maxsim.model.DTO.GalleryDTO;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ImagesRepository;
 import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.ImageUtils;
 import ru.tattoo.maxsim.util.PageSize;
 
@@ -29,6 +30,9 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
     private static final int PARTITION_SIZE = 3;
 
     @Autowired
+    private ImageStorage imageStorage;
+
+    @Autowired
     private ImagesRepository imagesRepository;
 
     @Override
@@ -37,9 +41,27 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
     }
 
     @Override
-    void prepareObject(Images entity, String s) {
-        log.debug("Подготовка объекта Images: установка имени изображения: {}", s);
-        entity.setImageName(s);
+    protected String getImageFileName(Images entity) {
+        return entity != null ? entity.getImageName() : null;
+    }
+
+    @Override
+    protected void setImageFileName(Images entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+        }
+    }
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    void prepareObject(Images entity, String fileName) {
+        log.debug("Подготовка объекта Images: установка имени изображения: {}", fileName);
+        setImageFileName(entity, fileName);
+        entity.setImageName(fileName);
     }
     @Override
     public GalleryDTO getGalleryDto(String category, Principal principal, int pageSize, int pageNumber) {

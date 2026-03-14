@@ -9,6 +9,7 @@ import ru.tattoo.maxsim.model.Blog;
 import ru.tattoo.maxsim.model.SettingWebsite;
 import ru.tattoo.maxsim.repository.SettingWebsiteRepository;
 import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
+import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.ImageUtils;
 
 import java.io.IOException;
@@ -18,6 +19,14 @@ public class SettingWebsiteServiceImpl extends AbstractCRUDService<SettingWebsit
 
     @Autowired
     private SettingWebsiteRepository settingWebsiteRepository;
+
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
 
     @Override
     void prepareObject(SettingWebsite entity, String s) {
@@ -29,6 +38,15 @@ public class SettingWebsiteServiceImpl extends AbstractCRUDService<SettingWebsit
         return settingWebsiteRepository;
     }
 
+    @Override
+    protected String getImageFileName(SettingWebsite entity) {
+        return null;
+    }
+
+    @Override
+    protected void setImageFileName(SettingWebsite entity, String fileName) {
+
+    }
 
 
 }
