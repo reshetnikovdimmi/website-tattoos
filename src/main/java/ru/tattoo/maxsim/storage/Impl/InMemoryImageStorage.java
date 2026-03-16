@@ -49,7 +49,10 @@ public class InMemoryImageStorage implements ImageStorage {
 
     @Override
     public String generateUniqueFileName(String originalFileName) {
-        return UUID.randomUUID().toString() + "_" + originalFileName;
+        if (originalFileName == null) {
+            throw new NullPointerException("Имя файла не может быть null");
+        }
+        return UUID.randomUUID() + "_" + originalFileName;
     }
 
     @Override

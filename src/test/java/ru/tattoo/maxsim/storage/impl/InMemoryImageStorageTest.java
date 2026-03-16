@@ -1,5 +1,6 @@
 package ru.tattoo.maxsim.storage.impl;
 
+import io.qameta.allure.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -13,10 +14,13 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Epic("Хранилище изображений")
+@Feature("InMemoryImageStorage")
 @DisplayName("Тесты InMemoryImageStorage")  // Имя теста в отчетах
 public class InMemoryImageStorageTest {
     private ImageStorage imageStorage;  // Поле для тестируемого объекта
     @BeforeEach
+    @Step("Подготовка: создаем новое InMemoryImageStorage")
         // Выполняется ПЕРЕД каждым тестом
         //Метод setUp - подготовка перед каждым тестом
     void setUp() {
@@ -30,7 +34,10 @@ public class InMemoryImageStorageTest {
     class SaveImageTests {
 
         @Test
+        @Story("Сохранение файла")
+        @Severity(SeverityLevel.CRITICAL)
         @DisplayName("Должен сохранить файл и вернуть имя")
+        @Description("Проверяет базовую функциональность сохранения файла")
         void shouldSaveFileAndReturnName() throws Exception {
             // Arrange (Подготовка) - создаем тестовые данные
             byte[] content = "test image content".getBytes();  // Содержимое файла
@@ -49,7 +56,10 @@ public class InMemoryImageStorageTest {
         }
 
         @Test
+        @Story("Сохранение файла")
+        @Severity(SeverityLevel.NORMAL)
         @DisplayName("Должен выбросить исключение при пустом файле")
+        @Description("Проверяет обработку пустого файла")
         void shouldThrowExceptionForEmptyFile() {
             // Arrange - создаем пустой файл
             MultipartFile emptyFile = new MockMultipartFile(
@@ -70,7 +80,10 @@ public class InMemoryImageStorageTest {
     class GetImageTests {
 
         @Test
+        @Story("Получение файла")
+        @Severity(SeverityLevel.CRITICAL)
         @DisplayName("Должен получить сохраненный файл")
+        @Description("Проверяет что файл можно получить и содержимое не меняется")
         void shouldGetSavedFile() throws Exception {
             // Arrange - сначала сохраняем файл
             byte[] content = "hello world".getBytes();
@@ -90,6 +103,8 @@ public class InMemoryImageStorageTest {
         }
 
         @Test
+        @Story("Получение файла")
+        @Severity(SeverityLevel.NORMAL)
         @DisplayName("Должен выбросить исключение для несуществующего файла")
         void shouldThrowForNonExistentFile() {
             // Проверяем что при попытке получить несуществующий файл
@@ -104,7 +119,10 @@ public class InMemoryImageStorageTest {
     class DeleteImageTests {
 
         @Test
+        @Story("Удаление файла")
+        @Severity(SeverityLevel.CRITICAL)
         @DisplayName("Должен удалить существующий файл")
+        @Description("Проверяет что файл удаляется из хранилища")
         void shouldDeleteExistingFile() throws Exception {
             // Arrange - сохраняем файл
             byte[] content = "to delete".getBytes();
@@ -125,6 +143,8 @@ public class InMemoryImageStorageTest {
         }
 
         @Test
+        @Story("Удаление файла")
+        @Severity(SeverityLevel.MINOR)
         @DisplayName("Не должен падать при удалении несуществующего файла")
         void shouldNotThrowWhenDeletingNonExistentFile() {
             // Проверяем что удаление несуществующего файла
@@ -137,7 +157,10 @@ public class InMemoryImageStorageTest {
     class GenerateUniqueFileNameTests {
 
         @Test
+        @Story("Генерация имени")
+        @Severity(SeverityLevel.CRITICAL)
         @DisplayName("Должен генерировать имя с UUID формата 8-4-4-4-12")
+        @Description("Проверяет что UUID соответствует стандартному формату")
         void shouldGenerateNameWithUuidFormat() {
             // Act - генерируем имя
             String name = imageStorage.generateUniqueFileName("test.jpg");
@@ -159,7 +182,10 @@ public class InMemoryImageStorageTest {
         }
 
         @Test
+        @Story("Генерация имени")
+        @Severity(SeverityLevel.NORMAL)
         @DisplayName("Должен выбросить исключение для null")
+        @Description("Проверяет обработку null-аргумента")
         void shouldThrowForNull() {
             assertThrows(NullPointerException.class,
                     () -> imageStorage.generateUniqueFileName(null));
