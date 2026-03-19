@@ -13,8 +13,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.repository.CrudRepository;
 import ru.tattoo.maxsim.storage.ImageStorage;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import java.io.IOException;
+import java.util.Optional;
+
+import static org.mockito.Mockito.*;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
 
 @Epic("Сервисный слой")
 @Feature(value = "AbstractCRUDService")
@@ -53,6 +57,7 @@ public class AbstractCRUDServiceTest {
         @DisplayName("create - должен сохранить сущность")
         @Description ("Проверяет базовую операцию создания сущности")
         void create_ShouldSaveEntity(){
+
             // Arrange
             TestEntity entity = new TestEntity();
             entity.setName("Test Name");
@@ -64,6 +69,62 @@ public class AbstractCRUDServiceTest {
             // Assert
             verify(repository, times(1)).save(entity);
             Allure.addAttachment("Результат", "Сущность сохранена в репозиторий");
+        }
+        @Test
+        @Story("Обновление сущностей")
+        @Severity(SeverityLevel.CRITICAL)
+        @DisplayName("update - должно обновить сущьность")
+        @Description("Проверка обновления существующей cущости")
+        void update_ShouldUpdateEntity(){
+            // Arrange
+            TestEntity entity = new TestEntity(1L, "Update Name");
+            when(repository.save(entity)).thenReturn(entity);
+            Allure.addAttachment("Входные данные" , "Сущность с ID: 1, Name: Updated Name");
+            // Act
+            TestEntity result=service.update(entity);
+            //Assert
+            verify(repository, times(1)).save(entity);
+            assertNotNull(result);
+            Allure.addAttachment("Рузультат","Сущность обновлена");
+        }
+        @Test
+        @Story("Поиск по ID")
+        @Severity(SeverityLevel.CRITICAL)
+        @DisplayName("findById - должен вернуть сущность по ID")
+        @Description("Проверяет поиск сущности по идентификатору")
+        void findById_ShouldReturnEntity() {
+            // Arrange
+            Long id = 1L;
+            TestEntity expectedEntity = new TestEntity(id, "Found Entity");
+            when(repository.findById(id)).thenReturn(Optional.of(expectedEntity));
+            Allure.addAttachment("Входные данные", "Поиск по ID: " + id);
+
+            // Act
+            TestEntity result = service.findById(id);
+
+            // Assert
+            verify(repository, times(1)).findById(id);
+            assertNotNull(result);
+            assertEquals(id, result.getId());
+            assertEquals("Found Entity", result.getName());
+            Allure.addAttachment("Результат", "Сущность найдена: " + result.getName());
+        }
+        @Test
+        @Story("Удаление по ID")
+        @Severity(SeverityLevel.CRITICAL)
+        @DisplayName("deleteById - должен удалить сущность по ID")
+        @Description("Проверяет удаление сущности по идентификатору")
+        void deleteById_ShouldDeleteEntityById() throws IOException {
+            // Arrange
+            Long id = 1L;
+            Allure.addAttachment("Входные данные", "Удаление по ID: " + id);
+
+            // Act
+            service.deleteById(id);
+
+            // Assert
+            verify(repository, times(1)).deleteById(id);
+            Allure.addAttachment("Результат", "Сущность удалена по ID");
         }
     }
 
