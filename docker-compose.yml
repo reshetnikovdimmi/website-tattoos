@@ -4,65 +4,55 @@ services:
   service:
     build: .
     container_name: service
+    image: reshetnikovdimmi/website-tattoos:v1
     depends_on:
       db:
         condition: service_healthy
-    image: reshetnikovdimmi/website-tattoos:v1
     ports:
       - "8080:8080"
     volumes:
-      # Пробрасываем папку с изображениями
       - ~/data/images:/app/img/images
     environment:
-      # Явно указываем продакшен профиль
       - SPRING_PROFILES_ACTIVE=prod
-
-      # База данных
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/a0722849_maxsim?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=a0722849_maxsim
       - SPRING_DATASOURCE_PASSWORD=R870nt55@
-
-      # Почта
       - SPRING_MAIL_USERNAME=reshetnikov.dim.mi@yandex.ru
       - SPRING_MAIL_PASSWORD=kkrhwhlmoiawjgcm
-
-      # Настройки загрузки
       - UPLOAD_DIRECTORY=/app/img/images
       - UPLOAD_MAX_FILE_SIZE=10485760
-
-      # JVM параметры
       - JAVA_OPTS=-Xmx512m -Xms256m -XX:+UseG1GC
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"] || exit 0
-              interval: 30s
-              timeout: 10s
-              retries: 3
-              start_period: 40s
-              restart: unless-stopped
-              
-              db:
-              image: mysql:8.0
-              container_name: db
-              ports:
-              - "3307:3306"  # Не конфликтуем с локальной MySQL
-              environment:
-              - MYSQL_DATABASE=a0722849_maxsim
-              - MYSQL_USER=a0722849_maxsim
-              - MYSQL_PASSWORD=R870nt55@
-              - MYSQL_ROOT_PASSWORD=R870nt55@
-              command: 
-              - --character-set-server=utf8mb4
-              - --collation-server=utf8mb4_unicode_ci
-              - --max_allowed_packet=32M
-              volumes:
-              - mysql-data:/var/lib/mysql
-              healthcheck:
-              test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pR870nt55@"]
-              interval: 10s
-              timeout: 5s
-              retries: 5
-              start_period: 30s
-              restart: unless-stopped
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    container_name: db
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_DATABASE=a0722849_maxsim
+      - MYSQL_USER=a0722849_maxsim
+      - MYSQL_PASSWORD=R870nt55@
+      - MYSQL_ROOT_PASSWORD=R870nt55@
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --max_allowed_packet=32M
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pR870nt55@"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
 
 volumes:
   mysql-data:

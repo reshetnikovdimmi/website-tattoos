@@ -26,17 +26,17 @@ public class HeroSectionServiceImpl extends AbstractCRUDService<HomeHeroSection,
     // ============= Реализация абстрактных методов AbstractCRUDService =============
 
     @Override
-    protected ImageStorage getImageStorage() {
+    public ImageStorage getImageStorage() {
         return imageStorage;
     }
 
     @Override
-    protected String getImageFileName(HomeHeroSection entity) {
+    public String getImageFileName(HomeHeroSection entity) {
         return entity != null ? entity.getImageName() : null;
     }
 
     @Override
-    protected void setImageFileName(HomeHeroSection entity, String fileName) {
+    public void setImageFileName(HomeHeroSection entity, String fileName) {
         if (entity != null) {
             entity.setImageName(fileName);
         }
@@ -51,10 +51,8 @@ public class HeroSectionServiceImpl extends AbstractCRUDService<HomeHeroSection,
     }
 
     @Override
-    CrudRepository<HomeHeroSection, Long> getRepository() {
+    public CrudRepository<HomeHeroSection, Long> getRepository() {
         return homeHeroSectionRepository;
     }
-
-
-
+    
 }
