@@ -13,14 +13,17 @@ public class ClassesSection{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "image_name")
     private String imageName;
-    private String textH1;
-    private String textH2;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "description")
+    private String description;
     @Lob
-    private String textH3;
-
-    private String title;
-
+    @Column(name = "details")
+    private String details;
+    @Column(name = "category_title")
+    private String categoryTitle;
+    @Column(name = "section")
     private String section;
 }

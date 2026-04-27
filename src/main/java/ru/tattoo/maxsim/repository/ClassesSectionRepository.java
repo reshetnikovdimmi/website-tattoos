@@ -15,5 +15,5 @@ public interface ClassesSectionRepository extends JpaRepository<ClassesSection, 
     Optional<String> getName(Long id);
 
 
-    List<ClassesSection> findByTitle(String s);
+    List<ClassesSection> findByCategoryTitle(String s);
 }

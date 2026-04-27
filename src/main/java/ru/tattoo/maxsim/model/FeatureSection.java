@@ -1,9 +1,6 @@
 package ru.tattoo.maxsim.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @NoArgsConstructor
@@ -16,11 +13,14 @@ public class FeatureSection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "image_name")
     private String imageName;
-    private String textH1;
-    private String textH2;
-    private String textH3;
-
+    @Column(name = "title")
+    private String title;
+    @Column(name = "description")
+    private String description;
+    @Column(name = "icon_class")
+    private String iconClass;
+    @Column(name = "section")
     private String section;
 }

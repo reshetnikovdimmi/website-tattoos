@@ -14,17 +14,28 @@ public class ChooseusSection{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "image_name")
     private String imageName;
-    private String textH1;
-    @Lob
-    private String textH2;
-    @Lob
-    private String textH3;
-    private String textH4;
-    private String textH5;
 
+    @Column(name = "title")
     private String title;
 
+    @Lob
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "icon_class")
+    private String iconClass;
+
+    @Column(name = "feature_1")
+    private String feature1;
+
+    @Column(name = "feature_2")
+    private String feature2;
+
+    @Column(name = "category_title")
+    private String categoryTitle;
+
+    @Column(name = "section")
     private String section;
 }

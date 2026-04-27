@@ -17,22 +17,22 @@ databaseChangeLog:
                   name: image_name
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH1
+                  name: plan_name
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH2
+                  name: price
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH3
+                  name: description
                   type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH4
+                  name: feature_1
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH5
+                  name: feature_2
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: title
+                  name: category_title
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
                   name: section
@@ -49,14 +49,14 @@ databaseChangeLog:
                   name: section
                   value: home
               - column:
-                  name: textH3
-                  value: textH3
+                  name: description
+                  value: description
               - column:
-                  name: textH2
-                  value: textH2
+                  name: price
+                  value: price
               - column:
-                  name: title
-                  value: title
+                  name: category_title
+                  value: category_title
         - insert:
             tableName: price_section
             columns:
@@ -64,20 +64,20 @@ databaseChangeLog:
                   name: section
                   value: home
               - column:
-                  name: textH1
-                  value: textH1
+                  name: plan_name
+                  value: plan_name
               - column:
-                  name: textH2
-                  value: textH2
+                  name: price
+                  value: price
               - column:
-                  name: textH3
-                  value: textH3
+                  name: description
+                  value: description
               - column:
-                  name: textH4
-                  value: textH4
+                  name: feature_1
+                  value: feature_1
               - column:
-                  name: textH5
-                  value: textH5
+                  name: feature_2
+                  value: feature_2
         - insert:
             tableName: price_section
             columns:
@@ -85,20 +85,20 @@ databaseChangeLog:
                   name: section
                   value: home
               - column:
-                  name: textH1
-                  value: textH1
+                  name: plan_name
+                  value: plan_name
               - column:
-                  name: textH2
-                  value: textH2
+                  name: price
+                  value: price
               - column:
-                  name: textH3
-                  value: textH3
+                  name: description
+                  value: description
               - column:
-                  name: textH4
-                  value: textH4
+                  name: feature_1
+                  value: feature_1
               - column:
-                  name: textH5
-                  value: textH5
+                  name: feature_2
+                  value: feature_2
         - insert:
             tableName: price_section
             columns:
@@ -106,20 +106,20 @@ databaseChangeLog:
                   name: section
                   value: home
               - column:
-                  name: textH1
-                  value: textH1
+                  name: plan_name
+                  value: plan_name
               - column:
-                  name: textH2
-                  value: textH2
+                  name: price
+                  value: price
               - column:
-                  name: textH3
-                  value: textH3
+                  name: description
+                  value: description
               - column:
-                  name: textH4
-                  value: textH4
+                  name: feature_1
+                  value: feature_1
               - column:
-                  name: textH5
-                  value: textH5
+                  name: feature_2
+                  value: feature_2
 
   - changeSet:
       id: add-fk-from-price-to-home

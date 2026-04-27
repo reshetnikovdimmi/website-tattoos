@@ -15,10 +15,12 @@ public class AboutSection {
     private Long id;
 
     private String imageName;
-    private String textH1;
-    private String textH2;
+    @Column(name = "title")
+    private String title;
+    @Column(name = "subtitle")
+    private String subtitle;
     @Lob
-    private String textH3;
-
+    private String content;
+    @Column(name = "section")
     private String section;
 }

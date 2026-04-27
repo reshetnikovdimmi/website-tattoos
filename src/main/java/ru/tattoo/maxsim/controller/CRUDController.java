@@ -1,5 +1,6 @@
 package ru.tattoo.maxsim.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,24 +15,29 @@ import java.text.ParseException;
 @Slf4j
 public abstract class CRUDController<E, K>  {
 
-    abstract String getEntityName();
-    abstract CRUDService<E, K> getService();
-    abstract void updateSection(Model model);
+    protected abstract String getEntityName();
+    protected abstract CRUDService<E, K> getService();
+    protected abstract void updateSection(Model model);
 
 
 
     @GetMapping("/delete-section/{id}")
-    public String deleteEntity(@PathVariable("id") K id, Model model) throws IOException, ParseException {
+    public String deleteEntity(@PathVariable("id") K id,
+                               @RequestParam(value = "fragment", required = false) String fragmentName,
+                               Model model,
+                               HttpServletRequest request) throws IOException, ParseException {
+
         getService().deleteById(id);
         updateSection(model);
-        return getEntityName();
+
+        return getEntityName() + "::" + fragmentName;
     }
 
     @PostMapping("/image-import")
-    public String uploadImage(@ModelAttribute("hero") E object,
-                             @RequestParam("file") MultipartFile fileImport,
-                             Model model) throws IOException, ParseException {
-
+    public String uploadImage(@ModelAttribute() E object,
+                              @RequestParam("file") MultipartFile fileImport,
+                              @RequestParam(value = "fragment", required = false) String fragmentName,
+                              Model model) throws IOException, ParseException {
 
         String fileName = fileImport != null ? fileImport.getOriginalFilename() : "null";
         long fileSize = fileImport != null ? fileImport.getSize() : 0;
@@ -42,21 +48,24 @@ public abstract class CRUDController<E, K>  {
 
         log.debug("Детали объекта до обработки: {}", object != null ? object.toString() : "null");
 
-
-
         getService().saveImg(fileImport, object);
 
         updateSection(model);
-        return getEntityName();
+        System.out.println(fragmentName);
+        return getEntityName() + "::" + fragmentName;
     }
 
     @PostMapping("/import")
-    public String createEntity(@ModelAttribute("hero") E object,
-                              Model model) throws IOException, ParseException {
+    public String createEntity(@ModelAttribute() E object,
+                               @RequestParam(value = "fragment", required = false) String fragmentName,
+                               Model model) throws IOException, ParseException {
+
+        log.info("object={}",object);
 
         getService().create(object);
         updateSection(model);
-        return getEntityName();
+
+        return getEntityName() + "::" + fragmentName;
     }
 }
 

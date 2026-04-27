@@ -49,13 +49,13 @@ public class ClassesSectionServiceImpl extends AbstractCRUDService<ClassesSectio
 
     @Override
     public List<ClassesSection> findByTitle(String s) {
-        return classesSectionRepository.findByTitle(s);
+        return classesSectionRepository.findByCategoryTitle(s);
     }
 
     @Override
     public void create(ClassesSection entity) {
         entity.setSection("home");
-        entity.setTitle("title");
+        entity.setCategoryTitle("category_title");
         getRepository().save(entity);
     }
 }

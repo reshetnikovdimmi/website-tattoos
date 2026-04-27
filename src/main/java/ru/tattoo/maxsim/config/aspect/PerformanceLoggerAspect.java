@@ -1,4 +1,4 @@
-package ru.tattoo.maxsim.aspect;
+package ru.tattoo.maxsim.config.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class PerformanceLoggerAspect {
 
-    @Around("execution(* com.yourpackage.service.*.*(..))")
+    // Исправьте путь на ваш реальный пакет
+    @Around("execution(* ru.tattoo.maxsim.service.*.*(..))")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
 
@@ -23,7 +24,7 @@ public class PerformanceLoggerAspect {
                 joinPoint.getSignature().toShortString(),
                 elapsedTime);
 
-        if (elapsedTime > 1000) { // Если выполнение дольше 1 секунды
+        if (elapsedTime > 1000) {
             log.warn("Метод {} выполняется долго: {} мс",
                     joinPoint.getSignature().toShortString(),
                     elapsedTime);

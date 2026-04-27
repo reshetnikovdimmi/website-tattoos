@@ -179,7 +179,8 @@
                     </div>
                     <div class="blog-option-right">
                         <div class="blog-result">
-                            Показано [[${gallery.currentPage * gallery.number + 1}]]–[[${gallery.currentPage * gallery.number + gallery.number}]]
+                            Показано [[${gallery.currentPage * gallery.number + 1}]]–[[${gallery.currentPage *
+                            gallery.number + gallery.number}]]
                             из [[${gallery.imagesTotal}]]
                         </div>
                         <div class="show-result">
@@ -201,5 +202,227 @@
     </div>
 </div>
 <!-- Модальное окно End -->
+<!-- Общий фрагмент галереи - работает и для админа, и для пользователя -->
+<div th:fragment="galleryGrid(galleryData, isAdmin)">
+    <div class="row gallery-filter" th:each="row : ${gallery.galleryImg}">
+        <div th:each="img : ${row}" class="col-lg-4 col-sm-6"
+             th:classappend="${img.category} ? ${img.category.toLowerCase().replace(' ', '-')} : 'uncategorized'"
+             th:attr="data-id=${img.id}">
+
+            <div class="gallery-item">
+                <img th:src="@{'/images/' + ${img.imageName}}"
+                     th:alt="${img.description}"
+                     class="gallery-img">
+
+                <div class="gi-hover-warp">
+                    <div class="gi-hover">
+                        <a th:href="@{'/images/' + ${img.imageName}}" class="image-popup">
+                            <i class="fa fa-search-plus"></i>
+                        </a>
+                        <h6 th:text="${img.description}">Описание</h6>
+                    </div>
+                </div>
+
+                <!-- Админские элементы (видны только админу) -->
+                <div th:if="${isAdmin}" class="admin-controls">
+                    <button class="delete-item-btn"
+                            th:id="${img.id}"
+                            data-fragment-name="galleryGridContainer"
+                            data-container-selector=".galleryFragment"
+                            data-deletion-url="/admin/gallery/delete-section"
+                            onclick="deleteImage(this)"
+                            title="Удалить">
+                        <i class="fa fa-trash"></i>
+                    </button>
+
+                    <div class="featured-checkbox-wrapper">
+                        <label>
+                            <input class="featured-checkbox" type="checkbox"
+                                   th:checked="${img.flag}"
+                                   th:data-id="${img.id}"
+                                   onchange="toggleFeatured(this)"/>
+                            <span>Лучшее тату</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Пагинация -->
+    <div class="blog-option" th:with="isAdmin = ${isAdmin}">
+        <div class="blog-pagination">
+            <!-- Кнопка "Назад" -->
+            <a th:if="${gallery.currentPage != 0}"
+               class="page-nav"
+               data-style="all"
+               th:data-page="${gallery.currentPage - 1}"
+               th:data-size="${gallery.number}"
+               th:data-url="${isAdmin} ? '/admin/gallery' : '/gallery'"
+               th:data-container="${isAdmin} ? '.galleryFragment' : '.galleryFilter'"
+               onclick="goToGalleryPageFromElement(this)">
+                <i class="fa fa-chevron-left"></i>
+            </a>
+
+            <!-- Текущая страница -->
+            <a class="active" th:text="${gallery.currentPage + 1}">1</a>
+
+            <!-- Разделитель -->
+            <span class="page-separator">из</span>
+
+            <!-- Всего страниц -->
+            <a th:text="${gallery.pageSize}">10</a>
+
+            <!-- Кнопка "Вперед" -->
+            <a th:if="${gallery.currentPage + 1 != gallery.pageSize}"
+               class="page-nav"
+               th:data-page="${gallery.currentPage + 1}"
+               th:data-size="${gallery.number}"
+               th:data-url="${isAdmin} ? '/admin/gallery' : '/gallery'"
+               th:data-container="${isAdmin} ? '.galleryFragment' : '.galleryFilter'"
+               onclick="goToGalleryPageFromElement(this)">
+                <i class="fa fa-chevron-right"></i>
+            </a>
+        </div>
+
+        <!-- Настройки отображения -->
+        <div class="blog-option-right">
+            <div class="blog-result">
+                Показано [[${gallery.currentPage * gallery.number + 1}]]–
+                [[${gallery.currentPage * gallery.number +
+                gallery.number > gallery.imagesTotal ? gallery.imagesTotal : gallery.currentPage * gallery.number +
+                gallery.number}]]
+                из [[${gallery.imagesTotal}]] работ
+            </div>
+            <div class="show-result">
+                <label for="gallerySize" class="show-result-label">Показывать:</label>
+                <select id="gallerySize"
+                        class="show-result-select no-nice-select"
+                        data-style="all"
+                        th:data-page="${gallery.currentPage}"
+                        th:data-size="${gallery.number}"
+                        th:data-url="${isAdmin} ? '/admin/gallery' : '/gallery'"
+                        th:data-container="${isAdmin} ? '.galleryFragment' : '.galleryFilter'"
+                        onchange="goToGalleryPageFromElement(this)">
+                    <option th:each="option : ${gallery.select}"
+                            th:value="${option}"
+                            th:text="${option}"
+                            th:selected="${option == gallery.number}">
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Пустое состояние -->
+    <div th:if="${gallery == null or gallery.galleryImg == null or gallery.galleryImg.isEmpty()}"
+         class="empty-gallery text-center">
+        <i class="fa fa-image fa-4x"></i>
+        <h4>Нет изображений в галерее</h4>
+        <p>Изображения появятся здесь после добавления</p>
+    </div>
+</div>
+<!-- Общий фрагмент галереи End -->
+<!-- Общий фрагмент эскизов - работает и для админа, и для пользователя -->
+<!-- Сетка эскизов -->
+<div th:fragment="sketchesGrid(sketchesData, isAdmin)">
+    <div class="row sketches-filter" th:each="row : ${sketches.sketchesImg}">
+        <div th:each="currents : ${row}" class="col-lg-4 col-sm-6">
+            <div class="sketches-item">
+                <img th:src="@{'/images/' + ${currents.imageName}}"
+                     th:alt="${currents.description}"
+                     class="sketches-img">
+
+                <div class="si-hover-warp">
+                    <div class="si-hover">
+                        <a th:href="@{'/images/' + ${currents.imageName}}"
+                           class="image-popup" target="_blank">
+                            <i class="fa fa-search-plus"></i>
+                        </a>
+                        <h6 th:text="${currents.description}">Описание</h6>
+                    </div>
+                </div>
+
+                <!-- Админские элементы (видны только админу) -->
+                <div th:if="${isAdmin}"  class="admin-controls">
+                    <button class="delete-item-btn"
+                            th:id="${currents.id}"
+                            data-fragment-name="sketches"
+                            data-container-selector=".sketchesFragment"
+                            data-deletion-url="/admin/sketches/delete-section"
+                            onclick="deleteImage(this)"
+                            title="Удалить">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Пагинация -->
+    <div th:if="${sketches.sketchesImg != null and !sketches.sketchesImg.empty}" class="sketches-pagination">
+        <div class="blog-pagination">
+            <!-- Кнопка "Назад" -->
+            <a th:if="${sketches.currentPage != 0}"
+               class="page-nav"
+               data-style="all"
+               th:data-page="${sketches.currentPage - 1}"
+               th:data-size="${sketches.number}"
+               th:data-url="${isAdmin} ? '/admin/sketches' : '/sketches'"
+               th:data-container="${isAdmin} ? '.sketchesFragment' : '.galleryFilter'"
+               onclick="goToPageSketches(this)">
+                <i class="fa fa-chevron-left"></i>
+            </a>
+
+            <!-- Текущая страница -->
+            <a class="active" th:text="${sketches.currentPage + 1}">1</a>
+
+            <!-- Разделитель -->
+            <span class="page-separator">из</span>
+
+            <!-- Всего страниц -->
+            <a th:text="${sketches.pageSize}">10</a>
+
+            <!-- Кнопка "Вперед" -->
+            <a th:if="${sketches.currentPage + 1 != sketches.pageSize}"
+               class="page-nav"
+               th:data-page="${sketches.currentPage + 1}"
+               th:data-size="${sketches.number}"
+               th:data-url="${isAdmin} ? '/admin/sketches' : '/sketches'"
+               th:data-container="${isAdmin} ? '.sketchesFragment' : '.galleryFilter'"
+               onclick="goToPageSketches(this)">
+                <i class="fa fa-chevron-right"></i>
+            </a>
+        </div>
+
+        <div class="blog-option-right">
+            <div class="blog-result">
+                Показано [[${sketches.currentPage * sketches.number + 1}]]–
+                [[${sketches.currentPage * sketches.number +
+                sketches.number > sketches.imagesTotal ? sketches.imagesTotal : sketches.currentPage * sketches.number +
+                sketches.number}]]
+                из [[${sketches.imagesTotal}]] работ
+            </div>
+            <div class="show-result">
+                <label for="sketchesSize" class="show-result-label">Показывать:</label>
+                <select id="sketchesSize"
+                        class="show-result-select no-nice-select"
+                        data-style="all"
+                        th:data-page="${sketches.currentPage}"
+                        th:data-size="${sketches.number}"
+                        th:data-url="${isAdmin} ? '/admin/sketches' : '/sketches'"
+                        th:data-container="${isAdmin} ? '.sketchesFragment' : '.galleryFilter'"
+                        onchange="goToPageSketches(this)">
+                    <option th:each="option : ${sketches.select}"
+                            th:value="${option}"
+                            th:text="${option}"
+                            th:selected="${option == sketches.number}">
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Общий фрагмент галереи End -->
 </body>
 </html>

@@ -1,26 +1,16 @@
-package ru.tattoo.maxsim.controller;
+package ru.tattoo.maxsim.controller.admin;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import ru.tattoo.maxsim.model.*;
-import ru.tattoo.maxsim.model.DTO.CommitsDTO;
-import ru.tattoo.maxsim.model.DTO.GalleryDTO;
 import ru.tattoo.maxsim.repository.ContactInfoRepository;
 import ru.tattoo.maxsim.service.interf.*;
-import ru.tattoo.maxsim.util.PageSize;
-
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.stream.Collectors;
 
 
 @Controller
@@ -91,7 +81,8 @@ public class AdminController {
         model.addAttribute("chooseus", new ChooseusSection());
         model.addAttribute("images", new Images());
         model.addAttribute("blogEntity", new Blog());
-
+        model.addAttribute("price", new PriceSection());
+        model.addAttribute("chooseus", new ChooseusSection());
         model.addAttribute("home", homeService.findAll());
 
     }

@@ -35,21 +35,54 @@ function updateBreadcrumbBackground(input, targetImage) {
 }
 
 // Функция для удаления изображения
-function deleteImage(imageId, selectorToRefresh, deletionUrl) {
-    if (!confirm("Вы действительно хотите удалить изображение?")) {
-        return; // Отмена операции
+function deleteImage(buttonElement) {
+    // Получаем данные из data-атрибутов кнопки
+    const imageId = buttonElement.id;
+    const fragmentName = buttonElement.dataset.fragmentName;
+    const containerSelector = buttonElement.dataset.containerSelector;
+    const deletionUrl = buttonElement.dataset.deletionUrl;
+
+    if (!confirm("Вы действительно хотите удалить этот элемент?")) {
+        return;
     }
 
-    // Отправляем AJAX-запрос на сервер для удаления изображения
+    // Показываем индикатор загрузки
+    const $button = $(buttonElement);
+    const originalHtml = $button.html();
+    $button.html('<i class="fa fa-spinner fa-spin"></i>');
+    $button.prop('disabled', true);
+
+    // Формируем URL с параметром fragment
+    let url = deletionUrl + "/" + imageId;
+    if (fragmentName) {
+        url += "?fragment=" + encodeURIComponent(fragmentName);
+    }
+
     $.ajax({
-        url: deletionUrl + "/" + imageId, // Используется настраиваемый URL
-        type: 'GET',                      // Лучше использовать DELETE, но пока GET
-        success: function(response) {
-            // Обновляем контейнер с результатами
-            $(selectorToRefresh).html(response);
+        url: url,
+        type: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
         },
-        error: function(error) {
-            alert('Ошибка при обращении к серверу.');
+        success: function(response) {
+            if (response && containerSelector) {
+                $(containerSelector).html(response);
+                showModalMessage('✅ Элемент успешно удален!', 'success');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Ошибка при удалении:', error);
+            let errorMsg = '❌ Ошибка при удалении элемента!';
+            if (xhr.status === 404) {
+                errorMsg = '❌ Элемент не найден!';
+            } else if (xhr.status === 500) {
+                errorMsg = '❌ Ошибка сервера! Попробуйте позже.';
+            }
+            showModalMessage(errorMsg, 'error');
+        },
+        complete: function() {
+            $button.html(originalHtml);
+            $button.prop('disabled', false);
         }
     });
 }

@@ -17,13 +17,13 @@ databaseChangeLog:
                   name: image_name
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH1
+                  name: title
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH2
+                  name: subtitle
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH3
+                  name: content
                   type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
                   name: section
@@ -40,11 +40,11 @@ databaseChangeLog:
                   name: section
                   value: home
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: subtitle
+                  value: subtitle
 
   - changeSet:
       id: add-fk-from-about-to-home

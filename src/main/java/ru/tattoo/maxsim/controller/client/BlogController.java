@@ -1,0 +1,77 @@
+package ru.tattoo.maxsim.controller.client;
+
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.controller.CRUDController;
+import ru.tattoo.maxsim.model.*;
+import ru.tattoo.maxsim.repository.CommitsRepository;
+import ru.tattoo.maxsim.service.interf.*;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+@Controller
+@Slf4j
+@RequestMapping(BlogController.URL)
+public class BlogController {
+
+    public static final String URL = "/blog";
+
+    @Autowired
+    private ReviewService reviewService;
+    @Autowired
+    private CommitsService commitsService;
+    @Autowired
+    private CommitsRepository commitsRepository;
+    @Autowired
+    private SketchesService sketchesService;
+    @Autowired
+    private BlogService blogService;
+    @Autowired
+    private ModelMapper modelMapper;
+    private Model model;
+
+    protected String getEntityName() {
+        return "blog";
+    }
+
+    protected CRUDService<Blog, Long> getService() {
+        return blogService;
+    }
+
+    protected void updateSection(Model model) {
+        model.addAttribute("localDateTime", LocalDateTime.now());
+        model.addAttribute("count", reviewService.getCount());
+        model.addAttribute("commits", commitsService.findLimit());
+        model.addAttribute("sketches", sketchesService.findLimit());
+        model.addAttribute("interestingWorks", blogService.findLimit());
+        model.addAttribute("blog", blogService.findAll());
+        model.addAttribute("commitsEntity", new Commits());
+    }
+
+    @GetMapping()
+    public String blog(Model model) {
+        updateSection(model);
+        return getEntityName();
+    }
+    @PostMapping("/commits/import")
+    public String createEntity(@ModelAttribute() Commits object,
+                               @RequestParam(value = "fragment", required = false) String fragmentName,
+                               Model model) throws IOException, ParseException {
+
+        log.info("object={}",object);
+        commitsService.create(object);
+        updateSection(model);
+
+        return getEntityName() + "::" + fragmentName;
+    }
+}

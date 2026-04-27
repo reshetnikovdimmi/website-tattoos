@@ -53,34 +53,7 @@
 </section>
 <!-- Breadcrumb End -->
 <!-- Модальное окно -->
-<div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h7 class="modal-title">Сообщение</h7>
-                <button type="button" id="hide"
-                        class="delete-button btn-close-custom"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <div th:fragment="modal-body">
-                    <div class="container-fluid">
-                        <p th:if="${message}" class="text-success" th:text="${message}"></p>
-
-                        <!-- Сообщение об ошибке -->
-                        <p th:if="${error}" class="text-danger" th:text="${error}"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-            </div>
-        </div>
-    </div>
-</div>
+<div th:replace="~{modal::modal}"></div>
 <!-- Модальное окно End -->
 <div class="gallery-section spad">
     <div class="container">
@@ -90,13 +63,13 @@
                 <a class="nav-link active" data-toggle="tab" onclick="updateAdminFragment(this.href)" href="/admin/home"><p>Главная</p></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" onclick="updateAdminFragment(this.href)" data-toggle="tab" href="/gallery/admin"><p>Галерея</p></a>
+                <a class="nav-link" onclick="updateAdminFragment(this.href)" data-toggle="tab" href="/admin/gallery"><p>Галерея</p></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" onclick="updateAdminFragment(this.href)" data-toggle="tab" href="/sketches/admin"><p>Эскизы</p></a>
+                <a class="nav-link" onclick="updateAdminFragment(this.href)" data-toggle="tab" href="/admin/sketches"><p>Эскизы</p></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" onclick="updateAdminFragment(this.href)" data-toggle="tab" href="/blog/admin"><p>Блог</p></a>
+                <a class="nav-link" onclick="updateAdminFragment(this.href)" data-toggle="tab" href="/admin/blog"><p>Блог</p></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="updateAdminFragment(this.href)" data-toggle="tab" href="/reviews/admin"><p>Отзывы</p></a>

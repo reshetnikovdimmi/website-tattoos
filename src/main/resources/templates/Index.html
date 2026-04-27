@@ -103,8 +103,8 @@
         <div class="row" th:each="current: ${carousel}">
             <div class="col-md-4" th:each="currents : ${current.feature}">
                 <div class="feature-item set-bg" th:attr="data-setbg=@{'/images/'+${currents.imageName}}">
-                    <h3 th:text="${currents.textH1}"></h3>
-                    <p class="short-details" th:text="${currents.textH2}"></p>
+                    <h3 th:text="${currents.title}"></h3>
+                    <p class="short-details" th:text="${currents.description}"></p>
                     <a href="/sketches" class="primary-btn f-btn">Подробнее</a>
                 </div>
             </div>
@@ -120,9 +120,9 @@
         <div class="row" th:each="currents : ${current.about}">
             <div class="col-lg-6">
                 <div class="about-text">
-                    <h3 style="color: #FFFFFF;" th:text="${currents.textH2}"></h3>
-                    <p class="short-details" th:text="${currents.textH1}"></p>
-                    <p class="long-details" th:text="${currents.textH3}"></p>
+                    <h3 style="color: #FFFFFF;" th:text="${currents.subtitle}"></h3>
+                    <p class="short-details" th:text="${currents.title}"></p>
+                    <p class="long-details" th:text="${currents.content}"></p>
                     <a href="/gallery" class="primary-btn about-btn">Узнать больше</a>
                 </div>
             </div>
@@ -139,12 +139,12 @@
 <!-- Classes Section Begin -->
 <section class="classes-section" th:each="current: ${carousel}">
     <div class="class-title set-bg" data-setbg="img/classes-title-bg.jpg">
-        <div class="container" th:each="currents : ${current.classes}" th:if="${currents.title}">
+        <div class="container" th:each="currents : ${current.classes}" th:if="${currents.categoryTitle}">
             <div class="row">
                 <div class="col-lg-7 m-auto text-center">
                     <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
-                        <h2 th:text="${currents.textH2}"></h2>
-                        <p class="short-details" th:text="${currents.textH1}"></p>
+                        <h2 th:text="${currents.description}"></h2>
+                        <p class="short-details" th:text="${currents.name}"></p>
                     </div>
                 </div>
             </div>
@@ -152,11 +152,11 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-3 col-sm-6" th:each="currents : ${current.classes}" th:unless="${currents.title}">
+            <div class="col-lg-3 col-sm-6" th:each="currents : ${current.classes}" th:unless="${currents.categoryTitle}">
                 <div class="classes-item set-bg" th:attr="data-setbg=@{'/images/'+${currents.imageName}}">
-                    <h4 th:text="${currents.textH1}"></h4>
-                    <p class="short-details" th:text="${currents.textH2}"></p>
-                    <a th:href="@{'/gallery/filter/style/' + ${currents.textH1}}" class="primary-btn class-btn">Подробнее</a>
+                    <h4 th:text="${currents.name}"></h4>
+                    <p class="short-details" th:text="${currents.description}"></p>
+                    <a th:href="@{'/gallery/filter/style/' + ${currents.name}}" class="primary-btn class-btn">Подробнее</a>
                 </div>
             </div>
         </div>
@@ -167,25 +167,25 @@
 <!-- Price Plan Section Begin -->
 <section class="price-section spad set-bg" th:each="current: ${carousel}" data-setbg="img/price-bg.jpg">
     <div class="container">
-        <div class="row" th:each="currents : ${current.price}" th:if="${currents.title}">
+        <div class="row" th:each="currents : ${current.price}" th:if="${currents.categoryTitle}">
             <div class="col-lg-12">
                 <div class="section-title">
-                    <h2 th:text="${currents.textH2}"></h2>
-                    <p class="short-details" th:text="${currents.textH3}"></p>
+                    <h2 th:text="${currents.price}"></h2>
+                    <p class="short-details" th:text="${currents.description}"></p>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4" th:each="currents : ${current.price}" th:unless="${currents.title}">
+            <div class="col-lg-4" th:each="currents : ${current.price}" th:unless="${currents.categoryTitle}">
                 <div class="single-price-plan">
-                    <h4 th:text="${currents.textH1}"></h4>
+                    <h4 th:text="${currents.planName}"></h4>
                     <div class="price-plan">
-                        <h2 th:text="${currents.textH2}"></h2>
-                        <p class="short-details" th:text="${currents.textH3}"></p>
+                        <h2 th:text="${currents.price}"></h2>
+                        <p class="short-details" th:text="${currents.description}"></p>
                     </div>
                     <ul>
-                        <li th:text="${currents.textH4}"></li>
-                        <li th:text="${currents.textH5}"></li>
+                        <li th:text="${currents.feature1}"></li>
+                        <li th:text="${currents.feature2}"></li>
                     </ul>
                     <a href="/contact" class="primary-btn price-btn">Начать</a>
                 </div>
@@ -199,20 +199,20 @@
 <section class="chooseus-section spad">
     <div class="container" th:each="current: ${carousel}">
         <div class="row">
-            <div class="col-lg-12" th:each="currents : ${current.chooseus}" th:if="${currents.title}">
+            <div class="col-lg-12" th:each="currents : ${current.chooseus}" th:if="${currents.categoryTitle}">
                 <div class="section-title">
-                    <h2 th:text="${currents.textH1}"></h2>
-                    <p class="short-details" th:text="${currents.textH2}"></p>
+                    <h2 th:text="${currents.title}"></h2>
+                    <p class="short-details" th:text="${currents.description}"></p>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-4 col-sm-6" th:each="currents : ${current.chooseus}"
-                 th:unless="${currents.title}">
+                 th:unless="${currents.categoryTitle}">
                 <div class="choose-item">
                     <img alt="" th:src="@{'/images/'+${currents.imageName}}">
-                    <h5 th:text="${currents.textH1}"></h5>
-                    <p class="short-details" th:text="${currents.textH2}"></p>
+                    <h5 th:text="${currents.title}"></h5>
+                    <p class="short-details" th:text="${currents.description}"></p>
                 </div>
             </div>
         </div>

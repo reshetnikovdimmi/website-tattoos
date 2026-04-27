@@ -1,10 +1,10 @@
-package ru.tattoo.maxsim.controller;
+package ru.tattoo.maxsim.controller.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.tattoo.maxsim.controller.CRUDController;
 import ru.tattoo.maxsim.model.ContactInfo;
 import ru.tattoo.maxsim.model.EmailDetails;
 import ru.tattoo.maxsim.repository.ContactInfoRepository;
@@ -15,7 +15,7 @@ import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
 
 @Controller
 @RequestMapping(ContactController.URL)
-public class ContactController extends CRUDController <ContactInfo, Long> {
+public class ContactController extends CRUDController<ContactInfo, Long> {
 
     public static final String URL = "/contact";
 
@@ -53,17 +53,17 @@ public class ContactController extends CRUDController <ContactInfo, Long> {
     }
 
     @Override
-    String getEntityName() {
+    protected String getEntityName() {
         return "fragments::footer";
     }
 
     @Override
-    CRUDService<ContactInfo, Long> getService() {
+    protected CRUDService<ContactInfo, Long> getService() {
         return contactInfoService;
     }
 
     @Override
-    void updateSection(Model model) {
+    protected void updateSection(Model model) {
         model.addAttribute("contactInfo", contactInfoRepository.findLimit());
         model.addAttribute("setting", settingWebsiteService.findAll());
     }

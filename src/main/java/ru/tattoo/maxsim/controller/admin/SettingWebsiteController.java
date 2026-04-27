@@ -1,4 +1,4 @@
-package ru.tattoo.maxsim.controller;
+package ru.tattoo.maxsim.controller.admin;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -7,13 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.controller.CRUDController;
 import ru.tattoo.maxsim.model.*;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.service.interf.ContactInfoService;
 import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
 import ru.tattoo.maxsim.service.interf.UserService;
-import ru.tattoo.maxsim.util.ImageUtils;
-import ru.tattoo.maxsim.util.PageSize;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -52,6 +51,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     @Override
     @PostMapping("/import")
     public String createEntity(@ModelAttribute("hero") SettingWebsite object,
+                               @RequestParam(value = "fragment", required = false) String fragmentName,
                          Model model) throws IOException, ParseException {
         getService().create(object);
         model.addAttribute("setting", settingWebsiteService.findAll());
@@ -61,6 +61,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     @PostMapping("/image-import")
     public String uploadImage(@ModelAttribute("hero") SettingWebsite object,
                               @RequestParam("file") MultipartFile fileImport,
+                              @RequestParam(value = "fragment", required = false) String fragmentName,
                               Model model) throws IOException, ParseException {
 
         object = getService().findById(object.getId());
@@ -76,17 +77,17 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     }
 
     @Override
-    String getEntityName() {
+    protected String getEntityName() {
         return "fragment-admin::";
     }
 
     @Override
-    CRUDService<SettingWebsite, Long> getService() {
+    protected CRUDService<SettingWebsite, Long> getService() {
         return settingWebsiteService;
     }
 
     @Override
-    void updateSection(Model model) {
+    protected void updateSection(Model model) {
         model.addAttribute("setting", settingWebsiteService.findAll());
     }
 }

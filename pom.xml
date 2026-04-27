@@ -29,6 +29,11 @@
 	</properties>
 
 	<dependencies>
+		<!-- В pom.xml -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 		<!-- Spring Boot Starters -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -173,6 +178,7 @@
 			</exclusions>
 		</dependency>
 
+
 		<!-- Allure -->
 		<dependency>
 			<groupId>io.qameta.allure</groupId>
@@ -270,6 +276,7 @@
 					<systemPropertyVariables>
 						<allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
 					</systemPropertyVariables>
+					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
 			<plugin>

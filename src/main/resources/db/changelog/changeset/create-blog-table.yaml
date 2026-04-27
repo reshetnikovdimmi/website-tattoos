@@ -20,13 +20,13 @@ databaseChangeLog:
                   name: description
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH1
+                  name: title
                   type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH2
+                  name: subtitle
                   type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH3
+                  name: content
                   type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
                   name: section
@@ -45,14 +45,14 @@ databaseChangeLog:
                   name: section
                   value: blog-text
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: subtitle
+                  value: subtitle
               - column:
-                  name: textH3
-                  value: textH3
+                  name: content
+                  value: content
   - changeSet:
       id: add-data-blog-title
       author: Dmitrii
@@ -64,14 +64,14 @@ databaseChangeLog:
                   name: section
                   value: blog-title
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: subtitle
+                  value: subtitle
               - column:
-                  name: textH3
-                  value: textH3
+                  name: content
+                  value: content
   - changeSet:
       id: add-data-blog-quote
       author: Dmitrii
@@ -83,14 +83,14 @@ databaseChangeLog:
                   name: section
                   value: blog-quote
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: subtitle
+                  value: subtitle
               - column:
-                  name: textH3
-                  value: textH3
+                  name: content
+                  value: content
         - insert:
             tableName: blog
             columns:
@@ -98,14 +98,14 @@ databaseChangeLog:
                   name: section
                   value: blog-more-title
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: subtitle
+                  value: subtitle
               - column:
-                  name: textH3
-                  value: textH3
+                  name: content
+                  value: content
         - insert:
             tableName: blog
             columns:

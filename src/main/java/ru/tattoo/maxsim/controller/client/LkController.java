@@ -1,4 +1,4 @@
-package ru.tattoo.maxsim.controller;
+package ru.tattoo.maxsim.controller.client;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -7,14 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.tattoo.maxsim.model.DTO.UserDTO;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.service.interf.ImagesService;
 import ru.tattoo.maxsim.service.interf.ReviewService;
 import ru.tattoo.maxsim.service.interf.UserService;
-import ru.tattoo.maxsim.util.ImageUtils;
 import ru.tattoo.maxsim.util.PageSize;
 
 import java.io.IOException;

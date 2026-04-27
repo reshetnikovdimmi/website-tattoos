@@ -151,5 +151,21 @@ public class GalleryPage {
         log.info("Текст '{}' {} на странице", text, present ? "присутствует" : "отсутствует");
         return present;
     }
+    @Step("Проверка наличия изображения с описанием")
+    public boolean isImageWithDescriptionVisible(String description) {
+        try {
+            wait.until(ExpectedConditions.visibilityOfAllElements(galleryImages));
+            List<WebElement> descriptions = driver.findElements(By.cssSelector(".gallery-item .description, .reviews-admin .carousel-caption h4"));
+            for (WebElement desc : descriptions) {
+                if (desc.getText().contains(description)) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            log.warn("Ошибка при проверке описания: {}", e.getMessage());
+            return false;
+        }
+    }
 
 }

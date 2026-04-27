@@ -1,7 +1,6 @@
-package ru.tattoo.maxsim.controller;
+package ru.tattoo.maxsim.controller.auth;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,11 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.model.UserRole;
-import ru.tattoo.maxsim.repository.UserRepository;
 import ru.tattoo.maxsim.service.interf.UserService;
 import ru.tattoo.maxsim.validator.UserValidator;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Controller

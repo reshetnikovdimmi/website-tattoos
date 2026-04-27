@@ -13,19 +13,26 @@ import java.util.Date;
 @ToString
 public class Blog{
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "image_name")
     private String imageName;
+    @Column(name = "description")
     private String description;
+    @Column(name = "section")
     private String section;
     @Lob
-    private String textH1;
+    @Column(name = "title")
+    private String title;
     @Lob
-    private String textH2;
+    @Column(name = "subtitle")
+    private String subtitle;
     @Lob
-    private String textH3;
+    @Column(name = "content")
+    private String content;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(name = "date")
     private Date date;
 }

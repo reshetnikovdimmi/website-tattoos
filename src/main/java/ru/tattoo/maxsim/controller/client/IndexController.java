@@ -1,4 +1,4 @@
-package ru.tattoo.maxsim.controller;
+package ru.tattoo.maxsim.controller.client;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;

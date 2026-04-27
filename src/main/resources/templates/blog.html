@@ -81,7 +81,6 @@
 <!-- Breadcrumb End -->
 
 <!-- Blog Single Section Begin -->
-<!-- Blog Single Section Begin -->
 <section class="blog-single-section spad">
     <div class="container fragment-commits">
         <div th:fragment="fragment-commits">
@@ -90,8 +89,8 @@
                     <div class="blog-single-text">
                         <!-- Текст статьи -->
                         <div class="blog-text" th:each="current: ${blog}" th:if="${current.section=='blog-text'}">
-                            <p th:text="${current.textH2}"></p>
-                            <p th:text="${current.textH3}"></p>
+                            <p th:text="${current.subtitle}"></p>
+                            <p th:text="${current.content}"></p>
                         </div>
 
                         <!-- Галерея изображений -->
@@ -121,22 +120,22 @@
 
                         <!-- Заголовок и описание -->
                         <div class="blog-title" th:each="current: ${blog}" th:if="${current.section=='blog-title'}">
-                            <h4 th:text="${current.textH1}"></h4>
-                            <p th:text="${current.textH2}"></p>
-                            <p th:text="${current.textH3}"></p>
+                            <h4 th:text="${current.title}"></h4>
+                            <p th:text="${current.subtitle}"></p>
+                            <p th:text="${current.content}"></p>
                         </div>
 
                         <!-- Цитата -->
                         <div class="blog-quote" th:each="current: ${blog}" th:if="${current.section=='blog-quote'}">
                             <i class="fa fa-quote-left"></i>
-                            <div class="quote-text" th:text="${current.textH1}"></div>
-                            <h5 th:text="${current.textH2}"></h5>
+                            <div class="quote-text" th:text="${current.title}"></div>
+                            <h5 th:text="${current.subtitle}"></h5>
                         </div>
 
                         <!-- Ещё текст -->
                         <div class="blog-more-title" th:each="current: ${blog}" th:if="${current.section=='blog-more-title'}">
-                            <h4 th:text="${current.textH1}"></h4>
-                            <p th:text="${current.textH2}"></p>
+                            <h4 th:text="${current.title}"></h4>
+                            <p th:text="${current.subtitle}"></p>
                         </div>
 
                         <!-- Социальные сети -->
@@ -204,7 +203,11 @@
                     <!-- Форма комментария -->
                     <div class="leave-comment-form" th:object="${commitsEntity}">
                         <h4>Оставь комментарий</h4>
-                        <form method="post" th:action="@{commits/import}" onsubmit="submitForm(event,'.fragment-commits')">
+                        <form method="post" th:action="@{/blog/commits/import}"
+                              onsubmit="submitForm(event)"
+                              data-fragment-name="fragment-commits"
+                              data-container-selector=".fragment-commits"
+                              class="category-form">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <textarea name="comment" placeholder="Комментарий" th:field="*{comment}"></textarea>

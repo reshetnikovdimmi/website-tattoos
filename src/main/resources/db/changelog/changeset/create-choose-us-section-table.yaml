@@ -17,22 +17,22 @@ databaseChangeLog:
                   name: image_name
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH1
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
-                  name: textH2
-                  type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
-                  name: textH3
-                  type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
-                  name: textH4
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
-                  name: textH5
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
-              - column:
                   name: title
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: description
+                  type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: icon_class
+                  type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: feature_1
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: feature_2
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: category_title
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
                   name: section
@@ -45,17 +45,17 @@ databaseChangeLog:
             tableName: chooseus_section
             columns:
               - column:
-                  name: title
-                  value: title
+                  name: category_title
+                  value: category_title
               - column:
                   name: section
                   value: home
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: description
+                  value: description
         - insert:
             tableName: chooseus_section
             columns:
@@ -63,11 +63,11 @@ databaseChangeLog:
                   name: section
                   value: home
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: description
+                  value: description
   - changeSet:
       id: add-fk-from-chooseus-to-home
       author: Dmitrii

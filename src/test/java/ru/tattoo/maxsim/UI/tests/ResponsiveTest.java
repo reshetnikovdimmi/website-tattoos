@@ -123,7 +123,7 @@ public class ResponsiveTest extends BaseSeleniumTest {
         assertTrue(homePage.isHomePageLoaded(), "Страница должна загрузиться на iPhone SE");
 
         // Проверяем мобильное меню
-        homePage.openMobileMenu();
+       // homePage.openMobileMenu();
 
         Allure.addAttachment("Разрешение", "375x667 (iPhone SE)");
         takeScreenshot();

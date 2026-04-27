@@ -103,7 +103,7 @@
     /*------------------
         Magnific Popup
     --------------------*/
-    $('.show-result-select').niceSelect();
+    $('.show-result-select:not(.no-nice-select)').niceSelect();
     /*------------------
        Timetable Filter
     --------------------*/
@@ -187,16 +187,19 @@
             alert('Произошла ошибка при сохранении информации.');
         }
     }
+     /*------------------------------------
+           Функции обновления админской части
+        ------------------------------------*/
+      function updateAdminFragment(href) {
+            $.get(href, {}, function(data) {
+                $(".tab-content").html(data);
+            });
+        }
+
     /*------------------
          Carousel-admin
     --------------------*/
-    function updateAdminFragment(href) {
 
-        $.get(href, {}, function(data) {
-            console.log(data)
-            $(".tab-content").html(data);
-        });
-    }
    // Функции для управления каруселью
    function carouselPrev() {
        $('#adminCarousel').carousel('prev');
@@ -208,64 +211,170 @@
     /*----------------------------
     Функция для загрузки данных формы
     -----------------------------*/
-    async function submitForm(event, fragment) {
+    async function submitForm(event) {
+    event.preventDefault();
 
-        event.preventDefault(); // Отмена стандартной отправки формы
-        const form = event.currentTarget; // Получаем текущую форму
-        const formAction = form.action; // Извлекаем адрес из атрибута action
+    const form = event.currentTarget;
+    const formAction = form.action;
+    const button = form.querySelector('button[type="submit"]');
+    const inputs = form.querySelectorAll('input, textarea');
 
-        if (!form) {
-            console.error('Форма не найдена');
+    if (!form) {
+        console.error('Форма не найдена');
+        return;
+    }
+   // Получаем информацию о фрагменте
+       const { fragmentName, containerSelector } = getFragmentInfo(form);
+
+    // Режим редактирования
+    if (button.textContent.trim().toLowerCase() === 'изменить') {
+        inputs.forEach(input => input.disabled = false);
+        button.textContent = 'Сохранить';
+        form.classList.add('active');
+        return;
+    }
+
+    // Режим сохранения
+    const formData = new FormData(form);
+
+        if (fragmentName) {
+            formData.append('fragment', fragmentName);
+        }
+
+          // Добавляем id в FormData, если он передан
+                if (event.target.id) {
+                    formData.append('id', event.currentTarget.id);
+                }
+
+    // Сохраняем оригинальный текст кнопки
+    const originalText = button.textContent;
+    button.disabled = true;
+    button.textContent = 'Сохранение...';
+
+    try {
+        const response = await $.ajax({
+            url: formAction,
+            dataType: 'html',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            type: 'POST'
+        });
+
+        // Показываем успех в модальном окне
+        showModalMessage('✅ Информация успешно сохранена!');
+
+        // Обновляем фрагмент
+        if (response && containerSelector) {
+        console.log(containerSelector);
+        console.log(response);
+            $(containerSelector).html(response);
+        }
+
+        // Возвращаем кнопку в исходное состояние
+        button.textContent = 'Изменить';
+        inputs.forEach(input => input.disabled = true);
+        form.classList.remove('active');
+
+    } catch (error) {
+        console.error('Ошибка:', error);
+
+        // Показываем ошибку в модальном окне
+        let errorMsg = '❌ Ошибка при сохранении';
+        if (error.status === 404) {
+            errorMsg = '❌ Сервер не найден. Проверьте соединение.';
+        } else if (error.status === 500) {
+            errorMsg = '❌ Ошибка на сервере. Попробуйте позже.';
+        }
+
+        showModalMessage(errorMsg, 'error');
+
+        // Возвращаем кнопку
+        button.textContent = originalText;
+        button.disabled = false;
+    }
+}
+/**
+ * Получение данных о фрагменте
+ * @param {HTMLElement} form - форма
+ * @returns {Object} { fragmentName, containerSelector }
+ */
+function getFragmentInfo(form) {
+    // 1. Приоритет - data-атрибуты
+    if (form.dataset.fragmentName && form.dataset.containerSelector) {
+        return {
+            fragmentName: form.dataset.fragmentName,
+            containerSelector: form.dataset.containerSelector
+        };
+    }
+
+    // 2. Если указан только data-fragment (содержит оба значения через |)
+    if (form.dataset.fragment && form.dataset.fragment.includes('|')) {
+        const [fragmentName, containerSelector] = form.dataset.fragment.split('|');
+        return { fragmentName, containerSelector };
+    }
+
+    // 3. Автоматический поиск
+    let fragmentName = null;
+    let containerSelector = null;
+
+    // Ищем родительский th:fragment
+    let parent = form.parentElement;
+    while (parent && parent !== document.body) {
+        if (parent.hasAttribute('th:fragment')) {
+            fragmentName = parent.getAttribute('th:fragment');
+            // Ищем контейнер по классу с -import
+            const container = form.closest('[class*="-import"]');
+            if (container) {
+                const classes = container.className.split(' ');
+                containerSelector = '.' + classes.find(c => c.includes('-import'));
+            }
+            break;
+        }
+        parent = parent.parentElement;
+    }
+
+    return { fragmentName, containerSelector };
+}
+
+// Функция показа сообщения в модальном окне
+    function showModalMessage(message, type = 'success') {
+        console.log('Показываем сообщение:', message);
+
+        const modal = $('#myModal');
+
+        if (!modal.length) {
+            console.error('Модальное окно не найдено!');
+            alert(message);
             return;
         }
-        const formData = new FormData(form); // Создаем объект FormData с полями формы
-        // Добавляем id в FormData, если он передан
-        if (event.target.id) {
-            formData.append('id', event.currentTarget.id);
-        }
 
-        const inputs = form.querySelectorAll('input, textarea');
-        const button = form.querySelector('button[type="submit"]');
-        if (button.textContent.trim().toLowerCase() === 'изменить') {
-            // Включаем поля для редактирования
-            inputs.forEach(input => input.disabled = false);
-            button.textContent = 'Сохранить'; // Меняем надпись на кнопке
-            form.classList.add('active'); // Добавляем класс 'active' к форме
-            console.log(formData);
-        } else {
-            try {
-                console.log('[formAction] Отправка данных на сервер  ' + formAction);
-                const response = await $.ajax({
-                    url: formAction, // Адрес контроллера Spring MVC
-                    dataType: 'html', // Тип ожидаемого ответа — HTML-фрагмент
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    data: formData,
-                    type: 'POST',
-                });
-                alert('Информация успешно сохранена!');
-                console.log('Информация успешно сохранена!');
-               
-                $(fragment).html(response); // Замена текущего содержимого новым шаблоном
-                // Меняем название кнопки на "Изменить"
-                button.textContent = 'Изменить';
-                // Делаем поля ввода неактивными
-                inputs.forEach(input => input.disabled = true);
-                // Удаляем класс 'active' у формы
-                form.classList.remove('active');
-            } catch (error) {
-                console.log('Ошибка при загрузке:', error);
-                alert('Произошла ошибка при сохранении информации.');
+        // Получаем modal-body и очищаем его
+        const modalBody = modal.find('.modal-body');
+        modalBody.empty();
+
+        // Создаем элемент для сообщения
+        const messageClass = type === 'success' ? 'text-success' : 'text-danger';
+        const messageHtml = `<p class="${messageClass}" style="text-align: center; margin: 0;">${message}</p>`;
+        modalBody.html(messageHtml);
+
+        // Показываем модальное окно
+        modal.modal('show');
+
+        // Автоматически закрываем через 3 секунды
+        setTimeout(() => {
+            if (modal.hasClass('show')) {
+                modal.modal('hide');
             }
-        }
+        }, 3000);
     }
     /*---------------
     Gallery controls
     --------------*/
-    function goToPageGalleryAdmin(style, page, number) {
-        $.get(`/gallery/${style.trim()}/${page}/${number}`, {}, function(data) {
-            $(".img-import").html(data);
+ function goToPageGalleryAdmin(style, page, number) {
+        $.get(`admin/gallery/${style.trim()}/${page}/${number}`, {}, function(data) {
+            $(".galleryFragment").html(data);
 
             document.getElementById('category').value = style.trim();
         });
@@ -275,22 +384,76 @@
             $(".galleryFilter").html(data);
         });
     }
-    function goToPageSketches(page, number) {
-        $.get(`/sketches/${page}/${number}`, {}, function(data) {
-            $(".galleryFilter").html(data);
-        });
+function goToGalleryPageFromElement(element) {
+    let size, page;
+
+    // Проверяем, является ли элемент селектом (select)
+    if (element.tagName === 'SELECT') {
+        // Берем значение из выбранной опции
+        size = parseInt(element.value) || 9;
+        // Берем page из data-атрибута селекта
+        page = parseInt(element.getAttribute('data-page')) || 0;
+    } else {
+        // Если это не селект, берем из атрибутов как раньше
+        size = parseInt(element.getAttribute('data-size')) || 9;
+        page = parseInt(element.getAttribute('data-page')) || 0;
     }
-    function goToPageSketchesAdmin(page, number) {
-        $.get(`/sketches/admin/${page}/${number}`, {}, function(data) {
-            $(".sketches-import").html(data);
-        });
+
+    const style = document.querySelector('.gallery-controls ul li.active')?.textContent || 'Вся галерея';
+    const url = element.getAttribute('data-url');
+    const container = element.getAttribute('data-container');
+
+    const requestUrl = `${url}/${encodeURIComponent(style.trim())}/${page}/${size}`;
+
+    console.log('Request URL:', requestUrl);
+    console.log('Size from:', element.tagName === 'SELECT' ? 'select value' : 'data-size', size);
+
+    const categoryInput = document.getElementById('category');
+    if (categoryInput) {
+        categoryInput.value = style.trim(); // Исправлено: style.trim() а не style.trim
     }
+
+    $.get(requestUrl, {}, function(data) {
+        $(container).html(data);
+    });
+}
+    function goToPageSketches(element) {
+         let size, page;
+
+           // Проверяем, является ли элемент селектом (select)
+           if (element.tagName === 'SELECT') {
+               // Берем значение из выбранной опции
+               size = parseInt(element.value) || 9;
+               // Берем page из data-атрибута селекта
+               page = parseInt(element.getAttribute('data-page')) || 0;
+           } else {
+               // Если это не селект, берем из атрибутов как раньше
+               size = parseInt(element.getAttribute('data-size')) || 9;
+               page = parseInt(element.getAttribute('data-page')) || 0;
+           }
+
+
+           const url = element.getAttribute('data-url');
+           const container = element.getAttribute('data-container');
+
+           const requestUrl = `${url}/${page}/${size}`;
+
+           console.log('Request URL:', requestUrl);
+           console.log('Size from:', element.tagName === 'SELECT' ? 'select value' : 'data-size', size);
+
+
+           $.get(requestUrl, {}, function(data) {
+               $(container).html(data);
+           });
+    }
+
 
     function goToPageGalleryReviews(page, number) {
         $.get(`/gallery/reviews/${page}/${number}`, {}, function(data) {
             $(".modal-img").html(data);
         });
     }
+
 
        /*------------------
             Функции для работы с модальным окном и отзывами
@@ -488,27 +651,49 @@ function resetReviewForm() {
     /*---------------
         CheckboxChange
     --------------*/
-    function handleCheckboxChange(checkbox) {
-        const form = $(checkbox).closest('form');
-        const isChecked = $(checkbox).is(':checked');
-        const id = form.attr('id');
 
-        $.ajax({
-            url: '/gallery/update-flag',
-            type: 'POST',
-            data: {
-                id: id,
-                flag: isChecked
-            },
-            success: function(response) {
-                console.log('Флаг обновлён:');
-                modals();
-                $('.modal-body').html(response);
-            },
-            error: function(error) {
-                console.log('Ошибка при обновлении флага:', error);
-                modals();
-                $('.modal-body').html(response);
-            }
-        });
-    }
+   function toggleFeatured(checkbox) {
+       const isChecked = checkbox.checked;
+       const id = checkbox.getAttribute('data-id');
+
+       console.log('Toggling featured:', { id: id, flag: isChecked });
+
+       // Блокируем чекбокс на время запроса
+       checkbox.disabled = true;
+
+       $.ajax({
+           url: '/admin/gallery/toggle-featured',
+           type: 'POST',
+           data: {
+               id: id,
+               flag: isChecked
+           },
+           success: function(html) {
+               // Проверяем, есть ли ошибка в HTML
+               if (html.includes('text-danger') || html.includes('error')) {
+                   console.error('Error toggling featured');
+                   // Возвращаем чекбокс в исходное состояние
+                   checkbox.checked = !isChecked;
+               } else {
+                   console.log('Featured toggled successfully');
+               }
+                console.log(html);
+               // Показываем модальное окно с полученным HTML
+               modals();
+               $('.modal-body').html(html);
+           },
+           error: function(xhr, status, error) {
+               console.error('AJAX error:', error);
+               checkbox.checked = !isChecked;
+
+               // Создаём сообщение об ошибке
+               const errorHtml = '<div class="container-fluid"><p class="text-danger">Ошибка при обновлении статуса: ' + error + '</p></div>';
+               modals();
+               $('.modal-body').html(errorHtml);
+           },
+           complete: function() {
+               // Разблокируем чекбокс
+               checkbox.disabled = false;
+           }
+       });
+   }

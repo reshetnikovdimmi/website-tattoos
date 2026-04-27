@@ -1,4 +1,4 @@
-package ru.tattoo.maxsim.controller;
+package ru.tattoo.maxsim.controller.client;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.controller.CRUDController;
 import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.service.interf.ImagesService;
@@ -17,13 +17,8 @@ import ru.tattoo.maxsim.service.interf.ReviewService;
 import ru.tattoo.maxsim.service.interf.SketchesService;
 import ru.tattoo.maxsim.util.PageSize;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.Collection;
-
-import static ru.tattoo.maxsim.model.UserRole.ADMIN;
 
 @Controller
 @Slf4j
@@ -31,7 +26,6 @@ import static ru.tattoo.maxsim.model.UserRole.ADMIN;
 public class ReviewsController extends CRUDController<ReviewsUser, Long> {
 
     public static final String URL = "/reviews";
-    private static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/img/images/";
     private static final int PAGE_NUMBER = 0;
 
     @Autowired
@@ -67,7 +61,7 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
     }
 
     @Override
-    String getEntityName() {
+    protected String getEntityName() {
         // Минимальное логирование для продакшена
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -101,12 +95,12 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
     }
 
     @Override
-    CRUDService<ReviewsUser, Long> getService() {
+    protected CRUDService<ReviewsUser, Long> getService() {
         return reviewService;
     }
 
     @Override
-    void updateSection(Model model) {
+    protected void updateSection(Model model) {
         model.addAttribute("reviewsEntity", new ReviewsUser());
         model.addAttribute("reviews", reviewService.findAll());
     }

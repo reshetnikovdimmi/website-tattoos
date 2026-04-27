@@ -52,7 +52,7 @@ public class ChooseusSectionServiceImpl extends AbstractCRUDService<ChooseusSect
         Optional<ChooseusSection> object = getRepository().findById(entity.getId());
 
         entity.setSection(object.get().getSection());
-        entity.setTitle(object.get().getTitle());
+        entity.setCategoryTitle(object.get().getCategoryTitle());
 
         getRepository().save(entity);
     }
