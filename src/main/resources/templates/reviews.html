@@ -70,38 +70,7 @@
 
                 <!-- Таблица с отзывами -->
                 <div class="classtime-table scroll">
-                    <table>
-                        <tbody>
-                        <tr th:each="current, item : ${reviews}">
-                            <td class="reviews">
-                                <div class="row align-items-center g-0">
-                                    <div class="col-lg-2 text-center">
-                                        <div class="review-avatar">
-                                            <img th:src="@{'/images/'+${current.imageName != null ? current.imageName : 'avatar.jpg'}}"
-                                                 alt=""
-                                                 th:unless="${current.imageName == null}">
-                                            <img src="/img/avatar.jpg"
-                                                 alt=""
-                                                 th:if="${current.imageName == null}">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <div class="review-content">
-                                            <h5 th:text="${current.comment}"></h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="review-meta">
-                                            <span class="review-date"
-                                                  th:text="${#dates.format(current.date, 'dd MMMM yyyy')}"></span>
-                                            <h4 class="review-author" th:text="${current.userName}"></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div th:replace="~{fragment-admin::blogreviews}"></div>
                 </div>
 
                 <!-- Форма добавления отзыва -->
@@ -110,12 +79,13 @@
                         <div class="leave-comment-form">
                             <h4>Оставьте свой отзыв</h4>
 
-                            <form onsubmit="submitForm(event, '.fragment-reviews')"
-                                  method="POST"
+                            <form onsubmit="submitForm(event)"
                                   enctype="multipart/form-data"
+                                  data-fragment-name="fragment-reviews"
+                                  data-container-selector=".fragment-reviews"
                                   th:object="${reviewsEntity}"
                                   action="/reviews/import"
-                                  class="review-form">
+                                  class="category-form">
 
                                 <!-- Кнопка выбора изображения -->
                                 <div class="row mb-4">
@@ -126,7 +96,6 @@
                                             <i class="fa fa-image"></i>
                                             Выбрать изображение
                                         </button>
-
                                     </div>
                                 </div>
 

@@ -1,11 +1,8 @@
 package ru.tattoo.maxsim.controller.client;
 
-import jakarta.servlet.http.HttpServletRequest;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +14,10 @@ import ru.tattoo.maxsim.service.interf.ReviewService;
 import ru.tattoo.maxsim.service.interf.SketchesService;
 import ru.tattoo.maxsim.util.PageSize;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.time.LocalDateTime;
-import java.util.Collection;
+
 
 @Controller
 @Slf4j
@@ -37,61 +36,9 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
     @Autowired
     private ImagesService imagesService;
 
-    @GetMapping()
-    public String reviews(Model model) {
-
-        model.addAttribute("reviewsEntity", new ReviewsUser());
-        model.addAttribute("reviews", reviewService.findAll());
-        model.addAttribute("localDateTime", LocalDateTime.now());
-        model.addAttribute("count", reviewService.getCount());
-        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
-
-        return "reviews";
-    }
-
-    @GetMapping("/admin")
-
-    private String getGalleryFragment(Model model, HttpServletRequest request) {
-        log.info("Получено page {}",
-                request.getRequestURL());
-        model.addAttribute("reviewsEntity", new ReviewsUser());
-        model.addAttribute("reviews", reviewService.findAll());
-
-        return "fragment-admin::reviews";
-    }
-
     @Override
     protected String getEntityName() {
-        // Минимальное логирование для продакшена
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated()) {
-            log.trace("Неаутентифицированный доступ к отзывам");
-            return "reviews::fragment-reviews";
-        }
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
-        boolean isAdmin = authorities.stream()
-                .anyMatch(a -> {
-                    String authority = a.getAuthority();
-                    boolean matches = authority.equals("ADMIN");
-
-                    if (matches) {
-                        log.debug("✅ Найдена административная роль: {}", authority);
-                    }
-
-                    return matches;
-                });
-
-        if (isAdmin) {
-            log.debug("Админ {} получает доступ к админ-панели отзывов",
-                    authentication.getName());
-            return "fragment-admin::reviews";
-        }
-
-        log.trace("Пользователь {} получает публичный доступ к отзывам",
-                authentication.getName());
-        return "reviews::fragment-reviews";
+          return "reviews";
     }
 
     @Override
@@ -104,4 +51,31 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
         model.addAttribute("reviewsEntity", new ReviewsUser());
         model.addAttribute("reviews", reviewService.findAll());
     }
+
+    @GetMapping()
+    public String reviews(Model model) {
+
+        model.addAttribute("reviewsEntity", new ReviewsUser());
+        model.addAttribute("reviews", reviewService.findAll());
+        model.addAttribute("localDateTime", LocalDateTime.now());
+        model.addAttribute("count", reviewService.getCount());
+        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
+
+        return getEntityName();
+    }
+
+    @PostMapping("/import")
+    public String createEntity(@ModelAttribute() ReviewsUser object,
+                               @RequestParam(value = "fragment", required = false) String fragmentName,
+                               Model model) throws IOException, ParseException {
+
+        log.info("object={}",object);
+
+        getService().create(object);
+        updateSection(model);
+
+        return getEntityName() + "::" + fragmentName;
+    }
+
+
 }

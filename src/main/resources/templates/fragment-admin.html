@@ -985,9 +985,8 @@
                 <p>Что говорят наши клиенты о нашей работе</p>
             </div>
 
-            <div class="reviews-table scroll" style="margin: 20px;">
-                <div class="reviews" th:fragment="reviews">
-
+            <div class="classtime-table scroll">
+                <div class="blogreviews" th:fragment="blogreviews">
                     <!-- Список отзывов -->
                     <div th:if="${reviews != null and !reviews.empty}">
                         <div class="review-card" th:each="current : ${reviews}">
@@ -1012,8 +1011,11 @@
                                             <i class="fa fa-calendar"></i>
                                             <span th:text="${current.date}">Дата</span>
                                         </div>
-                                        <button th:id="${current.id}"
-                                                onclick="deleteImage(this.id, '.reviews', '/reviews/delete-section')"
+                                        <button sec:authorize="hasAuthority('ADMIN')" th:id="${current.id}"
+                                                onclick="deleteImage(this)"
+                                                data-fragment-name="blogreviews"
+                                                data-container-selector=".blogreviews"
+                                                data-deletion-url="/admin/reviews/delete-section"
                                                 class="review-delete-btn">
                                             <i class="fa fa-trash"></i>
                                         </button>
@@ -1187,9 +1189,13 @@
                                         <div class="admin-item-content">
                                             <div class="admin-item-header">
                                                 <span class="admin-item-date" th:text="${current.date}"></span>
-                                                <button th:id="${current.id}" onclick="deleteImage(this.id, '.interesting-works', '/blog/delete-work')"
+                                                <button th:id="${current.id}"
+                                                        onclick="deleteImage(this)"
+                                                        data-fragment-name="interesting-works"
+                                                        data-container-selector=".interesting-works"
+                                                        data-deletion-url="/admin/blog/delete-section"
                                                         class="admin-delete-item-btn">
-                                                    <i class="fa fa-trash"></i> Удалить
+                                                    <i class="fa fa-trash"></i>
                                                 </button>
                                             </div>
                                             <div class="admin-item-description" th:text="${current.description}"></div>

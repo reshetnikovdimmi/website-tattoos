@@ -70,6 +70,4 @@ public class BlogAdminController extends CRUDController<Blog, Long> {
         return getEntityName() + "::" + fragmentName;
     }
 
-
-
 }
