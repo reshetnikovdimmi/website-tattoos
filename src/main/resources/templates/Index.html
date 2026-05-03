@@ -26,7 +26,7 @@
     <link rel="stylesheet" th:href="@{/static/css/owl.carousel.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/static/css/magnific-popup.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/static/css/slicknav.min.css}" type="text/css">
-    <link rel="stylesheet" th:href="@{/static/css/style.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/main.css}" type="text/css">
     <script>window.yaContextCb=window.yaContextCb||[]</script>
     <script src="https://vk.com/js/api/videoplayer.js"></script>
     <script src="https://yandex.ru/ads/system/context.js" async></script>
@@ -39,14 +39,31 @@
 </div>
 
 <!-- Header Section Begin -->
-<header class="header-section ">
+<header class="header-section">
     <div class="container-fluid">
-        <div class="logo" th:each="current: ${setting}"
-        th:if="${current.section=='logo'}">
+        <!-- Логотип слева -->
+        <div class="logo" th:each="current: ${setting}" th:if="${current.section=='logo'}">
             <a href="/">
-                <img th:src="@{'/images/'+${current.imageName}}" alt="">
+                <img th:src="@{'/images/'+${current.imageName}}" alt="Logo">
             </a>
         </div>
+
+        <!-- Меню по центру -->
+        <div class="nav-menu">
+            <nav class="mainmenu mobile-menu">
+                <ul>
+                    <li class="active"><a href="/">Главная</a></li>
+                    <li><a href="/gallery">Галерея</a></li>
+                    <li><a href="/sketches">Эскизы</a></li>
+                    <li><a href="/about-me">Обо мне</a></li>
+                    <li><a href="/blog">Блог</a></li>
+                    <li><a href="/reviews">Отзывы</a></li>
+                    <li><a href="/contact">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Иконки справа -->
         <div class="top-social">
             <a href="https://wa.me/9069917226" target="_blank"><i class="fa fa-whatsapp"></i></a>
             <a sec:authorize="!isAuthenticated()" href="/login"><i class="fa fa-user" aria-hidden="true"></i></a>
@@ -54,22 +71,6 @@
             <a sec:authorize="hasAuthority('ADMIN')" href="/admin"><i class="fa fa-cogs" aria-hidden="true"></i></a>
             <a sec:authorize="hasAuthority('USER')" href="/lk"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
         </div>
-        <div class="container">
-            <div class="nav-menu">
-                <nav class="mainmenu mobile-menu">
-                    <ul>
-                        <li class="active"><a href="/">Главная</a></li>
-                        <li><a href="/gallery">Галерея</a></li>
-                        <li><a href="/sketches">Эскизы</a></li>
-                        <li><a href="/about-me">О бо мне</a></li>
-                        <li><a href="/blog">Блог</a></li>
-                        <li><a href="/reviews">Отзывы</a></li>
-                        <li><a href="/contact">Контакты</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <div id="mobile-menu-wrap"></div>
     </div>
 </header>
 <!-- Header End -->

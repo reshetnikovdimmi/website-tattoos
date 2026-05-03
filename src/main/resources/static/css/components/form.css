@@ -1,0 +1,97 @@
+/* ============================================
+   FORMS
+   ============================================ */
+
+/* Группа формы */
+.form-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+.form-group label {
+    display: block;
+    color: var(--color-gray);
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: var(--spacing-xs);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-group label i {
+    color: var(--color-primary);
+    margin-right: var(--spacing-xs);
+}
+
+/* Поля ввода */
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    color: var(--color-light);
+    font-size: 15px;
+    transition: all var(--transition-normal);
+}
+
+.form-control:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.2);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.form-control:disabled {
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--color-gray);
+    cursor: not-allowed;
+}
+
+/* Textarea */
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.5;
+}
+
+/* Input группы */
+.input-group {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.input-group-text {
+    background: rgba(228, 56, 28, 0.15);
+    color: var(--color-primary);
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-group .form-control {
+    border: none;
+    flex: 1;
+}
+
+.input-group .form-control:focus {
+    box-shadow: none;
+}
+
+/* Сетка формы */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-2xl);
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+}

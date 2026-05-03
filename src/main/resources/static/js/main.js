@@ -39,6 +39,14 @@
         });
 
     });
+    // Липкое меню при скролле
+    $(window).on('scroll', function() {
+        if ($(window).scrollTop() > 50) {
+            $('.header-section').addClass('scrolled');
+        } else {
+            $('.header-section').removeClass('scrolled');
+        }
+    });
     /*------------------
         Background Set
     --------------------*/
@@ -52,15 +60,6 @@
     $(".mobile-menu").slicknav({
         prependTo: '#mobile-menu-wrap',
         allowParentLinks: true
-    });
-    /*------------------
-		Menu Hover
-	--------------------*/
-    $(".header-section .nav-menu .mainmenu ul li").on('mousehover', function() {
-        $(this).addClass('active');
-    });
-    $(".header-section .nav-menu .mainmenu ul li").on('mouseleave', function() {
-        $('.header-section .nav-menu .mainmenu ul li').removeClass('active');
     });
     /*------------------
         Carousel Slider
