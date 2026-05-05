@@ -1,0 +1,271 @@
+/* ============================================
+   FEATURE SECTION - ПРЕИМУЩЕСТВА
+   ============================================ */
+
+/* ------------------------------
+   ОСНОВНОЙ КОНТЕЙНЕР
+------------------------------ */
+.feature-section {
+    position: relative;
+    padding: 80px 0;
+    background: var(--color-dark, #151515);
+    overflow: hidden;
+}
+
+/* Контейнер */
+.feature-section .container-fluid {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Ряд с карточками */
+.feature-section .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+/* Колонка */
+.feature-section .col-md-4 {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+    padding: 0 15px;
+}
+
+/* ------------------------------
+   КАРТОЧКА ПРЕИМУЩЕСТВА
+------------------------------ */
+.feature-item {
+    position: relative;
+    text-align: center;
+    height: 380px;
+    padding: 80px 25px 30px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+/* Затемнение фона */
+.feature-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
+    z-index: -1;
+    transition: all 0.3s ease;
+}
+
+/* Полоска при наведении */
+.feature-item::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    z-index: 1;
+}
+
+.feature-item:hover::after {
+    transform: scaleX(1);
+}
+
+.feature-item:hover::before {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.7));
+}
+
+/* Заголовок H3 */
+.feature-item h3 {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+/* Описание */
+.feature-item .short-details {
+    color: #ffffff;
+    font-size: 15px;
+    font-family: "Nunito Sans", sans-serif;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    opacity: 0.9;
+}
+
+/* Кнопка */
+.feature-item .primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    padding: 10px 24px;
+    color: #ffffff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    border: 2px solid #ffffff;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.feature-item .primary-btn:hover {
+    background: #ffffff;
+    color: #e4381C;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ------------------------------
+   АНИМАЦИЯ ПРИ ПОЯВЛЕНИИ
+------------------------------ */
+@keyframes featureFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.feature-item {
+    animation: featureFadeInUp 0.6s ease forwards;
+}
+
+.feature-section .col-md-4:nth-child(1) .feature-item {
+    animation-delay: 0.1s;
+}
+
+.feature-section .col-md-4:nth-child(2) .feature-item {
+    animation-delay: 0.2s;
+}
+
+.feature-section .col-md-4:nth-child(3) .feature-item {
+    animation-delay: 0.3s;
+}
+
+/* ------------------------------
+   АДАПТИВНОСТЬ
+------------------------------ */
+
+/* Планшеты (до 992px) */
+@media (max-width: 992px) {
+    .feature-section {
+        padding: 60px 0;
+    }
+
+    .feature-section .col-md-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
+        margin-bottom: 30px;
+    }
+
+    .feature-item {
+        height: 350px;
+        padding: 60px 20px 25px;
+    }
+
+    .feature-item h3 {
+        font-size: 22px;
+    }
+
+    .feature-item .short-details {
+        font-size: 14px;
+    }
+}
+
+/* Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
+    .feature-section {
+        padding: 50px 0;
+    }
+
+    .feature-section .col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 25px;
+    }
+
+    .feature-item {
+        height: 320px;
+        padding: 50px 20px 20px;
+    }
+
+    .feature-item h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .feature-item .short-details {
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    .feature-item .primary-btn {
+        padding: 8px 20px;
+        font-size: 12px;
+    }
+}
+
+/* Маленькие мобильные (до 480px) */
+@media (max-width: 480px) {
+    .feature-section {
+        padding: 40px 0;
+    }
+
+    .feature-item {
+        height: 280px;
+        padding: 40px 15px 15px;
+    }
+
+    .feature-item h3 {
+        font-size: 18px;
+    }
+
+    .feature-item .short-details {
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .feature-item .primary-btn {
+        padding: 6px 16px;
+        font-size: 11px;
+        border-width: 1.5px;
+    }
+}
+
+/* Большие экраны */
+@media (min-width: 1400px) {
+    .feature-item {
+        height: 420px;
+        padding: 100px 30px 30px;
+    }
+
+    .feature-item h3 {
+        font-size: 28px;
+    }
+
+    .feature-item .short-details {
+        font-size: 16px;
+    }
+}

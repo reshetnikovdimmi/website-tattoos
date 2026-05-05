@@ -38,7 +38,48 @@
             columnWidth: '.grid-sizer',
         });
 
+        // Мобильное боковое меню
+
+       var $menuToggle = $('.mobile-menu-toggle-icon');
+           var $menuSidebar = $('.mobile-menu-sidebar');
+           var $menuOverlay = $('.mobile-menu-overlay');
+           var $menuClose = $('.mobile-menu-close');
+
+           // Открытие меню
+           $menuToggle.on('click', function(e) {
+               e.preventDefault();
+               $menuSidebar.addClass('active');
+               $menuOverlay.addClass('active');
+               $('body').addClass('menu-open');
+           });
+
+           // Закрытие через крестик
+           $menuClose.on('click', function() {
+               $menuSidebar.removeClass('active');
+               $menuOverlay.removeClass('active');
+               $('body').removeClass('menu-open');
+           });
+
+           // Закрытие по клику на оверлей
+           $menuOverlay.on('click', function() {
+               $menuSidebar.removeClass('active');
+               $menuOverlay.removeClass('active');
+               $('body').removeClass('menu-open');
+           });
+
+           // Закрытие по ESC
+           $(document).on('keyup', function(e) {
+               if (e.key === 'Escape' && $menuSidebar.hasClass('active')) {
+                   $menuSidebar.removeClass('active');
+                   $menuOverlay.removeClass('active');
+                   $('body').removeClass('menu-open');
+               }
+           });
+
     });
+
+    $('body').css('overflow', 'visible'); // для блокировки скролла
+
     // Липкое меню при скролле
     $(window).on('scroll', function() {
         if ($(window).scrollTop() > 50) {

@@ -1,0 +1,316 @@
+/* ============================================
+   CLASSES SECTION - СТИЛИ ТАТУИРОВОК
+   ============================================ */
+
+/* ------------------------------
+   ОСНОВНОЙ КОНТЕЙНЕР
+------------------------------ */
+.classes-section {
+    position: relative;
+    background: #151515;
+    padding: 0 0 80px 0;
+}
+
+/* ------------------------------
+   ЗАГОЛОВОК СЕКЦИИ (class-title)
+------------------------------ */
+.class-title {
+    position: relative;
+    padding: 100px 0;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    text-align: center;
+}
+
+/* Затемнение фона */
+.class-title::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+.class-title .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Заголовок H2 */
+.class-title .section-title h2 {
+    font-size: 48px;
+    font-weight: 700;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+/* Подзаголовок */
+.class-title .section-title .short-details {
+    font-size: 18px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    line-height: 1.5;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* ------------------------------
+   СЕТКА КАРТОЧЕК
+------------------------------ */
+.classes-section .container-fluid {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 60px 15px 0;
+}
+
+.classes-section .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+/* Карточка стиля */
+.classes-item {
+    position: relative;
+    height: 400px;
+    margin: 0 15px 30px;
+    padding: 40px 25px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Затемнение карточки */
+.classes-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+/* Красная полоска при наведении */
+.classes-item::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    z-index: 2;
+}
+
+.classes-item:hover::after {
+    transform: scaleX(1);
+}
+
+.classes-item:hover::before {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.7));
+}
+
+.classes-item:hover {
+    transform: translateY(-5px);
+}
+
+/* Контент внутри карточки */
+.classes-item h4,
+.classes-item p,
+.classes-item .primary-btn {
+    position: relative;
+    z-index: 3;
+}
+
+/* Заголовок карточки */
+.classes-item h4 {
+    font-size: 28px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+/* Описание */
+.classes-item .short-details {
+    font-size: 15px;
+    font-family: "Nunito Sans", sans-serif;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+/* Кнопка */
+.classes-item .primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    padding: 10px 24px;
+    color: #ffffff;
+    text-transform: uppercase;
+    background: transparent;
+    border: 2px solid #ffffff;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.classes-item .primary-btn:hover {
+    background: #ffffff;
+    color: #e4381C;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ------------------------------
+   АДАПТИВНОСТЬ
+------------------------------ */
+
+/* Планшеты (до 992px) */
+@media (max-width: 992px) {
+    .classes-section {
+        padding: 0 0 60px 0;
+    }
+
+    .class-title {
+        padding: 80px 0;
+    }
+
+    .class-title .section-title h2 {
+        font-size: 36px;
+    }
+
+    .class-title .section-title .short-details {
+        font-size: 16px;
+    }
+
+    .classes-item {
+        height: 350px;
+        padding: 30px 20px;
+    }
+
+    .classes-item h4 {
+        font-size: 24px;
+    }
+}
+
+/* Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
+    .classes-section {
+        padding: 0 0 40px 0;
+    }
+
+    .class-title {
+        padding: 60px 0;
+        background-attachment: scroll;
+    }
+
+    .class-title .section-title h2 {
+        font-size: 28px;
+    }
+
+    .class-title .section-title .short-details {
+        font-size: 14px;
+    }
+
+    .classes-section .container-fluid {
+        padding: 40px 15px 0;
+    }
+
+    .classes-item {
+        height: 300px;
+        margin: 0 0 20px;
+        padding: 25px 20px;
+    }
+
+    .classes-item h4 {
+        font-size: 22px;
+    }
+
+    .classes-item .short-details {
+        font-size: 13px;
+    }
+
+    .classes-item .primary-btn {
+        padding: 8px 20px;
+        font-size: 12px;
+    }
+}
+
+/* Маленькие мобильные (до 480px) */
+@media (max-width: 480px) {
+    .class-title .section-title h2 {
+        font-size: 24px;
+    }
+
+    .classes-item {
+        height: 280px;
+    }
+
+    .classes-item h4 {
+        font-size: 20px;
+    }
+
+    .classes-item .short-details {
+        font-size: 12px;
+    }
+}
+
+/* Большие экраны */
+@media (min-width: 1400px) {
+    .classes-item {
+        height: 450px;
+    }
+
+    .classes-item h4 {
+        font-size: 32px;
+    }
+
+    .classes-item .short-details {
+        font-size: 16px;
+    }
+}
+
+/* Анимация появления карточек */
+@keyframes classFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.classes-item {
+    animation: classFadeInUp 0.5s ease forwards;
+}
+
+.classes-section .col-lg-3:nth-child(1) .classes-item { animation-delay: 0.1s; }
+.classes-section .col-lg-3:nth-child(2) .classes-item { animation-delay: 0.2s; }
+.classes-section .col-lg-3:nth-child(3) .classes-item { animation-delay: 0.3s; }
+.classes-section .col-lg-3:nth-child(4) .classes-item { animation-delay: 0.4s; }

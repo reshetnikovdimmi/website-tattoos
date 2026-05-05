@@ -1,0 +1,327 @@
+/* ============================================
+   BLOG SECTION - СЕКЦИЯ ОТЗЫВОВ
+   ============================================ */
+
+/* ------------------------------
+   ОСНОВНОЙ КОНТЕЙНЕР
+------------------------------ */
+.blog-section {
+    position: relative;
+    padding: 100px 0;
+    background: linear-gradient(135deg, #151515 0%, #1a1a1a 100%);
+    overflow: hidden;
+}
+
+/* ------------------------------
+   ЗАГОЛОВОК СЕКЦИИ
+------------------------------ */
+.blog-section .section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.blog-section .section-title h2 {
+    font-size: 48px;
+    font-weight: 700;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+    position: relative;
+    display: inline-block;
+}
+
+.blog-section .section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border-radius: 3px;
+}
+
+.blog-section .section-title p {
+    font-size: 18px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    margin-top: 25px;
+}
+
+/* ------------------------------
+   СЕТКА MIXITUP
+------------------------------ */
+.blog-gird {
+    margin: 0 -15px;
+}
+
+.grid-item {
+    padding: 0 15px;
+    margin-bottom: 30px;
+}
+
+/* ------------------------------
+   КАРТОЧКИ ОТЗЫВОВ
+------------------------------ */
+.blog-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Большая карточка */
+.blog-item.large-item {
+    height: 380px;
+}
+
+.blog-item.xls-large {
+    height: 420px;
+}
+
+/* Фон с затемнением */
+.blog-item.set-bg {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.blog-item.set-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.blog-item.set-bg:hover::before {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8));
+}
+
+/* Instagram карточка */
+.blog-item.instagram-item {
+    background: linear-gradient(135deg, #e16521, #e4381C);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Текст на карточке */
+.blog-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px;
+    z-index: 2;
+    text-decoration: none;
+}
+
+.instagram-text {
+    text-decoration: none;
+}
+
+/* Категория / автор */
+.categories {
+    font-size: 14px;
+    font-family: "Nunito Sans", sans-serif;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.categories i {
+    font-size: 18px;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.categories i:hover {
+    transform: scale(1.1);
+    color: #e4381C;
+}
+
+/* Заголовок отзыва */
+.blog-text h5 {
+    font-size: 18px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    line-height: 1.4;
+    margin-bottom: 0;
+    transition: all 0.3s ease;
+}
+
+.blog-text h5:hover {
+    transform: translateX(5px);
+    color: #e4381C;
+}
+
+/* Специальная карточка "Все отзывы" */
+.blog-item.large-item.xls-large .blog-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+}
+
+.blog-item.large-item.xls-large .blog-text h5 {
+    font-size: 24px;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.blog-item.large-item.xls-large .blog-text h5::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+}
+
+/* ------------------------------
+   АДАПТИВНОСТЬ
+------------------------------ */
+
+/* Планшеты (до 992px) */
+@media (max-width: 992px) {
+    .blog-section {
+        padding: 80px 0;
+    }
+
+    .blog-section .section-title h2 {
+        font-size: 36px;
+    }
+
+    .blog-section .section-title p {
+        font-size: 16px;
+    }
+
+    .blog-item.large-item {
+        height: 350px;
+    }
+
+    .blog-item.xls-large {
+        height: 380px;
+    }
+
+    .blog-text {
+        padding: 25px;
+    }
+
+    .blog-text h5 {
+        font-size: 16px;
+    }
+}
+
+/* Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
+    .blog-section {
+        padding: 60px 0;
+    }
+
+    .blog-section .section-title h2 {
+        font-size: 28px;
+    }
+
+    .blog-section .section-title p {
+        font-size: 14px;
+    }
+
+    .grid-item {
+        padding: 0 10px;
+    }
+
+    .blog-item.large-item {
+        height: 300px;
+    }
+
+    .blog-item.xls-large {
+        height: 320px;
+    }
+
+    .blog-text {
+        padding: 20px;
+    }
+
+    .blog-text h5 {
+        font-size: 15px;
+    }
+
+    .categories {
+        font-size: 12px;
+    }
+
+    .blog-item.instagram-item {
+        padding: 20px;
+    }
+}
+
+/* Маленькие мобильные (до 480px) */
+@media (max-width: 480px) {
+    .blog-section {
+        padding: 50px 0;
+    }
+
+    .blog-section .section-title h2 {
+        font-size: 24px;
+    }
+
+    .blog-item.large-item {
+        height: 280px;
+    }
+
+    .blog-item.xls-large {
+        height: 300px;
+    }
+
+    .blog-text h5 {
+        font-size: 14px;
+    }
+
+    .blog-item.large-item.xls-large .blog-text h5 {
+        font-size: 18px;
+    }
+}
+
+/* Анимация появления карточек */
+@keyframes blogFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.grid-item {
+    animation: blogFadeInUp 0.5s ease forwards;
+    opacity: 0;
+}
+
+.grid-item:nth-child(1) { animation-delay: 0.1s; }
+.grid-item:nth-child(2) { animation-delay: 0.15s; }
+.grid-item:nth-child(3) { animation-delay: 0.2s; }
+.grid-item:nth-child(4) { animation-delay: 0.25s; }
+.grid-item:nth-child(5) { animation-delay: 0.3s; }
+.grid-item:nth-child(6) { animation-delay: 0.35s; }

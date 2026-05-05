@@ -1,0 +1,288 @@
+/* ============================================
+   CHOOSE US SECTION - ПОЧЕМУ ВЫБИРАЮТ НАС
+   ============================================ */
+
+/* ------------------------------
+   ОСНОВНОЙ КОНТЕЙНЕР
+------------------------------ */
+.chooseus-section {
+    position: relative;
+    padding: 100px 0;
+    background: linear-gradient(135deg, #151515 0%, #1a1a1a 100%);
+    overflow: hidden;
+}
+
+/* ------------------------------
+   ЗАГОЛОВОК СЕКЦИИ
+------------------------------ */
+.chooseus-section .section-title {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.chooseus-section .section-title h2 {
+    font-size: 48px;
+    font-weight: 700;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+    position: relative;
+    display: inline-block;
+}
+
+.chooseus-section .section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border-radius: 3px;
+}
+
+.chooseus-section .section-title .short-details {
+    font-size: 18px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    max-width: 700px;
+    margin: 25px auto 0;
+    line-height: 1.5;
+}
+
+/* ------------------------------
+   СЕТКА ПРЕИМУЩЕСТВ
+------------------------------ */
+.chooseus-section .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+/* Карточка преимущества */
+.choose-item {
+    text-align: center;
+    padding: 30px 25px;
+    margin-bottom: 30px;
+    background: rgba(30, 30, 30, 0.6);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.choose-item:hover {
+    transform: translateY(-8px);
+    border-color: rgba(228, 56, 28, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    background: rgba(30, 30, 30, 0.8);
+}
+
+/* Иконка / изображение */
+.choose-item img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.choose-item:hover img {
+    transform: scale(1.1);
+}
+
+/* Заголовок */
+.choose-item h5 {
+    font-size: 22px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+.choose-item:hover h5 {
+    color: #e4381C;
+}
+
+/* Описание */
+.choose-item .short-details {
+    font-size: 15px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* ------------------------------
+   ДЕКОРАТИВНЫЕ ЭЛЕМЕНТЫ
+------------------------------ */
+.chooseus-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle at 20% 40%, rgba(228, 56, 28, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.chooseus-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    height: 50%;
+    background-image: radial-gradient(circle at 80% 60%, rgba(228, 56, 28, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* ------------------------------
+   АДАПТИВНОСТЬ
+------------------------------ */
+
+/* Планшеты (до 992px) */
+@media (max-width: 992px) {
+    .chooseus-section {
+        padding: 80px 0;
+    }
+
+    .chooseus-section .section-title h2 {
+        font-size: 36px;
+    }
+
+    .chooseus-section .section-title .short-details {
+        font-size: 16px;
+    }
+
+    .choose-item {
+        padding: 25px 20px;
+    }
+
+    .choose-item h5 {
+        font-size: 20px;
+    }
+
+    .choose-item img {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
+    .chooseus-section {
+        padding: 60px 0;
+    }
+
+    .chooseus-section .section-title {
+        margin-bottom: 40px;
+    }
+
+    .chooseus-section .section-title h2 {
+        font-size: 28px;
+    }
+
+    .chooseus-section .section-title .short-details {
+        font-size: 14px;
+    }
+
+    .choose-item {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+    }
+
+    .choose-item h5 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .choose-item .short-details {
+        font-size: 14px;
+    }
+
+    .choose-item img {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 15px;
+    }
+}
+
+/* Маленькие мобильные (до 480px) */
+@media (max-width: 480px) {
+    .chooseus-section {
+        padding: 50px 0;
+    }
+
+    .chooseus-section .section-title h2 {
+        font-size: 24px;
+    }
+
+    .choose-item {
+        padding: 15px 12px;
+    }
+
+    .choose-item h5 {
+        font-size: 16px;
+    }
+
+    .choose-item .short-details {
+        font-size: 13px;
+    }
+
+    .choose-item img {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+/* Большие экраны */
+@media (min-width: 1400px) {
+    .choose-item {
+        padding: 40px 30px;
+    }
+
+    .choose-item h5 {
+        font-size: 26px;
+    }
+
+    .choose-item .short-details {
+        font-size: 16px;
+    }
+
+    .choose-item img {
+        width: 85px;
+        height: 85px;
+    }
+}
+
+/* Анимация появления карточек */
+@keyframes chooseFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.choose-item {
+    animation: chooseFadeInUp 0.5s ease forwards;
+    opacity: 0;
+}
+
+.chooseus-section .col-lg-4:nth-child(1) .choose-item { animation-delay: 0.1s; }
+.chooseus-section .col-lg-4:nth-child(2) .choose-item { animation-delay: 0.2s; }
+.chooseus-section .col-lg-4:nth-child(3) .choose-item { animation-delay: 0.3s; }
+.chooseus-section .col-lg-4:nth-child(4) .choose-item { animation-delay: 0.4s; }
+.chooseus-section .col-lg-4:nth-child(5) .choose-item { animation-delay: 0.5s; }
+.chooseus-section .col-lg-4:nth-child(6) .choose-item { animation-delay: 0.6s; }

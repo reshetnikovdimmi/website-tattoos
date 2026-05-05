@@ -1,0 +1,204 @@
+/* ============================================
+   HOME ABOUT SECTION - СЕКЦИЯ ОБО МНЕ
+   ============================================ */
+
+/* ------------------------------
+   ОСНОВНОЙ КОНТЕЙНЕР
+------------------------------ */
+.home-about {
+    position: relative;
+    padding: 100px 0;
+    background: linear-gradient(135deg, #151515 0%, #1a1a1a 100%);
+    overflow: hidden;
+}
+
+/* ------------------------------
+   ТЕКСТОВЫЙ БЛОК
+------------------------------ */
+.about-text {
+    padding-right: 50px;
+}
+
+/* Заголовок H3 */
+.about-text h3 {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Nunito Sans", sans-serif;
+    color: #e4381C !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.about-text h3::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+}
+
+/* Короткий заголовок */
+.about-text .short-details {
+    font-size: 42px;
+    font-weight: 700;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+}
+
+/* Длинное описание */
+.about-text .long-details {
+    font-size: 16px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    line-height: 1.6;
+    margin-bottom: 35px;
+}
+
+/* Кнопка */
+.about-text .primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 14px;
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    padding: 14px 32px;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: transparent;
+    border: 2px solid #e4381C;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.about-text .primary-btn:hover {
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border-color: transparent;
+    color: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(228, 56, 28, 0.4);
+}
+
+/* ------------------------------
+   ИЗОБРАЖЕНИЕ
+------------------------------ */
+.about-img {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.about-img img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    display: block;
+}
+
+.about-img:hover img {
+    transform: scale(1.05);
+}
+
+/* ------------------------------
+   АДАПТИВНОСТЬ
+------------------------------ */
+
+/* Планшеты (до 992px) */
+@media (max-width: 992px) {
+    .home-about {
+        padding: 70px 0;
+    }
+
+    .about-text {
+        padding-right: 0;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .about-text h3::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .about-text .short-details {
+        font-size: 32px;
+    }
+
+    .about-text .long-details {
+        font-size: 15px;
+    }
+}
+
+/* Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
+    .home-about {
+        padding: 50px 0;
+    }
+
+    .about-text .short-details {
+        font-size: 28px;
+    }
+
+    .about-text .long-details {
+        font-size: 14px;
+    }
+
+    .about-text .primary-btn {
+        padding: 10px 24px;
+        font-size: 12px;
+    }
+}
+
+/* Маленькие мобильные (до 480px) */
+@media (max-width: 480px) {
+    .home-about {
+        padding: 40px 0;
+    }
+
+    .about-text h3 {
+        font-size: 14px;
+    }
+
+    .about-text .short-details {
+        font-size: 24px;
+    }
+
+    .about-text .long-details {
+        font-size: 13px;
+    }
+
+    .about-text .primary-btn {
+        padding: 8px 20px;
+        font-size: 11px;
+    }
+}
+
+/* Анимация появления */
+@keyframes aboutFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.home-about {
+    animation: aboutFadeInUp 0.6s ease forwards;
+}

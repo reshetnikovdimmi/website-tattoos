@@ -1,137 +1,115 @@
 /* ============================================
-   HEADER SECTION - LOGO VYHODIT ZA VSE PREDELY
+   HEADER SECTION - ОПТИМИЗИРОВАН ДЛЯ ВСЕХ УСТРОЙСТВ
    ============================================ */
 
 /* ------------------------------
-   РАЗРЕШАЕМ ПЕРЕПОЛНЕНИЕ НА ВСЕХ УРОВНЯХ
+   БАЗОВЫЕ СТИЛИ
 ------------------------------ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html,
 body,
 .header-section,
-.header-section .container,
 .header-section .container-fluid,
 .logo,
 .logo a {
     overflow: visible !important;
 }
 
-/* ------------------------------
-   ОСНОВНОЙ КОНТЕЙНЕР ШАПКИ
------------------------------- */
 .header-section {
     position: fixed;
     left: 0;
     top: 0;
     width: 100%;
     z-index: 1000;
-
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     background: rgba(21, 21, 21, 0.95);
     backdrop-filter: blur(10px);
     overflow: visible !important;
 }
 
-/* Контейнер-флекс */
 .header-section .container-fluid {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 60px;
-    overflow: visible !important;
     position: relative;
+    min-height: 80px;
+    transition: all 0.2s ease;
 }
 
 /* ------------------------------
-   ЛОГОТИП - ВЫХОДИТ ЗА ПРЕДЕЛЫ ВСЕХ РОДИТЕЛЕЙ
+   ЛОГОТИП
 ------------------------------ */
 .logo {
-    flex: 0 0 auto;
+    flex-shrink: 0;
     position: relative;
-    z-index: 200;  /* Высокий z-index, чтобы быть поверх всего */
-    overflow: visible !important;
+    z-index: 200;
+    margin-top: 25px;
+    margin-bottom: -25px;
+    transition: all 0.2s ease;
 }
 
 .logo a {
     display: block;
-    transition: transform 0.3s ease;
-    overflow: visible !important;
+    transition: transform 0.2s ease;
 }
 
 .logo a:hover {
     transform: scale(1.05);
 }
 
-/* Увеличиваем логотип и заставляем выходить за пределы */
 .logo img {
-    max-height: 140px;
+    max-height: 110px;
     width: auto;
-    object-fit: contain;
     display: block;
-    transition: all 0.3s ease;
-
-    /* Выходим за пределы ВСЕХ родительских контейнеров */
-    margin-top: -40px;
-    margin-bottom: -40px;
-    margin-left: -30px;
-    margin-right: -30px;
-
-
-    /* Тень для красоты */
+    transition: all 0.2s ease;
+    margin-top: 15px;
+    margin-bottom: -15px;
     filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
 }
 
 /* ------------------------------
-   КОМПЕНСАЦИЯ ДЛЯ СОСЕДНИХ ЭЛЕМЕНТОВ
+   ДЕСКТОПНОЕ МЕНЮ
 ------------------------------ */
 .nav-menu {
     flex: 1;
     display: flex;
     justify-content: center;
-    margin-left: 30px;
-    background: transparent;
+    transition: all 0.2s ease;
 }
 
-.top-social {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    z-index: 10;
-    background: transparent;
-}
-
-/* ------------------------------
-   НАВИГАЦИЯ
------------------------------- */
 .mainmenu ul {
     display: flex;
-    gap: 35px;
+    gap: 30px;
     margin: 0;
     padding: 0;
 }
 
 .mainmenu ul li {
     list-style: none;
-    position: relative;
 }
 
 .mainmenu ul li a {
     color: #ffffff;
-    font-size: 16px;
+    font-size: 14px;
     text-transform: uppercase;
     font-weight: 500;
     font-family: "Oswald", sans-serif;
-    padding: 8px 0;
+    padding: 5px 0;
     display: block;
-    transition: all 0.3s ease;
     position: relative;
     white-space: nowrap;
+    transition: all 0.2s ease;
 }
 
-/* Одинарное подчёркивание */
 .mainmenu ul li a::after {
     content: '';
     position: absolute;
@@ -140,7 +118,7 @@ body,
     width: 0;
     height: 2px;
     background: linear-gradient(90deg, #e16521, #e4381C);
-    transition: width 0.3s ease;
+    transition: width 0.2s ease;
 }
 
 .mainmenu ul li a:hover::after,
@@ -156,217 +134,312 @@ body,
 /* ------------------------------
    СОЦИАЛЬНЫЕ ИКОНКИ
 ------------------------------ */
+.top-social {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
 .top-social a {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
     color: #ffffff;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .top-social a:hover {
     background: linear-gradient(90deg, #e16521, #e4381C);
-    transform: translateY(-3px);
-    color: #fff;
+    transform: translateY(-2px);
 }
 
 /* ------------------------------
-   ЭФФЕКТ ПРИ СКРОЛЛЕ
+   БУРГЕР-МЕНЮ (ТОЛЬКО ДЛЯ ТЕЛЕФОНОВ)
 ------------------------------ */
-.header-section.scrolled {
-    padding: 8px 0;
-    background: rgba(21, 21, 21, 0.98);
-}
-
-.header-section.scrolled .logo img {
-    max-height: 90px;
-    margin-top: -20px;
-    margin-bottom: -20px;
-    margin-left: -15px;
-    margin-right: -15px;
-    top: -5px;
-
-}
-
-.header-section.scrolled .mainmenu ul li a {
-    font-size: 14px;
-}
-
-.header-section.scrolled .top-social a {
-    width: 35px;
-    height: 35px;
+.mobile-menu-toggle-icon {
+    display: none;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
     font-size: 16px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: 5px;
 }
 
-/* ------------------------------
-   БОЛЬШИЕ ЭКРАНЫ
------------------------------- */
-@media (min-width: 1600px) {
-    .logo img {
-        max-height: 180px;
-        margin-top: 50px;
-        margin-bottom: -70px;
-        margin-left: 40px;
-        margin-right: -40px;
-        top: -15px;
+/* ============================================
+   ПЛАНШЕТЫ И ДЕСКТОП (ширина >= 768px) - ЕСТЬ ЭФФЕКТ СКРОЛЛА
+   ============================================ */
+@media (min-width: 768px) {
+
+    /* Эффект при скролле */
+    .header-section.scrolled .container-fluid {
+        min-height: 55px;
     }
 
-    .mainmenu ul {
-        gap: 50px;
-    }
-
-    .mainmenu ul li a {
-        font-size: 18px;
-    }
-}
-
-/* ------------------------------
-   АДАПТИВНОСТЬ
------------------------------- */
-
-/* Планшеты (до 1100px) */
-@media (max-width: 1100px) {
-    .header-section .container-fluid {
-        padding: 0 30px;
-    }
-
-    .logo img {
-        max-height: 110px;
-        margin-top: -30px;
-        margin-bottom: -30px;
-        margin-left: -20px;
-        margin-right: -20px;
-        top: -8px;
-    }
-
-    .mainmenu ul {
-        gap: 25px;
-    }
-
-    .mainmenu ul li a {
-        font-size: 14px;
-    }
-}
-
-/* Узкие экраны (до 900px) */
-@media (max-width: 900px) {
-    .header-section .container-fluid {
-        flex-wrap: wrap;
-        padding: 0 20px;
-    }
-
-    .logo {
-        order: 1;
-    }
-
-    .top-social {
-        order: 2;
-    }
-
-    .nav-menu {
-        order: 3;
-        flex: 0 0 100%;
-        margin-top: 15px;
-        margin-left: 0;
-        justify-content: center;
-    }
-
-    .mainmenu ul {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-    }
-
-    .logo img {
-        max-height: 90px;
-        margin-top: -20px;
-        margin-bottom: -20px;
-        margin-left: -15px;
-        margin-right: -15px;
-        top: -5px;
-    }
-}
-
-/* Мобильные устройства (до 767px) */
-@media (max-width: 767px) {
-    .header-section {
-        padding: 10px 0;
-    }
-
-    .header-section .container-fluid {
-        padding: 0 15px;
-    }
-
-    .logo img {
-        max-height: 60px;
-        margin: 0;
-        top: 0;
-        filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.2));
-    }
-
-    .top-social a {
-        width: 32px;
-        height: 32px;
-        font-size: 14px;
-    }
-
-    /* Скрываем основное меню */
-    .nav-menu .mainmenu {
-        display: none;
-    }
-
-    .slicknav_menu {
-        display: block;
-        width: 100%;
-        order: 4;
+    .header-section.scrolled .logo {
         margin-top: 10px;
-    }
-
-    .slicknav_btn {
-        background: linear-gradient(90deg, #e16521, #e4381C);
-        margin: 0 auto;
-        border-radius: 4px;
-    }
-
-    .slicknav_nav {
-        background: #151515;
-        border-radius: 8px;
-        margin-top: 10px;
-    }
-
-    .slicknav_nav a {
-        color: #fff;
-        font-family: "Oswald", sans-serif;
-        text-transform: uppercase;
-        font-size: 13px;
-    }
-
-    .slicknav_nav a:hover {
-        background: #e4381C;
-        border-radius: 4px;
+        margin-bottom: -10px;
     }
 
     .header-section.scrolled .logo img {
-        max-height: 50px;
-        margin: 0;
-        top: 0;
-    }
-}
-
-/* Маленькие мобильные (до 480px) */
-@media (max-width: 480px) {
-    .logo img {
-        max-height: 48px;
+        max-height: 70px;
+        margin-top: 5px;
+        margin-bottom: -5px;
     }
 
-    .top-social a {
+    .header-section.scrolled .mainmenu ul {
+        gap: 20px;
+    }
+
+    .header-section.scrolled .mainmenu ul li a {
+        font-size: 12px;
+        padding: 3px 0;
+    }
+
+    .header-section.scrolled .top-social a {
         width: 28px;
         height: 28px;
         font-size: 12px;
     }
+}
+
+/* ============================================
+   ТЕЛЕФОНЫ (ширина <= 767px) - НЕТ ЭФФЕКТА СКРОЛЛА
+   ============================================ */
+@media (max-width: 767px) {
+
+    /* Скрываем десктопное меню */
+    .nav-menu {
+        display: none !important;
+    }
+
+    /* Показываем бургер */
+    .mobile-menu-toggle-icon {
+        display: flex !important;
+    }
+
+    /* ФИКСИРОВАННАЯ ШАПКА - НЕ МЕНЯЕТСЯ ПРИ СКРОЛЛЕ */
+    .header-section,
+    .header-section.scrolled {
+        padding: 0 !important;
+    }
+
+    .header-section .container-fluid,
+    .header-section.scrolled .container-fluid {
+        padding: 0 20px !important;
+        min-height: 60px !important;
+    }
+
+    /* ФИКСИРОВАННЫЙ ЛОГОТИП */
+    .logo,
+    .header-section.scrolled .logo {
+        margin-top: 5px !important;
+        margin-bottom: -5px !important;
+    }
+
+    .logo img,
+    .header-section.scrolled .logo img {
+        max-height: 55px !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* ФИКСИРОВАННЫЕ ИКОНКИ */
+    .top-social a,
+    .header-section.scrolled .top-social a {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 12px !important;
+    }
+
+    /* ФИКСИРОВАННЫЙ БУРГЕР */
+    .mobile-menu-toggle-icon,
+    .header-section.scrolled .mobile-menu-toggle-icon {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 12px !important;
+    }
+}
+
+/* ============================================
+   МАЛЕНЬКИЕ ТЕЛЕФОНЫ (до 480px)
+   ============================================ */
+@media (max-width: 480px) {
+    .header-section .container-fluid,
+    .header-section.scrolled .container-fluid {
+        padding: 0 15px !important;
+        min-height: 55px !important;
+    }
+
+    .logo img,
+    .header-section.scrolled .logo img {
+        max-height: 45px !important;
+    }
+
+    .top-social a,
+    .header-section.scrolled .top-social a {
+        width: 25px !important;
+        height: 25px !important;
+        font-size: 11px !important;
+    }
+
+    .mobile-menu-toggle-icon,
+    .header-section.scrolled .mobile-menu-toggle-icon {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 14px !important;
+    }
+}
+
+/* ============================================
+   МОБИЛЬНОЕ БОКОВОЕ МЕНЮ
+   ============================================ */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1002;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-menu-sidebar {
+    position: fixed;
+    top: 0;
+    right: -280px;
+    width: 280px;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+    z-index: 1003;
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-menu-sidebar.active {
+    right: 0;
+}
+
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(228, 56, 28, 0.3);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.mobile-menu-logo img {
+    max-height: 40px;
+    width: auto;
+}
+
+.mobile-menu-close {
+    width: 35px;
+    height: 35px;
+    background: rgba(228, 56, 28, 0.2);
+    border: none;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-menu-close:hover {
+    background: #e4381C;
+    transform: rotate(90deg);
+}
+
+.mobile-nav {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.mobile-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-nav ul li {
+    margin-bottom: 12px;
+}
+
+.mobile-nav ul li a {
+    color: #ffffff;
+    font-size: 16px;
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: block;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.mobile-nav ul li a:hover {
+    background: rgba(228, 56, 28, 0.2);
+    color: #e4381C;
+    padding-left: 20px;
+}
+
+.mobile-nav ul li.active a {
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    color: #ffffff;
+}
+
+.mobile-menu-social {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu-social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-social a:hover {
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    transform: translateY(-2px);
+}
+
+body.menu-open {
+    overflow: hidden;
 }

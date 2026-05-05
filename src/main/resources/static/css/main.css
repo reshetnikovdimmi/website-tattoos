@@ -27,6 +27,13 @@
 @import 'pages/reviews.css';
 @import 'pages/user.css';
 @import 'pages/hero.css';
+@import 'pages/feature.css';
+@import 'pages/about.css';
+@import 'pages/classes.css';
+@import 'pages/price.css';
+@import 'pages/chooseus.css';
+@import 'pages/video.css';
+@import 'pages/blog-section.css';
 
 /* Responsive */
 @import 'responsive/mobile.css';

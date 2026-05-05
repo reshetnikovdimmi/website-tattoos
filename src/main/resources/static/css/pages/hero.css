@@ -6,7 +6,8 @@
 .hero-section {
     position: relative;
     overflow: hidden;
-    margin-top: 118px; /* Отступ под липкое меню */
+    margin-top: 0; /* Убираем отступ */
+    padding-top: 0;
 }
 
 /* Карусель hero */
@@ -16,7 +17,8 @@
 
 /* Отдельный слайд */
 .single-hero-item {
-    height: 850px;
+    height: 100vh;
+    min-height: 700px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,7 +28,7 @@
     position: relative;
 }
 
-/* Затемнение фона для лучшей читаемости текста */
+/* Затемнение фона */
 .single-hero-item::before {
     content: '';
     position: absolute;
@@ -42,6 +44,7 @@
 .single-hero-item .container {
     position: relative;
     z-index: 2;
+    width: 100%;
 }
 
 /* Текстовый блок */
@@ -59,9 +62,11 @@
     font-size: 30px;
     margin-bottom: 10px;
     letter-spacing: 2px;
+    opacity: 0;
+    transform: translateY(30px);
 }
 
-/* Заголовок H1 (главный) */
+/* Заголовок H1 */
 .hero-text h1 {
     color: #ffffff;
     font-size: 70px;
@@ -70,6 +75,8 @@
     margin-bottom: 35px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     letter-spacing: 1px;
+    opacity: 0;
+    transform: translateY(30px);
 }
 
 /* КНОПКА - ПРОЗРАЧНАЯ */
@@ -88,6 +95,8 @@
     border-radius: 50px;
     transition: all 0.3s ease;
     cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
 }
 
 .hero-text .primary-btn:hover {
@@ -119,6 +128,7 @@
     transition: all 0.3s ease;
     z-index: 10;
     border: 1px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
 }
 
 .hero-items .owl-nav button:hover {
@@ -135,10 +145,10 @@
     right: 30px;
 }
 
-/* Точки (dots) навигации */
+/* Точки навигации */
 .hero-items .owl-dots {
     position: absolute;
-    bottom: 40px;
+    bottom: 30px;
     left: 0;
     width: 100%;
     text-align: center;
@@ -152,8 +162,8 @@
 
 .hero-items .owl-dots .owl-dot span {
     display: block;
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     background: rgba(255, 255, 255, 0.5);
     border-radius: 50%;
     transition: all 0.3s ease;
@@ -161,7 +171,7 @@
 }
 
 .hero-items .owl-dots .owl-dot.active span {
-    width: 30px;
+    width: 25px;
     border-radius: 20px;
     background: linear-gradient(90deg, #e16521, #e4381C);
 }
@@ -197,14 +207,11 @@
 
 /* ===== АДАПТИВНОСТЬ ===== */
 
-/* Планшеты */
-@media (max-width: 991px) {
-    .hero-section {
-        margin-top: 90px;
-    }
-
+/* Планшеты (до 992px) */
+@media (max-width: 992px) {
     .single-hero-item {
-        height: 650px;
+        min-height: 550px;
+        height: auto;
     }
 
     .hero-text h1 {
@@ -228,14 +235,10 @@
     }
 }
 
-/* Мобильные устройства */
-@media (max-width: 767px) {
-    .hero-section {
-        margin-top: 100px;
-    }
-
+/* Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
     .single-hero-item {
-        height: 500px;
+        min-height: 450px;
     }
 
     .hero-text h1 {
@@ -265,18 +268,17 @@
 
     .hero-items .owl-nav button.owl-next {
         right: 10px;
-        margin-right: 20px;
+    }
+
+    .hero-items .owl-dots {
+        bottom: 20px;
     }
 }
 
-/* Маленькие мобильные */
+/* Маленькие мобильные (до 480px) */
 @media (max-width: 480px) {
-    .hero-section {
-        margin-top: 80px;
-    }
-
     .single-hero-item {
-        height: 450px;
+        min-height: 380px;
     }
 
     .hero-text h1 {
@@ -298,17 +300,13 @@
         height: 30px;
         font-size: 14px;
     }
-
-    .hero-items .owl-dots {
-        bottom: 20px;
-    }
 }
 
 /* Высокие экраны */
 @media (min-width: 1200px) and (min-height: 900px) {
     .single-hero-item {
-        height: calc(100vh - 120px);
-        min-height: 700px;
+        height: 100vh;
+        min-height: 750px;
     }
 
     .hero-text h1 {

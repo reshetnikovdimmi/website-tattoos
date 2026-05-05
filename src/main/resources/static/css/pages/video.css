@@ -1,0 +1,138 @@
+/* ============================================
+   VIDEO SECTION - MINIMAL
+   ============================================ */
+
+.video-section {
+    position: relative;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.video-text {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.video-text h2 {
+    font-size: 42px;
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+.video-text .play-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 28px;
+    transition: 0.3s;
+}
+
+.video-text .play-btn:hover {
+    background: #e4381C;
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .video-section {
+        height: 400px;
+    }
+
+    .video-text h2 {
+        font-size: 28px;
+    }
+
+    .video-text .play-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+    }
+}
+/* ============================================
+   VIDEO MODAL - МОДАЛЬНОЕ ОКНО ДЛЯ ВИДЕО
+   ============================================ */
+
+.video-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    cursor: pointer;
+}
+
+.video-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-modal-content {
+    position: relative;
+    width: 80%;
+    max-width: 900px;
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.video-modal-content iframe {
+    width: 100%;
+    height: 500px;
+    border: none;
+    display: block;
+}
+
+.video-modal-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.video-modal-close:hover {
+    background: #e4381C;
+    transform: rotate(90deg);
+}
+
+@media (max-width: 768px) {
+    .video-modal-content {
+        width: 95%;
+    }
+
+    .video-modal-content iframe {
+        height: 300px;
+    }
+}
