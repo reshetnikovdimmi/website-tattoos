@@ -1,0 +1,319 @@
+/* ============================================
+   MAP SECTION - КАРТА И КОНТАКТЫ
+   ============================================ */
+
+/* ------------------------------
+   ОСНОВНОЙ КОНТЕЙНЕР
+------------------------------ */
+.map-section {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #151515;
+}
+
+/* ------------------------------
+   КОНТЕЙНЕР КАРТЫ
+------------------------------ */
+.map-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 550px;
+    background: #1a1a1a;
+    overflow: hidden;
+}
+
+/* Контейнер для рекламы / карты */
+.yandex-ad-container {
+    width: 100%;
+    height: 100%;
+    min-height: 550px;
+    background: #1a1a1a;
+}
+
+.yandex-ad-container iframe {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 550px;
+    display: block;
+    border: none;
+}
+
+/* ------------------------------
+   БЛОК КОНТАКТНОЙ ИНФОРМАЦИИ
+------------------------------ */
+.map-contact-info {
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    padding: 50px 40px;
+    height: 100%;
+    min-height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid rgba(228, 56, 28, 0.2);
+}
+
+/* Блоки информации */
+.info-block {
+    margin-bottom: 40px;
+}
+
+.info-block:last-child {
+    margin-bottom: 0;
+}
+
+.info-block h5 {
+    font-size: 18px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #e4381C;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    position: relative;
+    display: inline-block;
+}
+
+.info-block h5::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+}
+
+.info-block p {
+    font-size: 16px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #ffffff;
+    margin: 0;
+    padding: 5px 0;
+    line-height: 1.5;
+}
+
+/* ------------------------------
+   ФОРМА СВЯЗИ
+------------------------------ */
+.info-block form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.info-block form input,
+.info-block form textarea {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.info-block form input:focus,
+.info-block form textarea:focus {
+    border-color: #e4381C;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.1);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.info-block form input::placeholder,
+.info-block form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.info-block form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+/* Кнопка отправки */
+.info-block form button {
+    width: 100%;
+    padding: 14px 20px;
+    background: transparent;
+    border: 2px solid #e4381C;
+    border-radius: 50px;
+    color: #e4381C;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.info-block form button:hover {
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border-color: transparent;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+}
+
+/* Статус сообщения */
+.status-message {
+    margin-top: 15px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+    font-family: "Nunito Sans", sans-serif;
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.status-message.error {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+/* ------------------------------
+   АДАПТИВНОСТЬ
+------------------------------ */
+
+/* Планшеты (до 992px) */
+@media (max-width: 992px) {
+    .map-container {
+        min-height: 450px;
+    }
+
+    .yandex-ad-container {
+        min-height: 450px;
+    }
+
+    .map-contact-info {
+        padding: 40px 30px;
+        min-height: auto;
+    }
+
+    .info-block h5 {
+        font-size: 16px;
+    }
+
+    .info-block p {
+        font-size: 14px;
+    }
+}
+
+/* Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
+    .map-section .row {
+        flex-direction: column;
+    }
+
+    .map-container {
+        min-height: 350px;
+    }
+
+    .yandex-ad-container {
+        min-height: 350px;
+    }
+
+    .yandex-ad-container iframe {
+        min-height: 350px;
+    }
+
+    .map-contact-info {
+        padding: 30px 25px;
+        border-left: none;
+        border-top: 1px solid rgba(228, 56, 28, 0.2);
+    }
+
+    .info-block {
+        margin-bottom: 30px;
+    }
+
+    .info-block h5 {
+        font-size: 15px;
+    }
+
+    .info-block form input,
+    .info-block form textarea {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+
+    .info-block form button {
+        padding: 12px 20px;
+        font-size: 13px;
+    }
+}
+
+/* Маленькие мобильные (до 480px) */
+@media (max-width: 480px) {
+    .map-container {
+        min-height: 280px;
+    }
+
+    .yandex-ad-container {
+        min-height: 280px;
+    }
+
+    .yandex-ad-container iframe {
+        min-height: 280px;
+    }
+
+    .map-contact-info {
+        padding: 25px 20px;
+    }
+
+    .info-block h5 {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    .info-block p {
+        font-size: 13px;
+    }
+
+    .info-block form input,
+    .info-block form textarea {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .info-block form textarea {
+        height: 100px;
+    }
+
+    .info-block form button {
+        padding: 10px 16px;
+        font-size: 12px;
+    }
+}
+
+/* Большие экраны */
+@media (min-width: 1400px) {
+    .map-container {
+        min-height: 650px;
+    }
+
+    .yandex-ad-container {
+        min-height: 650px;
+    }
+
+    .map-contact-info {
+        padding: 60px 50px;
+        min-height: 650px;
+    }
+
+    .info-block h5 {
+        font-size: 20px;
+    }
+
+    .info-block p {
+        font-size: 18px;
+    }
+}

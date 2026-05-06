@@ -1,0 +1,341 @@
+/* ============================================
+   GALLERY SECTION - СЕТКА ГАЛЕРЕИ
+   ============================================ */
+
+/* ------------------------------
+   КОНТЕЙНЕР СЕТКИ
+------------------------------ */
+.gallery-filter {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+/* Элементы сетки */
+.gallery-filter > div {
+    width: 33.333%;
+    padding: 15px;
+}
+
+/* ------------------------------
+   КАРТОЧКА ИЗОБРАЖЕНИЯ
+------------------------------ */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(228, 56, 28, 0.2);
+}
+
+/* Изображение */
+.gallery-img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    display: block;
+}
+
+.gallery-item:hover .gallery-img {
+    transform: scale(1.05);
+}
+
+/* Красная полоска при наведении */
+.gallery-item::before {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    content: "";
+    opacity: 0;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover::before {
+    opacity: 1;
+}
+
+/* Затемнение при наведении */
+.gallery-item::after {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
+    content: "";
+    z-index: 1;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover::after {
+    opacity: 1;
+}
+
+/* ------------------------------
+   ОВЕРЛЕЙ ПРИ НАВЕДЕНИИ
+------------------------------ */
+.gi-hover-warp {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9;
+}
+
+.gi-hover {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    text-align: center;
+    transform: translateY(20px);
+}
+
+.gallery-item:hover .gi-hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Кнопка просмотра */
+.gi-hover a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border: none;
+    border-radius: 50%;
+    font-size: 22px;
+    color: #fff;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+}
+
+.gi-hover a:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(228, 56, 28, 0.5);
+}
+
+/* Описание под кнопкой */
+.gi-hover h6 {
+    color: #fff;
+    margin-top: 12px;
+    font-size: 14px;
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 500;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    max-width: 180px;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 5px 12px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+}
+
+/* ------------------------------
+   АДМИНСКИЕ ЭЛЕМЕНТЫ УПРАВЛЕНИЯ
+------------------------------ */
+.admin-controls {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .admin-controls {
+    opacity: 1;
+}
+
+/* Кнопка удаления */
+.delete-item-btn {
+    width: 38px;
+    height: 38px;
+    background: rgba(228, 56, 28, 0.95);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.delete-item-btn:hover {
+    background: #e4381C;
+    transform: scale(1.1);
+}
+
+.delete-item-btn i {
+    font-size: 16px;
+}
+
+/* Чекбокс "Лучшее тату" */
+.featured-checkbox-wrapper {
+    background: rgba(0, 0, 0, 0.85);
+    padding: 8px 12px;
+    border-radius: 25px;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.featured-checkbox-wrapper label {
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.featured-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #e4381C;
+    margin: 0;
+}
+
+.featured-checkbox-wrapper span {
+    transition: color 0.3s ease;
+}
+
+.featured-checkbox-wrapper:hover span {
+    color: #e4381C;
+}
+
+/* ------------------------------
+   АДАПТИВНОСТЬ
+------------------------------ */
+
+/* Планшеты (до 992px) */
+@media (max-width: 992px) {
+    .gallery-filter > div {
+        width: 50%;
+    }
+
+    .gallery-img {
+        height: 280px;
+    }
+
+    .gi-hover a {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    .gi-hover h6 {
+        font-size: 13px;
+        max-width: 160px;
+    }
+}
+
+/* Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
+    .gallery-filter {
+        margin: 0 -10px;
+    }
+
+    .gallery-filter > div {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .gallery-img {
+        height: 260px;
+    }
+
+    .admin-controls {
+        opacity: 1;
+    }
+
+    .delete-item-btn {
+        width: 34px;
+        height: 34px;
+    }
+
+    .featured-checkbox-wrapper {
+        padding: 6px 10px;
+    }
+
+    .featured-checkbox-wrapper label {
+        font-size: 11px;
+    }
+}
+
+/* Маленькие мобильные (до 480px) */
+@media (max-width: 480px) {
+    .gallery-img {
+        height: 220px;
+    }
+
+    .gi-hover a {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+
+    .gi-hover h6 {
+        font-size: 12px;
+        max-width: 150px;
+    }
+
+    .delete-item-btn {
+        width: 30px;
+        height: 30px;
+    }
+
+    .delete-item-btn i {
+        font-size: 14px;
+    }
+}
+
+/* Анимация появления карточек */
+@keyframes galleryFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.gallery-filter > div {
+    animation: galleryFadeInUp 0.4s ease forwards;
+}
+
+.gallery-filter > div:nth-child(1) { animation-delay: 0.05s; }
+.gallery-filter > div:nth-child(2) { animation-delay: 0.1s; }
+.gallery-filter > div:nth-child(3) { animation-delay: 0.15s; }
+.gallery-filter > div:nth-child(4) { animation-delay: 0.2s; }
+.gallery-filter > div:nth-child(5) { animation-delay: 0.25s; }
+.gallery-filter > div:nth-child(6) { animation-delay: 0.3s; }

@@ -18,6 +18,9 @@
 @import 'layouts/header.css';
 @import 'layouts/footer.css';
 @import 'layouts/sidebar.css';
+@import 'layouts/cta-section.css';
+@import 'layouts/gallery-filter.css';
+@import 'layouts/breadcrumb-section.css';
 
 /* Pages */
 @import 'pages/admin-common.css';
@@ -34,6 +37,7 @@
 @import 'pages/chooseus.css';
 @import 'pages/video.css';
 @import 'pages/blog-section.css';
+@import 'pages/map-section.css';
 
 /* Responsive */
 @import 'responsive/mobile.css';

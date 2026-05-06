@@ -7,41 +7,72 @@
 </head>
 <body>
 <!-- Header Section Begin -->
-<div class="header-section header-normal" th:fragment="header">
+<header class="header-section">
     <div class="container-fluid">
+        <!-- Логотип (слева) -->
         <div class="logo" th:each="current: ${setting}" th:if="${current.section=='logo'}">
             <a href="/">
-                <img id="logo-header" th:src="@{'/images/'+${current.imageName}}" alt="">
+                <img id="logo-header" th:src="@{'/images/'+${current.imageName}}" alt="Logo">
             </a>
         </div>
+
+        <!-- Десктопное меню (по центру) -->
+        <div class="nav-menu">
+            <nav class="mainmenu">
+                <ul>
+                    <li th:classappend="${servletPath == '/' ? 'active':''}"><a href="/">Главная</a></li>
+                    <li th:classappend="${servletPath == '/gallery' ? 'active':''}"><a href="/gallery">Галерея</a></li>
+                    <li th:classappend="${servletPath == '/sketches' ? 'active':''}"><a href="/sketches">Эскизы</a></li>
+                    <li th:classappend="${servletPath == '/about-me' ? 'active':''}"><a href="/about-me">Обо мне</a></li>
+                    <li th:classappend="${servletPath == '/blog' ? 'active':''}"><a href="/blog">Блог</a></li>
+                    <li th:classappend="${servletPath == '/reviews' ? 'active':''}"><a href="/reviews">Отзывы</a></li>
+                    <li th:classappend="${servletPath == '/contact' ? 'active':''}"><a href="/contact">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Социальные иконки -->
         <div class="top-social">
-            <a href="https://wa.me/79620490947" target="_blank"><i class="fa fa-whatsapp"></i></a>
+            <a href="https://wa.me/9069917226" target="_blank"><i class="fa fa-whatsapp"></i></a>
             <a sec:authorize="!isAuthenticated()" href="/login"><i class="fa fa-user" aria-hidden="true"></i></a>
             <a sec:authorize="isAuthenticated()" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
             <a sec:authorize="hasAuthority('ADMIN')" href="/admin"><i class="fa fa-cogs" aria-hidden="true"></i></a>
             <a sec:authorize="hasAuthority('USER')" href="/lk"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
+            <!-- Иконка бургер-меню (в стиле соц.иконок) -->
+            <a href="#" class="mobile-menu-toggle-icon">
+                <i class="fa fa-bars"></i>
+            </a>
         </div>
-        <div class="container">
-            <div class="nav-menu">
-                <nav class="mainmenu mobile-menu">
-                    <ul>
-                        <li><a href="/">Главная</a></li>
-                        <li th:classappend="${servletPath == '/gallery' ? 'active':''}"><a href="/gallery">Галерея</a>
-                        </li>
-                        <li th:classappend="${servletPath == '/sketches' ? 'active':''}"><a href="/sketches">Эскизы</a>
-                        </li>
-                        <li th:classappend="${servletPath == '/about-me' ? 'active':''}"><a href="/about-me">О бо
-                            мне</a></li>
-                        <li th:classappend="${servletPath == '/blog' ? 'active':''}"><a href="/blog">Блог</a></li>
-                        <li th:classappend="${servletPath == '/reviews' ? 'active':''}"><a href="/reviews">Отзывы</a>
-                        </li>
-                        <li th:classappend="${servletPath == '/contact' ? 'active':''}"><a href="/contact">Контакты</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+
+    </div>
+</header>
+
+<!-- Мобильное боковое меню (выезжает справа) -->
+<div class="mobile-menu-overlay"></div>
+<div class="mobile-menu-sidebar">
+    <div class="mobile-menu-header">
+        <div class="mobile-menu-logo" th:each="current: ${setting}" th:if="${current.section=='logo'}">
+            <img th:src="@{'/images/'+${current.imageName}}" alt="Logo">
         </div>
-        <div id="mobile-menu-wrap"></div>
+        <button class="mobile-menu-close">&times;</button>
+    </div>
+    <nav class="mobile-nav">
+        <ul>
+            <li th:classappend="${servletPath == '/' ? 'active':''}"><a href="/">Главная</a></li>
+            <li th:classappend="${servletPath == '/gallery' ? 'active':''}"><a href="/gallery">Галерея</a></li>
+            <li th:classappend="${servletPath == '/sketches' ? 'active':''}"><a href="/sketches">Эскизы</a></li>
+            <li th:classappend="${servletPath == '/about-me' ? 'active':''}"><a href="/about-me">Обо мне</a></li>
+            <li th:classappend="${servletPath == '/blog' ? 'active':''}"><a href="/blog">Блог</a></li>
+            <li th:classappend="${servletPath == '/reviews' ? 'active':''}"><a href="/reviews">Отзывы</a></li>
+            <li th:classappend="${servletPath == '/contact' ? 'active':''}"><a href="/contact">Контакты</a></li>
+        </ul>
+    </nav>
+    <div class="mobile-menu-social">
+        <a href="https://wa.me/9069917226" target="_blank"><i class="fa fa-whatsapp"></i></a>
+        <a sec:authorize="!isAuthenticated()" href="/login"><i class="fa fa-user"></i></a>
+        <a sec:authorize="isAuthenticated()" href="/logout"><i class="fa fa-sign-out"></i></a>
+        <a sec:authorize="hasAuthority('ADMIN')" href="/admin"><i class="fa fa-cogs"></i></a>
+        <a sec:authorize="hasAuthority('USER')" href="/lk"><i class="fa fa-user-circle"></i></a>
     </div>
 </div>
 <!-- Header End -->

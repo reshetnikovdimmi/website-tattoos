@@ -1,0 +1,317 @@
+/* ============================================
+   FOOTER SECTION - ПОДВАЛ САЙТА (С БОЛЬШИМ ЛОГОТИПОМ)
+   ============================================ */
+
+/* ------------------------------
+   ОСНОВНОЙ КОНТЕЙНЕР
+------------------------------ */
+.footer-section {
+    background: linear-gradient(135deg, #0d0d0d 0%, #151515 100%);
+    padding-top: 70px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Декоративный элемент */
+.footer-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+}
+
+/* ------------------------------
+   ЛОГОТИП В ФУТЕРЕ - УВЕЛИЧЕННЫЙ
+------------------------------ */
+.footer-logo-item {
+    margin-bottom: 30px;
+}
+
+.f-logo {
+    margin-bottom: 25px;
+}
+
+.f-logo a {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.f-logo a:hover {
+    transform: scale(1.05);
+}
+
+/* Увеличиваем логотип в 3 раза */
+.f-logo img {
+    max-height: 180px;  /* Увеличен в 3 раза */
+    width: auto;
+    object-fit: contain;
+}
+
+/* Социальные ссылки */
+.social-links h6 {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    margin-right: 12px;
+}
+
+.social-links a:hover {
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    transform: translateY(-3px);
+}
+
+/* ------------------------------
+   ВИДЖЕТЫ ФУТЕРА
+------------------------------ */
+.footer-widget {
+    margin-bottom: 30px;
+}
+
+.footer-widget h5 {
+    font-size: 18px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+    position: relative;
+    display: inline-block;
+}
+
+.footer-widget h5::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+}
+
+/* Текст описания */
+.footer-widget p {
+    font-size: 15px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* Список стилей */
+.workout-program {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.workout-program li {
+    margin-bottom: 12px;
+}
+
+.workout-program li a {
+    font-size: 15px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.workout-program li a:hover {
+    color: #e4381C;
+    transform: translateX(5px);
+}
+
+/* Контактная информация */
+.footer-info {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-info li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    line-height: 1.5;
+}
+
+.footer-info li i {
+    font-size: 18px;
+    color: #e4381C;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.footer-info li span {
+    color: #ffffff;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 3px;
+}
+
+/* ------------------------------
+   КОПИРАЙТ
+------------------------------ */
+.copyright-text {
+    background: rgba(0, 0, 0, 0.4);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 25px 0;
+    margin-top: 40px;
+}
+
+.ct-inside {
+    font-size: 14px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+}
+
+.ct-inside a {
+    color: #e4381C;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.ct-inside a:hover {
+    color: #e16521;
+    text-decoration: underline;
+}
+
+.ct-inside i {
+    color: #e4381C;
+}
+
+/* ------------------------------
+   АДАПТИВНОСТЬ ДЛЯ УВЕЛИЧЕННОГО ЛОГОТИПА
+------------------------------ */
+
+/* Планшеты (до 992px) */
+@media (max-width: 992px) {
+    .footer-section {
+        padding-top: 50px;
+    }
+
+    .f-logo img {
+        max-height: 140px;  /* Уменьшаем для планшетов */
+    }
+
+    .footer-widget h5 {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .footer-widget p,
+    .workout-program li a,
+    .footer-info li {
+        font-size: 14px;
+    }
+
+    .social-links a {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+}
+
+/* Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
+    .footer-section {
+        padding-top: 40px;
+    }
+
+    .f-logo img {
+        max-height: 120px;  /* Уменьшаем для мобильных */
+    }
+
+    .footer-logo-item {
+        text-align: center;
+    }
+
+    .footer-widget {
+        text-align: center;
+    }
+
+    .footer-widget h5::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .footer-info li {
+        justify-content: center;
+        flex-wrap: wrap;
+        text-align: center;
+    }
+
+    .workout-program li a:hover {
+        transform: translateX(0);
+    }
+
+    .social-links {
+        text-align: center;
+    }
+
+    .copyright-text {
+        margin-top: 30px;
+        padding: 20px 0;
+    }
+
+    .ct-inside {
+        font-size: 12px;
+    }
+}
+
+/* Маленькие мобильные (до 480px) */
+@media (max-width: 480px) {
+    .f-logo img {
+        max-height: 100px;  /* Ещё меньше для маленьких телефонов */
+    }
+
+    .footer-widget h5 {
+        font-size: 15px;
+    }
+
+    .footer-widget p,
+    .workout-program li a,
+    .footer-info li {
+        font-size: 13px;
+    }
+
+    .social-links a {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+        margin-right: 8px;
+    }
+}
+
+/* Большие экраны */
+@media (min-width: 1400px) {
+    .f-logo img {
+        max-height: 200px;  /* Ещё больше на больших экранах */
+    }
+}

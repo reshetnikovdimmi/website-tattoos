@@ -1,0 +1,260 @@
+/* ============================================
+   PAGINATION - ПАГИНАЦИЯ ГАЛЕРЕИ
+   ============================================ */
+
+/* ------------------------------
+   ОСНОВНОЙ КОНТЕЙНЕР ПАГИНАЦИИ
+------------------------------ */
+.blog-option {
+    margin-top: 50px;
+    padding: 30px 0 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* ------------------------------
+   БЛОК С КНОПКАМИ ПАГИНАЦИИ
+------------------------------ */
+.blog-pagination {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Кнопки пагинации */
+.blog-pagination a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    padding: 0 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 15px;
+    font-family: "Nunito Sans", sans-serif;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.blog-pagination a:hover {
+    background: rgba(228, 56, 28, 0.2);
+    border-color: #e4381C;
+    transform: translateY(-2px);
+}
+
+.blog-pagination a.active {
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border-color: transparent;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+}
+
+/* Кнопки навигации (Назад/Вперед) */
+.blog-pagination a.page-nav {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.blog-pagination a.page-nav:hover {
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border-color: transparent;
+    transform: translateY(-2px);
+}
+
+.blog-pagination a.page-nav i {
+    font-size: 14px;
+}
+
+/* Разделитель */
+.page-separator {
+    color: #8f8fa8;
+    font-size: 14px;
+    font-family: "Nunito Sans", sans-serif;
+    margin: 0 5px;
+}
+
+/* ------------------------------
+   ПРАВАЯ ЧАСТЬ (РЕЗУЛЬТАТЫ + НАСТРОЙКИ)
+------------------------------ */
+.blog-option-right {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+/* Результаты */
+.blog-result {
+    color: #8f8fa8;
+    font-size: 14px;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+/* ------------------------------
+   БЛОК "ПОКАЗЫВАТЬ"
+------------------------------ */
+.show-result {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 5px 15px;
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.show-result-label {
+    color: #ffffff;
+    font-size: 14px;
+    font-family: "Nunito Sans", sans-serif;
+    margin: 0;
+    font-weight: 400;
+}
+
+.show-result-select {
+    background: #2d2d2d;
+    border: 1px solid rgba(228, 56, 28, 0.5);
+    border-radius: 8px;
+    padding: 6px 30px 6px 12px;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: "Oswald", sans-serif;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23e4381C' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    transition: all 0.2s ease;
+    min-width: 65px;
+}
+
+.show-result-select:hover {
+    border-color: #e4381C;
+    background-color: #3d3d3d;
+}
+
+.show-result-select:focus {
+    outline: none;
+    border-color: #e4381C;
+    box-shadow: 0 0 0 2px rgba(228, 56, 28, 0.2);
+}
+
+.show-result-select option {
+    background: #2d2d2d;
+    color: #ffffff;
+    padding: 8px;
+}
+
+/* ------------------------------
+   АДАПТИВНОСТЬ
+------------------------------ */
+
+/* Планшеты (до 992px) */
+@media (max-width: 992px) {
+    .blog-option {
+        margin-top: 40px;
+        padding: 25px 0 15px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .blog-option-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .blog-pagination a {
+        min-width: 38px;
+        height: 38px;
+        font-size: 14px;
+    }
+}
+
+/* Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
+    .blog-option {
+        margin-top: 30px;
+        padding: 20px 0 10px;
+    }
+
+    .blog-pagination {
+        gap: 8px;
+    }
+
+    .blog-pagination a {
+        min-width: 35px;
+        height: 35px;
+        font-size: 13px;
+        padding: 0 8px;
+    }
+
+    .blog-option-right {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .blog-result {
+        font-size: 13px;
+    }
+
+    .show-result {
+        width: 100%;
+        justify-content: space-between;
+        padding: 5px 12px;
+    }
+
+    .show-result-label {
+        font-size: 13px;
+    }
+
+    .show-result-select {
+        padding: 5px 25px 5px 10px;
+        font-size: 13px;
+        min-width: 60px;
+    }
+}
+
+/* Маленькие мобильные (до 480px) */
+@media (max-width: 480px) {
+    .blog-pagination {
+        gap: 6px;
+    }
+
+    .blog-pagination a {
+        min-width: 32px;
+        height: 32px;
+        font-size: 12px;
+    }
+
+    .blog-pagination a.page-nav i {
+        font-size: 11px;
+    }
+
+    .page-separator {
+        font-size: 12px;
+    }
+
+    .blog-result {
+        font-size: 12px;
+    }
+
+    .show-result-label {
+        font-size: 12px;
+    }
+
+    .show-result-select {
+        padding: 4px 25px 4px 10px;
+        font-size: 12px;
+    }
+}
