@@ -1,83 +1,96 @@
 /* ============================================
-   BUTTONS
+   BUTTONS - ЕДИНЫЙ СТАНДАРТ ВСЕХ КНОПОК
    ============================================ */
 
+/* ------------------------------
+   БАЗОВЫЕ КНОПКИ
+------------------------------ */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     padding: 12px 24px;
     border: none;
-    border-radius: var(--radius-sm);
+    border-radius: 50px;
     font-weight: 600;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all var(--transition-normal);
+    transition: all 0.3s ease;
     font-size: 14px;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
+    text-decoration: none;
 }
 
 .btn-primary {
-    background: var(--gradient-primary);
-    color: var(--color-light);
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    color: #ffffff;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-primary);
+    box-shadow: 0 8px 25px rgba(228, 56, 28, 0.4);
 }
 
 .btn-secondary {
     background: transparent;
-    border: 1px solid var(--color-gray);
-    color: var(--color-light);
+    border: 2px solid #e4381C;
+    color: #e4381C;
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--color-primary);
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border-color: transparent;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+}
+
+.btn-outline:hover {
+    background: #ffffff;
+    color: #e4381C;
+    transform: translateY(-2px);
 }
 
 .btn-delete {
     background: rgba(220, 53, 69, 0.15);
     border: 1px solid rgba(220, 53, 69, 0.3);
-    color: var(--color-danger);
+    color: #dc3545;
 }
 
 .btn-delete:hover {
-    background: var(--color-danger);
-    color: var(--color-light);
+    background: #dc3545;
+    color: #ffffff;
     border-color: transparent;
+    transform: translateY(-2px);
 }
 
 .btn-edit {
     background: linear-gradient(90deg, #e16521, #e4381C);
-    color: var(--color-light);
-    border-radius: 50px;
+    color: #ffffff;
 }
 
 .btn-edit:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-primary);
+    box-shadow: 0 8px 25px rgba(228, 56, 28, 0.4);
 }
 
-.btn-submit {
-    background: var(--gradient-primary);
-    color: var(--color-light);
-    border-radius: 50px;
-    padding: 14px 30px;
-}
-
-.btn-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-primary);
-}
-
-/* Размеры кнопок */
+/* ------------------------------
+   РАЗМЕРЫ КНОПОК
+------------------------------ */
 .btn-sm {
-    padding: 8px 16px;
+    padding: 8px 18px;
     font-size: 12px;
+}
+
+.btn-md {
+    padding: 12px 24px;
+    font-size: 14px;
 }
 
 .btn-lg {
@@ -85,8 +98,92 @@
     font-size: 16px;
 }
 
-/* Блочные кнопки */
 .btn-block {
     width: 100%;
     justify-content: center;
+}
+
+/* ------------------------------
+   КНОПКИ ДЛЯ ФОРМ
+------------------------------ */
+.btn-submit {
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    color: #ffffff;
+    width: 100%;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(228, 56, 28, 0.4);
+}
+
+.btn-upload {
+    background: transparent;
+    border: 2px dashed #e4381C;
+    color: #e4381C;
+}
+
+.btn-upload:hover {
+    background: rgba(228, 56, 28, 0.1);
+    border-color: #e4381C;
+    transform: translateY(-2px);
+}
+
+/* ------------------------------
+   КНОПКИ ДЛЯ CTA СЕКЦИИ
+------------------------------ */
+.cta-btn {
+    background: #ffffff;
+    color: #e4381C;
+}
+
+.cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+}
+
+/* ------------------------------
+   КНОПКИ ДЛЯ ПАГИНАЦИИ
+------------------------------ */
+.pagination-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    min-width: 42px;
+    height: 42px;
+    padding: 0 12px;
+    border-radius: 10px;
+}
+
+.pagination-btn:hover {
+    background: rgba(228, 56, 28, 0.2);
+    border-color: #e4381C;
+    transform: translateY(-2px);
+}
+
+.pagination-btn.active {
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border-color: transparent;
+}
+
+/* ------------------------------
+   КНОПКИ ДЛЯ СОЦИАЛЬНЫХ СЕТЕЙ
+------------------------------ */
+.social-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    transform: translateY(-3px);
 }

@@ -528,24 +528,21 @@ function selectReviewImage(imageName) {
 
     const reviewImage = document.getElementById('reviewImage');
     const placeholder = document.getElementById('reviewPlaceholder');
-    const container = document.getElementById('reviewPreviewContainer');
     const imageNameInput = document.getElementById('reviewImageName');
 
-    if (reviewImage && placeholder && container) {
+    if (reviewImage && placeholder) {
         // Устанавливаем новый src
         reviewImage.src = '/images/' + imageName;
 
         // Показываем изображение, скрываем плейсхолдер
         reviewImage.style.display = 'block';
         placeholder.style.display = 'none';
-        container.classList.add('has-image');
 
         console.log('Изображение установлено:', reviewImage.src);
     } else {
         console.error('Элементы не найдены:', {
             reviewImage: !!reviewImage,
-            placeholder: !!placeholder,
-            container: !!container
+            placeholder: !!placeholder
         });
     }
 
@@ -558,6 +555,7 @@ function selectReviewImage(imageName) {
     // Закрываем модальное окно
     $('#infoModal').modal('hide');
 }
+
 
 // Функция для загрузки изображения в админке
 function handleAdminImageUpload(input) {

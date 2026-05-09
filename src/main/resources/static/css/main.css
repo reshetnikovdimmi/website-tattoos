@@ -13,6 +13,7 @@
 @import 'components/modal.css';
 @import 'components/pagination.css';
 @import 'components/upload.css';
+@import 'components/scroll.css';
 
 /* Layouts */
 @import 'layouts/header.css';
@@ -21,6 +22,7 @@
 @import 'layouts/cta-section.css';
 @import 'layouts/gallery-filter.css';
 @import 'layouts/breadcrumb-section.css';
+@import 'layouts/reviews-container.css';
 
 /* Pages */
 @import 'pages/admin-common.css';
@@ -38,6 +40,8 @@
 @import 'pages/video.css';
 @import 'pages/blog-section.css';
 @import 'pages/map-section.css';
+@import 'pages/about-us.css';
+@import 'pages/contact-map.css';
 
 /* Responsive */
 @import 'responsive/mobile.css';

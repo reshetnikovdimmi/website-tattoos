@@ -215,10 +215,11 @@
                             из [[${gallery.imagesTotal}]]
                         </div>
                         <div class="show-result">
-                            <span class="show-label">Показывать по:</span>
-                            <select class="show-result-select"
-                                    th:onchange="goToPageGalleryReviews([[${gallery.currentPage}]], this.value)"
-                                    id="modalNumber">
+                            <label for="Size" class="show-result-label">Показывать:</label>
+                            <select id="Size"
+                                    class="show-result-select no-nice-select"
+                                    th:onchange="goToPageGalleryReviews([[${gallery.currentPage}]], this.value)">
+
                                 <option th:each="option : ${gallery.select}"
                                         th:value="${option}"
                                         th:text="${option}"
@@ -356,15 +357,16 @@
 <!-- Общий фрагмент эскизов - работает и для админа, и для пользователя -->
 <!-- Сетка эскизов -->
 <div th:fragment="sketchesGrid(sketchesData, isAdmin)">
-    <div class="row sketches-filter" th:each="row : ${sketches.sketchesImg}">
+    <div class="row gallery-filter" th:each="row : ${sketches.sketchesImg}">
         <div th:each="currents : ${row}" class="col-lg-4 col-sm-6">
-            <div class="sketches-item">
+
+            <div class="gallery-item">
                 <img th:src="@{'/images/' + ${currents.imageName}}"
                      th:alt="${currents.description}"
                      class="sketches-img">
 
-                <div class="si-hover-warp">
-                    <div class="si-hover">
+                <div class="gi-hover-warp">
+                    <div class="gi-hover">
                         <a th:href="@{'/images/' + ${currents.imageName}}"
                            class="image-popup" target="_blank">
                             <i class="fa fa-search-plus"></i>
@@ -391,7 +393,8 @@
     </div>
 
     <!-- Пагинация -->
-    <div th:if="${sketches.sketchesImg != null and !sketches.sketchesImg.empty}" class="sketches-pagination">
+    <div th:if="${sketches.sketchesImg != null and !sketches.sketchesImg.empty}"
+         class="blog-option">
         <div class="blog-pagination">
             <!-- Кнопка "Назад" -->
             <a th:if="${sketches.currentPage != 0}"

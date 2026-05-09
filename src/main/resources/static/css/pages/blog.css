@@ -1,0 +1,542 @@
+/* ============================================
+   BLOG PAGE - СТРАНИЦА БЛОГА
+   ============================================ */
+
+/* ------------------------------
+   BREADCRUMB SECTION (Хлебные крошки)
+------------------------------ */
+.breadcrumb-section-admin {
+    position: relative;
+    padding: 100px 0;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.breadcrumb-section-admin::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+.breadcrumb-section-admin .container {
+    position: relative;
+    z-index: 2;
+}
+
+.bs-hero-text {
+    text-align: center;
+}
+
+.bs-hero-text h2 {
+    font-size: 48px;
+    font-weight: 700;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.bs-hero-text ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.bs-hero-text ul li {
+    font-size: 16px;
+    font-family: "Nunito Sans", sans-serif;
+    color: rgba(255, 255, 255, 0.8);
+    position: relative;
+}
+
+.bs-hero-text ul li:not(:last-child)::after {
+    content: '|';
+    position: absolute;
+    right: -18px;
+    top: 0;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ------------------------------
+   BLOG SINGLE SECTION
+------------------------------ */
+.blog-single-section {
+    padding: 100px 0;
+    background: #151515;
+}
+
+/* Текст статьи */
+.blog-text p {
+    font-size: 16px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+/* Галерея изображений */
+.blog-pic {
+    margin: 40px 0;
+}
+
+.blog-pic .big-image {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+.blog-pic .medium-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+.blog-pic .smail-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+/* Заголовок статьи */
+.blog-title {
+    margin: 40px 0;
+}
+
+.blog-title h4 {
+    font-size: 28px;
+    font-weight: 700;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.blog-title p {
+    font-size: 16px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+/* Цитата */
+.blog-quote {
+    position: relative;
+    padding: 30px 40px;
+    background: rgba(228, 56, 28, 0.1);
+    border-left: 4px solid #e4381C;
+    border-radius: 16px;
+    margin: 40px 0;
+}
+
+.blog-quote i {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 36px;
+    color: #e4381C;
+    opacity: 0.3;
+}
+
+.blog-quote .quote-text {
+    font-size: 20px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #ffffff;
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    padding-left: 40px;
+}
+
+.blog-quote h5 {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #e4381C;
+    text-transform: uppercase;
+    padding-left: 40px;
+}
+
+/* Дополнительный текст */
+.blog-more-title {
+    margin: 40px 0;
+}
+
+.blog-more-title h4 {
+    font-size: 24px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.blog-more-title p {
+    font-size: 16px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    line-height: 1.8;
+}
+
+/* Социальные сети */
+.blog-tag-share {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: right;
+}
+
+.social-share span {
+    font-size: 14px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    margin-right: 15px;
+}
+
+.social-share a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+}
+
+.social-share a:hover {
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    transform: translateY(-2px);
+}
+
+/* ------------------------------
+   SIDEBAR (Правая колонка)
+------------------------------ */
+.blog-single-sidebar {
+    padding-left: 30px;
+}
+
+/* Комментарии */
+.bs-latest-news {
+    margin-bottom: 40px;
+}
+
+.bs-latest-news h4 {
+    font-size: 20px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    position: relative;
+    display: inline-block;
+}
+
+.bs-latest-news h4::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+}
+
+.bl-item {
+    display: block;
+    background-size: cover;
+    background-position: center;
+    padding: 25px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.bl-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
+    transition: all 0.3s ease;
+}
+
+.bl-item:hover::before {
+    background: linear-gradient(135deg, rgba(228, 56, 28, 0.8), rgba(0, 0, 0, 0.6));
+}
+
+.bl-item h5,
+.bl-item span {
+    position: relative;
+    z-index: 1;
+}
+
+.bl-item h5 {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.bl-item span {
+    font-size: 12px;
+    font-family: "Nunito Sans", sans-serif;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Интересные работы */
+.bs-recent-news {
+    margin-bottom: 40px;
+}
+
+.bs-recent-news h4 {
+    font-size: 20px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    position: relative;
+    display: inline-block;
+}
+
+.bs-recent-news h4::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+}
+
+.br-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.br-item:hover {
+    transform: translateX(5px);
+}
+
+.bi-pic {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.bi-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bi-text {
+    flex: 1;
+}
+
+.bi-text span {
+    font-size: 12px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.bi-text h5 {
+    font-size: 15px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* ------------------------------
+   RECENT NEWS (Новые эскизы)
+------------------------------ */
+.recent-news {
+    margin-top: 60px;
+}
+
+.recent-news h4 {
+    font-size: 24px;
+    font-weight: 700;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    position: relative;
+    display: inline-block;
+}
+
+.recent-news h4::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+}
+
+.recent-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    height: 280px;
+}
+
+.recent-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.recent-item:hover img {
+    transform: scale(1.1);
+}
+
+.recent-item .recent-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    text-decoration: none;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.recent-item:hover .recent-text {
+    opacity: 1;
+}
+
+.recent-text .categories {
+    font-size: 12px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #e4381C;
+    margin-bottom: 8px;
+}
+
+.recent-text h5 {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    line-height: 1.4;
+    margin: 0;
+}
+
+
+/* ------------------------------
+   АДАПТИВНОСТЬ
+------------------------------ */
+@media (max-width: 992px) {
+    .blog-single-section {
+        padding: 80px 0;
+    }
+
+    .blog-single-sidebar {
+        padding-left: 0;
+        margin-top: 40px;
+    }
+
+    .blog-pic .big-image {
+        height: 280px;
+    }
+
+    .blog-pic .medium-image {
+        height: 180px;
+    }
+
+    .blog-pic .smail-image {
+        height: 130px;
+    }
+}
+
+@media (max-width: 768px) {
+    .bs-hero-text h2 {
+        font-size: 32px;
+    }
+
+    .bs-hero-text ul {
+        gap: 20px;
+    }
+
+    .bs-hero-text ul li {
+        font-size: 12px;
+    }
+
+    .blog-title h4 {
+        font-size: 24px;
+    }
+
+    .blog-quote {
+        padding: 20px;
+    }
+
+    .blog-quote .quote-text {
+        font-size: 16px;
+        padding-left: 30px;
+    }
+
+    .leave-comment-form {
+        padding: 20px;
+    }
+
+    .recent-item {
+        height: 240px;
+    }
+}
+
+@media (max-width: 480px) {
+    .blog-pic .big-image {
+        height: 200px;
+    }
+
+    .blog-pic .medium-image {
+        height: 150px;
+    }
+
+    .blog-pic .smail-image {
+        height: 120px;
+    }
+
+    .recent-item {
+        height: 200px;
+    }
+}

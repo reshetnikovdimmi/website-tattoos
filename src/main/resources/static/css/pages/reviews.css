@@ -1,0 +1,348 @@
+/* ============================================
+   REVIEWS PAGE - СТРАНИЦА ОТЗЫВОВ
+   ============================================ */
+
+/* ------------------------------
+   REVIEW SECTION
+------------------------------ */
+.fragment-reviews {
+    background: #151515;
+}
+
+.fragment-reviews .section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.fragment-reviews .section-title h2 {
+    font-size: 42px;
+    font-weight: 700;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.fragment-reviews .section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border-radius: 3px;
+}
+
+.fragment-reviews .section-title p {
+    font-size: 18px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    margin-top: 25px;
+}
+
+/* ------------------------------
+   CLASSTIME TABLE (Таблица отзывов)
+------------------------------ */
+.classtime-table {
+    background: transparent;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.classtime-table.scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 600px;
+    padding-right: 10px;
+}
+
+.classtime-table.scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.classtime-table.scroll::-webkit-scrollbar-track {
+    background: #2d2d2d;
+    border-radius: 10px;
+}
+
+.classtime-table.scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #e16521, #e4381C);
+    border-radius: 10px;
+}
+
+/* Карточка отзыва */
+.reviews {
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(228, 56, 28, 0.2);
+}
+
+.reviews:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border-color: rgba(228, 56, 28, 0.4);
+}
+
+/* Аватар */
+.review-avatar {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+}
+
+.review-avatar::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, #e16521, #e4381C);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.review-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    position: relative;
+    z-index: 2;
+    background: #151515;
+}
+
+/* Контент отзыва */
+.review-content {
+    padding: 0 20px;
+}
+
+.review-content h5 {
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 1.5;
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 400;
+    margin: 0;
+}
+
+/* Мета информация */
+.review-meta {
+    text-align: right;
+}
+
+.review-date {
+    display: inline-block;
+    font-size: 13px;
+    color: #8f8fa8;
+    font-family: "Nunito Sans", sans-serif;
+    margin-bottom: 8px;
+    padding: 5px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    margin-right: 10px;
+}
+
+.review-author {
+    color: #e4381C;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* Превью изображения */
+.review-row {
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+}
+
+.review-row > [class*="col-"] {
+    display: flex;
+}
+
+.image-preview {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #2d2d2d;
+    border: 2px dashed rgba(228, 56, 28, 0.3);
+}
+
+.review-preview {
+    width: 100%;
+    height: 100%;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0 !important;
+}
+
+.review-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex: 1;
+}
+
+.preview-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.preview-placeholder i {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #e4381C;
+}
+
+.preview-placeholder span {
+    font-size: 14px;
+    color: #8f8fa8;
+}
+
+/* Textarea */
+.review-textarea {
+    width: 100%;
+    height: 100%;
+    min-height: 150px;
+    resize: vertical;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 15px 20px;
+    color: #ffffff;
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.review-textarea:focus {
+    outline: none;
+    border-color: #e4381C;
+    box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.1);
+}
+
+.review-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* ------------------------------
+   АДАПТИВНОСТЬ
+------------------------------ */
+@media (max-width: 992px) {
+    .reviews .row {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .review-avatar {
+        margin: 0 auto 15px;
+    }
+
+    .review-content {
+        padding: 0;
+        text-align: center;
+    }
+
+    .review-meta {
+        text-align: center;
+    }
+
+    .review-row {
+        flex-direction: column;
+    }
+
+    .image-preview {
+        max-width: 250px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .fragment-reviews .section-title h2 {
+        font-size: 32px;
+    }
+
+    .fragment-reviews .section-title p {
+        font-size: 16px;
+    }
+
+    .classtime-table.scroll {
+        max-height: 500px;
+    }
+
+    .leave-comment-form {
+        padding: 25px;
+    }
+
+    .leave-comment-form h4 {
+        font-size: 20px;
+    }
+
+    .review-textarea {
+        min-height: 120px;
+        font-size: 14px;
+    }
+
+    .upload-btn, .submit-review {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .fragment-reviews .section-title h2 {
+        font-size: 24px;
+    }
+
+    .classtime-table.scroll {
+        max-height: 400px;
+    }
+
+    .reviews {
+        padding: 20px;
+    }
+
+    .review-author {
+        font-size: 16px;
+    }
+
+    .review-content h5 {
+        font-size: 14px;
+    }
+
+    .leave-comment-form {
+        padding: 20px;
+    }
+
+    .leave-comment-form h4 {
+        font-size: 18px;
+    }
+
+    .image-preview {
+        max-width: 200px;
+    }
+}

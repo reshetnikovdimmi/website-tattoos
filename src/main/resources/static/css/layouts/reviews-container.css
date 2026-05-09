@@ -1,0 +1,326 @@
+/* ============================================
+   REVIEWS SECTION - БЛОК ОТЗЫВОВ
+   ============================================ */
+
+/* ------------------------------
+   КОНТЕЙНЕР ОТЗЫВОВ
+------------------------------ */
+.reviews-container {
+    background: #151515;
+    padding: 20px 0;
+}
+
+/* Заголовок секции */
+.reviews-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.reviews-header h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.reviews-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border-radius: 3px;
+}
+
+.reviews-header p {
+    color: #8f8fa8;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+/* ------------------------------
+   ТАБЛИЦА ОТЗЫВОВ
+------------------------------ */
+.classtime-table {
+    background: transparent;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+
+/* ------------------------------
+   КАРТОЧКА ОТЗЫВА
+------------------------------ */
+.review-card {
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    border-radius: 16px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(228, 56, 28, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.review-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(228, 56, 28, 0.4);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Содержимое карточки */
+.review-content-wrapper {
+    display: flex;
+    gap: 20px;
+    padding: 25px;
+    flex-wrap: wrap;
+}
+
+/* Изображение отзыва */
+.review-image {
+    flex: 0 0 150px;
+}
+
+.review-image img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover .review-image img {
+    transform: scale(1.02);
+}
+
+/* Информация об отзыве */
+.review-info {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Заголовок карточки */
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Автор отзыва */
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.review-author-name {
+    color: #e4381C;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+}
+
+.review-author-name i {
+    color: #e4381C;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+/* Дата отзыва */
+.review-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #8f8fa8;
+    font-size: 13px;
+    font-family: "Nunito Sans", sans-serif;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+.review-date i {
+    color: #e4381C;
+    font-size: 12px;
+}
+
+/* Кнопка удаления */
+.review-delete-btn {
+    background: rgba(228, 56, 28, 0.15);
+    border: 1px solid rgba(228, 56, 28, 0.3);
+    padding: 8px 18px;
+    border-radius: 8px;
+    color: #ff6b6b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.review-delete-btn:hover {
+    background: #e4381C;
+    border-color: transparent;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.review-delete-btn i {
+    font-size: 14px;
+}
+
+/* Тело отзыва */
+.review-body {
+    color: #fff;
+    font-size: 15px;
+    line-height: 1.6;
+    font-family: "Nunito Sans", sans-serif;
+    word-break: break-word;
+}
+
+/* ------------------------------
+   ПУСТОЕ СОСТОЯНИЕ
+------------------------------ */
+.empty-reviews {
+    text-align: center;
+    padding: 60px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 16px;
+    margin: 30px 0;
+    border: 2px dashed rgba(228, 56, 28, 0.3);
+}
+
+.empty-reviews i {
+    font-size: 64px;
+    color: #e4381C;
+    opacity: 0.5;
+    margin-bottom: 20px;
+}
+
+.empty-reviews h4 {
+    color: #fff;
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-family: "Oswald", sans-serif;
+}
+
+.empty-reviews p {
+    color: #8f8fa8;
+    font-size: 15px;
+}
+
+/* ------------------------------
+   АДАПТИВНОСТЬ
+------------------------------ */
+@media (max-width: 992px) {
+    .review-content-wrapper {
+        gap: 15px;
+    }
+
+    .review-image {
+        flex: 0 0 120px;
+    }
+
+    .review-image img {
+        height: 120px;
+    }
+}
+
+@media (max-width: 768px) {
+    .reviews-header h2 {
+        font-size: 28px;
+    }
+
+    .reviews-header p {
+        font-size: 14px;
+    }
+
+    .review-content-wrapper {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .review-image {
+        flex: auto;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+
+    .review-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .review-date {
+        order: 2;
+    }
+
+    .review-delete-btn {
+        order: 3;
+    }
+
+    .review-body {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .reviews-header h2 {
+        font-size: 24px;
+    }
+
+    .review-content-wrapper {
+        padding: 15px;
+    }
+
+    .review-image {
+        max-width: 150px;
+    }
+
+    .review-author-name {
+        font-size: 16px;
+    }
+
+    .review-body {
+        font-size: 14px;
+    }
+
+    .empty-reviews i {
+        font-size: 48px;
+    }
+
+    .empty-reviews h4 {
+        font-size: 18px;
+    }
+}
+
+/* Анимация появления */
+@keyframes reviewFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.review-card {
+    animation: reviewFadeInUp 0.4s ease forwards;
+}

@@ -84,39 +84,7 @@
     margin-bottom: 0;
 }
 
-/* ------------------------------
-   КНОПКА
------------------------------- */
-.cta-section .primary-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 16px;
-    font-family: "Oswald", sans-serif;
-    font-weight: 600;
-    padding: 14px 35px;
-    color: #e4381C;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    background: #ffffff;
-    border: none;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-decoration: none;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
 
-.cta-section .primary-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    letter-spacing: 2px;
-}
-
-.cta-section .primary-btn:active {
-    transform: translateY(0);
-}
 
 /* ------------------------------
    АНИМАЦИИ

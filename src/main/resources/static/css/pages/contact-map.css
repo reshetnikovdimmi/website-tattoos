@@ -1,0 +1,363 @@
+/* ============================================
+   CONTACT PAGE - СТРАНИЦА КОНТАКТОВ
+   ============================================ */
+
+/* ------------------------------
+   КАРТА
+------------------------------ */
+.contact-map {
+    position: relative;
+    width: 100%;
+    height: 530px;
+    overflow: hidden;
+}
+
+.contact-map iframe {
+    width: 100%;
+    height: 100%;
+    filter: grayscale(0.3) brightness(0.9);
+    transition: filter 0.3s ease;
+}
+
+.contact-map iframe:hover {
+    filter: grayscale(0) brightness(1);
+}
+
+/* Оверлей на карте */
+.map-hover {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    padding: 20px 30px;
+    border-radius: 16px;
+    border-left: 4px solid #e4381C;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    backdrop-filter: blur(10px);
+}
+
+.map-hover h5 {
+    font-size: 18px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.map-hover ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.map-hover ul li {
+    font-size: 14px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    margin-bottom: 5px;
+}
+
+.map-hover i {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: #e4381C;
+    opacity: 0.5;
+}
+
+/* ------------------------------
+   CONTACT SECTION
+------------------------------ */
+.contact-section {
+    background: linear-gradient(135deg, #151515 0%, #1a1a1a 100%);
+    padding: 100px 0;
+}
+
+/* Информационные блоки */
+.contact-info,
+.contact-address {
+    margin-bottom: 40px;
+}
+
+.contact-info h4,
+.contact-address h4 {
+    font-size: 20px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #e4381C;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+    position: relative;
+    display: inline-block;
+}
+
+.contact-info h4::after,
+.contact-address h4::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+}
+
+.contact-info ul,
+.contact-address ul {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-info ul li,
+.contact-address ul li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #ffffff;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.contact-info ul li i,
+.contact-address ul li i {
+    width: 40px;
+    height: 40px;
+    background: rgba(228, 56, 28, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #e4381C;
+    flex-shrink: 0;
+}
+
+/* ------------------------------
+   ФОРМА СВЯЗИ
+------------------------------ */
+.contact-form {
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    border-radius: 20px;
+    padding: 35px;
+    border: 1px solid rgba(228, 56, 28, 0.2);
+}
+
+.contact-form h4 {
+    font-size: 24px;
+    font-weight: 700;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+    position: relative;
+    display: inline-block;
+}
+
+.contact-form h4::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+}
+
+/* Поля ввода */
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 15px;
+    font-family: "Nunito Sans", sans-serif;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #e4381C;
+    box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.1);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+/* Кнопка отправки */
+.contact-form .c-btn {
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border: none;
+    padding: 14px 35px;
+    border-radius: 50px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.contact-form .c-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(228, 56, 28, 0.4);
+    letter-spacing: 2px;
+}
+
+/* Статус сообщения */
+.status-message {
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.status-message.success {
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid #28a745;
+    color: #28a745;
+}
+
+.status-message.error {
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid #dc3545;
+    color: #dc3545;
+}
+
+/* ------------------------------
+   АДАПТИВНОСТЬ
+------------------------------ */
+
+/* Планшеты (до 992px) */
+@media (max-width: 992px) {
+    .contact-section {
+        padding: 80px 0;
+    }
+
+    .contact-info,
+    .contact-address {
+        margin-bottom: 30px;
+    }
+
+    .contact-form {
+        margin-top: 40px;
+        padding: 30px;
+    }
+
+    .map-hover {
+        bottom: 20px;
+        left: 20px;
+        padding: 15px 25px;
+    }
+}
+
+/* Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
+    .contact-map {
+        height: 400px;
+    }
+
+    .contact-section {
+        padding: 60px 0;
+    }
+
+    .map-hover {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        margin-top: 20px;
+        border-radius: 12px;
+        text-align: center;
+    }
+
+    .map-hover i {
+        display: none;
+    }
+
+    .contact-info ul li,
+    .contact-address ul li {
+        justify-content: center;
+        flex-wrap: wrap;
+        text-align: center;
+    }
+
+    .contact-form {
+        padding: 25px;
+    }
+
+    .contact-form h4 {
+        font-size: 22px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+
+    .contact-form .c-btn {
+        width: 100%;
+        padding: 12px 25px;
+        font-size: 13px;
+    }
+}
+
+/* Маленькие мобильные (до 480px) */
+@media (max-width: 480px) {
+    .contact-map {
+        height: 350px;
+    }
+
+    .contact-section {
+        padding: 50px 0;
+    }
+
+    .contact-info h4,
+    .contact-address h4 {
+        font-size: 18px;
+    }
+
+    .contact-info ul li,
+    .contact-address ul li {
+        font-size: 13px;
+        gap: 10px;
+    }
+
+    .contact-info ul li i,
+    .contact-address ul li i {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .contact-form {
+        padding: 20px;
+    }
+
+    .contact-form h4 {
+        font-size: 20px;
+    }
+}
