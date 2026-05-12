@@ -66,10 +66,10 @@
         </div>
 
         <form class="modern-form"
-              onsubmit="submitForm(event, '.content-body')"
-              action="/tattoos-user-import"
-              method="POST"
-              enctype="multipart/form-data"
+              onsubmit="submitForm(event)"
+              action="/lk/import/tattoos"
+              data-fragment-name="first-fragment"
+              data-container-selector=".tattoos-reviews"
               th:object="${userTattoo}">
 
             <div class="form-row">
@@ -159,26 +159,32 @@
 
                 <div class="card-body">
                     <form class="modern-form profile-form"
-                          action="/update/profile-editing"
-                          onsubmit="submitForm(event, '.content-body')"
-                          method="post"
+                          action="lk/update/profile"
+                          onsubmit="submitForm(event)"
+                          data-fragment-name="profile-card"
+                          data-container-selector=".profile-card"
                           th:id="*{id}"
                           th:object="${UserDTO}">
-
+                        <!-- Отображение общих ошибок -->
+                        <div th:if="${error}" class="alert alert-danger" style="background: rgba(220, 53, 69, 0.2); border-left: 3px solid #dc3545; padding: 12px 20px; border-radius: 8px; margin-bottom: 20px;">
+                            <i class="fa fa-exclamation-circle" style="color: #dc3545; margin-right: 10px;"></i>
+                            <span th:text="${error}" style="color: #ff6b6b;"></span>
+                        </div>
                         <!-- Имя пользователя -->
                         <div class="form-group">
-                            <label for="username">
+                            <label for="login">
                                 <i class="fa fa-user"></i>
                                 Имя пользователя
                             </label>
                             <input type="text"
                                    th:field="*{login}"
-                                   id="username"
-                                   name="username"
-                                   class="form-control"
+                                   id="login"
+                                   name="login"
+                                   class="lk-text-input"
                                    placeholder="Введите ваше имя пользователя"
-                                   required>
+                                   required disabled>
                             <span class="field-hint">Будет отображаться в профиле и отзывах</span>
+                            <small th:if="${#fields.hasErrors('login')}" th:errors="*{login}" class="text-danger"></small>
                         </div>
 
                         <!-- Email -->
@@ -191,10 +197,11 @@
                                    th:field="*{email}"
                                    id="email"
                                    name="email"
-                                   class="form-control"
+                                   class="lk-text-input"
                                    placeholder="Введите ваш email"
-                                   required>
+                                   required disabled>
                             <span class="field-hint">Используется для входа и уведомлений</span>
+                            <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></small>
                         </div>
 
                         <!-- Пароль -->
@@ -206,8 +213,8 @@
                             <input type="password"
                                    id="password"
                                    name="password"
-                                   class="form-control"
-                                   placeholder="Оставьте пустым, если не хотите менять">
+                                   class="lk-text-input"
+                                   placeholder="Оставьте пустым, если не хотите менять" disabled>
                             <span class="field-hint">Минимум 6 символов</span>
                         </div>
 
@@ -220,15 +227,15 @@
                             <input type="password"
                                    id="confirm-password"
                                    name="confirm-password"
-                                   class="form-control"
-                                   placeholder="Повторите новый пароль">
+                                   class="lk-text-input"
+                                   placeholder="Повторите новый пароль" disabled>
                         </div>
 
                         <!-- Кнопка сохранения -->
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary btn-block">
                                 <i class="fa fa-save"></i>
-                                Сохранить изменения
+                                Изменить
                             </button>
                         </div>
                     </form>
@@ -257,10 +264,10 @@
 
                     <!-- Форма загрузки -->
                     <form class="avatar-upload-form"
-                          onsubmit="submitForm(event, '.profile-avatar')"
-                          action="/avatar-import"
-                          method="POST"
-                          enctype="multipart/form-data">
+                          onsubmit="submitForm(event)"
+                          data-fragment-name="profile-avatar"
+                          data-container-selector=".profile-avatar"
+                          action="/lk/update/avatar">
 
                         <div class="upload-controls vertical">
                             <button type="button" class="upload-file-btn"
@@ -374,10 +381,11 @@
         </div>
 
         <form class="modern-form"
-              onsubmit="submitForm(event, '.content-body')"
+              onsubmit="submitForm(event)"
               method="POST"
-              action="/reviews-user-import"
-              enctype="multipart/form-data">
+              action="lk/reviews/import"
+              data-fragment-name="review-fragment"
+              data-container-selector=".reviews-fragment">
 
             <div class="form-row">
                 <!-- Левая колонка: фото -->

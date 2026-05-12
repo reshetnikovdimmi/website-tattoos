@@ -50,6 +50,41 @@
     background: #e4381C;
     transform: rotate(90deg);
 }
+/* Стили для кастомной кнопки закрытия */
+.btn-close-custom {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.btn-close-custom:hover {
+    opacity: 1;
+}
+
+.btn-close-custom:before,
+.btn-close-custom:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    background-color: #ffffff;
+}
+
+.btn-close-custom:before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.btn-close-custom:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
 
 /* ------------------------------
    ТЕЛО МОДАЛА

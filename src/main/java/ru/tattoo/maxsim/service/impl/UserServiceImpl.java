@@ -1,9 +1,12 @@
 package ru.tattoo.maxsim.service.impl;
 
 import io.micrometer.common.util.StringUtils;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.exceptions.FileDeletionException;
@@ -26,6 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserServiceImpl extends AbstractCRUDService<User, Long> implements UserService {
     @Autowired
     private UserRepository userRepository;
@@ -40,6 +44,9 @@ public class UserServiceImpl extends AbstractCRUDService<User, Long> implements 
     protected ImageStorage getImageStorage() {
         return imageStorage;
     }
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     void prepareObject(User entity, String fileName) {
@@ -94,6 +101,54 @@ public class UserServiceImpl extends AbstractCRUDService<User, Long> implements 
     @Override
     public UserDTO findByLogin(String login) {
         return modelMapper.map(userRepository.findByLogin(login).orElse(null), UserDTO.class);
+    }
+
+    @Override
+    public void updateUserProfile(UserDTO userDTO, String currentLogin, String password, String confirmPassword) {
+        log.info("Обновление профиля пользователя: {}", currentLogin);
+
+        // Находим существующего пользователя
+        User existingUser = userRepository.findByLogin(currentLogin)
+                .orElseThrow(() -> new UserNotFoundException("Пользователь " + currentLogin + " не найден"));
+
+        // Проверяем уникальность логина (если изменился)
+        if (existingUser.getLogin().equals(userDTO.getLogin())) {
+            log.info("Проверка уникальности логина: {}", userDTO.getLogin());
+
+                throw new IllegalArgumentException("Пользователь с логином '" + userDTO.getLogin() + "' уже существует");
+
+        }else{
+            existingUser.setLogin(userDTO.getLogin());
+        }
+
+        // Проверяем уникальность email (если изменился)
+        if (existingUser.getEmail().equals(userDTO.getEmail())) {
+            log.info("Проверка уникальности email: {}", userDTO.getEmail());
+
+                throw new IllegalArgumentException("Пользователь с email '" + userDTO.getEmail() + "' уже существует");
+
+        }else{
+            existingUser.setEmail(userDTO.getEmail());
+        }
+
+        // Обновляем пароль, если он был введен
+        if (password != null && !password.trim().isEmpty()) {
+            log.info("Обновление пароля");
+            if (password.length() < 6) {
+                throw new IllegalArgumentException("Пароль должен содержать минимум 6 символов");
+            }
+            if (!password.equals(confirmPassword)) {
+                throw new IllegalArgumentException("Пароли не совпадают");
+            }
+            existingUser.setPassword(passwordEncoder.encode(password));
+        }
+
+        // Сохраняем изменения
+        User savedUser = userRepository.save(existingUser);
+        log.info("Профиль пользователя {} успешно обновлен", savedUser.getLogin());
+
+        // Обновляем DTO для ответа
+        modelMapper.map(savedUser, userDTO);
     }
 
 }

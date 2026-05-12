@@ -20,7 +20,7 @@
     <link rel="stylesheet" th:href="@{/static/css/owl.carousel.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/static/css/magnific-popup.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/static/css/slicknav.min.css}" type="text/css">
-    <link rel="stylesheet" th:href="@{/static/css/style.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/main.css}" type="text/css">
 </head>
 <body>
 <!-- Header Section Begin -->
@@ -29,7 +29,7 @@
 
 <!-- Modals (как есть) -->
 <div th:replace="~{fragments::modal}"></div>
-<div class="modal fade" id="myModal" ...> ... </div>
+<div th:replace="~{modal::modal}"></div>
 
 <!-- Основной блок Личного кабинета -->
 <section class="breadcrumb-section-admin set-bg spad"
@@ -38,11 +38,11 @@
          th:attr="data-setbg=@{'/images/'+${current.imageName}}">
     <div class="container" th:object="${UserDTO}">
         <!-- Добавляем обертку lk-wrapper -->
-        <div class="lk-wrapper">
+        <div class="lk-wrapper" >
 
             <!-- Сайдбар с информацией о пользователе -->
-            <aside class="lk-sidebar">
-                <div class="profile-card">
+            <aside class="lk-sidebar" >
+                <div class="profile-card" th:fragment="profile-card">
                     <!-- Аватар -->
                     <div class="profile-avatar" th:fragment="profile-avatar">
                         <img th:src="${UserDTO.avatar} ? @{'/images/'+${UserDTO.avatar}} : '/img/avatar.jpg'"

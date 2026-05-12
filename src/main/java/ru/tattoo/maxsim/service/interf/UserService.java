@@ -11,4 +11,6 @@ import java.security.Principal;
 public interface UserService extends CRUDService<User, Long> {
     void updateUserAvatar(MultipartFile fileImport, Principal principal) throws IOException;
     UserDTO findByLogin(String login);
+
+    void updateUserProfile(UserDTO userDTO, String name, String password, String confirmPassword);
 }

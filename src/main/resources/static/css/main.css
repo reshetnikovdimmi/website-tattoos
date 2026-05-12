@@ -42,6 +42,8 @@
 @import 'pages/map-section.css';
 @import 'pages/about-us.css';
 @import 'pages/contact-map.css';
+@import 'pages/login.css';
+@import 'pages/lk-wrapper.css';
 
 /* Responsive */
 @import 'responsive/mobile.css';

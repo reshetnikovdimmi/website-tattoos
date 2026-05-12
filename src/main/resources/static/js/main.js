@@ -258,6 +258,7 @@
     const formAction = form.action;
     const button = form.querySelector('button[type="submit"]');
     const inputs = form.querySelectorAll('input, textarea');
+    const originalText = button.textContent;
 
     if (!form) {
         console.error('Форма не найдена');
@@ -271,6 +272,7 @@
         inputs.forEach(input => input.disabled = false);
         button.textContent = 'Сохранить';
         form.classList.add('active');
+        $(button).html('<i class="fa fa-save"></i> ' + button.textContent);
         return;
     }
 
@@ -287,7 +289,7 @@
                 }
 
     // Сохраняем оригинальный текст кнопки
-    const originalText = button.textContent;
+
     button.disabled = true;
     button.textContent = 'Сохранение...';
 
@@ -302,31 +304,42 @@
             type: 'POST'
         });
 
+        const hasError = $(response).find('.text-danger').length > 0;
+        console.log(hasError);
+        console.log(response);
+        if (hasError) {
+            modals()
+             $('.modal-body').html(response);
+        }else{
         // Показываем успех в модальном окне
-        showModalMessage('✅ Информация успешно сохранена!');
-
+                showModalMessage('✅ Информация успешно сохранена!');
         // Обновляем фрагмент
         if (response && containerSelector) {
         console.log(containerSelector);
-        console.log(response);
+
             $(containerSelector).html(response);
         }
 
         // Возвращаем кнопку в исходное состояние
         button.textContent = 'Изменить';
         inputs.forEach(input => input.disabled = true);
+        button.disabled = false;
         form.classList.remove('active');
+        $(button).html('<i class="fa fa-save"></i> ' + button.textContent);
+    }
 
     } catch (error) {
         console.error('Ошибка:', error);
 
         // Показываем ошибку в модальном окне
-        let errorMsg = '❌ Ошибка при сохранении';
-        if (error.status === 404) {
-            errorMsg = '❌ Сервер не найден. Проверьте соединение.';
-        } else if (error.status === 500) {
-            errorMsg = '❌ Ошибка на сервере. Попробуйте позже.';
-        }
+           let errorMsg = '❌ Ошибка при сохранении';
+           if (error.status === 400) {
+               errorMsg = '❌ Проверьте правильность заполнения полей';
+           } else if (error.status === 409) {
+               errorMsg = '❌ Пользователь с таким логином или email уже существует';
+           } else if (error.status === 500) {
+               errorMsg = '❌ Ошибка на сервере. Попробуйте позже.';
+           }
 
         showModalMessage(errorMsg, 'error');
 
@@ -379,36 +392,42 @@ function getFragmentInfo(form) {
 }
 
 // Функция показа сообщения в модальном окне
-    function showModalMessage(message, type = 'success') {
-        console.log('Показываем сообщение:', message);
+function showModalMessage(message, type = 'success') {
+    console.log('Показываем сообщение:', message, 'Тип:', type);
 
-        const modal = $('#myModal');
+    const modal = $('#myModal');
 
-        if (!modal.length) {
-            console.error('Модальное окно не найдено!');
-            alert(message);
-            return;
-        }
-
-        // Получаем modal-body и очищаем его
-        const modalBody = modal.find('.modal-body');
-        modalBody.empty();
-
-        // Создаем элемент для сообщения
-        const messageClass = type === 'success' ? 'text-success' : 'text-danger';
-        const messageHtml = `<p class="${messageClass}" style="text-align: center; margin: 0;">${message}</p>`;
-        modalBody.html(messageHtml);
-
-        // Показываем модальное окно
-        modal.modal('show');
-
-        // Автоматически закрываем через 3 секунды
-        setTimeout(() => {
-            if (modal.hasClass('show')) {
-                modal.modal('hide');
-            }
-        }, 3000);
+    if (!modal.length) {
+        console.error('Модальное окно не найдено!');
+        alert(message);
+        return;
     }
+
+    // Получаем modal-body и очищаем его
+    const modalBody = modal.find('.modal-body');
+    modalBody.empty();
+
+    // Создаем элемент для сообщения с иконкой
+    const icon = type === 'success' ? '✅' : '❌';
+    const messageClass = type === 'success' ? 'text-success' : 'text-danger';
+    const messageHtml = `
+        <div style="text-align: center; padding: 10px;">
+            <div style="font-size: 48px; margin-bottom: 10px;">${icon}</div>
+            <p class="${messageClass}" style="margin: 0; font-size: 16px;">${message}</p>
+        </div>
+    `;
+    modalBody.html(messageHtml);
+
+    // Показываем модальное окно
+    modal.modal('show');
+
+    // Автоматически закрываем через 3 секунды
+    setTimeout(() => {
+        if (modal.hasClass('show')) {
+            modal.modal('hide');
+        }
+    }, 3000);
+}
     /*---------------
     Gallery controls
     --------------*/
@@ -500,7 +519,7 @@ function goToGalleryPageFromElement(element) {
        --------------------*/
     function modals() {
         $('#myModal').modal("show");
-        $('.btn-close').on('click', function() {
+        $('.btn-close-custom').on('click', function() {
             $('#myModal').modal('hide');
         });
         $('.btn-secondary').on('click', function() {

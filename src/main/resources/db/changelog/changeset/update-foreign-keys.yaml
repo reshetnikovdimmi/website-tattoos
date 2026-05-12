@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-foreign-keys-simple
+      author: Dmitrii
+      changes:
+        - sql:
+            comment: Update foreign keys to support login update
+            sql: |
+              -- Удаляем существующие внешние ключи (игнорируем ошибку если ключа нет)
+              SET @sql = IF(
+                EXISTS(SELECT 1 FROM information_schema.KEY_COLUMN_USAGE 
+                       WHERE TABLE_NAME = 'reviews_user' 
+                       AND CONSTRAINT_NAME = 'fk_reviews_user_to_user'
+                       AND CONSTRAINT_SCHEMA = DATABASE()),
+                'ALTER TABLE reviews_user DROP FOREIGN KEY fk_reviews_user_to_user',
+                'SELECT 1'
+              );
+              PREPARE stmt FROM @sql;
+              EXECUTE stmt;
+              DEALLOCATE PREPARE stmt;
+              
+              SET @sql = IF(
+                EXISTS(SELECT 1 FROM information_schema.KEY_COLUMN_USAGE 
+                       WHERE TABLE_NAME = 'images' 
+                       AND CONSTRAINT_NAME = 'fk_images_user_to_user'
+                       AND CONSTRAINT_SCHEMA = DATABASE()),
+                'ALTER TABLE images DROP FOREIGN KEY fk_images_user_to_user',
+                'SELECT 1'
+              );
+              PREPARE stmt FROM @sql;
+              EXECUTE stmt;
+              DEALLOCATE PREPARE stmt;
+              
+              -- Добавляем внешние ключи с ON UPDATE CASCADE
+              ALTER TABLE reviews_user 
+              ADD CONSTRAINT fk_reviews_user_to_user 
+              FOREIGN KEY (user_name) 
+              REFERENCES user(login) 
+              ON UPDATE CASCADE 
+              ON DELETE RESTRICT;
+              
+              ALTER TABLE images 
+              ADD CONSTRAINT fk_images_user_to_user 
+              FOREIGN KEY (user_name) 
+              REFERENCES user(login) 
+              ON UPDATE CASCADE 
+              ON DELETE RESTRICT;

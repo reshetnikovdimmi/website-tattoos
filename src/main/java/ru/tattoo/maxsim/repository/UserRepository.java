@@ -12,7 +12,13 @@ import java.util.Optional;
 public interface UserRepository extends CrudRepository<User, Long> {
 
     Optional<User> findByLogin(String login);
+    Optional<User> findByEmail(String email);
+    boolean existsByLogin(String login);
+    boolean existsByEmail(String email);
 
     @Query("SELECT avatar  FROM User WHERE id = ?1")
     Optional<String> findNameById(Long id);
+
+
+
 }

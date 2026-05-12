@@ -1,0 +1,1293 @@
+/* ============================================
+   LK (ЛИЧНЫЙ КАБИНЕТ) - СТИЛИ
+   ============================================ */
+
+/* ------------------------------
+   ОСНОВНАЯ ОБЁРТКА
+------------------------------ */
+.lk-wrapper {
+    display: flex;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
+/* ------------------------------
+   САЙДБАР (ЛЕВАЯ КОЛОНКА)
+------------------------------ */
+.lk-sidebar {
+    flex: 0 0 320px;
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+/* Карточка профиля */
+.profile-card {
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    border-radius: 20px;
+    padding: 30px 25px;
+    border: 1px solid rgba(228, 56, 28, 0.2);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.profile-card:hover {
+    border-color: rgba(228, 56, 28, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Аватар */
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 25px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #e4381C;
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.profile-avatar:hover {
+    transform: scale(1.05);
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Информация профиля */
+.profile-info {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-name {
+    font-size: 22px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #e4381C;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.profile-email {
+    color: #8f8fa8;
+    font-size: 14px;
+    margin-bottom: 12px;
+    word-break: break-word;
+}
+
+.profile-reg-date {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 6px 15px;
+    border-radius: 30px;
+    font-size: 13px;
+    color: #8f8fa8;
+}
+
+.profile-reg-date i {
+    color: #e4381C;
+}
+
+/* Кнопки действий */
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn i {
+    font-size: 16px;
+    color: #e4381C;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+}
+
+.action-btn:hover i {
+    color: #ffffff;
+}
+
+/* Кнопка выхода */
+.action-btn.logout-btn {
+    background: rgba(220, 53, 69, 0.1);
+    border-color: rgba(220, 53, 69, 0.3);
+    margin-top: 10px;
+}
+
+.action-btn.logout-btn i {
+    color: #dc3545;
+}
+
+.action-btn.logout-btn:hover {
+    background: #dc3545;
+    border-color: transparent;
+}
+
+.action-btn.logout-btn:hover i {
+    color: #ffffff;
+}
+
+/* ------------------------------
+   ОСНОВНОЙ КОНТЕНТ
+------------------------------ */
+.lk-content {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Заголовок контента */
+.content-header {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(228, 56, 28, 0.3);
+}
+
+.content-header h2 {
+    font-size: 28px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.content-header p {
+    color: #8f8fa8;
+    font-size: 14px;
+}
+
+/* Тело контента */
+.content-body {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    padding: 25px;
+    min-height: 500px;
+    transition: all 0.3s ease;
+}
+
+/* ============================================
+   LK FRAGMENTS - ТАТУИРОВКИ, ПРОФИЛЬ, ОТЗЫВЫ
+   ============================================ */
+
+/* ------------------------------
+   ОБЩИЕ СТИЛИ ДЛЯ СЕКЦИЙ
+------------------------------ */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(228, 56, 28, 0.3);
+}
+
+.section-header h3,
+.section-header h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+}
+
+.section-header h3 {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.section-header h4 {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.section-header i {
+    color: #e4381C;
+    font-size: 24px;
+}
+
+.section-count,
+.section-badge {
+    background: rgba(228, 56, 28, 0.15);
+    color: #e4381C;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid rgba(228, 56, 28, 0.3);
+}
+
+/* ------------------------------
+   ТАТУИРОВКИ (TATTOOS SECTION)
+------------------------------ */
+.tattoos-section {
+    margin-bottom: 40px;
+}
+
+.tattoos-grid-container {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.tattoos-grid-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.tattoos-grid-container::-webkit-scrollbar-track {
+    background: #2d2d2d;
+    border-radius: 10px;
+}
+
+.tattoos-grid-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #e16521, #e4381C);
+    border-radius: 10px;
+}
+
+.tattoos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+/* Карточка татуировки */
+.tattoo-card {
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(228, 56, 28, 0.2);
+    transition: all 0.3s ease;
+}
+
+.tattoo-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(228, 56, 28, 0.4);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.tattoo-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+}
+
+.tattoo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.tattoo-card:hover .tattoo-image {
+    transform: scale(1.1);
+}
+
+/* Оверлей */
+.tattoo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.7));
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tattoo-card:hover .tattoo-overlay {
+    opacity: 1;
+}
+
+.tattoo-description {
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+    overflow-y: auto;
+    max-height: 80px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.tattoo-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.tattoo-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(228, 56, 28, 0.9);
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tattoo-btn:hover {
+    background: #e4381C;
+    transform: scale(1.1);
+}
+
+/* ------------------------------
+   РЕДАКТИРОВАНИЕ ПРОФИЛЯ
+------------------------------ */
+.profile-edit-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 30px;
+}
+
+.profile-edit-card {
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(228, 56, 28, 0.2);
+    margin-bottom: 25px;
+}
+
+.card-header {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 18px 25px;
+    border-bottom: 1px solid rgba(228, 56, 28, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.card-header i {
+    font-size: 22px;
+    color: #e4381C;
+}
+
+.card-header h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.card-body {
+    padding: 25px;
+}
+
+/* Аватар */
+.avatar-preview-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.avatar-preview {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #e4381C;
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+}
+
+.avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Информационный блок */
+.info-box {
+    background: rgba(228, 56, 28, 0.1);
+    border-left: 3px solid #e4381C;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.info-box i {
+    font-size: 24px;
+    color: #e4381C;
+}
+
+.info-content h5 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 5px 0;
+    font-family: "Oswald", sans-serif;
+}
+
+.info-content p {
+    font-size: 13px;
+    color: #8f8fa8;
+    margin: 0;
+}
+
+/* ------------------------------
+   ОТЗЫВЫ (REVIEWS)
+------------------------------ */
+.reviews-list-container {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.reviews-list-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.reviews-list-container::-webkit-scrollbar-track {
+    background: #2d2d2d;
+    border-radius: 10px;
+}
+
+.reviews-list-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #e16521, #e4381C);
+    border-radius: 10px;
+}
+
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Карточка отзыва */
+.review-card {
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(228, 56, 28, 0.2);
+    transition: all 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(228, 56, 28, 0.4);
+}
+
+.review-card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(228, 56, 28, 0.2);
+}
+
+.review-author-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #e4381C;
+    flex-shrink: 0;
+}
+
+.review-author-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.review-author-info {
+    flex: 1;
+}
+
+.review-author-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 5px 0;
+    font-family: "Oswald", sans-serif;
+}
+
+.review-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.review-date {
+    font-size: 13px;
+    color: #8f8fa8;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.review-date i {
+    color: #e4381C;
+    font-size: 12px;
+}
+
+.review-delete-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(228, 56, 28, 0.15);
+    border: 1px solid rgba(228, 56, 28, 0.3);
+    color: #ff6b6b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.review-delete-btn:hover {
+    background: #e4381C;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+.review-card-body {
+    padding: 20px;
+}
+
+.review-content {
+    color: #ffffff;
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ------------------------------
+   ПУСТОЕ СОСТОЯНИЕ
+------------------------------ */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    border: 2px dashed rgba(228, 56, 28, 0.3);
+}
+
+.empty-state i {
+    font-size: 48px;
+    color: #e4381C;
+    opacity: 0.5;
+    margin-bottom: 15px;
+}
+
+.empty-state h4 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    font-size: 14px;
+    color: #8f8fa8;
+}
+
+/* ============================================
+   ФОРМЫ В ЛК
+   ============================================ */
+.modern-form {
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    border-radius: 16px;
+    padding: 25px;
+    border: 1px solid rgba(228, 56, 28, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* ============================================
+   АКТИВНОЕ СОСТОЯНИЕ ФОРМЫ (РЕДАКТИРОВАНИЕ)
+   ============================================ */
+.modern-form.active {
+    position: relative;
+    box-shadow: 0 0 0 2px rgba(228, 56, 28, 0.4), 0 0 0 4px rgba(228, 56, 28, 0.1);
+    animation: formActivePulse 0.6s ease-out;
+}
+
+@keyframes formActivePulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(228, 56, 28, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(228, 56, 28, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 2px rgba(228, 56, 28, 0.4), 0 0 0 4px rgba(228, 56, 28, 0.1);
+    }
+}
+
+/* Подсветка полей ввода в активной форме */
+.modern-form.active .form-group label {
+    color: #e4381C;
+    transition: color 0.3s ease;
+}
+
+.modern-form.active .form-group label i {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+.modern-form.active input:not(:disabled),
+.modern-form.active textarea:not(:disabled) {
+    border-color: #e4381C;
+    background: #3a3a3a;
+    box-shadow: inset 0 0 0 1px rgba(228, 56, 28, 0.2);
+}
+
+.modern-form.active input:not(:disabled):focus,
+.modern-form.active textarea:not(:disabled):focus {
+    background: #ffffff;
+    color: #151515;
+    border-color: #e4381C;
+    box-shadow: 0 0 0 2px rgba(228, 56, 28, 0.3);
+}
+
+/* Подсветка подсказок в активной форме */
+.modern-form.active .field-hint {
+    color: #e4381C;
+}
+
+/* Анимация кнопки сохранения в активной форме */
+.modern-form.active .btn-primary {
+    animation: btnPulse 1.2s infinite;
+}
+
+@keyframes btnPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(228, 56, 28, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(228, 56, 28, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(228, 56, 28, 0);
+    }
+}
+
+/* ============================================
+   TEXTAREA И INPUT СТИЛИ
+   ============================================ */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+}
+
+.form-group label i {
+    color: #e4381C;
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+/* Стили для полей ввода */
+.form-group input,
+.modern-form input[type="text"],
+.modern-form input[type="email"],
+.modern-form input[type="password"] {
+    width: 100%;
+    height: 48px;
+    background: #2d2d2d;
+    border: 1px solid #131313;
+    border-radius: 4px;
+    padding: 0 20px;
+    font-size: 16px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.modern-form input:focus {
+    background: #ffffff;
+    color: #151515;
+    outline: none;
+    border-color: #e4381C;
+    box-shadow: 0 0 0 2px rgba(228, 56, 28, 0.2);
+}
+
+.form-group input:disabled {
+    background: #1a1a1a;
+    color: #8f8fa8;
+    cursor: not-allowed;
+    border-color: #252525;
+}
+
+.form-group input::placeholder,
+.modern-form input::placeholder {
+    color: #8f8fa8;
+}
+
+/* Стили для textarea */
+.form-group textarea,
+.modern-form textarea,
+textarea.form-control {
+    width: 100%;
+    background: #2d2d2d;
+    border: 1px solid #131313;
+    border-radius: 4px;
+    padding: 15px 20px;
+    font-size: 16px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.form-group textarea:focus,
+.modern-form textarea:focus,
+textarea.form-control:focus {
+    background: #ffffff;
+    color: #151515;
+    outline: none;
+    border-color: #e4381C;
+    box-shadow: 0 0 0 2px rgba(228, 56, 28, 0.2);
+}
+
+.form-group textarea::placeholder,
+.modern-form textarea::placeholder,
+textarea.form-control::placeholder {
+    color: #8f8fa8;
+    font-weight: 400;
+}
+
+.field-hint {
+    display: block;
+    font-size: 12px;
+    color: #8f8fa8;
+    margin-top: 6px;
+    transition: color 0.3s ease;
+}
+
+/* ============================================
+   BUTTON СТИЛИ - ГАРАНТИЯ КЛИКАБЕЛЬНОСТИ
+   ============================================ */
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 28px;
+}
+
+/* Базовый стиль для всех кнопок */
+.btn,
+button.btn,
+.form-actions .btn,
+button[type="submit"],
+button[type="reset"],
+button[type="button"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    /* Гарантия кликабельности */
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Primary кнопка */
+.btn-primary,
+.form-actions .btn-primary,
+button[type="submit"].btn-primary {
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    color: #ffffff;
+    pointer-events: auto !important;
+}
+
+.btn-primary:after,
+.form-actions .btn-primary:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(90deg, #e4381C, #e16521);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.btn-primary:hover:after,
+.form-actions .btn-primary:hover:after {
+    opacity: 1;
+}
+
+.btn-primary:hover,
+.form-actions .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.4);
+    color: #ffffff;
+}
+
+/* Active состояние для кнопки (при disabled) */
+.btn-primary:disabled,
+button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    pointer-events: none !important;
+}
+
+/* Secondary кнопка */
+.btn-secondary,
+.form-actions .btn-secondary,
+button[type="reset"].btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid rgba(228, 56, 28, 0.6);
+    color: #e4381C;
+    border-radius: 4px;
+    padding: 11px 24px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    pointer-events: auto !important;
+}
+
+.btn-secondary:hover,
+.form-actions .btn-secondary:hover {
+    background: rgba(228, 56, 28, 0.15);
+    border-color: #e4381C;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Блочная кнопка */
+.btn-block {
+    width: 100%;
+    justify-content: center;
+}
+
+/* Кнопка загрузки файла */
+.upload-file-btn {
+    background: transparent;
+    border-left: 2px solid #e16521;
+    border-right: 2px solid #e4381C;
+    border-top: none;
+    border-bottom: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    color: #e4381C;
+    font-size: 12px;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s;
+    cursor: pointer;
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background-position: 0 0, 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+    background-image: linear-gradient(to right, #e16521 100%, #e4381C 0%), linear-gradient(to right, #e16521 0%, #e4381C 0%);
+    pointer-events: auto !important;
+}
+
+.upload-file-btn:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    z-index: -1;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.upload-file-btn:hover:after {
+    opacity: 1;
+}
+
+.upload-file-btn:hover {
+    color: #ffffff;
+    border-color: transparent;
+}
+
+/* Кнопка удаления тату */
+.tattoo-btn.delete-btn {
+    background: rgba(228, 56, 28, 0.85);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    pointer-events: auto !important;
+}
+
+.tattoo-btn.delete-btn:hover {
+    background: #e4381C;
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(228, 56, 28, 0.5);
+}
+
+/* Кнопка удаления отзыва */
+.review-delete-btn {
+    background: rgba(228, 56, 28, 0.2);
+    border: 1px solid rgba(228, 56, 28, 0.4);
+    border-radius: 50%;
+    color: #ff8a7a;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    pointer-events: auto !important;
+}
+
+.review-delete-btn:hover {
+    background: #e4381C;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+/* ============================================
+   ОБЛАСТЬ ЗАГРУЗКИ ИЗОБРАЖЕНИЯ
+   ============================================ */
+.form-row {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.form-col-image,
+.form-col-image-small {
+    flex: 0 0 280px;
+}
+
+.form-col-content {
+    flex: 1;
+    min-width: 250px;
+}
+
+.image-upload-container {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+}
+
+.image-preview {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #2d2d2d;
+    margin-bottom: 15px;
+    border: 2px dashed rgba(228, 56, 28, 0.3);
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.preview-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 12px;
+}
+
+.preview-placeholder i {
+    font-size: 32px;
+    color: #e4381C;
+    margin-bottom: 8px;
+}
+
+.preview-placeholder span {
+    font-size: 12px;
+    color: #ffffff;
+}
+
+.upload-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.file-hint {
+    font-size: 11px;
+    color: #8f8fa8;
+    text-align: center;
+}
+
+/* ============================================
+   РЕЙТИНГ ЗВЕЗДАМИ
+   ============================================ */
+.rating-group {
+    margin-bottom: 20px;
+}
+
+.rating-stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.rating-stars input {
+    display: none;
+}
+
+.rating-stars label {
+    font-size: 28px;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.rating-stars label:hover,
+.rating-stars label:hover ~ label,
+.rating-stars input:checked ~ label {
+    color: #ffc107;
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+@media (max-width: 992px) {
+    .lk-wrapper {
+        flex-direction: column;
+        gap: 25px;
+        padding: 30px 20px;
+    }
+
+    .lk-sidebar {
+        flex: auto;
+        position: static;
+    }
+
+    .profile-card {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .profile-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .action-btn {
+        flex: 1;
+        min-width: 150px;
+    }
+
+    .profile-edit-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-col-image,
+    .form-col-image-small {
+        flex: auto;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .lk-wrapper {
+        padding: 20px 15px;
+    }
+
+    .content-header h2 {
+        font-size: 24px;
+    }
+
+    .content-body {
+        padding: 20px;
+    }
+
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+    }
+
+    .profile-name {
+        font-size: 20px;
+    }
+
+    .action-btn {
+        padding: 10px 15px;
+        font-size: 12px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .tattoos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+
+    .review-card-header {
+        flex-wrap: wrap;
+    }
+
+    .review-delete-btn {
+        margin-left: auto;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn,
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-actions {
+        flex-direction: column;
+    }
+
+    .action-btn {
+        width: 100%;
+    }
+
+    .content-header h2 {
+        font-size: 20px;
+    }
+
+    .content-body {
+        padding: 15px;
+    }
+}
+
+/* ============================================
+   АНИМАЦИИ
+   ============================================ */
+@keyframes lkContentFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.content-body > * {
+    animation: lkContentFadeIn 0.3s ease forwards;
+}
+
+.btn:active,
+.action-btn:active {
+    transform: translateY(1px);
+    transition: 0.05s;
+}
+
+/* Стили для скроллбаров */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #e16521, #e4381C);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #e4381C, #e16521);
+}
