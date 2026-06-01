@@ -22,7 +22,7 @@ import java.text.ParseException;
 @RequestMapping(SettingWebsiteController.URL)
 public class SettingWebsiteController extends CRUDController<SettingWebsite, Long> {
 
-    public static final String URL = "/setting";
+    public static final String URL = "/admin/setting";
 
     @Autowired
     private SettingWebsiteService settingWebsiteService;
@@ -31,45 +31,72 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     @Autowired
     private ContactInfoService contactInfoService;
 
-    @GetMapping("/admin")
+    @GetMapping()
     private String getGalleryFragment(Model model, HttpServletRequest request) {
         log.info("Получено page {}",
                 request.getRequestURL());
-        model.addAttribute("setting", settingWebsiteService.findAll());
-        model.addAttribute("users", userService.findAll());
 
-        return "fragment-admin::setting";
+        updateSection(model);
+
+        return getEntityName()+"setting";
+    }
+    @GetMapping("/delete-user/{id}")
+    public String deleteUser(@PathVariable("id") Long id,
+                               Model model) throws IOException, ParseException {
+
+        userService.deleteById(id);
+        updateSection(model);
+
+        return getEntityName() + "user";
     }
 
-    @PostMapping("/head/{section}")
-    public String uploadHome(@ModelAttribute()SettingWebsite settingWebsite, @PathVariable("section") String section, Model model) {
-        settingWebsite.setSection(section);
-        settingWebsiteService.create(settingWebsite);
-        model.addAttribute("setting", settingWebsiteService.findAll());
-        return "Извлечь метод...::"+section;
-    }
-    @Override
-    @PostMapping("/import")
-    public String createEntity(@ModelAttribute("hero") SettingWebsite object,
-                               @RequestParam(value = "fragment", required = false) String fragmentName,
+
+    @PostMapping("/contact/import")
+    public String createContact(@ModelAttribute() ContactInfo object,
                          Model model) throws IOException, ParseException {
-        getService().create(object);
-        model.addAttribute("setting", settingWebsiteService.findAll());
+        contactInfoService.create(object);
         return "fragments::footer";
     }
 
-    @PostMapping("/image-import")
-    public String uploadImage(@ModelAttribute("hero") SettingWebsite object,
+    @PostMapping("/footer/import")
+    public String createFooter(@ModelAttribute() SettingWebsite object,
+                                Model model) throws IOException, ParseException {
+        settingWebsiteService.create(object);
+        return "fragments::footer";
+    }
+
+
+    @PostMapping("/logo-import")
+    public String uploadLogo(@ModelAttribute() SettingWebsite object,
                               @RequestParam("file") MultipartFile fileImport,
                               @RequestParam(value = "fragment", required = false) String fragmentName,
                               Model model) throws IOException, ParseException {
 
-        object = getService().findById(object.getId());
+        log.debug("Детали объекта до обработки: {}", object != null ? object.toString() : "null");
 
         getService().saveImg(fileImport, object);
 
         updateSection(model);
-        return getEntityName(object);
+
+        return "fragments::" + fragmentName;
+    }
+
+    @PostMapping("/breadcrumb-import")
+    public String uploadBreadcrumb(@ModelAttribute() SettingWebsite object,
+                             @RequestParam("file") MultipartFile fileImport,
+                             @RequestParam(value = "fragment", required = false) String fragmentName,
+                             Model model) throws IOException, ParseException {
+
+        log.debug("Детали объекта до обработки: {}", object != null ? object.toString() : "null");
+
+        log.info("Фрагмент для обновления {}",
+                fragmentName);
+
+        getService().saveImg(fileImport, object);
+
+        updateSection(model);
+
+        return "admin::" + fragmentName;
     }
 
     String getEntityName(SettingWebsite object) {
@@ -88,6 +115,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
 
     @Override
     protected void updateSection(Model model) {
+        model.addAttribute("users", userService.findAll());
         model.addAttribute("setting", settingWebsiteService.findAll());
     }
 }

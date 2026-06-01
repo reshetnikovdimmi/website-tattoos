@@ -17,10 +17,10 @@ databaseChangeLog:
                   name: image_name
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH1
+                  name: title
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
-                  name: textH2
+                  name: description
                   type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
                   name: section
@@ -36,11 +36,11 @@ databaseChangeLog:
                   name: section
                   value: breadcrumb
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: description
+                  value: description
         - insert:
             tableName: setting_website
             columns:
@@ -48,11 +48,11 @@ databaseChangeLog:
                   name: section
                   value: logo
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: description
+                  value: description
         - insert:
             tableName: setting_website
             columns:
@@ -60,11 +60,11 @@ databaseChangeLog:
                   name: section
                   value: home-title
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: description
+                  value: description
         - insert:
             tableName: setting_website
             columns:
@@ -72,11 +72,11 @@ databaseChangeLog:
                   name: section
                   value: gallery-title
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: description
+                  value: description
         - insert:
             tableName: setting_website
             columns:
@@ -84,11 +84,11 @@ databaseChangeLog:
                   name: section
                   value: sketchers-title
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: description
+                  value: description
         - insert:
             tableName: setting_website
             columns:
@@ -96,11 +96,11 @@ databaseChangeLog:
                   name: section
                   value: blog-title
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: description
+                  value: description
         - insert:
             tableName: setting_website
             columns:
@@ -108,11 +108,11 @@ databaseChangeLog:
                   name: section
                   value: reviews-title
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: description
+                  value: description
         - insert:
             tableName: setting_website
             columns:
@@ -120,8 +120,8 @@ databaseChangeLog:
                   name: section
                   value: footer-title
               - column:
-                  name: textH1
-                  value: textH1
+                  name: title
+                  value: title
               - column:
-                  name: textH2
-                  value: textH2
+                  name: description
+                  value: description

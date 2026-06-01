@@ -14,7 +14,7 @@ import ru.tattoo.maxsim.service.interf.HomeService;
 @RequestMapping(FeatureSectionController.URL)
 public class FeatureSectionController extends CRUDController<FeatureSection, Long> {
 
-    public static final String URL = "/feature";
+    public static final String URL = "/admin/feature";
     public static final String PAGE_FRAGMENT = "fragment-admin";
 
     @Autowired

@@ -17,7 +17,7 @@ public class Blog{
     private Long id;
     @Column(name = "image_name")
     private String imageName;
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
     @Column(name = "section")
     private String section;
@@ -25,10 +25,10 @@ public class Blog{
     @Column(name = "title")
     private String title;
     @Lob
-    @Column(name = "subtitle")
+    @Column(name = "subtitle", columnDefinition = "TEXT")
     private String subtitle;
     @Lob
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
     @Temporal(TemporalType.DATE)

@@ -1,12 +1,12 @@
 /* ============================================
-   HERO SECTION - PROZRACHNAYA KNOPKA
+   HERO SECTION - НА ОСНОВЕ ОРИГИНАЛА ACTIVITAR
    ============================================ */
 
 /* Основной контейнер секции */
 .hero-section {
     position: relative;
     overflow: hidden;
-    margin-top: 0; /* Убираем отступ */
+    margin-top: 0;
     padding-top: 0;
 }
 
@@ -15,10 +15,10 @@
     position: relative;
 }
 
-/* Отдельный слайд */
+/* Отдельный слайд - как в оригинале */
 .single-hero-item {
-    height: 100vh;
-    min-height: 700px;
+    height: 950px;
+    padding-top: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,7 +28,7 @@
     position: relative;
 }
 
-/* Затемнение фона */
+/* Затемнение фона (добавлено для читаемости) */
 .single-hero-item::before {
     content: '';
     position: absolute;
@@ -50,270 +50,237 @@
 /* Текстовый блок */
 .hero-text {
     text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
 }
 
-/* Заголовок H2 */
-.hero-text h2 {
+/* Заголовок H2 - как в оригинале */
+.single-hero-item .hero-text h2 {
     color: #ffffff;
     text-transform: uppercase;
     font-family: "Nunito Sans", sans-serif;
     font-size: 30px;
-    margin-bottom: 10px;
-    letter-spacing: 2px;
+    margin-bottom: 4px;
+    position: relative;
+    top: 50px;
     opacity: 0;
-    transform: translateY(30px);
+    /* Добавлено для адаптива */
+    white-space: nowrap;
 }
 
-/* Заголовок H1 */
-.hero-text h1 {
-    color: #ffffff;
-    font-size: 70px;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 35px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    letter-spacing: 1px;
-    opacity: 0;
-    transform: translateY(30px);
+/* Заголовок H1 - как в оригинале */
+.single-hero-item .hero-text h1 {
+  color: #ffffff;
+      font-family: "Oswald", sans-serif;
+      font-size: 50px;
+      font-weight: 900;           /* Максимальная жирность */
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      letter-spacing: -1px;       /* Сильное сжатие букв */
+      line-height: 0.9;
+      position: relative;
+      top: 50px;
+      opacity: 0;
+      padding: 30px;
+
 }
 
-/* КНОПКА - ПРОЗРАЧНАЯ */
-.hero-text .primary-btn {
+/* Кнопка - как в оригинале */
+.single-hero-item .hero-text .primary-btn {
+    position: relative;
+    top: 50px;
+    opacity: 0;
     display: inline-block;
     font-size: 14px;
     font-family: "Oswald", sans-serif;
     font-weight: 600;
-    padding: 14px 35px;
+    padding: 0 12px;
     color: #ffffff;
     letter-spacing: 2px;
     text-transform: uppercase;
     text-align: center;
-    background: transparent;
-    border: 2px solid #ffffff;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    opacity: 0;
-    transform: translateY(30px);
+    width: 160px;
+    height: 46px;
+    border-left: 2px solid #e16521;
+    border-right: 2px solid #e4381C;
+    box-sizing: border-box;
+    background-position: 0 0, 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+    background-image: linear-gradient(to right, #e4381C 100%, #e16521 100%), linear-gradient(to right, #e4381C 0%, #e16521 0%);
+    transition-duration: 1000ms;
+    line-height: 45px;
+    position: relative;
+    z-index: 1;
+    border-radius: 4px;
 }
 
-.hero-text .primary-btn:hover {
-    background: #ffffff;
-    color: #e4381C;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    letter-spacing: 3px;
-    border-color: #ffffff;
-}
-
-/* ===== НАВИГАЦИЯ КАРУСЕЛИ ===== */
-
-/* Стрелки навигации */
-.hero-items .owl-nav button {
+.single-hero-item .hero-text .primary-btn:after {
+    color: #fff;
+    transition-duration: 500ms;
+    background: linear-gradient(to right, #e16521, #e4381C);
+    content: "";
     position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: 2px;
+    opacity: 0;
+}
+
+.single-hero-item .hero-text .primary-btn:hover:after {
+    opacity: 1;
+}
+
+/* ===== АНИМАЦИИ (как в оригинале) ===== */
+.hero-items .owl-item.active .single-hero-item .hero-text h2,
+.hero-items .owl-item.active .single-hero-item .hero-text h1,
+.hero-items .owl-item.active .single-hero-item .hero-text .primary-btn {
+    top: 0;
+    opacity: 1;
+}
+
+.hero-items .owl-item.active .single-hero-item .hero-text h2 {
+    transition: all 0.2s ease 0.2s;
+}
+
+.hero-items .owl-item.active .single-hero-item .hero-text h1 {
+    transition: all 0.4s ease 0.4s;
+}
+
+.hero-items .owl-item.active .single-hero-item .hero-text .primary-btn {
+    transition: all 0.6s ease 0.6s;
+}
+
+/* ===== НАВИГАЦИЯ КАРУСЕЛИ (как в оригинале) ===== */
+.hero-items .owl-nav button[type=button] {
+    position: absolute;
+    left: 75px;
     top: 50%;
-    transform: translateY(-50%);
-    width: 50px;
-    height: 50px;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    border-radius: 50%;
+    transform: translateY(-30px);
+    line-height: 30px;
+    font-size: 60px;
     color: #ffffff;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    z-index: 10;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    cursor: pointer;
 }
 
-.hero-items .owl-nav button:hover {
-    background: linear-gradient(90deg, #e16521, #e4381C);
-    transform: translateY(-50%) scale(1.1);
-    border-color: transparent;
+.hero-items .owl-nav button[type=button].owl-next {
+    left: auto;
+    right: 75px;
 }
 
-.hero-items .owl-nav button.owl-prev {
-    left: 30px;
-}
-
-.hero-items .owl-nav button.owl-next {
-    right: 30px;
-}
-
-/* Точки навигации */
 .hero-items .owl-dots {
     position: absolute;
-    bottom: 30px;
     left: 0;
+    bottom: 23px;
     width: 100%;
     text-align: center;
-    z-index: 10;
 }
 
-.hero-items .owl-dots .owl-dot {
-    display: inline-block;
-    margin: 0 8px;
-}
-
-.hero-items .owl-dots .owl-dot span {
-    display: block;
-    width: 10px;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.5);
+.hero-items .owl-dots button.owl-dot {
+    height: 14px;
+    width: 14px;
+    background: #ffffff;
     border-radius: 50%;
-    transition: all 0.3s ease;
-    cursor: pointer;
+    margin-right: 15px;
+    position: relative;
 }
 
-.hero-items .owl-dots .owl-dot.active span {
-    width: 25px;
-    border-radius: 20px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+.hero-items .owl-dots button.owl-dot.active:after {
+    opacity: 1;
 }
 
-.hero-items .owl-dots .owl-dot:hover span {
-    background: #e4381C;
-    transform: scale(1.2);
+.hero-items .owl-dots button.owl-dot:after {
+    position: absolute;
+    left: -3px;
+    top: -3px;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #ffffff;
+    content: "";
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.3s;
 }
 
-/* ===== АНИМАЦИИ ДЛЯ СЛАЙДОВ ===== */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.hero-items .owl-dots button.owl-dot:last-child {
+    margin-right: 0;
 }
 
-.hero-items .owl-item.active .hero-text h2 {
-    animation: fadeInUp 0.6s ease forwards 0.2s;
-}
+/* ===== АДАПТИВНОСТЬ (как в оригинале) ===== */
 
-.hero-items .owl-item.active .hero-text h1 {
-    animation: fadeInUp 0.6s ease forwards 0.4s;
-}
-
-.hero-items .owl-item.active .hero-text .primary-btn {
-    animation: fadeInUp 0.6s ease forwards 0.6s;
-}
-
-/* ===== АДАПТИВНОСТЬ ===== */
-
-/* Планшеты (до 992px) */
-@media (max-width: 992px) {
-    .single-hero-item {
-        min-height: 550px;
-        height: auto;
-    }
-
-    .hero-text h1 {
+/* Планшеты (992px - 1199px) */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .hero-items .owl-nav button[type=button] {
+        left: 15px;
         font-size: 50px;
+    }
+    .hero-items .owl-nav button[type=button].owl-next {
+        right: 15px;
+    }
+    .single-hero-item .hero-text h1 {
+        font-size: 70px;
+    }
+    .single-hero-item .hero-text h2 {
+        font-size: 50px;
+    }
+}
+
+/* Tablet Device (768px - 991px) */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .hero-items .owl-nav button[type=button] {
+        left: 15px;
+        font-size: 40px;
+    }
+    .hero-items .owl-nav button[type=button].owl-next {
+        right: 15px;
+    }
+    .single-hero-item {
+        height: 680px;
+    }
+    .single-hero-item .hero-text h1 {
+        font-size: 60px;
+    }
+    .single-hero-item .hero-text h2 {
+        font-size: 40px;
+    }
+}
+
+/* Large Mobile (480px - 767px) */
+@media only screen and (max-width: 767px) {
+    .hero-items .owl-nav button[type=button] {
+        left: 5px;
+        font-size: 30px;
+    }
+    .hero-items .owl-nav button[type=button].owl-next {
+        left: auto;
+        right: 5px;
+    }
+    .single-hero-item {
+        height: 680px;
+    }
+    .single-hero-item .hero-text h1 {
+        font-size: 50px;
+    }
+    .single-hero-item .hero-text h2 {
+        font-size: 40px;
+    }
+}
+
+/* Small Mobile (до 479px) */
+@media only screen and (max-width: 479px) {
+    .single-hero-item {
+        height: 550px;
+    }
+    .single-hero-item .hero-text h1 {
+        font-size: 22px;
         margin-bottom: 25px;
     }
-
-    .hero-text h2 {
-        font-size: 24px;
+    .single-hero-item .hero-text h2 {
+        font-size: 14px;
     }
-
-    .hero-text .primary-btn {
-        padding: 12px 28px;
-        font-size: 13px;
-    }
-
-    .hero-items .owl-nav button {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-    }
-}
-
-/* Мобильные устройства (до 768px) */
-@media (max-width: 768px) {
-    .single-hero-item {
-        min-height: 450px;
-    }
-
-    .hero-text h1 {
-        font-size: 32px;
-        margin-bottom: 15px;
-    }
-
-    .hero-text h2 {
-        font-size: 18px;
-    }
-
-    .hero-text .primary-btn {
-        padding: 8px 20px;
-        font-size: 11px;
-        border-width: 1px;
-    }
-
-    .hero-items .owl-nav button {
+    .hero-items .owl-nav button[type=button] {
+        font-size: 25px;
         width: 35px;
         height: 35px;
-        font-size: 16px;
-    }
-
-    .hero-items .owl-nav button.owl-prev {
-        left: 10px;
-    }
-
-    .hero-items .owl-nav button.owl-next {
-        right: 10px;
-    }
-
-    .hero-items .owl-dots {
-        bottom: 20px;
-    }
-}
-
-/* Маленькие мобильные (до 480px) */
-@media (max-width: 480px) {
-    .single-hero-item {
-        min-height: 380px;
-    }
-
-    .hero-text h1 {
-        font-size: 24px;
-        margin-bottom: 10px;
-    }
-
-    .hero-text h2 {
-        font-size: 14px;
-    }
-
-    .hero-text .primary-btn {
-        padding: 6px 15px;
-        font-size: 10px;
-    }
-
-    .hero-items .owl-nav button {
-        width: 30px;
-        height: 30px;
-        font-size: 14px;
-    }
-}
-
-/* Высокие экраны */
-@media (min-width: 1200px) and (min-height: 900px) {
-    .single-hero-item {
-        height: 100vh;
-        min-height: 750px;
-    }
-
-    .hero-text h1 {
-        font-size: 85px;
-    }
-
-    .hero-text h2 {
-        font-size: 36px;
     }
 }

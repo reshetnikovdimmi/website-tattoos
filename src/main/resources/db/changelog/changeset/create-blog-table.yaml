@@ -18,13 +18,15 @@ databaseChangeLog:
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
                   name: description
-                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+                  type: TEXT character set utf8mb4 collate utf8mb4_unicode_ci
+                  # ИСПРАВЛЕНО: TEXT вместо varchar(255) для длинных описаний
               - column:
                   name: title
                   type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
                   name: subtitle
                   type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
+                  # ИСПРАВЛЕНО: TEXT вместо varchar(255) для длинных подзаголовков
               - column:
                   name: content
                   type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
@@ -34,6 +36,25 @@ databaseChangeLog:
               - column:
                   name: date
                   type: date
+
+  # ИСПРАВЛЕНИЕ: Изменяем тип существующих колонок (миграция)
+  - changeSet:
+      id: fix-blog-column-types
+      author: Dmitrii
+      changes:
+        - modifyDataType:
+            tableName: blog
+            columnName: subtitle
+            newDataType: TEXT character set utf8mb4 collate utf8mb4_unicode_ci
+        - modifyDataType:
+            tableName: blog
+            columnName: description
+            newDataType: TEXT character set utf8mb4 collate utf8mb4_unicode_ci
+        - modifyDataType:
+            tableName: blog
+            columnName: content
+            newDataType: TEXT character set utf8mb4 collate utf8mb4_unicode_ci
+
   - changeSet:
       id: add-data-blog-text
       author: Dmitrii
@@ -46,13 +67,14 @@ databaseChangeLog:
                   value: blog-text
               - column:
                   name: title
-                  value: title
+                  value: "title placeholder"
               - column:
                   name: subtitle
-                  value: subtitle
+                  value: "subtitle placeholder"
               - column:
                   name: content
-                  value: content
+                  value: "content placeholder"
+
   - changeSet:
       id: add-data-blog-title
       author: Dmitrii
@@ -65,13 +87,14 @@ databaseChangeLog:
                   value: blog-title
               - column:
                   name: title
-                  value: title
+                  value: "title placeholder"
               - column:
                   name: subtitle
-                  value: subtitle
+                  value: "subtitle placeholder"
               - column:
                   name: content
-                  value: content
+                  value: "content placeholder"
+
   - changeSet:
       id: add-data-blog-quote
       author: Dmitrii
@@ -84,13 +107,13 @@ databaseChangeLog:
                   value: blog-quote
               - column:
                   name: title
-                  value: title
+                  value: "title placeholder"
               - column:
                   name: subtitle
-                  value: subtitle
+                  value: "subtitle placeholder"
               - column:
                   name: content
-                  value: content
+                  value: "content placeholder"
         - insert:
             tableName: blog
             columns:
@@ -99,40 +122,86 @@ databaseChangeLog:
                   value: blog-more-title
               - column:
                   name: title
-                  value: title
+                  value: "title placeholder"
               - column:
                   name: subtitle
-                  value: subtitle
+                  value: "subtitle placeholder"
               - column:
                   name: content
-                  value: content
+                  value: "content placeholder"
         - insert:
             tableName: blog
             columns:
               - column:
                   name: section
                   value: blog-more-title
+              # Исправлено: добавлены значения для колонок, иначе NULL
+              - column:
+                  name: title
+                  value: ""
+              - column:
+                  name: subtitle
+                  value: ""
+              - column:
+                  name: content
+                  value: ""
         - insert:
             tableName: blog
             columns:
               - column:
                   name: section
                   value: medium-image
+              - column:
+                  name: title
+                  value: ""
+              - column:
+                  name: subtitle
+                  value: ""
+              - column:
+                  name: content
+                  value: ""
         - insert:
             tableName: blog
             columns:
               - column:
                   name: section
                   value: smail-2-ima
+              - column:
+                  name: title
+                  value: ""
+              - column:
+                  name: subtitle
+                  value: ""
+              - column:
+                  name: content
+                  value: ""
         - insert:
             tableName: blog
             columns:
               - column:
                   name: section
                   value: smail-1-image
+              - column:
+                  name: title
+                  value: ""
+              - column:
+                  name: subtitle
+                  value: ""
+              - column:
+                  name: content
+                  value: ""
         - insert:
             tableName: blog
             columns:
               - column:
                   name: section
                   value: big-image
+              - column:
+                  name: title
+                  value: ""
+              - column:
+                  name: subtitle
+                  value: ""
+              - column:
+                  name: content
+                  value: ""

@@ -19,10 +19,14 @@ public class GlobalController {
     private SettingWebsiteService settingWebsiteService;
 
 
-    @ModelAttribute("servletPath")
-    String getRequestServletPath(HttpServletRequest request, Model model) {
+    @ModelAttribute
+    public void addGlobalData(Model model) {
         model.addAttribute("contactInfo", contactInfoRepository.findLimit());
         model.addAttribute("setting", settingWebsiteService.findAll());
-             return request.getServletPath();
+    }
+
+    @ModelAttribute("servletPath")
+    public String getRequestServletPath(HttpServletRequest request) {
+        return request.getServletPath();
     }
 }

@@ -2,23 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:each="current: ${setting}"
-      th:if="${current.section=='home-title'}">
+<head th:with="homeSeo=${setting.^[section == 'home-title']},
+               logoSetting=${setting.^[section == 'logo']}">
+
     <meta charset="UTF-8">
     <meta name="yandex-verification" content="f8b395847f7983f2"/>
     <meta name="google-site-verification" content="ak05GnsY8ILSGx7kzGGDnbi8c1VZSEB62dR0KH595_U"/>
     <meta name="zen-verification" content="Qs3KIKkBpZHRG9QIS3E1heKpO8wXZqWQbhTTWt7wQrr7XB6Iexi1cA15htzot9cG"/>
-    <meta name="description" th:content="${current.textH2}">
-    <meta name="keywords" th:content="${current.textH2}">
+
+    <!-- SEO данные с проверкой на null -->
+    <meta name="description" th:content="${homeSeo?.description}">
+    <meta name="keywords" th:content="${homeSeo?.description}">
+    <title th:text="${homeSeo?.title}">Tattoo Studio</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title th:text="${current.textH1}"></title>
-    <link th:each="current: ${setting}" th:if="${current.section=='logo'}" th:href="@{'/images/'+${current.imageName}}" rel="icon" type="image/vnd.microsoft.icon">
+
+    <!-- Favicon с проверкой на null -->
+    <link th:if="${logoSetting != null}"
+          th:href="@{'/images/' + ${logoSetting.imageName}}"
+          rel="icon" type="image/vnd.microsoft.icon">
+
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet">
-    <!-- Css Styles -->
 
+    <!-- Css Styles -->
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/static/css/elegant-icons.css}" type="text/css">
@@ -27,7 +36,8 @@
     <link rel="stylesheet" th:href="@{/static/css/magnific-popup.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/static/css/slicknav.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/static/css/main.css}" type="text/css">
-    <script>window.yaContextCb=window.yaContextCb||[]</script>
+
+    <script>window.yaContextCb = window.yaContextCb || []</script>
     <script src="https://vk.com/js/api/videoplayer.js"></script>
     <script src="https://yandex.ru/ads/system/context.js" async></script>
 </head>
@@ -43,18 +53,35 @@
 <!-- Header End -->
 <!-- Hero Section Begin -->
 <section class="hero-section">
-    <div class="hero-items owl-carousel" th:each="current : ${carousel}">
+    <div class="hero-items owl-carousel">
+        <!-- Предполагаем, что carousel[0].banners — это список баннеров -->
         <div class="single-hero-item set-bg"
-             th:each="currents : ${current.banners}"
-             th:attr="data-setbg=@{${currents.imageName != null && !currents.imageName.isEmpty() ?
-                               '/images/' + currents.imageName :
+             th:each="banner : ${carousel[0].banners}"
+             th:attr="data-setbg=@{${banner.imageName != null and !banner.imageName.isEmpty() ?
+                               '/images/' + banner.imageName :
                                '/img/avatar.jpg'}}">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="hero-text">
-                            <h2 th:text="${currents.title}"></h2>
-                            <h1 th:text="${currents.subtitle}"></h1>
+                            <h2 th:text="${banner.title}">Заголовок</h2>
+                            <h1 th:text="${banner.subtitle}">Подзаголовок</h1>
+                            <a href="/gallery" class="primary-btn">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Пустое состояние (если нет баннеров) -->
+        <div th:unless="${carousel != null and carousel[0].banners != null and !carousel[0].banners.isEmpty()}"
+             class="single-hero-item set-bg" data-setbg="/img/avatar.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="hero-text">
+                            <h2>Добро пожаловать</h2>
+                            <h1>Тату-студия Maxsim</h1>
                             <a href="/gallery" class="primary-btn">Подробнее</a>
                         </div>
                     </div>
@@ -68,15 +95,23 @@
 <!-- Feature Section Begin -->
 <section class="feature-section">
     <div class="container-fluid">
-        <div class="row" th:each="current: ${carousel}">
-            <div class="col-md-4" th:each="currents : ${current.feature}">
-                <div class="feature-item set-bg" th:attr="data-setbg=@{'/images/'+${currents.imageName}}">
-                    <h3 th:text="${currents.title}"></h3>
-                    <p class="short-details" th:text="${currents.description}"></p>
+        <div class="row" th:with="features=${carousel != null and !carousel.isEmpty() ? carousel[0].feature : null}">
+            <div class="col-lg-4 col-md-6" th:each="feature : ${features}">
+                <div class="feature-item set-bg"
+                     th:attr="data-setbg=@{${feature.imageName != null and !feature.imageName.isEmpty() ? '/images/' + feature.imageName : '/img/avatar.jpg'}}">
+                    <h3 th:text="${feature.title}">Заголовок</h3>
+                    <p class="short-details" th:text="${feature.description}">Описание</p>
                     <a href="/sketches" class="primary-btn f-btn">Подробнее</a>
                 </div>
             </div>
 
+            <!-- Пустое состояние -->
+            <div th:if="${features == null or features.isEmpty()}" class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="fa fa-info-circle"></i>
+                    Нет добавленных преимуществ. Добавьте их в админ-панели.
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -318,20 +353,22 @@
                         <p>Пн-Пт: 09:00 - 18:00</p>
                     </div>
 
-                    <div class="info-block">
-                        <h5>СВЯЗАТЬСЯ</h5>
-                        <form th:method="POST"
-                              th:onsubmit="sendMail(event, '.map-contact-form')"
-                              th:action="@{/mail}"
-                              th:object="${details}">
+                    <div class="info-block map-contact-form">
+                        <div th:fragment="map-contact-form">
+                            <h5>СВЯЗАТЬСЯ</h5>
+                            <form th:method="POST"
+                                  th:onsubmit="sendMail(event, '.map-contact-form')"
+                                  th:action="@{/mail}"
+                                  th:object="${details}">
 
-                            <input type="text" name="name" placeholder="Имя" required>
-                            <input type="tel" name="subject" class="phone" placeholder="Телефон" required>
-                            <textarea name="msgBody" placeholder="Сообщение" required></textarea>
+                                <input type="text" name="name" placeholder="Имя" required>
+                                <input type="tel" name="subject" class="phone" placeholder="Телефон" required>
+                                <textarea name="msgBody" placeholder="Сообщение" required></textarea>
 
-                            <button type="submit">ОТПРАВИТЬ</button>
-                            <div class="status-message" style="display:none;" th:text="${status}"></div>
-                        </form>
+                                <button type="submit">ОТПРАВИТЬ</button>
+                                <div class="status-message" style="display:none;" th:text="${status}"></div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -339,50 +376,6 @@
     </div>
 </section>
 <!-- Map Section End -->
-
-<!-- Error Modal -->
-<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="errorModalLabel">Ошибка отправки</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-danger" role="alert" id="errorMessage">
-                    <!-- Сообщение об ошибке будет здесь -->
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Success Modal -->
-<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="successModalLabel">Успешно!</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-success" role="alert" id="successMessage">
-                    <!-- Сообщение об успехе будет здесь -->
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Footer Section Begin -->
 <div class="footer-section">

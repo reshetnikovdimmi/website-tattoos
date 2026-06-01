@@ -18,7 +18,7 @@ public class SettingWebsite {
     private Long id;
     private String imageName;
     private String section;
-    private String textH1;
+    private String title;
     @Lob
-    private String textH2;
+    private String description;
 }

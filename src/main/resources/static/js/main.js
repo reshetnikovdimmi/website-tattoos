@@ -95,6 +95,7 @@
         var bg = $(this).data('setbg');
         $(this).css('background-image', 'url(' + bg + ')');
     });
+
     /*------------------
 		Navigation
 	--------------------*/
@@ -165,6 +166,17 @@
         });
     });
 })(jQuery);
+ /*------------------
+        Reinit Background Set (для динамически загружаемых элементов)
+    -------------------*/
+    function reinitSetBg() {
+        $('.set-bg').each(function() {
+            var bg = $(this).data('setbg');
+            if (bg && $(this).css('background-image') !== 'url("' + bg + '")') {
+                $(this).css('background-image', 'url(' + bg + ')');
+            }
+        });
+    }
     /*------------------
         Send Mail
     -------------------*/
@@ -239,15 +251,42 @@
     /*------------------
          Carousel-admin
     --------------------*/
+function goToSlide(slideIndex) {
+    const $carousel = $('#adminCarousel');
 
-   // Функции для управления каруселью
-   function carouselPrev() {
-       $('#adminCarousel').carousel('prev');
-   }
+    // Пытаемся использовать Bootstrap
+    if ($carousel.data('bs.carousel') || $carousel.data('carousel')) {
+        $carousel.carousel(slideIndex);
+    } else {
+        // Ручное переключение через jQuery
+        $carousel.find('.carousel-item').removeClass('active').eq(slideIndex).addClass('active');
+        $carousel.find('.carousel-indicators button').removeClass('active').eq(slideIndex).addClass('active');
+    }
+}
 
-   function carouselNext() {
-       $('#adminCarousel').carousel('next');
-   }
+function carouselPrev() {
+    const $carousel = $('#adminCarousel');
+    if ($carousel.data('bs.carousel') || $carousel.data('carousel')) {
+        $carousel.carousel('prev');
+    } else {
+        const $items = $carousel.find('.carousel-item');
+        let currentIndex = $items.index($items.filter('.active'));
+        const newIndex = (currentIndex - 1 + $items.length) % $items.length;
+        goToSlide(newIndex);
+    }
+}
+
+function carouselNext() {
+    const $carousel = $('#adminCarousel');
+    if ($carousel.data('bs.carousel') || $carousel.data('carousel')) {
+        $carousel.carousel('next');
+    } else {
+        const $items = $carousel.find('.carousel-item');
+        let currentIndex = $items.index($items.filter('.active'));
+        const newIndex = (currentIndex + 1) % $items.length;
+        goToSlide(newIndex);
+    }
+}
     /*----------------------------
     Функция для загрузки данных формы
     -----------------------------*/
@@ -315,9 +354,10 @@
                 showModalMessage('✅ Информация успешно сохранена!');
         // Обновляем фрагмент
         if (response && containerSelector) {
-        console.log(containerSelector);
+            console.log(containerSelector);
 
             $(containerSelector).html(response);
+            reinitSetBg();
         }
 
         // Возвращаем кнопку в исходное состояние
@@ -431,13 +471,37 @@ function showModalMessage(message, type = 'success') {
     /*---------------
     Gallery controls
     --------------*/
- function goToPageGalleryAdmin(style, page, number) {
-        $.get(`admin/gallery/${style.trim()}/${page}/${number}`, {}, function(data) {
-            $(".galleryFragment").html(data);
+  function goToPageGalleryAdmin(style, page, number) {
+      // Сохраняем выбранный стиль
+      sessionStorage.setItem('activeGalleryStyle', style.trim());
 
-            document.getElementById('category').value = style.trim();
-        });
-    }
+      // Обновляем содержимое галереи
+      $.get(`admin/gallery/${style.trim()}/${page}/${number}`, {}, function(data) {
+          $(".galleryFragment").html(data);
+          document.getElementById('category').value = style.trim();
+
+          // Инициализируем активное состояние после загрузки
+          initGalleryActiveState();
+      });
+  }
+
+  function initGalleryActiveState() {
+      var activeStyle = sessionStorage.getItem('activeGalleryStyle');
+      if (!activeStyle) {
+          activeStyle = 'Вся галерея';
+      }
+
+      // Убираем активный класс со всех кнопок
+      $('.gallery-controls ul li').removeClass('active');
+
+      // Добавляем активный класс на нужную кнопку
+      $('.gallery-controls ul li').each(function() {
+          if ($(this).text().trim() === activeStyle) {
+              $(this).addClass('active');
+          }
+      });
+  }
+
     function goToPageGallery(style, page, number) {
         $.get(`/gallery/${style.trim()}/${page}/${number}`, {}, function(data) {
             $(".galleryFilter").html(data);

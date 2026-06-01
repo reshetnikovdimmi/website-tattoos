@@ -5,11 +5,11 @@
 <head th:each="current: ${setting}"
       th:if="${current.section=='blog-title'}">
     <meta charset="UTF-8">
-    <meta name="description" th:content="${current.textH2}">
-    <meta name="keywords" th:content="${current.textH2}">
+    <meta name="description" th:content="${current.description}">
+    <meta name="keywords" th:content="${current.description}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title th:text="${current.textH1}"></title>
+    <title th:text="${current.title}"></title>
     <link th:each="current: ${setting}" th:if="${current.section=='logo'}" th:href="@{'/images/'+${current.imageName}}" rel="icon" type="image/vnd.microsoft.icon">
 
     <!-- Google Font -->
@@ -89,8 +89,8 @@
                     <div class="blog-single-text">
                         <!-- Текст статьи -->
                         <div class="blog-text" th:each="current: ${blog}" th:if="${current.section=='blog-text'}">
+                            <p th:text="${current.title}"></p>
                             <p th:text="${current.subtitle}"></p>
-                            <p th:text="${current.content}"></p>
                         </div>
 
                         <!-- Галерея изображений -->

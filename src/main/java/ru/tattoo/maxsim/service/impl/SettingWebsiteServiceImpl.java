@@ -13,6 +13,8 @@ import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.ImageUtils;
 
 import java.io.IOException;
+import java.util.Optional;
+
 @Slf4j
 @Service
 public class SettingWebsiteServiceImpl extends AbstractCRUDService<SettingWebsite, Long> implements SettingWebsiteService {
@@ -27,6 +29,17 @@ public class SettingWebsiteServiceImpl extends AbstractCRUDService<SettingWebsit
     protected ImageStorage getImageStorage() {
         return imageStorage;
     }
+
+    @Override
+    public void create(SettingWebsite entity) {
+
+        Optional<SettingWebsite> savedEntity = getRepository().findById(entity.getId());
+        entity.setSection(savedEntity.get().getSection());
+
+        getRepository().save(entity);
+        log.debug("Сущность создана: {}", entity);
+    }
+
 
     @Override
     void prepareObject(SettingWebsite entity, String s) {

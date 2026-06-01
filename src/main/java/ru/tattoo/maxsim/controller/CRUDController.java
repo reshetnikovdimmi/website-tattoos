@@ -26,7 +26,7 @@ public abstract class CRUDController<E, K>  {
                                @RequestParam(value = "fragment", required = false) String fragmentName,
                                Model model,
                                HttpServletRequest request) throws IOException, ParseException {
-
+        log.debug("FragmentName: {}", fragmentName);
         getService().deleteById(id);
         updateSection(model);
 

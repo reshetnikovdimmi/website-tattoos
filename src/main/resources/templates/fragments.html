@@ -7,10 +7,10 @@
 </head>
 <body>
 <!-- Header Section Begin -->
-<header class="header-section">
+<header class="header-section" th:fragment="header">
     <div class="container-fluid">
         <!-- Логотип (слева) -->
-        <div class="logo" th:each="current: ${setting}" th:if="${current.section=='logo'}">
+        <div class="logo" th:fragment="logo" th:each="current: ${setting}" th:if="${current.section=='logo'}">
             <a href="/">
                 <img id="logo-header" th:src="@{'/images/'+${current.imageName}}" alt="Logo">
             </a>
@@ -100,14 +100,14 @@
                     <a href="/"><img id="logo-footer" th:src="@{'/images/'+${current.imageName}}" alt=""></a>
                 </div>
                 <div class="social-links" th:if="${current.section=='footer-title'}">
-                    <h6 th:text="${current.textH1}"></h6>
+                    <h6 th:text="${current.title}"></h6>
                     <a href="https://vk.com/r1tattoo"><i class="fa fa-vk"></i></a>
                 </div>
             </div>
         </div>
         <div class="col-lg-4">
             <div class="footer-widget" th:each="current: ${setting}" th:if="${current.section=='footer-title'}">
-                <p th:text="${current.textH2}"></p>
+                <p th:text="${current.description}"></p>
             </div>
         </div>
         <div class="col-lg-2">
