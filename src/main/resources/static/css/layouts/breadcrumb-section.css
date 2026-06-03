@@ -184,7 +184,7 @@
 /* Маленькие мобильные (до 480px) */
 @media (max-width: 480px) {
     .breadcrumb-section {
-        padding: 60px 0;
+        padding: 140px 0;
     }
 
     .breadcrumb-text h2 {

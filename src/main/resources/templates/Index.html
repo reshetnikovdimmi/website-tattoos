@@ -118,21 +118,36 @@
 <!-- Feature Section End -->
 
 <!-- About Section Begin -->
-<section class="home-about spad">
-    <div class="container" th:each="current: ${carousel}">
-        <div class="row" th:each="currents : ${current.about}">
+<section class="home-about spad" th:with="aboutList=${carousel != null and !carousel.isEmpty() and carousel[0].about != null ? carousel[0].about : null}">
+    <div class="container">
+        <!-- Основной контент -->
+        <div th:if="${aboutList != null and !aboutList.isEmpty()}" th:each="about : ${aboutList}" class="row">
+            <!-- Текстовая часть -->
             <div class="col-lg-6">
                 <div class="about-text">
-                    <h3 style="color: #FFFFFF;" th:text="${currents.subtitle}"></h3>
-                    <p class="short-details" th:text="${currents.title}"></p>
-                    <p class="long-details" th:text="${currents.content}"></p>
-                    <a href="/gallery" class="primary-btn about-btn">Узнать больше</a>
+                    <h3 th:text="${about.subtitle}">О тату-студии</h3>
+                    <p class="short-details" th:text="${about.title}">Индивидуальный подход</p>
+                    <p class="long-details" th:text="${about.content}">Каждая татуировка — это уникальная история...</p>
+                    <a href="/gallery" class="primary-btn about-btn">Смотреть работы</a>
                 </div>
             </div>
+
+            <!-- Изображение -->
             <div class="col-lg-6">
                 <div class="about-img">
-                    <img th:src="@{'/images/'+${currents.imageName}}" alt="">
+                    <img th:src="${about.imageName != null and !about.imageName.isEmpty() ? '/images/' + about.imageName : '/img/avatar.jpg'}"
+                         th:alt="${about.title}"
+                         loading="lazy">
                 </div>
+            </div>
+        </div>
+
+        <!-- Пустое состояние -->
+        <div th:unless="${aboutList != null and !aboutList.isEmpty()}" class="row">
+            <div class="col-12 text-center py-5">
+                <i class="fa fa-info-circle fa-3x text-muted mb-3"></i>
+                <h4>Раздел в разработке</h4>
+                <p class="text-muted">Информация будет добавлена позже</p>
             </div>
         </div>
     </div>

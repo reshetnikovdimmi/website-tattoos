@@ -1,0 +1,177 @@
+/* ============================================
+   МОБИЛЬНОЕ МЕНЮ - ПОВЕРХ ХЕДЕРА
+   ============================================ */
+
+/* Боковое меню - выше хедера */
+.mobile-menu-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    right: -320px !important;
+    width: 320px !important;
+    height: 100% !important;
+    background: #151515 !important;
+    z-index: 999999 !important;        /* ← Очень высокий z-index */
+    transition: right 0.3s ease !important;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3) !important;
+    overflow-y: auto !important;
+}
+
+.mobile-menu-sidebar.active {
+    right: 0 !important;
+}
+
+/* Оверлей - тоже выше хедера */
+.mobile-menu-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    z-index: 999998 !important;        /* ← Выше хедера, но ниже меню */
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: all 0.3s ease !important;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Хедер - ниже меню */
+.header-section {
+    z-index: 1000 !important;  /* ← Должен быть ниже, чем у меню */
+}
+
+/* Хедер меню */
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 2px solid rgba(228, 56, 28, 0.3);
+    background: #1a1a1a;
+}
+
+.mobile-menu-logo img {
+    max-height: 45px;
+    width: auto;
+}
+
+.mobile-menu-close {
+    width: 40px;
+    height: 40px;
+    background: rgba(228, 56, 28, 0.2);
+    border: 1px solid rgba(228, 56, 28, 0.5);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 22px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-menu-close:hover {
+    background: #e4381C;
+    transform: rotate(90deg);
+    border-color: transparent;
+}
+
+/* Навигация */
+.mobile-nav {
+    flex: 1;
+    padding: 30px 20px;
+}
+
+.mobile-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-nav ul li {
+    margin-bottom: 15px;
+}
+
+.mobile-nav ul li a {
+    color: #ffffff;
+    font-size: 16px;
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: block;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    font-weight: 500;
+    background: transparent;
+}
+
+.mobile-nav ul li a:hover {
+    background: rgba(228, 56, 28, 0.15);
+    color: #e4381C;
+    padding-left: 30px;
+}
+
+.mobile-nav ul li.active a {
+    background: linear-gradient(90deg, rgba(228, 56, 28, 0.2), transparent);
+    color: #e4381C;
+    border-left: 3px solid #e4381C;
+}
+
+/* Социальные иконки */
+.mobile-menu-social {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    border-top: 1px solid rgba(228, 56, 28, 0.2);
+    background: #1a1a1a;
+}
+
+.mobile-menu-social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-social a:hover {
+    background: linear-gradient(135deg, #e16521, #e4381C);
+    transform: translateY(-3px);
+    border-color: transparent;
+}
+
+/* Блокировка скролла */
+body.menu-open {
+    overflow: hidden;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .mobile-menu-sidebar {
+        width: 280px !important;
+    }
+    
+    .mobile-nav ul li a {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+    
+    .mobile-menu-social a {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+}

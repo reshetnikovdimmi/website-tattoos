@@ -383,7 +383,7 @@
                                             <h4>Информация о компании</h4>
                                         </div>
                                         <div class="admin-card-body">
-                                            <form action="/about/image-import"
+                                            <form action="/admin/about/image-import"
                                                   onsubmit="submitForm(event)"
                                                   data-fragment-name="home-about"
                                                   data-container-selector=".about-import"
@@ -487,7 +487,8 @@
                                                                         th:id="${currents.id}"
                                                                         data-fragment-name="home-about"
                                                                         data-container-selector=".about-import"
-                                                                        data-deletion-url="/about/delete-section"
+                                                                        data-deletion-url="/admin/about/delete-section"
+                                                                        data-method="GET"
                                                                         onclick="deleteImage(this)"
                                                                         title="Удалить">
                                                                     <i class="fa fa-trash"></i>

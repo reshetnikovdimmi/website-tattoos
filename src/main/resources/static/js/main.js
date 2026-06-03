@@ -17,7 +17,6 @@
         /*------------------
             Admin tab-content
         --------------------*/
-
         $('#tabOption button').click(function(e) {
             e.preventDefault();
             $(this).tab('show');
@@ -38,48 +37,11 @@
             columnWidth: '.grid-sizer',
         });
 
-        // Мобильное боковое меню
-
-       var $menuToggle = $('.mobile-menu-toggle-icon');
-           var $menuSidebar = $('.mobile-menu-sidebar');
-           var $menuOverlay = $('.mobile-menu-overlay');
-           var $menuClose = $('.mobile-menu-close');
-
-           // Открытие меню
-           $menuToggle.on('click', function(e) {
-               e.preventDefault();
-               $menuSidebar.addClass('active');
-               $menuOverlay.addClass('active');
-               $('body').addClass('menu-open');
-           });
-
-           // Закрытие через крестик
-           $menuClose.on('click', function() {
-               $menuSidebar.removeClass('active');
-               $menuOverlay.removeClass('active');
-               $('body').removeClass('menu-open');
-           });
-
-           // Закрытие по клику на оверлей
-           $menuOverlay.on('click', function() {
-               $menuSidebar.removeClass('active');
-               $menuOverlay.removeClass('active');
-               $('body').removeClass('menu-open');
-           });
-
-           // Закрытие по ESC
-           $(document).on('keyup', function(e) {
-               if (e.key === 'Escape' && $menuSidebar.hasClass('active')) {
-                   $menuSidebar.removeClass('active');
-                   $menuOverlay.removeClass('active');
-                   $('body').removeClass('menu-open');
-               }
-           });
-
     });
 
-    $('body').css('overflow', 'visible'); // для блокировки скролла
 
+
+    $('body').css('overflow', 'visible'); // для блокировки скролла
     // Липкое меню при скролле
     $(window).on('scroll', function() {
         if ($(window).scrollTop() > 50) {
@@ -95,7 +57,6 @@
         var bg = $(this).data('setbg');
         $(this).css('background-image', 'url(' + bg + ')');
     });
-
     /*------------------
 		Navigation
 	--------------------*/
@@ -165,95 +126,137 @@
             }
         });
     });
-})(jQuery);
- /*------------------
-        Reinit Background Set (для динамически загружаемых элементов)
-    -------------------*/
-    function reinitSetBg() {
-        $('.set-bg').each(function() {
-            var bg = $(this).data('setbg');
-            if (bg && $(this).css('background-image') !== 'url("' + bg + '")') {
-                $(this).css('background-image', 'url(' + bg + ')');
-            }
-        });
-    }
-    /*------------------
-        Send Mail
-    -------------------*/
-    async function sendMail(event, fragmentPrefix) {
-        event.preventDefault(); // Отмена стандартной отправки формы
-        const form = event.currentTarget; // Получаем текущую форму
-        const formAction = form.action; // Извлекаем адрес из атрибута action
-        const formData = new FormData(form); // Создаем объект FormData с полями формы
-        // Элементы формы
-        const nameInput = form.querySelector('[name=name]');
-        const subjectInput = form.querySelector('[name=subject]');
-        const messageTextarea = form.querySelector('[name=msgBody]');
-        // Регулярное выражение для российского формата телефона (+7XXXXXXXXXX)
-        const phoneRegex = /^(\+7|8)?\d{10}$/;
-        let errors = [];
-        // Проверка имени
-        if (!nameInput.value.trim()) {
-            errors.push('Имя не заполнено');
-        } else if (nameInput.value.length < 2) {
-            errors.push('Имя должно содержать минимум 2 символа');
-        }
-        // Проверка телефона
-        if (!subjectInput.value.trim()) {
-            errors.push('Телефон не указан');
-        } else if (!phoneRegex.test(subjectInput.value)) {
-            errors.push('Неправильный формат телефона');
-        }
-        // Проверка сообщения
-        if (!messageTextarea.value.trim()) {
-            errors.push('Сообщение не заполнено');
-        } else if (messageTextarea.value.length > 500) {
-            errors.push('Длина сообщения превышает допустимый предел');
-        }
-        // Если есть ошибки, выводим их и прерываем выполнение
-        if (errors.length > 0) {
-            alert(errors.join('\n'));
-            return;
-        }
-        try {
-            const response = await $.ajax({
-                url: formAction, // Адрес контроллера Spring MVC
-                dataType: 'html', // Тип ожидаемого ответа — HTML-фрагмент
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: formData,
-                type: 'POST',
-            });
-            console.log('Информация успешно сохранена!');
-            $(fragmentPrefix).html(response); // Замена текущего содержимого новым шаблоном
-            // Найдем элемент статуса и покажем его
-            const statusMessageElement = $('.status-message');
-            statusMessageElement.show(); // показываем элемент с сообщением
-            // Через 30 секунд прячем элемент обратно
-            setTimeout(() => {
-                statusMessageElement.hide(); // скрыть элемент
-            }, 15000); // таймаут в миллисекундах (15 секунд)
-        } catch (error) {
-            $("#preloder").delay(200).fadeOut("slow");
-            alert('Произошла ошибка при сохранении информации.');
-        }
-    }
-     /*------------------------------------
-           Функции обновления админской части
-        ------------------------------------*/
-      function updateAdminFragment(href) {
-            $.get(href, {}, function(data) {
-                $(".tab-content").html(data);
-            });
-        }
 
-    /*------------------
-         Carousel-admin
-    --------------------*/
+
+})(jQuery);
+
+// ============================================
+// МОБИЛЬНОЕ МЕНЮ - ПРАВИЛЬНАЯ ИНИЦИАЛИЗАЦИЯ
+// ============================================
+$(document).ready(function() {
+    console.log('Инициализация мобильного меню...');
+
+    // Используем делегирование событий для динамических элементов
+    $(document).on('click', '.mobile-menu-toggle-icon', function(e) {
+        e.preventDefault();
+        console.log('Открываем меню');
+        $('.mobile-menu-sidebar').addClass('active');
+        $('.mobile-menu-overlay').addClass('active');
+        $('body').addClass('menu-open');
+    });
+
+    $(document).on('click', '.mobile-menu-close', function() {
+        console.log('Закрываем меню через крестик');
+        $('.mobile-menu-sidebar').removeClass('active');
+        $('.mobile-menu-overlay').removeClass('active');
+        $('body').removeClass('menu-open');
+    });
+
+    $(document).on('click', '.mobile-menu-overlay', function() {
+        console.log('Закрываем меню по клику на оверлей');
+        $('.mobile-menu-sidebar').removeClass('active');
+        $('.mobile-menu-overlay').removeClass('active');
+        $('body').removeClass('menu-open');
+    });
+
+    // Закрытие по ESC
+    $(document).on('keyup', function(e) {
+        if (e.key === 'Escape' && $('.mobile-menu-sidebar').hasClass('active')) {
+            console.log('Закрываем меню по ESC');
+            $('.mobile-menu-sidebar').removeClass('active');
+            $('.mobile-menu-overlay').removeClass('active');
+            $('body').removeClass('menu-open');
+        }
+    });
+});
+
+
+/*------------------
+       Reinit Background Set (для динамически загружаемых элементов)
+   -------------------*/
+function reinitSetBg() {
+    $('.set-bg').each(function() {
+        var bg = $(this).data('setbg');
+        if (bg && $(this).css('background-image') !== 'url("' + bg + '")') {
+            $(this).css('background-image', 'url(' + bg + ')');
+        }
+    });
+}
+/*------------------
+    Send Mail
+-------------------*/
+async function sendMail(event, fragmentPrefix) {
+    event.preventDefault(); // Отмена стандартной отправки формы
+    const form = event.currentTarget; // Получаем текущую форму
+    const formAction = form.action; // Извлекаем адрес из атрибута action
+    const formData = new FormData(form); // Создаем объект FormData с полями формы
+    // Элементы формы
+    const nameInput = form.querySelector('[name=name]');
+    const subjectInput = form.querySelector('[name=subject]');
+    const messageTextarea = form.querySelector('[name=msgBody]');
+    // Регулярное выражение для российского формата телефона (+7XXXXXXXXXX)
+    const phoneRegex = /^(\+7|8)?\d{10}$/;
+    let errors = [];
+    // Проверка имени
+    if (!nameInput.value.trim()) {
+        errors.push('Имя не заполнено');
+    } else if (nameInput.value.length < 2) {
+        errors.push('Имя должно содержать минимум 2 символа');
+    }
+    // Проверка телефона
+    if (!subjectInput.value.trim()) {
+        errors.push('Телефон не указан');
+    } else if (!phoneRegex.test(subjectInput.value)) {
+        errors.push('Неправильный формат телефона');
+    }
+    // Проверка сообщения
+    if (!messageTextarea.value.trim()) {
+        errors.push('Сообщение не заполнено');
+    } else if (messageTextarea.value.length > 500) {
+        errors.push('Длина сообщения превышает допустимый предел');
+    }
+    // Если есть ошибки, выводим их и прерываем выполнение
+    if (errors.length > 0) {
+        alert(errors.join('\n'));
+        return;
+    }
+    try {
+        const response = await $.ajax({
+            url: formAction, // Адрес контроллера Spring MVC
+            dataType: 'html', // Тип ожидаемого ответа — HTML-фрагмент
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            type: 'POST',
+        });
+        console.log('Информация успешно сохранена!');
+        $(fragmentPrefix).html(response); // Замена текущего содержимого новым шаблоном
+        // Найдем элемент статуса и покажем его
+        const statusMessageElement = $('.status-message');
+        statusMessageElement.show(); // показываем элемент с сообщением
+        // Через 30 секунд прячем элемент обратно
+        setTimeout(() => {
+            statusMessageElement.hide(); // скрыть элемент
+        }, 15000); // таймаут в миллисекундах (15 секунд)
+    } catch (error) {
+        $("#preloder").delay(200).fadeOut("slow");
+        alert('Произошла ошибка при сохранении информации.');
+    }
+}
+/*------------------------------------
+      Функции обновления админской части
+   ------------------------------------*/
+function updateAdminFragment(href) {
+    $.get(href, {}, function(data) {
+        $(".tab-content").html(data);
+    });
+}
+/*------------------
+     Carousel-admin
+--------------------*/
 function goToSlide(slideIndex) {
     const $carousel = $('#adminCarousel');
-
     // Пытаемся использовать Bootstrap
     if ($carousel.data('bs.carousel') || $carousel.data('carousel')) {
         $carousel.carousel(slideIndex);
@@ -287,25 +290,25 @@ function carouselNext() {
         goToSlide(newIndex);
     }
 }
-    /*----------------------------
-    Функция для загрузки данных формы
-    -----------------------------*/
-    async function submitForm(event) {
+/*----------------------------
+Функция для загрузки данных формы
+-----------------------------*/
+async function submitForm(event) {
     event.preventDefault();
-
     const form = event.currentTarget;
     const formAction = form.action;
     const button = form.querySelector('button[type="submit"]');
     const inputs = form.querySelectorAll('input, textarea');
     const originalText = button.textContent;
-
     if (!form) {
         console.error('Форма не найдена');
         return;
     }
-   // Получаем информацию о фрагменте
-       const { fragmentName, containerSelector } = getFragmentInfo(form);
-
+    // Получаем информацию о фрагменте
+    const {
+        fragmentName,
+        containerSelector
+    } = getFragmentInfo(form);
     // Режим редактирования
     if (button.textContent.trim().toLowerCase() === 'изменить') {
         inputs.forEach(input => input.disabled = false);
@@ -314,24 +317,18 @@ function carouselNext() {
         $(button).html('<i class="fa fa-save"></i> ' + button.textContent);
         return;
     }
-
     // Режим сохранения
     const formData = new FormData(form);
-
-        if (fragmentName) {
-            formData.append('fragment', fragmentName);
-        }
-
-          // Добавляем id в FormData, если он передан
-                if (event.target.id) {
-                    formData.append('id', event.currentTarget.id);
-                }
-
+    if (fragmentName) {
+        formData.append('fragment', fragmentName);
+    }
+    // Добавляем id в FormData, если он передан
+    if (event.target.id) {
+        formData.append('id', event.currentTarget.id);
+    }
     // Сохраняем оригинальный текст кнопки
-
     button.disabled = true;
     button.textContent = 'Сохранение...';
-
     try {
         const response = await $.ajax({
             url: formAction,
@@ -342,47 +339,40 @@ function carouselNext() {
             data: formData,
             type: 'POST'
         });
-
         const hasError = $(response).find('.text-danger').length > 0;
         console.log(hasError);
         console.log(response);
         if (hasError) {
             modals()
-             $('.modal-body').html(response);
-        }else{
-        // Показываем успех в модальном окне
-                showModalMessage('✅ Информация успешно сохранена!');
-        // Обновляем фрагмент
-        if (response && containerSelector) {
-            console.log(containerSelector);
-
-            $(containerSelector).html(response);
-            reinitSetBg();
+            $('.modal-body').html(response);
+        } else {
+            // Показываем успех в модальном окне
+            showModalMessage('✅ Информация успешно сохранена!');
+            // Обновляем фрагмент
+            if (response && containerSelector) {
+                console.log(containerSelector);
+                $(containerSelector).html(response);
+                reinitSetBg();
+            }
+            // Возвращаем кнопку в исходное состояние
+            button.textContent = 'Изменить';
+            inputs.forEach(input => input.disabled = true);
+            button.disabled = false;
+            form.classList.remove('active');
+            $(button).html('<i class="fa fa-save"></i> ' + button.textContent);
         }
-
-        // Возвращаем кнопку в исходное состояние
-        button.textContent = 'Изменить';
-        inputs.forEach(input => input.disabled = true);
-        button.disabled = false;
-        form.classList.remove('active');
-        $(button).html('<i class="fa fa-save"></i> ' + button.textContent);
-    }
-
     } catch (error) {
         console.error('Ошибка:', error);
-
         // Показываем ошибку в модальном окне
-           let errorMsg = '❌ Ошибка при сохранении';
-           if (error.status === 400) {
-               errorMsg = '❌ Проверьте правильность заполнения полей';
-           } else if (error.status === 409) {
-               errorMsg = '❌ Пользователь с таким логином или email уже существует';
-           } else if (error.status === 500) {
-               errorMsg = '❌ Ошибка на сервере. Попробуйте позже.';
-           }
-
+        let errorMsg = '❌ Ошибка при сохранении';
+        if (error.status === 400) {
+            errorMsg = '❌ Проверьте правильность заполнения полей';
+        } else if (error.status === 409) {
+            errorMsg = '❌ Пользователь с таким логином или email уже существует';
+        } else if (error.status === 500) {
+            errorMsg = '❌ Ошибка на сервере. Попробуйте позже.';
+        }
         showModalMessage(errorMsg, 'error');
-
         // Возвращаем кнопку
         button.textContent = originalText;
         button.disabled = false;
@@ -401,17 +391,17 @@ function getFragmentInfo(form) {
             containerSelector: form.dataset.containerSelector
         };
     }
-
     // 2. Если указан только data-fragment (содержит оба значения через |)
     if (form.dataset.fragment && form.dataset.fragment.includes('|')) {
         const [fragmentName, containerSelector] = form.dataset.fragment.split('|');
-        return { fragmentName, containerSelector };
+        return {
+            fragmentName,
+            containerSelector
+        };
     }
-
     // 3. Автоматический поиск
     let fragmentName = null;
     let containerSelector = null;
-
     // Ищем родительский th:fragment
     let parent = form.parentElement;
     while (parent && parent !== document.body) {
@@ -427,26 +417,23 @@ function getFragmentInfo(form) {
         }
         parent = parent.parentElement;
     }
-
-    return { fragmentName, containerSelector };
+    return {
+        fragmentName,
+        containerSelector
+    };
 }
-
 // Функция показа сообщения в модальном окне
 function showModalMessage(message, type = 'success') {
     console.log('Показываем сообщение:', message, 'Тип:', type);
-
     const modal = $('#myModal');
-
     if (!modal.length) {
         console.error('Модальное окно не найдено!');
         alert(message);
         return;
     }
-
     // Получаем modal-body и очищаем его
     const modalBody = modal.find('.modal-body');
     modalBody.empty();
-
     // Создаем элемент для сообщения с иконкой
     const icon = type === 'success' ? '✅' : '❌';
     const messageClass = type === 'success' ? 'text-success' : 'text-danger';
@@ -457,10 +444,8 @@ function showModalMessage(message, type = 'success') {
         </div>
     `;
     modalBody.html(messageHtml);
-
     // Показываем модальное окно
     modal.modal('show');
-
     // Автоматически закрываем через 3 секунды
     setTimeout(() => {
         if (modal.hasClass('show')) {
@@ -468,48 +453,44 @@ function showModalMessage(message, type = 'success') {
         }
     }, 3000);
 }
-    /*---------------
-    Gallery controls
-    --------------*/
-  function goToPageGalleryAdmin(style, page, number) {
-      // Сохраняем выбранный стиль
-      sessionStorage.setItem('activeGalleryStyle', style.trim());
+/*---------------
+Gallery controls
+--------------*/
+function goToPageGalleryAdmin(style, page, number) {
+    // Сохраняем выбранный стиль
+    sessionStorage.setItem('activeGalleryStyle', style.trim());
+    // Обновляем содержимое галереи
+    $.get(`admin/gallery/${style.trim()}/${page}/${number}`, {}, function(data) {
+        $(".galleryFragment").html(data);
+        document.getElementById('category').value = style.trim();
+        // Инициализируем активное состояние после загрузки
+        initGalleryActiveState();
+    });
+}
 
-      // Обновляем содержимое галереи
-      $.get(`admin/gallery/${style.trim()}/${page}/${number}`, {}, function(data) {
-          $(".galleryFragment").html(data);
-          document.getElementById('category').value = style.trim();
-
-          // Инициализируем активное состояние после загрузки
-          initGalleryActiveState();
-      });
-  }
-
-  function initGalleryActiveState() {
-      var activeStyle = sessionStorage.getItem('activeGalleryStyle');
-      if (!activeStyle) {
-          activeStyle = 'Вся галерея';
-      }
-
-      // Убираем активный класс со всех кнопок
-      $('.gallery-controls ul li').removeClass('active');
-
-      // Добавляем активный класс на нужную кнопку
-      $('.gallery-controls ul li').each(function() {
-          if ($(this).text().trim() === activeStyle) {
-              $(this).addClass('active');
-          }
-      });
-  }
-
-    function goToPageGallery(style, page, number) {
-        $.get(`/gallery/${style.trim()}/${page}/${number}`, {}, function(data) {
-            $(".galleryFilter").html(data);
-        });
+function initGalleryActiveState() {
+    var activeStyle = sessionStorage.getItem('activeGalleryStyle');
+    if (!activeStyle) {
+        activeStyle = 'Вся галерея';
     }
+    // Убираем активный класс со всех кнопок
+    $('.gallery-controls ul li').removeClass('active');
+    // Добавляем активный класс на нужную кнопку
+    $('.gallery-controls ul li').each(function() {
+        if ($(this).text().trim() === activeStyle) {
+            $(this).addClass('active');
+        }
+    });
+}
+
+function goToPageGallery(style, page, number) {
+    $.get(`/gallery/${style.trim()}/${page}/${number}`, {}, function(data) {
+        $(".galleryFilter").html(data);
+    });
+}
+
 function goToGalleryPageFromElement(element) {
     let size, page;
-
     // Проверяем, является ли элемент селектом (select)
     if (element.tagName === 'SELECT') {
         // Берем значение из выбранной опции
@@ -521,106 +502,84 @@ function goToGalleryPageFromElement(element) {
         size = parseInt(element.getAttribute('data-size')) || 9;
         page = parseInt(element.getAttribute('data-page')) || 0;
     }
-
-    const style = document.querySelector('.gallery-controls ul li.active')?.textContent || 'Вся галерея';
+     const style = document.querySelector('.gallery-controls ul li.active')?.textContent || 'Вся галерея';
     const url = element.getAttribute('data-url');
     const container = element.getAttribute('data-container');
-
     const requestUrl = `${url}/${encodeURIComponent(style.trim())}/${page}/${size}`;
-
     console.log('Request URL:', requestUrl);
     console.log('Size from:', element.tagName === 'SELECT' ? 'select value' : 'data-size', size);
-
     const categoryInput = document.getElementById('category');
     if (categoryInput) {
         categoryInput.value = style.trim(); // Исправлено: style.trim() а не style.trim
     }
-
     $.get(requestUrl, {}, function(data) {
         $(container).html(data);
     });
 }
-    function goToPageSketches(element) {
-         let size, page;
 
-           // Проверяем, является ли элемент селектом (select)
-           if (element.tagName === 'SELECT') {
-               // Берем значение из выбранной опции
-               size = parseInt(element.value) || 9;
-               // Берем page из data-атрибута селекта
-               page = parseInt(element.getAttribute('data-page')) || 0;
-           } else {
-               // Если это не селект, берем из атрибутов как раньше
-               size = parseInt(element.getAttribute('data-size')) || 9;
-               page = parseInt(element.getAttribute('data-page')) || 0;
-           }
-
-
-           const url = element.getAttribute('data-url');
-           const container = element.getAttribute('data-container');
-
-           const requestUrl = `${url}/${page}/${size}`;
-
-           console.log('Request URL:', requestUrl);
-           console.log('Size from:', element.tagName === 'SELECT' ? 'select value' : 'data-size', size);
-
-
-           $.get(requestUrl, {}, function(data) {
-               $(container).html(data);
-           });
+function goToPageSketches(element) {
+    let size, page;
+    // Проверяем, является ли элемент селектом (select)
+    if (element.tagName === 'SELECT') {
+        // Берем значение из выбранной опции
+        size = parseInt(element.value) || 9;
+        // Берем page из data-атрибута селекта
+        page = parseInt(element.getAttribute('data-page')) || 0;
+    } else {
+        // Если это не селект, берем из атрибутов как раньше
+        size = parseInt(element.getAttribute('data-size')) || 9;
+        page = parseInt(element.getAttribute('data-page')) || 0;
     }
+    const url = element.getAttribute('data-url');
+    const container = element.getAttribute('data-container');
+    const requestUrl = `${url}/${page}/${size}`;
+    console.log('Request URL:', requestUrl);
+    console.log('Size from:', element.tagName === 'SELECT' ? 'select value' : 'data-size', size);
+    $.get(requestUrl, {}, function(data) {
+        $(container).html(data);
+    });
+}
 
-
-    function goToPageGalleryReviews(page, number) {
-        $.get(`/gallery/reviews/${page}/${number}`, {}, function(data) {
-            $(".modal-img").html(data);
-        });
-    }
-
-
-       /*------------------
-            Функции для работы с модальным окном и отзывами
-       --------------------*/
-    function modals() {
-        $('#myModal').modal("show");
-        $('.btn-close-custom').on('click', function() {
-            $('#myModal').modal('hide');
-        });
-        $('.btn-secondary').on('click', function() {
-            $('#myModal').modal('hide');
-        });
-        $('.btn-primary').attr('disabled', true);
-    }
-
-
-   // Показать модальное окно с галереей
-   function showModals() {
-       console.log('showModals вызвана');
-       $('#infoModal').modal('show');
-   }
-
-   // Закрыть модальное окно
-   function closeModal() {
-       console.log('closeModal вызвана');
-       $('#infoModal').modal('hide');
-   }
-
+function goToPageGalleryReviews(page, number) {
+    $.get(`/gallery/reviews/${page}/${number}`, {}, function(data) {
+        $(".modal-img").html(data);
+    });
+}
+/*------------------
+     Функции для работы с модальным окном и отзывами
+--------------------*/
+function modals() {
+    $('#myModal').modal("show");
+    $('.btn-close-custom').on('click', function() {
+        $('#myModal').modal('hide');
+    });
+    $('.btn-secondary').on('click', function() {
+        $('#myModal').modal('hide');
+    });
+    $('.btn-primary').attr('disabled', true);
+}
+// Показать модальное окно с галереей
+function showModals() {
+    console.log('showModals вызвана');
+    $('#infoModal').modal('show');
+}
+// Закрыть модальное окно
+function closeModal() {
+    console.log('closeModal вызвана');
+    $('#infoModal').modal('hide');
+}
 // Функция для выбора изображения из модального окна (для отзывов)
 function selectReviewImage(imageName) {
     console.log('selectReviewImage вызвана с imageName:', imageName);
-
     const reviewImage = document.getElementById('reviewImage');
     const placeholder = document.getElementById('reviewPlaceholder');
     const imageNameInput = document.getElementById('reviewImageName');
-
     if (reviewImage && placeholder) {
         // Устанавливаем новый src
         reviewImage.src = '/images/' + imageName;
-
         // Показываем изображение, скрываем плейсхолдер
         reviewImage.style.display = 'block';
         placeholder.style.display = 'none';
-
         console.log('Изображение установлено:', reviewImage.src);
     } else {
         console.error('Элементы не найдены:', {
@@ -628,31 +587,25 @@ function selectReviewImage(imageName) {
             placeholder: !!placeholder
         });
     }
-
     // Сохраняем имя изображения в скрытом поле
     if (imageNameInput) {
         imageNameInput.value = imageName;
         console.log('Сохранено имя:', imageName);
     }
-
     // Закрываем модальное окно
     $('#infoModal').modal('hide');
 }
-
-
 // Функция для загрузки изображения в админке
 function handleAdminImageUpload(input) {
- console.log('handleAdminImageUpload вызвана');
+    console.log('handleAdminImageUpload вызвана');
     if (input.files && input.files[0]) {
         const file = input.files[0];
-
         // Проверка размера файла (10MB)
         if (file.size > 10 * 1024 * 1024) {
             alert('Файл слишком большой. Максимальный размер 10MB');
             input.value = ''; // Очищаем input
             return;
         }
-
         // Проверка типа файла
         const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         if (!validTypes.includes(file.type)) {
@@ -660,14 +613,11 @@ function handleAdminImageUpload(input) {
             input.value = ''; // Очищаем input
             return;
         }
-
         const reader = new FileReader();
-
         reader.onload = function(e) {
             const preview = document.getElementById('adminPreviewImage');
             const placeholder = document.getElementById('adminPlaceholder');
             const container = document.getElementById('adminPreviewContainer');
-
             if (preview && placeholder && container) {
                 preview.src = e.target.result;
                 preview.style.display = 'block';
@@ -675,16 +625,13 @@ function handleAdminImageUpload(input) {
                 container.classList.add('has-image');
             }
         }
-
         reader.readAsDataURL(file);
     }
 }
-
 // Функция для закрытия модального окна
 function closeModal() {
     $('#infoModal').modal('hide');
 }
-
 // Сброс формы отзыва
 function resetReviewForm() {
     const preview = document.getElementById('reviewImage');
@@ -693,12 +640,10 @@ function resetReviewForm() {
     const fileInput = document.getElementById('review-image-file');
     const imageNameInput = document.getElementById('reviewImageName');
     const textarea = document.getElementById('review-comment');
-
     if (preview) {
         preview.src = '/img/placeholder-image.jpg';
         preview.classList.remove('image-loaded');
     }
-
     // Показываем плейсхолдер обратно
     if (container) {
         container.classList.remove('has-image');
@@ -706,115 +651,99 @@ function resetReviewForm() {
     if (placeholder) {
         placeholder.classList.remove('hidden');
     }
-
     if (fileInput) {
         fileInput.value = '';
     }
-
     if (imageNameInput) {
         imageNameInput.value = '';
     }
-
     if (textarea) {
         textarea.value = '';
     }
-
     // Сбрасываем рейтинг на 5 звезд
     const ratingInputs = document.querySelectorAll('input[name="rating"]');
     if (ratingInputs.length > 0) {
         document.getElementById('star5').checked = true;
     }
 }
-   // Предпросмотр загруженного изображения
-   function previewReviewImage(input) {
-       console.log('previewReviewImage вызвана');
-
-
-       const preview = document.getElementById('reviewImage');
-       const placeholder = document.getElementById('reviewPlaceholder');
-       const imageNameInput = document.getElementById('reviewImageName');
-       const container = document.getElementById('reviewPreviewContainer');
-
-       if (input.files && input.files[0]) {
-           const file = input.files[0];
-
-           // Проверка типа файла
-           if (!file.type.match('image.*')) {
-               alert('Пожалуйста, выберите файл изображения (JPEG, PNG, GIF)');
-               input.value = '';
-               return;
-           }
-
-           // Проверка размера файла (5MB)
-           if (file.size > 5 * 1024 * 1024) {
-               alert('Файл слишком большой. Максимальный размер: 5MB');
-               input.value = '';
-               return;
-           }
-
-           const reader = new FileReader();
-
-           reader.onload = function(e) {
-
+// Предпросмотр загруженного изображения
+function previewReviewImage(input) {
+    console.log('previewReviewImage вызвана');
+    const preview = document.getElementById('reviewImage');
+    const placeholder = document.getElementById('reviewPlaceholder');
+    const imageNameInput = document.getElementById('reviewImageName');
+    const container = document.getElementById('reviewPreviewContainer');
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        // Проверка типа файла
+        if (!file.type.match('image.*')) {
+            alert('Пожалуйста, выберите файл изображения (JPEG, PNG, GIF)');
+            input.value = '';
+            return;
+        }
+        // Проверка размера файла (5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('Файл слишком большой. Максимальный размер: 5MB');
+            input.value = '';
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
             if (preview && placeholder && container) {
                 preview.src = e.target.result;
                 preview.style.display = 'block';
                 placeholder.style.display = 'none';
                 container.classList.add('has-image');
             }
-
-               console.log('Изображение загружено');
-           };
-
-           reader.readAsDataURL(file);
-       }
-   }
-    /*---------------
-        CheckboxChange
-    --------------*/
-
-   function toggleFeatured(checkbox) {
-       const isChecked = checkbox.checked;
-       const id = checkbox.getAttribute('data-id');
-
-       console.log('Toggling featured:', { id: id, flag: isChecked });
-
-       // Блокируем чекбокс на время запроса
-       checkbox.disabled = true;
-
-       $.ajax({
-           url: '/admin/gallery/toggle-featured',
-           type: 'POST',
-           data: {
-               id: id,
-               flag: isChecked
-           },
-           success: function(html) {
-               // Проверяем, есть ли ошибка в HTML
-               if (html.includes('text-danger') || html.includes('error')) {
-                   console.error('Error toggling featured');
-                   // Возвращаем чекбокс в исходное состояние
-                   checkbox.checked = !isChecked;
-               } else {
-                   console.log('Featured toggled successfully');
-               }
-                console.log(html);
-               // Показываем модальное окно с полученным HTML
-               modals();
-               $('.modal-body').html(html);
-           },
-           error: function(xhr, status, error) {
-               console.error('AJAX error:', error);
-               checkbox.checked = !isChecked;
-
-               // Создаём сообщение об ошибке
-               const errorHtml = '<div class="container-fluid"><p class="text-danger">Ошибка при обновлении статуса: ' + error + '</p></div>';
-               modals();
-               $('.modal-body').html(errorHtml);
-           },
-           complete: function() {
-               // Разблокируем чекбокс
-               checkbox.disabled = false;
-           }
-       });
-   }
+            console.log('Изображение загружено');
+        };
+        reader.readAsDataURL(file);
+    }
+}
+/*---------------
+    CheckboxChange
+--------------*/
+function toggleFeatured(checkbox) {
+    const isChecked = checkbox.checked;
+    const id = checkbox.getAttribute('data-id');
+    console.log('Toggling featured:', {
+        id: id,
+        flag: isChecked
+    });
+    // Блокируем чекбокс на время запроса
+    checkbox.disabled = true;
+    $.ajax({
+        url: '/admin/gallery/toggle-featured',
+        type: 'POST',
+        data: {
+            id: id,
+            flag: isChecked
+        },
+        success: function(html) {
+            // Проверяем, есть ли ошибка в HTML
+            if (html.includes('text-danger') || html.includes('error')) {
+                console.error('Error toggling featured');
+                // Возвращаем чекбокс в исходное состояние
+                checkbox.checked = !isChecked;
+            } else {
+                console.log('Featured toggled successfully');
+            }
+            console.log(html);
+            // Показываем модальное окно с полученным HTML
+            modals();
+            $('.modal-body').html(html);
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX error:', error);
+            checkbox.checked = !isChecked;
+            // Создаём сообщение об ошибке
+            const errorHtml = '<div class="container-fluid"><p class="text-danger">Ошибка при обновлении статуса: ' + error + '</p></div>';
+            modals();
+            $('.modal-body').html(errorHtml);
+        },
+        complete: function() {
+            // Разблокируем чекбокс
+            checkbox.disabled = false;
+        }
+    });
+}
