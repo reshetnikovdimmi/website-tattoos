@@ -201,51 +201,37 @@
                     </div>
 
                     <!-- Форма комментария -->
-                    <div class="form-card">
-                        <div class="form-card-header">
-                            <i class="fa fa-comment-o"></i>
-                            <h4>Оставить комментарий</h4>
-                        </div>
-                        <div class="form-card-body">
-                            <form method="post"
-                                  th:action="@{/blog/commits/import}"
-                                  th:object="${commitsEntity}"
-                                  onsubmit="submitForm(event)"
-                                  data-fragment-name="fragment-commits"
-                                  data-container-selector=".fragment-commits"
-                                  class="comment-form">
+                    <div class="contact-form">
+                        <h4>Оставить комментарий</h4>
+                        <form method="post"
+                              th:action="@{/blog/commits/import}"
+                              th:object="${commitsEntity}"
+                              onsubmit="submitForm(event)"
+                              data-fragment-name="fragment-commits"
+                              data-container-selector=".fragment-commits"
+                              class="comment-form">
 
-                                <!-- Поле комментария -->
-                                <div class="form-group">
-                <textarea name="comment"
-                          th:field="*{comment}"
-                          class="form-textarea"
-                          placeholder="Поделитесь своим мнением..."
-                          rows="5"></textarea>
-                                    <span type="hidden" id="name" name="name" th:value="${#authentication.name}"></span>
-                                </div>
+        <textarea name="comment"
+                  th:field="*{comment}"
+                  placeholder="Поделитесь своим мнением..."
+                  required></textarea>
 
-                                <!-- Кнопка отправки для авторизованных (по центру, не на всю ширину) -->
-                                <div sec:authorize="isAuthenticated()" class="text-center">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-paper-plane"></i>
-                                        Отправить отзыв
-                                    </button>
-                                </div>
+                            <input type="hidden" id="name" name="name" th:value="${#authentication.name}">
 
-                                <!-- Блок для неавторизованных пользователей -->
-                                <div sec:authorize="!isAuthenticated()" class="text-center">
-                                    <a href="/login" class="btn btn-secondary">
-                                        <i class="fa fa-sign-in"></i>
-                                        Войти
-                                    </a>
-                                    <p class="form-note">
-                                        <i class="fa fa-info-circle"></i>
-                                        Комментарии могут оставлять только зарегистрированные пользователи.
-                                    </p>
-                                </div>
-                            </form>
-                        </div>
+                            <!-- Кнопка отправки для авторизованных -->
+                            <div sec:authorize="isAuthenticated()">
+                                <button type="submit" class="c-btn">Отправить отзыв</button>
+                            </div>
+
+                            <!-- Блок для неавторизованных пользователей -->
+                            <div sec:authorize="!isAuthenticated()" class="text-center">
+                                <a href="/login" class="site-btn">Войти</a>
+                                <p class="form-note">
+                                    <i class="fa fa-info-circle"></i>
+                                    Комментарии могут оставлять только зарегистрированные пользователи.
+                                </p>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

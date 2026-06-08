@@ -1,348 +1,519 @@
 /* ============================================
-   REVIEWS PAGE - СТРАНИЦА ОТЗЫВОВ
+   REVIEWS GRID - ACTIVITAR STYLE
    ============================================ */
+/*---------------------
+  Blog Grid - Центрирование Instagram и "Все отзывы"
+-----------------------*/
 
-/* ------------------------------
-   REVIEW SECTION
------------------------------- */
-.fragment-reviews {
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin: 0;
+}
+
+.grid-item {
+    padding: 0;
+    margin-bottom: 0;
+}
+
+/* Instagram блок и "Все отзывы" — по центру */
+.grid-item.instagram-center,
+.grid-item.all-reviews-center {
+    grid-column: 2 / 3;
+}
+
+/* Отзывы — по краям */
+.grid-item.review-left {
+    grid-column: 1 / 2;
+}
+
+.grid-item.review-right {
+    grid-column: 3 / 4;
+}
+
+/* Адаптивность */
+@media (max-width: 991px) {
+    .blog-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+
+    .grid-item.instagram-center,
+    .grid-item.all-reviews-center {
+        grid-column: 1 / -1;
+        order: -1;
+    }
+}
+
+@media (max-width: 767px) {
+    .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+/*---------------------
+  Blog Section (Reviews)
+-----------------------*/
+
+.blog-section {
     background: #151515;
+    padding: 100px 0 70px;
 }
 
-.fragment-reviews .section-title {
-    text-align: center;
-    margin-bottom: 50px;
+.blog-section .section-title {
+    margin-bottom: 55px;
 }
 
-.fragment-reviews .section-title h2 {
-    font-size: 42px;
-    font-weight: 700;
-    font-family: "Oswald", sans-serif;
+.blog-section .section-title h2 {
     color: #ffffff;
+    font-size: 48px;
+    font-weight: 600;
+    margin-bottom: 18px;
     text-transform: uppercase;
-    margin-bottom: 15px;
-    position: relative;
-    display: inline-block;
+    font-family: "Oswald", sans-serif;
 }
 
-.fragment-reviews .section-title h2::after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
-    border-radius: 3px;
-}
-
-.fragment-reviews .section-title p {
-    font-size: 18px;
-    font-family: "Nunito Sans", sans-serif;
+.blog-section .section-title p {
     color: #8f8fa8;
-    margin-top: 25px;
+    margin-bottom: 0;
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 16px;
 }
 
-/* ------------------------------
-   CLASSTIME TABLE (Таблица отзывов)
------------------------------- */
-.classtime-table {
-    background: transparent;
-    border-radius: 16px;
-    overflow: hidden;
+/*---------------------
+  Blog Grid
+-----------------------*/
+
+.blog-grid {
+    margin: 0 -15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
 }
 
-.classtime-table.scroll {
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 600px;
-    padding-right: 10px;
+.grid-item {
+    padding: 0 15px;
+    margin-bottom: 30px;
 }
 
-.classtime-table.scroll::-webkit-scrollbar {
-    width: 8px;
-}
+/*---------------------
+  Blog Item (Review Card)
+-----------------------*/
 
-.classtime-table.scroll::-webkit-scrollbar-track {
-    background: #2d2d2d;
-    border-radius: 10px;
-}
-
-.classtime-table.scroll::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, #e16521, #e4381C);
-    border-radius: 10px;
-}
-
-/* Карточка отзыва */
-.reviews {
-    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
-    border-radius: 16px;
-    padding: 25px;
-    margin-bottom: 25px;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(228, 56, 28, 0.2);
-}
-
-.reviews:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    border-color: rgba(228, 56, 28, 0.4);
-}
-
-/* Аватар */
-.review-avatar {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto;
-    border-radius: 50%;
-    overflow: hidden;
+.blog-item {
     position: relative;
-    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
 }
 
-.review-avatar::before {
-    content: '';
+.blog-item.large-item {
+    height: 320px;
+}
+
+.blog-item:hover {
+    -webkit-transform: translateY(-5px);
+    -ms-transform: translateY(-5px);
+    transform: translateY(-5px);
+}
+
+/* Затемнение фона */
+.blog-item.set-bg {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.blog-item.set-bg::before {
     position: absolute;
-    top: -3px;
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
-    background: linear-gradient(45deg, #e16521, #e4381C);
-    border-radius: 50%;
-    z-index: 1;
-}
-
-.review-avatar img {
+    left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    display: block;
-    position: relative;
-    z-index: 2;
-    background: #151515;
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.3)), to(rgba(0, 0, 0, 0.7)));
+    background: -o-linear-gradient(top, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+    content: "";
+    z-index: 1;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.blog-item.set-bg:hover::before {
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(228, 56, 28, 0.3)), to(rgba(0, 0, 0, 0.8)));
+    background: -o-linear-gradient(top, rgba(228, 56, 28, 0.3), rgba(0, 0, 0, 0.8));
+    background: linear-gradient(180deg, rgba(228, 56, 28, 0.3), rgba(0, 0, 0, 0.8));
 }
 
 /* Контент отзыва */
 .review-content {
-    padding: 0 20px;
-}
-
-.review-content h5 {
-    color: #ffffff;
-    font-size: 16px;
-    line-height: 1.5;
-    font-family: "Nunito Sans", sans-serif;
-    font-weight: 400;
-    margin: 0;
-}
-
-/* Мета информация */
-.review-meta {
-    text-align: right;
-}
-
-.review-date {
-    display: inline-block;
-    font-size: 13px;
-    color: #8f8fa8;
-    font-family: "Nunito Sans", sans-serif;
-    margin-bottom: 8px;
-    padding: 5px 12px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 20px;
-    margin-right: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 25px;
+    z-index: 2;
+    text-decoration: none;
+    display: block;
 }
 
 .review-author {
-    color: #e4381C;
-    font-size: 18px;
+    font-size: 14px;
+    color: #e4381c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     font-weight: 600;
     font-family: "Oswald", sans-serif;
-    margin: 0;
-    text-transform: uppercase;
-}
-
-/* Превью изображения */
-.review-row {
-    display: flex;
-    align-items: stretch;
-    gap: 20px;
-}
-
-.review-row > [class*="col-"] {
-    display: flex;
-}
-
-.image-preview {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #2d2d2d;
-    border: 2px dashed rgba(228, 56, 28, 0.3);
-}
-
-.review-preview {
-    width: 100%;
-    height: 100%;
-    min-height: 150px;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 0 !important;
-}
-
-.review-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    flex: 1;
-}
-
-.preview-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-}
-
-.preview-placeholder i {
-    font-size: 32px;
+    display: inline-block;
     margin-bottom: 10px;
-    color: #e4381C;
 }
 
-.preview-placeholder span {
+.review-text {
     font-size: 14px;
-    color: #8f8fa8;
-}
-
-/* Textarea */
-.review-textarea {
-    width: 100%;
-    height: 100%;
-    min-height: 150px;
-    resize: vertical;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 15px 20px;
     color: #ffffff;
     font-family: "Nunito Sans", sans-serif;
-    font-size: 16px;
-    transition: all 0.3s ease;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.review-textarea:focus {
-    outline: none;
-    border-color: #e4381C;
-    box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.1);
+/* Рейтинг звёздами */
+.review-rating {
+    margin-top: 8px;
 }
 
-.review-textarea::placeholder {
-    color: rgba(255, 255, 255, 0.4);
+.review-rating i {
+    font-size: 12px;
+    color: #ffc107;
+    margin-right: 2px;
 }
 
-/* ------------------------------
-   АДАПТИВНОСТЬ
------------------------------- */
-@media (max-width: 992px) {
-    .reviews .row {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
+.review-rating i:last-child {
+    margin-right: 0;
+}
+
+/*---------------------
+  Instagram Item
+-----------------------*/
+
+.blog-item.instagram-item {
+    background: -webkit-gradient(linear, left top, right top, from(#e16521), to(#e4381c));
+    background: -o-linear-gradient(left, #e16521, #e4381c);
+    background: linear-gradient(90deg, #e16521, #e4381c);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding: 30px;
+    height: 320px;
+    border-radius: 4px;
+}
+
+.instagram-text {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.instagram-category {
+    font-size: 14px;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+}
+
+.instagram-text i {
+    font-size: 28px;
+    color: #ffffff;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.instagram-item:hover .instagram-text i {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.review-link {
+    text-decoration: none;
+    margin-top: auto;
+}
+
+.review-link p {
+    font-size: 18px;
+    font-weight: 500;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.4;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.review-link:hover p {
+    -webkit-transform: translateX(5px);
+    -ms-transform: translateX(5px);
+    transform: translateX(5px);
+}
+
+/*---------------------
+  All Reviews Item
+-----------------------*/
+
+.all-reviews-item {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    text-align: center;
+    height: 320px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.all-reviews-item::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    content: "";
+    z-index: 1;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.all-reviews-item:hover::before {
+    background: rgba(228, 56, 28, 0.7);
+}
+
+.all-reviews-link {
+    position: relative;
+    z-index: 2;
+    text-decoration: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.all-reviews-link span {
+    font-size: 22px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.all-reviews-link i {
+    font-size: 32px;
+    color: #ffffff;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.all-reviews-link:hover i {
+    -webkit-transform: translateX(8px);
+    -ms-transform: translateX(8px);
+    transform: translateX(8px);
+}
+
+/*---------------------
+  Load More Button
+-----------------------*/
+
+.load-more-reviews {
+    display: block;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin: 30px auto 0;
+    background: transparent;
+    border: 2px solid #e4381c;
+    color: #ffffff;
+    padding: 12px 35px;
+    border-radius: 4px;
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+.load-more-reviews:hover {
+    background: -webkit-gradient(linear, left top, right top, from(#e16521), to(#e4381c));
+    background: -o-linear-gradient(left, #e16521, #e4381c);
+    background: linear-gradient(90deg, #e16521, #e4381c);
+    border-color: transparent;
+    -webkit-transform: translateY(-2px);
+    -ms-transform: translateY(-2px);
+    transform: translateY(-2px);
+    -webkit-box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+    color: #ffffff;
+}
+
+/*---------------------
+  Grid Animation
+-----------------------*/
+
+@-webkit-keyframes reviewFadeInUp {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(30px);
+        transform: translateY(30px);
     }
-
-    .review-avatar {
-        margin: 0 auto 15px;
+    to {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
     }
+}
 
+@keyframes reviewFadeInUp {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(30px);
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+.grid-item {
+    -webkit-animation: reviewFadeInUp 0.5s ease forwards;
+    animation: reviewFadeInUp 0.5s ease forwards;
+    opacity: 0;
+}
+
+.grid-item:nth-child(1) { -webkit-animation-delay: 0.05s; animation-delay: 0.05s; }
+.grid-item:nth-child(2) { -webkit-animation-delay: 0.1s; animation-delay: 0.1s; }
+.grid-item:nth-child(3) { -webkit-animation-delay: 0.15s; animation-delay: 0.15s; }
+.grid-item:nth-child(4) { -webkit-animation-delay: 0.2s; animation-delay: 0.2s; }
+.grid-item:nth-child(5) { -webkit-animation-delay: 0.25s; animation-delay: 0.25s; }
+.grid-item:nth-child(6) { -webkit-animation-delay: 0.3s; animation-delay: 0.3s; }
+
+/*---------------------
+  Responsive
+-----------------------*/
+
+@media only screen and (max-width: 991px) {
+    .blog-item.large-item,
+    .blog-item.instagram-item,
+    .all-reviews-item {
+        height: 280px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .blog-section {
+        padding: 60px 0 30px;
+    }
+    .blog-section .section-title h2 {
+        font-size: 36px;
+    }
+    .blog-item.large-item,
+    .blog-item.instagram-item,
+    .all-reviews-item {
+        height: 260px;
+    }
     .review-content {
-        padding: 0;
-        text-align: center;
-    }
-
-    .review-meta {
-        text-align: center;
-    }
-
-    .review-row {
-        flex-direction: column;
-    }
-
-    .image-preview {
-        max-width: 250px;
-        margin: 0 auto;
-    }
-}
-
-@media (max-width: 768px) {
-    .fragment-reviews .section-title h2 {
-        font-size: 32px;
-    }
-
-    .fragment-reviews .section-title p {
-        font-size: 16px;
-    }
-
-    .classtime-table.scroll {
-        max-height: 500px;
-    }
-
-    .leave-comment-form {
-        padding: 25px;
-    }
-
-    .leave-comment-form h4 {
-        font-size: 20px;
-    }
-
-    .review-textarea {
-        min-height: 120px;
-        font-size: 14px;
-    }
-
-    .upload-btn, .submit-review {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-@media (max-width: 480px) {
-    .fragment-reviews .section-title h2 {
-        font-size: 24px;
-    }
-
-    .classtime-table.scroll {
-        max-height: 400px;
-    }
-
-    .reviews {
         padding: 20px;
     }
-
-    .review-author {
+    .instagram-category {
+        font-size: 12px;
+    }
+    .review-link p {
         font-size: 16px;
     }
-
-    .review-content h5 {
-        font-size: 14px;
-    }
-
-    .leave-comment-form {
-        padding: 20px;
-    }
-
-    .leave-comment-form h4 {
+    .all-reviews-link span {
         font-size: 18px;
     }
+    .all-reviews-link i {
+        font-size: 26px;
+    }
+}
 
-    .image-preview {
-        max-width: 200px;
+@media only screen and (max-width: 479px) {
+    .blog-section .section-title h2 {
+        font-size: 28px;
+    }
+    .blog-item.large-item,
+    .blog-item.instagram-item,
+    .all-reviews-item {
+        height: 240px;
+    }
+    .review-content {
+        padding: 15px;
+    }
+    .review-text {
+        font-size: 12px;
+    }
+    .review-author {
+        font-size: 12px;
+    }
+    .instagram-category {
+        font-size: 10px;
+    }
+    .review-link p {
+        font-size: 14px;
+    }
+    .all-reviews-link span {
+        font-size: 16px;
+    }
+    .all-reviews-link i {
+        font-size: 22px;
     }
 }

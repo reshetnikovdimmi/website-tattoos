@@ -37,6 +37,8 @@
             columnWidth: '.grid-sizer',
         });
 
+
+
     });
 
 
@@ -747,3 +749,24 @@ function toggleFeatured(checkbox) {
         }
     });
 }
+// Переключение видео при клике на миниатюру
+document.querySelectorAll('.thumbnail-item').forEach(thumb => {
+    thumb.addEventListener('click', function() {
+        const videoUrl = this.dataset.videoUrl;
+        const iframe = document.getElementById('activeVideo');
+
+        // Добавляем autoplay при переключении
+        let newUrl = videoUrl;
+        if (newUrl.indexOf('autoplay') === -1) {
+            newUrl += (newUrl.indexOf('?') === -1 ? '?' : '&') + 'autoplay=1';
+        }
+
+        iframe.src = newUrl;
+
+        // Обновляем активный класс
+        document.querySelectorAll('.thumbnail-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        this.classList.add('active');
+    });
+});

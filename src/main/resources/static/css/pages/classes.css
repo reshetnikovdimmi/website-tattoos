@@ -1,5 +1,5 @@
 /* ============================================
-   CLASSES SECTION - СТИЛИ ТАТУИРОВОК
+   CLASSES SECTION - ACTIVITAR STYLE
    ============================================ */
 
 /* ------------------------------
@@ -8,7 +8,6 @@
 .classes-section {
     position: relative;
     background: #151515;
-    padding: 0 0 80px 0;
 }
 
 /* ------------------------------
@@ -16,14 +15,12 @@
 ------------------------------ */
 .class-title {
     position: relative;
-    padding: 100px 0;
+    padding: 60px 0 62px;
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
     text-align: center;
 }
 
-/* Затемнение фона */
 .class-title::before {
     content: '';
     position: absolute;
@@ -40,10 +37,9 @@
     z-index: 2;
 }
 
-/* Заголовок H2 */
 .class-title .section-title h2 {
     font-size: 48px;
-    font-weight: 700;
+    font-weight: 500;
     font-family: "Oswald", sans-serif;
     color: #ffffff;
     text-transform: uppercase;
@@ -51,7 +47,6 @@
     letter-spacing: 2px;
 }
 
-/* Подзаголовок */
 .class-title .section-title .short-details {
     font-size: 18px;
     font-family: "Nunito Sans", sans-serif;
@@ -76,12 +71,12 @@
     margin: 0 -15px;
 }
 
-/* Карточка стиля */
+/* КАРТОЧКА - УЛУЧШЕННАЯ ВЕРСИЯ */
 .classes-item {
     position: relative;
     height: 400px;
     margin: 0 15px 30px;
-    padding: 40px 25px;
+    padding: 30px 25px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -89,9 +84,12 @@
     overflow: hidden;
     transition: all 0.3s ease;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
-/* Затемнение карточки */
+/* Затемнение фона */
 .classes-item::before {
     content: '';
     position: absolute;
@@ -99,9 +97,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.8) 100%);
     transition: all 0.3s ease;
     z-index: 1;
+}
+
+.classes-item:hover::before {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.9) 100%);
 }
 
 /* Красная полоска при наведении */
@@ -122,10 +124,6 @@
     transform: scaleX(1);
 }
 
-.classes-item:hover::before {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.7));
-}
-
 .classes-item:hover {
     transform: translateY(-5px);
 }
@@ -138,27 +136,31 @@
     z-index: 3;
 }
 
-/* Заголовок карточки */
+/* ЗАГОЛОВОК - ПРЕДПЛЕЧЬЕ */
 .classes-item h4 {
     font-size: 28px;
-    font-weight: 600;
+    font-weight: 700;
     font-family: "Oswald", sans-serif;
     color: #ffffff;
     text-transform: uppercase;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     letter-spacing: 1px;
 }
 
-/* Описание */
+/* ОПИСАНИЕ */
 .classes-item .short-details {
-    font-size: 15px;
+    font-size: 14px;
     font-family: "Nunito Sans", sans-serif;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.85);
     line-height: 1.5;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-/* Кнопка */
+/* КНОПКА ПОДРОБНЕЕ */
 .classes-item .primary-btn {
     display: inline-flex;
     align-items: center;
@@ -176,6 +178,8 @@
     transition: all 0.3s ease;
     cursor: pointer;
     text-decoration: none;
+    width: auto;
+    min-width: 140px;
 }
 
 .classes-item .primary-btn:hover {
@@ -189,85 +193,61 @@
    АДАПТИВНОСТЬ
 ------------------------------ */
 
-/* Планшеты (до 992px) */
+/* Планшеты */
 @media (max-width: 992px) {
-    .classes-section {
-        padding: 0 0 60px 0;
-    }
-
-    .class-title {
-        padding: 80px 0;
-    }
-
-    .class-title .section-title h2 {
-        font-size: 36px;
-    }
-
-    .class-title .section-title .short-details {
-        font-size: 16px;
-    }
-
     .classes-item {
-        height: 350px;
-        padding: 30px 20px;
+        height: 380px;
+        padding: 25px 20px;
     }
 
     .classes-item h4 {
         font-size: 24px;
     }
+
+    .classes-item .short-details {
+        font-size: 13px;
+        -webkit-line-clamp: 3;
+    }
 }
 
-/* Мобильные устройства (до 768px) */
+/* Мобильные устройства */
 @media (max-width: 768px) {
-    .classes-section {
-        padding: 0 0 40px 0;
-    }
-
-    .class-title {
-        padding: 60px 0;
-        background-attachment: scroll;
-    }
-
-    .class-title .section-title h2 {
-        font-size: 28px;
-    }
-
-    .class-title .section-title .short-details {
-        font-size: 14px;
-    }
-
     .classes-section .container-fluid {
         padding: 40px 15px 0;
     }
 
     .classes-item {
-        height: 300px;
+        height: 350px;
+        padding: 20px;
         margin: 0 0 20px;
-        padding: 25px 20px;
     }
 
     .classes-item h4 {
         font-size: 22px;
+        margin-bottom: 10px;
     }
 
     .classes-item .short-details {
-        font-size: 13px;
+        font-size: 12px;
+        -webkit-line-clamp: 3;
+        margin-bottom: 15px;
     }
 
     .classes-item .primary-btn {
         padding: 8px 20px;
         font-size: 12px;
+        min-width: 120px;
     }
 }
 
-/* Маленькие мобильные (до 480px) */
+/* Маленькие мобильные */
 @media (max-width: 480px) {
     .class-title .section-title h2 {
-        font-size: 24px;
+        font-size: 28px;
     }
 
     .classes-item {
-        height: 280px;
+        height: 320px;
     }
 
     .classes-item h4 {
@@ -275,22 +255,19 @@
     }
 
     .classes-item .short-details {
-        font-size: 12px;
+        font-size: 11px;
+        -webkit-line-clamp: 2;
     }
 }
 
 /* Большие экраны */
 @media (min-width: 1400px) {
     .classes-item {
-        height: 450px;
+        height: 420px;
     }
 
     .classes-item h4 {
         font-size: 32px;
-    }
-
-    .classes-item .short-details {
-        font-size: 16px;
     }
 }
 
@@ -308,6 +285,7 @@
 
 .classes-item {
     animation: classFadeInUp 0.5s ease forwards;
+    opacity: 0;
 }
 
 .classes-section .col-lg-3:nth-child(1) .classes-item { animation-delay: 0.1s; }

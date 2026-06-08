@@ -1,5 +1,5 @@
 /* ============================================
-   BLOG SECTION - СЕКЦИЯ ОТЗЫВОВ
+   BLOG SECTION - СЕКЦИЯ ОТЗЫВОВ (ACTIVITAR STYLE)
    ============================================ */
 
 /* ------------------------------
@@ -7,8 +7,8 @@
 ------------------------------ */
 .blog-section {
     position: relative;
-    padding: 100px 0;
-    background: linear-gradient(135deg, #151515 0%, #1a1a1a 100%);
+    padding: 100px 0 70px;
+    background: #151515;
     overflow: hidden;
 }
 
@@ -17,50 +17,59 @@
 ------------------------------ */
 .blog-section .section-title {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 55px;
 }
 
 .blog-section .section-title h2 {
     font-size: 48px;
-    font-weight: 700;
+    font-weight: 600;
     font-family: "Oswald", sans-serif;
     color: #ffffff;
     text-transform: uppercase;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
     letter-spacing: 2px;
-    position: relative;
-    display: inline-block;
-}
-
-.blog-section .section-title h2::after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
-    border-radius: 3px;
 }
 
 .blog-section .section-title p {
-    font-size: 18px;
+    font-size: 16px;
     font-family: "Nunito Sans", sans-serif;
     color: #8f8fa8;
-    margin-top: 25px;
+    margin-bottom: 0;
 }
 
 /* ------------------------------
-   СЕТКА MIXITUP
+   СЕТКА GRID (центрирование Instagram и Все отзывы)
 ------------------------------ */
-.blog-gird {
-    margin: 0 -15px;
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin: 0;
 }
 
 .grid-item {
-    padding: 0 15px;
-    margin-bottom: 30px;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+/* Instagram блок — по центру */
+.instagram-center {
+    grid-column: 2 / 3;
+}
+
+/* Блок "Все отзывы" — по центру */
+.all-reviews-center {
+    grid-column: 2 / 3;
+}
+
+/* Отзывы слева */
+.review-left {
+    grid-column: 1 / 2;
+}
+
+/* Отзывы справа */
+.review-right {
+    grid-column: 3 / 4;
 }
 
 /* ------------------------------
@@ -68,174 +77,382 @@
 ------------------------------ */
 .blog-item {
     position: relative;
-    border-radius: 16px;
+    border-radius: 4px;
     overflow: hidden;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-/* Большая карточка */
 .blog-item.large-item {
-    height: 380px;
+    height: 320px;
 }
 
-.blog-item.xls-large {
-    height: 420px;
+.blog-item:hover {
+    -webkit-transform: translateY(-5px);
+    -ms-transform: translateY(-5px);
+    transform: translateY(-5px);
 }
 
-/* Фон с затемнением */
+/* Затемнение фона */
 .blog-item.set-bg {
+    background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    position: relative;
 }
 
 .blog-item.set-bg::before {
-    content: '';
     position: absolute;
-    top: 0;
     left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
-    transition: all 0.3s ease;
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.3)), to(rgba(0, 0, 0, 0.7)));
+    background: -o-linear-gradient(top, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+    content: "";
     z-index: 1;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
 }
 
 .blog-item.set-bg:hover::before {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8));
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(228, 56, 28, 0.3)), to(rgba(0, 0, 0, 0.8)));
+    background: -o-linear-gradient(top, rgba(228, 56, 28, 0.3), rgba(0, 0, 0, 0.8));
+    background: linear-gradient(180deg, rgba(228, 56, 28, 0.3), rgba(0, 0, 0, 0.8));
 }
 
-/* Instagram карточка */
-.blog-item.instagram-item {
-    background: linear-gradient(135deg, #e16521, #e4381C);
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-/* Текст на карточке */
-.blog-text {
-
-    bottom: 0;
+/* Контент отзыва */
+.review-content {
+    position: absolute;
     left: 0;
+    bottom: 0;
     width: 100%;
-    padding: 30px;
+    padding: 25px;
     z-index: 2;
     text-decoration: none;
+    display: block;
+}
+
+.review-author {
+    font-size: 14px;
+    color: #e4381c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.review-text {
+    font-size: 14px;
+    color: #ffffff;
+    font-family: "Nunito Sans", sans-serif;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Рейтинг звёздами */
+.review-rating {
+    margin-top: 8px;
+}
+
+.review-rating i {
+    font-size: 12px;
+    color: #ffc107;
+    margin-right: 2px;
+}
+
+.review-rating i:last-child {
+    margin-right: 0;
+}
+
+/* ------------------------------
+   INSTAGRAM КАРТОЧКА
+------------------------------ */
+.blog-item.instagram-item {
+    background: -webkit-gradient(linear, left top, right top, from(#e16521), to(#e4381c));
+    background: -o-linear-gradient(left, #e16521, #e4381c);
+    background: linear-gradient(90deg, #e16521, #e4381c);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding: 25px;
+    height: 320px;
+    border-radius: 4px;
 }
 
 .instagram-text {
-    text-decoration: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-/* Категория / автор */
-.categories {
+.instagram-category {
     font-size: 14px;
-    font-family: "Nunito Sans", sans-serif;
-    color: rgba(255, 255, 255, 0.8);
+    color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
 }
 
-.categories i {
-    font-size: 18px;
+.instagram-text i {
+    font-size: 28px;
     color: #ffffff;
-    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
 }
 
-.categories i:hover {
+.instagram-item:hover .instagram-text i {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
     transform: scale(1.1);
-    color: #e4381C;
 }
 
-/* Заголовок отзыва */
-.blog-text h5 {
+.review-link {
+    text-decoration: none;
+    margin-top: auto;
+}
+
+.review-link p {
     font-size: 18px;
+    font-weight: 500;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.3;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.review-link:hover p {
+    -webkit-transform: translateX(5px);
+    -ms-transform: translateX(5px);
+    transform: translateX(5px);
+}
+
+/* ------------------------------
+   КАРТОЧКА "ВСЕ ОТЗЫВЫ"
+------------------------------ */
+.all-reviews-item {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    text-align: center;
+    height: 320px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.all-reviews-item::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    content: "";
+    z-index: 1;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.all-reviews-item:hover::before {
+    background: rgba(228, 56, 28, 0.7);
+}
+
+.all-reviews-link {
+    position: relative;
+    z-index: 2;
+    text-decoration: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.all-reviews-link span {
+    font-size: 20px;
     font-weight: 600;
     font-family: "Oswald", sans-serif;
     color: #ffffff;
-    line-height: 1.4;
-    margin-bottom: 0;
-    transition: all 0.3s ease;
-}
-
-.blog-text h5:hover {
-    transform: translateX(5px);
-    color: #e4381C;
-}
-
-/* Специальная карточка "Все отзывы" */
-.blog-item.large-item.xls-large .blog-text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    text-align: center;
-}
-
-.blog-item.large-item.xls-large .blog-text h5 {
-    font-size: 24px;
     text-transform: uppercase;
-    position: relative;
-    display: inline-block;
-    padding-bottom: 10px;
+    letter-spacing: 2px;
 }
 
-.blog-item.large-item.xls-large .blog-text h5::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 2px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+.all-reviews-link i {
+    font-size: 28px;
+    color: #ffffff;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
 }
+
+.all-reviews-link:hover i {
+    -webkit-transform: translateX(8px);
+    -ms-transform: translateX(8px);
+    transform: translateX(8px);
+}
+
+/* ------------------------------
+   КНОПКА "ЗАГРУЗИТЬ ЕЩЁ"
+------------------------------ */
+.load-more-reviews {
+    display: block;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin: 30px auto 0;
+    background: transparent;
+    border: 2px solid #e4381c;
+    color: #ffffff;
+    padding: 12px 35px;
+    border-radius: 4px;
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+.load-more-reviews:hover {
+    background: -webkit-gradient(linear, left top, right top, from(#e16521), to(#e4381c));
+    background: -o-linear-gradient(left, #e16521, #e4381c);
+    background: linear-gradient(90deg, #e16521, #e4381c);
+    border-color: transparent;
+    -webkit-transform: translateY(-2px);
+    -ms-transform: translateY(-2px);
+    transform: translateY(-2px);
+    -webkit-box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+    color: #ffffff;
+}
+
+/* ------------------------------
+   АНИМАЦИЯ ПОЯВЛЕНИЯ
+------------------------------ */
+@-webkit-keyframes reviewFadeInUp {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(30px);
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+@keyframes reviewFadeInUp {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(30px);
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+.grid-item {
+    -webkit-animation: reviewFadeInUp 0.5s ease forwards;
+    animation: reviewFadeInUp 0.5s ease forwards;
+    opacity: 0;
+}
+
+.grid-item:nth-child(1) { -webkit-animation-delay: 0.05s; animation-delay: 0.05s; }
+.grid-item:nth-child(2) { -webkit-animation-delay: 0.1s; animation-delay: 0.1s; }
+.grid-item:nth-child(3) { -webkit-animation-delay: 0.15s; animation-delay: 0.15s; }
+.grid-item:nth-child(4) { -webkit-animation-delay: 0.2s; animation-delay: 0.2s; }
+.grid-item:nth-child(5) { -webkit-animation-delay: 0.25s; animation-delay: 0.25s; }
+.grid-item:nth-child(6) { -webkit-animation-delay: 0.3s; animation-delay: 0.3s; }
 
 /* ------------------------------
    АДАПТИВНОСТЬ
 ------------------------------ */
 
 /* Планшеты (до 992px) */
-@media (max-width: 992px) {
+@media only screen and (max-width: 991px) {
     .blog-section {
-        padding: 80px 0;
+        padding: 80px 0 50px;
     }
 
     .blog-section .section-title h2 {
         font-size: 36px;
     }
 
-    .blog-section .section-title p {
-        font-size: 16px;
+    .blog-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
     }
 
-    .blog-item.large-item {
-        height: 350px;
+    .instagram-center,
+    .all-reviews-center {
+        grid-column: 1 / -1;
     }
 
-    .blog-item.xls-large {
-        height: 380px;
+    .review-left,
+    .review-right {
+        grid-column: auto;
     }
 
-    .blog-text {
-        padding: 25px;
-    }
-
-    .blog-text h5 {
-        font-size: 16px;
+    .blog-item.large-item,
+    .blog-item.instagram-item,
+    .all-reviews-item {
+        height: 280px;
     }
 }
 
-/* Мобильные устройства (до 768px) */
-@media (max-width: 768px) {
+/* Мобильные (до 768px) */
+@media only screen and (max-width: 767px) {
     .blog-section {
-        padding: 60px 0;
+        padding: 60px 0 30px;
     }
 
     .blog-section .section-title h2 {
@@ -246,82 +463,86 @@
         font-size: 14px;
     }
 
-    .grid-item {
-        padding: 0 10px;
+    .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
-    .blog-item.large-item {
-        height: 300px;
+    .instagram-center,
+    .all-reviews-center,
+    .review-left,
+    .review-right {
+        grid-column: 1;
     }
 
-    .blog-item.xls-large {
-        height: 320px;
+    .blog-item.large-item,
+    .blog-item.instagram-item,
+    .all-reviews-item {
+        height: 260px;
     }
 
-    .blog-text {
+    .review-content {
         padding: 20px;
     }
 
-    .blog-text h5 {
-        font-size: 15px;
-    }
-
-    .categories {
+    .instagram-category {
         font-size: 12px;
     }
 
-    .blog-item.instagram-item {
-        padding: 20px;
+    .review-link p {
+        font-size: 16px;
+    }
+
+    .all-reviews-link span {
+        font-size: 18px;
     }
 }
 
 /* Маленькие мобильные (до 480px) */
-@media (max-width: 480px) {
+@media only screen and (max-width: 479px) {
     .blog-section {
-        padding: 50px 0;
+        padding: 50px 0 20px;
     }
 
     .blog-section .section-title h2 {
         font-size: 24px;
     }
 
-    .blog-item.large-item {
-        height: 280px;
+    .blog-item.large-item,
+    .blog-item.instagram-item,
+    .all-reviews-item {
+        height: 240px;
     }
 
-    .blog-item.xls-large {
-        height: 300px;
+    .review-content {
+        padding: 15px;
     }
 
-    .blog-text h5 {
+    .review-text {
+        font-size: 12px;
+    }
+
+    .review-author {
+        font-size: 12px;
+    }
+
+    .instagram-category {
+        font-size: 10px;
+    }
+
+    .review-link p {
         font-size: 14px;
     }
 
-    .blog-item.large-item.xls-large .blog-text h5 {
-        font-size: 18px;
+    .all-reviews-link span {
+        font-size: 16px;
+    }
+
+    .all-reviews-link i {
+        font-size: 22px;
+    }
+
+    .review-rating i {
+        font-size: 10px;
     }
 }
-
-/* Анимация появления карточек */
-@keyframes blogFadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.grid-item {
-    animation: blogFadeInUp 0.5s ease forwards;
-    opacity: 0;
-}
-
-.grid-item:nth-child(1) { animation-delay: 0.1s; }
-.grid-item:nth-child(2) { animation-delay: 0.15s; }
-.grid-item:nth-child(3) { animation-delay: 0.2s; }
-.grid-item:nth-child(4) { animation-delay: 0.25s; }
-.grid-item:nth-child(5) { animation-delay: 0.3s; }
-.grid-item:nth-child(6) { animation-delay: 0.35s; }

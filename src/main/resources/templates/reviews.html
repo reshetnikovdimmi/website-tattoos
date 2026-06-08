@@ -63,7 +63,7 @@
         <div class="fragment-reviews">
             <div th:fragment="fragment-reviews">
                 <!-- Заголовок секции -->
-                <div class="section-title text-center mb-5">
+                <div class="section-title-modern text-center">
                     <h2>Все отзывы</h2>
                     <p>Что говорят наши клиенты</p>
                 </div>
@@ -74,78 +74,66 @@
                 </div>
 
                 <!-- Форма добавления отзыва -->
-                <div class="form-card">
-                    <div class="form-card-header">
-                        <i class="fa fa-pencil-square-o"></i>
+                <div class="contact-form">
+
                         <h4>Оставить отзыв</h4>
-                    </div>
 
-                        <div class="form-card-body">
-                            <form onsubmit="submitForm(event)"
-                                  enctype="multipart/form-data"
-                                  data-fragment-name="fragment-reviews"
-                                  data-container-selector=".fragment-reviews"
-                                  th:object="${reviewsEntity}"
-                                  action="/reviews/import">
 
-                                <div class="form-group">
-                                    <div class="form-two-columns">
-                                        <!-- Левая колонка - загрузка изображения -->
-                                        <div class="form-column-left">
-                                            <div class="upload-area" onclick="showModals()">
-                                                <div class="upload-placeholder" id="reviewPlaceholder">
-                                                    <i class="fa fa-cloud-upload"></i>
-                                                    <span>Выбрать изображение</span>
-                                                </div>
-                                                <img id="reviewImage" src="#" alt="Preview" class="upload-preview" style="display: none;">
-                                                <input type="file" id="fileInput" style="display: none;">
-                                            </div>
-                                            <div class="upload-hint">
-                                                <i class="fa fa-info-circle"></i>
-                                                JPG, PNG, GIF, WEBP (макс. 5MB)
-                                            </div>
+                    <div class="form-card-body">
+                        <form onsubmit="submitForm(event)"
+                              enctype="multipart/form-data"
+                              data-fragment-name="fragment-reviews"
+                              data-container-selector=".fragment-reviews"
+                              th:object="${reviewsEntity}"
+                              action="/reviews/import">
+
+                            <!-- Две колонки -->
+                            <div class="form-two-columns">
+                                <div class="form-column-left">
+                                    <!-- Левая колонка - загрузка изображения -->
+
+                                    <div class="upload-area" onclick="showModals()">
+                                        <div class="upload-placeholder" id="reviewPlaceholder">
+                                            <i class="fa fa-cloud-upload"></i>
+                                            <span>Выбрать изображение</span>
                                         </div>
-
-                                        <!-- Скрытое поле для имени изображения -->
-                                        <input type="hidden" id="reviewImageName" name="imageName">
-
-                                        <!-- Правая колонка - описание -->
-                                        <div class="form-column-right">
-                                            <label class="form-label">
-                                                <i class="fa fa-align-left"></i>
-                                                Описание
-                                            </label>
-                                            <textarea th:field="*{comment}"
-                                                      placeholder="Ваш отзыв..."
-                                                      id="Comment"
-                                                      name="Comment"
-                                                      required
-                                                      class="form-textarea"
-                                                      rows="5"></textarea>
-                                        </div>
+                                        <img id="reviewImage" src="#" alt="Preview" class="upload-preview"
+                                             style="display: none;">
+                                        <input type="file" id="fileInput" style="display: none;">
                                     </div>
-                                </div>
-
-                                <!-- Кнопка отправки для авторизованных -->
-                                <div sec:authorize="isAuthenticated()" class="text-center">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-paper-plane"></i>
-                                        Отправить отзыв
-                                    </button>
-                                </div>
-
-                                <!-- Блок для неавторизованных пользователей -->
-                                <div sec:authorize="!isAuthenticated()" class="text-center">
-                                    <a href="/login" class="btn btn-secondary">
-                                        <i class="fa fa-sign-in"></i>
-                                        Войти
-                                    </a>
-                                    <p class="form-note">
+                                    <div class="upload-hint">
                                         <i class="fa fa-info-circle"></i>
-                                        Комментарии могут оставлять только зарегистрированные пользователи.
-                                    </p>
+                                        JPG, PNG, GIF, WEBP (макс. 5MB)
+                                    </div>
+                                    <!-- Скрытое поле для имени изображения -->
+                                    <input type="hidden" id="reviewImageName" name="imageName">
                                 </div>
-                            </form>
+
+                                <!-- Правая колонка - описание -->
+                                <div class="form-column-right">
+                                <textarea th:field="*{comment}"
+                                          placeholder="Ваш отзыв..."
+                                          id="Comment"
+                                          name="Comment"
+                                          required
+                                          rows="5"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Кнопка отправки для авторизованных -->
+                            <div sec:authorize="isAuthenticated()" class="text-center">
+                                <button type="submit" class="c-btn">Отправить отзыв</button>
+                            </div>
+
+                            <!-- Блок для неавторизованных пользователей -->
+                            <div sec:authorize="!isAuthenticated()" class="text-center">
+                                <a href="/login" class="site-btn">Войти</a>
+                                <p class="form-note">
+                                    <i class="fa fa-info-circle"></i>
+                                    Отзывы могут оставлять только зарегистрированные пользователи.
+                                </p>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -265,6 +265,7 @@
                             data-container-selector=".galleryFragment"
                             data-deletion-url="/admin/gallery/delete-section"
                             onclick="deleteImage(this)"
+                            data-method="GET"
                             title="Удалить">
                         <i class="fa fa-trash"></i>
                     </button>
@@ -365,7 +366,7 @@
             <div class="gallery-item">
                 <img th:src="@{'/images/' + ${currents.imageName}}"
                      th:alt="${currents.description}"
-                     class="sketches-img">
+                     class="gallery-img">
 
                 <div class="gi-hover-warp">
                     <div class="gi-hover">
@@ -385,6 +386,7 @@
                             data-container-selector=".sketchesFragment"
                             data-deletion-url="/admin/sketches/delete-section"
                             onclick="deleteImage(this)"
+                            data-method="GET"
                             title="Удалить">
                         <i class="fa fa-trash"></i>
                     </button>

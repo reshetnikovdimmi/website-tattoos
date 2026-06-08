@@ -39,6 +39,13 @@ public class ReviewServiceImpl extends AbstractCRUDService<ReviewsUser,Long> imp
     }
 
     @Override
+    public void deleteById(Long id) throws IOException {
+
+        getRepository().deleteById(id);
+        log.debug("Сущность с ID {} удалена", id);
+    }
+
+    @Override
     void prepareObject(ReviewsUser entity, String imageName) {
 
         log.debug("Подготовка объекта ReviewsUser для сохранения");

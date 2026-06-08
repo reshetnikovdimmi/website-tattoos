@@ -1,17 +1,15 @@
 /* ============================================
-   VIDEO SECTION - MINIMAL
+   VIDEO SECTION - ACTIVITAR STYLE
    ============================================ */
 
 .video-section {
     position: relative;
-    height: 500px;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 100px 0;
+    background: #151515;
+    overflow: hidden;
 }
 
+/* Декоративный элемент фона */
 .video-section::before {
     content: '';
     position: absolute;
@@ -19,120 +17,437 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    background-image: radial-gradient(circle at 20% 40%, rgba(228, 56, 28, 0.03) 0%, transparent 50%);
+    pointer-events: none;
 }
 
-.video-text {
-    position: relative;
-    z-index: 1;
+.video-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    height: 50%;
+    background-image: radial-gradient(circle at 80% 60%, rgba(228, 56, 28, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* ------------------------------
+   ЗАГОЛОВОК СЕКЦИИ
+------------------------------ */
+.video-section .section-title {
     text-align: center;
+    margin-bottom: 60px;
 }
 
-.video-text h2 {
-    font-size: 42px;
-    color: #fff;
-    margin-bottom: 30px;
+.video-section .section-title h2 {
+    font-size: 48px;
+    font-weight: 700;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+    position: relative;
+    display: inline-block;
 }
 
-.video-text .play-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 80px;
-    height: 80px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    color: #fff;
-    font-size: 28px;
-    transition: 0.3s;
+.video-section .section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border-radius: 3px;
 }
 
-.video-text .play-btn:hover {
-    background: #e4381C;
-    transform: scale(1.1);
+.video-section .section-title p {
+    font-size: 18px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    margin-top: 25px;
+    line-height: 1.5;
 }
 
-@media (max-width: 768px) {
-    .video-section {
-        height: 400px;
-    }
-
-    .video-text h2 {
-        font-size: 28px;
-    }
-
-    .video-text .play-btn {
-        width: 60px;
-        height: 60px;
-        font-size: 20px;
-    }
+/* ------------------------------
+   ВИДЕО ПЛЕЕР
+------------------------------ */
+.video-showcase {
+    background: #1e1e1e;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(228, 56, 28, 0.2);
+    transition: all 0.3s ease;
 }
-/* ============================================
-   VIDEO MODAL - МОДАЛЬНОЕ ОКНО ДЛЯ ВИДЕО
-   ============================================ */
 
-.video-modal {
-    display: none;
-    position: fixed;
+.video-showcase:hover {
+    border-color: rgba(228, 56, 28, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Активное видео */
+.active-video {
+    position: relative;
+    background: #000;
+}
+
+/* Обёртка для iframe (адаптивное видео) */
+.video-player-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 соотношение */
+    height: 0;
+    overflow: hidden;
+}
+
+.video-player-wrapper iframe {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 9999;
-    cursor: pointer;
-}
-
-.video-modal.active {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.video-modal-content {
-    position: relative;
-    width: 80%;
-    max-width: 900px;
-    background: #000;
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-.video-modal-content iframe {
-    width: 100%;
-    height: 500px;
     border: none;
-    display: block;
 }
 
-.video-modal-close {
+/* ------------------------------
+   МИНИАТЮРЫ ВИДЕО
+------------------------------ */
+.video-thumbnails {
+    display: flex;
+    background: #1a1a1a;
+    padding: 20px;
+    gap: 20px;
+    border-top: 1px solid rgba(228, 56, 28, 0.1);
+}
+
+/* Элемент миниатюры */
+.thumbnail-item {
+    flex: 1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #252525;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.thumbnail-item.active {
+    border-color: #e4381C;
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+}
+
+.thumbnail-item:hover:not(.active) {
+    transform: translateY(-3px);
+    border-color: rgba(228, 56, 28, 0.5);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Изображение миниатюры */
+.thumbnail-image {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+}
+
+.thumbnail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.thumbnail-item:hover .thumbnail-image img {
+    transform: scale(1.05);
+}
+
+/* Кнопка play на миниатюре */
+.thumbnail-play {
     position: absolute;
-    top: -40px;
-    right: 0;
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.2);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid rgba(228, 56, 28, 0.8);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.thumbnail-item.active .thumbnail-play,
+.thumbnail-item:hover .thumbnail-play {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.thumbnail-play i {
+    font-size: 18px;
     color: #fff;
-    font-size: 24px;
+    margin-left: 3px;
+}
+
+/* Информация о видео */
+.thumbnail-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.thumbnail-info h5 {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.thumbnail-info p {
+    font-size: 13px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ------------------------------
+   КНОПКА "СМОТРЕТЬ В VK"
+------------------------------ */
+.vk-video-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(90deg, #e16521, #e4381C);
+    border: none;
+    border-radius: 50px;
+    padding: 14px 32px;
+    margin-top: 30px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
 }
 
-.video-modal-close:hover {
-    background: #e4381C;
-    transform: rotate(90deg);
+.vk-video-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(228, 56, 28, 0.5);
+    background: linear-gradient(90deg, #e4381C, #e16521);
 }
 
+.vk-video-btn:active {
+    transform: translateY(0);
+}
+
+.vk-btn-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: #ffffff;
+}
+
+.vk-btn-text {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ------------------------------
+   АДАПТИВНОСТЬ
+------------------------------ */
+
+/* Планшеты (до 992px) */
+@media (max-width: 992px) {
+    .video-section {
+        padding: 70px 0;
+    }
+
+    .video-section .section-title h2 {
+        font-size: 36px;
+    }
+
+    .video-section .section-title p {
+        font-size: 16px;
+    }
+
+    /* Миниатюры в строку с информацией */
+    .video-thumbnails {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .thumbnail-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .thumbnail-image {
+        width: 120px;
+        aspect-ratio: 16 / 9;
+        flex-shrink: 0;
+    }
+
+    .thumbnail-info {
+        text-align: left;
+        padding: 10px 10px 10px 0;
+    }
+
+    .thumbnail-info h5 {
+        font-size: 15px;
+    }
+
+    .thumbnail-info p {
+        font-size: 13px;
+    }
+}
+
+/* Мобильные устройства (до 768px) */
 @media (max-width: 768px) {
-    .video-modal-content {
-        width: 95%;
+    .video-section {
+        padding: 50px 0;
     }
 
-    .video-modal-content iframe {
-        height: 300px;
+    .video-section .section-title {
+        margin-bottom: 40px;
+    }
+
+    .video-section .section-title h2 {
+        font-size: 28px;
+    }
+
+    .video-section .section-title p {
+        font-size: 14px;
+    }
+
+    .video-thumbnails {
+        padding: 15px;
+    }
+
+    .thumbnail-image {
+        width: 100px;
+    }
+
+    .thumbnail-info h5 {
+        font-size: 13px;
+    }
+
+    .thumbnail-info p {
+        font-size: 12px;
+    }
+
+    .thumbnail-play {
+        width: 40px;
+        height: 40px;
+    }
+
+    .thumbnail-play i {
+        font-size: 16px;
+    }
+
+    .vk-video-btn {
+        padding: 10px 24px;
+    }
+
+    .vk-btn-text {
+        font-size: 12px;
     }
 }
+
+/* Маленькие мобильные (до 576px) */
+@media (max-width: 576px) {
+    .video-section .section-title h2 {
+        font-size: 24px;
+    }
+
+    .thumbnail-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .thumbnail-image {
+        width: 100%;
+    }
+
+    .thumbnail-info {
+        text-align: center;
+        padding: 12px;
+    }
+
+    .thumbnail-info h5 {
+        font-size: 14px;
+    }
+}
+
+/* Большие экраны */
+@media (min-width: 1400px) {
+    .video-section {
+        padding: 120px 0;
+    }
+
+    .video-section .section-title h2 {
+        font-size: 56px;
+    }
+
+    .video-section .section-title p {
+        font-size: 20px;
+    }
+
+    .thumbnail-info h5 {
+        font-size: 18px;
+    }
+
+    .thumbnail-info p {
+        font-size: 14px;
+    }
+}
+
+/* ------------------------------
+   АНИМАЦИИ
+------------------------------ */
+@keyframes videoFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes thumbnailFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.video-showcase {
+    animation: videoFadeInUp 0.6s ease forwards;
+}
+
+.thumbnail-item {
+    animation: thumbnailFadeIn 0.4s ease forwards;
+    opacity: 0;
+}
+
+.thumbnail-item:nth-child(1) { animation-delay: 0.05s; }
+.thumbnail-item:nth-child(2) { animation-delay: 0.1s; }
+.thumbnail-item:nth-child(3) { animation-delay: 0.15s; }
+.thumbnail-item:nth-child(4) { animation-delay: 0.2s; }
+.thumbnail-item:nth-child(5) { animation-delay: 0.25s; }
+.thumbnail-item:nth-child(6) { animation-delay: 0.3s; }

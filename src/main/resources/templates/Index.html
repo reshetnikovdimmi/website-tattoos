@@ -159,7 +159,7 @@
     <div class="class-title set-bg" data-setbg="img/classes-title-bg.jpg">
         <div class="container" th:each="currents : ${current.classes}" th:if="${currents.categoryTitle}">
             <div class="row">
-                <div class="col-lg-7 m-auto text-center">
+                <div class="col m-auto text-center">
                     <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
                         <h2 th:text="${currents.description}"></h2>
                         <p class="short-details" th:text="${currents.name}"></p>
@@ -239,25 +239,83 @@
 <!-- Choseus Section End -->
 
 <!-- Video Section Begin -->
-<section class="video-section set-bg" data-setbg="img/video-bg.jpg">
+<section class="video-section spad">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="video-text">
+            <div class="col-lg-12 text-center">
+                <div class="section-title">
                     <h2>Немного видео</h2>
-                    <a href="https://vk.com/video_ext.php?oid=-174808662&id=456239081&hash=b2f7acf9981a0447" width="333"
-                       height="660" frameborder="0" allowfullscreen="1"
-                       allow="autoplay; encrypted-media; fullscreen; picture-in-picture" class="play-btn video-popup">
-                        <i class="fa fa-play"></i>
-                    </a>
+                    <p>Смотрите процесс работы и готовые работы</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="video-showcase">
+                    <!-- Активное видео - адаптивный размер -->
+                    <div class="active-video">
+                        <div class="video-player-wrapper">
+                            <iframe id="activeVideo"
+                                    src="https://vk.com/video_ext.php?oid=-174808662&id=456239081&hash=b2f7acf9981a0447&autoplay=1"
+                                    frameborder="0"
+                                    allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <!-- Миниатюры других видео -->
+                    <div class="video-thumbnails">
+                        <div class="thumbnail-item active"
+                             data-video-url="https://vk.com/video_ext.php?oid=-174808662&id=456239081&hash=b2f7acf9981a0447">
+                            <div class="thumbnail-image">
+                                <img src="img/avatar.jpg" alt="Тату-процесс">
+                                <div class="thumbnail-play">
+                                    <i class="fa fa-play"></i>
+                                </div>
+                            </div>
+                            <div class="thumbnail-info">
+                                <h5>Тату-процесс</h5>
+                                <p>Процесс нанесения татуировки</p>
+                            </div>
+                        </div>
+
+                        <div class="thumbnail-item"
+                             data-video-url="https://vk.com/video_ext.php?oid=-174808662&id=456239082">
+                            <div class="thumbnail-image">
+                                <img src="img/avatar.jpg" alt="Результат работы">
+                                <div class="thumbnail-play">
+                                    <i class="fa fa-play"></i>
+                                </div>
+                            </div>
+                            <div class="thumbnail-info">
+                                <h5>Результат работы</h5>
+                                <p>Готовая татуировка</p>
+                            </div>
+                        </div>
+
+                        <div class="thumbnail-item"
+                             data-video-url="https://vk.com/video_ext.php?oid=-174808662&id=456239083">
+                            <div class="thumbnail-image">
+                                <img src="img/avatar.jpg" alt="Создание эскиза">
+                                <div class="thumbnail-play">
+                                    <i class="fa fa-play"></i>
+                                </div>
+                            </div>
+                            <div class="thumbnail-info">
+                                <h5>Создание эскиза</h5>
+                                <p>Процесс рисования эскиза</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!-- Video Section End -->
 
-<!-- Blog Section Begin -->
+<!-- Blog/Reviews Section Begin -->
 <section class="blog-section spad">
     <div class="container">
         <div class="row">
@@ -268,66 +326,138 @@
                 </div>
             </div>
         </div>
-        <div class="row blog-gird">
-            <div class="grid-sizer"></div>
-            <div class="col-lg-4 col-md-6 grid-item">
-                <div class="blog-item large-item set-bg" th:each="current, item : ${reviewsLimit}"
-                     th:if="${item.index == 0}" th:attr="data-setbg=@{'/images/'+${current.imageName}}">
-                    <a href="/reviews" class="blog-text">
-                        <div class="categories" th:text="${current.userName}"></div>
-                        <h5 th:text="${current.comment}"></h5>
+
+        <div class="blog-grid">
+            <!-- Отзыв 1 (левый верхний) -->
+            <div th:if="${reviewsLimit != null and reviewsLimit.size() > 0}" class="grid-item review-left">
+                <div class="blog-item large-item set-bg"
+                     th:with="review=${reviewsLimit[0]}"
+                     th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/review-placeholder.jpg'}}">
+                    <a href="/reviews" class="review-content">
+                        <span class="review-author" th:text="${review.userName}">Пользователь</span>
+                        <p class="review-text" th:text="${review.comment}">Текст отзыва</p>
+                        <div class="review-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
                     </a>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 grid-item">
+
+            <!-- Instagram блок (центр верхний) -->
+            <div class="grid-item instagram-center">
                 <div class="blog-item instagram-item">
-                    <a href="#" class="instagram-text">
-                        <div class="categories">«Красота в деталях» <i href="https://vk.com/r1tattoo"
-                                                                       class="fa fa-vk"></i></div>
-                    </a>
-                    <a href="/reviews" class="blog-text">
-                        <h5>Оставьте отзыв, получите скидку</h5>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 grid-item">
-                <div class="blog-item large-item set-bg" th:each="current, item : ${reviewsLimit}"
-                     th:if="${item.index == 1}" th:attr="data-setbg=@{'/images/'+${current.imageName}}">
-                    <a href="/reviews" class="blog-text">
-                        <div class="categories" th:text="${current.userName}"></div>
-                        <h5 th:text="${current.comment}"></h5>
+                    <div class="instagram-text">
+                        <span class="instagram-category">«Красота в деталях»</span>
+                        <i class="fa fa-instagram"></i>
+                    </div>
+                    <a href="/reviews" class="review-link">
+                        <p>Оставьте отзыв, получите скидку</p>
                     </a>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 grid-item">
-                <div class="blog-item large-item xls-large set-bg" data-setbg="img/blog/blog-3.jpg">
-                    <a href="/reviews" class="blog-text">
-                        <h5>Все отзывы</h5>
+
+            <!-- Отзыв 2 (правый верхний) -->
+            <div th:if="${reviewsLimit != null and reviewsLimit.size() > 1}" class="grid-item review-right">
+                <div class="blog-item large-item set-bg"
+                     th:with="review=${reviewsLimit[1]}"
+                     th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/review-placeholder.jpg'}}">
+                    <a href="/reviews" class="review-content">
+                        <span class="review-author" th:text="${review.userName}">Пользователь</span>
+                        <p class="review-text" th:text="${review.comment}">Текст отзыва</p>
+                        <div class="review-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
                     </a>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 grid-item">
-                <div class="blog-item large-item set-bg" th:each="current, item : ${reviewsLimit}"
-                     th:if="${item.index == 2}" th:attr="data-setbg=@{'/images/'+${current.imageName}}">
-                    <a href="/reviews" class="blog-text">
-                        <div class="categories" th:text="${current.userName}"></div>
-                        <h5 th:text="${current.comment}"></h5>
+
+            <!-- Отзыв 3 (левый нижний) -->
+            <div th:if="${reviewsLimit != null and reviewsLimit.size() > 2}" class="grid-item review-left">
+                <div class="blog-item large-item set-bg"
+                     th:with="review=${reviewsLimit[2]}"
+                     th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/review-placeholder.jpg'}}">
+                    <a href="/reviews" class="review-content">
+                        <span class="review-author" th:text="${review.userName}">Пользователь</span>
+                        <p class="review-text" th:text="${review.comment}">Текст отзыва</p>
+                        <div class="review-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
                     </a>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 grid-item">
-                <div class="blog-item large-item set-bg" th:each="current, item : ${reviewsLimit}"
-                     th:if="${item.index == 3}" th:attr="data-setbg=@{'/images/'+${current.imageName}}">
-                    <a href="/reviews" class="blog-text">
-                        <div class="categories" th:text="${current.userName}"></div>
-                        <h5 th:text="${current.comment}"></h5>
+
+            <!-- Блок "Все отзывы" (центр нижний) -->
+            <div class="grid-item all-reviews-center">
+                <div class="blog-item all-reviews-item set-bg" data-setbg="/img/blog/blog-3.jpg">
+                    <a href="/reviews" class="all-reviews-link">
+                        <span>Все отзывы</span>
+                        <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Отзыв 4 (правый нижний) -->
+            <div th:if="${reviewsLimit != null and reviewsLimit.size() > 3}" class="grid-item review-right">
+                <div class="blog-item large-item set-bg"
+                     th:with="review=${reviewsLimit[3]}"
+                     th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/review-placeholder.jpg'}}">
+                    <a href="/reviews" class="review-content">
+                        <span class="review-author" th:text="${review.userName}">Пользователь</span>
+                        <p class="review-text" th:text="${review.comment}">Текст отзыва</p>
+                        <div class="review-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
                     </a>
                 </div>
             </div>
         </div>
+
+        <!-- Дополнительные отзывы (5, 6, 7, 8...) -->
+        <div class="blog-grid" th:if="${reviewsLimit != null and reviewsLimit.size() > 4}">
+            <th:block th:each="review, iterStat : ${reviewsLimit}" th:if="${iterStat.index >= 4}">
+                <div th:class="${(iterStat.index - 4) % 2 == 0} ? 'grid-item review-left' : 'grid-item review-right'">
+                    <div class="blog-item large-item set-bg"
+                         th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/review-placeholder.jpg'}}">
+                        <a href="/reviews" class="review-content">
+                            <span class="review-author" th:text="${review.userName}">Пользователь</span>
+                            <p class="review-text" th:text="${review.comment}">Текст отзыва</p>
+                            <div class="review-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+
+        <!-- Кнопка "Загрузить ещё" -->
+        <div class="row" th:if="${reviewsLimit != null and reviewsLimit.size() > 4}">
+            <div class="col-lg-12 text-center">
+                <button class="load-more-reviews">Загрузить ещё</button>
+            </div>
+        </div>
     </div>
 </section>
-<!-- Blog Section End -->
 
 <!-- Cta Section Begin -->
 <div th:replace="~{fragments::cta-section}"></div>
@@ -337,26 +467,33 @@
 <section class="map-section">
     <div class="container-fluid px-0">
         <div class="row g-0">
-            <!-- Яндекс.Карта -->
-            <div class="col-lg-8">
-                <div class="map-container">
-                    <!-- Контейнер для рекламы -->
-                    <div class="yandex-ad-container" id="yandex_rtb_R-A-9839314-2"></div>
+            <!-- Яндекс.Карта (iframe) -->
+            <div class="col-lg-8 position-relative">
+                <div class="map-widget-wrapper">
+                    <div class="map-widget">
+                        <iframe
+                                src="https://yandex.ru/map-widget/v1/?ll=73.368229%2C54.987563&z=17&pt=73.368229%2C54.987563,pm2rdm&whatshere[point]=73.368229%2C54.987563&whatshere[zoom]=17"
+                                width="100%"
+                                height="530"
+                                frameborder="0"
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
 
-                    <!-- Скрипт Яндекса -->
-                    <script>
-                        window.yaContextCb = window.yaContextCb || [];
-                        window.yaContextCb.push(() => {
-                            try {
-                                Ya.Context.AdvManager.render({
-                                    "blockId": "R-A-9839314-2",
-                                    "renderTo": "yandex_rtb_R-A-9839314-2"
-                                });
-                            } catch (e) {
-                                console.log('Ad render error:', e);
-                            }
-                        });
-                    </script>
+                <div class="map-hover">
+                    <div class="map-hover-content">
+                        <div class="map-hover-icon">
+                            <i class="icon_pin_alt"></i>
+                        </div>
+                        <h5>Тату-студия Maxsim</h5>
+                        <p>г. Омск, ул. Лермонтова, д. 81</p>
+                        <ul class="work-time">
+                            <li><span>Пн-Пт:</span> 09:00 - 18:00</li>
+                            <li><span>Сб-Вс:</span> Выходной</li>
+                        </ul>
+                        <a href="https://yandex.ru/maps/?rtext=~73.368229%2C54.987563" target="_blank" class="map-btn">Построить маршрут</a>
+                    </div>
                 </div>
             </div>
 

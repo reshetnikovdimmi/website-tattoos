@@ -18,7 +18,6 @@ import ru.tattoo.maxsim.service.interf.*;
 @RequestMapping(AdminController.ADMIN_URL)
 public class AdminController {
 
-    private static final String ALL_GALLERY = "Вся галерея";
     public static final String ADMIN_URL = "/admin";
     public static final String ADMIN_NAME = "admin";
 

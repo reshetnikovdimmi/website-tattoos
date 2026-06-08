@@ -1,5 +1,5 @@
 /* ============================================
-   CHOOSE US SECTION - ПОЧЕМУ ВЫБИРАЮТ НАС
+   CHOOSE US SECTION - ПОЧЕМУ ВЫБИРАЮТ МЕНЯ
    ============================================ */
 
 /* ------------------------------
@@ -54,7 +54,7 @@
 }
 
 /* ------------------------------
-   СЕТКА ПРЕИМУЩЕСТВ
+   КАРТОЧКИ - ФИКСИРОВАННАЯ ВЫСОТА
 ------------------------------ */
 .chooseus-section .row {
     display: flex;
@@ -62,7 +62,7 @@
     margin: 0 -15px;
 }
 
-/* Карточка преимущества */
+/* Карточка преимущества с фиксированной высотой */
 .choose-item {
     text-align: center;
     padding: 30px 25px;
@@ -72,6 +72,13 @@
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.05);
     transition: all 0.3s ease;
+
+    /* ФИКСИРОВАННАЯ ВЫСОТА */
+    min-height: 320px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .choose-item:hover {
@@ -88,6 +95,7 @@
     object-fit: contain;
     margin-bottom: 20px;
     transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .choose-item:hover img {
@@ -104,19 +112,25 @@
     margin-bottom: 15px;
     letter-spacing: 1px;
     transition: color 0.3s ease;
+    flex-shrink: 0;
 }
 
 .choose-item:hover h5 {
     color: #e4381C;
 }
 
-/* Описание */
+/* Описание - с ограничением строк */
 .choose-item .short-details {
     font-size: 15px;
     font-family: "Nunito Sans", sans-serif;
     color: #8f8fa8;
-    line-height: 1.6;
+    line-height: 1.5;
     margin-bottom: 0;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 /* ------------------------------
@@ -163,6 +177,7 @@
     }
 
     .choose-item {
+        min-height: 300px;
         padding: 25px 20px;
     }
 
@@ -173,6 +188,11 @@
     .choose-item img {
         width: 60px;
         height: 60px;
+    }
+
+    .choose-item .short-details {
+        font-size: 14px;
+        -webkit-line-clamp: 4;
     }
 }
 
@@ -195,6 +215,7 @@
     }
 
     .choose-item {
+        min-height: 280px;
         padding: 20px 15px;
         margin-bottom: 20px;
     }
@@ -205,7 +226,8 @@
     }
 
     .choose-item .short-details {
-        font-size: 14px;
+        font-size: 13px;
+        -webkit-line-clamp: 3;
     }
 
     .choose-item img {
@@ -226,6 +248,7 @@
     }
 
     .choose-item {
+        min-height: 260px;
         padding: 15px 12px;
     }
 
@@ -234,7 +257,8 @@
     }
 
     .choose-item .short-details {
-        font-size: 13px;
+        font-size: 12px;
+        -webkit-line-clamp: 3;
     }
 
     .choose-item img {
@@ -246,6 +270,7 @@
 /* Большие экраны */
 @media (min-width: 1400px) {
     .choose-item {
+        min-height: 350px;
         padding: 40px 30px;
     }
 

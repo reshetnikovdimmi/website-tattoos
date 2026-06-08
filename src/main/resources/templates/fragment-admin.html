@@ -343,8 +343,8 @@
                                                                     <i class="fa fa-trash"></i>
                                                                 </button>
                                                             </div>
-                                                                <p class="about-item-description"
-                                                                   th:text="${currents.description}">Описание...</p>
+                                                            <p class="about-item-description"
+                                                               th:text="${currents.description}">Описание...</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -545,7 +545,7 @@
                                                     <div th:each="currents : ${current.classes}"
                                                          th:if="${currents.categoryTitle}">
                                                         <div class="category-card">
-                                                            <form th:id="${currents.id}" action="/classes/import"
+                                                            <form th:id="${currents.id}" action="/admin/classes/import"
                                                                   onsubmit="submitForm(event)"
                                                                   data-fragment-name="classes"
                                                                   data-container-selector=".classes-import"
@@ -577,7 +577,7 @@
                                                                             th:id="${currents.id}"
                                                                             data-fragment-name="classes"
                                                                             data-container-selector=".classes-import"
-                                                                            data-deletion-url="/classes/delete-section"
+                                                                            data-deletion-url="/admin/classes/delete-section"
                                                                             onclick="deleteImage(this)"
                                                                             title="Удалить категорию">
                                                                         <i class="fa fa-trash"></i> Удалить
@@ -605,7 +605,7 @@
                                             <h4>Добавить новую услугу/класс</h4>
                                         </div>
                                         <div class="admin-card-body">
-                                            <form action="/classes/image-import"
+                                            <form action="/admin/classes/image-import"
                                                   onsubmit="submitForm(event)"
                                                   data-fragment-name="classes"
                                                   data-container-selector=".classes-import"
@@ -641,7 +641,7 @@
                                                                 Заголовок (H2)
                                                             </label>
                                                             <textarea class="admin-textarea" name="description"
-                                                                      th:field="*{description}"
+                                                                      th:field="*{name}"
                                                                       placeholder="Название услуги/класса..."
                                                                       required></textarea>
                                                         </div>
@@ -652,7 +652,7 @@
                                                                 Описание (H1)
                                                             </label>
                                                             <textarea class="admin-textarea" name="name"
-                                                                      th:field="*{name}"
+                                                                      th:field="*{description}"
                                                                       placeholder="Подробное описание услуги..."
                                                                       rows="4" required></textarea>
                                                         </div>
@@ -688,16 +688,17 @@
                                                                  alt="Default">
                                                         </div>
                                                         <div class="class-item-content">
-                                                            <h5 th:text="${currents.description}">Название услуги</h5>
-                                                            <p th:text="${currents.name}">Описание услуги...</p>
+                                                            <h5 th:text="${currents.name}">Название услуги</h5>
+                                                            <p th:text="${currents.description}">Описание услуги...</p>
                                                         </div>
                                                         <div class="class-item-actions">
                                                             <button class="action-btn delete-btn"
                                                                     th:id="${currents.id}"
                                                                     data-fragment-name="classes"
                                                                     data-container-selector=".classes-import"
-                                                                    data-deletion-url="/classes/delete-section"
+                                                                    data-deletion-url="/admin/classes/delete-section"
                                                                     onclick="deleteImage(this)"
+                                                                    data-method="GET"
                                                                     title="Удалить">
                                                                 <i class="fa fa-trash"></i>
                                                             </button>
@@ -742,7 +743,7 @@
                                                 <div th:each="currents : ${current.price}"
                                                      th:if="${currents.categoryTitle}">
                                                     <div class="category-card">
-                                                        <form th:id="${currents.id}" action="/price/import"
+                                                        <form th:id="${currents.id}" action="/admin/price/import"
                                                               onsubmit="submitForm(event)"
                                                               data-fragment-name="price"
                                                               data-container-selector=".price"
@@ -783,7 +784,7 @@
                                         <div class="row" th:each="current: ${home}">
                                             <div class="col-lg-4" th:each="currents : ${current.price}"
                                                  th:unless="${currents.categoryTitle}">
-                                                <form th:id="${currents.id}" action="/price/import"
+                                                <form th:id="${currents.id}" action="/admin/price/import"
                                                       onsubmit="submitForm(event)"
                                                       data-fragment-name="price"
                                                       data-container-selector=".price"
@@ -857,7 +858,7 @@
 
                                                     <div class="category-card">
                                                         <form th:id="${currents.id}"
-                                                              action="/chooseus/import"
+                                                              action="/admin/chooseus/import"
                                                               onsubmit="submitForm(event)"
                                                               data-fragment-name="chooseus"
                                                               data-container-selector=".chooseus"
@@ -868,12 +869,12 @@
                                                                 <div class="category-header">
                                                                     <i class="fa fa-folder-open"></i>
                                                                     <input type="text" th:value="*{description}"
-                                                                           name="description"
+                                                                           name="title"
                                                                            class="category-title-input"
                                                                            disabled/>
                                                                 </div>
                                                                 <textarea rows="3" th:text="*{title}"
-                                                                          name="title"
+                                                                          name="description"
                                                                           class="category-description-input"
                                                                           disabled></textarea>
                                                             </div>
@@ -888,7 +889,7 @@
                                                                         th:id="${currents.id}"
                                                                         data-fragment-name="chooseus"
                                                                         data-container-selector=".chooseus"
-                                                                        data-deletion-url="/chooseus/delete-section"
+                                                                        data-deletion-url="/admin/chooseus/delete-section"
                                                                         onclick="deleteImage(this)"
                                                                         title="Удалить">
                                                                     <i class="fa fa-trash"></i> Удалить
@@ -915,7 +916,7 @@
                                             <h4>Добавить преимущество</h4>
                                         </div>
                                         <div class="admin-card-body">
-                                            <form action="/chooseus/image-import"
+                                            <form action="/admin/chooseus/image-import"
                                                   onsubmit="submitForm(event)"
                                                   data-fragment-name="chooseus"
                                                   data-container-selector=".chooseus"
@@ -1004,7 +1005,8 @@
                                                                     th:id="${currents.id}"
                                                                     data-fragment-name="chooseus"
                                                                     data-container-selector=".chooseus"
-                                                                    data-deletion-url="/chooseus/delete-section"
+                                                                    data-deletion-url="/admin/chooseus/delete-section"
+                                                                    data-method="GET"
                                                                     onclick="deleteImage(this)"
                                                                     title="Удалить">
                                                                 <i class="fa fa-trash"></i>
@@ -1068,11 +1070,13 @@
                                             <i class="fa fa-calendar"></i>
                                             <span th:text="${current.date}">Дата</span>
                                         </div>
-                                        <button sec:authorize="hasAuthority('ADMIN')" th:id="${current.id}"
+                                        <button sec:authorize="hasAuthority('ADMIN')"
+                                                th:id="${current.id}"
                                                 onclick="deleteImage(this)"
                                                 data-fragment-name="blogreviews"
                                                 data-container-selector=".blogreviews"
                                                 data-deletion-url="/admin/reviews/delete-section"
+                                                data-method="GET"
                                                 class="review-delete-btn">
                                             <i class="fa fa-trash"></i>
                                         </button>
@@ -1321,10 +1325,10 @@
                                             <div th:each="current : ${commits}" class="comment-item-card">
                                                 <!-- Аватар пользователя -->
                                                 <div class="comment-avatar">
-                                                    <img th:if="${current.user != null and current.user.avatar}"
+                                                    <img th:if="${current?.user?.avatar != null}"
                                                          th:src="@{'/images/' + ${current.user.avatar}}"
                                                          alt="Avatar">
-                                                    <img th:unless="${current.user != null and current.user.avatar}"
+                                                    <img th:unless="${current?.user?.avatar != null}"
                                                          src="/img/avatar.jpg"
                                                          alt="Avatar">
                                                 </div>
@@ -1344,6 +1348,7 @@
                                                                 data-deletion-url="/admin/blog/delete-commit"
                                                                 onclick="deleteImage(this)"
                                                                 class="comment-delete-btn"
+                                                                data-method="GET"
                                                                 title="Удалить комментарий">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
@@ -1392,9 +1397,9 @@
                                 <div class="blog-gallery-content">
                                     <div class="blog-gallery-image">
 
-                                        <img id="big-imag"
+                                        <img id="big-image"
                                              th:src="${current.imageName != null ? '/images/' + current.imageName : '/img/avatar.jpg'}"
-                                             alt="big-imag">
+                                             alt="big-image">
 
                                     </div>
                                     <div class="blog-gallery-form">
@@ -1463,76 +1468,37 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- SMAIL 1 IMAGE -->
-                        <div class="admin-card" th:each="current: ${blog}"
-                             th:if="${current.section=='smail-1-image'}">
-                            <div class="admin-card-header">
 
-                                <i class="fa fa-image"></i>
-                                <h4>Маленькое изображение 1</h4>
-                                <span class="section-badge">Дополнительное изображение</span>
-                            </div>
-                            <div class="blog-gallery-content">
-                                <div class="blog-gallery-image">
-                                    <img id="smail-1-image"
-                                         th:src="${current.imageName != null ? '/images/' + current.imageName : '/img/avatar.jpg'}"
-                                         alt="smail-1-image">
-                                </div>
-                                <div class="blog-gallery-form">
-                                    <form th:id="${current.id}"
-                                          action="/admin/blog/image-import"
-                                          onsubmit="submitForm(event)"
-                                          method="post" enctype="multipart/form-data"
-                                          data-fragment-name="blog-pic"
-                                          data-container-selector=".admin-blog-pic">
-                                        <input hidden type="text" name="section" value="smail-1-image">
-                                        <div class="custom-file-upload">
-                                            <input type="file" name="file" id="file-smail-1-image"
-                                                   accept="image/*"
-                                                   onchange="loadImage(this, document.getElementById('smail-1-image'))"
-                                                   hidden>
-                                            <label for="file-smail-1-image" class="upload-file-btn">
-                                                <i class="fa fa-upload"></i> Выбрать файл
-                                            </label>
-                                        </div>
-                                        <button type="submit" class="submit-image-btn">
-                                            <i class="fa fa-save"></i> Загрузить изображение
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                            <!-- SMAIL 1 IMAGE -->
+                            <div class="admin-card" th:each="current: ${blog}"
+                                 th:if="${current.section=='smail-1-image'}">
+                                <div class="admin-card-header">
 
-                        <!-- SMAIL 2 IMAGE -->
-                        <div class="blog-gallery-section" th:each="current: ${blog}"
-                             th:if="${current.section=='smail-2-image'}">
-                            <div class="blog-gallery-card">
-                                <div class="blog-gallery-header">
                                     <i class="fa fa-image"></i>
-                                    <h4>Маленькое изображение 2</h4>
+                                    <h4>Маленькое изображение 1</h4>
                                     <span class="section-badge">Дополнительное изображение</span>
                                 </div>
                                 <div class="blog-gallery-content">
                                     <div class="blog-gallery-image">
-                                        <img id="smail-2-image"
+                                        <img id="smail-1-image"
                                              th:src="${current.imageName != null ? '/images/' + current.imageName : '/img/avatar.jpg'}"
-                                             alt="smail-2-image">
+                                             alt="smail-1-image">
                                     </div>
                                     <div class="blog-gallery-form">
-                                        <form th:id="${current.id}" action="/admin/blog/image-import"
-                                              method="post" enctype="multipart/form-data"
+                                        <form th:id="${current.id}"
+                                              action="/admin/blog/image-import"
                                               onsubmit="submitForm(event)"
+                                              method="post" enctype="multipart/form-data"
                                               data-fragment-name="blog-pic"
                                               data-container-selector=".admin-blog-pic">
-                                            <input hidden type="text" name="section" value="smail-2-image">
+                                            <input hidden type="text" name="section" value="smail-1-image">
                                             <div class="custom-file-upload">
-                                                <input type="file" name="file" id="file-smail-2-image"
+                                                <input type="file" name="file" id="file-smail-1-image"
                                                        accept="image/*"
-                                                       onchange="loadImage(this, document.getElementById('smail-2-image'))"
+                                                       onchange="loadImage(this, document.getElementById('smail-1-image'))"
                                                        hidden>
-                                                <label for="file-smail-2-image" class="upload-file-btn">
+                                                <label for="file-smail-1-image" class="upload-file-btn">
                                                     <i class="fa fa-upload"></i> Выбрать файл
                                                 </label>
                                             </div>
@@ -1543,8 +1509,47 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
+                            <!-- SMAIL 2 IMAGE -->
+                            <div class="blog-gallery-section" th:each="current: ${blog}"
+                                 th:if="${current.section=='smail-2-image'}">
+                                <div class="blog-gallery-card">
+                                    <div class="blog-gallery-header">
+                                        <i class="fa fa-image"></i>
+                                        <h4>Маленькое изображение 2</h4>
+                                        <span class="section-badge">Дополнительное изображение</span>
+                                    </div>
+                                    <div class="blog-gallery-content">
+                                        <div class="blog-gallery-image">
+                                            <img id="smail-2-image"
+                                                 th:src="${current.imageName != null ? '/images/' + current.imageName : '/img/avatar.jpg'}"
+                                                 alt="smail-2-image">
+                                        </div>
+                                        <div class="blog-gallery-form">
+                                            <form th:id="${current.id}" action="/admin/blog/image-import"
+                                                  method="post" enctype="multipart/form-data"
+                                                  onsubmit="submitForm(event)"
+                                                  data-fragment-name="blog-pic"
+                                                  data-container-selector=".admin-blog-pic">
+                                                <input hidden type="text" name="section" value="smail-2-image">
+                                                <div class="custom-file-upload">
+                                                    <input type="file" name="file" id="file-smail-2-image"
+                                                           accept="image/*"
+                                                           onchange="loadImage(this, document.getElementById('smail-2-image'))"
+                                                           hidden>
+                                                    <label for="file-smail-2-image" class="upload-file-btn">
+                                                        <i class="fa fa-upload"></i> Выбрать файл
+                                                    </label>
+                                                </div>
+                                                <button type="submit" class="submit-image-btn">
+                                                    <i class="fa fa-save"></i> Загрузить изображение
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1560,169 +1565,172 @@
 
                     <div class="container">
                         <div class="blog-single-text" th:fragment="blog-single-text">
+                            <div class="description-grid admin-scroll">
+                                <!-- BLOG TEXT -->
+                                <div class="admin-card" th:each="current: ${blog}"
+                                     th:if="${current.section=='blog-text'}">
+                                    <div class="admin-card-header">
+                                        <i class="fa fa-paragraph"></i>
+                                        <h4>Текст блога</h4>
+                                        <span class="section-badge">Основной текст</span>
+                                    </div>
+                                    <div class="admin-card-body">
+                                        <div class="category-card">
+                                            <form th:id="${current.id}" action="/admin/blog/import"
+                                                  onsubmit="submitForm(event)"
+                                                  data-fragment-name="blog-single-text"
+                                                  data-container-selector=".blog-single-text">
+                                                <input hidden type="text" name="section" value="blog-text">
 
-                            <!-- BLOG TEXT -->
-                            <div class="admin-card" th:each="current: ${blog}"
-                                 th:if="${current.section=='blog-text'}">
-                                <div class="admin-card-header">
-                                    <i class="fa fa-paragraph"></i>
-                                    <h4>Текст блога</h4>
-                                    <span class="section-badge">Основной текст</span>
-                                </div>
-                                <div class="admin-card-body">
-                                    <div class="category-card">
-                                        <form th:id="${current.id}" action="/admin/blog/import"
-                                              onsubmit="submitForm(event)"
-                                              data-fragment-name="blog-single-text"
-                                              data-container-selector=".blog-single-text">
-                                            <input hidden type="text" name="section" value="blog-text">
+                                                <div class="category-content">
+                                                    <div class="category-header">
+                                                        <label class="admin-label"><i class="fa fa-heading"></i>
+                                                            Заголовок
+                                                            (H2)</label>
+                                                        <textarea class="admin-textarea" rows="4" th:name="'title'"
+                                                                  th:text="${current.title}" disabled></textarea>
+                                                    </div>
+                                                    <label class="admin-label"><i class="fa fa-align-left"></i> Текст
+                                                        (H3)</label>
+                                                    <textarea class="admin-textarea" rows="6" th:name="'subtitle'"
+                                                              th:text="${current.subtitle}" disabled></textarea>
 
-                                            <div class="category-content">
-                                                <div class="category-header">
-                                                    <label class="admin-label"><i class="fa fa-heading"></i> Заголовок
-                                                        (H2)</label>
-                                                    <textarea class="admin-textarea" rows="4" th:name="'title'"
-                                                              th:text="${current.title}" disabled></textarea>
                                                 </div>
-                                                <label class="admin-label"><i class="fa fa-align-left"></i> Текст
-                                                    (H3)</label>
-                                                <textarea class="admin-textarea" rows="6" th:name="'subtitle'"
-                                                          th:text="${current.subtitle}" disabled></textarea>
+                                                <div class="category-actions">
+                                                    <button type="submit" class="edit-category-btn">
+                                                        <i class="fa fa-edit"></i> Изменить
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                            </div>
-                                            <div class="category-actions">
-                                                <button type="submit" class="edit-category-btn">
-                                                    <i class="fa fa-edit"></i> Изменить
-                                                </button>
-                                            </div>
-                                        </form>
+                                <!-- BLOG TITLE -->
+                                <div class="admin-card" th:each="current: ${blog}"
+                                     th:if="${current.section=='blog-title'}">
+                                    <div class="admin-card-header">
+                                        <i class="fa fa-header"></i>
+                                        <h4>Заголовок блога</h4>
+                                        <span class="section-badge">Мета-информация</span>
+                                    </div>
+                                    <div class="admin-card-body">
+                                        <div class="category-card">
+                                            <form th:id="${current.id}" action="/admin/blog/import"
+                                                  onsubmit="submitForm(event)"
+                                                  data-fragment-name="blog-single-text"
+                                                  data-container-selector=".blog-single-text">
+                                                <input hidden type="text" name="section" value="blog-title">
+
+                                                <div class="category-content">
+                                                    <div class="category-header">
+                                                        <label class="admin-label"><i class="fa fa-heading"></i></label>
+                                                        <input type="text" class="admin-text-input" th:name="'title'"
+                                                               th:value="${current.title}" disabled>
+                                                    </div>
+
+                                                    <label class="admin-label mt-3"> <i
+                                                            class="fa fa-subscript"> </i></label>
+
+                                                    <textarea class="admin-textarea" rows="4" th:name="'subtitle'"
+                                                              th:text="${current.subtitle}" disabled></textarea>
+
+                                                    <label class="admin-label mt-3"><i
+                                                            class="fa fa-align-left"></i></label>
+
+                                                    <textarea class="admin-textarea" rows="5" th:name="'content'"
+                                                              th:text="${current.content}" disabled></textarea>
+
+                                                </div>
+                                                <div class="category-actions">
+                                                    <button type="submit" class="edit-category-btn">
+                                                        <i class="fa fa-edit"></i> Изменить
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- BLOG QUOTE -->
+                                <div class="admin-card" th:each="current: ${blog}"
+                                     th:if="${current.section=='blog-quote'}">
+                                    <div class="admin-card-header">
+                                        <i class="fa fa-quote-right"></i>
+                                        <h4>Цитата</h4>
+                                        <span class="section-badge">Выделенная цитата</span>
+                                    </div>
+                                    <div class="admin-card-body">
+                                        <div class="category-card">
+                                            <form th:id="${current.id}" action="/admin/blog/import"
+                                                  onsubmit="submitForm(event)"
+                                                  data-fragment-name="blog-single-text"
+                                                  data-container-selector=".blog-single-text">
+                                                <input hidden type="text" name="section" value="blog-quote">
+
+                                                <div class="category-content">
+                                                    <div style="category-header">
+                                                        <label class="admin-label"><i
+                                                                class="fa fa-quote-left quote-icon"></i>
+                                                            Автор цитаты</label>
+                                                        <input type="text" class="admin-textarea" th:name="'title'"
+                                                               th:value="${current.title}" disabled>
+                                                    </div>
+                                                    <label class="admin-label mt-3"><i class="fa fa-comment"></i>
+                                                        Текст цитаты</label>
+                                                    <textarea class="admin-textarea" rows="5" th:name="'subtitle'"
+                                                              th:text="${current.subtitle}" disabled></textarea>
+
+                                                </div>
+                                                <div class="category-actions">
+                                                    <button type="submit" class="edit-category-btn">
+                                                        <i class="fa fa-edit"></i> Изменить
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- BLOG MORE TITLE -->
+                                <div class="admin-card" th:each="current: ${blog}"
+                                     th:if="${current.section=='blog-more-title'}">
+                                    <div class="admin-card-header">
+                                        <i class="fa fa-plus-circle"></i>
+                                        <h4>Дополнительный раздел</h4>
+                                        <span class="section-badge">Подробнее</span>
+                                    </div>
+                                    <div class="admin-card-body">
+                                        <div class="category-card">
+                                            <form th:id="${current.id}" action="/admin/blog/import"
+                                                  onsubmit="submitForm(event)"
+                                                  data-fragment-name="blog-single-text"
+                                                  data-container-selector=".blog-single-text">
+                                                <input hidden type="text" name="section" value="blog-more-title">
+
+                                                <div class="category-content">
+                                                    <div class="category-header">
+                                                        <label class="admin-label"><i class="fa fa-heading"></i>
+                                                            Заголовок
+                                                            раздела</label>
+                                                        <input type="text" class="admin-text-input" th:name="'title'"
+                                                               th:value="${current.title}" disabled>
+                                                    </div>
+                                                    <label class="admin-label mt-3"><i class="fa fa-align-left"></i>
+                                                        Содержание</label>
+                                                    <textarea class="admin-textarea" rows="8" th:name="'subtitle'"
+                                                              th:text="${current.subtitle}" disabled></textarea>
+                                                </div>
+                                                <div class="category-actions">
+                                                    <button type="submit" class="edit-category-btn">
+                                                        <i class="fa fa-edit"></i> Изменить
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- BLOG TITLE -->
-                            <div class="admin-card" th:each="current: ${blog}"
-                                 th:if="${current.section=='blog-title'}">
-                                <div class="admin-card-header">
-                                    <i class="fa fa-header"></i>
-                                    <h4>Заголовок блога</h4>
-                                    <span class="section-badge">Мета-информация</span>
-                                </div>
-                                <div class="admin-card-body">
-                                    <div class="category-card">
-                                        <form th:id="${current.id}" action="/admin/blog/import"
-                                              onsubmit="submitForm(event)"
-                                              data-fragment-name="blog-single-text"
-                                              data-container-selector=".blog-single-text">
-                                            <input hidden type="text" name="section" value="blog-title">
-
-                                            <div class="category-content">
-                                                <div class="category-header">
-                                                    <label class="admin-label"><i class="fa fa-heading"></i></label>
-                                                    <input type="text" class="admin-text-input" th:name="'title'"
-                                                           th:value="${current.title}" disabled>
-                                                </div>
-
-                                                <label class="admin-label mt-3"> <i
-                                                        class="fa fa-subscript"> </i></label>
-
-                                                <textarea class="admin-textarea" rows="4" th:name="'subtitle'"
-                                                          th:text="${current.subtitle}" disabled></textarea>
-
-                                                <label class="admin-label mt-3"><i class="fa fa-align-left"></i></label>
-
-                                                <textarea class="admin-textarea" rows="5" th:name="'content'"
-                                                          th:text="${current.content}" disabled></textarea>
-
-                                            </div>
-                                            <div class="category-actions">
-                                                <button type="submit" class="edit-category-btn">
-                                                    <i class="fa fa-edit"></i> Изменить
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- BLOG QUOTE -->
-                            <div class="admin-card" th:each="current: ${blog}"
-                                 th:if="${current.section=='blog-quote'}">
-                                <div class="admin-card-header">
-                                    <i class="fa fa-quote-right"></i>
-                                    <h4>Цитата</h4>
-                                    <span class="section-badge">Выделенная цитата</span>
-                                </div>
-                                <div class="admin-card-body">
-                                    <div class="category-card">
-                                        <form th:id="${current.id}" action="/admin/blog/import"
-                                              onsubmit="submitForm(event)"
-                                              data-fragment-name="blog-single-text"
-                                              data-container-selector=".blog-single-text">
-                                            <input hidden type="text" name="section" value="blog-quote">
-
-                                            <div class="category-content">
-                                                <div style="category-header">
-                                                    <label class="admin-label"><i
-                                                            class="fa fa-quote-left quote-icon"></i>
-                                                        Автор цитаты</label>
-                                                    <input type="text" class="admin-textarea" th:name="'title'"
-                                                           th:value="${current.title}" disabled>
-                                                </div>
-                                                <label class="admin-label mt-3"><i class="fa fa-comment"></i>
-                                                    Текст цитаты</label>
-                                                <textarea class="admin-textarea" rows="5" th:name="'subtitle'"
-                                                          th:text="${current.subtitle}" disabled></textarea>
-
-                                            </div>
-                                            <div class="category-actions">
-                                                <button type="submit" class="edit-category-btn">
-                                                    <i class="fa fa-edit"></i> Изменить
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- BLOG MORE TITLE -->
-                            <div class="admin-card" th:each="current: ${blog}"
-                                 th:if="${current.section=='blog-more-title'}">
-                                <div class="admin-card-header">
-                                    <i class="fa fa-plus-circle"></i>
-                                    <h4>Дополнительный раздел</h4>
-                                    <span class="section-badge">Подробнее</span>
-                                </div>
-                                <div class="admin-card-body">
-                                    <div class="category-card">
-                                        <form th:id="${current.id}" action="/admin/blog/import"
-                                              onsubmit="submitForm(event)"
-                                              data-fragment-name="blog-single-text"
-                                              data-container-selector=".blog-single-text">
-                                            <input hidden type="text" name="section" value="blog-more-title">
-
-                                            <div class="category-content">
-                                                <div class="category-header">
-                                                    <label class="admin-label"><i class="fa fa-heading"></i> Заголовок
-                                                        раздела</label>
-                                                    <input type="text" class="admin-text-input" th:name="'title'"
-                                                           th:value="${current.title}" disabled>
-                                                </div>
-                                                <label class="admin-label mt-3"><i class="fa fa-align-left"></i>
-                                                    Содержание</label>
-                                                <textarea class="admin-textarea" rows="8" th:name="'subtitle'"
-                                                          th:text="${current.subtitle}" disabled></textarea>
-                                            </div>
-                                            <div class="category-actions">
-                                                <button type="submit" class="edit-category-btn">
-                                                    <i class="fa fa-edit"></i> Изменить
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
