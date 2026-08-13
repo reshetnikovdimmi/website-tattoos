@@ -35,7 +35,7 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
     private ClassesSectionService classesSectionService;
 
     @Override
-    protected String getEntityName() {
+    protected String getFragmentName() {
         return PAGE_FRAGMENT;
     }
 
@@ -56,7 +56,7 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
                                       HttpServletRequest request) {
         log.info("Загрузка галереи: {}", request.getRequestURI());
         updateSection(model);
-        return getEntityName()+"::galleryGridContainer";
+        return getFragmentName()+"::galleryGridContainer";
     }
 
     @RequestMapping(value = "{style}/{page}/{number}", method = RequestMethod.GET)
@@ -68,7 +68,7 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
         model.addAttribute("images", new Images());
         model.addAttribute("styleList", classesSectionService.findAll());
 
-        return getEntityName()+"::galleryGridContainer";
+        return getFragmentName()+"::galleryGridContainer";
     }
 
     @PostMapping("/toggle-featured")
@@ -77,20 +77,9 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
                              Model model,
                              Authentication auth) {
 
-        log.info("Обновление флага: id={}, flag={}, user={}", id, flag, auth.getName());
-
-        try {
             String message = imagesService.updateImageFlag(id, flag);
             model.addAttribute("message", "Флаг обновлен успешно:"+"-" + message);
-            log.debug("Флаг обновлен успешно: {}", message);
-
-        } catch (EntityNotFoundException e) {
-            log.error("Изображение не найдено: id={}, error={}", id, e.getMessage());
-            model.addAttribute("error", e.getMessage());
-        } catch (Exception e) {
-            log.error("Ошибка обновления флага: id={}, error={}", id, e.getMessage(), e);
-            model.addAttribute("error", "Внутренняя ошибка");
-        }
+            log.info("Обновление флага: id={}, flag={}, user={}", id, flag, auth.getName());
 
         return "modal::modal-body";
     }

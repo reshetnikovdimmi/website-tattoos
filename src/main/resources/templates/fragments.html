@@ -131,17 +131,17 @@
                     <li id="tell-footer">
                         <i class="fa fa-phone"></i>
                         <span>Телефон:</span>
-                        [(*{tell})]
+                        <span th:text="${contactInfo?.tell}">+7 (XXX) XXX-XX-XX</span>
                     </li>
                     <li id="email-footer">
                         <i class="fa fa-envelope-o"></i>
                         <span>Email:</span>
-                        [(*{email})]
+                        <span th:text="${contactInfo?.email}">studio@example.com</span>
                     </li>
                     <li id="address-footer">
                         <i class="fa fa-map-marker"></i>
                         <span>Адрес</span>
-                        [(*{address})]
+                        <span th:text="${contactInfo?.address ?: 'Не указан'}">г. Омск, ул. Лермонтова, д. 81</span>
                     </li>
                 </ul>
             </div>

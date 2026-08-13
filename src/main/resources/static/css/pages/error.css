@@ -1,0 +1,272 @@
+/* ============================================
+   ERROR PAGES - ACTIVITAR STYLE
+   ============================================ */
+
+/*---------------------
+  Error Container
+-----------------------*/
+
+.error-container {
+    text-align: center;
+    padding: 40px;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+/*---------------------
+  Error Code
+-----------------------*/
+
+.error-code {
+    font-size: 120px;
+    font-weight: 700;
+    font-family: "Oswald", sans-serif;
+    margin-bottom: 20px;
+    text-shadow: 0 0 30px rgba(228, 56, 28, 0.3);
+}
+
+.error-code-404 {
+    color: #ff9800;
+}
+
+.error-code-400 {
+    color: #ffc107;
+}
+
+.error-code-500 {
+    color: #dc3545;
+}
+
+/*---------------------
+  Error Icon
+-----------------------*/
+
+.error-icon {
+    font-size: 80px;
+    margin-bottom: 30px;
+}
+
+.error-icon-404 {
+    color: #ff9800;
+}
+
+.error-icon-400 {
+    color: #ffc107;
+}
+
+.error-icon-500 {
+    color: #dc3545;
+}
+
+/*---------------------
+  Typography
+-----------------------*/
+
+.error-container h1 {
+    font-size: 32px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    color: #ffffff;
+}
+
+.error-message {
+    font-size: 18px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+/*---------------------
+  Error Details
+-----------------------*/
+
+.error-details {
+    font-size: 14px;
+    background: rgba(228, 56, 28, 0.1);
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin: 20px 0;
+    display: inline-block;
+    word-break: break-word;
+    max-width: 100%;
+    font-family: monospace;
+}
+
+.error-details-404 {
+    color: #ff9800;
+    background: rgba(255, 152, 0, 0.1);
+}
+
+.error-details-400 {
+    color: #ffc107;
+    background: rgba(255, 193, 7, 0.1);
+}
+
+.error-details-500 {
+    color: #dc3545;
+    background: rgba(220, 53, 69, 0.1);
+}
+
+/*---------------------
+  Home Link Button
+-----------------------*/
+
+.home-link {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 30px;
+    background: -webkit-gradient(linear, left top, right top, from(#e16521), to(#e4381c));
+    background: -o-linear-gradient(left, #e16521, #e4381c);
+    background: linear-gradient(90deg, #e16521, #e4381c);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.home-link:hover {
+    -webkit-transform: translateY(-2px);
+    -ms-transform: translateY(-2px);
+    transform: translateY(-2px);
+    -webkit-box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/*---------------------
+  Suggestions Block (for 500)
+-----------------------*/
+
+.suggestions {
+    text-align: left;
+    margin-top: 20px;
+    padding: 15px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+}
+
+.suggestions h4 {
+    color: #e4381c;
+    margin-bottom: 10px;
+    font-family: "Oswald", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.suggestions ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.suggestions li {
+    color: #8f8fa8;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+/*---------------------
+  Report Link
+-----------------------*/
+
+.report-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: #e4381c;
+    text-decoration: none;
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 14px;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.report-link:hover {
+    color: #e16521;
+    text-decoration: underline;
+}
+
+/*---------------------
+  Separator
+-----------------------*/
+
+.error-separator {
+    margin: 20px 0;
+    border: none;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/*---------------------
+  Responsive
+-----------------------*/
+
+@media (max-width: 768px) {
+    .error-container {
+        padding: 30px 20px;
+    }
+
+    .error-code {
+        font-size: 80px;
+    }
+
+    .error-icon {
+        font-size: 60px;
+    }
+
+    .error-container h1 {
+        font-size: 24px;
+    }
+
+    .error-message {
+        font-size: 16px;
+    }
+
+    .error-details {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    .suggestions h4 {
+        font-size: 16px;
+    }
+
+    .suggestions li {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .error-code {
+        font-size: 60px;
+    }
+
+    .error-icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
+
+    .error-container h1 {
+        font-size: 20px;
+    }
+
+    .error-message {
+        font-size: 14px;
+    }
+
+    .home-link {
+        padding: 10px 25px;
+        font-size: 12px;
+    }
+}

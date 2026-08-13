@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.controller.CRUDController;
 import ru.tattoo.maxsim.model.*;
-import ru.tattoo.maxsim.service.interf.CRUDService;
-import ru.tattoo.maxsim.service.interf.ContactInfoService;
-import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
-import ru.tattoo.maxsim.service.interf.UserService;
+import ru.tattoo.maxsim.repository.SettingWebsiteRepository;
+import ru.tattoo.maxsim.service.interf.*;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -30,6 +28,8 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     private UserService userService;
     @Autowired
     private ContactInfoService contactInfoService;
+    @Autowired
+    private MailSettingsService mailSettingsService;
 
     @GetMapping()
     private String getGalleryFragment(Model model, HttpServletRequest request) {
@@ -38,7 +38,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
 
         updateSection(model);
 
-        return getEntityName()+"setting";
+        return getFragmentName()+"setting";
     }
     @GetMapping("/delete-user/{id}")
     public String deleteUser(@PathVariable("id") Long id,
@@ -47,13 +47,21 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
         userService.deleteById(id);
         updateSection(model);
 
-        return getEntityName() + "user";
+        return getFragmentName() + "user";
     }
 
 
     @PostMapping("/contact/import")
     public String createContact(@ModelAttribute() ContactInfo object,
                          Model model) throws IOException, ParseException {
+
+        log.info("📞 СОХРАНЕНИЕ КОНТАКТОВ");
+        log.info("   ID: {}", object.getId());
+        log.info("   Телефон: {}", object.getTell());
+        log.info("   Email: {}", object.getEmail());
+        log.info("   Адрес: {}", object.getAddress());
+        log.info("   Часы работы: {}", object.getWorkHours());
+
         contactInfoService.create(object);
         return "fragments::footer";
     }
@@ -100,11 +108,11 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     }
 
     String getEntityName(SettingWebsite object) {
-        return getEntityName() + object.getSection();
+        return getFragmentName() + object.getSection();
     }
 
     @Override
-    protected String getEntityName() {
+    protected String getFragmentName() {
         return "fragment-admin::";
     }
 
@@ -117,5 +125,6 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     protected void updateSection(Model model) {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("setting", settingWebsiteService.findAll());
+        model.addAttribute("mailSettings", mailSettingsService.getSettings());
     }
 }

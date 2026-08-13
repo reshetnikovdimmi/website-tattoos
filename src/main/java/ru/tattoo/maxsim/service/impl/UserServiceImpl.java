@@ -1,7 +1,6 @@
 package ru.tattoo.maxsim.service.impl;
 
 import io.micrometer.common.util.StringUtils;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,21 +11,15 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.exceptions.FileDeletionException;
 import ru.tattoo.maxsim.exceptions.UserNotFoundException;
 import ru.tattoo.maxsim.model.DTO.UserDTO;
-import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.repository.UserRepository;
 import ru.tattoo.maxsim.service.interf.UserService;
 import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.ImageUtils;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -86,7 +79,7 @@ public class UserServiceImpl extends AbstractCRUDService<User, Long> implements 
             try {
                 ImageUtils.deleteImage(user.getAvatar());
             } catch (IOException e) {
-                throw new FileDeletionException("Ошибка удаления файла" +"-->"+ e);
+                throw new FileDeletionException("Ошибка удаления файла" +"-->"+ e, e);
             }
         }
 

@@ -31,13 +31,13 @@ public class FeatureSectionServiceImpl extends AbstractCRUDService<FeatureSectio
     protected void setImageFileName(FeatureSection entity, String fileName) {
         if (entity != null) {
             entity.setImageName(fileName);
-            entity.setSection("home");
+
         }
     }
 
     @Override
     void prepareObject(FeatureSection entity, String fileName) {
-        setImageFileName(entity, fileName);
+        entity.setHomeId(1L);
     }
 
     @Override

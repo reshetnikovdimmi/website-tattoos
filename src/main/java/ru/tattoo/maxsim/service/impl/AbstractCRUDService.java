@@ -1,11 +1,14 @@
 package ru.tattoo.maxsim.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.exceptions.FileDeletionException;
+import ru.tattoo.maxsim.exceptions.FileUploadException;
+import ru.tattoo.maxsim.exceptions.ValidationException;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.storage.ImageStorage;
-import ru.tattoo.maxsim.util.ImageUtils;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -71,16 +74,28 @@ public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K> {
 
     @Override
     public void deleteById(K id) throws IOException {
-        // Пытаемся найти сущность, чтобы получить имя файла
+        // 1. Проверяем, существует ли сущность
+        if (!getRepository().existsById(id)) {
+            log.warn("Попытка удалить несуществующую сущность с id {}", id);
+            throw new EntityNotFoundException("Сущность с id " + id + " не найдена");
+        }
+
+        // 2. Получаем сущность (теперь она точно есть)
         E entity = findById(id);
-        if (entity != null) {
-            String fileName = getImageFileName(entity);
-            if (fileName != null && !fileName.isEmpty()) {
+
+        // 3. Удаляем файл
+        String fileName = getImageFileName(entity);
+        if (fileName != null && !fileName.isEmpty()) {
+            try {
                 getImageStorage().deleteImage(fileName);
-                log.debug("Файл удален при удалении по ID: {}", fileName);
+                log.debug("Файл удалён: {}", fileName);
+            } catch (IOException e) {
+                log.error("Ошибка при удалении файла {}: {}", fileName, e.getMessage());
+                throw new FileDeletionException("Не удалось удалить файл: " + fileName, e);
             }
         }
 
+        // 4. Удаляем сущность из БД
         getRepository().deleteById(id);
         log.debug("Сущность с ID {} удалена", id);
     }
@@ -143,6 +158,7 @@ public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K> {
             // Устанавливаем имя файла в сущность
             setImageFileName(entity, savedFileName);
             prepareObject(entity, savedFileName);
+
             log.debug("🔄 Объект подготовлен: {}", entity);
 
             // Сохраняем сущность в БД
@@ -154,36 +170,36 @@ public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K> {
             return savedEntity;
 
         } catch (IOException e) {
-            log.error("❌ Ошибка при сохранении изображения: {}", e.getMessage(), e);
-            throw e;
+            log.error("❌ Ошибка ввода-вывода при сохранении изображения: {}", e.getMessage(), e);
+            throw new FileUploadException("Ошибка сохранения изображения: " + e.getMessage(), e);
         } catch (Exception e) {
-            log.error("❌ Неожиданная ошибка: {}", e.getMessage(), e);
-            throw new IOException("Ошибка сохранения изображения", e);
+            log.error("❌ Неожиданная ошибка при сохранении изображения", e);
+            throw new FileUploadException("Неожиданная ошибка при сохранении изображения", e);
         }
     }
 
     /**
      * Валидация загружаемого файла
      */
-    private void validateFile(MultipartFile file) throws IOException {
+    private void validateFile(MultipartFile file) {
         if (file == null) {
-            throw new IOException("Файл не может быть null");
+            throw new ValidationException("Файл не может быть null");
         }
 
         if (file.isEmpty()) {
-            throw new IOException("Файл не может быть пустым");
+            throw new ValidationException("Файл не может быть пустым");
         }
 
         // Проверка расширения
         String originalFilename = file.getOriginalFilename();
         if (originalFilename == null || originalFilename.isEmpty()) {
-            throw new IOException("Имя файла не может быть пустым");
+            throw new ValidationException("Имя файла не может быть пустым");
         }
 
         // Проверка на допустимые типы (можно вынести в конфиг)
         String contentType = file.getContentType();
         if (contentType != null && !contentType.startsWith("image/")) {
-            throw new IOException("Файл должен быть изображением");
+            throw new ValidationException("Файл должен быть изображением");
         }
     }
 

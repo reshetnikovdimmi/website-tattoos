@@ -25,6 +25,7 @@
 @import 'layouts/reviews-container.css';
 
 /* Pages */
+@import 'pages/error.css';
 @import 'pages/admin-common.css';
 @import 'pages/gallery.css';
 @import 'pages/sketches.css';
@@ -44,6 +45,7 @@
 @import 'pages/contact-map.css';
 @import 'pages/login.css';
 @import 'pages/lk-wrapper.css';
+@import 'pages/mail.css';
 
 /* Responsive */
 @import 'responsive/mobile.css';

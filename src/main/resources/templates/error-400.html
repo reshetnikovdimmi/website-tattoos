@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Неверный запрос - 400</title>
+</head>
+<body>
+<div class="error-container">
+    <div class="error-icon">
+        <i class="fa fa-exclamation-triangle"></i>
+    </div>
+    <div class="error-code">400</div>
+    <h1>Неверный запрос</h1>
+    <p class="error-message" th:text="${errorMessage}">Сервер не может обработать запрос из-за синтаксической ошибки.</p>
+    <p class="error-message">Пожалуйста, проверьте введённые данные и попробуйте снова.</p>
+    <div th:if="${errorDetails}" class="error-details" th:text="${errorDetails}"></div>
+    <a href="/" class="home-link">Вернуться на главную</a>
+</div>
+</body>
+</html>

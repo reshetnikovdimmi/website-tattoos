@@ -26,7 +26,7 @@ public class UserController extends CRUDController<User, Long> {
     private UserService userService;
 
     @Override
-    protected String getEntityName() {
+    protected String getFragmentName() {
         return "admin::user";
     }
 
@@ -44,10 +44,9 @@ public class UserController extends CRUDController<User, Long> {
     @GetMapping("/delete/{id}")
     public String deleteEntity(@PathVariable("id") Long id,
                                @RequestParam(value = "fragment", required = false) String fragmentName,
-                               Model model,
-                               HttpServletRequest request) throws IOException, ParseException {
+                               Model model) throws IOException {
         getService().deleteById(id);
         updateSection(model);
-        return getEntityName();
+        return getFragmentName();
     }
 }

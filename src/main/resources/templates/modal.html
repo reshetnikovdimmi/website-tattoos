@@ -37,6 +37,246 @@
         </div>
     </div>
 </div>
+
+<!-- ============================================================ -->
+<!-- МОДАЛЬНОЕ ОКНО ДЛЯ ВИДЕО                                    -->
+<!-- ============================================================ -->
+<div th:fragment="video-modal">
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-content">
+            <div class="video-modal-header">
+                <h5 id="videoModalTitle">Название видео</h5>
+                <button class="video-modal-close" id="videoModalClose">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="video-modal-body">
+                <div class="video-modal-player">
+                    <iframe id="videoModalIframe"
+                            src=""
+                            frameborder="0"
+                            allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Модальное окно End -->
+<div th:fragment="settings-video-modal">
+    <!-- ============================================================ -->
+    <!-- МОДАЛЬНОЕ ОКНО ИНСТРУКЦИИ (вне формы и вне панели)           -->
+    <!-- ============================================================ -->
+    <div class="modal fade" id="mailSettingsModal" tabindex="-1"
+         role="dialog" aria-labelledby="mailSettingsModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+
+                <!-- Заголовок -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mailSettingsModalLabel">
+                        <i class="fa fa-question-circle"></i>
+                        Инструкция по настройке почты
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Тело -->
+                <div class="modal-body">
+
+                    <div class="settings-panel" style="margin-top: 0; border: none; padding: 0;">
+
+                        <!-- Инструкция -->
+                        <div class="settings-section mail-instruction">
+                            <div class="instruction-header">
+                                <i class="fa fa-question-circle"></i>
+                                <h5>Как настроить почту</h5>
+                            </div>
+                            <div class="instruction-body">
+                                <div class="instruction-grid">
+                                    <!-- Шаг 1 -->
+                                    <div class="instruction-step">
+                                        <div class="step-number">1</div>
+                                        <div class="step-content">
+                                            <strong>Выберите почтовый сервис</strong>
+                                            <p>Для отправки писем используйте любой SMTP-сервис:</p>
+                                            <div class="service-badges">
+                                                <span class="service-badge yandex">Яндекс Почта</span>
+                                                <span class="service-badge mail">Mail.ru</span>
+                                                <span class="service-badge gmail">Gmail</span>
+                                                <span class="service-badge smtp">Другой SMTP</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Шаг 2 -->
+                                    <div class="instruction-step">
+                                        <div class="step-number">2</div>
+                                        <div class="step-content">
+                                            <strong>Получите пароль приложения</strong>
+                                            <p>Для безопасности используйте специальный пароль для
+                                                приложений:</p>
+                                            <div class="step-details">
+                                                <details>
+                                                    <summary><i class="fa fa-chevron-right"></i> Яндекс
+                                                        Почта
+                                                    </summary>
+                                                    <div class="details-content">
+                                                        <ol>
+                                                            <li>Перейдите в <a
+                                                                    href="https://passport.yandex.ru/profile/"
+                                                                    target="_blank">настройки
+                                                                аккаунта</a></li>
+                                                            <li>Выберите раздел <strong>«Пароли
+                                                                приложений»</strong></li>
+                                                            <li>Создайте новый пароль для <strong>«Почта»</strong>
+                                                            </li>
+                                                            <li>Скопируйте полученный пароль</li>
+                                                        </ol>
+                                                    </div>
+                                                </details>
+                                                <details>
+                                                    <summary><i class="fa fa-chevron-right"></i> Gmail
+                                                    </summary>
+                                                    <div class="details-content">
+                                                        <ol>
+                                                            <li>Включите <a
+                                                                    href="https://myaccount.google.com/security"
+                                                                    target="_blank">двухфакторную
+                                                                аутентификацию</a></li>
+                                                            <li>Перейдите в <strong>«Пароли
+                                                                приложений»</strong></li>
+                                                            <li>Выберите приложение
+                                                                <strong>«Другое»</strong></li>
+                                                            <li>Скопируйте сгенерированный пароль</li>
+                                                        </ol>
+                                                    </div>
+                                                </details>
+                                                <details>
+                                                    <summary><i class="fa fa-chevron-right"></i> Mail.ru
+                                                    </summary>
+                                                    <div class="details-content">
+                                                        <ol>
+                                                            <li>Перейдите в <a
+                                                                    href="https://account.mail.ru/"
+                                                                    target="_blank">настройки
+                                                                аккаунта</a></li>
+                                                            <li>Выберите раздел
+                                                                <strong>«Безопасность»</strong></li>
+                                                            <li>Включите <strong>«Пароли для внешних
+                                                                приложений»</strong></li>
+                                                            <li>Создайте пароль для приложения</li>
+                                                        </ol>
+                                                    </div>
+                                                </details>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Шаг 3 -->
+                                    <div class="instruction-step">
+                                        <div class="step-number">3</div>
+                                        <div class="step-content">
+                                            <strong>Заполните настройки SMTP</strong>
+                                            <p>Используйте данные для вашего почтового сервиса:</p>
+                                            <div class="smtp-settings-table">
+                                                <div class="smtp-row header">
+                                                    <span>Сервис</span>
+                                                    <span>SMTP Хост</span>
+                                                    <span>Порт (SSL)</span>
+                                                    <span>Порт (TLS)</span>
+                                                </div>
+                                                <div class="smtp-row">
+                                                    <span class="service-name">Яндекс</span>
+                                                    <span><code>smtp.yandex.ru</code></span>
+                                                    <span>465</span>
+                                                    <span>587</span>
+                                                </div>
+                                                <div class="smtp-row">
+                                                    <span class="service-name">Gmail</span>
+                                                    <span><code>smtp.gmail.com</code></span>
+                                                    <span>465</span>
+                                                    <span>587</span>
+                                                </div>
+                                                <div class="smtp-row">
+                                                    <span class="service-name">Mail.ru</span>
+                                                    <span><code>smtp.mail.ru</code></span>
+                                                    <span>465</span>
+                                                    <span>587</span>
+                                                </div>
+                                                <div class="smtp-row">
+                                                    <span class="service-name">Яндекс 360</span>
+                                                    <span><code>smtp.yandex.ru</code></span>
+                                                    <span>465</span>
+                                                    <span>587</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Шаг 4 -->
+                                    <div class="instruction-step">
+                                        <div class="step-number">4</div>
+                                        <div class="step-content">
+                                            <strong>Настройте отправителя</strong>
+                                            <p>Укажите email и имя отправителя, а также адрес для
+                                                получения сообщений</p>
+                                            <div class="step-example">
+                                                <div class="example-item">
+                                                    <span class="example-label">Email отправителя:</span>
+                                                    <span class="example-value">noreply@ваш-домен.ru</span>
+                                                </div>
+                                                <div class="example-item">
+                                                    <span class="example-label">Имя отправителя:</span>
+                                                    <span class="example-value">Тату-студия Maxsim</span>
+                                                </div>
+                                                <div class="example-item">
+                                                    <span class="example-label">Email получателя:</span>
+                                                    <span class="example-value">admin@ваш-домен.ru</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Шаг 5 -->
+                                    <div class="instruction-step">
+                                        <div class="step-number">5</div>
+                                        <div class="step-content">
+                                            <strong>Проверьте настройки</strong>
+                                            <p>После заполнения всех полей нажмите <strong>«Сохранить
+                                                настройки»</strong>, а затем отправьте тестовое письмо
+                                            </p>
+                                            <div class="step-tip">
+                                                <i class="fa fa-lightbulb-o"></i>
+                                                <span>Если письмо не отправляется, проверьте пароль приложения и настройки безопасности</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- ПОДВАЛ МОДАЛЬНОГО ОКНА                                        -->
+                <!-- ============================================================ -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fa fa-times"></i> Закрыть
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

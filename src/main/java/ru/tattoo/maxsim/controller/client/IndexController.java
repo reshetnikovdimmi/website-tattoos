@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.tattoo.maxsim.model.EmailDetails;
+import ru.tattoo.maxsim.service.interf.ContactInfoService;
 import ru.tattoo.maxsim.service.interf.EmailService;
 import ru.tattoo.maxsim.service.interf.HomeService;
 import ru.tattoo.maxsim.service.interf.ReviewService;
@@ -20,19 +21,23 @@ public class IndexController {
     private final EmailService emailService;
     private final ReviewService reviewService;
     private final HomeService homeService;
+    private final ContactInfoService contactInfoService;
 
     public IndexController(EmailService emailService,
                            ReviewService reviewService,
-                           HomeService homeService) {
+                           HomeService homeService,
+                           ContactInfoService contactInfoService) {
         this.emailService = emailService;
         this.reviewService = reviewService;
         this.homeService = homeService;
+        this.contactInfoService = contactInfoService;
     }
 
     @ModelAttribute
     public void addCommonAttributes (Model model){
         model.addAttribute("reviewsLimit" , reviewService.findLimit());
         model.addAttribute("carousel" , homeService.findAll());
+        model.addAttribute("contact" , contactInfoService.findAll());
     }
 
     @GetMapping("/")
@@ -44,30 +49,21 @@ public class IndexController {
     @PostMapping("/mail")
     public String sendMail(
             @Valid @ModelAttribute("details") EmailDetails details,
-            Model model,
-            BindingResult bindingResult) {
+            BindingResult bindingResult,
+            Model model) {
 
-        log.debug("Processing email request from: {}, subject: {}",
-                details.getName(), details.getSubject());
+        log.debug("Processing email from: {}, subject: {}", details.getName(), details.getSubject());
 
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             log.warn("Validation errors: {}", bindingResult.getAllErrors());
-            // Валидация уже выполняется в JavaScript, но это резервная проверка
             model.addAttribute("validationErrors", bindingResult.getAllErrors());
             return "Index::map-contact-form";
         }
 
-        try {
-            boolean isSuccess = emailService.sendSimpleMail(details);
-            model.addAttribute("status", isSuccess ?
-                    "Сообщение отправлено" :
-                    "Ошибка при отправке сообщения");
-            log.info("Email sent successfully to: {}, from: {}",
-                    details.getRecipient(), details.getName());
-        } catch (Exception e){
-            model.addAttribute("status", "Ошибка сервера. Попробуйте позже.");
-            log.error("Error sending email: {}", e.getMessage());
-        }
+        boolean isSuccess = emailService.sendSimpleMail(details);
+        model.addAttribute("status", isSuccess
+                ? "Сообщение отправлено"
+                : "Ошибка при отправке. Проверьте настройки почты в админке.");
 
         model.addAttribute("details", new EmailDetails());
         return "Index::map-contact-form";

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница не найдена - 404</title>
+</head>
+<body>
+<div class="error-container">
+    <div class="error-icon">
+        <i class="fa fa-compass"></i>
+    </div>
+    <div class="error-code">404</div>
+    <h1>Страница не найдена</h1>
+    <p class="error-message" th:text="${errorMessage}">К сожалению, запрашиваемая страница не существует.</p>
+    <p class="error-message">Проверьте правильность URL или вернитесь на главную.</p>
+    <div th:if="${errorDetails}" class="error-details" th:text="${errorDetails}"></div>
+    <a href="/" class="home-link">Вернуться на главную</a>
+</div>
+</body>
+</html>

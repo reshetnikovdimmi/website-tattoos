@@ -25,7 +25,7 @@ public class PriceSectionController extends CRUDController<PriceSection, Long> {
     private HomeService homeService;
 
     @Override
-    protected String getEntityName() {
+    protected String getFragmentName() {
         return PAGE_FRAGMENT;
     }
 

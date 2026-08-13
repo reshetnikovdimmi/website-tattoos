@@ -14,6 +14,9 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: home_id
+                  type: bigint
+              - column:
                   name: image_name
                   type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
               - column:
@@ -36,39 +39,15 @@ databaseChangeLog:
                   name: is_active
                   type: boolean
                   defaultValueBoolean: true
-
-  - changeSet:
-      id: add-data-homehero
-      author: Dmitrii
-      changes:
-        - insert:
-            tableName: home_hero_section
-            columns:
-              - column:
-                  name: section
-                  value: home
-              - column:
-                  name: title
-                  value: title
-              - column:
-                  name: subtitle
-                  value: subtitle
-              - column:
-                  name: description
-                  value: description
-              - column:
-                  name: display_order
-                  valueNumeric: 1
-              - column:
-                  name: is_active
-                  valueBoolean: true
   - changeSet:
       id: add-fk-from-homehero-to-home
       author: Dmitrii
       changes:
         - addForeignKeyConstraint:
             baseTableName: home_hero_section
-            baseColumnNames: section
+            baseColumnNames: home_id
             referencedTableName: home
-            referencedColumnNames: section
+            referencedColumnNames: id
             constraintName: fk_home_hero_section_to_home
+            onDelete: CASCADE
+            onUpdate: RESTRICT

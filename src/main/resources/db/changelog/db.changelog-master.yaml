@@ -31,3 +31,7 @@ databaseChangeLog:
       file: db/changelog/changeset/create-interesting-works-table.yaml
   - include:
       file: db/changelog/changeset/update-foreign-keys.yaml
+  - include:
+      file: db/changelog/changeset/create-videos-table.yaml
+  - include:
+      file: db/changelog/changeset/create-mail-settings-table.yaml

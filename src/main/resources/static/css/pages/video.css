@@ -1,109 +1,420 @@
-/* ============================================
-   VIDEO SECTION - ACTIVITAR STYLE
-   ============================================ */
+/* ============================================================
+   VIDEO SECTION - CAROUSEL (публичная часть)
+   ============================================================ */
 
 .video-section {
-    position: relative;
-    padding: 100px 0;
     background: #151515;
+    padding: 100px 0 70px;
+}
+
+.video-section .section-title {
+    margin-bottom: 50px;
+}
+
+.video-section .section-title h2 {
+    font-size: 48px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.video-section .section-title p {
+    font-size: 16px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+}
+
+/* ============================================================
+   VIDEO CARDS (публичная часть)
+   ============================================================ */
+
+.video-card {
+    background: #1e1e1e;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(228, 56, 28, 0.3);
+}
+
+.video-card-thumb {
+    position: relative;
+    padding-bottom: 56.25%;
+    background: #000;
     overflow: hidden;
 }
 
-/* Декоративный элемент фона */
-.video-section::before {
-    content: '';
+.video-card-thumb img {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: radial-gradient(circle at 20% 40%, rgba(228, 56, 28, 0.03) 0%, transparent 50%);
-    pointer-events: none;
+    object-fit: cover;
+    transition: all 0.5s ease;
 }
 
-.video-section::after {
-    content: '';
+.video-card:hover .video-card-thumb img {
+    transform: scale(1.05);
+}
+
+.play-overlay {
     position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 50%;
-    height: 50%;
-    background-image: radial-gradient(circle at 80% 60%, rgba(228, 56, 28, 0.03) 0%, transparent 50%);
-    pointer-events: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(228, 56, 28, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 2;
 }
 
-/* ------------------------------
-   ЗАГОЛОВОК СЕКЦИИ
------------------------------- */
-.video-section .section-title {
-    text-align: center;
-    margin-bottom: 60px;
+.video-card:hover .play-overlay {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: #e4381c;
+    box-shadow: 0 0 30px rgba(228, 56, 28, 0.4);
 }
 
-.video-section .section-title h2 {
-    font-size: 48px;
-    font-weight: 700;
+.play-overlay i {
+    color: #ffffff;
+    font-size: 22px;
+    margin-left: 4px;
+}
+
+.video-card-info {
+    padding: 20px;
+}
+
+.video-card-info h5 {
+    font-size: 18px;
+    font-weight: 600;
     font-family: "Oswald", sans-serif;
     color: #ffffff;
+    margin-bottom: 5px;
     text-transform: uppercase;
-    margin-bottom: 15px;
-    letter-spacing: 2px;
-    position: relative;
-    display: inline-block;
+    letter-spacing: 0.5px;
 }
 
-.video-section .section-title h2::after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
-    border-radius: 3px;
-}
-
-.video-section .section-title p {
-    font-size: 18px;
+.video-card-info p {
+    font-size: 14px;
     font-family: "Nunito Sans", sans-serif;
     color: #8f8fa8;
-    margin-top: 25px;
-    line-height: 1.5;
+    margin: 0;
 }
 
-/* ------------------------------
-   ВИДЕО ПЛЕЕР
------------------------------- */
-.video-showcase {
-    background: #1e1e1e;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid rgba(228, 56, 28, 0.2);
+/* ============================================================
+   OWL CAROUSEL CUSTOM STYLES
+   ============================================================ */
+
+.video-carousel {
+    padding: 0 10px;
+}
+
+.video-carousel .owl-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    pointer-events: none;
+}
+
+.video-carousel .owl-nav button {
+    position: absolute;
+    pointer-events: all;
+    width: 50px;
+    height: 50px;
+    background: rgba(228, 56, 28, 0.8) !important;
+    border-radius: 50% !important;
+    color: #ffffff !important;
+    font-size: 24px !important;
+    transition: all 0.3s ease;
+    border: none !important;
+    outline: none !important;
+}
+
+.video-carousel .owl-nav button:hover {
+    background: #e4381c !important;
+    box-shadow: 0 0 25px rgba(228, 56, 28, 0.5);
+    transform: scale(1.05);
+}
+
+.video-carousel .owl-nav .owl-prev {
+    left: -50px;
+}
+
+.video-carousel .owl-nav .owl-next {
+    right: -30px;
+}
+
+.video-carousel .owl-dots {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.video-carousel .owl-dots .owl-dot {
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+}
+
+.video-carousel .owl-dots .owl-dot.active {
+    background: #e4381c;
+    box-shadow: 0 0 15px rgba(228, 56, 28, 0.4);
+    width: 30px;
+    border-radius: 6px;
+}
+
+.video-carousel .owl-dots .owl-dot:hover {
+    background: rgba(228, 56, 28, 0.5);
+}
+
+/* ============================================================
+   VIDEO URL INSTRUCTION
+   ============================================================ */
+
+.video-url-instruction {
+    margin-top: 8px;
+}
+
+.instruction-toggle {
+    background: none;
+    border: none;
+    color: #e4381c;
+    font-size: 13px;
+    font-family: "Nunito Sans", sans-serif;
+    cursor: pointer;
+    padding: 5px 0;
     transition: all 0.3s ease;
 }
 
-.video-showcase:hover {
-    border-color: rgba(228, 56, 28, 0.4);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+.instruction-toggle:hover {
+    color: #e16521;
+    text-decoration: underline;
 }
 
-/* Активное видео */
-.active-video {
-    position: relative;
-    background: #000;
+.instruction-toggle i {
+    margin-right: 5px;
 }
 
-/* Обёртка для iframe (адаптивное видео) */
-.video-player-wrapper {
-    position: relative;
+.instruction-content {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.instruction-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.instruction-tabs .tab-btn {
+    padding: 6px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid transparent;
+    border-radius: 20px;
+    color: #8f8fa8;
+    font-size: 12px;
+    font-family: "Nunito Sans", sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.instruction-tabs .tab-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.instruction-tabs .tab-btn.active {
+    background: rgba(228, 56, 28, 0.2);
+    border-color: #e4381c;
+    color: #ffffff;
+}
+
+.instruction-tabs .tab-btn i {
+    margin-right: 5px;
+}
+
+.instruction-content .tab-content {
+    font-size: 13px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+}
+
+.instruction-content .tab-content ol {
+    padding-left: 20px;
+    margin: 0 0 12px 0;
+}
+
+.instruction-content .tab-content ol li {
+    margin-bottom: 6px;
+    line-height: 1.5;
+}
+
+.instruction-content .tab-content ol li strong {
+    color: #ffffff;
+}
+
+.instruction-example {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
+.instruction-example p {
+    margin: 0 0 4px 0;
+    font-size: 12px;
+    color: #6a6a7a;
+}
+
+.instruction-example code {
+    font-size: 12px;
+    color: #ffc107;
+    word-break: break-all;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.instruction-note {
+    font-size: 12px;
+    color: #6a6a7a;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgba(255, 193, 7, 0.05);
+    border-left: 2px solid #ffc107;
+    border-radius: 4px;
+}
+
+.instruction-note i {
+    color: #ffc107;
+    margin-right: 5px;
+}
+
+.instruction-screenshot {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.instruction-screenshot img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================================
+   VIDEO MODAL
+   ============================================================ */
+
+.video-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    padding-bottom: 56.25%; /* 16:9 соотношение */
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.video-modal.active {
+    display: flex;
+}
+
+.video-modal-content {
+    width: 90%;
+    max-width: 900px;
+    background: #1e1e1e;
+    border-radius: 12px;
+    overflow: hidden;
+    animation: videoModalIn 0.3s ease;
+}
+
+@keyframes videoModalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.video-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.video-modal-header h5 {
+    font-size: 18px;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.video-modal-close {
+    background: none;
+    border: none;
+    color: #8f8fa8;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0 5px;
+}
+
+.video-modal-close:hover {
+    color: #e4381c;
+    transform: rotate(90deg);
+}
+
+.video-modal-body {
+    padding: 20px;
+}
+
+.video-modal-player {
+    position: relative;
+    padding-bottom: 56.25%;
     height: 0;
+    background: #000;
+    border-radius: 8px;
     overflow: hidden;
 }
 
-.video-player-wrapper iframe {
+.video-modal-player iframe {
     position: absolute;
     top: 0;
     left: 0;
@@ -112,96 +423,254 @@
     border: none;
 }
 
-/* ------------------------------
-   МИНИАТЮРЫ ВИДЕО
------------------------------- */
-.video-thumbnails {
-    display: flex;
-    background: #1a1a1a;
-    padding: 20px;
-    gap: 20px;
-    border-top: 1px solid rgba(228, 56, 28, 0.1);
+/* ============================================================
+   EMPTY STATE (публичная часть)
+   ============================================================ */
+
+.empty-video-state {
+    padding: 80px 20px;
+    text-align: center;
 }
 
-/* Элемент миниатюры */
-.thumbnail-item {
-    flex: 1;
-    cursor: pointer;
+.empty-video-state i {
+    font-size: 64px;
+    color: #e4381c;
+    opacity: 0.4;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.empty-video-state h3 {
+    font-size: 28px;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.empty-video-state p {
+    font-size: 16px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    margin-bottom: 25px;
+}
+
+.empty-video-state .primary-btn {
+    display: inline-block;
+    padding: 12px 35px;
+    background: linear-gradient(90deg, #e16521, #e4381c);
+    color: #ffffff;
+    border-radius: 4px;
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
     transition: all 0.3s ease;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #252525;
-    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.thumbnail-item.active {
-    border-color: #e4381C;
+.empty-video-state .primary-btn:hover {
+    transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
 }
 
-.thumbnail-item:hover:not(.active) {
-    transform: translateY(-3px);
-    border-color: rgba(228, 56, 28, 0.5);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+/* ============================================================
+   ADMIN VIDEO LIST (АДМИНКА)
+   ============================================================ */
+
+.video-items-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
 }
 
-/* Изображение миниатюры */
-.thumbnail-image {
+.video-item-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #1a1a1a;
+    padding: 16px 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 0.3s ease;
+}
+
+.video-item-card:hover {
+    border-color: rgba(228, 56, 28, 0.3);
+    background: #222;
+    transform: translateX(4px);
+}
+
+/* Превью */
+.video-item-preview {
     position: relative;
+    width: 160px;
+    height: 90px;
+    flex-shrink: 0;
+    border-radius: 6px;
     overflow: hidden;
-    aspect-ratio: 16 / 9;
+    background: #0d0d0d;
 }
 
-.thumbnail-image img {
+.video-item-preview img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
 }
 
-.thumbnail-item:hover .thumbnail-image img {
-    transform: scale(1.05);
-}
-
-/* Кнопка play на миниатюре */
-.thumbnail-play {
+.video-item-play {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    background: rgba(0, 0, 0, 0.7);
-    border: 2px solid rgba(228, 56, 28, 0.8);
+    width: 32px;
+    height: 32px;
+    background: rgba(228, 56, 28, 0.85);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
+    pointer-events: none;
     transition: all 0.3s ease;
 }
 
-.thumbnail-item.active .thumbnail-play,
-.thumbnail-item:hover .thumbnail-play {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.05);
-}
-
-.thumbnail-play i {
-    font-size: 18px;
+.video-item-play i {
     color: #fff;
-    margin-left: 3px;
+    font-size: 13px;
+    margin-left: 2px;
 }
 
-/* Информация о видео */
-.thumbnail-info {
-    padding: 15px;
-    text-align: center;
+.video-item-card:hover .video-item-play {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: #e4381c;
 }
 
-.thumbnail-info h5 {
-    font-size: 16px;
+.video-item-status {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 14px;
+}
+
+.status-active {
+    color: #28a745;
+}
+
+.status-inactive {
+    color: #dc3545;
+}
+
+/* Информация */
+.video-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.video-item-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.video-item-header h5 {
+    font-size: 15px;
     font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.video-item-order {
+    font-size: 11px;
+    color: #8f8fa8;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 1px 10px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.video-item-desc {
+    font-size: 13px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #8f8fa8;
+    margin: 0 0 6px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.video-item-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    font-family: "Nunito Sans", sans-serif;
+    color: #6a6a7a;
+}
+
+.video-item-url a {
+    color: #6a6a7a;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.video-item-url a:hover {
+    color: #e4381c;
+}
+
+.video-item-date {
+    color: #6a6a7a;
+}
+
+/* Действия в админке */
+.video-item-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.video-item-actions .action-btn {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    color: #8f8fa8;
+}
+
+.video-item-actions .action-btn:hover {
+    transform: scale(1.05);
+}
+
+.video-item-actions .delete-btn:hover {
+    background: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+}
+
+/* Пустое состояние в админке */
+.empty-state-modern {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-state-modern i {
+    font-size: 48px;
+    color: #e4381c;
+    opacity: 0.4;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.empty-state-modern h4 {
+    font-size: 20px;
     font-family: "Oswald", sans-serif;
     color: #ffffff;
     text-transform: uppercase;
@@ -209,245 +678,169 @@
     letter-spacing: 1px;
 }
 
-.thumbnail-info p {
-    font-size: 13px;
+.empty-state-modern p {
+    font-size: 14px;
     font-family: "Nunito Sans", sans-serif;
     color: #8f8fa8;
     margin: 0;
-    line-height: 1.4;
 }
 
-/* ------------------------------
-   КНОПКА "СМОТРЕТЬ В VK"
------------------------------- */
-.vk-video-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
-    border: none;
-    border-radius: 50px;
-    padding: 14px 32px;
-    margin-top: 30px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1024px) {
+    .video-carousel .owl-nav .owl-prev {
+        left: -50px;
+    }
+
+    .video-carousel .owl-nav .owl-next {
+        right: -30px;
+    }
+
+    .video-carousel .owl-nav button {
+        width: 40px;
+        height: 40px;
+        font-size: 18px !important;
+    }
 }
 
-.vk-video-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(228, 56, 28, 0.5);
-    background: linear-gradient(90deg, #e4381C, #e16521);
-}
-
-.vk-video-btn:active {
-    transform: translateY(0);
-}
-
-.vk-btn-icon svg {
-    width: 22px;
-    height: 22px;
-    fill: #ffffff;
-}
-
-.vk-btn-text {
-    font-size: 14px;
-    font-weight: 600;
-    font-family: "Oswald", sans-serif;
-    color: #ffffff;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* ------------------------------
-   АДАПТИВНОСТЬ
------------------------------- */
-
-/* Планшеты (до 992px) */
-@media (max-width: 992px) {
+@media (max-width: 991px) {
     .video-section {
-        padding: 70px 0;
+        padding: 80px 0 50px;
     }
 
     .video-section .section-title h2 {
         font-size: 36px;
     }
-
-    .video-section .section-title p {
-        font-size: 16px;
-    }
-
-    /* Миниатюры в строку с информацией */
-    .video-thumbnails {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .thumbnail-item {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .thumbnail-image {
-        width: 120px;
-        aspect-ratio: 16 / 9;
-        flex-shrink: 0;
-    }
-
-    .thumbnail-info {
-        text-align: left;
-        padding: 10px 10px 10px 0;
-    }
-
-    .thumbnail-info h5 {
-        font-size: 15px;
-    }
-
-    .thumbnail-info p {
-        font-size: 13px;
-    }
 }
 
-/* Мобильные устройства (до 768px) */
 @media (max-width: 768px) {
     .video-section {
-        padding: 50px 0;
-    }
-
-    .video-section .section-title {
-        margin-bottom: 40px;
+        padding: 60px 0 30px;
     }
 
     .video-section .section-title h2 {
         font-size: 28px;
     }
 
-    .video-section .section-title p {
-        font-size: 14px;
+    .play-overlay {
+        width: 50px;
+        height: 50px;
     }
 
-    .video-thumbnails {
-        padding: 15px;
-    }
-
-    .thumbnail-image {
-        width: 100px;
-    }
-
-    .thumbnail-info h5 {
-        font-size: 13px;
-    }
-
-    .thumbnail-info p {
-        font-size: 12px;
-    }
-
-    .thumbnail-play {
-        width: 40px;
-        height: 40px;
-    }
-
-    .thumbnail-play i {
-        font-size: 16px;
-    }
-
-    .vk-video-btn {
-        padding: 10px 24px;
-    }
-
-    .vk-btn-text {
-        font-size: 12px;
-    }
-}
-
-/* Маленькие мобильные (до 576px) */
-@media (max-width: 576px) {
-    .video-section .section-title h2 {
-        font-size: 24px;
-    }
-
-    .thumbnail-item {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .thumbnail-image {
-        width: 100%;
-    }
-
-    .thumbnail-info {
-        text-align: center;
-        padding: 12px;
-    }
-
-    .thumbnail-info h5 {
-        font-size: 14px;
-    }
-}
-
-/* Большие экраны */
-@media (min-width: 1400px) {
-    .video-section {
-        padding: 120px 0;
-    }
-
-    .video-section .section-title h2 {
-        font-size: 56px;
-    }
-
-    .video-section .section-title p {
-        font-size: 20px;
-    }
-
-    .thumbnail-info h5 {
+    .play-overlay i {
         font-size: 18px;
     }
 
-    .thumbnail-info p {
+    .video-carousel .owl-nav {
+        display: none;
+    }
+
+    .video-modal-content {
+        width: 95%;
+    }
+
+    .video-modal-header {
+        padding: 12px 18px;
+    }
+
+    .video-modal-header h5 {
+        font-size: 15px;
+    }
+
+    .video-modal-body {
+        padding: 12px;
+    }
+
+    .video-card-info h5 {
+        font-size: 15px;
+    }
+
+    .video-card-info p {
+        font-size: 12px;
+    }
+
+    /* Админка */
+    .video-item-card {
+        flex-wrap: wrap;
+        padding: 14px 16px;
+        gap: 14px;
+    }
+
+    .video-item-preview {
+        width: 100%;
+        height: 160px;
+    }
+
+    .video-item-info {
+        width: 100%;
+        flex: none;
+    }
+
+    .video-item-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .video-item-header h5 {
         font-size: 14px;
     }
-}
 
-/* ------------------------------
-   АНИМАЦИИ
------------------------------- */
-@keyframes videoFadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
+    .video-item-desc {
+        font-size: 12px;
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
-@keyframes thumbnailFadeIn {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
+    .video-item-meta {
+        flex-wrap: wrap;
+        gap: 8px;
+        font-size: 11px;
     }
 }
 
-.video-showcase {
-    animation: videoFadeInUp 0.6s ease forwards;
-}
+@media (max-width: 480px) {
+    .video-carousel .owl-dots .owl-dot {
+        width: 8px;
+        height: 8px;
+    }
 
-.thumbnail-item {
-    animation: thumbnailFadeIn 0.4s ease forwards;
-    opacity: 0;
-}
+    .video-carousel .owl-dots .owl-dot.active {
+        width: 20px;
+    }
 
-.thumbnail-item:nth-child(1) { animation-delay: 0.05s; }
-.thumbnail-item:nth-child(2) { animation-delay: 0.1s; }
-.thumbnail-item:nth-child(3) { animation-delay: 0.15s; }
-.thumbnail-item:nth-child(4) { animation-delay: 0.2s; }
-.thumbnail-item:nth-child(5) { animation-delay: 0.25s; }
-.thumbnail-item:nth-child(6) { animation-delay: 0.3s; }
+    /* Админка */
+    .video-item-card {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .video-item-preview {
+        height: 140px;
+    }
+
+    .video-item-header h5 {
+        font-size: 13px;
+    }
+
+    .video-item-actions .action-btn {
+        width: 30px;
+        height: 30px;
+    }
+
+    .empty-state-modern {
+        padding: 40px 16px;
+    }
+
+    .empty-state-modern i {
+        font-size: 36px;
+    }
+
+    .empty-state-modern h4 {
+        font-size: 17px;
+    }
+}

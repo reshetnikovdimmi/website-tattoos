@@ -24,7 +24,7 @@ public class AboutSectionController extends CRUDController<AboutSection, Long> {
     private HomeService homeService;
 
     @Override
-    protected String getEntityName() {
+    protected String getFragmentName() {
         return PAGE_FRAGMENT;
     }
 

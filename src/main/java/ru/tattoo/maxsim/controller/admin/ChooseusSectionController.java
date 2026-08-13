@@ -24,7 +24,7 @@ public class ChooseusSectionController extends CRUDController<ChooseusSection, L
     private HomeService homeService;
 
     @Override
-    protected String getEntityName() {
+    protected String getFragmentName() {
         return PAGE_FRAGMENT;
     }
 

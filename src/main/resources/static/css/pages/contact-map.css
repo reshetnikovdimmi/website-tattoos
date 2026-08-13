@@ -1,6 +1,7 @@
 /* ============================================
    CONTACT PAGE - ACTIVITAR STYLE
    ============================================ */
+
 /*---------------------
   Map Widget with Border
 -----------------------*/
@@ -39,11 +40,11 @@
     filter: grayscale(0%) contrast(100%);
 }
 
-/* Map Hover Block */
+/*---------------------
+  Map Hover Block (единый стиль)
+-----------------------*/
+
 .map-hover {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
     bottom: 45px;
     background: rgba(21, 21, 21, 0.95);
     backdrop-filter: blur(8px);
@@ -81,6 +82,8 @@
     font-size: 14px;
     color: #8f8fa8;
     margin-bottom: 15px;
+    font-family: "Nunito Sans", sans-serif;
+    line-height: 24px;
 }
 
 .map-hover .work-time {
@@ -90,12 +93,14 @@
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
+    padding: 0;
 }
 
 .map-hover .work-time li {
     font-size: 14px;
     color: #ffffff;
     font-family: "Nunito Sans", sans-serif;
+    line-height: 24px;
 }
 
 .map-hover .work-time li span {
@@ -125,77 +130,8 @@
     box-shadow: 0 5px 15px rgba(228, 56, 28, 0.4);
 }
 
-/* Responsive */
-@media (max-width: 992px) {
-    .map-widget iframe {
-        height: 450px;
-    }
-
-    .map-hover {
-        bottom: 30px;
-        padding: 18px 25px;
-        min-width: 280px;
-    }
-}
-
-@media (max-width: 768px) {
-    .map-widget-wrapper {
-        padding: 10px;
-    }
-
-    .map-widget {
-        max-width: calc(100% - 20px);
-    }
-
-    .map-widget iframe {
-        height: 380px;
-    }
-
-    .map-hover {
-        position: relative;
-        left: auto;
-        transform: none;
-        bottom: auto;
-        margin-top: -4px;
-        border-radius: 0 0 8px 8px;
-        width: calc(100% - 20px);
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .map-hover .work-time {
-        gap: 10px;
-    }
-}
-
-@media (max-width: 576px) {
-    .map-widget iframe {
-        height: 320px;
-    }
-
-    .map-hover {
-        padding: 15px 20px;
-    }
-
-    .map-hover h5 {
-        font-size: 16px;
-    }
-
-    .map-hover p {
-        font-size: 12px;
-    }
-
-    .map-hover .work-time li {
-        font-size: 12px;
-    }
-
-    .map-hover .map-btn {
-        font-size: 10px;
-        padding: 8px 20px;
-    }
-}
 /*---------------------
-  Contact Map Section
+  Contact Map Section (для фоновой карты)
 -----------------------*/
 
 .contact-map {
@@ -210,110 +146,11 @@
     width: 100%;
     height: 100%;
     border: none;
-    -webkit-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }
 
 .contact-map iframe:hover {
-    -webkit-transform: scale(1.02);
-    -ms-transform: scale(1.02);
     transform: scale(1.02);
-}
-
-/*---------------------
-  Map Hover Block
------------------------*/
-
-.map-hover {
-    position: absolute;
-    left: 280px;
-    bottom: 30px;
-    background: #151515;
-    padding: 25px 30px;
-    border-radius: 4px;
-    max-width: 320px;
-    z-index: 10;
-    -webkit-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border-left: 3px solid #e4381c;
-}
-
-.map-hover-content {
-    position: relative;
-}
-
-.map-hover-icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-    font-size: 32px;
-    color: #e4381c;
-}
-
-.map-hover h5 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #ffffff;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    font-family: "Oswald", sans-serif;
-}
-
-.map-hover p {
-    font-size: 14px;
-    color: #8f8fa8;
-    margin-bottom: 15px;
-    font-family: "Nunito Sans", sans-serif;
-    line-height: 24px;
-}
-
-.map-hover .work-time {
-    list-style: none;
-    margin-bottom: 20px;
-}
-
-.map-hover .work-time li {
-    font-size: 14px;
-    color: #ffffff;
-    font-family: "Nunito Sans", sans-serif;
-    line-height: 24px;
-}
-
-.map-hover .work-time li span {
-    color: #e4381c;
-    font-weight: 600;
-    min-width: 60px;
-    display: inline-block;
-}
-
-.map-hover .map-btn {
-    display: inline-block;
-    font-size: 12px;
-    font-family: "Oswald", sans-serif;
-    font-weight: 600;
-    padding: 8px 20px;
-    color: #ffffff;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    background: -webkit-gradient(linear, left top, right top, from(#e16521), to(#e4381c));
-    background: -o-linear-gradient(left, #e16521, #e4381c);
-    background: linear-gradient(to right, #e16521, #e4381c);
-    border-radius: 4px;
-    -webkit-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-}
-
-.map-hover .map-btn:hover {
-    -webkit-transform: translateY(-2px);
-    -ms-transform: translateY(-2px);
-    transform: translateY(-2px);
-    -webkit-box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
-    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
 }
 
 /*---------------------
@@ -355,9 +192,7 @@
     bottom: -8px;
     width: 40px;
     height: 2px;
-    background: -webkit-gradient(linear, left top, right top, from(#e16521), to(#e4381c));
-    background: -o-linear-gradient(left, #e16521, #e4381c);
-    background: linear-gradient(to right, #e16521, #e4381c);
+    background: linear-gradient(45deg, #e16521, #e4381c);
     content: "";
 }
 
@@ -370,11 +205,7 @@
 
 .contact-info ul li,
 .contact-address ul li {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
     gap: 15px;
     margin-bottom: 20px;
@@ -391,18 +222,11 @@
     height: 40px;
     background: rgba(228, 56, 28, 0.15);
     border-radius: 50%;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
     justify-content: center;
     font-size: 18px;
     color: #e4381c;
-    -ms-flex-negative: 0;
     flex-shrink: 0;
 }
 
@@ -435,13 +259,10 @@
     bottom: -10px;
     width: 50px;
     height: 3px;
-    background: -webkit-gradient(linear, left top, right top, from(#e16521), to(#e4381c));
-    background: -o-linear-gradient(left, #e16521, #e4381c);
-    background: linear-gradient(to right, #e16521, #e4381c);
+    background: linear-gradient(45deg, #e16521, #e4381c);
     content: "";
 }
 
-/* Form Inputs */
 .contact-form input,
 .contact-form textarea {
     width: 100%;
@@ -452,8 +273,6 @@
     color: #ffffff;
     font-size: 15px;
     font-family: "Nunito Sans", sans-serif;
-    -webkit-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
     margin-bottom: 20px;
 }
@@ -462,29 +281,8 @@
 .contact-form textarea:focus {
     outline: none;
     border-color: #e4381c;
-    -webkit-box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.1);
     box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.1);
     background: rgba(0, 0, 0, 0.5);
-}
-
-.contact-form input::-webkit-input-placeholder,
-.contact-form textarea::-webkit-input-placeholder {
-    color: rgba(255, 255, 255, 0.4);
-}
-
-.contact-form input::-moz-placeholder,
-.contact-form textarea::-moz-placeholder {
-    color: rgba(255, 255, 255, 0.4);
-}
-
-.contact-form input:-ms-input-placeholder,
-.contact-form textarea:-ms-input-placeholder {
-    color: rgba(255, 255, 255, 0.4);
-}
-
-.contact-form input::-ms-input-placeholder,
-.contact-form textarea::-ms-input-placeholder {
-    color: rgba(255, 255, 255, 0.4);
 }
 
 .contact-form input::placeholder,
@@ -497,11 +295,8 @@
     min-height: 150px;
 }
 
-/* Submit Button */
 .contact-form .c-btn {
-    background: -webkit-gradient(linear, left top, right top, from(#e16521), to(#e4381c));
-    background: -o-linear-gradient(left, #e16521, #e4381c);
-    background: linear-gradient(to right, #e16521, #e4381c);
+    background: linear-gradient(45deg, #e16521, #e4381c);
     border: none;
     padding: 12px 35px;
     border-radius: 4px;
@@ -512,21 +307,15 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
-    -webkit-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }
 
 .contact-form .c-btn:hover {
-    -webkit-transform: translateY(-2px);
-    -ms-transform: translateY(-2px);
     transform: translateY(-2px);
-    -webkit-box-shadow: 0 8px 25px rgba(228, 56, 28, 0.4);
     box-shadow: 0 8px 25px rgba(228, 56, 28, 0.4);
     letter-spacing: 2px;
 }
 
-/* Status Message */
 .status-message {
     margin-top: 20px;
     padding: 12px;
@@ -549,12 +338,708 @@
 }
 
 /*---------------------
+  Contact Map Card (для админки)
+-----------------------*/
+
+.contact-map-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-top: 30px;
+}
+
+.contact-map-header {
+    background: linear-gradient(135deg, #2c3e50, #1a1a2e);
+    color: #fff;
+    padding: 20px 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.contact-map-header i {
+    font-size: 24px;
+    color: #f1c40f;
+}
+
+.contact-map-header h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.address-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    margin-left: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+}
+
+.contact-map-body {
+    padding: 0;
+}
+
+/* Стили для визуальной подсказки */
+.hint-code-field {
+    background: #1e1e1e;
+    border-radius: 6px;
+    padding: 12px 15px;
+    margin-bottom: 12px;
+}
+
+.hint-label {
+    display: block;
+    color: #8f8fa8;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.hint-code-block {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #d4d4d4;
+    line-height: 1.8;
+}
+
+.hint-code-indent {
+    display: block;
+    padding-left: 20px;
+}
+
+.hint-code-block code {
+    display: block;
+    color: #9cdcfe;
+}
+
+.hint-code-block code .hint-code-indent {
+    color: #ce9178;
+}
+
+/* Предупреждение */
+.instruction-warning {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background: rgba(255, 193, 7, 0.1);
+    border-left: 4px solid #ffc107;
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.instruction-warning i {
+    color: #ffc107;
+    font-size: 20px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.instruction-warning div {
+    font-size: 14px;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+.instruction-warning .note-text {
+    color: #8f8fa8;
+    font-size: 13px;
+}
+
+/* Бейджи */
+.badge-share {
+    display: inline-block;
+    background: #f0f0f0;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #333;
+}
+
+.badge-widget {
+    display: inline-block;
+    background: #ffdb4d;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #000;
+    font-weight: 600;
+}
+
+.hint-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.hint-tab {
+    padding: 4px 12px;
+    background: #e9ecef;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.hint-tab.active {
+    background: #fff;
+    border: 1px solid #d0d7de;
+    color: #000;
+}
+
+.hint-tab.highlighted {
+    background: #ffdb4d;
+    color: #000;
+    font-weight: 600;
+}
+
+.hint-preview-box {
+    background: #e9ecef;
+    height: 60px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.hint-copy-btn {
+    background: #1a73e8;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 12px;
+    cursor: default;
+}
+
+.step-example code {
+    background: #1e1e1e;
+    padding: 8px 12px;
+    border-radius: 4px;
+    display: block;
+    font-size: 12px;
+    color: #9cdcfe;
+    word-break: break-all;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.step-screenshot-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 5px;
+    color: #6c757d;
+    font-size: 13px;
+}
+
+.step-screenshot-hint i {
+    color: #ffdb4d;
+}
+
+/* ============================================
+   MAIL SETTINGS (ADMIN) — ДОБАВЛЕНО
+   ============================================ */
+
+/*---------------------
+  Settings Form Layout
+-----------------------*/
+
+.settings-body {
+    padding: 25px;
+    background: #151515;
+    border-radius: 8px;
+}
+
+.settings-form {
+    max-width: 100%;
+}
+
+.settings-section {
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.settings-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.settings-section h5 {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    color: #e4381c;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.settings-section h5 i {
+    font-size: 14px;
+}
+
+.settings-divider {
+    height: 2px;
+    background: linear-gradient(45deg, #e16521, #e4381c);
+    width: 40px;
+    margin-bottom: 20px;
+    border-radius: 2px;
+}
+
+.settings-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 10px;
+    font-family: "Nunito Sans", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/*---------------------
+  Custom Radio & Checkbox
+-----------------------*/
+
+.settings-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.custom-radio,
+.custom-checkbox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+.custom-radio input,
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    cursor: pointer;
+}
+
+.form-check-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 14px;
+    margin-bottom: 0;
+    font-family: "Nunito Sans", sans-serif;
+    transition: color 0.3s ease;
+}
+
+.form-check-label:hover {
+    color: #ffffff;
+}
+
+.radio-indicator {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    margin-right: 10px;
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.custom-radio input:checked ~ .form-check-label .radio-indicator {
+    border-color: #e4381c;
+    background: #e4381c;
+}
+
+.custom-radio input:checked ~ .form-check-label .radio-indicator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.checkbox-indicator {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    margin-right: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    color: transparent;
+    font-size: 10px;
+}
+
+.custom-checkbox input:checked ~ .form-check-label .checkbox-indicator {
+    border-color: #e4381c;
+    background: #e4381c;
+    color: #fff;
+}
+
+.checkbox-text {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 14px;
+}
+
+/*---------------------
+  Custom Number Input
+-----------------------*/
+
+.custom-number-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.number-btn {
+    background: transparent;
+    border: none;
+    color: #e4381c;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.number-btn:hover {
+    background: rgba(228, 56, 28, 0.15);
+    color: #e16521;
+}
+
+.number-btn:active {
+    background: rgba(228, 56, 28, 0.25);
+}
+
+.number-input {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    text-align: center;
+    flex: 1;
+    padding: 10px 5px;
+    font-size: 15px;
+    font-family: "Nunito Sans", sans-serif;
+    -moz-appearance: textfield;
+    min-width: 60px;
+}
+
+.number-input::-webkit-outer-spin-button,
+.number-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/*---------------------
+  Toggle Password
+-----------------------*/
+
+.toggle-password {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: none;
+    color: #e4381c;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-password:hover {
+    background: rgba(228, 56, 28, 0.1);
+    color: #e16521;
+}
+
+.toggle-password i {
+    font-size: 14px;
+}
+
+/*---------------------
+  Settings Actions
+-----------------------*/
+
+.settings-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    align-items: center;
+}
+
+.settings-actions .btn {
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 13px;
+    padding: 10px 25px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.settings-actions .btn-primary {
+    background: linear-gradient(45deg, #e16521, #e4381c);
+    border: none;
+    color: #fff;
+}
+
+.settings-actions .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.4);
+}
+
+.settings-actions .btn-success {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    border: none;
+    color: #fff;
+    animation: pulse-success 2s infinite;
+}
+
+@keyframes pulse-success {
+    0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+}
+
+.settings-actions .btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.settings-actions .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.settings-actions .btn-outline-danger {
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    background: transparent;
+}
+
+.settings-actions .btn-outline-danger:hover {
+    background: #dc3545;
+    color: #fff;
+}
+
+/*---------------------
+  SMTP Log Panel
+-----------------------*/
+
+.smtp-log-panel {
+    margin-top: 20px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #1e1e1e;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    transition: all 0.3s ease;
+}
+
+.smtp-log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: #2d2d2d;
+    border-bottom: 1px solid #444;
+    color: #d4d4d4;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.smtp-log-header i {
+    margin-right: 6px;
+    color: #e4381c;
+}
+
+.smtp-log-header .badge {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-success {
+    background: #28a745;
+    color: #fff;
+}
+
+.badge-danger {
+    background: #dc3545;
+    color: #fff;
+}
+
+.badge-info {
+    background: #17a2b8;
+    color: #fff;
+}
+
+.badge-warning {
+    background: #ffc107;
+    color: #000;
+}
+
+.smtp-log-toolbar {
+    padding: 8px 15px;
+    background: #252526;
+    border-bottom: 1px solid #333;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.smtp-log-toolbar .btn-xs {
+    padding: 3px 12px;
+    font-size: 11px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.smtp-log-toolbar .btn-xs:hover {
+    background: rgba(228, 56, 28, 0.15);
+    border-color: rgba(228, 56, 28, 0.3);
+    color: #e4381c;
+}
+
+.smtp-log-toolbar .btn-xs i {
+    margin-right: 4px;
+    font-size: 10px;
+}
+
+#smtp-log-output {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 15px;
+    margin: 0;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+/* Log syntax highlighting */
+#smtp-log-output .log-ok,
+.log-ok { color: #7ee787; }
+
+#smtp-log-output .log-error,
+.log-error { color: #f85149; }
+
+#smtp-log-output .log-warn,
+.log-warn { color: #ffa657; }
+
+#smtp-log-output .log-info,
+.log-info { color: #79c0ff; }
+
+/*---------------------
+  Form Text Muted (Admin)
+-----------------------*/
+
+.form-text.text-muted {
+    color: rgba(255, 255, 255, 0.4) !important;
+    font-size: 12px;
+    margin-top: 6px;
+    display: block;
+}
+
+.form-text.text-muted i {
+    margin-right: 4px;
+    color: #e4381c;
+}
+
+.form-text.text-muted strong {
+    color: #e4381c;
+    font-weight: 600;
+}
+
+.form-text.text-muted code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #e4381c;
+    font-size: 11px;
+}
+
+/*---------------------
+  Input Group (Admin)
+-----------------------*/
+
+.input-group {
+    display: flex;
+    align-items: stretch;
+}
+
+.input-group .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    flex: 1;
+}
+
+.input-group .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/*---------------------
   Responsive
 -----------------------*/
 
 /* Medium Device : 1200px */
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .contact-map {
+        height: 500px;
+    }
+    .map-widget iframe {
         height: 500px;
     }
 }
@@ -564,20 +1049,35 @@
     .contact-map {
         height: 450px;
     }
-
     .contact-section {
         padding: 80px 0;
     }
-
     .contact-form {
         margin-top: 40px;
         padding: 30px;
     }
-
+    .map-widget-wrapper {
+        padding: 40px;
+    }
+    .map-widget iframe {
+        height: 450px;
+    }
     .map-hover {
-        bottom: 20px;
-        left: 20px;
+        bottom: 30px;
         padding: 20px 25px;
+        min-width: 280px;
+    }
+
+    /* Mail settings tablet */
+    .settings-body {
+        padding: 20px;
+    }
+    .settings-actions {
+        gap: 10px;
+    }
+    .settings-actions .btn {
+        padding: 10px 20px;
+        font-size: 12px;
     }
 }
 
@@ -586,53 +1086,95 @@
     .contact-map {
         height: 400px;
     }
-
     .contact-section {
         padding: 60px 0;
     }
-
+    .map-widget-wrapper {
+        padding: 20px;
+    }
+    .map-widget {
+        max-width: calc(100% - 10px);
+    }
+    .map-widget iframe {
+        height: 400px;
+    }
     .map-hover {
         position: relative;
-        bottom: auto;
         left: auto;
-        margin-top: 20px;
-        max-width: none;
-        text-align: center;
+        transform: none;
+        bottom: auto;
+        margin-top: -4px;
+        border-radius: 0 0 8px 8px;
+        width: calc(100% - 20px);
+        margin-left: auto;
+        margin-right: auto;
+        min-width: unset;
     }
-
     .map-hover-icon {
         display: none;
     }
-
     .map-hover .work-time {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        justify-content: center;
-        gap: 20px;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
+        gap: 10px;
+        flex-direction: column;
+        align-items: center;
     }
-
     .contact-info ul li,
     .contact-address ul li {
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
         justify-content: center;
-        -ms-flex-wrap: wrap;
         flex-wrap: wrap;
         text-align: center;
     }
-
     .contact-form {
         padding: 25px;
         margin-top: 30px;
     }
-
     .contact-form h4 {
         font-size: 22px;
+    }
+    #admin-contact-map {
+        height: 300px !important;
+    }
+    .address-badge {
+        max-width: 120px;
+        font-size: 11px;
+    }
+
+    /* Mail settings mobile */
+    .settings-body {
+        padding: 15px;
+    }
+    .settings-section h5 {
+        font-size: 14px;
+    }
+    .settings-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .settings-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .custom-number-input {
+        width: 100%;
+    }
+    .number-btn {
+        padding: 10px 12px;
+    }
+    .smtp-log-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .smtp-log-toolbar {
+        justify-content: center;
+    }
+    #smtp-log-output {
+        max-height: 250px;
+        font-size: 11px;
+        padding: 12px;
+    }
+    .form-check-label {
+        font-size: 13px;
     }
 }
 
@@ -641,62 +1183,106 @@
     .contact-map {
         height: 350px;
     }
-
     .contact-section {
         padding: 50px 0;
     }
-
+    .map-widget-wrapper {
+        padding: 10px;
+    }
+    .map-widget {
+        max-width: calc(100% - 10px);
+    }
+    .map-widget iframe {
+        height: 350px;
+    }
+    .map-hover {
+        padding: 15px 20px;
+        width: calc(100% - 10px);
+    }
+    .map-hover h5 {
+        font-size: 16px;
+    }
+    .map-hover p {
+        font-size: 12px;
+    }
+    .map-hover .work-time li {
+        font-size: 12px;
+    }
+    .map-hover .map-btn {
+        font-size: 10px;
+        padding: 8px 20px;
+    }
     .contact-info h4,
     .contact-address h4 {
         font-size: 18px;
     }
-
     .contact-info ul li,
     .contact-address ul li {
         font-size: 13px;
         gap: 10px;
     }
-
     .contact-info ul li i,
     .contact-address ul li i {
         width: 35px;
         height: 35px;
         font-size: 16px;
     }
-
     .contact-form {
         padding: 20px;
     }
-
     .contact-form h4 {
         font-size: 20px;
     }
-
     .contact-form input,
     .contact-form textarea {
         padding: 12px 15px;
         font-size: 14px;
     }
-
     .contact-form .c-btn {
         width: 100%;
         padding: 12px 25px;
     }
 
-    .map-hover h5 {
-        font-size: 16px;
+    /* Mail settings small mobile */
+    .settings-body {
+        padding: 12px;
     }
-
-    .map-hover p {
+    .settings-section {
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+    }
+    .settings-section h5 {
+        font-size: 13px;
+    }
+    .settings-divider {
+        width: 30px;
+        margin-bottom: 15px;
+    }
+    .settings-label {
         font-size: 12px;
     }
-
-    .map-hover .work-time li {
-        font-size: 12px;
+    .radio-indicator,
+    .checkbox-indicator {
+        width: 16px;
+        height: 16px;
     }
-
-    .map-hover .map-btn {
+    .checkbox-text {
+        font-size: 13px;
+    }
+    .number-btn {
+        padding: 8px 10px;
+    }
+    .number-input {
+        font-size: 14px;
+        padding: 8px 3px;
+    }
+    .smtp-log-header {
+        font-size: 12px;
+        padding: 10px 12px;
+    }
+    #smtp-log-output {
+        max-height: 200px;
         font-size: 10px;
-        padding: 6px 15px;
+        padding: 10px;
     }
 }

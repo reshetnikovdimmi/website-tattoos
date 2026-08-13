@@ -32,6 +32,10 @@
                    data-toggle="pill" href="#v-pills-price" role="tab"
                    aria-controls="v-pills-price" aria-selected="false">price-section</a>
                 <a class="nav-link btn btn-outline-secondary" style="margin: 10px;"
+                   id="v-pills-video-tab"
+                   data-toggle="pill" href="#v-pills-video" role="tab"
+                   aria-controls="v-pills-video" aria-selected="false">video-section</a>
+                <a class="nav-link btn btn-outline-secondary" style="margin: 10px;"
                    id="v-pills-chooseus-tab"
                    data-toggle="pill" href="#v-pills-chooseus" role="tab"
                    aria-controls="v-pills-chooseus" aria-selected="false">chooseus-section</a>
@@ -543,7 +547,7 @@
                                             <div th:if="${home != null and home[0].classes != null and !#lists.isEmpty(home[0].classes.?[categoryTitle != null])}">
                                                 <div th:each="current : ${home}">
                                                     <div th:each="currents : ${current.classes}"
-                                                         th:if="${currents.categoryTitle}">
+                                                         th:if="${currents.categoryTitle == 'class-title'}">
                                                         <div class="category-card">
                                                             <form th:id="${currents.id}" action="/admin/classes/import"
                                                                   onsubmit="submitForm(event)"
@@ -579,6 +583,7 @@
                                                                             data-container-selector=".classes-import"
                                                                             data-deletion-url="/admin/classes/delete-section"
                                                                             onclick="deleteImage(this)"
+                                                                            data-method="GET"
                                                                             title="Удалить категорию">
                                                                         <i class="fa fa-trash"></i> Удалить
                                                                     </button>
@@ -589,11 +594,37 @@
                                                 </div>
                                             </div>
 
-                                            <div th:unless="${home != null and home[0].classes != null and !#lists.isEmpty(home[0].classes.?[categoryTitle != null])}"
-                                                 class="empty-state-modern">
-                                                <i class="fa fa-tags"></i>
-                                                <p>Нет категорий услуг</p>
-                                                <small>Добавьте первую категорию через форму выше</small>
+                                            <div th:unless="${home != null and home[0].classes != null and !#lists.isEmpty(home[0].classes.?[categoryTitle == 'class-title'])}">
+                                                <div class="category-card">
+                                                    <form action="/admin/classes/import"
+                                                          onsubmit="submitForm(event)"
+                                                          data-fragment-name="classes"
+                                                          data-container-selector=".classes-import"
+                                                          class="category-form">
+
+                                                        <div class="category-content">
+                                                            <div class="category-header">
+                                                                <i class="fa fa-folder-open"></i>
+                                                                <input type="text"
+                                                                       name="description"
+                                                                       class="category-title-input"
+                                                                       disabled>
+                                                            </div>
+                                                            <textarea rows="3"
+                                                                      name="name"
+                                                                      class="category-description-input"
+                                                                      disabled>
+                                                                    </textarea>
+                                                        </div>
+
+                                                        <div class="category-actions">
+                                                            <button type="submit" class="edit-category-btn"
+                                                                    title="Редактировать категорию">
+                                                                <i class="fa fa-pencil"></i> Изменить
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -673,13 +704,14 @@
                                             <i class="fa fa-list"></i>
                                             <h4>Список услуг</h4>
                                             <span class="badge-count"
-                                                  th:text="${home != null and home[0].classes != null ? #lists.size(home[0].classes.?[categoryTitle == null]) : 0}"></span>
+                                                  th:text="${home != null and home[0].classes != null ? #lists.size(home[0].classes.?[categoryTitle == 'container-fluid']) : 0}"></span>
                                         </div>
                                         <div class="modern-card-body">
-                                            <div th:if="${home != null and home[0].classes != null and !#lists.isEmpty(home[0].classes.?[categoryTitle == null])}">
+                                            <div th:if="${home != null and home[0].classes != null and !#lists.isEmpty(home[0].classes.?[categoryTitle == 'container-fluid'])}">
                                                 <div class="classes-items-grid">
                                                     <div th:each="currents : ${home[0].classes}"
-                                                         th:unless="${currents.categoryTitle}" class="class-item-card">
+                                                         th:if="${currents.categoryTitle == 'container-fluid'}"
+                                                         class="class-item-card">
                                                         <div class="class-item-image">
                                                             <img th:if="${currents.imageName}"
                                                                  th:src="@{'/images/' + ${currents.imageName}}"
@@ -706,7 +738,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div th:unless="${home != null and home[0].classes != null and !#lists.isEmpty(home[0].classes.?[categoryTitle == null])}"
+                                            <div th:unless="${home != null and home[0].classes != null and !#lists.isEmpty(home[0].classes.?[categoryTitle == 'container-fluid'])}"
                                                  class="empty-state-modern">
                                                 <i class="fa fa-inbox"></i>
                                                 <p>Нет добавленных услуг</p>
@@ -891,6 +923,7 @@
                                                                         data-container-selector=".chooseus"
                                                                         data-deletion-url="/admin/chooseus/delete-section"
                                                                         onclick="deleteImage(this)"
+                                                                        data-method="GET"
                                                                         title="Удалить">
                                                                     <i class="fa fa-trash"></i> Удалить
                                                                 </button>
@@ -901,10 +934,37 @@
                                                 </div>
 
                                             </div>
-                                            <div th:if="${#lists.isEmpty(home[0].chooseus.?[categoryTitle != null])}"
-                                                 class="empty-state-modern">
-                                                <i class="fa fa-tags"></i>
-                                                <p>Нет категорий</p>
+                                            <div th:if="${#lists.isEmpty(home[0].chooseus.?[categoryTitle != null])}">
+                                                <div class="category-card">
+                                                    <form
+                                                            action="/admin/chooseus/import"
+                                                            onsubmit="submitForm(event)"
+                                                            data-fragment-name="chooseus"
+                                                            data-container-selector=".chooseus"
+                                                            class="category-form">
+
+                                                        <div class="category-content">
+                                                            <div class="category-header">
+                                                                <i class="fa fa-folder-open"></i>
+                                                                <input type="text"
+                                                                       name="title"
+                                                                       class="category-title-input"
+                                                                       disabled/>
+                                                            </div>
+                                                            <textarea rows="3"
+                                                                      name="description"
+                                                                      class="category-description-input"
+                                                                      disabled></textarea>
+                                                        </div>
+                                                        <div class="category-actions">
+                                                            <button type="submit"
+                                                                    class="edit-category-btn"
+                                                                    title="Редактировать">
+                                                                <i class="fa fa-pencil"></i> Изменить
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1029,74 +1089,486 @@
                     </section>
                 </div>
                 <!-- Choseus Section End -->
-            </div>
-        </div>
-    </div>
-</div>
-<!--End home panes -->
-<!--Reviews panes -->
-<div th:fragment="reviews" class="container tab-pane active">
-    <br>
-    <div class="admin-section spad">
-        <div class="container">
-            <div class="section-title-modern text-center">
-                <h2>Отзывы клиентов</h2>
-                <p>Что говорят наши клиенты о нашей работе</p>
-            </div>
+                <!-- Video Section Begin -->
+                <div class="tab-pane fade" id="v-pills-video" role="tabpanel" aria-labelledby="v-pills-video-tab">
+                    <section class="admin-section spad">
+                        <div class="container">
+                            <!-- Заголовок секции -->
+                            <div class="section-title-modern text-center">
+                                <h2>Управление видео</h2>
+                                <p>Добавляйте и редактируйте видео для секции "Немного видео"</p>
+                            </div>
+                            <div class="video-import">
+                                <div th:fragment="video-import">
 
-            <div class="classtime-table scroll">
-                <div class="blogreviews" th:fragment="blogreviews">
-                    <!-- Список отзывов -->
-                    <div th:if="${reviews != null and !reviews.empty}">
-                        <div class="review-card" th:each="current : ${reviews}">
-                            <div class="review-content-wrapper">
-                                <!-- Изображение отзыва (если есть) -->
-                                <div class="review-image" th:if="${current.imageName != null}">
-                                    <img th:src="@{'/images/' + ${current.imageName}}" alt="Review image">
-                                </div>
-                                <div class="review-image" th:unless="${current.imageName != null}">
-                                    <img src="/img/review-placeholder.jpg" alt="Review placeholder">
-                                </div>
+                                    <!-- ============================================================ -->
+                                    <!-- ФОРМА ДОБАВЛЕНИЯ НОВОГО ВИДЕО                             -->
+                                    <!-- ============================================================ -->
 
-                                <!-- Информация об отзыве -->
-                                <div class="review-info">
-                                    <div class="review-header">
-                                        <div class="review-author">
-                                            <div class="review-author-name">
-                                                <span th:text="${current.userName}">Пользователь</span>
-                                            </div>
+                                    <div class="admin-card">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-plus-circle"></i>
+                                            <h4>Добавить новое видео</h4>
                                         </div>
-                                        <div class="review-date">
-                                            <i class="fa fa-calendar"></i>
-                                            <span th:text="${current.date}">Дата</span>
+                                        <div class="admin-card-body">
+                                            <form action="/admin/videos/image-import"
+                                                  onsubmit="submitForm(event)"
+                                                  data-fragment-name="video-import"
+                                                  data-container-selector=".video-import"
+                                                  class="video-form"
+
+                                                  th:object="${videos}">
+
+                                                <div class="admin-form-grid">
+                                                    <!-- Левая колонка - загрузка превью -->
+                                                    <div class="admin-upload-col">
+                                                        <div class="admin-upload-area"
+                                                             onclick="document.getElementById('video-preview-file').click()">
+                                                            <img class="preview-image" id="video-preview"
+                                                                 src="/img/avatar.jpg" alt="Preview">
+                                                            <div class="upload-overlay">
+                                                                <i class="fa fa-cloud-upload"></i>
+                                                                <span>Выбрать обложку</span>
+                                                            </div>
+                                                            <input type="file" name="file" id="video-preview-file"
+                                                                   accept="image/*"
+                                                                   onchange="loadImage(this, document.getElementById('video-preview'))">
+                                                        </div>
+                                                        <p class="upload-hint">
+                                                            <i class="fa fa-info-circle"></i>
+                                                            Рекомендуемый размер: 320x180px (16:9)
+                                                        </p>
+                                                        <!-- ===== ИНСТРУКЦИЯ ===== -->
+                                                        <div class="video-url-instruction">
+                                                            <button type="button" class="instruction-toggle"
+                                                                    onclick="toggleInstruction(this)">
+                                                                <i class="fa fa-question-circle"></i>
+                                                                Как получить ссылку для встраивания?
+                                                            </button>
+                                                            <div class="instruction-content" style="display: none;">
+                                                                <div class="instruction-tabs">
+                                                                    <button type="button" class="tab-btn active"
+                                                                            data-tab="vk"
+                                                                            onclick="switchInstructionTab(this, 'vk')">
+                                                                        <i class="fa fa-vk"></i> ВКонтакте
+                                                                    </button>
+                                                                    <button type="button" class="tab-btn"
+                                                                            data-tab="youtube"
+                                                                            onclick="switchInstructionTab(this, 'youtube')">
+                                                                        <i class="fa fa-youtube-play"></i> YouTube
+                                                                    </button>
+                                                                    <button type="button" class="tab-btn"
+                                                                            data-tab="rutube"
+                                                                            onclick="switchInstructionTab(this, 'rutube')">
+                                                                        <i class="fa fa-play"></i> Rutube
+                                                                    </button>
+                                                                </div>
+
+                                                                <!-- Инструкция для VK -->
+                                                                <div class="tab-content active" id="instruction-vk">
+                                                                    <ol>
+                                                                        <li>Зайдите на страницу видео во <strong>ВКонтакте</strong>
+                                                                        </li>
+                                                                        <li>Нажмите на кнопку
+                                                                            <strong>«Поделиться»</strong> (стрелка
+                                                                            вправо)
+                                                                        </li>
+                                                                        <li>Выберите <strong>«Встроить код»</strong> или
+                                                                            <strong>«Embed»</strong></li>
+                                                                        <li>Скопируйте ссылку из атрибута
+                                                                            <code>src</code> тега <code>iframe</code>
+                                                                        </li>
+                                                                        <li>Вставьте ссылку в поле выше</li>
+                                                                    </ol>
+                                                                    <div class="instruction-example">
+                                                                        <p><strong>Пример ссылки:</strong></p>
+                                                                        <code>https://vk.com/video_ext.php?oid=-174808662&id=456239081&hash=b2f7acf9981a0447</code>
+                                                                    </div>
+                                                                    <div class="instruction-screenshot">
+                                                                        <img src="/img/vk-instruction.png"
+                                                                             alt="Инструкция VK"
+                                                                             onerror="this.style.display='none'">
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Инструкция для YouTube -->
+                                                                <div class="tab-content" id="instruction-youtube"
+                                                                     style="display: none;">
+                                                                    <ol>
+                                                                        <li>Зайдите на страницу видео на
+                                                                            <strong>YouTube</strong></li>
+                                                                        <li>Нажмите на кнопку
+                                                                            <strong>«Поделиться»</strong> (стрелка
+                                                                            вправо)
+                                                                        </li>
+                                                                        <li>Выберите <strong>«Встроить»</strong> или
+                                                                            <strong>«Embed»</strong></li>
+                                                                        <li>Скопируйте ссылку из атрибута
+                                                                            <code>src</code> тега <code>iframe</code>
+                                                                        </li>
+                                                                        <li>Вставьте ссылку в поле выше</li>
+                                                                    </ol>
+                                                                    <div class="instruction-example">
+                                                                        <p><strong>Пример ссылки:</strong></p>
+                                                                        <code>https://www.youtube.com/embed/dQw4w9WgXcQ</code>
+                                                                    </div>
+                                                                    <div class="instruction-note">
+                                                                        <i class="fa fa-info-circle"></i>
+                                                                        Можно добавить параметры: <code>?autoplay=1&rel=0</code>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Инструкция для Rutube -->
+                                                                <div class="tab-content" id="instruction-rutube"
+                                                                     style="display: none;">
+                                                                    <ol>
+                                                                        <li>Зайдите на страницу видео на
+                                                                            <strong>Rutube</strong></li>
+                                                                        <li>Нажмите на кнопку
+                                                                            <strong>«Поделиться»</strong></li>
+                                                                        <li>Выберите <strong>«Встроить»</strong> или
+                                                                            скопируйте ссылку
+                                                                        </li>
+                                                                        <li>Вставьте ссылку в поле выше</li>
+                                                                    </ol>
+                                                                    <div class="instruction-example">
+                                                                        <p><strong>Пример ссылки:</strong></p>
+                                                                        <code>https://rutube.ru/embed/1234567890</code>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Правая колонка - поля формы -->
+                                                    <div class="admin-form-col">
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-header"></i>
+                                                                Название видео
+                                                            </label>
+                                                            <input type="text" class="admin-textarea" name="title"
+
+                                                                   placeholder="Например: Тату-процесс"
+                                                                   required>
+                                                        </div>
+
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-align-left"></i>
+                                                                Описание
+                                                            </label>
+                                                            <textarea class="admin-textarea" name="description"
+
+                                                                      placeholder="Краткое описание видео..."
+                                                                      rows="2"></textarea>
+                                                        </div>
+
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-link"></i>
+                                                                Ссылка на видео (VK, YouTube)
+                                                            </label>
+                                                            <input type="url" class="admin-textarea" name="videoUrl"
+
+                                                                   placeholder="https://vk.com/video_ext.php?oid=...&id=..."
+                                                                   required>
+                                                            <small class="form-hint">
+                                                                Используйте ссылку для встраивания (iframe)
+                                                            </small>
+                                                        </div>
+
+                                                        <button type="submit" class="admin-btn">
+                                                            <i class="fa fa-save"></i> Добавить видео
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <button sec:authorize="hasAuthority('ADMIN')"
-                                                th:id="${current.id}"
-                                                onclick="deleteImage(this)"
-                                                data-fragment-name="blogreviews"
-                                                data-container-selector=".blogreviews"
-                                                data-deletion-url="/admin/reviews/delete-section"
-                                                data-method="GET"
-                                                class="review-delete-btn">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
                                     </div>
+                                    <!-- ============================================================ -->
+                                    <!-- СПИСОК ВИДЕО                                               -->
+                                    <!-- ============================================================ -->
 
-                                    <div class="review-body" th:text="${current.comment}">
-                                        Текст отзыва клиента
+                                    <div class="admin-card" th:each="current : ${home}">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-list"></i>
+                                            <h4>Список видео</h4>
+                                            <span class="badge-count"
+                                                  th:text="${current.videos != null ? #lists.size(current.videos) : 0}"></span>
+                                        </div>
+                                        <div class="modern-card-body">
+
+                                            <!-- ЕСТЬ ВИДЕО -->
+                                            <div th:if="${current.videos != null and !current.videos.isEmpty()}">
+                                                <div class="video-items-grid">
+                                                    <div th:each="video : ${current.videos}" class="video-item-card">
+                                                        <!-- Превью -->
+                                                        <div class="video-item-preview">
+                                                            <img th:src="${video.previewImage != null ? '/images/' + video.previewImage : '/img/avatar.jpg'}"
+                                                                 th:alt="${video.title}">
+                                                            <div class="video-item-play">
+                                                                <i class="fa fa-play"></i>
+                                                            </div>
+                                                            <span class="video-item-status"
+                                                                  th:classappend="${video.isActive} ? 'status-active' : 'status-inactive'">
+                                                        <i th:if="${video.isActive}" class="fa fa-check-circle"></i>
+                                                        <i th:unless="${video.isActive}" class="fa fa-minus-circle"></i>
+                                                    </span>
+                                                        </div>
+
+                                                        <!-- Информация -->
+                                                        <div class="video-item-info">
+                                                            <div class="video-item-header">
+                                                                <h5 th:text="${video.title}">Название видео</h5>
+                                                                <span class="video-item-order"
+                                                                      th:text="'#' + ${video.displayOrder}">#0</span>
+                                                            </div>
+                                                            <p class="video-item-desc" th:text="${video.description}">
+                                                                Описание</p>
+                                                            <div class="video-item-meta">
+                                                        <span class="video-item-url">
+                                                            <i class="fa fa-link"></i>
+                                                            <a th:href="${video.videoUrl}" target="_blank"
+                                                               th:text="${#strings.abbreviate(video.videoUrl, 30)}">Ссылка</a>
+                                                        </span>
+                                                                <span class="video-item-date"
+                                                                      th:text="${#temporals.format(video.createdAt, 'dd.MM.yyyy')}">Дата</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Действия -->
+                                                        <div class="video-item-actions">
+                                                            <button class="action-btn delete-btn"
+                                                                    th:id="${video.id}"
+                                                                    data-fragment-name="video-import"
+                                                                    data-container-selector=".video-import"
+                                                                    data-deletion-url="/admin/videos/delete-section"
+                                                                    onclick="deleteImage(this)"
+                                                                    data-method="GET"
+                                                                    title="Удалить">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- НЕТ ВИДЕО -->
+                                            <div th:if="${current.videos == null or current.videos.isEmpty()}"
+                                                 class="empty-state-modern">
+                                                <i class="fa fa-video-camera"></i>
+                                                <h4>Нет видео</h4>
+                                                <p>Добавьте первое видео через форму выше</p>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!-- Video Section End -->
+    </div>
+</div>
+</div>
+</div>
+<!--End home panes -->
+<!--Reviews panes -->
+<div th:fragment="reviews" class="container tab-pane active"><br>
+    <div class="row">
+        <div class="col-6 col-md-4 themed-grid-col">
+            <div class="nav flex-column nav-pills" id="tabReviews" role="tablist"
+                 aria-orientation="vertical">
+                <a style="margin: 10px;"
+                   class="nav-link active btn btn-outline-secondary"
+                   id="v-reviews-all-tab"
+                   data-toggle="pill"
+                   href="#v-reviews-all"
+                   role="tab"
+                   aria-controls="v-reviews-all"
+                   aria-selected="true">
+                    reviews-all
+                </a>
+                <a style="margin: 10px;"
+                   class="nav-link btn btn-outline-secondary"
+                   id="v-pills-reviews"
+                   data-toggle="pill"
+                   href="#v-pills-reviews-tab"
+                   role="tab"
+                   aria-controls="v-pills-reviews-tab"
+                   aria-selected="false">
+                    reviews
+                </a>
+            </div>
+        </div>
+        <div class="col-md-8 themed-grid-col">
+            <div class="tab-content" id="v-pills-tabReviews">
+                <!-- ============================================================ -->
+                <!-- REVIEWS ALL SETTINGS - Вкладка в настройках                  -->
+                <!-- ============================================================ -->
 
-                    <!-- Пустое состояние -->
-                    <div class="empty-reviews" th:unless="${reviews != null and !reviews.empty}">
-                        <i class="fa fa-comment-o"></i>
-                        <h4>Нет отзывов</h4>
-                        <p>Будьте первым, кто оставит отзыв о нашей работе</p>
-                    </div>
+                <div class="tab-pane fade show active" id="v-reviews-all" role="tabpanel"
+                     aria-labelledby="v-reviews-all-tab">
 
+                    <section class="admin-section spad">
+                        <div class="container">
+                            <div class="section-title-modern text-center">
+                                <h2>Блок "Все отзывы"</h2>
+                                <p>Управление изображением для блока "Все отзывы" на главной странице</p>
+                            </div>
+
+
+                            <div class="admin-card">
+                                <div class="admin-card-header">
+                                    <i class="fa fa-image"></i>
+                                    <h4>Изображение блока "Все отзывы"</h4>
+                                    <span class="section-badge">Главная страница</span>
+                                </div>
+                                <div class="reviews-all-setting" th:fragment="reviews-all-setting">
+                                    <div class="admin-card-body" th:object="${reviewsEntity}">
+                                        <form th:id="*{id}"
+                                              action="/admin/review-section/image-import"
+                                              method="post"
+                                              enctype="multipart/form-data"
+                                              data-fragment-name="reviews-all-setting"
+                                              data-container-selector=".reviews-all-setting"
+                                              onsubmit="submitForm(event)"
+                                              class="reviews-all-form">
+
+                                            <div class="admin-form-grid">
+                                                <!-- Левая колонка - изображение -->
+                                                <div class="admin-upload-col">
+                                                    <div class="admin-upload-area"
+                                                         onclick="document.getElementById('file-preview').click()">
+                                                        <img id="reviews-all-image"
+                                                             th:src="*{imageName != null ? '/images/' + imageName : '/img/avatar.jpg'}"
+                                                             alt="Reviews All"
+                                                             class="preview-image">
+                                                        <div class="upload-overlay">
+                                                            <i class="fa fa-cloud-upload"></i>
+                                                            <span>Фон блока "Все отзывы"</span>
+                                                        </div>
+                                                        <input type="file" name="file" id="file-preview"
+                                                               accept="image/*"
+                                                               onchange="loadImage(this, document.getElementById('reviews-all-image'))"
+                                                               required>
+                                                    </div>
+                                                    <p class="upload-hint">
+                                                        <i class="fa fa-info-circle"></i>
+                                                        JPG, PNG, GIF, WEBP (макс. 5MB)
+                                                    </p>
+                                                </div>
+
+                                                <!-- Правая колонка - форма -->
+                                                <div class="admin-form-col">
+                                                    <div class="admin-form-group">
+                                                        <label class="admin-label">
+                                                            <i class="fa fa-header"></i> Заголовок
+                                                        </label>
+                                                        <input type="text"
+                                                               class="admin-textarea"
+                                                               name="title"
+                                                               th:value="*{title}"
+                                                               placeholder="Например: Все отзывы">
+                                                    </div>
+
+                                                    <div class="admin-form-group">
+                                                        <label class="admin-label">
+                                                            <i class="fa fa-align-left"></i> Подпись
+                                                        </label>
+                                                        <input type="text"
+                                                               class="admin-textarea"
+                                                               name="description"
+                                                               th:value="*{description}"
+                                                               placeholder="Например: Читать все отзывы">
+                                                    </div>
+
+                                                    <button type="submit" class="admin-btn">
+                                                        <i class="fa fa-save"></i> Сохранить
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+
+                <div class="tab-pane fade" id="v-pills-reviews-tab" role="tabpanel"
+                     aria-labelledby="v-pills-reviews" tabindex="0">
+
+                    <div class="admin-section spad">
+                        <div class="container">
+                            <div class="section-title-modern text-center">
+                                <h2>Отзывы клиентов</h2>
+                                <p>Что говорят наши клиенты о нашей работе</p>
+                            </div>
+
+                            <div class="classtime-table scroll">
+                                <div class="blogreviews" th:fragment="blogreviews">
+                                    <!-- Список отзывов -->
+                                    <div th:if="${reviews != null and !reviews.empty}">
+                                        <div class="review-card" th:each="current : ${reviews}">
+                                            <div class="review-content-wrapper">
+                                                <!-- Изображение отзыва (если есть) -->
+                                                <div class="review-image" th:if="${current.imageName != null}">
+                                                    <img th:src="@{'/images/' + ${current.imageName}}"
+                                                         alt="Review image">
+                                                </div>
+                                                <div class="review-image" th:unless="${current.imageName != null}">
+                                                    <img src="/img/review-placeholder.jpg" alt="Review placeholder">
+                                                </div>
+
+                                                <!-- Информация об отзыве -->
+                                                <div class="review-info">
+                                                    <div class="review-header">
+                                                        <div class="review-author">
+                                                            <div class="review-author-name">
+                                                                <span th:text="${current.userName}">Пользователь</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="review-date">
+                                                            <i class="fa fa-calendar"></i>
+                                                            <span th:text="${current.date}">Дата</span>
+                                                        </div>
+                                                        <button sec:authorize="hasAuthority('ADMIN')"
+                                                                th:id="${current.id}"
+                                                                onclick="deleteImage(this)"
+                                                                data-fragment-name="blogreviews"
+                                                                data-container-selector=".blogreviews"
+                                                                data-deletion-url="/admin/reviews/delete-section"
+                                                                data-method="GET"
+                                                                class="review-delete-btn">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="review-body" th:text="${current.comment}">
+                                                        Текст отзыва клиента
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Пустое состояние -->
+                                    <div class="empty-reviews" th:unless="${reviews != null and !reviews.empty}">
+                                        <i class="fa fa-comment-o"></i>
+                                        <h4>Нет отзывов</h4>
+                                        <p>Будьте первым, кто оставит отзыв о нашей работе</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1226,7 +1698,7 @@
                                                 <div class="admin-upload-col">
                                                     <div class="admin-upload-area"
                                                          onclick="document.getElementById('file-work').click()">
-                                                        <img class="preview-image" id="work" src="img/avatar.jpg"
+                                                        <img class="preview-image" id="work" src="/img/avatar.jpg"
                                                              alt="Preview">
                                                         <div class="upload-overlay">
                                                             <i class="fa fa-cloud-upload"></i>
@@ -1805,6 +2277,16 @@
                    aria-selected="false">
                     Footer
                 </a>
+                <a style="margin: 10px;"
+                   class="nav-link btn btn-outline-secondary"
+                   id="v-mail-tab"
+                   data-toggle="pill"
+                   href="#v-mail"
+                   role="tab"
+                   aria-controls="v-mail"
+                   aria-selected="false">
+                    mail
+                </a>
             </div>
         </div>
 
@@ -1896,19 +2378,35 @@
                     </div>
 
                     <div class="contact-admin">
-                        <div class="container-contact-info" th:fragment="contact-admin" th:object="${contactInfo}">
+                        <div class="container-contact-info" th:fragment="contact-admin">
                             <div class="contact-info-card">
                                 <div class="contact-info-header">
                                     <i class="fa fa-address-card"></i>
                                     <h4>Редактирование контактов</h4>
                                 </div>
                                 <div class="contact-info-body">
-                                    <form th:id="*{id}" action="/admin/setting/contact/import"
+                                    <form th:id="${contactInfo?.id}" action="/admin/setting/contact/import"
                                           onsubmit="submitForm(event)"
                                           method="post"
                                           data-fragment-name="footer-section"
                                           data-container-selector=".footer-section"
                                           class="contact-form">
+                                        <!-- Наименование -->
+                                        <div class="contact-input-group">
+                                            <div class="input-group">
+                                                <span class="input-group-text contact-input-icon">
+                                                    <i class="fa fa-id-card-o"></i>
+                                                </span>
+                                                <input type="name"
+                                                       class="form-control contact-input-field"
+                                                       th:name="name"
+                                                       autofocus="autofocus"
+                                                       required="required"
+                                                       th:value="${contactInfo?.name}"
+                                                       disabled
+                                                       placeholder="name"/>
+                                            </div>
+                                        </div>
 
                                         <!-- Телефон -->
                                         <div class="contact-input-group">
@@ -1918,10 +2416,10 @@
                                                 </span>
                                                 <input type="tel"
                                                        class="form-control contact-input-field"
-                                                       id="tell"
+                                                       th:name="tell"
                                                        autofocus="autofocus"
                                                        required="required"
-                                                       th:field="*{tell}"
+                                                       th:value="${contactInfo?.tell}"
                                                        disabled
                                                        placeholder="+7 (XXX) XXX-XX-XX"/>
                                             </div>
@@ -1930,15 +2428,15 @@
                                         <!-- Email -->
                                         <div class="contact-input-group">
                                             <div class="input-group">
-                                                <span class="input-group-text contact-input-icon">
-                                                    <i class="fa fa-envelope"></i>
-                                                </span>
+                        <span class="input-group-text contact-input-icon">
+                            <i class="fa fa-envelope"></i>
+                        </span>
                                                 <input type="email"
                                                        class="form-control contact-input-field"
-                                                       id="email"
+                                                       th:name="email"
                                                        autofocus="autofocus"
                                                        required="required"
-                                                       th:field="*{email}"
+                                                       th:value="${contactInfo?.email}"
                                                        disabled
                                                        placeholder="studio@example.com"/>
                                             </div>
@@ -1947,17 +2445,50 @@
                                         <!-- Адрес -->
                                         <div class="contact-input-group">
                                             <div class="input-group">
-                                                <span class="input-group-text contact-input-icon">
-                                                    <i class="fa fa-map-marker"></i>
-                                                </span>
+                        <span class="input-group-text contact-input-icon">
+                            <i class="fa fa-map-marker"></i>
+                        </span>
                                                 <input type="text"
                                                        class="form-control contact-input-field"
-                                                       id="address"
+                                                       th:name="address"
+                                                       id="contact-address-input"
                                                        autofocus="autofocus"
                                                        required="required"
-                                                       th:field="*{address}"
+                                                       th:value="${contactInfo?.address}"
                                                        disabled
-                                                       placeholder="г. Москва, ул. Примерная, д. 123"/>
+                                                       placeholder="г. Омск, ул. Лермонтова, д. 81"/>
+                                            </div>
+                                        </div>
+
+                                        <!-- Часы работы -->
+                                        <div class="contact-input-group">
+                                            <div class="input-group">
+                        <span class="input-group-text contact-input-icon">
+                            <i class="fa fa-clock-o"></i>
+                        </span>
+                                                <input type="text"
+                                                       class="form-control contact-input-field"
+                                                       th:name="workHours"
+                                                       id="contact-workhours-input"
+                                                       th:value="${contactInfo?.workHours}"
+                                                       disabled
+                                                       placeholder="Пн-Пт: 09:00-18:00, Сб-Вс: Выходной"/>
+                                            </div>
+                                        </div>
+
+                                        <!-- ===== ПОЛЕ ДЛЯ IFRAME ССЫЛКИ ===== -->
+                                        <div class="contact-input-group">
+                                            <div class="input-group">
+                        <span class="input-group-text contact-input-icon">
+                            <i class="fa fa-code"></i>
+                        </span>
+                                                <input type="text"
+                                                       class="form-control contact-input-field"
+                                                       th:name="mapIframe"
+                                                       id="contact-map-iframe"
+                                                       th:value="${contactInfo?.mapIframe}"
+                                                       disabled
+                                                       placeholder="https://yandex.ru/map-widget/v1/?ll=73.368229%2C54.987563&z=17&pt=73.368229%2C54.987563,pm2rdm"/>
                                             </div>
                                         </div>
 
@@ -1969,6 +2500,122 @@
                                         </div>
 
                                     </form>
+                                </div>
+                            </div>
+
+                            <!-- ============================================================ -->
+                            <!-- ИНСТРУКЦИЯ (если нет iframe или адреса)                       -->
+                            <!-- ============================================================ -->
+                            <div class="instruction-card">
+                                <div class="instruction-header">
+                                    <i class="fa fa-info-circle"></i>
+                                    <h4>Как добавить карту</h4>
+                                </div>
+                                <div class="instruction-body">
+                                    <div class="instruction-steps">
+                                        <div class="step">
+                                            <span class="step-number">1</span>
+                                            <div class="step-content">
+                                                <strong>Откройте Яндекс.Карты</strong>
+                                                <p>Перейдите на <a href="https://yandex.ru/maps/" target="_blank">yandex.ru/maps</a>
+                                                    и найдите нужное место</p>
+                                            </div>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">2</span>
+                                            <div class="step-content">
+                                                <strong>Нажмите «Поделиться»</strong>
+                                                <p>Найдите кнопку <span class="badge-share"><i
+                                                        class="fa fa-share-alt"></i> Поделиться</span> на панели
+                                                    инструментов</p>
+                                            </div>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">3</span>
+                                            <div class="step-content">
+                                                <strong>Выберите «Виджет с картой»</strong>
+                                                <p>В открывшемся окне выберите вкладку <span class="badge-widget">Виджет с картой</span>
+                                                </p>
+                                                <div class="step-screenshot-hint">
+                                                    <i class="fa fa-arrow-right"></i>
+                                                    <span>Здесь можно настроить размер и внешний вид карты</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="step">
+                                            <span class="step-number">4</span>
+                                            <div class="step-content">
+                                                <strong>Скопируйте HTML-код</strong>
+                                                <p>Скопируйте <strong>весь HTML-код</strong> из поля «Виджет с картой» и
+                                                    вставьте его в поле <strong>«Код карты (iframe)»</strong> выше</p>
+                                                <div class="step-example">
+                                                    <i class="fa fa-code"></i>
+                                                    <code>&lt;div style="position:relative;overflow:hidden;"&gt;&lt;a
+                                                        href="https://yandex.ru/maps/org/infloriya/47725113483/..."&gt;Инфлория&lt;/a&gt;&lt;iframe
+                                                        src="https://yandex.ru/map-widget/v1/..."&gt;&lt;/iframe&gt;&lt;/div&gt;</code>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="instruction-note">
+                                        <i class="fa fa-lightbulb-o"></i>
+                                        <div>
+                                            <strong>Важно:</strong> Вставляйте <strong>весь HTML-код</strong> целиком,
+                                            включая теги <code>&lt;div&gt;</code> и <code>&lt;iframe&gt;</code>
+                                            <br>
+                                            <span class="note-text">Это полноценный виджет, который содержит ссылки на организацию и карту.</span>
+                                            <br>
+                                            <span class="note-text"><strong>Подсказка:</strong> Если у вас есть только ссылка вида <code>https://yandex.ru/map-widget/v1/...</code>, её нужно обернуть в тег <code>&lt;iframe&gt;</code> или скопировать готовый код из Яндекс.Карт.</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Дополнительный блок с визуальной подсказкой -->
+                                    <div class="instruction-visual-hint">
+                                        <div class="hint-box">
+                                            <div class="hint-box-header">
+                                                <i class="fa fa-window-maximize"></i>
+                                                <span>Пример окна «Поделиться»</span>
+                                            </div>
+                                            <div class="hint-box-body">
+                                                <div class="hint-tabs">
+                                                    <span class="hint-tab active">Ссылка на карту</span>
+                                                    <span class="hint-tab highlighted">Виджет с картой</span>
+                                                    <span class="hint-tab">Виджет с отзывами</span>
+                                                </div>
+                                                <div class="hint-widget-preview">
+                                                    <div class="hint-code-field">
+                                                        <span class="hint-label">HTML-код:</span>
+                                                        <div class="hint-code-block">
+                                                            <code>&lt;div
+                                                                style="position:relative;overflow:hidden;"&gt;</code>
+                                                            <code class="hint-code-indent">&lt;a href="..."&gt;Инфлория&lt;/a&gt;</code>
+                                                            <code class="hint-code-indent">&lt;iframe
+                                                                src="https://yandex.ru/map-widget/v1/..."&gt;&lt;/iframe&gt;</code>
+                                                            <code>&lt;/div&gt;</code>
+                                                        </div>
+                                                    </div>
+                                                    <div class="hint-preview-box">
+                                                        <i class="fa fa-map-o"></i> Предпросмотр карты
+                                                    </div>
+                                                    <div class="hint-copy-btn">
+                                                        <i class="fa fa-clipboard"></i> Копировать HTML-код
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Дополнительное предупреждение -->
+                                    <div class="instruction-warning">
+                                        <i class="fa fa-exclamation-triangle"></i>
+                                        <div>
+                                            <strong>Обратите внимание:</strong> Поле <strong>«Код карты
+                                            (iframe)»</strong> принимает только полный HTML-код виджета.
+                                            <br>
+                                            <span class="note-text">Если вы вставите только ссылку, карта не отобразится.</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2425,9 +3072,398 @@
                         </div>
                     </div>
                 </div>
+                <div class="tab-pane fade" id="v-mail" role="tabpanel"
+                     aria-labelledby="v-mail-tab" tabindex="0">
+
+                    <div class="settings-panel">
+                        <div class="settings-header">
+                            <h4><i class="fa fa-envelope-o"></i> Настройки почтовых уведомлений</h4>
+                            <p class="text-muted">Настройте параметры отправки писем с сайта</p>
+                        </div>
+
+                        <div class="settings-body" >
+                            <div th:fragment="mailSettingsFragment">
+                            <!-- ============================================================ -->
+                            <!-- ФОРМА НАСТРОЕК                                                -->
+                            <!-- ============================================================ -->
+                            <form th:method="POST"
+                                  th:action="@{/admin/mail/save}"
+                                  th:object="${mailSettings}"
+                                  class="settings-form"
+                                  th:id="*{id}"
+                                  onsubmit="submitForm(event)"
+                                  data-fragment-name="mailSettingsFragment"
+                                  data-container-selector=".settings-body">
+
+
+
+                                    <!-- SMTP Настройки -->
+                                    <div class="settings-section">
+                                        <h5>SMTP Настройки</h5>
+                                        <div class="settings-divider"></div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mail-host">SMTP Хост</label>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           id="mail-host"
+                                                           th:field="*{host}"
+                                                           placeholder="smtp.yandex.ru"
+                                                           required>
+                                                    <span th:if="${#fields.hasErrors('host')}" th:errors="*{host}">Ошибка хоста</span>
+                                                    <small class="form-text text-muted">Адрес SMTP сервера</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mail-port">SMTP Порт</label>
+
+                                                    <div class="custom-number-input">
+                                                        <button type="button" class="number-btn number-btn-minus"
+                                                                onclick="changePort(-1)">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+
+                                                        <input type="number"
+                                                               class="form-control number-input"
+                                                               id="mail-port"
+                                                               th:field="*{port}"
+                                                               value="465"
+                                                               min="1"
+                                                               max="9999"
+                                                               readonly>
+                                                        <span th:if="${#fields.hasErrors('port')}" th:errors="*{port}">Ошибка порта</span>
+                                                        <button type="button" class="number-btn number-btn-plus"
+                                                                onclick="changePort(1)">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </div>
+
+                                                    <small class="form-text text-muted">Обычно 465 (SSL) или 587
+                                                        (TLS)</small>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mail-username">Имя пользователя</label>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           id="mail-username"
+                                                           th:field="*{username}"
+                                                           placeholder="your-email@yandex.ru"
+                                                           required>
+                                                    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Ошибка имя пользователя пустое</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mail-password">Пароль</label>
+                                                    <div class="input-group">
+                                                        <input type="password"
+                                                               class="form-control"
+                                                               id="mail-password"
+                                                               th:field="*{password}"
+                                                               placeholder="••••••••"
+                                                               >
+                                                        <button type="button"
+                                                                class="btn btn-outline-secondary toggle-password"
+                                                                onclick="togglePasswordVisibility('mail-password')">
+                                                            <i class="fa fa-eye"></i>
+                                                        </button>
+                                                    </div>
+                                                    <small class="form-text text-muted">
+                                                        <i class="fa fa-info-circle"></i>
+                                                        Для Яндекс.Почты используйте <strong>пароль приложения</strong>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Настройки отправителя -->
+                                    <div class="settings-section">
+                                        <h5>Настройки отправителя</h5>
+                                        <div class="settings-divider"></div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mail-from">Email отправителя</label>
+                                                    <input type="email"
+                                                           class="form-control"
+                                                           id="mail-from"
+                                                           th:field="*{fromEmail}"
+                                                           placeholder="noreply@yourdomain.com"
+                                                           required>
+                                                    <span th:if="${#fields.hasErrors('fromEmail')}" th:errors="*{fromEmail}">Ошибка Email</span>
+                                                    <small class="form-text text-muted">Адрес, с которого будут
+                                                        приходить
+                                                        письма</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mail-from-name">Имя отправителя</label>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           id="mail-from-name"
+                                                           th:field="*{fromName}"
+                                                           placeholder="Тату-студия Maxsim" required>
+                                                    <span th:if="${#fields.hasErrors('fromName')}" th:errors="*{fromName}">Ошибка Имя отправителя</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="mail-recipient">Email получателя</label>
+                                            <input type="email"
+                                                   class="form-control"
+                                                   id="mail-recipient"
+                                                   th:field="*{recipientEmail}"
+                                                   placeholder="admin@yourdomain.com"
+                                                   required>
+                                            <span th:if="${#fields.hasErrors('recipientEmail')}" th:errors="*{recipientEmail}">Ошибка Email получателя</span>
+                                            <small class="form-text text-muted">На этот адрес будут приходить сообщения
+                                                с
+                                                сайта</small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Параметры безопасности -->
+                                    <div class="settings-section">
+                                        <h5>Безопасность</h5>
+                                        <div class="settings-divider"></div>
+
+                                        <div class="row">
+                                            <!-- SSL/TLS -->
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="settings-label">SSL/TLS</label>
+                                                    <div class="settings-radio-group">
+                                                        <div class="custom-radio">
+                                                            <input type="radio"
+                                                                   class="form-check-input"
+                                                                   id="mail-ssl"
+                                                                   th:field="*{encryption}"
+                                                                   th:onclick="initMailSettings()"
+                                                                   value="SSL"
+                                                                   checked>
+                                                            <label class="form-check-label" for="mail-ssl">
+                                                                <span class="radio-indicator"></span>
+                                                                SSL
+                                                            </label>
+                                                        </div>
+                                                        <div class="custom-radio">
+                                                            <input type="radio"
+                                                                   class="form-check-input"
+                                                                   id="mail-tls"
+                                                                   th:field="*{encryption}"
+                                                                   th:onclick="initMailSettings()"
+                                                                   value="TLS">
+                                                            <label class="form-check-label" for="mail-tls">
+                                                                <span class="radio-indicator"></span>
+                                                                TLS
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Аутентификация -->
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="settings-label">Аутентификация</label>
+                                                    <div class="custom-checkbox">
+                                                        <input type="checkbox"
+                                                               class="form-check-input"
+                                                               id="mail-auth"
+                                                               th:field="*{auth}"
+                                                               checked>
+                                                        <label class="form-check-label" for="mail-auth">
+                                                            <span class="checkbox-indicator">
+                                                                <i class="fa fa-check"></i>
+                                                            </span>
+                                                            <span class="checkbox-text">Требовать аутентификацию</span>
+                                                        </label>
+                                                    </div>
+                                                    <small class="form-text text-muted">Защита от несанкционированного
+                                                        доступа</small>
+                                                </div>
+                                            </div>
+
+                                            <!-- Отладка -->
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="settings-label">Отладка</label>
+                                                    <div class="custom-checkbox">
+                                                        <input type="checkbox"
+                                                               class="form-check-input"
+                                                               id="mail-debug"
+                                                               th:field="*{debug}">
+                                                        <label class="form-check-label" for="mail-debug">
+                                                            <span class="checkbox-indicator">
+                                                                <i class="fa fa-check"></i>
+                                                            </span>
+                                                            <span class="checkbox-text">Включить отладку</span>
+                                                        </label>
+                                                    </div>
+                                                    <small class="form-text text-muted">Полезно для тестирования и
+                                                        управления</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Шаблоны писем -->
+                                    <div class="settings-section">
+                                        <h5>Шаблоны писем</h5>
+                                        <div class="settings-divider"></div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mail-subject">Тема письма</label>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           id="mail-subject"
+                                                           th:field="*{subjectTemplate}"
+                                                           placeholder="Новое сообщение с сайта">
+                                                    <small class="form-text text-muted">
+                                                        Можно использовать переменные: <code>{name}</code>,
+                                                        <code>{phone}</code>
+                                                    </small>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="settings-label">Автоответ</label>
+                                                    <div class="custom-checkbox">
+                                                        <input type="checkbox"
+                                                               class="form-check-input"
+                                                               id="mail-auto-reply"
+                                                               th:field="*{autoReply}">
+                                                        <label class="form-check-label" for="mail-auto-reply">
+                                                            <span class="checkbox-indicator">
+                                                                <i class="fa fa-check"></i>
+                                                            </span>
+                                                            <span class="checkbox-text">Отправлять автоответ клиенту</span>
+                                                        </label>
+                                                    </div>
+                                                    <small class="form-text text-muted">Автоматический ответ после
+                                                        получения
+                                                        сообщения</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <!-- Тестирование -->
+                                <div class="settings-section">
+                                    <h5>Тестирование</h5>
+                                    <div class="settings-divider"></div>
+                                    <div class="row align-items-center">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label for="test-email">Тестовый email</label>
+                                                <input type="email"
+                                                       class="form-control"
+                                                       id="test-email"
+                                                       placeholder="test@example.com">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <button type="button"
+                                                    class="btn btn-info btn-block mt-3"
+                                                    onclick="testSmtpConnection()">
+                                                <i class="fa fa-plug"></i> Проверить
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="button"
+                                                    class="btn btn-warning btn-block mt-3"
+                                                    onclick="sendTestEmail()">
+                                                <i class="fa fa-paper-plane"></i> Отправить тест
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Панель логов -->
+                                    <div id="smtp-log-panel" class="smtp-log-panel">
+                                        <div class="smtp-log-header">
+                                            <span><i class="fa fa-terminal"></i> Логи SMTP</span>
+                                            <span id="smtp-status-badge" class="badge"
+                                                  th:if="${connectionResult != null}"
+                                                  th:classappend="${connectionResult.success} ? 'badge-success' : 'badge-danger'"
+                                                  th:text="${connectionResult.success} ? '✅ Успешно' : '❌ Ошибка'">
+                                            </span>
+                                        </div>
+                                        <div class="smtp-log-toolbar" th:if="${connectionResult != null}">
+                                            <button type="button" class="btn btn-xs btn-outline-light" onclick="copyLogs()">
+                                                <i class="fa fa-copy"></i> Копировать
+                                            </button>
+                                            <button type="button" class="btn btn-xs btn-outline-light" onclick="clearLogs()">
+                                                <i class="fa fa-trash"></i> Очистить
+                                            </button>
+                                        </div>
+                                        <pre id="smtp-log-output"
+                                             th:text="${connectionResult != null} ? ${connectionResult.debugLog} : 'Нажмите «Проверить» или «Отправить тест», чтобы увидеть логи...'">
+                                        </pre>
+                                    </div>
+
+                                    <!-- Скрытый блок для JS (читаем результат) -->
+                                    <div th:if="${connectionResult != null}"
+                                         id="smtp-test-result"
+                                         th:attr="data-success=${connectionResult.success}, data-error=${connectionResult.errorMessage}"
+                                         style="display:none;">
+                                    </div>
+
+                                </div>
+
+                                <!-- Кнопки управления -->
+                                <div class="settings-actions">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa fa-save"></i> Сохранить настройки
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-danger" onclick="resetToDefault()">
+                                        <i class="fa fa-trash"></i> Сбросить по умолчанию
+                                    </button>
+                                </div>
+                            </form>
+
+                            <!-- ============================================================ -->
+                            <!-- ИНСТРУКЦИЯ (вне формы)                                        -->
+                            <!-- ============================================================ -->
+                            <div class="mt-4">
+                                <button class="btn btn-outline-info"
+                                        data-toggle="modal"
+                                        data-target="#mailSettingsModal"
+                                        style="cursor: pointer;">
+                                    <i class="fa fa-question-circle"></i>
+                                    Как настроить почту?
+                                    <span class="tab-badge">Инструкция</span>
+                                </button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============================================================ -->
+                    <!-- МОДАЛЬНОЕ ОКНО ИНСТРУКЦИИ (вне формы и вне панели)           -->
+                    <!-- ============================================================ -->
+                    <div th:replace="~{modal::settings-video-modal}"></div>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
 <!--End settings panes -->
@@ -2449,7 +3485,8 @@
                         th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
                         Вся галерея
                     </li>
-                    <li th:each="currents: ${styleList}" th:unless="${currents.categoryTitle}"
+                    <li th:each="currents: ${styleList}"
+                        th:unless="${currents.categoryTitle}"
                         th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
                         [[${currents.name}]]
                     </li>
@@ -2473,29 +3510,41 @@
                         <div class="admin-form-grid">
                             <!-- Левая колонка - загрузка изображения -->
                             <div class="admin-upload-col">
-                                <div class="admin-upload-area" onclick="document.getElementById('file-img').click()">
-                                    <img class="preview-image" id="img-section" src="/img/avatar.jpg" alt="Preview">
+                                <div class="admin-upload-area"
+                                     onclick="document.getElementById('file-img').click()">
+                                    <img class="preview-image"
+                                         id="img-section"
+                                         src="/img/avatar.jpg"
+                                         alt="Preview">
                                     <div class="upload-overlay">
                                         <i class="fa fa-cloud-upload"></i>
                                         <span>Выбрать изображение</span>
                                     </div>
-                                    <input type="file" name="file" id="file-img" accept="image/*"
-                                           onchange="loadImage(this, document.getElementById('img-section'))" required>
+                                    <input type="file" name="file"
+                                           id="file-img"
+                                           accept="image/*"
+                                           onchange="loadImage(this, document.getElementById('img-section'))"
+                                           required>
                                 </div>
                                 <p class="upload-hint">
-                                    <i class="fa fa-info-circle"></i> JPG, PNG, GIF, WEBP (макс. 5MB)
+                                    <i class="fa fa-info-circle"></i>
+                                    JPG, PNG, GIF, WEBP (макс. 5MB)
                                 </p>
                             </div>
                             <!-- Правая колонка - поля формы -->
                             <div class="admin-form-col">
                                 <div class="admin-form-group">
-                                    <input hidden id="category" type="text" name="category"
+                                    <input hidden id="category"
+                                           type="text" name="category"
                                            th:field="*{category}">
                                     <label class="admin-label">
-                                        <i class="fa fa-align-left"></i> Описание
+                                        <i class="fa fa-align-left"></i>
+                                        Описание
                                     </label>
-                                    <textarea class="admin-textarea" name="description"
-                                              th:field="*{description}" placeholder="Введите описание..."
+                                    <textarea class="admin-textarea"
+                                              name="description"
+                                              th:field="*{description}"
+                                              placeholder="Введите описание..."
                                               required>
                                     </textarea>
                                 </div>

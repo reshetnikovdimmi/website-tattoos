@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.tattoo.maxsim.controller.CRUDController;
-import ru.tattoo.maxsim.controller.client.SketchesController;
 import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.service.interf.SketchesService;
@@ -28,7 +27,7 @@ public class SketchersAdminController  extends CRUDController<Sketches, Long> {
     private SketchesService sketchesService;
 
     @Override
-    protected String getEntityName() {
+    protected String getFragmentName() {
         return PAGE_FRAGMENT;
     }
 
@@ -51,7 +50,7 @@ public class SketchersAdminController  extends CRUDController<Sketches, Long> {
 
         updateSection(model);
 
-        return getEntityName()+"::sketches";
+        return getFragmentName()+"::sketches";
     }
 
     @RequestMapping(value = "/{page}/{number}", method = RequestMethod.GET)
@@ -61,7 +60,7 @@ public class SketchersAdminController  extends CRUDController<Sketches, Long> {
 
         model.addAttribute("sketchesEntity", new Sketches());
         model.addAttribute("sketches", sketchesService.getSketchesDto(null,null,number,page));
-        return getEntityName()+"::sketches";
+        return getFragmentName()+"::sketches";
     }
 
 

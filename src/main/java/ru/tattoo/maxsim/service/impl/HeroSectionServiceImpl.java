@@ -31,6 +31,11 @@ public class HeroSectionServiceImpl extends AbstractCRUDService<HomeHeroSection,
     }
 
     @Override
+    public CrudRepository<HomeHeroSection, Long> getRepository() {
+        return homeHeroSectionRepository;
+    }
+
+    @Override
     public String getImageFileName(HomeHeroSection entity) {
         return entity != null ? entity.getImageName() : null;
     }
@@ -44,15 +49,9 @@ public class HeroSectionServiceImpl extends AbstractCRUDService<HomeHeroSection,
 
     @Override
     void prepareObject(HomeHeroSection entity, String fileName) {
-        // Этот метод оставляем для обратной совместимости,
-        // но теперь используем setImageFileName
-        setImageFileName(entity, fileName);
-        entity.setSection("home");
+        entity.setHomeId(1L);
     }
 
-    @Override
-    public CrudRepository<HomeHeroSection, Long> getRepository() {
-        return homeHeroSectionRepository;
-    }
+
     
 }

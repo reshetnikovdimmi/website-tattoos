@@ -38,8 +38,8 @@ public class ClassesSectionServiceImpl extends AbstractCRUDService<ClassesSectio
 
     @Override
     void prepareObject(ClassesSection entity, String fileName) {
-        setImageFileName(entity, fileName);
-        entity.setSection("home");
+        entity.setHomeId(1L);
+        entity.setCategoryTitle("container-fluid");
     }
 
     @Override
@@ -54,8 +54,8 @@ public class ClassesSectionServiceImpl extends AbstractCRUDService<ClassesSectio
 
     @Override
     public void create(ClassesSection entity) {
-        entity.setSection("home");
-        entity.setCategoryTitle("category_title");
+        entity.setHomeId(1L);
+        entity.setCategoryTitle("class-title");
         getRepository().save(entity);
     }
 }

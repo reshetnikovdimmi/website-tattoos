@@ -24,7 +24,7 @@ public class FeatureSectionController extends CRUDController<FeatureSection, Lon
     private HomeService homeService;
 
     @Override
-    protected String getEntityName() {
+    protected String getFragmentName() {
         return PAGE_FRAGMENT;
     }
 

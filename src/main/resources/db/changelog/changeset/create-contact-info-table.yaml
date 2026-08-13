@@ -14,6 +14,9 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: name
+                  type: varchar(255)
+              - column:
                   name: tell
                   type: varchar(255)
               - column:
@@ -22,6 +25,29 @@ databaseChangeLog:
               - column:
                   name: address
                   type: varchar(255)
+              - column:
+                  name: latitude
+                  type: double
+                  constraints:
+                    nullable: true
+              - column:
+                  name: longitude
+                  type: double
+                  constraints:
+                     nullable: true
+              - column:
+                  name: map_zoom
+                  type: int
+                  defaultValueNumeric: 17
+              - column:
+                  name: work_hours
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+                  constraints:
+                     nullable: true
+              - column:
+                  name: map_iframe
+                  type: text
+                  remarks: "HTML-код iframe для вставки карты"
   - changeSet:
       id: add-data-contact-info
       author: Dmitrii
@@ -30,11 +56,20 @@ databaseChangeLog:
             tableName: contact_info
             columns:
               - column:
+                  name: name
+                  value: name
+              - column:
                   name: tell
-                  value: tell
+                  value: +7 (XXX) XXX-XX-XX
               - column:
                   name: email
-                  value: email
+                  value: studio@example.com
               - column:
                   name: address
-                  value: address
+                  value: г. Москва, ул. Примерная, д. 123
+              - column:
+                  name: work_hours
+                  value: "Пн-Вс: 09:00 - 21:00"
+              - column:
+                  name: map_iframe
+                  value: HTML-код iframe для вставки карты

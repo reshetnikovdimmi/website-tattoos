@@ -43,6 +43,8 @@ public class SettingWebsiteServiceImpl extends AbstractCRUDService<SettingWebsit
 
     @Override
     void prepareObject(SettingWebsite entity, String s) {
+        Optional<SettingWebsite> savedEntity = getRepository().findById(entity.getId());
+        entity.setSection(savedEntity.get().getSection());
         entity.setImageName(s);
     }
 

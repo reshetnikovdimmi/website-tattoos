@@ -1,0 +1,672 @@
+/* Настройки почты */
+.settings-panel {
+    background: #1e1e1e;
+    border-radius: 8px;
+    padding: 30px;
+    border: 1px solid rgba(228, 56, 28, 0.2);
+    margin-top: 20px;
+}
+
+.settings-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(228, 56, 28, 0.2);
+}
+
+.settings-header h4 {
+    color: #ffffff;
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+}
+
+.settings-header h4 i {
+    color: #e4381c;
+    margin-right: 10px;
+}
+
+.settings-section {
+    background: #151515;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.settings-section h5 {
+    color: #e4381c;
+    font-family: "Oswald", sans-serif;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.settings-divider {
+    height: 2px;
+    background: linear-gradient(45deg, #e16521, #e4381c);
+    margin-bottom: 20px;
+    width: 50px;
+}
+
+.settings-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.settings-actions .btn {
+    padding: 10px 30px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.settings-actions .btn-primary {
+    background: linear-gradient(45deg, #e16521, #e4381c);
+    border: none;
+}
+
+.settings-actions .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(228, 56, 28, 0.4);
+}
+
+/* Форма */
+.settings-form .form-control {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 10px 15px;
+}
+
+.settings-form .form-control:focus {
+    border-color: #e4381c;
+    box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.1);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.settings-form .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.settings-form label {
+    color: #8f8fa8;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.settings-form .form-text {
+    color: #6c757d;
+    font-size: 12px;
+}
+
+.settings-form .form-check-label {
+    color: #ffffff;
+    font-weight: normal;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.settings-form .input-group .btn {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.3);
+    color: #8f8fa8;
+}
+
+.settings-form .input-group .btn:hover {
+    background: rgba(228, 56, 28, 0.2);
+    color: #e4381c;
+}
+
+/* ============================================================ */
+/* КАСТОМНЫЕ ЧЕКБОКСЫ И РАДИО-КНОПКИ                           */
+/* ============================================================ */
+
+.settings-label {
+    display: block;
+    color: #8f8fa8;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+/* ----- Radio Buttons ----- */
+.settings-radio-group {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.custom-radio {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.custom-radio input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.custom-radio .radio-indicator {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    position: relative;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.custom-radio .radio-indicator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(45deg, #e16521, #e4381c);
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.custom-radio input[type="radio"]:checked + label .radio-indicator {
+    border-color: #e4381c;
+}
+
+.custom-radio input[type="radio"]:checked + label .radio-indicator::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.custom-radio label {
+    color: #ffffff;
+    font-weight: 400;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.custom-radio label:hover {
+    color: #e4381c;
+}
+
+/* ----- Checkboxes ----- */
+.custom-checkbox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.custom-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.custom-checkbox .checkbox-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.custom-checkbox .checkbox-indicator i {
+    color: #ffffff;
+    font-size: 12px;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s ease;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + label .checkbox-indicator {
+    border-color: #e4381c;
+    background: linear-gradient(45deg, #e16521, #e4381c);
+    box-shadow: 0 0 15px rgba(228, 56, 28, 0.3);
+}
+
+.custom-checkbox input[type="checkbox"]:checked + label .checkbox-indicator i {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.custom-checkbox label {
+    color: #ffffff;
+    font-weight: 400;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    transition: color 0.3s ease;
+    margin-bottom: 0;
+}
+
+.custom-checkbox label:hover {
+    color: #e4381c;
+}
+
+.custom-checkbox input[type="checkbox"]:disabled + label {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Стиль для "Включить отладку" - как в макете */
+.custom-checkbox .checkbox-text {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.custom-checkbox .checkbox-text .badge {
+    background: rgba(228, 56, 28, 0.2);
+    color: #e4381c;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+/* Анимация при наведении */
+.custom-checkbox .checkbox-indicator,
+.custom-radio .radio-indicator {
+    transition: all 0.3s ease;
+}
+
+.custom-checkbox:hover .checkbox-indicator {
+    border-color: #e4381c;
+    transform: scale(1.05);
+}
+
+.custom-radio:hover .radio-indicator {
+    border-color: #e4381c;
+    transform: scale(1.05);
+}
+
+/* Активные состояния */
+.custom-checkbox input[type="checkbox"]:focus + label .checkbox-indicator,
+.custom-radio input[type="radio"]:focus + label .radio-indicator {
+    box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.2);
+}
+
+/* Стиль для группы чекбоксов в ряд */
+.checkbox-group {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Стиль для текста под чекбоксом */
+.custom-checkbox .checkbox-help {
+    display: block;
+    color: #6c757d;
+    font-size: 12px;
+    font-weight: 300;
+    margin-top: 4px;
+    padding-left: 32px;
+}
+
+/* Адаптив для чекбоксов */
+@media (max-width: 768px) {
+    .settings-radio-group {
+        gap: 15px;
+    }
+
+    .checkbox-group {
+        gap: 20px;
+    }
+
+    .custom-checkbox label {
+        font-size: 13px;
+    }
+}
+
+/* Стиль для секции с чекбоксами в колонку */
+.checkbox-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Стиль для inline чекбоксов */
+.checkbox-inline-group {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 12px 20px;
+    border-radius: 6px;
+}
+
+.checkbox-inline-group .custom-checkbox {
+    padding: 0;
+}
+/* ----- Checkboxes ----- */
+.custom-checkbox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.custom-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.custom-checkbox .checkbox-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    min-height: 22px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.custom-checkbox .checkbox-indicator i {
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 1;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* 🔥 Центрирование через flex */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + label .checkbox-indicator {
+    border-color: #e4381c;
+    background: linear-gradient(45deg, #e16521, #e4381c);
+    box-shadow: 0 0 15px rgba(228, 56, 28, 0.3);
+}
+
+.custom-checkbox input[type="checkbox"]:checked + label .checkbox-indicator i {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.custom-checkbox label {
+    color: #ffffff;
+    font-weight: 400;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    transition: color 0.3s ease;
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+.custom-checkbox label:hover {
+    color: #e4381c;
+}
+
+.custom-checkbox input[type="checkbox"]:disabled + label {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Стиль для "Включить отладку" - как в макете */
+.custom-checkbox .checkbox-text {
+    font-size: 14px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.custom-checkbox .checkbox-text .badge {
+    background: rgba(228, 56, 28, 0.2);
+    color: #e4381c;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+/* Анимация при наведении */
+.custom-checkbox:hover .checkbox-indicator {
+    border-color: #e4381c;
+    transform: scale(1.05);
+}
+
+/* Активные состояния */
+.custom-checkbox input[type="checkbox"]:focus + label .checkbox-indicator {
+    box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.2);
+}
+
+/* Подсказка под чекбоксом */
+.custom-checkbox .checkbox-help {
+    display: block;
+    color: #6c757d;
+    font-size: 12px;
+    font-weight: 300;
+    margin-top: 2px;
+    padding-left: 32px;
+    line-height: 1.4;
+}
+/* ============================================================ */
+/* КАСТОМНЫЙ NUMBER INPUT                                       */
+/* ============================================================ */
+
+.custom-number-input {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    max-width: 200px;
+}
+
+.custom-number-input:hover {
+    border-color: rgba(228, 56, 28, 0.3);
+}
+
+.custom-number-input:focus-within {
+    border-color: #e4381c;
+    box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.1);
+}
+
+.number-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: #8f8fa8;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.number-btn:hover {
+    background: rgba(228, 56, 28, 0.15);
+    color: #e4381c;
+}
+
+.number-btn:active {
+    transform: scale(0.95);
+}
+
+.number-btn i {
+    pointer-events: none;
+}
+
+.number-input {
+    width: 80px;
+    height: 44px;
+    background: transparent !important;
+    border: none !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    padding: 0;
+    outline: none;
+    box-shadow: none !important;
+}
+
+/* Убираем стандартные стрелки */
+.number-input::-webkit-outer-spin-button,
+.number-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.number-input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* Стиль для активного состояния */
+.number-input:focus {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Анимация при изменении */
+@keyframes numberPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.number-input.changed {
+    animation: numberPulse 0.2s ease;
+}
+/* ============================================================ */
+/* ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ ТЕСТИРОВАНИЯ                        */
+/* ============================================================ */
+
+#test-result {
+    margin-top: 15px;
+}
+
+#test-result .alert {
+    border-radius: 4px;
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-left: 4px solid #e4381c;
+    color: #ffffff;
+}
+
+#test-result .alert-success {
+    border-left-color: #28a745;
+}
+
+#test-result .alert-danger {
+    border-left-color: #dc3545;
+}
+
+#test-result .alert-warning {
+    border-left-color: #ffc107;
+}
+
+#test-result .alert-info {
+    border-left-color: #17a2b8;
+}
+
+/* ============================================================ */
+/* АНИМАЦИЯ ДЛЯ ЧЕКБОКСОВ                                      */
+/* ============================================================ */
+
+@keyframes checkboxPulse {
+    0% { box-shadow: 0 0 0 0 rgba(228, 56, 28, 0.4); }
+    50% { box-shadow: 0 0 0 5px rgba(228, 56, 28, 0.1); }
+    100% { box-shadow: 0 0 0 0 rgba(228, 56, 28, 0); }
+}
+
+.custom-checkbox input[type="checkbox"]:checked + label .checkbox-indicator {
+    animation: checkboxPulse 0.5s ease;
+}
+
+.custom-radio input[type="radio"]:checked + label .radio-indicator {
+    animation: checkboxPulse 0.5s ease;
+}
+
+/* ============================================================ */
+/* ОБРАТНАЯ СВЯЗЬ ПРИ НАВЕДЕНИИ                                */
+/* ============================================================ */
+
+.custom-checkbox label .checkbox-text .hint {
+    color: #6c757d;
+    font-size: 12px;
+    font-weight: 300;
+    transition: color 0.3s ease;
+}
+
+.custom-checkbox label:hover .checkbox-text .hint {
+    color: #e4381c;
+}
+
+/* ============================================================ */
+/* ТЕМНАЯ ТЕМА ДЛЯ ЧЕКБОКСОВ                                   */
+/* ============================================================ */
+
+/* Для светлой темы (если будет использоваться) */
+.settings-panel.light-theme .custom-checkbox .checkbox-indicator {
+    background: #f8f9fa;
+    border-color: #d0d7de;
+}
+
+.settings-panel.light-theme .custom-checkbox label {
+    color: #1e1e1e;
+}
+
+.settings-panel.light-theme .custom-checkbox input[type="checkbox"]:checked + label .checkbox-indicator {
+    background: linear-gradient(45deg, #e16521, #e4381c);
+    border-color: #e4381c;
+}
+
+.settings-panel.light-theme .custom-checkbox .checkbox-indicator i {
+    color: #ffffff;
+}

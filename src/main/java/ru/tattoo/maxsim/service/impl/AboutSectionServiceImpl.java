@@ -36,8 +36,8 @@ public class AboutSectionServiceImpl extends AbstractCRUDService<AboutSection, L
 
     @Override
     void prepareObject(AboutSection entity, String fileName) {
-        setImageFileName(entity, fileName);
-        entity.setSection("home");
+
+        entity.setHomeId(1L);
     }
 
     @Override

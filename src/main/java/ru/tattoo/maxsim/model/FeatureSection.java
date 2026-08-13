@@ -21,6 +21,8 @@ public class FeatureSection {
     private String description;
     @Column(name = "icon_class")
     private String iconClass;
+    @Column(name = "home_id")
+    private Long homeId;
     @Column(name = "section")
     private String section;
 }

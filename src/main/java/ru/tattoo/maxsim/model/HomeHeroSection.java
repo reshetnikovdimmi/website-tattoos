@@ -30,6 +30,9 @@ public class HomeHeroSection {
     @Column(name = "section")
     private String section;
 
+    @Column(name = "home_id")
+    private Long homeId;
+
     @Column(name = "display_order") // Добавляем порядок отображения
     private Integer displayOrder;
 

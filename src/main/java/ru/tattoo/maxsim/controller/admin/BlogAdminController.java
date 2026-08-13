@@ -29,7 +29,7 @@ public class BlogAdminController extends CRUDController<Blog, Long> {
     private CommitsService commitsService;
 
     @Override
-    protected String getEntityName() {
+    protected String getFragmentName() {
         return "fragment-admin";
     }
 
@@ -55,7 +55,7 @@ public class BlogAdminController extends CRUDController<Blog, Long> {
                 request.getRequestURL());
         updateSection(model);
 
-        return getEntityName()+"::blog";
+        return getFragmentName()+"::blog";
     }
 
     @GetMapping("/delete-commit/{id}")
@@ -67,7 +67,7 @@ public class BlogAdminController extends CRUDController<Blog, Long> {
         commitsService.deleteById(id);
         updateSection(model);
 
-        return getEntityName() + "::" + fragmentName;
+        return getFragmentName() + "::" + fragmentName;
     }
 
 }

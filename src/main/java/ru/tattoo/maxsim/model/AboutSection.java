@@ -21,6 +21,8 @@ public class AboutSection {
     private String subtitle;
     @Lob
     private String content;
+    @Column(name = "home_id")
+    private Long homeId;
     @Column(name = "section")
     private String section;
 }

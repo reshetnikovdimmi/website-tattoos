@@ -37,7 +37,7 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
     private ImagesService imagesService;
 
     @Override
-    protected String getEntityName() {
+    protected String getFragmentName() {
           return "reviews";
     }
 
@@ -61,7 +61,7 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
         model.addAttribute("count", reviewService.getCount());
         model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
 
-        return getEntityName();
+        return getFragmentName();
     }
 
     @PostMapping("/import")
@@ -74,7 +74,7 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
         getService().create(object);
         updateSection(model);
 
-        return getEntityName() + "::" + fragmentName;
+        return getFragmentName() + "::" + fragmentName;
     }
 
 

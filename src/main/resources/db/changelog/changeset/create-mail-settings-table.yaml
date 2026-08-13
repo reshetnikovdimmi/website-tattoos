@@ -1,0 +1,138 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-mail-settings-table
+      author: Dmitrii
+      changes:
+        - createTable:
+            tableName: mail_settings
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: host
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                  defaultValue: "smtp.yandex.ru"
+              - column:
+                  name: port
+                  type: int
+                  constraints:
+                    nullable: false
+                  defaultValueNumeric: 465
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                  defaultValue: ""
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                  defaultValue: ""
+              - column:
+                  name: from_email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                  defaultValue: "noreply@yourdomain.com"
+              - column:
+                  name: from_name
+                  type: varchar(255)
+                  defaultValue: "Тату-студия Maxsim"
+              - column:
+                  name: recipient_email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                  defaultValue: "admin@yourdomain.com"
+              - column:
+                  name: encryption
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+                  defaultValue: "SSL"
+              - column:
+                  name: auth
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: true
+              - column:
+                  name: debug
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+              - column:
+                  name: subject_template
+                  type: varchar(500)
+                  defaultValue: "Новое сообщение с сайта"
+              - column:
+                  name: auto_reply
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      rollback:
+        - dropTable:
+            tableName: mail_settings
+
+  - changeSet:
+      id: add-data-mail-settings
+      author: Dmitrii
+      changes:
+        - insert:
+            tableName: mail_settings
+            columns:
+              - column:
+                  name: host
+                  value: "smtp.yandex.ru"
+              - column:
+                  name: port
+                  valueNumeric: 465
+              - column:
+                  name: username
+                  value: "your-email@yandex.ru"
+              - column:
+                  name: password
+                  value: "your-app-password"
+              - column:
+                  name: from_email
+                  value: "noreply@yandex.ru"
+              - column:
+                  name: from_name
+                  value: "Тату-студия Maxsim"
+              - column:
+                  name: recipient_email
+                  value: "admin@yourdomain.com"
+              - column:
+                  name: encryption
+                  value: "SSL"
+              - column:
+                  name: auth
+                  valueBoolean: true
+              - column:
+                  name: debug
+                  valueBoolean: false
+              - column:
+                  name: subject_template
+                  value: "Новое сообщение с сайта"
+              - column:
+                  name: auto_reply
+                  valueBoolean: false

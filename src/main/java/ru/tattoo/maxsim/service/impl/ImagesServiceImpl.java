@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
+import ru.tattoo.maxsim.exceptions.FileDeletionException;
 import ru.tattoo.maxsim.model.DTO.GalleryDTO;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ImagesRepository;
@@ -17,6 +18,7 @@ import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.ImageUtils;
 import ru.tattoo.maxsim.util.PageSize;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
@@ -51,6 +53,7 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
             entity.setImageName(fileName);
         }
     }
+
 
     @Override
     protected ImageStorage getImageStorage() {
@@ -187,22 +190,15 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
 
     // 🔄 Новый метод для обновления флага изображения
     public String updateImageFlag(Long id, boolean flag) {
-        log.info("Обновление флага изображения: ID={}, новый флаг={}", id, flag);
+        Images image = imagesRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Изображение с id " + id + " не найдено"));
 
-        Images images = new Images();
-        images.setId(id);
-        images.setFlag(flag);
+        image.setFlag(flag);
+        imagesRepository.save(image);
 
-        try {
-            boolean result = bestImage(images);
-            String message = result ? "Установлено" : "Снято";
-            log.info("Флаг успешно обновлен: ID={}, результат={}, сообщение='{}'",
-                    id, result, message);
-            return message;
-        } catch (Exception e) {
-            log.error("Ошибка при обновлении флага изображения ID={}: {}", id, e.getMessage(), e);
-            throw e;
-        }
+        log.debug("Флаг изображения {} обновлен на {}", id, flag);
+        return "Флаг обновлен на: " + flag;
+
     }
 
     @Override
@@ -216,6 +212,4 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
 
         return result;
     }
-
-
 }

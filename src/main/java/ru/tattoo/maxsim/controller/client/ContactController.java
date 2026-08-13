@@ -53,7 +53,7 @@ public class ContactController extends CRUDController<ContactInfo, Long> {
     }
 
     @Override
-    protected String getEntityName() {
+    protected String getFragmentName() {
         return "fragments::footer";
     }
 

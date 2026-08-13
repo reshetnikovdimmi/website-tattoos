@@ -1,0 +1,59 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-review-section-table
+      author: Dmitrii
+      changes:
+        - createTable:
+            tableName: review_section
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: home_id
+                  type: bigint
+              - column:
+                  name: section_type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image_name
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: title
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: description
+                  type: longtext character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: link_url
+                  type: varchar(255) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: button_text
+                  type: varchar(100) character set utf8mb4 collate utf8mb4_unicode_ci
+              - column:
+                  name: display_order
+                  type: int
+                  defaultValueNumeric: 0
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+
+  - changeSet:
+      id: add-fk-review-section-to-home
+      author: Dmitrii
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: review_section
+            baseColumnNames: home_id
+            referencedTableName: home
+            referencedColumnNames: id
+            constraintName: fk_review_section_to_home
+            onDelete: CASCADE
+            onUpdate: RESTRICT

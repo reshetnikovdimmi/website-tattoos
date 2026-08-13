@@ -38,22 +38,18 @@ public class ChooseusSectionServiceImpl extends AbstractCRUDService<ChooseusSect
 
     @Override
     void prepareObject(ChooseusSection entity, String fileName) {
-        setImageFileName(entity, fileName);
-        entity.setSection("home");
+        entity.setHomeId(1L);
     }
 
     @Override
     CrudRepository<ChooseusSection, Long> getRepository() {
         return chooseusSectionRepository;
     }
+
     @Override
     public void create(ChooseusSection entity) {
-
-        Optional<ChooseusSection> object = getRepository().findById(entity.getId());
-
-        entity.setSection(object.get().getSection());
-        entity.setCategoryTitle(object.get().getCategoryTitle());
-
+        entity.setHomeId(1L);
+        entity.setCategoryTitle("Classes-title");
         getRepository().save(entity);
     }
 }

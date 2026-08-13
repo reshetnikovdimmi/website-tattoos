@@ -81,7 +81,7 @@
                     <div class="col-lg-12">
                         <div class="hero-text">
                             <h2>Добро пожаловать</h2>
-                            <h1>Тату-студия Maxsim</h1>
+                            <h1>Тут ваш подзаголовок</h1>
                             <a href="/gallery" class="primary-btn">Подробнее</a>
                         </div>
                     </div>
@@ -104,12 +104,24 @@
                     <a href="/sketches" class="primary-btn f-btn">Подробнее</a>
                 </div>
             </div>
+        </div>
+        <!-- Пустое состояние - 3 блока в ряд -->
+        <div th:if="${features == null or features.isEmpty()}" class="row">
+            <div th:each="i, iterStat : ${#numbers.sequence(1, 3)}"
+                 th:class="${iterStat.index == 2} ? 'col-lg-4 col-md-12' : 'col-lg-4 col-md-6'">
 
-            <!-- Пустое состояние -->
-            <div th:if="${features == null or features.isEmpty()}" class="col-12">
-                <div class="alert alert-info text-center">
-                    <i class="fa fa-info-circle"></i>
-                    Нет добавленных преимуществ. Добавьте их в админ-панели.
+                <div class="feature-item set-bg" data-setbg="/img/avatar.jpg">
+                    <!-- Разные заголовки для каждого блока -->
+                    <h3 th:text="'Преимущество ' + ${i}">Преимущество 1</h3>
+
+                    <!-- Разные описания в зависимости от номера -->
+                    <p th:switch="${i}">
+                        <span th:case="1">Добавьте описание преимущества в админ-панели</span>
+                        <span th:case="2">Расскажите о своих сильных сторонах</span>
+                        <span th:case="3">Почему клиенты выбирают именно вас</span>
+                    </p>
+
+                    <a href="/admin" class="primary-btn f-btn">Добавить</a>
                 </div>
             </div>
         </div>
@@ -118,7 +130,8 @@
 <!-- Feature Section End -->
 
 <!-- About Section Begin -->
-<section class="home-about spad" th:with="aboutList=${carousel != null and !carousel.isEmpty() and carousel[0].about != null ? carousel[0].about : null}">
+<section class="home-about spad"
+         th:with="aboutList=${carousel != null and !carousel.isEmpty() and carousel[0].about != null ? carousel[0].about : null}">
     <div class="container">
         <!-- Основной контент -->
         <div th:if="${aboutList != null and !aboutList.isEmpty()}" th:each="about : ${aboutList}" class="row">
@@ -143,11 +156,21 @@
         </div>
 
         <!-- Пустое состояние -->
-        <div th:unless="${aboutList != null and !aboutList.isEmpty()}" class="row">
-            <div class="col-12 text-center py-5">
-                <i class="fa fa-info-circle fa-3x text-muted mb-3"></i>
-                <h4>Раздел в разработке</h4>
-                <p class="text-muted">Информация будет добавлена позже</p>
+        <div th:if="${aboutList == null or aboutList.isEmpty()}" class="row">
+            <div class="col-lg-6">
+                <div class="about-text">
+                    <h3>О тату-студии</h3>
+                    <p class="short-details">Добавьте информацию о себе</p>
+                    <p class="long-details">Расскажите клиентам о своём опыте, подходе к работе и философии. Загрузите
+                        фото и напишите историю в админ-панели.</p>
+                    <a href="/admin" class="primary-btn about-btn">Добавить информацию</a>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="about-img">
+                    <img src="/img/avatar.jpg" alt="Добавьте фото" loading="lazy">
+                </div>
             </div>
         </div>
     </div>
@@ -155,26 +178,76 @@
 <!-- About Section End -->
 
 <!-- Classes Section Begin -->
-<section class="classes-section" th:each="current: ${carousel}">
+<section class="classes-section" th:each="current : ${carousel}">
+
+    <!-- ============================================================ -->
+    <!-- БЛОК 1: CLASS-TITLE (заголовок секции)                      -->
+    <!-- ============================================================ -->
+
     <div class="class-title set-bg" data-setbg="img/classes-title-bg.jpg">
-        <div class="container" th:each="currents : ${current.classes}" th:if="${currents.categoryTitle}">
-            <div class="row">
-                <div class="col m-auto text-center">
-                    <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
-                        <h2 th:text="${currents.description}"></h2>
-                        <p class="short-details" th:text="${currents.name}"></p>
+        <div th:if="${current.classes != null and !current.classes.isEmpty()}"
+             th:each="currents : ${current.classes}">
+            <div class="container" th:if="${currents.categoryTitle == 'class-title'}">
+                <div class="row">
+                    <div class="col m-auto text-center">
+                        <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                            <h2 th:text="${currents.description}">Заголовок категории</h2>
+                            <p class="short-details" th:text="${currents.name}">Описание категории</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${current.classes == null or current.classes.isEmpty()}">
+            <div class="container">
+                <div class="row">
+                    <div class="col m-auto text-center">
+                        <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                            <h2>Услуги и классы</h2>
+                            <p class="short-details">Здесь будет информация о ваших услугах</p>
+                            <p class="empty-hint">Добавьте их в админ-панели, чтобы клиенты знали, что вы
+                                предлагаете</p>
+                            <a href="/admin" class="primary-btn about-btn">Добавить услуги</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- ============================================================ -->
+    <!-- БЛОК 2: CONTAINER-FLUID (карточки услуг)                    -->
+    <!-- ============================================================ -->
+
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-3 col-sm-6" th:each="currents : ${current.classes}" th:unless="${currents.categoryTitle}">
-                <div class="classes-item set-bg" th:attr="data-setbg=@{'/images/'+${currents.imageName}}">
-                    <h4 th:text="${currents.name}"></h4>
-                    <p class="short-details" th:text="${currents.description}"></p>
-                    <a th:href="@{'/gallery/filter/style/' + ${currents.name}}" class="primary-btn class-btn">Подробнее</a>
+        <div th:if="${current.classes != null and !current.classes.isEmpty()}">
+            <div class="row">
+                <div th:each="currents : ${current.classes}"
+                     th:if="${currents.categoryTitle == 'container-fluid'}"
+                     class="col-lg-3 col-sm-6">
+
+                    <div class="classes-item set-bg"
+                         th:attr="data-setbg=@{'/images/' + ${currents.imageName}}">
+                        <h4 th:text="${currents.name}">Название услуги</h4>
+                        <p class="short-details" th:text="${currents.description}">Описание услуги</p>
+                        <a th:href="@{'/gallery/filter/style/' + ${currents.name}}"
+                           class="primary-btn class-btn">Подробнее</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- 2.2. ПУСТОЕ СОСТОЯНИЕ (нет записей с categoryTitle = 'container-fluid') -->
+        <div th:if="${current.classes == null or current.classes.isEmpty()}"
+             class="row">
+            <div th:each="i : ${#numbers.sequence(1, 4)}"
+                 class="col-lg-3 col-sm-6">
+                <div class="classes-item empty-class-item set-bg" data-setbg="/img/avatar.jpg">
+                    <div class="empty-class-content">
+                        <i class="fa fa-plus-circle"></i>
+                        <h4 th:text="'Услуга ' + ${i}">Услуга 1</h4>
+                        <p class="short-details">Добавьте услуги в админ-панели</p>
+                        <a href="/admin" class="primary-btn class-btn">Добавить</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -215,25 +288,52 @@
 
 <!-- Choseus Section Begin -->
 <section class="chooseus-section spad">
-    <div class="container" th:each="current: ${carousel}">
-        <div class="row">
-            <div class="col-lg-12" th:each="currents : ${current.chooseus}" th:if="${currents.categoryTitle}">
-                <div class="section-title">
-                    <h2 th:text="${currents.title}"></h2>
-                    <p class="short-details" th:text="${currents.description}"></p>
+    <div class="container" th:each="current : ${carousel}">
+
+        <!-- ============================================================ -->
+        <!-- 1. ЕСТЬ ЗАПИСИ (chooseus не пустой)                         -->
+        <!-- ============================================================ -->
+
+        <div th:if="${current.chooseus != null and !current.chooseus.isEmpty()}">
+            <!-- Заголовок (если есть categoryTitle) -->
+            <div class="row">
+                <div class="col-lg-12" th:each="currents : ${current.chooseus}" th:if="${currents.categoryTitle}">
+                    <div class="section-title">
+                        <h2 th:text="${currents.title}">Почему выбирают нас</h2>
+                        <p class="short-details" th:text="${currents.description}">Описание преимуществ</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Карточки преимуществ -->
+            <div class="row">
+                <div class="col-lg-4 col-sm-6" th:each="currents : ${current.chooseus}"
+                     th:unless="${currents.categoryTitle}">
+                    <div class="choose-item">
+                        <img alt="" th:src="@{'/images/'+${currents.imageName}}">
+                        <h5 th:text="${currents.title}"></h5>
+                        <p class="short-details" th:text="${currents.description}"></p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-4 col-sm-6" th:each="currents : ${current.chooseus}"
-                 th:unless="${currents.categoryTitle}">
-                <div class="choose-item">
-                    <img alt="" th:src="@{'/images/'+${currents.imageName}}">
-                    <h5 th:text="${currents.title}"></h5>
-                    <p class="short-details" th:text="${currents.description}"></p>
+
+        <!-- ============================================================ -->
+        <!-- 2. НЕТ ЗАПИСЕЙ (chooseus пустой или null)                   -->
+        <!-- ============================================================ -->
+
+        <div th:if="${current.chooseus == null or current.chooseus.isEmpty()}">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="section-title">
+                        <h2>Почему выбирают нас</h2>
+                        <p class="short-details">Добавьте преимущества в админ-панели</p>
+                        <a href="/admin" class="primary-btn">Добавить преимущества</a>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 </section>
 <!-- Choseus Section End -->
@@ -245,76 +345,53 @@
             <div class="col-lg-12 text-center">
                 <div class="section-title">
                     <h2>Немного видео</h2>
-                    <p>Смотрите процесс работы и готовые работы</p>
+                    <p>Нажмите на видео, чтобы посмотреть в полном размере</p>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-lg-10 mx-auto">
-                <div class="video-showcase">
-                    <!-- Активное видео - адаптивный размер -->
-                    <div class="active-video">
-                        <div class="video-player-wrapper">
-                            <iframe id="activeVideo"
-                                    src="https://vk.com/video_ext.php?oid=-174808662&id=456239081&hash=b2f7acf9981a0447&autoplay=1"
-                                    frameborder="0"
-                                    allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                                    allowfullscreen>
-                            </iframe>
+            <div class="col-lg-12" th:each="current : ${carousel}">
+                <!-- ===== ЕСТЬ ВИДЕО ===== -->
+                <div th:if="${current.videos != null and !current.videos.isEmpty()}">
+                    <div class="video-carousel owl-carousel">
+                        <div th:each="video : ${current.videos}" class="video-card"
+                             th:data-video-url="${video.videoUrl}">
+                            <div class="video-card-thumb">
+                                <img th:src="${video.previewImage != null ? '/images/' + video.previewImage : '/img/avatar.jpg'}"
+                                     th:alt="${video.title}">
+                                <div class="play-overlay">
+                                    <i class="fa fa-play"></i>
+                                </div>
+                            </div>
+                            <div class="video-card-info">
+                                <h5 th:text="${video.title}">Тату-процесс</h5>
+                                <p th:text="${video.description}">Процесс нанесения татуировки</p>
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Миниатюры других видео -->
-                    <div class="video-thumbnails">
-                        <div class="thumbnail-item active"
-                             data-video-url="https://vk.com/video_ext.php?oid=-174808662&id=456239081&hash=b2f7acf9981a0447">
-                            <div class="thumbnail-image">
-                                <img src="img/avatar.jpg" alt="Тату-процесс">
-                                <div class="thumbnail-play">
-                                    <i class="fa fa-play"></i>
-                                </div>
-                            </div>
-                            <div class="thumbnail-info">
-                                <h5>Тату-процесс</h5>
-                                <p>Процесс нанесения татуировки</p>
-                            </div>
-                        </div>
-
-                        <div class="thumbnail-item"
-                             data-video-url="https://vk.com/video_ext.php?oid=-174808662&id=456239082">
-                            <div class="thumbnail-image">
-                                <img src="img/avatar.jpg" alt="Результат работы">
-                                <div class="thumbnail-play">
-                                    <i class="fa fa-play"></i>
-                                </div>
-                            </div>
-                            <div class="thumbnail-info">
-                                <h5>Результат работы</h5>
-                                <p>Готовая татуировка</p>
-                            </div>
-                        </div>
-
-                        <div class="thumbnail-item"
-                             data-video-url="https://vk.com/video_ext.php?oid=-174808662&id=456239083">
-                            <div class="thumbnail-image">
-                                <img src="img/avatar.jpg" alt="Создание эскиза">
-                                <div class="thumbnail-play">
-                                    <i class="fa fa-play"></i>
-                                </div>
-                            </div>
-                            <div class="thumbnail-info">
-                                <h5>Создание эскиза</h5>
-                                <p>Процесс рисования эскиза</p>
-                            </div>
-                        </div>
+                <!-- ===== ПУСТОЕ СОСТОЯНИЕ (НЕТ ВИДЕО) ===== -->
+                <div th:if="${current.videos == null or current.videos.isEmpty()}">
+                    <div class="empty-video-state text-center">
+                        <i class="fa fa-video-camera"></i>
+                        <h3>Нет видео</h3>
+                        <p>Добавьте видео в админ-панели</p>
+                        <a href="/admin" class="primary-btn">Добавить видео</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<!-- Video Section End -->
 
+<!-- ============================================================ -->
+<!-- МОДАЛЬНОЕ ОКНО ДЛЯ ВИДЕО                                    -->
+<!-- ============================================================ -->
+<div th:replace="~{modal::video-modal}"></div>
+<!-- Модальное окно End -->
 <!-- Blog/Reviews Section Begin -->
 <section class="blog-section spad">
     <div class="container">
@@ -332,7 +409,7 @@
             <div th:if="${reviewsLimit != null and reviewsLimit.size() > 0}" class="grid-item review-left">
                 <div class="blog-item large-item set-bg"
                      th:with="review=${reviewsLimit[0]}"
-                     th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/review-placeholder.jpg'}}">
+                     th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/avatar.jpg'}}">
                     <a href="/reviews" class="review-content">
                         <span class="review-author" th:text="${review.userName}">Пользователь</span>
                         <p class="review-text" th:text="${review.comment}">Текст отзыва</p>
@@ -348,14 +425,29 @@
             </div>
 
             <!-- Instagram блок (центр верхний) -->
-            <div class="grid-item instagram-center">
-                <div class="blog-item instagram-item">
+            <div class="grid-item instagram-center"
+                 th:each="current : ${carousel}">
+                <div class="blog-item instagram-item"
+                     th:each="review : ${current.review}"
+                     th:if="${current.review != null and !current.review.isEmpty()}">
+                    <div class="instagram-text">
+                        <span class="instagram-category" th:text="${review.title}">«Красота в деталях»</span>
+                        <i class="fa fa-instagram"></i>
+                    </div>
+                    <a href="/reviews" class="review-link">
+                        <p th:text="${review.description}">Оставьте отзыв, получите скидку</p>
+                    </a>
+                </div>
+                <!-- Пустое состояние - если review нет -->
+                <div th:if="${current.review == null or current.review.isEmpty()}"
+                     class="blog-item instagram-item set-bg"
+                     data-setbg="/img/avatar.jpg">
                     <div class="instagram-text">
                         <span class="instagram-category">«Красота в деталях»</span>
                         <i class="fa fa-instagram"></i>
                     </div>
-                    <a href="/reviews" class="review-link">
-                        <p>Оставьте отзыв, получите скидку</p>
+                    <a href="/admin" class="review-link">
+                        <p>Добавьте информацию в админ-панели</p>
                     </a>
                 </div>
             </div>
@@ -364,7 +456,7 @@
             <div th:if="${reviewsLimit != null and reviewsLimit.size() > 1}" class="grid-item review-right">
                 <div class="blog-item large-item set-bg"
                      th:with="review=${reviewsLimit[1]}"
-                     th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/review-placeholder.jpg'}}">
+                     th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/avatar.jpg'}}">
                     <a href="/reviews" class="review-content">
                         <span class="review-author" th:text="${review.userName}">Пользователь</span>
                         <p class="review-text" th:text="${review.comment}">Текст отзыва</p>
@@ -383,7 +475,7 @@
             <div th:if="${reviewsLimit != null and reviewsLimit.size() > 2}" class="grid-item review-left">
                 <div class="blog-item large-item set-bg"
                      th:with="review=${reviewsLimit[2]}"
-                     th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/review-placeholder.jpg'}}">
+                     th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/avatar.jpg'}}">
                     <a href="/reviews" class="review-content">
                         <span class="review-author" th:text="${review.userName}">Пользователь</span>
                         <p class="review-text" th:text="${review.comment}">Текст отзыва</p>
@@ -399,8 +491,12 @@
             </div>
 
             <!-- Блок "Все отзывы" (центр нижний) -->
-            <div class="grid-item all-reviews-center">
-                <div class="blog-item all-reviews-item set-bg" data-setbg="/img/blog/blog-3.jpg">
+            <div class="grid-item all-reviews-center"
+                 th:each="current : ${carousel}"
+                 th:if="${current.review != null and !current.review.isEmpty()}">
+                <div class="blog-item all-reviews-item set-bg"
+                     th:each="review : ${current.review}"
+                     th:attr="data-setbg=@{${review.imageName != null ? '/images/' + review.imageName : '/img/avatar.jpg'}}">
                     <a href="/reviews" class="all-reviews-link">
                         <span>Все отзывы</span>
                         <i class="fa fa-arrow-right"></i>
@@ -412,7 +508,7 @@
             <div th:if="${reviewsLimit != null and reviewsLimit.size() > 3}" class="grid-item review-right">
                 <div class="blog-item large-item set-bg"
                      th:with="review=${reviewsLimit[3]}"
-                     th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/review-placeholder.jpg'}}">
+                     th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/avatar.jpg'}}">
                     <a href="/reviews" class="review-content">
                         <span class="review-author" th:text="${review.userName}">Пользователь</span>
                         <p class="review-text" th:text="${review.comment}">Текст отзыва</p>
@@ -464,47 +560,47 @@
 <!-- Cta Section End -->
 
 <!-- Map Section Begin -->
-<section class="map-section">
+<section class="map-section" th:each="current : ${contact}">
     <div class="container-fluid px-0">
         <div class="row g-0">
             <!-- Яндекс.Карта (iframe) -->
             <div class="col-lg-8 position-relative">
                 <div class="map-widget-wrapper">
                     <div class="map-widget">
-                        <iframe
-                                src="https://yandex.ru/map-widget/v1/?ll=73.368229%2C54.987563&z=17&pt=73.368229%2C54.987563,pm2rdm&whatshere[point]=73.368229%2C54.987563&whatshere[zoom]=17"
-                                width="100%"
-                                height="530"
-                                frameborder="0"
-                                allowfullscreen>
-                        </iframe>
+                        <!-- Вставляем полноценный виджет из БД -->
+                        <div th:utext="${current.mapIframe}"></div>
                     </div>
                 </div>
 
-                <div class="map-hover">
-                    <div class="map-hover-content">
-                        <div class="map-hover-icon">
-                            <i class="icon_pin_alt"></i>
-                        </div>
-                        <h5>Тату-студия Maxsim</h5>
-                        <p>г. Омск, ул. Лермонтова, д. 81</p>
-                        <ul class="work-time">
-                            <li><span>Пн-Пт:</span> 09:00 - 18:00</li>
-                            <li><span>Сб-Вс:</span> Выходной</li>
-                        </ul>
-                        <a href="https://yandex.ru/maps/?rtext=~73.368229%2C54.987563" target="_blank" class="map-btn">Построить маршрут</a>
-                    </div>
-                </div>
+
             </div>
 
             <!-- Блок с контактами -->
             <div class="col-lg-4">
                 <div class="map-contact-info">
                     <div class="info-block">
-                        <h5>РЕЖИМ:</h5>
-                        <p>Пн-Пт: 09:00 - 18:00</p>
+                        <div class="map-hover">
+                            <div class="map-hover-content">
+                                <div class="map-hover-icon">
+                                    <i class="icon_pin_alt"></i>
+                                </div>
+                                <h5 th:text="${current.name}">Тату-студия Maxsim</h5>
+                                <p th:text="${current.address}">г. Омск, ул. Волочаевская, д. 15</p>
+                                <ul class="work-time">
+                                    <!-- Динамические часы работы (можно хранить в БД) -->
+                                    <li th:each="hour : ${#strings.arraySplit(current.workHours, ',')}"
+                                        th:text="${hour}">
+                                        <span>Пн-Пт:</span> 09:00 - 18:00
+                                    </li>
+                                </ul>
+                                <a th:href="'https://yandex.ru/maps/?rtext=~' + ${current.longitude} + ',' + ${current.latitude}"
+                                   target="_blank"
+                                   class="map-btn">
+                                    Построить маршрут
+                                </a>
+                            </div>
+                        </div>
                     </div>
-
                     <div class="info-block map-contact-form">
                         <div th:fragment="map-contact-form">
                             <h5>СВЯЗАТЬСЯ</h5>
