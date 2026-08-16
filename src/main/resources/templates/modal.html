@@ -66,11 +66,10 @@
 <!-- Модальное окно End -->
 <div th:fragment="settings-video-modal">
     <!-- ============================================================ -->
-    <!-- МОДАЛЬНОЕ ОКНО ИНСТРУКЦИИ (вне формы и вне панели)           -->
+    <!-- МОДАЛЬНОЕ ОКНО: ПОДРОБНАЯ ИНСТРУКЦИЯ ПО НАСТРОЙКЕ ПОЧТЫ      -->
     <!-- ============================================================ -->
-    <div class="modal fade" id="mailSettingsModal" tabindex="-1"
-         role="dialog" aria-labelledby="mailSettingsModalLabel"
-         aria-hidden="true">
+    <div class="modal fade mail-instruction-modal" id="mailSettingsModal" tabindex="-1"
+         role="dialog" aria-labelledby="mailSettingsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
             <div class="modal-content">
 
@@ -87,190 +86,402 @@
 
                 <!-- Тело -->
                 <div class="modal-body">
+                    <div class="instruction-grid">
 
-                    <div class="settings-panel" style="margin-top: 0; border: none; padding: 0;">
-
-                        <!-- Инструкция -->
-                        <div class="settings-section mail-instruction">
-                            <div class="instruction-header">
-                                <i class="fa fa-question-circle"></i>
-                                <h5>Как настроить почту</h5>
+                        <!-- ШАГ 1: Выбор сервиса -->
+                        <div class="instruction-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <strong>Выберите почтовый сервис</strong>
+                                <p>Для отправки писем с сайта используйте SMTP-сервер вашего почтового провайдера.
+                                    Рекомендуем использовать <strong>пароль приложения</strong> вместо основного пароля — это безопаснее и работает стабильнее.</p>
+                                <div class="service-badges">
+                                    <span class="service-badge yandex"><i class="fa fa-envelope"></i> Яндекс Почта</span>
+                                    <span class="service-badge gmail"><i class="fa fa-google"></i> Gmail</span>
+                                    <span class="service-badge mail"><i class="fa fa-at"></i> Mail.ru</span>
+                                    <span class="service-badge smtp"><i class="fa fa-building"></i> Яндекс 360</span>
+                                    <span class="service-badge smtp"><i class="fa fa-server"></i> Beget</span>
+                                    <span class="service-badge smtp"><i class="fa fa-server"></i> Timeweb</span>
+                                    <span class="service-badge smtp"><i class="fa fa-server"></i> Рамблер</span>
+                                    <span class="service-badge smtp"><i class="fa fa-windows"></i> Outlook</span>
+                                </div>
+                                <div class="step-tip">
+                                    <i class="fa fa-shield"></i>
+                                    <span>Никогда не вводите основной пароль от почты в настройках сайта. Всегда создавайте отдельный пароль приложения.</span>
+                                </div>
                             </div>
-                            <div class="instruction-body">
-                                <div class="instruction-grid">
-                                    <!-- Шаг 1 -->
-                                    <div class="instruction-step">
-                                        <div class="step-number">1</div>
-                                        <div class="step-content">
-                                            <strong>Выберите почтовый сервис</strong>
-                                            <p>Для отправки писем используйте любой SMTP-сервис:</p>
-                                            <div class="service-badges">
-                                                <span class="service-badge yandex">Яндекс Почта</span>
-                                                <span class="service-badge mail">Mail.ru</span>
-                                                <span class="service-badge gmail">Gmail</span>
-                                                <span class="service-badge smtp">Другой SMTP</span>
-                                            </div>
+                        </div>
+
+                        <!-- ШАГ 2: Пароль приложения -->
+                        <div class="instruction-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <strong>Получите пароль приложения</strong>
+                                <p>Выберите ваш сервис и следуйте инструкции. Пароль приложения — это случайная строка из 16–20 символов, которую почтовый сервис выдаёт специально для сторонних программ.</p>
+
+                                <!-- Табы сервисов -->
+                                <div class="service-tabs">
+                                    <button type="button" class="service-tab-btn active" data-tab="yandex" onclick="switchServiceTab('yandex')">Яндекс</button>
+                                    <button type="button" class="service-tab-btn" data-tab="gmail" onclick="switchServiceTab('gmail')">Gmail</button>
+                                    <button type="button" class="service-tab-btn" data-tab="mailru" onclick="switchServiceTab('mailru')">Mail.ru</button>
+                                    <button type="button" class="service-tab-btn" data-tab="beget" onclick="switchServiceTab('beget')">Beget</button>
+                                    <button type="button" class="service-tab-btn" data-tab="timeweb" onclick="switchServiceTab('timeweb')">Timeweb</button>
+                                </div>
+
+                                <!-- Яндекс -->
+                                <div id="tab-yandex" class="service-tab-content active">
+                                    <div class="step-details">
+                                        <ol>
+                                            <li>Войдите в <a href="https://passport.yandex.ru/profile/" target="_blank">Паспорт Яндекса</a></li>
+                                            <li>Перейдите в раздел <strong>«Безопасность» → «Пароли приложений»</strong></li>
+                                            <li>Нажмите <strong>«Создать пароль приложения»</strong></li>
+                                            <li>Выберите тип <strong>«Почта»</strong> и укажите название (например, «Сайт Maxsim»)</li>
+                                            <li>Скопируйте сгенерированный пароль (16 символов) и вставьте его в поле «Пароль» настроек сайта</li>
+                                        </ol>
+                                        <div class="step-tip">
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                            <span>Пароль приложения показывается <strong>только один раз</strong>. Если вы закроете окно или потеряете пароль, придётся создать новый.</span>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <!-- Шаг 2 -->
-                                    <div class="instruction-step">
-                                        <div class="step-number">2</div>
-                                        <div class="step-content">
-                                            <strong>Получите пароль приложения</strong>
-                                            <p>Для безопасности используйте специальный пароль для
-                                                приложений:</p>
-                                            <div class="step-details">
-                                                <details>
-                                                    <summary><i class="fa fa-chevron-right"></i> Яндекс
-                                                        Почта
-                                                    </summary>
-                                                    <div class="details-content">
-                                                        <ol>
-                                                            <li>Перейдите в <a
-                                                                    href="https://passport.yandex.ru/profile/"
-                                                                    target="_blank">настройки
-                                                                аккаунта</a></li>
-                                                            <li>Выберите раздел <strong>«Пароли
-                                                                приложений»</strong></li>
-                                                            <li>Создайте новый пароль для <strong>«Почта»</strong>
-                                                            </li>
-                                                            <li>Скопируйте полученный пароль</li>
-                                                        </ol>
-                                                    </div>
-                                                </details>
-                                                <details>
-                                                    <summary><i class="fa fa-chevron-right"></i> Gmail
-                                                    </summary>
-                                                    <div class="details-content">
-                                                        <ol>
-                                                            <li>Включите <a
-                                                                    href="https://myaccount.google.com/security"
-                                                                    target="_blank">двухфакторную
-                                                                аутентификацию</a></li>
-                                                            <li>Перейдите в <strong>«Пароли
-                                                                приложений»</strong></li>
-                                                            <li>Выберите приложение
-                                                                <strong>«Другое»</strong></li>
-                                                            <li>Скопируйте сгенерированный пароль</li>
-                                                        </ol>
-                                                    </div>
-                                                </details>
-                                                <details>
-                                                    <summary><i class="fa fa-chevron-right"></i> Mail.ru
-                                                    </summary>
-                                                    <div class="details-content">
-                                                        <ol>
-                                                            <li>Перейдите в <a
-                                                                    href="https://account.mail.ru/"
-                                                                    target="_blank">настройки
-                                                                аккаунта</a></li>
-                                                            <li>Выберите раздел
-                                                                <strong>«Безопасность»</strong></li>
-                                                            <li>Включите <strong>«Пароли для внешних
-                                                                приложений»</strong></li>
-                                                            <li>Создайте пароль для приложения</li>
-                                                        </ol>
-                                                    </div>
-                                                </details>
-                                            </div>
+                                <!-- Gmail -->
+                                <div id="tab-gmail" class="service-tab-content">
+                                    <div class="step-details">
+                                        <ol>
+                                            <li>Включите <a href="https://myaccount.google.com/security" target="_blank">двухфакторную аутентификацию</a> в аккаунте Google (обязательно!)</li>
+                                            <li>Перейдите в <strong>«Безопасность» → «Пароли приложений»</strong></li>
+                                            <li>Выберите приложение <strong>«Другое (произвольное имя)»</strong>, введите название сайта</li>
+                                            <li>Нажмите <strong>«Сгенерировать»</strong></li>
+                                            <li>Скопируйте 16-значный пароль и вставьте его в поле «Пароль» настроек</li>
+                                        </ol>
+                                        <div class="step-tip">
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                            <span>Без включённой 2FA раздел «Пароли приложений» будет скрыт. Также убедитесь, что в настройках Gmail разрешён доступ менее безопасным приложениям (если 2FA не используется).</span>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <!-- Шаг 3 -->
-                                    <div class="instruction-step">
-                                        <div class="step-number">3</div>
-                                        <div class="step-content">
-                                            <strong>Заполните настройки SMTP</strong>
-                                            <p>Используйте данные для вашего почтового сервиса:</p>
-                                            <div class="smtp-settings-table">
-                                                <div class="smtp-row header">
-                                                    <span>Сервис</span>
-                                                    <span>SMTP Хост</span>
-                                                    <span>Порт (SSL)</span>
-                                                    <span>Порт (TLS)</span>
-                                                </div>
-                                                <div class="smtp-row">
-                                                    <span class="service-name">Яндекс</span>
-                                                    <span><code>smtp.yandex.ru</code></span>
-                                                    <span>465</span>
-                                                    <span>587</span>
-                                                </div>
-                                                <div class="smtp-row">
-                                                    <span class="service-name">Gmail</span>
-                                                    <span><code>smtp.gmail.com</code></span>
-                                                    <span>465</span>
-                                                    <span>587</span>
-                                                </div>
-                                                <div class="smtp-row">
-                                                    <span class="service-name">Mail.ru</span>
-                                                    <span><code>smtp.mail.ru</code></span>
-                                                    <span>465</span>
-                                                    <span>587</span>
-                                                </div>
-                                                <div class="smtp-row">
-                                                    <span class="service-name">Яндекс 360</span>
-                                                    <span><code>smtp.yandex.ru</code></span>
-                                                    <span>465</span>
-                                                    <span>587</span>
-                                                </div>
-                                            </div>
+                                <!-- Mail.ru -->
+                                <div id="tab-mailru" class="service-tab-content">
+                                    <div class="step-details">
+                                        <ol>
+                                            <li>Войдите в <a href="https://account.mail.ru/" target="_blank">настройки аккаунта Mail.ru</a></li>
+                                            <li>Перейдите в раздел <strong>«Безопасность» → «Пароли для внешних приложений»</strong></li>
+                                            <li>Нажмите <strong>«Добавить пароль»</strong></li>
+                                            <li>Укажите название приложения (например, «Сайт Maxsim»)</li>
+                                            <li>Скопируйте пароль и вставьте в настройки сайта</li>
+                                        </ol>
+                                        <div class="step-tip">
+                                            <i class="fa fa-info-circle"></i>
+                                            <span>Если раздел «Пароли для внешних приложений» недоступен, убедитесь, что у вас привязан номер телефона и включена двухфакторная аутентификация.</span>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <!-- Шаг 4 -->
-                                    <div class="instruction-step">
-                                        <div class="step-number">4</div>
-                                        <div class="step-content">
-                                            <strong>Настройте отправителя</strong>
-                                            <p>Укажите email и имя отправителя, а также адрес для
-                                                получения сообщений</p>
-                                            <div class="step-example">
-                                                <div class="example-item">
-                                                    <span class="example-label">Email отправителя:</span>
-                                                    <span class="example-value">noreply@ваш-домен.ru</span>
-                                                </div>
-                                                <div class="example-item">
-                                                    <span class="example-label">Имя отправителя:</span>
-                                                    <span class="example-value">Тату-студия Maxsim</span>
-                                                </div>
-                                                <div class="example-item">
-                                                    <span class="example-label">Email получателя:</span>
-                                                    <span class="example-value">admin@ваш-домен.ru</span>
-                                                </div>
-                                            </div>
+                                <!-- Beget -->
+                                <div id="tab-beget" class="service-tab-content">
+                                    <div class="step-details">
+                                        <ol>
+                                            <li>Войдите в <a href="https://cp.beget.com/" target="_blank">панель управления Beget</a></li>
+                                            <li>Перейдите в раздел <strong>«Почта»</strong></li>
+                                            <li>Выберите нужный почтовый ящик и нажмите <strong>«Настройки»</strong></li>
+                                            <li>Включите <strong>«Доступ по IMAP/POP3/SMTP»</strong></li>
+                                            <li>Используйте <strong>основной пароль от почтового ящика</strong> (Beget не требует пароль приложения)</li>
+                                        </ol>
+                                        <div class="step-tip">
+                                            <i class="fa fa-info-circle"></i>
+                                            <span>Для почты на своём домене в Beget используйте логин вида <code>info@ваш-домен.ru</code> и основной пароль от этого ящика.</span>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <!-- Шаг 5 -->
-                                    <div class="instruction-step">
-                                        <div class="step-number">5</div>
-                                        <div class="step-content">
-                                            <strong>Проверьте настройки</strong>
-                                            <p>После заполнения всех полей нажмите <strong>«Сохранить
-                                                настройки»</strong>, а затем отправьте тестовое письмо
-                                            </p>
-                                            <div class="step-tip">
-                                                <i class="fa fa-lightbulb-o"></i>
-                                                <span>Если письмо не отправляется, проверьте пароль приложения и настройки безопасности</span>
-                                            </div>
+                                <!-- Timeweb -->
+                                <div id="tab-timeweb" class="service-tab-content">
+                                    <div class="step-details">
+                                        <ol>
+                                            <li>Войдите в <a href="https://cp.timeweb.ru/" target="_blank">панель управления Timeweb</a></li>
+                                            <li>Перейдите в <strong>«Почта» → «Почтовые ящики»</strong></li>
+                                            <li>Выберите ящик и откройте <strong>«Настройки»</strong></li>
+                                            <li>Убедитесь, что включён доступ по SMTP</li>
+                                            <li>Используйте <strong>основной пароль от почтового ящика</strong></li>
+                                        </ol>
+                                        <div class="step-tip">
+                                            <i class="fa fa-info-circle"></i>
+                                            <span>Timeweb Cloud может требовать создание отдельного пароля API для SMTP. Проверьте документацию вашего тарифа.</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- ШАГ 3: Настройки SMTP -->
+                        <div class="instruction-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <strong>Заполните настройки SMTP</strong>
+                                <p>Используйте параметры для вашего почтового сервиса. Нажмите <i class="fa fa-copy" style="font-size:11px;"></i> рядом со значением, чтобы скопировать его в буфер обмена.</p>
 
-                    </div>
+                                <div class="smtp-settings-table">
+                                    <div class="smtp-row header">
+                                        <span>Сервис</span>
+                                        <span>SMTP Хост</span>
+                                        <span>SSL порт</span>
+                                        <span>TLS порт</span>
+                                    </div>
+                                    <div class="smtp-row">
+                                        <span class="service-name">Яндекс / 360</span>
+                                        <span>
+                                            <code>smtp.yandex.ru</code>
+                                            <button type="button" class="copy-btn-inline" onclick="copyToClipboard('smtp.yandex.ru', this)"><i class="fa fa-copy"></i></button>
+                                        </span>
+                                        <span>465</span>
+                                        <span>587</span>
+                                    </div>
+                                    <div class="smtp-row">
+                                        <span class="service-name">Gmail</span>
+                                        <span>
+                                            <code>smtp.gmail.com</code>
+                                            <button type="button" class="copy-btn-inline" onclick="copyToClipboard('smtp.gmail.com', this)"><i class="fa fa-copy"></i></button>
+                                        </span>
+                                        <span>465</span>
+                                        <span>587</span>
+                                    </div>
+                                    <div class="smtp-row">
+                                        <span class="service-name">Mail.ru</span>
+                                        <span>
+                                            <code>smtp.mail.ru</code>
+                                            <button type="button" class="copy-btn-inline" onclick="copyToClipboard('smtp.mail.ru', this)"><i class="fa fa-copy"></i></button>
+                                        </span>
+                                        <span>465</span>
+                                        <span>587</span>
+                                    </div>
+                                    <div class="smtp-row">
+                                        <span class="service-name">Beget</span>
+                                        <span>
+                                            <code>smtp.beget.com</code>
+                                            <button type="button" class="copy-btn-inline" onclick="copyToClipboard('smtp.beget.com', this)"><i class="fa fa-copy"></i></button>
+                                        </span>
+                                        <span>465</span>
+                                        <span>587</span>
+                                    </div>
+                                    <div class="smtp-row">
+                                        <span class="service-name">Timeweb</span>
+                                        <span>
+                                            <code>smtp.timeweb.ru</code>
+                                            <button type="button" class="copy-btn-inline" onclick="copyToClipboard('smtp.timeweb.ru', this)"><i class="fa fa-copy"></i></button>
+                                        </span>
+                                        <span>465</span>
+                                        <span>587</span>
+                                    </div>
+                                    <div class="smtp-row">
+                                        <span class="service-name">Рамблер</span>
+                                        <span>
+                                            <code>smtp.rambler.ru</code>
+                                            <button type="button" class="copy-btn-inline" onclick="copyToClipboard('smtp.rambler.ru', this)"><i class="fa fa-copy"></i></button>
+                                        </span>
+                                        <span>465</span>
+                                        <span>587</span>
+                                    </div>
+                                    <div class="smtp-row">
+                                        <span class="service-name">Outlook / Office365</span>
+                                        <span>
+                                            <code>smtp.office365.com</code>
+                                            <button type="button" class="copy-btn-inline" onclick="copyToClipboard('smtp.office365.com', this)"><i class="fa fa-copy"></i></button>
+                                        </span>
+                                        <span>—</span>
+                                        <span>587</span>
+                                    </div>
+                                </div>
 
-                </div>
+                                <div class="step-tip">
+                                    <i class="fa fa-info-circle"></i>
+                                    <span>Для большинства сервисов рекомендуется порт <strong>465 (SSL)</strong> — он надёжнее. Порт 587 (TLS) используйте, если 465 заблокирован хостинг-провайдером.</span>
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- ============================================================ -->
-                <!-- ПОДВАЛ МОДАЛЬНОГО ОКНА                                        -->
-                <!-- ============================================================ -->
+                        <!-- ШАГ 4: Отправитель -->
+                        <div class="instruction-step">
+                            <div class="step-number">4</div>
+                            <div class="step-example">
+                                <table class="example-table">
+                                    <tbody>
+                                    <tr>
+                                        <td class="example-label">
+                                            <i class="fa fa-user"></i> Имя пользователя (логин SMTP):
+                                        </td>
+                                        <td class="example-value">info@ваш-домен.ru</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="example-label">
+                                            <i class="fa fa-envelope"></i> Email отправителя (From):
+                                        </td>
+                                        <td class="example-value">noreply@ваш-домен.ru</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="example-label">
+                                            <i class="fa fa-id-badge"></i> Имя отправителя:
+                                        </td>
+                                        <td class="example-value">Тату-студия Maxsim</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="example-label">
+                                            <i class="fa fa-inbox"></i> Email получателя заявок:
+                                        </td>
+                                        <td class="example-value">admin@ваш-домен.ru</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- ШАГ 5: Проверка -->
+                        <div class="instruction-step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <strong>Сохраните и проверьте</strong>
+                                <p>После заполнения всех полей нажмите <strong>«Сохранить настройки»</strong>, затем используйте кнопки <strong>«Проверить соединение»</strong> и <strong>«Отправить тест»</strong> для проверки.</p>
+                                <div class="step-tip">
+                                    <i class="fa fa-lightbulb-o"></i>
+                                    <span>Если тестовое письмо не пришло в течение 1–2 минут, проверьте папку <strong>«Спам»</strong> или <strong>«Промоакции»</strong>. Для гарантированной доставки настройте SPF, DKIM и DMARC-записи вашего домена (см. раздел ниже).</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Распространенные ошибки -->
+                        <div class="troubleshooting-section">
+                            <h5><i class="fa fa-bug"></i> Распространенные ошибки SMTP</h5>
+                            <div class="error-codes-grid">
+                                <div class="error-code-card">
+                                    <div class="code">535 / 5.7.8</div>
+                                    <div class="meaning">Ошибка авторизации</div>
+                                    <div class="solution">Проверьте логин и пароль. Убедитесь, что используете пароль приложения, а не основной пароль от почты.</div>
+                                </div>
+                                <div class="error-code-card">
+                                    <div class="code">550 / 5.7.1</div>
+                                    <div class="meaning">Отправка заблокирована</div>
+                                    <div class="solution">Сервер отклонил отправку. Включите доступ для внешних приложений в настройках безопасности почты.</div>
+                                </div>
+                                <div class="error-code-card">
+                                    <div class="code">553</div>
+                                    <div class="meaning">Ящик не существует</div>
+                                    <div class="solution">Проверьте правильность email отправителя. Он должен совпадать с логином SMTP-аккаунта.</div>
+                                </div>
+                                <div class="error-code-card">
+                                    <div class="code">554</div>
+                                    <div class="meaning">Сообщение отклонено как спам</div>
+                                    <div class="solution">Ваш IP или домен в чёрном списке. Настройте SPF, DKIM, DMARC. Снизьте частоту отправки.</div>
+                                </div>
+                                <div class="error-code-card">
+                                    <div class="code">Connection refused</div>
+                                    <div class="meaning">Нет соединения с сервером</div>
+                                    <div class="solution">Проверьте правильность хоста и порта. Возможно, ваш хостинг блокирует исходящие соединения на порт 465.</div>
+                                </div>
+                                <div class="error-code-card">
+                                    <div class="code">TLS/SSL failed</div>
+                                    <div class="meaning">Ошибка шифрования</div>
+                                    <div class="solution">Попробуйте сменить тип шифрования (SSL ↔ TLS) или порт (465 ↔ 587). Убедитесь, что сервер поддерживает выбранный протокол.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DNS-записи -->
+                        <div class="dns-section">
+                            <h5><i class="fa fa-globe"></i> DNS-записи для надежной доставки писем</h5>
+                            <p>Если вы планируете массовые рассылки или хотите, чтобы письма точно не попадали в спам, настройте эти записи у вашего регистратора домена (или в панели управления DNS):</p>
+
+                            <div class="dns-record">
+                                <div class="dns-record-header">
+                                    <strong>SPF-запись</strong>
+                                    <span class="badge-type">TXT-запись</span>
+                                </div>
+                                <pre>v=spf1 include:_spf.yandex.ru ~all</pre>
+                                <p>Разрешает серверам Яндекса отправлять письма от вашего домена.
+                                    <strong>Замените</strong> <code>_spf.yandex.ru</code> на соответствующий сервис:
+                                    <code>include:_spf.google.com</code> для Gmail,
+                                    <code>include:spf.mail.ru</code> для Mail.ru.</p>
+                            </div>
+
+                            <div class="dns-record">
+                                <div class="dns-record-header">
+                                    <strong>DKIM-подпись</strong>
+                                    <span class="badge-type">TXT-запись</span>
+                                </div>
+                                <pre>mail._domainkey IN TXT "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKBAQ..."</pre>
+                                <p>Публичный ключ DKIM генерируется в панели управления вашей почтовой службы (Яндекс 360, Google Workspace и т.д.).
+                                    Он подтверждает, что письмо действительно отправлено с вашего сервера.</p>
+                            </div>
+
+                            <div class="dns-record">
+                                <div class="dns-record-header">
+                                    <strong>DMARC-политика</strong>
+                                    <span class="badge-type">TXT-запись</span>
+                                </div>
+                                <pre>_dmarc IN TXT "v=DMARC1; p=quarantine; rua=mailto:dmarc@ваш-домен.ru; ruf=mailto:dmarc@ваш-домен.ru; fo=1"</pre>
+                                <p>Указывает почтовым сервисам, что делать с письмами, не прошедшими SPF/DKIM-проверку.
+                                    <code>p=quarantine</code> — отправлять в спам, <code>p=reject</code> — полностью отклонять.
+                                    Замените <code>dmarc@ваш-домен.ru</code> на реальный ящик для отчётов.</p>
+                            </div>
+
+                            <div class="step-tip">
+                                <i class="fa fa-clock-o"></i>
+                                <span>Изменения в DNS вступают в силу в течение <strong>15 минут – 24 часов</strong> (зависит от TTL-записи). Проверить корректность настроек можно через сервис <a href="https://mxtoolbox.com/spf.aspx" target="_blank">MXToolbox</a>.</span>
+                            </div>
+                        </div>
+
+                        <!-- FAQ -->
+                        <div class="troubleshooting-section" style="border-top-color: var(--m-border);">
+                            <h5><i class="fa fa-question-circle"></i> Частые вопросы</h5>
+                            <div class="faq-list">
+                                <details class="faq-item">
+                                    <summary>Почему письма попадают в спам?</summary>
+                                    <div class="faq-answer">
+                                        Основные причины: отсутствие SPF/DKIM/DMARC записей, несовпадение домена отправителя с доменом сайта,
+                                        подозрительный текст письма (много капса, ссылок), IP-адрес сервера в чёрных списках (RBL).
+                                        Настройте DNS-записи, используйте корпоративную почту на своём домене и избегайте спамных слов в теме письма.
+                                    </div>
+                                </details>
+                                <details class="faq-item">
+                                    <summary>Можно ли использовать обычный пароль от почты?</summary>
+                                    <div class="faq-answer">
+                                        <strong>Нет.</strong> Большинство современных почтовых сервисов (Яндекс, Gmail, Mail.ru) требуют именно пароль приложения.
+                                        Обычный пароль работает только в почтовых клиентах с OAuth-авторизацией или на некоторых хостинговых почтах (Beget, Timeweb).
+                                        Использование обычного пароля — это угроза безопасности.
+                                    </div>
+                                </details>
+                                <details class="faq-item">
+                                    <summary>Что делать, если порт 465 заблокирован хостингом?</summary>
+                                    <div class="faq-answer">
+                                        Используйте порт <strong>587</strong> с шифрованием <strong>TLS</strong>.
+                                        Если и он заблокирован, обратитесь в техподдержку хостинга с просьбой открыть исходящие SMTP-соединения.
+                                        Альтернатива — использовать внешний SMTP-реле (например, SendGrid, Mailgun) через API вместо SMTP.
+                                    </div>
+                                </details>
+                                <details class="faq-item">
+                                    <summary>Как настроить несколько получателей заявок?</summary>
+                                    <div class="faq-answer">
+                                        В текущей версии системы поддерживается <strong>один</strong> email получателя.
+                                        Для рассылки на несколько адресов настройте правило пересылки в панели вашей почты (например, в Яндекс.Почте: «Настройки» → «Правила обработки писем» → «Переслать копию»).
+                                    </div>
+                                </details>
+                                <details class="faq-item">
+                                    <summary>Нужен ли SSL-сертификат на сайте для отправки писем?</summary>
+                                    <div class="faq-answer">
+                                        Нет, SMTP-отправка работает независимо от SSL на сайте.
+                                        Однако наличие HTTPS и корректных DNS-записей повышает доверие почтовых сервисов к вашему домену и снижает вероятность попадания в спам.
+                                    </div>
+                                </details>
+                            </div>
+                        </div>
+
+                    </div><!-- /instruction-grid -->
+                </div><!-- /modal-body -->
+
+                <!-- Подвал -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        <i class="fa fa-times"></i> Закрыть
+                        <i class="fa fa-times"></i> Закрыть инструкцию
                     </button>
                 </div>
 

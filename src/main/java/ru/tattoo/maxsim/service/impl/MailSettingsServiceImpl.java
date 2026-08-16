@@ -17,6 +17,7 @@ import ru.tattoo.maxsim.service.interf.MailSettingsService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
@@ -37,7 +38,6 @@ public class MailSettingsServiceImpl implements MailSettingsService {
     public MailSettings saveSettings(MailSettings settings) {
         log.debug("Сохранение настроек почты");
 
-        // Только cross-field валидация (остальное — аннотации в контроллере)
         if (settings.getAuth() && settings.getId() == null && !StringUtils.hasText(settings.getPassword())) {
             throw new MailValidationException("При включённой аутентификации пароль обязателен");
         }
@@ -97,89 +97,87 @@ public class MailSettingsServiceImpl implements MailSettingsService {
     }
 
     @Override
-    public SmtpTestResult sendTestEmail(MailSettings settings, String testEmail) {
-        ByteArrayOutputStream logStream = new ByteArrayOutputStream();
-        PrintStream debugOut = new PrintStream(logStream, true, StandardCharsets.UTF_8);
+    public SmtpTestResult sendTestEmail(MailSettings settings, String testEmail) throws UnsupportedEncodingException {
+        return executeSmtpTest(settings, true, testEmail);
+    }
+
+    @Override
+    public SmtpTestResult testConnection(MailSettings settings) throws UnsupportedEncodingException {
+        return executeSmtpTest(settings, false, null);
+    }
+
+    // ==================== PRIVATE ====================
+
+    /**
+     * Единый метод тестирования SMTP.
+     * Логи собираются только если settings.isDebug() = true.
+     */
+    private SmtpTestResult executeSmtpTest(MailSettings settings, boolean sendEmail, String testEmail) throws UnsupportedEncodingException {
+        boolean debugEnabled = settings.getDebug();
+
+        ByteArrayOutputStream logStream = debugEnabled ? new ByteArrayOutputStream() : null;
+        PrintStream debugOut = debugEnabled ? new PrintStream(logStream, true, StandardCharsets.UTF_8) : null;
 
         boolean success;
         String errorMessage = null;
 
         try {
-            Session session = createDebugSession(settings, debugOut);
+            Session session = debugEnabled
+                    ? createDebugSession(settings, debugOut)
+                    : createSession(settings);
 
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(settings.getFromEmail(), settings.getFromName()));
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(testEmail));
-            message.setSubject("✅ Тестовое письмо от Тату-студии Maxsim");
-            message.setText(
-                    "Здравствуйте!\n\n" +
-                            "Это тестовое письмо для проверки настроек SMTP.\n\n" +
-                            "Если вы получили это письмо, значит настройки работают корректно!\n\n" +
-                            "С уважением,\nТату-студия Maxsim",
-                    StandardCharsets.UTF_8.name()
-            );
-
-            log.info("Sending test email to {} via {}:{}", testEmail, settings.getHost(), settings.getPort());
-            Transport.send(message);
+            if (sendEmail && testEmail != null) {
+                MimeMessage message = createTestMessage(session, settings, testEmail);
+                log.info("Sending test email to {} via {}:{}", testEmail, settings.getHost(), settings.getPort());
+                Transport.send(message);
+                log.info("Test email SENT successfully");
+            } else {
+                Transport transport = session.getTransport("smtp");
+                log.info("Testing connection to {}:{}", settings.getHost(), settings.getPort());
+                transport.connect(settings.getHost(), settings.getPort(),
+                        settings.getUsername(), settings.getPassword());
+                transport.close();
+                log.info("Connection test PASSED");
+            }
 
             success = true;
-            log.info("Test email SENT successfully");
 
         } catch (AuthenticationFailedException e) {
             success = false;
             errorMessage = "Ошибка авторизации. Проверьте логин и пароль. Для Яндекса — пароль приложения.";
-            log.error("Auth failed on send: {}", e.getMessage());
-
-        } catch (MessagingException e) {
-            success = false;
-            errorMessage = diagnoseError(e);
-            log.error("Send failed: {}", e.getMessage());
-        } catch (Exception e) {
-            success = false;
-            errorMessage = "Ошибка при формировании письма: " + e.getMessage();
-            log.error("Email build error: {}", e.getMessage());
-        }
-
-        return new SmtpTestResult(success, logStream.toString(StandardCharsets.UTF_8), errorMessage);
-    }
-
-    @Override
-    public SmtpTestResult testConnection(MailSettings settings) {
-        ByteArrayOutputStream logStream = new ByteArrayOutputStream();
-        PrintStream debugOut = new PrintStream(logStream, true, StandardCharsets.UTF_8);
-
-        boolean success;
-        String errorMessage = null;
-
-        try {
-            Session session = createDebugSession(settings, debugOut);
-            Transport transport = session.getTransport("smtp");
-
-            log.info("Testing connection to {}:{}", settings.getHost(), settings.getPort());
-            transport.connect(settings.getHost(), settings.getPort(),
-                    settings.getUsername(), settings.getPassword());
-            transport.close();
-
-            success = true;
-            log.info("Connection test PASSED");
-
-        } catch (AuthenticationFailedException e) {
-            success = false;
-            errorMessage = "Ошибка авторизации. Проверьте логин и пароль.";
             log.error("Auth failed: {}", e.getMessage());
 
         } catch (MessagingException e) {
             success = false;
             errorMessage = diagnoseError(e);
-            log.error("Connection failed: {}", e.getMessage());
+            log.error("SMTP error: {}", e.getMessage());
         }
 
-        return new SmtpTestResult(success, logStream.toString(StandardCharsets.UTF_8), errorMessage);
+        String debugLog = debugEnabled && logStream != null
+                ? logStream.toString(StandardCharsets.UTF_8)
+                : "";
+
+        return new SmtpTestResult(success, debugLog, errorMessage);
     }
 
-    // ==================== PRIVATE ====================
+    private Session createSession(MailSettings settings) {
+        Properties props = buildProperties(settings);
+        return Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(settings.getUsername(), settings.getPassword());
+            }
+        });
+    }
 
     private Session createDebugSession(MailSettings settings, PrintStream debugOut) {
+        Session session = createSession(settings);
+        session.setDebug(true);
+        session.setDebugOut(debugOut);
+        return session;
+    }
+
+    private Properties buildProperties(MailSettings settings) {
         Properties props = new Properties();
         props.put("mail.smtp.host", settings.getHost());
         props.put("mail.smtp.port", settings.getPort());
@@ -193,17 +191,27 @@ public class MailSettingsServiceImpl implements MailSettingsService {
             props.put("mail.smtp.starttls.enable", "true");
         }
 
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(settings.getUsername(), settings.getPassword());
-            }
-        });
+        // Таймауты
+        props.put("mail.smtp.connectiontimeout", "10000");
+        props.put("mail.smtp.timeout", "10000");
+        props.put("mail.smtp.writetimeout", "10000");
 
-        session.setDebug(true);
-        session.setDebugOut(debugOut);
+        return props;
+    }
 
-        return session;
+    private MimeMessage createTestMessage(Session session, MailSettings settings, String testEmail) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(settings.getFromEmail(), settings.getFromName()));
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(testEmail));
+        message.setSubject("✅ Тестовое письмо от Тату-студии Maxsim");
+        message.setText(
+                "Здравствуйте!\n\n" +
+                        "Это тестовое письмо для проверки настроек SMTP.\n\n" +
+                        "Если вы получили это письмо, значит настройки работают корректно!\n\n" +
+                        "С уважением,\nТату-студия Maxsim",
+                StandardCharsets.UTF_8.name()
+        );
+        return message;
     }
 
     private String diagnoseError(MessagingException e) {

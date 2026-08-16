@@ -1123,3 +1123,70 @@ async function testSmtpConnection() {
          // Устанавливаем правильный порт при инициализации
          updatePort();
      }
+
+     /**
+      * Показать/скрыть панель логов при клике на чекбокс "Отладка"
+      */
+     function toggleDebugPanel() {
+         const debugCheckbox = document.getElementById('mail-debug');
+         const logPanel = document.getElementById('smtp-log-panel');
+
+         if (!debugCheckbox || !logPanel) return;
+
+         logPanel.style.display = debugCheckbox.checked ? 'block' : 'none';
+     }
+
+// ============================================================
+// 17. МОДАЛЬНОЕ ОКНО: ИНСТРУКЦИЯ ПО НАСТРОЙКЕ ПОЧТЫ
+// ============================================================
+
+function switchServiceTab(serviceId) {
+    document.querySelectorAll('.service-tab-content').forEach(function(el) {
+        el.classList.remove('active');
+    });
+    document.querySelectorAll('.service-tab-btn').forEach(function(el) {
+        el.classList.remove('active');
+    });
+    var tab = document.getElementById('tab-' + serviceId);
+    if (tab) tab.classList.add('active');
+    var btn = document.querySelector('.service-tab-btn[data-tab="' + serviceId + '"]');
+    if (btn) btn.classList.add('active');
+}
+
+function copyToClipboard(text, btn) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+            showCopied(btn);
+        }).catch(function() {
+            fallbackCopy(text, btn);
+        });
+    } else {
+        fallbackCopy(text, btn);
+    }
+}
+
+function showCopied(btn) {
+    var original = btn.innerHTML;
+    btn.innerHTML = '<i class="fa fa-check"></i> Готово';
+    btn.classList.add('copied');
+    setTimeout(function() {
+        btn.innerHTML = original;
+        btn.classList.remove('copied');
+    }, 2000);
+}
+
+function fallbackCopy(text, btn) {
+    var textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+        document.execCommand('copy');
+        showCopied(btn);
+    } catch (err) {
+        console.error('Copy failed', err);
+    }
+    document.body.removeChild(textarea);
+}

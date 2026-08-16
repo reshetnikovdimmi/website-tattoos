@@ -3081,20 +3081,19 @@
                             <p class="text-muted">Настройте параметры отправки писем с сайта</p>
                         </div>
 
-                        <div class="settings-body" >
+                        <div class="settings-body">
                             <div th:fragment="mailSettingsFragment">
-                            <!-- ============================================================ -->
-                            <!-- ФОРМА НАСТРОЕК                                                -->
-                            <!-- ============================================================ -->
-                            <form th:method="POST"
-                                  th:action="@{/admin/mail/save}"
-                                  th:object="${mailSettings}"
-                                  class="settings-form"
-                                  th:id="*{id}"
-                                  onsubmit="submitForm(event)"
-                                  data-fragment-name="mailSettingsFragment"
-                                  data-container-selector=".settings-body">
-
+                                <!-- ============================================================ -->
+                                <!-- ФОРМА НАСТРОЕК                                                -->
+                                <!-- ============================================================ -->
+                                <form th:method="POST"
+                                      th:action="@{/admin/mail/save}"
+                                      th:object="${mailSettings}"
+                                      class="settings-form"
+                                      th:id="*{id}"
+                                      onsubmit="submitForm(event)"
+                                      data-fragment-name="mailSettingsFragment"
+                                      data-container-selector=".settings-body">
 
 
                                     <!-- SMTP Настройки -->
@@ -3157,7 +3156,8 @@
                                                            th:field="*{username}"
                                                            placeholder="your-email@yandex.ru"
                                                            required>
-                                                    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Ошибка имя пользователя пустое</span>
+                                                    <span th:if="${#fields.hasErrors('username')}"
+                                                          th:errors="*{username}">Ошибка имя пользователя пустое</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -3169,7 +3169,7 @@
                                                                id="mail-password"
                                                                th:field="*{password}"
                                                                placeholder="••••••••"
-                                                               >
+                                                        >
                                                         <button type="button"
                                                                 class="btn btn-outline-secondary toggle-password"
                                                                 onclick="togglePasswordVisibility('mail-password')">
@@ -3200,7 +3200,8 @@
                                                            th:field="*{fromEmail}"
                                                            placeholder="noreply@yourdomain.com"
                                                            required>
-                                                    <span th:if="${#fields.hasErrors('fromEmail')}" th:errors="*{fromEmail}">Ошибка Email</span>
+                                                    <span th:if="${#fields.hasErrors('fromEmail')}"
+                                                          th:errors="*{fromEmail}">Ошибка Email</span>
                                                     <small class="form-text text-muted">Адрес, с которого будут
                                                         приходить
                                                         письма</small>
@@ -3214,7 +3215,8 @@
                                                            id="mail-from-name"
                                                            th:field="*{fromName}"
                                                            placeholder="Тату-студия Maxsim" required>
-                                                    <span th:if="${#fields.hasErrors('fromName')}" th:errors="*{fromName}">Ошибка Имя отправителя</span>
+                                                    <span th:if="${#fields.hasErrors('fromName')}"
+                                                          th:errors="*{fromName}">Ошибка Имя отправителя</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -3227,7 +3229,8 @@
                                                    th:field="*{recipientEmail}"
                                                    placeholder="admin@yourdomain.com"
                                                    required>
-                                            <span th:if="${#fields.hasErrors('recipientEmail')}" th:errors="*{recipientEmail}">Ошибка Email получателя</span>
+                                            <span th:if="${#fields.hasErrors('recipientEmail')}"
+                                                  th:errors="*{recipientEmail}">Ошибка Email получателя</span>
                                             <small class="form-text text-muted">На этот адрес будут приходить сообщения
                                                 с
                                                 сайта</small>
@@ -3304,7 +3307,8 @@
                                                         <input type="checkbox"
                                                                class="form-check-input"
                                                                id="mail-debug"
-                                                               th:field="*{debug}">
+                                                               th:field="*{debug}"
+                                                               onclick="toggleDebugPanel()">
                                                         <label class="form-check-label" for="mail-debug">
                                                             <span class="checkbox-indicator">
                                                                 <i class="fa fa-check"></i>
@@ -3319,140 +3323,158 @@
                                         </div>
                                     </div>
 
-                                    <!-- Шаблоны писем -->
-                                    <div class="settings-section">
-                                        <h5>Шаблоны писем</h5>
+                                    <!-- ============================================================ -->
+                                    <!-- ШАБЛОНЫ ПИСЕМ (в разработке)                                 -->
+                                    <!-- ============================================================ -->
+                                    <div class="settings-section" style="opacity: 0.7;">
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                            <h5>Шаблоны писем</h5>
+                                            <span class="badge badge-warning">
+                                            <i class="fa fa-clock-o"></i> В разработке
+                                        </span>
+                                        </div>
                                         <div class="settings-divider"></div>
+
+                                        <div class="alert alert-info">
+                                            <i class="fa fa-info-circle"></i>
+                                            <strong>Скоро:</strong> настройка темы письма и автоответа клиенту.
+                                            Текущие значения сохранены и будут доступны после обновления.
+                                        </div>
 
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="mail-subject">Тема письма</label>
+                                                    <label>Тема письма</label>
                                                     <input type="text"
                                                            class="form-control"
-                                                           id="mail-subject"
-                                                           th:field="*{subjectTemplate}"
+                                                           th:value="${mailSettings.subjectTemplate}"
+                                                           disabled
                                                            placeholder="Новое сообщение с сайта">
                                                     <small class="form-text text-muted">
-                                                        Можно использовать переменные: <code>{name}</code>,
-                                                        <code>{phone}</code>
+                                                        Планируется поддержка переменных: <code>{name}</code>, <code>{phone}</code>
                                                     </small>
                                                 </div>
                                             </div>
-
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="settings-label">Автоответ</label>
-                                                    <div class="custom-checkbox">
+                                                    <div class="custom-checkbox" style="pointer-events: none;">
                                                         <input type="checkbox"
-                                                               class="form-check-input"
-                                                               id="mail-auto-reply"
-                                                               th:field="*{autoReply}">
-                                                        <label class="form-check-label" for="mail-auto-reply">
-                                                            <span class="checkbox-indicator">
-                                                                <i class="fa fa-check"></i>
-                                                            </span>
+                                                               th:checked="${mailSettings.autoReply}"
+                                                               disabled>
+                                                        <label class="form-check-label">
+                                                        <span class="checkbox-indicator">
+                                                            <i class="fa fa-check"
+                                                               th:if="${mailSettings.autoReply}"></i>
+                                                        </span>
                                                             <span class="checkbox-text">Отправлять автоответ клиенту</span>
                                                         </label>
                                                     </div>
-                                                    <small class="form-text text-muted">Автоматический ответ после
-                                                        получения
-                                                        сообщения</small>
+                                                    <small class="form-text text-muted">
+                                                        Автоматический ответ после получения сообщения
+                                                    </small>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                <!-- Тестирование -->
-                                <div class="settings-section">
-                                    <h5>Тестирование</h5>
-                                    <div class="settings-divider"></div>
-                                    <div class="row align-items-center">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label for="test-email">Тестовый email</label>
-                                                <input type="email"
-                                                       class="form-control"
-                                                       id="test-email"
-                                                       placeholder="test@example.com">
+                                    <!-- Тестирование -->
+                                    <div class="settings-section">
+                                        <h5>Тестирование</h5>
+                                        <div class="settings-divider"></div>
+
+                                        <div class="row align-items-center">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label for="test-email">Тестовый email</label>
+                                                    <input type="email"
+                                                           class="form-control"
+                                                           id="test-email"
+                                                           placeholder="test@example.com">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row align-items-center">
-                                        <div class="col-md-6">
-                                            <button type="button"
-                                                    class="btn btn-info btn-block mt-3"
-                                                    onclick="testSmtpConnection()">
-                                                <i class="fa fa-plug"></i> Проверить
-                                            </button>
+                                        <div class="row align-items-center">
+                                            <div class="col-md-6">
+                                                <button type="button"
+                                                        class="btn btn-info btn-block mt-3"
+                                                        onclick="testSmtpConnection()">
+                                                    <i class="fa fa-plug"></i> Проверить
+                                                </button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button type="button"
+                                                        class="btn btn-warning btn-block mt-3"
+                                                        onclick="sendTestEmail()">
+                                                    <i class="fa fa-paper-plane"></i> Отправить тест
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <button type="button"
-                                                    class="btn btn-warning btn-block mt-3"
-                                                    onclick="sendTestEmail()">
-                                                <i class="fa fa-paper-plane"></i> Отправить тест
-                                            </button>
-                                        </div>
-                                    </div>
 
-                                    <!-- Панель логов -->
-                                    <div id="smtp-log-panel" class="smtp-log-panel">
-                                        <div class="smtp-log-header">
-                                            <span><i class="fa fa-terminal"></i> Логи SMTP</span>
-                                            <span id="smtp-status-badge" class="badge"
-                                                  th:if="${connectionResult != null}"
-                                                  th:classappend="${connectionResult.success} ? 'badge-success' : 'badge-danger'"
-                                                  th:text="${connectionResult.success} ? '✅ Успешно' : '❌ Ошибка'">
+                                        <!-- 🔑 Панель логов показывается только если debug=true -->
+                                        <div id="smtp-log-panel"
+                                             class="smtp-log-panel mt-3"
+                                             th:style="${mailSettings.debug != null and mailSettings.debug} ? 'display: block;' : 'display: none;'">
+
+                                            <div class="smtp-log-header">
+                                                <span><i class="fa fa-terminal"></i> Логи SMTP</span>
+                                                <span id="smtp-status-badge" class="badge"
+                                                      th:if="${connectionResult != null}"
+                                                      th:classappend="${connectionResult.success} ? 'badge-success' : 'badge-danger'"
+                                                      th:text="${connectionResult.success} ? '✅ Успешно' : '❌ Ошибка'">
                                             </span>
-                                        </div>
-                                        <div class="smtp-log-toolbar" th:if="${connectionResult != null}">
-                                            <button type="button" class="btn btn-xs btn-outline-light" onclick="copyLogs()">
-                                                <i class="fa fa-copy"></i> Копировать
-                                            </button>
-                                            <button type="button" class="btn btn-xs btn-outline-light" onclick="clearLogs()">
-                                                <i class="fa fa-trash"></i> Очистить
-                                            </button>
-                                        </div>
-                                        <pre id="smtp-log-output"
-                                             th:text="${connectionResult != null} ? ${connectionResult.debugLog} : 'Нажмите «Проверить» или «Отправить тест», чтобы увидеть логи...'">
+                                            </div>
+
+                                            <div class="smtp-log-toolbar" th:if="${connectionResult != null}">
+                                                <button type="button" class="btn btn-xs btn-outline-light"
+                                                        onclick="copyLogs()">
+                                                    <i class="fa fa-copy"></i> Копировать
+                                                </button>
+                                                <button type="button" class="btn btn-xs btn-outline-light"
+                                                        onclick="clearLogs()">
+                                                    <i class="fa fa-trash"></i> Очистить
+                                                </button>
+                                            </div>
+
+                                            <pre id="smtp-log-output"
+                                                 th:text="${connectionResult != null} ? ${connectionResult.debugLog} : 'Нажмите «Проверить» или «Отправить тест», чтобы увидеть логи...'">
                                         </pre>
+                                        </div>
+
+                                        <!-- Скрытый блок для JS тоже только при debug=true -->
+                                        <div th:if="${mailSettings.debug and connectionResult != null}"
+                                             id="smtp-test-result"
+                                             th:attr="data-success=${connectionResult.success}, data-error=${connectionResult.errorMessage}"
+                                             style="display:none;">
+                                        </div>
                                     </div>
 
-                                    <!-- Скрытый блок для JS (читаем результат) -->
-                                    <div th:if="${connectionResult != null}"
-                                         id="smtp-test-result"
-                                         th:attr="data-success=${connectionResult.success}, data-error=${connectionResult.errorMessage}"
-                                         style="display:none;">
+                                    <!-- Кнопки управления -->
+                                    <div class="settings-actions">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa fa-save"></i> Сохранить настройки
+                                        </button>
+
+                                        <button type="button" class="btn btn-outline-danger" onclick="resetToDefault()">
+                                            <i class="fa fa-trash"></i> Сбросить по умолчанию
+                                        </button>
                                     </div>
+                                </form>
 
-                                </div>
-
-                                <!-- Кнопки управления -->
-                                <div class="settings-actions">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-save"></i> Сохранить настройки
+                                <!-- ============================================================ -->
+                                <!-- ИНСТРУКЦИЯ (вне формы)                                        -->
+                                <!-- ============================================================ -->
+                                <div class="mt-4">
+                                    <button class="btn btn-outline-info"
+                                            data-toggle="modal"
+                                            data-target="#mailSettingsModal"
+                                            style="cursor: pointer;">
+                                        <i class="fa fa-question-circle"></i>
+                                        Как настроить почту?
+                                        <span class="tab-badge">Инструкция</span>
                                     </button>
-
-                                    <button type="button" class="btn btn-outline-danger" onclick="resetToDefault()">
-                                        <i class="fa fa-trash"></i> Сбросить по умолчанию
-                                    </button>
                                 </div>
-                            </form>
-
-                            <!-- ============================================================ -->
-                            <!-- ИНСТРУКЦИЯ (вне формы)                                        -->
-                            <!-- ============================================================ -->
-                            <div class="mt-4">
-                                <button class="btn btn-outline-info"
-                                        data-toggle="modal"
-                                        data-target="#mailSettingsModal"
-                                        style="cursor: pointer;">
-                                    <i class="fa fa-question-circle"></i>
-                                    Как настроить почту?
-                                    <span class="tab-badge">Инструкция</span>
-                                </button>
-                            </div>
                             </div>
                         </div>
                     </div>

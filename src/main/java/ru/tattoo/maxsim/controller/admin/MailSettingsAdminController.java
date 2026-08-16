@@ -13,6 +13,8 @@ import ru.tattoo.maxsim.model.DTO.SmtpTestResult;
 import ru.tattoo.maxsim.model.MailSettings;
 import ru.tattoo.maxsim.service.interf.MailSettingsService;
 
+import java.io.UnsupportedEncodingException;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -76,12 +78,18 @@ public class MailSettingsAdminController {
     @PostMapping("/test-connection")
 
     public String testConnection(@ModelAttribute MailSettings settings,
-                                 Model model) {
+                                 Model model) throws UnsupportedEncodingException {
         log.info("Quick SMTP connection test to {}", settings.getHost());
 
         restorePasswordIfEmpty(settings);
 
         SmtpTestResult result = mailSettingsService.testConnection(settings);
+
+        // Если отладка выключена — не передаём логи в HTML
+        if (!settings.getDebug()) {
+            result = new SmtpTestResult(result.success(), "", result.errorMessage());
+        }
+
         model.addAttribute("connectionResult", result);
         model.addAttribute("mailSettings", settings);
 
@@ -95,7 +103,7 @@ public class MailSettingsAdminController {
 
     public String testSend(@ModelAttribute MailSettings settings,
                            @RequestParam("testEmail") String testEmail,
-                           Model model) {
+                           Model model) throws UnsupportedEncodingException {
 
         log.info("Test email requested to: {}", testEmail);
 

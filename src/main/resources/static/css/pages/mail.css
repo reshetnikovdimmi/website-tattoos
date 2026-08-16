@@ -1,135 +1,151 @@
-/* Настройки почты */
+/* ============================================
+   MAIL SETTINGS — REFACTORED STYLESHEET
+   Убраны дубли, введены переменные,
+   добавлены стили для подробного модального окна
+   ============================================ */
+
+/* ---------- CSS Variables ---------- */
+:root {
+    --m-bg-primary:   #1e1e1e;
+    --m-bg-secondary: #151515;
+    --m-bg-tertiary:  rgba(0, 0, 0, 0.3);
+    --m-border:       rgba(255, 255, 255, 0.1);
+    --m-border-accent:rgba(228, 56, 28, 0.2);
+    --m-text:         #ffffff;
+    --m-text-secondary:#8f8fa8;
+    --m-text-muted:   #6c757d;
+    --m-accent:       #e4381c;
+    --m-accent-2:     #e16521;
+    --m-accent-glow:  rgba(228, 56, 28, 0.4);
+    --m-gradient:     linear-gradient(45deg, #e16521, #e4381c);
+    --m-font-heading: "Oswald", sans-serif;
+    --m-radius:       8px;
+    --m-radius-sm:    6px;
+    --m-radius-xs:    4px;
+    --m-transition:   all 0.3s ease;
+}
+
+/* ---------- Base Panel ---------- */
 .settings-panel {
-    background: #1e1e1e;
-    border-radius: 8px;
+    background: var(--m-bg-primary);
+    border-radius: var(--m-radius);
     padding: 30px;
-    border: 1px solid rgba(228, 56, 28, 0.2);
+    border: 1px solid var(--m-border-accent);
     margin-top: 20px;
+    color: var(--m-text);
 }
 
 .settings-header {
     margin-bottom: 30px;
     padding-bottom: 20px;
-    border-bottom: 2px solid rgba(228, 56, 28, 0.2);
+    border-bottom: 2px solid var(--m-border-accent);
 }
 
 .settings-header h4 {
-    color: #ffffff;
-    font-family: "Oswald", sans-serif;
+    color: var(--m-text);
+    font-family: var(--m-font-heading);
     text-transform: uppercase;
+    margin: 0;
 }
 
 .settings-header h4 i {
-    color: #e4381c;
+    color: var(--m-accent);
     margin-right: 10px;
 }
 
+/* ---------- Sections ---------- */
 .settings-section {
-    background: #151515;
+    background: var(--m-bg-secondary);
     padding: 20px;
-    border-radius: 6px;
+    border-radius: var(--m-radius-sm);
     margin-bottom: 25px;
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .settings-section h5 {
-    color: #e4381c;
-    font-family: "Oswald", sans-serif;
+    color: var(--m-accent);
+    font-family: var(--m-font-heading);
     font-size: 16px;
     margin-bottom: 10px;
-}
-
-.settings-divider {
-    height: 2px;
-    background: linear-gradient(45deg, #e16521, #e4381c);
-    margin-bottom: 20px;
-    width: 50px;
-}
-
-.settings-actions {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.settings-actions .btn {
-    padding: 10px 30px;
-    font-weight: 600;
-    font-family: "Oswald", sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.settings-actions .btn-primary {
-    background: linear-gradient(45deg, #e16521, #e4381c);
-    border: none;
+.settings-divider {
+    height: 2px;
+    background: var(--m-gradient);
+    margin-bottom: 20px;
+    width: 50px;
 }
 
-.settings-actions .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(228, 56, 28, 0.4);
-}
-
-/* Форма */
+/* ---------- Form Controls ---------- */
 .settings-form .form-control {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    border-radius: 4px;
+    background: var(--m-bg-tertiary);
+    border: 1px solid var(--m-border);
+    color: var(--m-text);
+    border-radius: var(--m-radius-xs);
     padding: 10px 15px;
+    transition: var(--m-transition);
 }
 
 .settings-form .form-control:focus {
-    border-color: #e4381c;
-    box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.1);
+    border-color: var(--m-accent);
+    box-shadow: 0 0 0 3px var(--m-border-accent);
     background: rgba(0, 0, 0, 0.5);
+    color: var(--m-text);
 }
 
 .settings-form .form-control::placeholder {
     color: rgba(255, 255, 255, 0.3);
 }
 
+.settings-form .form-control:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
 .settings-form label {
-    color: #8f8fa8;
+    color: var(--m-text-secondary);
     font-weight: 600;
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: inline-block;
 }
 
 .settings-form .form-text {
-    color: #6c757d;
+    color: var(--m-text-muted);
     font-size: 12px;
+    margin-top: 6px;
+    display: block;
 }
 
 .settings-form .form-check-label {
-    color: #ffffff;
-    font-weight: normal;
+    color: var(--m-text);
+    font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
+    margin-bottom: 0;
 }
 
 .settings-form .input-group .btn {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.3);
-    color: #8f8fa8;
+    border: 1px solid var(--m-border);
+    background: var(--m-bg-tertiary);
+    color: var(--m-text-secondary);
+    transition: var(--m-transition);
 }
 
 .settings-form .input-group .btn:hover {
-    background: rgba(228, 56, 28, 0.2);
-    color: #e4381c;
+    background: var(--m-border-accent);
+    color: var(--m-accent);
 }
 
-/* ============================================================ */
-/* КАСТОМНЫЕ ЧЕКБОКСЫ И РАДИО-КНОПКИ                           */
-/* ============================================================ */
-
+/* ---------- Custom Radios & Checkboxes (Unified, no duplicates) ---------- */
 .settings-label {
     display: block;
-    color: #8f8fa8;
+    color: var(--m-text-secondary);
     font-weight: 600;
     font-size: 13px;
     text-transform: uppercase;
@@ -137,7 +153,6 @@
     margin-bottom: 12px;
 }
 
-/* ----- Radio Buttons ----- */
 .settings-radio-group {
     display: flex;
     gap: 20px;
@@ -165,7 +180,7 @@
     border-radius: 50%;
     position: relative;
     margin-right: 10px;
-    transition: all 0.3s ease;
+    transition: var(--m-transition);
     flex-shrink: 0;
 }
 
@@ -177,13 +192,13 @@
     transform: translate(-50%, -50%) scale(0);
     width: 10px;
     height: 10px;
-    background: linear-gradient(45deg, #e16521, #e4381c);
+    background: var(--m-gradient);
     border-radius: 50%;
     transition: transform 0.3s ease;
 }
 
 .custom-radio input[type="radio"]:checked + label .radio-indicator {
-    border-color: #e4381c;
+    border-color: var(--m-accent);
 }
 
 .custom-radio input[type="radio"]:checked + label .radio-indicator::after {
@@ -191,180 +206,25 @@
 }
 
 .custom-radio label {
-    color: #ffffff;
+    color: var(--m-text);
     font-weight: 400;
     cursor: pointer;
     display: flex;
     align-items: center;
     font-size: 14px;
-    transition: color 0.3s ease;
-}
-
-.custom-radio label:hover {
-    color: #e4381c;
-}
-
-/* ----- Checkboxes ----- */
-.custom-checkbox {
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 5px 0;
-}
-
-.custom-checkbox input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.custom-checkbox .checkbox-indicator {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    margin-right: 10px;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.custom-checkbox .checkbox-indicator i {
-    color: #ffffff;
-    font-size: 12px;
-    opacity: 0;
-    transform: scale(0);
-    transition: all 0.3s ease;
-}
-
-.custom-checkbox input[type="checkbox"]:checked + label .checkbox-indicator {
-    border-color: #e4381c;
-    background: linear-gradient(45deg, #e16521, #e4381c);
-    box-shadow: 0 0 15px rgba(228, 56, 28, 0.3);
-}
-
-.custom-checkbox input[type="checkbox"]:checked + label .checkbox-indicator i {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.custom-checkbox label {
-    color: #ffffff;
-    font-weight: 400;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    transition: color 0.3s ease;
+    transition: var(--m-transition);
     margin-bottom: 0;
 }
 
-.custom-checkbox label:hover {
-    color: #e4381c;
+.custom-radio label:hover {
+    color: var(--m-accent);
 }
 
-.custom-checkbox input[type="checkbox"]:disabled + label {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* Стиль для "Включить отладку" - как в макете */
-.custom-checkbox .checkbox-text {
-    font-size: 14px;
-    font-weight: 400;
-}
-
-.custom-checkbox .checkbox-text .badge {
-    background: rgba(228, 56, 28, 0.2);
-    color: #e4381c;
-    padding: 2px 10px;
-    border-radius: 12px;
-    font-size: 11px;
-    font-weight: 600;
-    margin-left: 8px;
-}
-
-/* Анимация при наведении */
-.custom-checkbox .checkbox-indicator,
-.custom-radio .radio-indicator {
-    transition: all 0.3s ease;
-}
-
-.custom-checkbox:hover .checkbox-indicator {
-    border-color: #e4381c;
-    transform: scale(1.05);
-}
-
-.custom-radio:hover .radio-indicator {
-    border-color: #e4381c;
-    transform: scale(1.05);
-}
-
-/* Активные состояния */
-.custom-checkbox input[type="checkbox"]:focus + label .checkbox-indicator,
 .custom-radio input[type="radio"]:focus + label .radio-indicator {
-    box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.2);
+    box-shadow: 0 0 0 3px var(--m-border-accent);
 }
 
-/* Стиль для группы чекбоксов в ряд */
-.checkbox-group {
-    display: flex;
-    gap: 30px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-/* Стиль для текста под чекбоксом */
-.custom-checkbox .checkbox-help {
-    display: block;
-    color: #6c757d;
-    font-size: 12px;
-    font-weight: 300;
-    margin-top: 4px;
-    padding-left: 32px;
-}
-
-/* Адаптив для чекбоксов */
-@media (max-width: 768px) {
-    .settings-radio-group {
-        gap: 15px;
-    }
-
-    .checkbox-group {
-        gap: 20px;
-    }
-
-    .custom-checkbox label {
-        font-size: 13px;
-    }
-}
-
-/* Стиль для секции с чекбоксами в колонку */
-.checkbox-column {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-/* Стиль для inline чекбоксов */
-.checkbox-inline-group {
-    display: flex;
-    gap: 30px;
-    flex-wrap: wrap;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 12px 20px;
-    border-radius: 6px;
-}
-
-.checkbox-inline-group .custom-checkbox {
-    padding: 0;
-}
-/* ----- Checkboxes ----- */
+/* --- Checkbox --- */
 .custom-checkbox {
     position: relative;
     display: flex;
@@ -390,20 +250,19 @@
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 4px;
     margin-right: 10px;
-    transition: all 0.3s ease;
+    transition: var(--m-transition);
     flex-shrink: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--m-bg-tertiary);
     position: relative;
 }
 
 .custom-checkbox .checkbox-indicator i {
-    color: #ffffff;
+    color: var(--m-text);
     font-size: 13px;
     line-height: 1;
     opacity: 0;
     transform: scale(0);
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    /* 🔥 Центрирование через flex */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -412,9 +271,9 @@
 }
 
 .custom-checkbox input[type="checkbox"]:checked + label .checkbox-indicator {
-    border-color: #e4381c;
-    background: linear-gradient(45deg, #e16521, #e4381c);
-    box-shadow: 0 0 15px rgba(228, 56, 28, 0.3);
+    border-color: var(--m-accent);
+    background: var(--m-gradient);
+    box-shadow: 0 0 15px var(--m-border-accent);
 }
 
 .custom-checkbox input[type="checkbox"]:checked + label .checkbox-indicator i {
@@ -423,19 +282,19 @@
 }
 
 .custom-checkbox label {
-    color: #ffffff;
+    color: var(--m-text);
     font-weight: 400;
     cursor: pointer;
     display: flex;
     align-items: center;
     font-size: 14px;
-    transition: color 0.3s ease;
+    transition: var(--m-transition);
     margin-bottom: 0;
     line-height: 1.4;
 }
 
 .custom-checkbox label:hover {
-    color: #e4381c;
+    color: var(--m-accent);
 }
 
 .custom-checkbox input[type="checkbox"]:disabled + label {
@@ -443,7 +302,10 @@
     cursor: not-allowed;
 }
 
-/* Стиль для "Включить отладку" - как в макете */
+.custom-checkbox input[type="checkbox"]:focus + label .checkbox-indicator {
+    box-shadow: 0 0 0 3px var(--m-border-accent);
+}
+
 .custom-checkbox .checkbox-text {
     font-size: 14px;
     font-weight: 400;
@@ -454,8 +316,8 @@
 }
 
 .custom-checkbox .checkbox-text .badge {
-    background: rgba(228, 56, 28, 0.2);
-    color: #e4381c;
+    background: var(--m-border-accent);
+    color: var(--m-accent);
     padding: 2px 10px;
     border-radius: 12px;
     font-size: 11px;
@@ -463,40 +325,60 @@
     margin-left: 8px;
 }
 
-/* Анимация при наведении */
-.custom-checkbox:hover .checkbox-indicator {
-    border-color: #e4381c;
-    transform: scale(1.05);
-}
-
-/* Активные состояния */
-.custom-checkbox input[type="checkbox"]:focus + label .checkbox-indicator {
-    box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.2);
-}
-
-/* Подсказка под чекбоксом */
 .custom-checkbox .checkbox-help {
     display: block;
-    color: #6c757d;
+    color: var(--m-text-muted);
     font-size: 12px;
     font-weight: 300;
     margin-top: 2px;
     padding-left: 32px;
     line-height: 1.4;
 }
-/* ============================================================ */
-/* КАСТОМНЫЙ NUMBER INPUT                                       */
-/* ============================================================ */
 
+.custom-checkbox:hover .checkbox-indicator,
+.custom-radio:hover .radio-indicator {
+    border-color: var(--m-accent);
+    transform: scale(1.05);
+}
+
+/* Group layouts */
+.checkbox-group {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.checkbox-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.checkbox-inline-group {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    align-items: center;
+    background: var(--m-bg-tertiary);
+    padding: 12px 20px;
+    border-radius: var(--m-radius-sm);
+}
+
+.checkbox-inline-group .custom-checkbox {
+    padding: 0;
+}
+
+/* ---------- Number Input ---------- */
 .custom-number-input {
     display: flex;
     align-items: center;
     gap: 0;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
+    background: var(--m-bg-tertiary);
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-sm);
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: var(--m-transition);
     max-width: 200px;
 }
 
@@ -505,8 +387,8 @@
 }
 
 .custom-number-input:focus-within {
-    border-color: #e4381c;
-    box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.1);
+    border-color: var(--m-accent);
+    box-shadow: 0 0 0 3px var(--m-border-accent);
 }
 
 .number-btn {
@@ -517,16 +399,16 @@
     height: 44px;
     background: rgba(255, 255, 255, 0.05);
     border: none;
-    color: #8f8fa8;
+    color: var(--m-text-secondary);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--m-transition);
     font-size: 14px;
     flex-shrink: 0;
 }
 
 .number-btn:hover {
-    background: rgba(228, 56, 28, 0.15);
-    color: #e4381c;
+    background: var(--m-border-accent);
+    color: var(--m-accent);
 }
 
 .number-btn:active {
@@ -544,36 +426,30 @@
     border: none !important;
     border-left: 1px solid rgba(255, 255, 255, 0.05) !important;
     border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
-    color: #ffffff !important;
+    color: var(--m-text) !important;
     text-align: center;
     font-size: 18px;
     font-weight: 600;
-    font-family: "Oswald", sans-serif;
+    font-family: var(--m-font-heading);
     padding: 0;
     outline: none;
     box-shadow: none !important;
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 
-/* Убираем стандартные стрелки */
 .number-input::-webkit-outer-spin-button,
 .number-input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-.number-input[type="number"] {
-    -moz-appearance: textfield;
-    appearance: textfield;
-}
-
-/* Стиль для активного состояния */
 .number-input:focus {
     background: transparent !important;
     border-color: transparent !important;
     box-shadow: none !important;
 }
 
-/* Анимация при изменении */
 @keyframes numberPulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
@@ -583,90 +459,900 @@
 .number-input.changed {
     animation: numberPulse 0.2s ease;
 }
-/* ============================================================ */
-/* ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ ТЕСТИРОВАНИЯ                        */
-/* ============================================================ */
 
+/* ---------- Action Buttons ---------- */
+.settings-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.settings-actions .btn {
+    padding: 10px 30px;
+    font-weight: 600;
+    font-family: var(--m-font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: var(--m-radius-xs);
+    transition: var(--m-transition);
+}
+
+.settings-actions .btn-primary {
+    background: var(--m-gradient);
+    border: none;
+    color: #fff;
+}
+
+.settings-actions .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px var(--m-accent-glow);
+}
+
+.settings-actions .btn-outline-danger {
+    border: 1px solid var(--m-accent);
+    color: var(--m-accent);
+    background: transparent;
+}
+
+.settings-actions .btn-outline-danger:hover {
+    background: var(--m-accent);
+    color: #fff;
+}
+
+/* ---------- Test Results & Logs ---------- */
 #test-result {
     margin-top: 15px;
 }
 
 #test-result .alert {
-    border-radius: 4px;
+    border-radius: var(--m-radius-xs);
     padding: 12px 20px;
-    background: rgba(0, 0, 0, 0.3);
-    border-left: 4px solid #e4381c;
-    color: #ffffff;
+    background: var(--m-bg-tertiary);
+    border-left: 4px solid var(--m-accent);
+    color: var(--m-text);
 }
 
-#test-result .alert-success {
-    border-left-color: #28a745;
+#test-result .alert-success { border-left-color: #28a745; }
+#test-result .alert-danger  { border-left-color: #dc3545; }
+#test-result .alert-warning { border-left-color: #ffc107; }
+#test-result .alert-info    { border-left-color: #17a2b8; }
+
+.smtp-log-panel {
+    margin-top: 20px;
+    background: #0d0d0d;
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-sm);
+    overflow: hidden;
 }
 
-#test-result .alert-danger {
-    border-left-color: #dc3545;
+.smtp-log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--m-border);
+    font-family: var(--m-font-heading);
+    font-size: 14px;
+    text-transform: uppercase;
+    color: var(--m-text-secondary);
 }
 
-#test-result .alert-warning {
-    border-left-color: #ffc107;
+.smtp-log-header .badge {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 12px;
 }
 
-#test-result .alert-info {
-    border-left-color: #17a2b8;
+.smtp-log-header .badge-success {
+    background: rgba(40, 167, 69, 0.2);
+    color: #28a745;
 }
 
-/* ============================================================ */
-/* АНИМАЦИЯ ДЛЯ ЧЕКБОКСОВ                                      */
-/* ============================================================ */
+.smtp-log-header .badge-danger {
+    background: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+}
 
+.smtp-log-toolbar {
+    display: flex;
+    gap: 8px;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--m-border);
+}
+
+.smtp-log-toolbar .btn {
+    padding: 4px 12px;
+    font-size: 12px;
+    border: 1px solid var(--m-border);
+    background: transparent;
+    color: var(--m-text-secondary);
+    border-radius: var(--m-radius-xs);
+    transition: var(--m-transition);
+}
+
+.smtp-log-toolbar .btn:hover {
+    background: var(--m-accent);
+    color: #fff;
+    border-color: var(--m-accent);
+}
+
+#smtp-log-output {
+    padding: 16px;
+    margin: 0;
+    background: #0d0d0d;
+    color: #a8d5a2;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    max-height: 300px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* ============================================================
+   MODAL: DETAILED INSTRUCTION
+   ============================================================ */
+.mail-instruction-modal .modal-content {
+    background: var(--m-bg-primary);
+    border: 1px solid var(--m-border-accent);
+    border-radius: var(--m-radius);
+    color: var(--m-text);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+
+.mail-instruction-modal .modal-header {
+    border-bottom: 2px solid var(--m-border-accent);
+    padding: 20px 24px;
+    align-items: center;
+}
+
+.mail-instruction-modal .modal-header .modal-title {
+    color: var(--m-text);
+    font-family: var(--m-font-heading);
+    text-transform: uppercase;
+    font-size: 18px;
+    margin: 0;
+}
+
+.mail-instruction-modal .modal-header .modal-title i {
+    color: var(--m-accent);
+    margin-right: 10px;
+}
+
+.mail-instruction-modal .modal-header .close {
+    color: var(--m-text-secondary);
+    opacity: 1;
+    text-shadow: none;
+    font-size: 28px;
+    padding: 0;
+    margin: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--m-transition);
+    outline: none;
+}
+
+.mail-instruction-modal .modal-header .close:hover {
+    color: var(--m-accent);
+    background: var(--m-border-accent);
+}
+
+.mail-instruction-modal .modal-body {
+    padding: 24px;
+    background: var(--m-bg-secondary);
+}
+
+.mail-instruction-modal .modal-footer {
+    border-top: 1px solid var(--m-border);
+    padding: 16px 24px;
+    background: var(--m-bg-primary);
+    justify-content: flex-end;
+}
+
+.mail-instruction-modal .modal-footer .btn-secondary {
+    background: var(--m-bg-tertiary);
+    border: 1px solid var(--m-border);
+    color: var(--m-text);
+    font-family: var(--m-font-heading);
+    text-transform: uppercase;
+    padding: 8px 24px;
+    border-radius: var(--m-radius-xs);
+    transition: var(--m-transition);
+}
+
+.mail-instruction-modal .modal-footer .btn-secondary:hover {
+    background: var(--m-accent);
+    border-color: var(--m-accent);
+    color: #fff;
+}
+
+/* Instruction Grid & Steps */
+.instruction-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.instruction-step {
+    display: flex;
+        gap: 16px;
+        background: var(--m-bg-primary);
+        border: 1px solid var(--m-border);
+        border-radius: var(--m-radius-sm);
+        padding: 20px;
+        transition: var(--m-transition);
+        min-width: 0; /* 🔥 важно */on);
+}
+
+.instruction-step:hover {
+    border-color: var(--m-border-accent);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    background: var(--m-gradient);
+    color: #fff;
+    font-family: var(--m-font-heading);
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--m-border-accent);
+}
+
+.step-content {
+flex: 1;
+    min-width: 0; /* 🔥 важно — без этого flex:1 не сжимает содержимое */
+}
+
+.step-content strong {
+    color: var(--m-text);
+    font-size: 15px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.step-content p {
+    color: var(--m-text-secondary);
+    font-size: 14px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+/* Service Badges */
+.service-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.service-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--m-border);
+    transition: var(--m-transition);
+}
+
+.service-badge.yandex { background: rgba(255, 204, 0, 0.1); color: #ffcc00; border-color: rgba(255, 204, 0, 0.3); }
+.service-badge.gmail  { background: rgba(234, 67, 53, 0.1); color: #ea4335; border-color: rgba(234, 67, 53, 0.3); }
+.service-badge.mail   { background: rgba(0, 119, 255, 0.1); color: #0077ff; border-color: rgba(0, 119, 255, 0.3); }
+.service-badge.smtp   { background: rgba(108, 117, 125, 0.1); color: var(--m-text-muted); border-color: var(--m-border); }
+
+.service-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Service Tabs */
+.service-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--m-border);
+    padding-bottom: 12px;
+}
+
+.service-tab-btn {
+    padding: 8px 16px;
+    background: var(--m-bg-tertiary);
+    border: 1px solid var(--m-border);
+    border-radius: 20px;
+    color: var(--m-text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--m-transition);
+    font-family: inherit;
+    outline: none;
+}
+
+.service-tab-btn:hover {
+    border-color: var(--m-accent);
+    color: var(--m-accent);
+}
+
+.service-tab-btn.active {
+    background: var(--m-gradient);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 4px 15px var(--m-border-accent);
+}
+
+.service-tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.service-tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Details inside modal */
+.step-details ol {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--m-text-secondary);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.step-details ol li {
+    margin-bottom: 8px;
+}
+
+.step-details ol li strong {
+    display: inline;
+    color: var(--m-text);
+}
+
+.step-details a {
+    color: var(--m-accent);
+    text-decoration: underline;
+}
+
+.step-details a:hover {
+    color: var(--m-accent-2);
+}
+
+/* SMTP Settings Table */
+.smtp-settings-table {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-xs);
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+.smtp-row {
+    display: grid;
+    grid-template-columns: 1.5fr 2fr 1fr 1fr;
+    gap: 12px;
+    padding: 10px 16px;
+    align-items: center;
+    border-bottom: 1px solid var(--m-border);
+    font-size: 13px;
+}
+
+.smtp-row:last-child {
+    border-bottom: none;
+}
+
+.smtp-row.header {
+    background: var(--m-bg-tertiary);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--m-text-secondary);
+    letter-spacing: 0.5px;
+}
+
+.smtp-row .service-name {
+    font-weight: 600;
+    color: var(--m-text);
+}
+
+.smtp-row code {
+    background: rgba(0,0,0,0.4);
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #ff9e8a;
+    font-size: 12px;
+    font-family: "Courier New", monospace;
+}
+
+.copy-btn-inline {
+    background: transparent;
+    border: 1px solid var(--m-border);
+    color: var(--m-text-muted);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: var(--m-transition);
+    margin-left: 6px;
+    line-height: 1;
+}
+
+.copy-btn-inline:hover {
+    background: var(--m-accent);
+    border-color: var(--m-accent);
+    color: #fff;
+}
+
+.copy-btn-inline.copied {
+    background: #28a745;
+    border-color: #28a745;
+    color: #fff;
+}
+
+/* Example blocks */
+.step-example {
+    background: var(--m-bg-tertiary);
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-xs);
+    padding: 16px;
+    margin-top: 12px;
+    width: 100%;
+    min-width: 0;
+}
+
+.example-item {
+    display: grid;
+    grid-template-columns: auto 1fr; /* label — по контенту, value — всё остальное */
+    gap: 16px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--m-border);
+    font-size: 14px;
+    min-width: 0;
+}
+
+.example-item:last-child {
+    border-bottom: none;
+}
+
+.example-label {
+    color: var(--m-text-secondary);
+    min-width: 0;
+    line-height: 1.4;
+    /* flex-контейнер больше не нужен, но если внутри inline-иконка — ок */
+}
+
+.example-value {
+    color: var(--m-text);
+    font-weight: 600;
+    font-family: var(--m-font-heading);
+    text-align: right;
+    overflow-wrap: anywhere; /* перенос только по словам/словам, не по буквам */
+    word-break: normal; /* отключаем агрессивный break-word */
+    min-width: 0;
+    line-height: 1.4;;
+}
+
+/* Step tip */
+.step-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(255, 193, 7, 0.08);
+    border: 1px solid rgba(255, 193, 7, 0.2);
+    border-radius: var(--m-radius-xs);
+    padding: 12px 16px;
+    margin-top: 12px;
+    color: #ffc107;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.step-tip i {
+    margin-top: 2px;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+/* Troubleshooting section */
+.troubleshooting-section {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 2px solid var(--m-border-accent);
+}
+
+.troubleshooting-section h5 {
+    color: var(--m-accent);
+    font-family: var(--m-font-heading);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-size: 16px;
+}
+
+.error-codes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+}
+
+.error-code-card {
+    background: var(--m-bg-primary);
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-xs);
+    padding: 16px;
+    transition: var(--m-transition);
+}
+
+.error-code-card:hover {
+    border-color: var(--m-accent);
+}
+
+.error-code-card .code {
+    font-family: var(--m-font-heading);
+    font-size: 18px;
+    color: var(--m-accent);
+    margin-bottom: 4px;
+}
+
+.error-code-card .meaning {
+    color: var(--m-text);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.error-code-card .solution {
+    color: var(--m-text-muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* DNS Records */
+.dns-section {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 2px solid var(--m-border-accent);
+}
+
+.dns-section h5 {
+    color: var(--m-accent);
+    font-family: var(--m-font-heading);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-size: 16px;
+}
+
+.dns-section > p {
+    color: var(--m-text-secondary);
+    font-size: 14px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.dns-record {
+    background: var(--m-bg-primary);
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-xs);
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.dns-record-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.dns-record-header strong {
+    color: var(--m-text);
+    font-family: var(--m-font-heading);
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.dns-record-header .badge-type {
+    background: var(--m-border-accent);
+    color: var(--m-accent);
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.dns-record pre {
+    background: #0d0d0d;
+    border: 1px solid var(--m-border);
+    border-radius: 4px;
+    padding: 12px;
+    color: #a8d5a2;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    margin: 0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.dns-record > p {
+    font-size: 12px;
+    color: var(--m-text-muted);
+    margin-top: 8px;
+    margin-bottom: 0;
+    line-height: 1.5;
+}
+
+.dns-record > p code {
+    background: rgba(0,0,0,0.4);
+    padding: 1px 4px;
+    border-radius: 3px;
+    color: #ff9e8a;
+}
+
+/* FAQ inside modal */
+.faq-list {
+    margin-top: 12px;
+}
+
+.faq-item {
+    background: var(--m-bg-primary);
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-xs);
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.faq-item summary {
+    padding: 14px 16px;
+    cursor: pointer;
+    color: var(--m-text);
+    font-weight: 600;
+    font-size: 14px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: var(--m-transition);
+    outline: none;
+}
+
+.faq-item summary:hover {
+    background: rgba(255,255,255,0.03);
+}
+
+.faq-item summary::after {
+    content: '\f107';
+    font-family: 'FontAwesome';
+    color: var(--m-text-secondary);
+    transition: transform 0.3s ease;
+    margin-left: 12px;
+    flex-shrink: 0;
+}
+
+.faq-item[open] summary::after {
+    transform: rotate(180deg);
+    color: var(--m-accent);
+}
+
+.faq-item .faq-answer {
+    padding: 0 16px 16px;
+    color: var(--m-text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ---------- Animations ---------- */
 @keyframes checkboxPulse {
     0% { box-shadow: 0 0 0 0 rgba(228, 56, 28, 0.4); }
     50% { box-shadow: 0 0 0 5px rgba(228, 56, 28, 0.1); }
     100% { box-shadow: 0 0 0 0 rgba(228, 56, 28, 0); }
 }
 
-.custom-checkbox input[type="checkbox"]:checked + label .checkbox-indicator {
-    animation: checkboxPulse 0.5s ease;
-}
-
+.custom-checkbox input[type="checkbox"]:checked + label .checkbox-indicator,
 .custom-radio input[type="radio"]:checked + label .radio-indicator {
     animation: checkboxPulse 0.5s ease;
 }
 
-/* ============================================================ */
-/* ОБРАТНАЯ СВЯЗЬ ПРИ НАВЕДЕНИИ                                */
-/* ============================================================ */
-
-.custom-checkbox label .checkbox-text .hint {
-    color: #6c757d;
-    font-size: 12px;
-    font-weight: 300;
-    transition: color 0.3s ease;
+/* ---------- Example Table (replaces flex layout) ---------- */
+.step-example {
+    background: var(--m-bg-tertiary);
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-xs);
+    padding: 16px;
+    margin-top: 12px;
+    overflow: hidden; /* предотвращает вылезание за границы */
 }
 
-.custom-checkbox label:hover .checkbox-text .hint {
-    color: #e4381c;
+.example-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
 }
 
-/* ============================================================ */
-/* ТЕМНАЯ ТЕМА ДЛЯ ЧЕКБОКСОВ                                   */
-/* ============================================================ */
-
-/* Для светлой темы (если будет использоваться) */
-.settings-panel.light-theme .custom-checkbox .checkbox-indicator {
-    background: #f8f9fa;
-    border-color: #d0d7de;
+.example-table td {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--m-border);
+    vertical-align: middle;
+    line-height: 1.4;
 }
 
-.settings-panel.light-theme .custom-checkbox label {
-    color: #1e1e1e;
+.example-table tr:last-child td {
+    border-bottom: none;
 }
 
-.settings-panel.light-theme .custom-checkbox input[type="checkbox"]:checked + label .checkbox-indicator {
-    background: linear-gradient(45deg, #e16521, #e4381c);
-    border-color: #e4381c;
+.example-table .example-label {
+    color: var(--m-text-secondary);
+    font-size: 14px;
+    white-space: nowrap;
+    padding-right: 24px;
+    width: 1%; /* занимает ровно столько, сколько нужно тексту */
 }
 
-.settings-panel.light-theme .custom-checkbox .checkbox-indicator i {
-    color: #ffffff;
+.example-table .example-value {
+    color: var(--m-text);
+    font-weight: 600;
+    font-family: var(--m-font-heading);
+    font-size: 14px;
+    text-align: right;
+    word-break: normal;
+    overflow-wrap: anywhere;
+}
+
+/* Mobile: label и value друг под другом */
+@media (max-width: 768px) {
+    .example-table,
+    .example-table tbody,
+    .example-table tr,
+    .example-table td {
+        display: block;
+        width: 100% !important;
+        text-align: left !important;
+    }
+
+    .example-table td {
+        padding: 6px 0;
+        border-bottom: none;
+    }
+
+    .example-table tr {
+        border-bottom: 1px solid var(--m-border);
+        padding: 10px 0;
+    }
+
+    .example-table tr:last-child {
+        border-bottom: none;
+    }
+
+    .example-table .example-label {
+        white-space: normal;
+        padding-right: 0;
+        margin-bottom: 4px;
+    }
+
+    .example-table .example-value {
+        text-align: left !important;
+    }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 768px) {
+    .example-item {
+        grid-template-columns: 1fr; /* друг под другом */
+        gap: 4px;
+        align-items: flex-start;
+    }
+
+    .example-value {
+        text-align: left;
+    }
+    .settings-panel {
+        padding: 20px 15px;
+    }
+
+    .settings-radio-group {
+        gap: 15px;
+    }
+
+    .checkbox-group {
+        gap: 20px;
+    }
+
+    .custom-checkbox label {
+        font-size: 13px;
+    }
+
+    .smtp-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .smtp-row.header {
+        display: none;
+    }
+
+    .smtp-row .service-name {
+        grid-column: 1 / -1;
+        margin-bottom: 4px;
+        font-size: 14px;
+    }
+
+    .error-codes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .instruction-step {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .step-number {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        font-size: 16px;
+    }
+
+    .service-tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 8px;
+    }
+
+    .service-tab-btn {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .example-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .example-value {
+        text-align: left;
+    }
+}
+/* Перекрываем желтый фон автозаполнения Chrome/Edge/Safari */
+.settings-form .form-control:-webkit-autofill,
+.settings-form .form-control:-webkit-autofill:hover,
+.settings-form .form-control:-webkit-autofill:focus,
+.settings-form .form-control:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #1a1a1a inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff !important;
+    transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Firefox */
+.settings-form .form-control:autofill,
+.settings-form .form-control:autofill:hover,
+.settings-form .form-control:autofill:focus {
+    box-shadow: 0 0 0 1000px #1a1a1a inset !important;
+    -webkit-text-fill-color: #ffffff !important;
 }
