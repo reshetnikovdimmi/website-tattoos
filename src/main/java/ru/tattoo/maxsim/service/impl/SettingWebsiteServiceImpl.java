@@ -1,5 +1,7 @@
 package ru.tattoo.maxsim.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -31,12 +33,22 @@ public class SettingWebsiteServiceImpl extends AbstractCRUDService<SettingWebsit
     }
 
     @Override
+    @Transactional
     public void create(SettingWebsite entity) {
+        if (entity.getId() != null) {
+            log.debug("Сохранение сущности SettingWebsite с id: {}", entity.getId());
+            Optional<SettingWebsite> savedEntity = getRepository().findById(entity.getId());
+            if (savedEntity.isPresent()) {
+                // Сохраняем секцию из существующей записи
+                entity.setSection(savedEntity.get().getSection());
+            }else {
+                throw new EntityNotFoundException("Сущность с id " + entity.getId() + " не найдена");
+            }
+            getRepository().save(entity);
+        }else {
+            getRepository().save(entity);
+        }
 
-        Optional<SettingWebsite> savedEntity = getRepository().findById(entity.getId());
-        entity.setSection(savedEntity.get().getSection());
-
-        getRepository().save(entity);
         log.debug("Сущность создана: {}", entity);
     }
 

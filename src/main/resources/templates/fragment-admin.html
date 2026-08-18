@@ -3023,43 +3023,85 @@
                         </div>
 
                         <div class="footer-title" th:fragment="footer-title">
-                            <div class="footer-card" th:each="current: ${setting}"
-                                 th:if="${current.section == 'footer-title'}">
-                                <div class="footer-card-header">
-                                    <i class="fa fa-credit-card"></i>
-                                    <h4>Текст футера</h4>
+                            <div class="footer-card" th:with="footerSettings=${setting.?[section == 'footer-title']}">
+                                <div th:each="current: ${footerSettings}">
+                                    <div class="footer-card-header">
+                                        <i class="fa fa-credit-card"></i>
+                                        <h4>Текст футера</h4>
+                                    </div>
+                                    <div class="footer-card-body">
+                                        <form th:id="${current.id}" action="/admin/setting/footer/import"
+                                              onsubmit="submitForm(event)"
+                                              method="post"
+                                              enctype="multipart/form-data"
+                                              data-fragment-name="footer-section"
+                                              data-container-selector=".footer-section">
+
+                                            <input hidden type="text" name="section" value="footer-title">
+
+                                            <div class="footer-form-group">
+                                                <label><i class="fa fa-header"></i> Заголовок</label>
+                                                <input type="text" th:name="'title'" th:value="${current.title}"
+                                                       class="footer-input" disabled>
+                                            </div>
+
+                                            <div class="footer-form-group">
+                                                <label><i class="fa fa-align-left"></i> Описание</label>
+                                                <textarea rows="4" th:name="'description'"
+                                                          th:text="${current.description}"
+                                                          class="footer-textarea" disabled></textarea>
+                                            </div>
+
+                                            <div class="footer-hint">
+                                                <i class="fa fa-info-circle"></i>
+                                                <span>Этот текст будет отображаться в подвале сайта</span>
+                                            </div>
+
+                                            <button type="submit" class="footer-edit-btn">
+                                                <i class="fa fa-pencil"></i> Изменить
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div class="footer-card-body">
-                                    <form th:id="${current.id}" action="/admin/setting/footer/import"
-                                          onsubmit="submitForm(event)"
-                                          method="post"
-                                          enctype="multipart/form-data"
-                                          data-fragment-name="footer-section"
-                                          data-container-selector=".footer-section">
+                                <!-- Блок "пустое состояние", если данных нет -->
+                                <div th:if="${footerSettings.empty}">
+                                    <div class="footer-card-header">
+                                        <i class="fa fa-credit-card"></i>
+                                        <h4>Текст футера</h4>
+                                    </div>
+                                    <div class="footer-card-body">
+                                        <form action="/admin/setting/footer/import"
+                                              onsubmit="submitForm(event)"
+                                              method="post"
+                                              enctype="multipart/form-data"
+                                              data-fragment-name="footer-section"
+                                              data-container-selector=".footer-section">
 
-                                        <input hidden type="text" name="section" value="footer-title">
+                                            <input hidden type="text" name="section" value="footer-title">
 
-                                        <div class="footer-form-group">
-                                            <label><i class="fa fa-header"></i> Заголовок</label>
-                                            <input type="text" th:name="'title'" th:value="${current.title}"
-                                                   class="footer-input" disabled>
-                                        </div>
+                                            <div class="footer-form-group">
+                                                <label><i class="fa fa-header"></i> Заголовок</label>
+                                                <input type="text" th:name="title"
+                                                       class="footer-input" disabled>
+                                            </div>
 
-                                        <div class="footer-form-group">
-                                            <label><i class="fa fa-align-left"></i> Описание</label>
-                                            <textarea rows="4" th:name="'description'" th:text="${current.description}"
-                                                      class="footer-textarea" disabled></textarea>
-                                        </div>
+                                            <div class="footer-form-group">
+                                                <label><i class="fa fa-align-left"></i> Описание</label>
+                                                <textarea rows="4" th:name="description"
 
-                                        <div class="footer-hint">
-                                            <i class="fa fa-info-circle"></i>
-                                            <span>Этот текст будет отображаться в подвале сайта</span>
-                                        </div>
+                                                          class="footer-textarea" disabled></textarea>
+                                            </div>
 
-                                        <button type="submit" class="footer-edit-btn">
-                                            <i class="fa fa-pencil"></i> Изменить
-                                        </button>
-                                    </form>
+                                            <div class="footer-hint">
+                                                <i class="fa fa-info-circle"></i>
+                                                <span>Этот текст будет отображаться в подвале сайта</span>
+                                            </div>
+
+                                            <button type="submit" class="footer-edit-btn">
+                                                <i class="fa fa-pencil"></i> Изменить
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>

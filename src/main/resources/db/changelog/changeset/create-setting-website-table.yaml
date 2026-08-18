@@ -113,15 +113,3 @@ databaseChangeLog:
               - column:
                   name: description
                   value: description
-        - insert:
-            tableName: setting_website
-            columns:
-              - column:
-                  name: section
-                  value: footer-title
-              - column:
-                  name: title
-                  value: title
-              - column:
-                  name: description
-                  value: description
