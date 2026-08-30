@@ -2,9 +2,8 @@ version: '3.8'
 
 services:
   service:
-    build: .
     container_name: service
-    image: reshetnikovdimmi/website-tattoos:v1
+    image: reshetnikovdimmi/website-tattoos:latest
     depends_on:
       db:
         condition: service_healthy

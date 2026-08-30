@@ -31,7 +31,9 @@ jobs:
 
       - name: Deploy on server
         run: |
+          mkdir -p /home/server/data/images /home/server/backups
+          cp docker-compose.yml /home/server/website-tattoos/
           cd /home/server/website-tattoos
           docker compose pull
           docker compose up -d --remove-orphans
-          docker image prune -af --filter "until=168h" || true
+          docker image prune -af --filter "until=168h" || trueue
