@@ -5,8 +5,8 @@ on:
     branches: [main, master]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-and-deploy:
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,23 +29,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to server via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd ${{ secrets.SERVER_PATH }}
-            
-            mkdir -p backups
-            docker exec db mysqldump -uroot -pR870nt55@ a0722849_maxsim > backups/backup-$(date +%Y%m%d_%H%M%S).sql 2>/dev/null || echo "Backup skipped"
-            
-            docker compose pull
-            docker compose up -d --remove-orphans
-            
-            docker image prune -af --filter "until=168h" || true
+      - name: Deploy on server
+        run: |
+          cd /home/server/website-tattoos
+          docker compose pull
+          docker compose up -d --remove-orphans
+          docker image prune -af --filter "until=168h" || true
