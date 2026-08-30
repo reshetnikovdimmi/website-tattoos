@@ -36,4 +36,5 @@ jobs:
           cd /home/server/website-tattoos
           docker compose pull
           docker compose up -d --remove-orphans
-          docker image prune -af --filter "until=168h" || trueue
+          docker image prune -af --filter "until=168h" || true
+          sudo nginx -t && sudo systemctl reload nginx || true
