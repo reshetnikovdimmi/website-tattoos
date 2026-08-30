@@ -372,6 +372,7 @@ async function submitForm(event) {
         });
 
         console.log('✅ Ответ получен');
+
         showModalMessage('✅ SUCCESS!');
 
         if (response && containerSelector && $(containerSelector).length) {

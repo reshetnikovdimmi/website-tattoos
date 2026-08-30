@@ -69,7 +69,13 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     @PostMapping("/footer/import")
     public String createFooter(@ModelAttribute() SettingWebsite object,
                                 Model model) throws IOException, ParseException {
+
+        log.debug("ID объекта SettingWebsite до обработки: {}", object.getId());
+
         settingWebsiteService.create(object);
+
+        model.addAttribute("setting", settingWebsiteService.findAll());
+
         return "fragments::footer";
     }
 

@@ -1,0 +1,5277 @@
+package ru.tattoo.maxsim.aspect;
+
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.springframework.stereotype.Component;
+
+@Aspect
+@Component
+@Slf4j
+public class PerformanceLoggerAspect {
+
+    @Around("execution(* com.yourpackage.service.*.*(..))")
+    public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+        long startTime = System.currentTimeMillis();
+
+        Object result = joinPoint.proceed();
+
+        long elapsedTime = System.currentTimeMillis() - startTime;
+
+        log.debug("Метод {} выполнен за {} мс",
+                joinPoint.getSignature().toShortString(),
+                elapsedTime);
+
+        if (elapsedTime > 1000) { // Если выполнение дольше 1 секунды
+            log.warn("Метод {} выполняется долго: {} мс",
+                    joinPoint.getSignature().toShortString(),
+                    elapsedTime);
+        }
+
+        return result;
+    }
+}package ru.tattoo.maxsim.exceptions;
+
+public class FileDeletionException extends RuntimeException{
+    public FileDeletionException(String message) {
+        super(message);
+    }
+}
+package ru.tattoo.maxsim.exceptions;
+
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+
+public class UserNotFoundException extends RuntimeException {
+    public UserNotFoundException(String message) {
+        super(message);
+    }
+}
+package ru.tattoo.maxsim.exceptions;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(value = { UserNotFoundException.class })
+    public ResponseEntity<Object> handleInvalidRequest(UserNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler (value = {FileDeletionException.class})
+    public ResponseEntity<Object> fileDeletionException(FileDeletionException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(value = Exception.class)
+    public ResponseEntity<Object> handleAllExceptions(Exception ex) {
+        return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+package ru.tattoo.maxsim.config;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
+import org.springframework.security.web.WebAttributes;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
+import ru.tattoo.maxsim.model.UserRole;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
+
+
+public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomAuthenticationSuccessHandler.class);
+
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        try {
+            handle(request, response, authentication);
+        } finally {
+            clearAuthenticationAttributes(request);
+        }
+    }
+
+    protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        String targetUrl = determineTargetUrl(authentication, request, response);
+
+        if (response.isCommitted()) {
+            LOGGER.warn("Response has already been committed. Unable to redirect to {}", targetUrl);
+            return;
+        }
+
+        redirectStrategy.sendRedirect(request, response, targetUrl);
+    }
+
+    protected String determineTargetUrl(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
+        SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
+
+        if (savedRequest != null && savedRequest.getRedirectUrl() != null) {
+            return savedRequest.getRedirectUrl();
+        }
+
+        Map<String, String> roleTargetUrlMap = new HashMap<>();
+
+        roleTargetUrlMap.put(UserRole.USER.toString(), "/");
+        roleTargetUrlMap.put(UserRole.ADMIN.toString(), "/admin");
+
+        Set<String> roles = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toSet());
+
+        Optional<String> targetUrlOptional = roles.stream()
+                .filter(roleTargetUrlMap::containsKey)
+                .map(roleTargetUrlMap::get)
+                .findFirst();
+
+        return targetUrlOptional.orElse("/"); // По умолчанию перенаправляем на главную страницу
+    }
+
+    protected void clearAuthenticationAttributes(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+        }
+    }
+}package ru.tattoo.maxsim.config;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import ru.tattoo.maxsim.model.UserRole;
+
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
+@RequiredArgsConstructor
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)  // Новый синтаксис вместо .csrf().disable()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/admin/**").hasAuthority(UserRole.ADMIN.toString())
+                        .requestMatchers(
+                                "/",
+                                "/css/**",
+                                "/mail",
+                                "/index",
+                                "/registration",
+                                "/error",
+                                "/gallery/**",
+                                "/sketches/**",
+                                "/reviews",
+                                "/process-registration",
+                                "/about-me",
+                                "/blog",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/sitemap.xml",
+                                "/api/sitemap",
+                                "/webjars/**",
+                                "/js/**",
+                                "/images/**",
+                                "/fonts/**",
+                                "/favicon.ico"
+
+                        ).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .successHandler(customSuccessHandler())
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
+                )
+                .headers(headers -> headers
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                );
+
+        return http.build();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler customSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers(
+                "/resources/**",
+                "/static/**",
+                "/public/**",
+                "/uploads/**",
+                "/img/**"
+        );
+    }
+}package ru.tattoo.maxsim.config.filter;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.MDC;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+import java.util.UUID;
+
+@Component
+public class RequestLoggingFilter extends OncePerRequestFilter {
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
+
+        MDC.put("requestId", UUID.randomUUID().toString());
+        MDC.put("user", request.getRemoteUser() != null ? request.getRemoteUser() : "anonymous");
+        MDC.put("path", request.getRequestURI());
+
+        try {
+            filterChain.doFilter(request, response);
+        } finally {
+            MDC.clear();
+        }
+    }
+}
+package ru.tattoo.maxsim.config;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
+
+@Configuration
+public class OpenApiConfig {
+
+    @Value("${server.port:8080}")
+    private String serverPort;
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .servers(List.of(
+                        new Server().url("http://localhost:" + serverPort).description("Локальный сервер")
+                ))
+                .info(new Info()
+                        .title("Tattoo Studio Maxsim API")
+                        .description("API для управления тату-студией Maxsim")
+                        .version("1.0.0")
+                        .contact(new Contact()
+                                .name("Maxsim Studio")
+                                .email("info@maxsim.ru")
+                                .url("https://maxsim.ru"))
+                        .license(new License()
+                                .name("Apache 2.0")
+                                .url("http://springdoc.org")));
+    }
+}package ru.tattoo.maxsim.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.modelmapper.ModelMapper;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+@Configuration
+public class AdditionalResourceWebConfiguration implements WebMvcConfigurer {
+
+    @Value("${upload.directory:/app/img/images}")
+    private String uploadDirectory;
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Используем путь из конфигурации
+        Path uploadPath = Paths.get(uploadDirectory).toAbsolutePath().normalize();
+
+        // Создаем директорию если её нет
+        try {
+            java.nio.file.Files.createDirectories(uploadPath);
+            System.out.println("📁 Раздача статики из: " + uploadPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Раздаем загруженные изображения
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:" + uploadPath + "/");
+
+        // Раздаем статические файлы (CSS, JS)
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("classpath:/static/")
+                .setCachePeriod(3600);
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+}package ru.tattoo.maxsim.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
+import ru.tattoo.maxsim.storage.ImageStorage;
+import ru.tattoo.maxsim.storage.Impl.FileSystemImageStorage;
+import ru.tattoo.maxsim.storage.Impl.InMemoryImageStorage;
+
+@Configuration
+public class StorageConfig {
+    /**
+     * Продакшен реализация (файловая система)
+     * Используется для профилей, кроме "test"
+     */
+    @Bean
+    @Primary
+    @Profile("!test")
+    public ImageStorage fileSystemImageStorage(
+            @Value("${upload.directory:uploads/images}") String uploadPath) {
+        return new FileSystemImageStorage(uploadPath);
+    }
+
+    /**
+     * Тестовая реализация (в памяти)
+     * Используется только для профиля "test"
+     */
+    @Bean
+    @Profile("test")
+    public ImageStorage inMemoryImageStorage() {
+        return new InMemoryImageStorage();
+    }
+
+    /**
+     * Для локальной разработки (удобно)
+     * Использует временную папку
+     */
+    @Bean
+    @Profile("dev")
+    public ImageStorage devFileSystemImageStorage() {
+        String tempDir = System.getProperty("java.io.tmpdir") + "/tattoo-uploads";
+        System.out.println("📁 Dev режим: файлы в " + tempDir);
+        return new FileSystemImageStorage(tempDir);
+    }
+}
+package ru.tattoo.maxsim.util;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
+
+import java.util.UUID;
+
+
+import org.apache.commons.collections4.ListUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+public class ImageUtils {
+    private static final Path UPLOAD_DIRECTORY = Paths.get("/app/img/images");  // Путь внутри контейнера
+
+    /**
+     * Сохраняет изображение на сервере.
+     */
+    /**
+     * @deprecated Используйте {@link ru.tattoo.maxsim.storage.ImageStorage#saveImage}
+     */
+    @Deprecated
+    public static void saveImage(MultipartFile file, String fileName) throws IOException {
+        Path filePath = UPLOAD_DIRECTORY.resolve(fileName);
+        Files.write(filePath, file.getBytes());
+    }
+
+    /**
+     * Удаляет изображение с сервера.
+     */
+    /**
+     * @deprecated Используйте {@link ru.tattoo.maxsim.storage.ImageStorage#deleteImage}
+     */
+    @Deprecated
+    public static void deleteImage(String fileName) throws IOException {
+        Path filePath = UPLOAD_DIRECTORY.resolve(fileName);
+        Files.deleteIfExists(filePath);
+    }
+
+    /**
+     * Проверяет наличие изображения на сервере.
+     */
+    /**
+     * @deprecated Используйте {@link ru.tattoo.maxsim.storage.ImageStorage#existsImage}
+     */
+    @Deprecated
+    public static boolean existsImage(String fileName) {
+        Path filePath = UPLOAD_DIRECTORY.resolve(fileName);
+        return Files.exists(filePath);
+    }
+
+    /**
+     * Генерация уникального имени файла.
+     */
+    /**
+     * @deprecated Используйте {@link ru.tattoo.maxsim.storage.ImageStorage#generateUniqueFileName}
+     */
+    @Deprecated
+    public static String generateUniqueFileName(String originalFileName) {
+        // Логика генерации уникального имени файла
+        return UUID.randomUUID().toString() + "_" + originalFileName;
+    }
+
+    /**
+     * Разбивает список изображений на страницы.
+     */
+    /**
+     * @deprecated Используйте {@link ru.tattoo.maxsim.storage.ImageStorage#partition}
+     */
+    @Deprecated
+    public static <T> List<List<T>> partition(List<T> list, int size) {
+        if (list == null || list.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return ListUtils.partition(list, size);
+    }
+}
+package ru.tattoo.maxsim.util;
+
+
+import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Getter
+public enum PageSize {
+
+    IMG_9(9),
+    IMG_12(12),
+    IMG_15(15);
+
+    private final int pageSize;
+
+    PageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    private static volatile List<Integer> cachedSizes;
+
+    public static synchronized List<Integer> getLisPageSize() {
+        if (cachedSizes == null) {
+            cachedSizes = Arrays.stream(values())
+                    .mapToInt(PageSize::getPageSize)
+                    .boxed()
+                    .collect(Collectors.toList());
+        }
+        return cachedSizes;
+    }
+}package ru.tattoo.maxsim.util;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+@Component
+public class BusinessEventLogger {
+
+    private static final Logger BUSINESS_LOG = LoggerFactory.getLogger("BUSINESS_EVENTS");
+
+    public void logImageUpload(String username, Long imageId, String category) {
+        BUSINESS_LOG.info("ImageUpload: user={}, imageId={}, category={}",
+                username, imageId, category);
+    }
+
+    public void logBestImageFlag(Long imageId, boolean flag, String username) {
+        BUSINESS_LOG.info("BestImageFlag: imageId={}, flag={}, user={}",
+                imageId, flag, username);
+    }
+}
+package ru.tattoo.maxsim.sitemap;
+
+import jakarta.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.XmlElement;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+@XmlRootElement(name = "urlset")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class XmlUrlSet {
+
+    @XmlElement(name = "url")
+    private Collection<XmlUrl> urls = new ArrayList<>();
+
+    public void addUrl(XmlUrl url) {
+        urls.add(url);
+    }
+
+    public Collection<XmlUrl> getUrls() {
+        return urls;
+    }
+
+    public void setUrls(Collection<XmlUrl> urls) {
+        this.urls = urls;
+    }
+}
+@XmlSchema(
+        namespace = "http://www.sitemaps.org/schemas/sitemap/0.9",
+        elementFormDefault = XmlNsForm.QUALIFIED)
+package ru.tattoo.maxsim.sitemap;
+
+import jakarta.xml.bind.annotation.XmlNsForm;
+import jakarta.xml.bind.annotation.XmlSchema;package ru.tattoo.maxsim.sitemap;
+
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import org.springframework.stereotype.Component;
+
+import java.io.StringWriter;
+import java.util.Map;
+
+@Component
+public class XmlUrlSetBuilder {
+
+    private static final Map<String, UrlConfig> URL_CONFIGS = Map.of(
+            "/", new UrlConfig(XmlUrl.Priority.HIGH, XmlUrl.ChangeFreq.DAILY),
+            "/gallery", new UrlConfig(XmlUrl.Priority.MEDIUM, XmlUrl.ChangeFreq.WEEKLY),
+            "/sketches", new UrlConfig(XmlUrl.Priority.MEDIUM, XmlUrl.ChangeFreq.MONTHLY),
+            "/about-me", new UrlConfig(XmlUrl.Priority.MEDIUM, XmlUrl.ChangeFreq.MONTHLY),
+            "/blog", new UrlConfig(XmlUrl.Priority.HIGH, XmlUrl.ChangeFreq.WEEKLY),
+            "/reviews", new UrlConfig(XmlUrl.Priority.MEDIUM, XmlUrl.ChangeFreq.MONTHLY)
+    );
+
+    private static class UrlConfig {
+        XmlUrl.Priority priority;
+        XmlUrl.ChangeFreq changefreq;
+
+        UrlConfig(XmlUrl.Priority priority, XmlUrl.ChangeFreq changefreq) {
+            this.priority = priority;
+            this.changefreq = changefreq;
+        }
+    }
+
+    public XmlUrlSet buildSitemap() {
+        XmlUrlSet urlSet = new XmlUrlSet();
+
+        URL_CONFIGS.forEach((path, config) -> {
+            XmlUrl url = new XmlUrl(
+                    "https://tattoos-maxsim.ru" + path,
+                    config.priority,
+                    config.changefreq
+            );
+            urlSet.addUrl(url);
+        });
+
+        return urlSet;
+    }
+
+    public String toXmlString(XmlUrlSet urlSet) throws JAXBException {
+        if (urlSet == null) {
+            return "";
+        }
+
+        JAXBContext context = JAXBContext.newInstance(XmlUrlSet.class);
+        Marshaller marshaller = context.createMarshaller();
+
+        // Форматирование XML
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+
+        // Добавляем XML заголовок
+        marshaller.setProperty(Marshaller.JAXB_FRAGMENT, false);
+
+        StringWriter writer = new StringWriter();
+        marshaller.marshal(urlSet, writer);
+
+        return writer.toString();
+    }
+
+    // Альтернативный метод для удобства
+    public String buildSitemapAsXml() throws JAXBException {
+        XmlUrlSet urlSet = buildSitemap();
+        return toXmlString(urlSet);
+    }
+}package ru.tattoo.maxsim.sitemap;
+
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "url")
+public class XmlUrl {
+
+    public enum Priority {
+        HIGH("1.0"),
+        MEDIUM("0.8"),
+        LOW("0.5");
+
+        private final String value;
+
+        Priority(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
+    public enum ChangeFreq {
+        ALWAYS("always"),
+        HOURLY("hourly"),
+        DAILY("daily"),
+        WEEKLY("weekly"),
+        MONTHLY("monthly"),
+        YEARLY("yearly"),
+        NEVER("never");
+
+        private final String value;
+
+        ChangeFreq(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
+    @XmlElement
+    private String loc;
+
+    @XmlElement
+    private String lastmod;
+
+    @XmlElement
+    private String changefreq;
+
+    @XmlElement
+    private String priority;
+
+    public XmlUrl(String loc, Priority priority, ChangeFreq changefreq) {
+        this.loc = loc;
+        this.lastmod = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE);
+        this.priority = priority.getValue();
+        this.changefreq = changefreq.getValue();
+    }
+
+    public XmlUrl(String loc, Priority priority) {
+        this(loc, priority, ChangeFreq.WEEKLY);
+    }
+}package ru.tattoo.maxsim;package ru.tattoo.maxsim;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MaxsimApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(MaxsimApplication.class, args);
+	}
+
+}
+package ru.tattoo.maxsim.validator;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+import ru.tattoo.maxsim.model.User;
+import ru.tattoo.maxsim.service.impl.UserDetailsServiceImpl;
+
+import java.util.Optional;
+
+@Component
+public class UserValidator implements Validator {
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return User.class.equals(clazz);
+    }
+
+    @Override
+    public void validate(Object obj, Errors errors) {
+        User userToValidate = (User) obj;
+        Optional<User> userFromDB = userDetailsService.loadUserOptionalByUsername(userToValidate.getLogin());
+        if (userFromDB.isPresent()) {
+            errors.rejectValue("login", "400", "Username already exists");
+        }
+
+    }
+}
+package ru.tattoo.maxsim.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+import ru.tattoo.maxsim.model.ChooseusSection;
+import ru.tattoo.maxsim.repository.ChooseusSectionRepository;
+import ru.tattoo.maxsim.service.interf.ChooseusSectionService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+
+import java.util.Optional;
+
+@Service
+public class ChooseusSectionServiceImpl extends AbstractCRUDService<ChooseusSection, Long> implements ChooseusSectionService {
+
+    @Autowired
+    private ChooseusSectionRepository chooseusSectionRepository;
+
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    protected String getImageFileName(ChooseusSection entity) {
+        return entity != null ? entity.getImageName() : null; // Обратите внимание: iconName
+    }
+
+    @Override
+    protected void setImageFileName(ChooseusSection entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+        }
+    }
+
+    @Override
+    void prepareObject(ChooseusSection entity, String fileName) {
+        setImageFileName(entity, fileName);
+        entity.setSection("home");
+    }
+
+    @Override
+    CrudRepository<ChooseusSection, Long> getRepository() {
+        return chooseusSectionRepository;
+    }
+    @Override
+    public void create(ChooseusSection entity) {
+
+        Optional<ChooseusSection> object = getRepository().findById(entity.getId());
+
+        entity.setSection(object.get().getSection());
+        entity.setTitle(object.get().getTitle());
+
+        getRepository().save(entity);
+    }
+}package ru.tattoo.maxsim.service.impl;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import ru.tattoo.maxsim.model.Commits;
+import ru.tattoo.maxsim.model.DTO.CommitsDTO;
+import ru.tattoo.maxsim.repository.CommitsRepository;
+import ru.tattoo.maxsim.service.interf.CommitsService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class CommitsServiceImpl extends AbstractCRUDService<Commits, Long> implements CommitsService {
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
+    private CommitsRepository commitsRepository;
+
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    protected String getImageFileName(Commits entity) {
+        return entity != null ? entity.getUserName() : null;
+    }
+
+    @Override
+    protected void setImageFileName(Commits entity, String fileName) {
+        if (entity != null) {
+            entity.setUserName(fileName);
+        }
+    }
+
+    @Override
+    void prepareObject(Commits entity, String fileName) {
+        setImageFileName(entity, fileName);
+    }
+
+    @Override
+    CrudRepository<Commits, Long> getRepository() {
+        return commitsRepository;
+    }
+
+    @Override
+    public List<CommitsDTO> findLimit() {
+        return commitsRepository.findLimit()
+                .stream()
+                .map(commit -> modelMapper.map(commit, CommitsDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void create(Commits entity) {
+
+        String username = getCurrentUsername();
+        entity.setUserName(username);
+        entity.setDate(new Date());
+
+        getRepository().save(entity);
+    }
+
+    private String getCurrentUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+}package ru.tattoo.maxsim.service.impl;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import ru.tattoo.maxsim.model.User;
+import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+@AllArgsConstructor
+@Getter
+public class UserDetailsImpl implements UserDetails {
+    private final User user;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        return Stream.of(user.getRole())
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return this.user.getPassword();
+    }
+
+    public Long getUserId() {
+        return this.user.getId();
+    }
+
+    @Override
+    public String getUsername() {
+        return this.user.getLogin();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+}
+package ru.tattoo.maxsim.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+import ru.tattoo.maxsim.model.PriceSection;
+import ru.tattoo.maxsim.repository.PriceSectionRepository;
+import ru.tattoo.maxsim.service.interf.PriceSectionService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+
+import java.util.Optional;
+
+@Service
+public class PriceSectionServiceImpl extends AbstractCRUDService<PriceSection, Long> implements PriceSectionService {
+
+    @Autowired
+    private PriceSectionRepository priceSectionRepository;
+
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    protected String getImageFileName(PriceSection entity) {
+        return entity != null ? entity.getImageName() : null; // Обратите внимание: iconName
+    }
+
+    @Override
+    protected void setImageFileName(PriceSection entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+        }
+    }
+
+    @Override
+    void prepareObject(PriceSection entity, String fileName) {
+        setImageFileName(entity, fileName);
+    }
+
+    @Override
+    CrudRepository<PriceSection, Long> getRepository() {
+        return priceSectionRepository;
+    }
+    @Override
+    public void create(PriceSection entity) {
+
+        Optional<PriceSection> object = getRepository().findById(entity.getId());
+
+        entity.setSection(object.get().getSection());
+        entity.setTitle(object.get().getTitle());
+
+        getRepository().save(entity);
+    }
+}package ru.tattoo.maxsim.service.impl;
+
+import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+import ru.tattoo.maxsim.model.DTO.GalleryDTO;
+import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.repository.ImagesRepository;
+import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+import ru.tattoo.maxsim.util.ImageUtils;
+import ru.tattoo.maxsim.util.PageSize;
+
+import java.security.Principal;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.StreamSupport;
+
+
+@Service
+@Slf4j
+public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> implements ImagesService {
+
+    private static final int PARTITION_SIZE = 3;
+
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Autowired
+    private ImagesRepository imagesRepository;
+
+    @Override
+    CrudRepository<Images, Long> getRepository() {
+        return imagesRepository;
+    }
+
+    @Override
+    protected String getImageFileName(Images entity) {
+        return entity != null ? entity.getImageName() : null;
+    }
+
+    @Override
+    protected void setImageFileName(Images entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+        }
+    }
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    void prepareObject(Images entity, String fileName) {
+        log.debug("Подготовка объекта Images: установка имени изображения: {}", fileName);
+        setImageFileName(entity, fileName);
+        entity.setImageName(fileName);
+    }
+    @Override
+    public GalleryDTO getGalleryDto(String category, Principal principal, int pageSize, int pageNumber) {
+        log.info("Запрос галереи: category={}, principal={}, pageSize={}, pageNumber={}",
+                category, principal != null ? principal.getName() : "null", pageSize, pageNumber);
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable p = PageRequest.of(pageNumber, pageSize).withSort(sort);
+
+        Page<Images> images = null;
+        String fetchStrategy;
+
+        // Определяем стратегию выборки
+        if (principal != null && category != null) {
+            // Изображения категории для конкретного пользователя
+            images = findByCategoryAndUser(category, principal.getName(), p);
+            fetchStrategy = "USER_CATEGORY";
+        } else if (category != null) {
+            // Изображения категории для всех (публичные)
+            images = findByCategory(category, p);
+            fetchStrategy = "PUBLIC_CATEGORY";
+            images.getContent().forEach(img ->
+                    log.info("Image[id={}, name='{}', category='{}', user='{}', flag={}, стратегия={}]",
+                            img.getId(),
+                            img.getImageName(),
+                            img.getCategory(),
+                            img.getUserName(),
+                            img.isFlag(),
+                            fetchStrategy
+                    )
+            );
+        } else if (principal != null) {
+            // Все изображения пользователя
+            images = getPagedImages(principal.getName(), p);
+            fetchStrategy = "USER_IMAGES";
+        } else {
+            // Все публичные изображения
+            images = getPagedImages(p);
+            fetchStrategy = "ALL_IMAGES";
+            images.getContent().forEach(img ->
+                    log.info("Image[id={}, name='{}', category='{}', user='{}', flag={}]",
+                            img.getId(),
+                            img.getImageName(),
+                            img.getCategory(),
+                            img.getUserName(),
+                            img.isFlag()
+                    )
+            );
+        }
+
+        log.info("Получено {} изображений на странице {} из {}",
+                images.getNumberOfElements(), pageNumber, images.getTotalElements());
+
+        List<List<Images>> objects = ImageUtils.partition(
+                images.hasContent() ? images.getContent() : Collections.emptyList(),
+                PARTITION_SIZE
+        );
+        log.debug("Изображения разделены на {} групп по {} элементов",
+                objects.size(), PARTITION_SIZE);
+
+        GalleryDTO result = new GalleryDTO(
+                objects,
+                images.getTotalPages(),
+                pageNumber,
+                pageSize,
+                PageSize.getLisPageSize(),
+                images.getTotalElements()
+        );
+
+        log.info("Галерея успешно подготовлена: стратегия={}, всего страниц={}, всего элементов={}",
+                fetchStrategy, images.getTotalPages(), images.getTotalElements());
+
+        return result;
+    }
+
+    private Page<Images> findByCategoryAndUser(String category, String name, Pageable p) {
+        log.debug("Запрос изображений пользователя '{}' по категории'{}' с пагинацией: page={}, size={}",
+                name, category, p.getPageNumber(), p.getPageSize());
+        return imagesRepository.findByCategoryAndUser(category,name,p);
+    }
+
+    @Override
+    public Page<Images> getPagedImages(Pageable p) {
+        log.debug("Запрос всех изображений с пагинацией: page={}, size={}, sort={}",
+                p.getPageNumber(), p.getPageSize(), p.getSort());
+        return imagesRepository.findAll(p);
+    }
+
+    @Override
+    public Page<Images> getPagedImages(String userName, Pageable p) {
+        log.debug("Запрос изображений пользователя '{}' с пагинацией: page={}, size={}",
+                userName, p.getPageNumber(), p.getPageSize());
+        return imagesRepository.findByUserName(userName, p);
+    }
+
+    @Override
+    public Page<Images> findByCategory(String style, Pageable p) {
+        log.debug("Поиск изображений по категории '{}' с пагинацией: page={}, size={}",
+                style, p.getPageNumber(), p.getPageSize());
+        return imagesRepository.findByCategory(style, p);
+    }
+
+    @Override
+    public boolean bestImage(Images images) {
+        log.info("Обновление флага 'лучшее' для изображения ID={}, новый флаг={}",
+                images.getId(), images.isFlag());
+
+        Images existingImage = imagesRepository.findById(images.getId())
+                .orElseThrow(() -> {
+                    log.error("Изображение с ID={} не найдено", images.getId());
+                    return new EntityNotFoundException("Изображение не найдено");
+                });
+
+        boolean oldFlag = existingImage.isFlag();
+        existingImage.setFlag(images.isFlag());
+        imagesRepository.save(existingImage);
+
+        log.info("Флаг обновлен: изображение ID={}, было={}, стало={}",
+                images.getId(), oldFlag, images.isFlag());
+
+        return images.isFlag();
+    }
+
+    // 🔄 Новый метод для обновления флага изображения
+    public String updateImageFlag(Long id, boolean flag) {
+        log.info("Обновление флага изображения: ID={}, новый флаг={}", id, flag);
+
+        Images images = new Images();
+        images.setId(id);
+        images.setFlag(flag);
+
+        try {
+            boolean result = bestImage(images);
+            String message = result ? "Установлено" : "Снято";
+            log.info("Флаг успешно обновлен: ID={}, результат={}, сообщение='{}'",
+                    id, result, message);
+            return message;
+        } catch (Exception e) {
+            log.error("Ошибка при обновлении флага изображения ID={}: {}", id, e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public Iterable<Images> findByFlagTrue() {
+        log.debug("Запрос всех изображений с флагом 'лучшее'");
+        Iterable<Images> result = imagesRepository.findByFlagTrue();
+
+        // Подсчет количества
+        long count = StreamSupport.stream(result.spliterator(), false).count();
+        log.debug("Найдено {} изображений с флагом 'лучшее'", count);
+
+        return result;
+    }
+
+
+}
+package ru.tattoo.maxsim.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+import ru.tattoo.maxsim.model.Home;
+import ru.tattoo.maxsim.repository.HomeRepository;
+import ru.tattoo.maxsim.service.interf.HomeService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+
+@Service
+public class HomeServiceImpl extends AbstractCRUDService<Home, Long> implements HomeService {
+
+    @Autowired
+    private HomeRepository homeRepository;
+
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    protected String getImageFileName(Home entity) {
+        return  null; // Обратите внимание: image
+    }
+
+    @Override
+    protected void setImageFileName(Home entity, String fileName) {
+
+    }
+
+    @Override
+    void prepareObject(Home entity, String fileName) {
+        setImageFileName(entity, fileName);
+    }
+
+    @Override
+    CrudRepository<Home, Long> getRepository() {
+        return homeRepository;
+    }
+}package ru.tattoo.maxsim.service.impl;
+
+import io.micrometer.common.util.StringUtils;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.exceptions.FileDeletionException;
+import ru.tattoo.maxsim.exceptions.UserNotFoundException;
+import ru.tattoo.maxsim.model.DTO.UserDTO;
+import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.model.User;
+import ru.tattoo.maxsim.repository.UserRepository;
+import ru.tattoo.maxsim.service.interf.UserService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+import ru.tattoo.maxsim.util.ImageUtils;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UserServiceImpl extends AbstractCRUDService<User, Long> implements UserService {
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    void prepareObject(User entity, String fileName) {
+        setImageFileName(entity, fileName);
+    }
+
+    @Override
+    CrudRepository<User, Long> getRepository() {
+        return userRepository;
+    }
+
+    @Override
+    protected String getImageFileName(User entity) {
+        return entity != null ? entity.getAvatar() : null; // Обратите внимание: avatarName
+    }
+
+    @Override
+    protected void setImageFileName(User entity, String fileName) {
+        if (entity != null) {
+            entity.setAvatar(fileName);
+        }
+    }
+
+    @Override
+    public List<User> findAll() {
+        return (List<User>) getRepository().findAll();
+    }
+
+
+
+    @Override
+    public void updateUserAvatar(MultipartFile fileImport, Principal principal) throws IOException {
+        User user = userRepository.findByLogin(principal.getName())
+                .orElseThrow(() -> new UserNotFoundException("Пользователь " + principal.getName() + " не найден"));
+
+        if (!StringUtils.isBlank(user.getAvatar()) && ImageUtils.existsImage(user.getAvatar())) {
+            try {
+                ImageUtils.deleteImage(user.getAvatar());
+            } catch (IOException e) {
+                throw new FileDeletionException("Ошибка удаления файла" +"-->"+ e);
+            }
+        }
+
+        String uniqueFileName = ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename());
+        ImageUtils.saveImage(fileImport, uniqueFileName);
+        user.setAvatar(uniqueFileName);
+        userRepository.save(user);
+    }
+
+
+
+    @Override
+    public UserDTO findByLogin(String login) {
+        return modelMapper.map(userRepository.findByLogin(login).orElse(null), UserDTO.class);
+    }
+
+}
+package ru.tattoo.maxsim.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+import ru.tattoo.maxsim.model.FeatureSection;
+import ru.tattoo.maxsim.repository.FeatureSectionRepository;
+import ru.tattoo.maxsim.service.interf.FeatureSectionService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+
+@Service
+public class FeatureSectionServiceImpl extends AbstractCRUDService<FeatureSection, Long> implements FeatureSectionService {
+
+    @Autowired
+    private FeatureSectionRepository featureSectionRepository;
+
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    protected String getImageFileName(FeatureSection entity) {
+        return entity != null ? entity.getImageName() : null; // Обратите внимание: iconName
+    }
+
+    @Override
+    protected void setImageFileName(FeatureSection entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+            entity.setSection("home");
+        }
+    }
+
+    @Override
+    void prepareObject(FeatureSection entity, String fileName) {
+        setImageFileName(entity, fileName);
+    }
+
+    @Override
+    CrudRepository<FeatureSection, Long> getRepository() {
+        return featureSectionRepository;
+    }
+}package ru.tattoo.maxsim.service.impl;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.ReviewsUser;
+import ru.tattoo.maxsim.repository.ReviewsUserRepository;
+import ru.tattoo.maxsim.service.interf.ReviewService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+import ru.tattoo.maxsim.util.ImageUtils;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+
+@Service
+@Slf4j
+public class ReviewServiceImpl extends AbstractCRUDService<ReviewsUser,Long> implements ReviewService {
+
+    @Autowired
+    private ReviewsUserRepository reviewsUserRepository;
+
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    void prepareObject(ReviewsUser entity, String imageName) {
+
+        log.debug("Подготовка объекта ReviewsUser для сохранения");
+
+        setImageFileName(entity, imageName);
+
+        // 1. Устанавливаем имя изображения
+        entity.setImageName(imageName);
+
+        // 2. БЕЗОПАСНО получаем имя пользователя
+        String username = getCurrentUsername();
+        entity.setUserName(username);
+
+        // 3. Устанавливаем дату
+        entity.setDate(new Date());
+
+        log.info("Объект подготовлен: image={}, user={}, date={}",
+                imageName, username, entity.getDate());
+    }
+
+    @Override
+    public void create(ReviewsUser entity) {
+        String username = getCurrentUsername();
+        entity.setUserName(username);
+        entity.setDate(new Date());
+        log.info("Объект подготовлен: image={}, user={}, date={}",
+                entity.getImageName(), username, entity.getDate());
+        getRepository().save(entity);
+    }
+
+
+    private String getCurrentUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+
+    @Override
+    CrudRepository<ReviewsUser, Long> getRepository() {
+        return reviewsUserRepository;
+    }
+
+    @Override
+    protected String getImageFileName(ReviewsUser entity) {
+        return entity != null ? entity.getImageName() : null; // Обратите внимание: image
+    }
+
+    @Override
+    protected void setImageFileName(ReviewsUser entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+        }
+    }
+
+
+    @Override
+    public List<ReviewsUser> findLimit() {
+        return reviewsUserRepository.findLimit();
+    }
+
+    @Override
+    public int getCount() {
+        return reviewsUserRepository.getCount();
+    }
+
+}
+package ru.tattoo.maxsim.service.impl;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.Blog;
+import ru.tattoo.maxsim.model.SettingWebsite;
+import ru.tattoo.maxsim.repository.SettingWebsiteRepository;
+import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+import ru.tattoo.maxsim.util.ImageUtils;
+
+import java.io.IOException;
+@Slf4j
+@Service
+public class SettingWebsiteServiceImpl extends AbstractCRUDService<SettingWebsite, Long> implements SettingWebsiteService {
+
+    @Autowired
+    private SettingWebsiteRepository settingWebsiteRepository;
+
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    void prepareObject(SettingWebsite entity, String s) {
+        entity.setImageName(s);
+    }
+
+    @Override
+    CrudRepository<SettingWebsite, Long> getRepository() {
+        return settingWebsiteRepository;
+    }
+
+    @Override
+    protected String getImageFileName(SettingWebsite entity) {
+        return null;
+    }
+
+    @Override
+    protected void setImageFileName(SettingWebsite entity, String fileName) {
+
+    }
+
+
+}
+package ru.tattoo.maxsim.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+import ru.tattoo.maxsim.model.ContactInfo;
+import ru.tattoo.maxsim.repository.ContactInfoRepository;
+import ru.tattoo.maxsim.service.interf.ContactInfoService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+
+@Service
+public class ContactInfoServiceImpl extends AbstractCRUDService<ContactInfo, Long> implements ContactInfoService {
+
+  @Autowired
+  private ContactInfoRepository contactInfoRepository;
+
+  @Autowired
+  private ImageStorage imageStorage;
+
+  @Override
+  protected ImageStorage getImageStorage() {
+    return imageStorage;
+  }
+
+  @Override
+  protected String getImageFileName(ContactInfo entity) {
+    return null;
+  }
+
+  @Override
+  protected void setImageFileName(ContactInfo entity, String fileName) {
+
+  }
+
+  @Override
+  void prepareObject(ContactInfo entity, String fileName) {
+    setImageFileName(entity, fileName);
+  }
+
+  @Override
+  CrudRepository<ContactInfo, Long> getRepository() {
+    return contactInfoRepository;
+  }
+}package ru.tattoo.maxsim.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+import ru.tattoo.maxsim.model.Blog;
+import ru.tattoo.maxsim.repository.BlogRepository;
+import ru.tattoo.maxsim.service.interf.BlogService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+
+import java.util.Date;
+import java.util.List;
+
+@Service
+public class BlogServiceImpl extends AbstractCRUDService<Blog, Long> implements BlogService {
+
+    @Autowired
+    private BlogRepository blogRepository;
+
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    protected String getImageFileName(Blog entity) {
+        return entity != null ? entity.getImageName() : null;
+    }
+
+    @Override
+    protected void setImageFileName(Blog entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+        }
+    }
+
+    @Override
+    void prepareObject(Blog entity, String fileName) {
+        setImageFileName(entity, fileName);
+        entity.setDate(new Date());
+    }
+
+    @Override
+    CrudRepository<Blog, Long> getRepository() {
+        return blogRepository;
+    }
+
+    @Override
+    public List<Blog> findLimit() {
+        return blogRepository.findTop4ByDescriptionIsNotNullOrderByDateDesc();
+    }
+
+    @Override
+    public List<Blog> findDescription() {
+        return blogRepository.findByDescriptionIsNotNullOrderByDateDesc();
+    }
+}package ru.tattoo.maxsim.service.impl;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+import ru.tattoo.maxsim.util.ImageUtils;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+
+@Slf4j
+public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K> {
+
+    // Абстрактный метод для получения ImageStorage
+    protected abstract ImageStorage getImageStorage();
+
+    abstract void prepareObject(E entity, String fileName);
+    abstract CrudRepository<E, K> getRepository();
+
+    // Новый метод - для получения имени файла из сущности
+    protected abstract String getImageFileName(E entity);
+
+    // Новый метод - для установки имени файла в сущность
+    protected abstract void setImageFileName(E entity, String fileName);
+
+    @Override
+    public void create(E entity) {
+        getRepository().save(entity);
+        log.debug("Сущность создана: {}", entity);
+    }
+
+    @Override
+    public E findById(K id) {
+        return getRepository().findById(id).orElse(null);
+    }
+
+    @Override
+    public List<E> findAll() {
+        List<E> entities = (List<E>) getRepository().findAll();
+        Collections.reverse(entities);
+        return entities;
+    }
+
+    @Override
+    public E update(E entity) {
+        E savedEntity = getRepository().save(entity);
+        log.debug("Сущность обновлена: {}", savedEntity);
+        return savedEntity;
+    }
+
+    @Override
+    public void delete(E entity) {
+        // Сначала удаляем файл, если есть
+        String fileName = getImageFileName(entity);
+        if (fileName != null && !fileName.isEmpty()) {
+            try {
+                getImageStorage().deleteImage(fileName);
+                log.debug("Файл удален при удалении сущности: {}", fileName);
+            } catch (IOException e) {
+                log.error("Ошибка при удалении файла {}: {}", fileName, e.getMessage());
+                // Не пробрасываем исключение, чтобы сущность всё равно удалилась
+            }
+        }
+
+        getRepository().delete(entity);
+        log.debug("Сущность удалена: {}", entity);
+    }
+
+    @Override
+    public void deleteById(K id) throws IOException {
+        // Пытаемся найти сущность, чтобы получить имя файла
+        E entity = findById(id);
+        if (entity != null) {
+            String fileName = getImageFileName(entity);
+            if (fileName != null && !fileName.isEmpty()) {
+                getImageStorage().deleteImage(fileName);
+                log.debug("Файл удален при удалении по ID: {}", fileName);
+            }
+        }
+
+        getRepository().deleteById(id);
+        log.debug("Сущность с ID {} удалена", id);
+    }
+
+    @Override
+    public void deleteAll() {
+        // Получаем все сущности и удаляем файлы
+        List<E> entities = findAll();
+        for (E entity : entities) {
+            String fileName = getImageFileName(entity);
+            if (fileName != null && !fileName.isEmpty()) {
+                try {
+                    getImageStorage().deleteImage(fileName);
+                    log.debug("Файл удален при массовом удалении: {}", fileName);
+                } catch (IOException e) {
+                    log.error("Ошибка при удалении файла {}: {}", fileName, e.getMessage());
+                }
+            }
+        }
+
+        getRepository().deleteAll();
+        log.debug("Все сущности удалены");
+    }
+
+    @Override
+    public List<E> saveAll(List<E> entities) {
+        if (entities == null || entities.isEmpty()) {
+            return List.of();
+        }
+
+        Iterable<E> savedEntities = getRepository().saveAll(entities);
+        log.debug("Сохранено {} сущностей", entities.size());
+
+        return (List<E>) savedEntities;
+    }
+
+    @Override
+    public E saveImg(MultipartFile fileImport, E entity) throws IOException {
+        log.info("💾 Начало сохранения изображения");
+        log.info("   Файл: '{}'", fileImport.getOriginalFilename());
+        log.info("   Размер: {} байт", fileImport.getSize());
+        log.info("   Тип: {}", fileImport.getContentType());
+
+        validateFile(fileImport);
+
+        try {
+            // Убираем генерацию имени здесь - пусть Storage сам генерирует!
+            // String uniqueFileName = getImageStorage().generateUniqueFileName(
+            //     fileImport.getOriginalFilename()
+            // );
+
+            // Просто передаем оригинальное имя
+            String originalFileName = fileImport.getOriginalFilename();
+            log.debug("📄 Оригинальное имя файла: {}", originalFileName);
+
+            // Сохраняем файл через ImageStorage (он сам сгенерирует имя)
+            String savedFileName = getImageStorage().saveImage(fileImport, originalFileName);
+            log.debug("💾 Файл сохранен в хранилище с именем: {}", savedFileName);
+
+            // Устанавливаем имя файла в сущность
+            setImageFileName(entity, savedFileName);
+            prepareObject(entity, savedFileName);
+            log.debug("🔄 Объект подготовлен: {}", entity);
+
+            // Сохраняем сущность в БД
+            E savedEntity = getRepository().save(entity);
+            log.info("✅ Изображение успешно сохранено!");
+            log.info("   Имя файла: {}", savedFileName);
+            log.info("   Сущность ID: {}", getEntityId(savedEntity));
+
+            return savedEntity;
+
+        } catch (IOException e) {
+            log.error("❌ Ошибка при сохранении изображения: {}", e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error("❌ Неожиданная ошибка: {}", e.getMessage(), e);
+            throw new IOException("Ошибка сохранения изображения", e);
+        }
+    }
+
+    /**
+     * Валидация загружаемого файла
+     */
+    private void validateFile(MultipartFile file) throws IOException {
+        if (file == null) {
+            throw new IOException("Файл не может быть null");
+        }
+
+        if (file.isEmpty()) {
+            throw new IOException("Файл не может быть пустым");
+        }
+
+        // Проверка расширения
+        String originalFilename = file.getOriginalFilename();
+        if (originalFilename == null || originalFilename.isEmpty()) {
+            throw new IOException("Имя файла не может быть пустым");
+        }
+
+        // Проверка на допустимые типы (можно вынести в конфиг)
+        String contentType = file.getContentType();
+        if (contentType != null && !contentType.startsWith("image/")) {
+            throw new IOException("Файл должен быть изображением");
+        }
+    }
+
+    /**
+     * Получение ID сущности (для логирования)
+     */
+    @SuppressWarnings("unchecked")
+    private K getEntityId(E entity) {
+        try {
+            // Пробуем получить ID через рефлексию (упрощенно)
+            var method = entity.getClass().getMethod("getId");
+            return (K) method.invoke(entity);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+}package ru.tattoo.maxsim.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+import ru.tattoo.maxsim.model.AboutSection;
+import ru.tattoo.maxsim.repository.AboutSectionRepository;
+import ru.tattoo.maxsim.service.interf.AboutSectionService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+
+@Service
+public class AboutSectionServiceImpl extends AbstractCRUDService<AboutSection, Long> implements AboutSectionService {
+
+    @Autowired
+    private AboutSectionRepository aboutSectionRepository;
+
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    protected String getImageFileName(AboutSection entity) {
+        return entity != null ? entity.getImageName() : null;
+    }
+
+    @Override
+    protected void setImageFileName(AboutSection entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+        }
+    }
+
+    @Override
+    void prepareObject(AboutSection entity, String fileName) {
+        setImageFileName(entity, fileName);
+        entity.setSection("home");
+    }
+
+    @Override
+    CrudRepository<AboutSection, Long> getRepository() {
+        return aboutSectionRepository;
+    }
+}package ru.tattoo.maxsim.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import ru.tattoo.maxsim.model.User;
+import ru.tattoo.maxsim.repository.UserRepository;
+
+
+import java.util.Optional;
+
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        Optional<User> userOptional = userRepository.findByLogin(username);
+
+        if (userOptional.isEmpty()) {
+            throw new UsernameNotFoundException("User not found!");
+        }
+
+        return new UserDetailsImpl(userOptional.get());
+    }
+    public Optional<User> loadUserOptionalByUsername(String username) {
+        return userRepository.findByLogin(username);
+    }
+    }package ru.tattoo.maxsim.service.impl;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+import ru.tattoo.maxsim.model.HomeHeroSection;
+import ru.tattoo.maxsim.repository.HomeHeroSectionRepository;
+import ru.tattoo.maxsim.service.interf.HeroSectionService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
+@Slf4j
+@Service
+public class HeroSectionServiceImpl extends AbstractCRUDService<HomeHeroSection, Long> implements HeroSectionService {
+
+    @Autowired
+    private HomeHeroSectionRepository homeHeroSectionRepository;
+
+    @Autowired
+    private ImageStorage imageStorage;  // Внедряем ImageStorage
+
+    // ============= Реализация абстрактных методов AbstractCRUDService =============
+
+    @Override
+    public ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    public String getImageFileName(HomeHeroSection entity) {
+        return entity != null ? entity.getImageName() : null;
+    }
+
+    @Override
+    public void setImageFileName(HomeHeroSection entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+        }
+    }
+
+    @Override
+    void prepareObject(HomeHeroSection entity, String fileName) {
+        // Этот метод оставляем для обратной совместимости,
+        // но теперь используем setImageFileName
+        setImageFileName(entity, fileName);
+        entity.setSection("home");
+    }
+
+    @Override
+    public CrudRepository<HomeHeroSection, Long> getRepository() {
+        return homeHeroSectionRepository;
+    }
+    
+}package ru.tattoo.maxsim.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+import ru.tattoo.maxsim.model.ClassesSection;
+import ru.tattoo.maxsim.repository.ClassesSectionRepository;
+import ru.tattoo.maxsim.service.interf.ClassesSectionService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+
+import java.util.List;
+
+@Service
+public class ClassesSectionServiceImpl extends AbstractCRUDService<ClassesSection, Long> implements ClassesSectionService {
+
+    @Autowired
+    private ClassesSectionRepository classesSectionRepository;
+
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    protected String getImageFileName(ClassesSection entity) {
+        return entity != null ? entity.getImageName() : null;
+    }
+
+    @Override
+    protected void setImageFileName(ClassesSection entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+        }
+    }
+
+    @Override
+    void prepareObject(ClassesSection entity, String fileName) {
+        setImageFileName(entity, fileName);
+        entity.setSection("home");
+    }
+
+    @Override
+    CrudRepository<ClassesSection, Long> getRepository() {
+        return classesSectionRepository;
+    }
+
+    @Override
+    public List<ClassesSection> findByTitle(String s) {
+        return classesSectionRepository.findByTitle(s);
+    }
+
+    @Override
+    public void create(ClassesSection entity) {
+        entity.setSection("home");
+        entity.setTitle("title");
+        getRepository().save(entity);
+    }
+}package ru.tattoo.maxsim.service.impl;
+
+import jakarta.mail.MessagingException;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
+import ru.tattoo.maxsim.model.EmailDetails;
+import ru.tattoo.maxsim.service.interf.EmailService;
+
+@Slf4j
+@Service
+public class EmailServiceImpl implements EmailService {
+
+    private final JavaMailSender javaMailSender;
+    private final String senderAddress;
+    private final String defaultRecipient;
+
+    public EmailServiceImpl(JavaMailSender javaMailSender,
+                            @Value("${spring.mail.username}") String senderAddress,
+                            @Value("${app.email.default-recipient:}") String defaultRecipient) {
+        this.javaMailSender = javaMailSender;
+        this.senderAddress = senderAddress;
+        // Если defaultRecipient не указан в конфиге, используем senderAddress
+        this.defaultRecipient = defaultRecipient.isEmpty() ? senderAddress : defaultRecipient;
+    }
+
+    @Override
+    public boolean sendSimpleMail(EmailDetails details) {
+        try {
+            SimpleMailMessage mailMessage = createMailMessage(details);
+            javaMailSender.send(mailMessage);
+            log.debug("Email sent successfully: {}", mailMessage.getSubject());
+            return true;
+        } catch (Exception e) {
+            log.error("Error sending email: {}", e.getMessage(), e);
+            return false;
+        }
+    }
+
+    private SimpleMailMessage createMailMessage(EmailDetails details) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+        // Используем recipient из details или дефолтный
+        String recipient = (details.getRecipient() != null && !details.getRecipient().isEmpty()) ?
+                details.getRecipient() : defaultRecipient;
+
+        mailMessage.setFrom(senderAddress);
+        mailMessage.setTo(recipient);
+        mailMessage.setSubject(formatSubject(details));
+        mailMessage.setText(formatMessageBody(details));
+
+        return mailMessage;
+    }
+
+    private String formatSubject(EmailDetails details) {
+        // Форматируем тему: телефон + имя
+        return String.format("Контактная форма: %s - %s",
+                details.getSubject(),
+                details.getName());
+    }
+
+    private String formatMessageBody(EmailDetails details) {
+        // Форматируем тело письма для лучшей читаемости
+        return String.format(
+                "Новое сообщение с сайта:\n\n" +
+                        "Имя: %s\n" +
+                        "Контакт (телефон/email): %s\n" +
+                        "Сообщение:\n%s\n\n" +
+                        "---\n" +
+                        "Отправлено автоматически с сайта",
+                details.getName(),
+                details.getSubject(),
+                details.getMsgBody()
+        );
+    }
+}
+package ru.tattoo.maxsim.service.impl;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.DTO.SketchesDTO;
+import ru.tattoo.maxsim.model.Sketches;
+import ru.tattoo.maxsim.repository.SketchesRepository;
+import ru.tattoo.maxsim.service.interf.SketchesService;
+import ru.tattoo.maxsim.storage.ImageStorage;
+import ru.tattoo.maxsim.util.ImageUtils;
+import ru.tattoo.maxsim.util.PageSize;
+
+import java.io.IOException;
+import java.security.Principal;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> implements SketchesService {
+
+    private static final int PARTITION_SIZE = 3;
+
+    @Autowired
+    private SketchesRepository sketchesRepository;
+
+    @Autowired
+    private ImageStorage imageStorage;
+
+    @Override
+    public List<Sketches> findLimit() {
+        return sketchesRepository.findLimit();
+    }
+
+    @Override
+    protected ImageStorage getImageStorage() {
+        return imageStorage;
+    }
+
+    @Override
+    void prepareObject(Sketches entity, String s) {
+        setImageFileName(entity, s);
+        entity.setDate(new Date());
+    }
+
+    @Override
+    protected CrudRepository<Sketches, Long> getRepository() {
+        return sketchesRepository;
+    }
+
+    @Override
+    protected String getImageFileName(Sketches entity) {
+        return entity != null ? entity.getImageName() : null;
+    }
+
+    @Override
+    protected void setImageFileName(Sketches entity, String fileName) {
+        if (entity != null) {
+            entity.setImageName(fileName);
+        }
+    }
+
+
+    @Override
+    public SketchesDTO getSketchesDto(String category, Principal principal, int pageSize, int pageNumber) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable p = PageRequest.of(pageNumber, pageSize).withSort(sort);
+
+        Page<Sketches> images = sketchesRepository.findAll(p);
+
+        List<List<Sketches>> objects = ImageUtils.partition(
+                images.hasContent() ? images.getContent() : Collections.emptyList(),
+                PARTITION_SIZE
+        );
+
+        return new SketchesDTO(
+                objects,
+                images.getTotalPages(),
+                pageNumber,
+                pageSize,
+                PageSize.getLisPageSize(),
+                images.getTotalElements()
+        );
+    }
+
+
+}
+package ru.tattoo.maxsim.service.interf;
+
+import ru.tattoo.maxsim.model.PriceSection;
+
+public interface PriceSectionService extends CRUDService<PriceSection, Long>{
+}
+package ru.tattoo.maxsim.service.interf;
+
+import ru.tattoo.maxsim.model.ChooseusSection;
+
+public interface ChooseusSectionService extends CRUDService<ChooseusSection, Long>{
+}
+package ru.tattoo.maxsim.service.interf;
+
+import ru.tattoo.maxsim.model.FeatureSection;
+
+public interface FeatureSectionService extends CRUDService<FeatureSection, Long>{
+}
+package ru.tattoo.maxsim.service.interf;
+
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.SettingWebsite;
+
+import java.io.IOException;
+
+public interface SettingWebsiteService extends CRUDService<SettingWebsite, Long>{
+
+}
+package ru.tattoo.maxsim.service.interf;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.DTO.GalleryDTO;
+import ru.tattoo.maxsim.model.Images;
+
+import java.io.IOException;
+import java.security.Principal;
+
+public interface ImagesService extends CRUDService<Images, Long> {
+    Page<Images> getPagedImages(Pageable p);
+
+    Page<Images> findByCategory(String style, Pageable p);
+
+    Page<Images> getPagedImages(String userName, Pageable p);
+
+    GalleryDTO getGalleryDto(String category, Principal principal, int pageSize, int pageNumber);
+
+    boolean bestImage(Images images);
+
+    Iterable<Images> findByFlagTrue();
+
+    String updateImageFlag(Long id, boolean flag);
+
+
+
+}
+package ru.tattoo.maxsim.service.interf;
+
+import ru.tattoo.maxsim.model.ClassesSection;
+
+import java.util.List;
+
+public interface ClassesSectionService extends CRUDService<ClassesSection, Long> {
+   List<ClassesSection> findByTitle(String s);
+}
+package ru.tattoo.maxsim.service.interf;
+
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.ReviewsUser;
+import java.io.IOException;
+import java.util.List;
+
+public interface ReviewService extends CRUDService<ReviewsUser,Long>{
+
+
+    List<ReviewsUser> findLimit();
+
+    int getCount();
+
+
+}
+package ru.tattoo.maxsim.service.interf;
+
+
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+
+public interface CRUDService<E, K> {
+
+    void create(E entity);
+
+    E findById(K id);
+
+    List<E> findAll();
+
+    E update(E entity);
+
+    void delete(E entity);
+
+    void deleteAll();
+
+    List<E> saveAll(List<E> l);
+
+    E saveImg(MultipartFile fileImport, E entity) throws IOException;
+
+    void deleteById(K id) throws IOException;
+
+
+
+}
+package ru.tattoo.maxsim.service.interf;
+
+import ru.tattoo.maxsim.model.ContactInfo;
+
+public interface ContactInfoService extends CRUDService<ContactInfo, Long> {
+}
+package ru.tattoo.maxsim.service.interf;
+
+
+import ru.tattoo.maxsim.model.Commits;
+import ru.tattoo.maxsim.model.DTO.CommitsDTO;
+
+import java.io.IOException;
+import java.util.List;
+
+public interface CommitsService extends CRUDService<Commits,Long>{
+    List<CommitsDTO> findLimit();
+}
+package ru.tattoo.maxsim.service.interf;
+
+import ru.tattoo.maxsim.model.EmailDetails;
+
+
+public interface EmailService {
+
+      boolean sendSimpleMail(EmailDetails details);
+
+}package ru.tattoo.maxsim.service.interf;
+
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.HomeHeroSection;
+
+import java.io.IOException;
+
+public interface HeroSectionService extends CRUDService<HomeHeroSection, Long>{
+
+}
+package ru.tattoo.maxsim.service.interf;
+
+
+import ru.tattoo.maxsim.model.DTO.SketchesDTO;
+import ru.tattoo.maxsim.model.Sketches;
+
+import java.security.Principal;
+import java.util.List;
+
+public interface SketchesService extends CRUDService<Sketches, Long>{
+
+
+    SketchesDTO getSketchesDto(String category, Principal principal, int pageSize, int pageNumber);
+    List<Sketches> findLimit();
+}
+package ru.tattoo.maxsim.service.interf;
+
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.Blog;
+import java.io.IOException;
+import java.util.List;
+
+public interface BlogService extends CRUDService<Blog, Long>{
+
+    List<Blog> findLimit();
+
+    List<Blog> findDescription();
+
+}
+package ru.tattoo.maxsim.service.interf;
+
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.DTO.UserDTO;
+import ru.tattoo.maxsim.model.User;
+
+import java.io.IOException;
+import java.security.Principal;
+
+
+public interface UserService extends CRUDService<User, Long> {
+    void updateUserAvatar(MultipartFile fileImport, Principal principal) throws IOException;
+    UserDTO findByLogin(String login);
+}
+package ru.tattoo.maxsim.service.interf;
+
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.Home;
+import java.io.IOException;
+import java.util.List;
+
+public interface HomeService  extends CRUDService<Home, Long> {
+
+
+
+}
+package ru.tattoo.maxsim.service.interf;
+
+import ru.tattoo.maxsim.model.AboutSection;
+
+public interface AboutSectionService extends CRUDService<AboutSection, Long>{
+}
+package ru.tattoo.maxsim.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.*;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+public class ContactInfo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
+    private String tell;
+    private String email;
+    private String address;
+}
+package ru.tattoo.maxsim.model;
+
+import lombok.Getter;
+
+@Getter
+public enum UserRole {
+    ADMIN,
+    USER;
+
+
+}
+package ru.tattoo.maxsim.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+public class PriceSection {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String imageName;
+    private String textH1;
+    private String textH2;
+    @Lob
+    private String textH3;
+    private String textH4;
+    private String textH5;
+
+    private String title;
+
+    private String section;
+}
+package ru.tattoo.maxsim.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+public class ChooseusSection{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String imageName;
+    private String textH1;
+    @Lob
+    private String textH2;
+    @Lob
+    private String textH3;
+    private String textH4;
+    private String textH5;
+
+    private String title;
+
+    private String section;
+}
+package ru.tattoo.maxsim.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
+
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+public class Home {
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
+
+    private String section;
+
+    @OneToMany(targetEntity = HomeHeroSection.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "section", referencedColumnName = "section")
+    @OrderBy("displayOrder DESC")
+    private List<HomeHeroSection> banners;
+
+    @OneToMany(targetEntity = FeatureSection.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "section", referencedColumnName = "section")
+    private List<FeatureSection> feature;
+
+    @OneToMany(targetEntity = AboutSection.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "section", referencedColumnName = "section")
+    private List<AboutSection> about;
+
+    @OneToMany(targetEntity = ClassesSection.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "section", referencedColumnName = "section")
+    private List<ClassesSection> classes;
+
+    @OneToMany(targetEntity = PriceSection.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "section", referencedColumnName = "section")
+    private List<PriceSection> price;
+
+    @OneToMany(targetEntity = ChooseusSection.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "section", referencedColumnName = "section")
+    private List<ChooseusSection> chooseus;
+}
+
+package ru.tattoo.maxsim.model.DTO;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.model.ReviewsUser;
+
+import java.util.Date;
+import java.util.List;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Data
+public class UserDTO {
+    private Long id;
+    private String login;
+    private String email;
+    private String avatar;
+    private Date date;
+    private List<ReviewsUser> reviews;
+    private List<Images> images;
+}
+package ru.tattoo.maxsim.model.DTO;
+
+
+import lombok.*;
+import ru.tattoo.maxsim.model.Images;
+import java.util.List;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+public class GalleryDTO {
+    private List<List<Images>> galleryImg;
+    private Integer pageSize;
+    private Integer currentPage;
+    private Integer number;
+    private List<Integer> select;
+    private long imagesTotal;
+}
+package ru.tattoo.maxsim.model.DTO;
+
+
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.util.Date;
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Data
+@ToString
+public class CommitsDTO {
+    private Long id;
+    private String userName;
+    private String comment;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date date;
+    private UserDTO user;
+}
+package ru.tattoo.maxsim.model.DTO;
+
+
+import lombok.*;
+import ru.tattoo.maxsim.model.Sketches;
+import java.util.List;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+public class SketchesDTO {
+    private List<List<Sketches>> sketchesImg;
+    private Integer pageSize;
+    private Integer currentPage;
+    private Integer number;
+    private List<Integer> select;
+    private long imagesTotal;
+}package ru.tattoo.maxsim.model;
+
+
+import jakarta.persistence.*;
+import jdk.jfr.BooleanFlag;
+import lombok.*;
+
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+public class Images {
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
+    @Column(unique=true)
+    private String imageName;
+    private String category;
+    private String description;
+    private String userName;
+    @BooleanFlag
+    private boolean flag;
+}
+package ru.tattoo.maxsim.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+public class AboutSection {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String imageName;
+    private String textH1;
+    private String textH2;
+    @Lob
+    private String textH3;
+
+    private String section;
+}
+package ru.tattoo.maxsim.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+@Table(name = "home_hero_section") // Явно указываем имя таблицы
+public class HomeHeroSection {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "image_name") // Явно указываем имя колонки
+    private String imageName;
+
+    @Column(name = "title") // Соответствует новому названию
+    private String title;
+
+    @Column(name = "subtitle") // Соответствует новому названию
+    private String subtitle;
+
+    @Column(name = "description") // Добавляем поле для textH3
+    private String description;
+
+    @Column(name = "section")
+    private String section;
+
+    @Column(name = "display_order") // Добавляем порядок отображения
+    private Integer displayOrder;
+
+    @Column(name = "is_active") // Добавляем статус активности
+    private Boolean isActive;
+
+}package ru.tattoo.maxsim.model;
+
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.util.Date;
+import java.util.List;
+
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+public class User{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+   // @Size(min = 2, max = 20, message = "Login should be from 2 to 20 chars")
+    @Column(unique=true)
+    private String login;
+    private String password;
+    private String role;
+    @Column(unique=true)
+    private String email;
+    private String avatar;
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date date;
+    @Transient
+    private Integer pagesPerSheet;
+
+    @OneToMany(targetEntity = ReviewsUser.class, cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "userName", referencedColumnName = "login")
+
+    private List<ReviewsUser> reviews;
+
+    @OneToMany(targetEntity = Images.class, cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "userName", referencedColumnName = "login")
+
+    private List<Images> images;
+}
+package ru.tattoo.maxsim.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.util.Date;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+public class Sketches{
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
+    private String imageName;
+    private String description;
+
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date date;
+}
+package ru.tattoo.maxsim.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.util.Date;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+public class Blog{
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
+    private String imageName;
+    private String description;
+    private String section;
+    @Lob
+    private String textH1;
+    @Lob
+    private String textH2;
+    @Lob
+    private String textH3;
+
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date date;
+}
+package ru.tattoo.maxsim.model;
+
+
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.util.Date;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+public class ReviewsUser{
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
+    private String imageName;
+    private String userName;
+    private String comment;
+
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date date;
+
+}
+package ru.tattoo.maxsim.model;
+
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+public class SettingWebsite {
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
+    private String imageName;
+    private String section;
+    private String textH1;
+    @Lob
+    private String textH2;
+}
+package ru.tattoo.maxsim.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.*;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+public class FeatureSection {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String imageName;
+    private String textH1;
+    private String textH2;
+    private String textH3;
+
+    private String section;
+}
+package ru.tattoo.maxsim.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+public class ClassesSection{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String imageName;
+    private String textH1;
+    private String textH2;
+    @Lob
+    private String textH3;
+
+    private String title;
+
+    private String section;
+}
+package ru.tattoo.maxsim.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@ToString
+public class Commits {
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
+    private String userName;
+    private String comment;
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date date;
+
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "userName", referencedColumnName = "login", insertable = false, updatable = false,  foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+
+    private User user;
+
+}
+package ru.tattoo.maxsim.model;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class EmailDetails {
+
+    /**
+     * Адрес электронной почты получателя.
+     * Если null, используется адрес из конфигурации.
+     */
+    @Email(message = "Некорректный формат email")
+    @Size(max = 100, message = "Email должен превышать 100 символов")
+    private String recipient;
+
+    /**
+     * Имя отправителя.
+     */
+    @NotBlank(message = "Имя обязательно для заполнения")
+    @Size (min = 2, max = 50, message = "Имя должно быть от 2 до 50 символов")
+    private String name;
+
+    /**
+     * Текст сообщения.
+     */
+    @NotBlank(message = "Сообщение не должно быть пустым")
+    @Size(min = 10, max = 1000, message = "Сообщение должно содержать от 10 до 1000 символов")
+    private String msgBody;
+
+
+    /**
+     * Тема письма или телефон.
+     * В текущей реализации используется для номера телефона.
+     */
+    @NotBlank(message = "Тема/телефон обязателен для заполнения")
+    @Size(max = 100, message = "Тема/телефон не должен превышать 100 символов")
+    private String subject;
+
+    /**
+     * Путь к вложению (если есть).
+     */
+    @Size(max = 255, message = "Путь к вложению не должен превышать 255 символов")
+    private String attachment;
+}package ru.tattoo.maxsim.controller;
+
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import ru.tattoo.maxsim.model.Blog;
+import ru.tattoo.maxsim.model.Commits;
+import ru.tattoo.maxsim.model.DTO.CommitsDTO;
+import ru.tattoo.maxsim.repository.CommitsRepository;
+import ru.tattoo.maxsim.service.interf.BlogService;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.CommitsService;
+import ru.tattoo.maxsim.service.interf.SketchesService;
+
+import java.io.IOException;
+import java.security.Principal;
+import java.text.ParseException;
+import java.util.Collection;
+import java.util.stream.Collectors;
+
+@Controller
+@Slf4j
+@RequestMapping(CommitsController.URL)
+public class CommitsController extends CRUDController<Commits, Long> {
+
+    public static final String URL = "/commits";
+
+    @Autowired
+    private SketchesService sketchesService;
+
+    @Autowired
+    private BlogService blogService;
+
+    @Autowired
+    private CommitsService commitsService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Override
+    String getEntityName() {
+        // Минимальное логирование для продакшена
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            log.trace("Неаутентифицированный доступ к отзывам");
+            return "reviews::fragment-reviews";
+        }
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        boolean isAdmin = authorities.stream()
+                .anyMatch(a -> {
+                    String authority = a.getAuthority();
+                    boolean matches = authority.equals("ADMIN");
+
+                    if (matches) {
+                        log.debug("✅ Найдена административная роль: {}", authority);
+                    }
+
+                    return matches;
+                });
+
+        if (isAdmin) {
+            log.debug("Админ {} получает доступ к админ-панели отзывов",
+                    authentication.getName());
+            return "fragment-admin::commit";
+        }
+
+        log.trace("Пользователь {} получает публичный доступ к отзывам",
+                authentication.getName());
+        return "blog::fragment-commits";
+    }
+
+    @Override
+    CRUDService<Commits, Long> getService() {
+        return commitsService;
+    }
+
+    @Override
+    void updateSection(Model model) {
+        model.addAttribute("commits", commitsService.findAll().stream()
+                .map(commits -> modelMapper.map(commits, CommitsDTO.class)).collect(Collectors.toList()));
+
+        model.addAttribute("sketches", sketchesService.findLimit());
+        model.addAttribute("interestingWorks", blogService.findLimit());
+        model.addAttribute("blog", blogService.findAll());
+        model.addAttribute("commitsEntity", new Commits());
+    }
+
+}
+package ru.tattoo.maxsim.controller;
+
+import jakarta.xml.bind.JAXBException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ru.tattoo.maxsim.sitemap.XmlUrlSet;
+import ru.tattoo.maxsim.sitemap.XmlUrlSetBuilder;
+
+@RestController
+public class SitemapController {
+
+    @Autowired
+    private XmlUrlSetBuilder xmlUrlSetBuilder;
+
+    @GetMapping(value = "/sitemap.xml", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<String> getSitemap() {
+        try {
+            String xmlContent = xmlUrlSetBuilder.buildSitemapAsXml();
+            return ResponseEntity.ok(xmlContent);
+        } catch (JAXBException e) {
+            // Логирование ошибки
+            e.printStackTrace();
+            return ResponseEntity.internalServerError()
+                    .body("<?xml version=\"1.0\" encoding=\"UTF-8\"?><error>Failed to generate sitemap</error>");
+        }
+    }
+
+    @GetMapping(value = "/api/sitemap", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<XmlUrlSet> getSitemapJson() {
+        XmlUrlSet urlSet = xmlUrlSetBuilder.buildSitemap();
+        return ResponseEntity.ok(urlSet);
+    }
+}package ru.tattoo.maxsim.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.FeatureSection;
+import ru.tattoo.maxsim.model.HomeHeroSection;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.FeatureSectionService;
+import ru.tattoo.maxsim.service.interf.HomeService;
+import ru.tattoo.maxsim.util.ImageUtils;
+
+import java.io.IOException;
+
+@Controller
+@RequestMapping(FeatureSectionController.URL)
+public class FeatureSectionController extends CRUDController<FeatureSection, Long>{
+
+    public static final String URL = "/feature";
+    public static final String PAGE_FRAGMENT = "fragment-admin::feature-import";
+
+    @Autowired
+    private FeatureSectionService featureSectionService;
+
+    @Autowired
+    private HomeService homeService;
+
+    @Override
+    String getEntityName() {
+        return PAGE_FRAGMENT;
+    }
+
+    @Override
+    CRUDService<FeatureSection, Long> getService() {
+        return featureSectionService;
+    }
+
+
+    @Override
+    void updateSection(Model model) {
+        model.addAttribute("home", homeService.findAll());
+        model.addAttribute("feature", new FeatureSection());
+    }
+
+
+}
+package ru.tattoo.maxsim.controller;
+
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.model.Sketches;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.SketchesService;
+import ru.tattoo.maxsim.util.PageSize;
+
+
+@Controller
+@Slf4j
+@RequestMapping(SketchesController.URL)
+public class SketchesController extends CRUDController<Sketches, Long> {
+
+    public static final String URL = "/sketches";
+    private static final int PAGE_NUMBER = 0;
+
+    @Autowired
+    private SketchesService sketchesService;
+
+    @Override
+    String getEntityName() {
+        return "fragment-admin::sketches-import";
+    }
+
+    @Override
+    CRUDService<Sketches, Long> getService() {
+        return sketchesService;
+    }
+
+    @GetMapping()
+    public String sketches(Model model) {
+
+        model.addAttribute("sketches", sketchesService.getSketchesDto(null,null,PageSize.IMG_9.getPageSize(),PAGE_NUMBER));
+
+        return "sketches";
+    }
+
+    @GetMapping("/admin")
+
+    private String getSketchesFragment(Model model, HttpServletRequest request) {
+        log.info("Получено page {}",
+                request.getRequestURL());
+
+        model.addAttribute("sketchesEntity", new Sketches());
+        model.addAttribute("sketches", sketchesService.getSketchesDto(null,null,PageSize.IMG_9.getPageSize(),PAGE_NUMBER));
+
+        return "fragment-admin::sketches";
+    }
+
+    @RequestMapping(value = "/{page}/{number}", method = RequestMethod.GET)
+    private String remainsGroupShop(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
+
+        model.addAttribute("sketches", sketchesService.getSketchesDto(null,null,number,page));
+
+        return "sketches::galleryFilter";
+    }
+
+    @RequestMapping(value = "/admin/{page}/{number}", method = RequestMethod.GET)
+    private String goToPageSketches(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
+        model.addAttribute("sketchesEntity", new Sketches());
+        model.addAttribute("sketches", sketchesService.getSketchesDto(null,null,number,page));
+        return getEntityName();
+    }
+
+
+
+
+    @Override
+    void updateSection(Model model) {
+        model.addAttribute("sketchesEntity", new Sketches());
+        model.addAttribute("sketches", sketchesService.getSketchesDto(null,null,PageSize.IMG_9.getPageSize(),PAGE_NUMBER));
+    }
+}
+package ru.tattoo.maxsim.controller;
+
+
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import ru.tattoo.maxsim.model.ContactInfo;
+import ru.tattoo.maxsim.repository.ContactInfoRepository;
+import ru.tattoo.maxsim.repository.SettingWebsiteRepository;
+import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
+
+@ControllerAdvice
+public class GlobalController {
+    @Autowired
+    private ContactInfoRepository contactInfoRepository;
+    @Autowired
+    private SettingWebsiteService settingWebsiteService;
+
+
+    @ModelAttribute("servletPath")
+    String getRequestServletPath(HttpServletRequest request, Model model) {
+        model.addAttribute("contactInfo", contactInfoRepository.findLimit());
+        model.addAttribute("setting", settingWebsiteService.findAll());
+             return request.getServletPath();
+    }
+}package ru.tattoo.maxsim.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.AboutSection;
+import ru.tattoo.maxsim.model.ClassesSection;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.ClassesSectionService;
+import ru.tattoo.maxsim.service.interf.HomeService;
+import ru.tattoo.maxsim.util.ImageUtils;
+
+import java.io.IOException;
+import java.text.ParseException;
+
+
+
+@Controller
+@RequestMapping(ClassesSectionController.URL)
+public class ClassesSectionController extends CRUDController<ClassesSection, Long>{
+
+    public static final String URL = "/classes";
+    public static final String PAGE_FRAGMENT = "fragment-admin::classes";
+
+    @Autowired
+    private ClassesSectionService classesSectionService;
+    @Autowired
+    private HomeService homeService;
+
+    @Override
+    String getEntityName() {
+        return PAGE_FRAGMENT;
+    }
+
+    @Override
+    CRUDService<ClassesSection, Long> getService() {
+        return classesSectionService;
+    }
+
+    @Override
+    void updateSection(Model model) {model.addAttribute("home", homeService.findAll());
+        model.addAttribute("classes", new ClassesSection());
+    }
+}
+package ru.tattoo.maxsim.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.ClassesSection;
+import ru.tattoo.maxsim.model.PriceSection;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.HomeService;
+import ru.tattoo.maxsim.service.interf.PriceSectionService;
+import ru.tattoo.maxsim.util.ImageUtils;
+
+import java.io.IOException;
+import java.text.ParseException;
+
+
+@Controller
+@RequestMapping(PriceSectionController.URL)
+public class PriceSectionController extends CRUDController<PriceSection, Long>{
+
+    public static final String URL = "/price";
+    public static final String PAGE_FRAGMENT = "fragment-admin::price";
+
+    @Autowired
+    private PriceSectionService priceSectionService;
+
+    @Autowired
+    private HomeService homeService;
+
+    @Override
+    String getEntityName() {
+        return PAGE_FRAGMENT;
+    }
+
+    @Override
+    CRUDService<PriceSection, Long> getService() {
+        return priceSectionService;
+    }
+
+
+
+    @PostMapping("/import")
+    public String createEntity(@ModelAttribute("hero") PriceSection object,
+                               Model model) throws IOException, ParseException {
+
+        getService().create(object);
+        updateSection(model);
+        return getEntityName();
+    }
+
+
+    @Override
+    void updateSection(Model model) {
+        model.addAttribute("home", homeService.findAll());
+    }
+
+}
+package ru.tattoo.maxsim.controller;
+
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import ru.tattoo.maxsim.model.User;
+import ru.tattoo.maxsim.model.UserRole;
+import ru.tattoo.maxsim.repository.UserRepository;
+import ru.tattoo.maxsim.service.interf.UserService;
+import ru.tattoo.maxsim.validator.UserValidator;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+
+@Controller
+public class RegistrationController {
+
+    // Паттерн Service Layer: выделение логики в отдельный сервис
+    private final UserService userService;
+    private final UserValidator userValidator;
+    private final PasswordEncoder passwordEncoder;
+
+    // Конструктор для внедрения зависимостей
+    public RegistrationController(UserService userService, UserValidator userValidator, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.userValidator = userValidator;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @PostMapping("/process-registration")
+    public String processRegistration(@ModelAttribute("user") @Valid User user, Model model, BindingResult bindingResult) {
+        if (!validateUser(user, bindingResult)) {
+            model.addAttribute("errors", bindingResult.getAllErrors());
+            return "registration";
+        }
+
+        registerUser(user);
+        return "login";
+    }
+
+    @GetMapping("/registration")
+    public String registrationPage(Model model) {
+        model.addAttribute("user", new User());
+        return "registration";
+    }
+
+    // Метод для валидации пользователя
+    private boolean validateUser(User user, BindingResult bindingResult) {
+        userValidator.validate(user, bindingResult);
+        return !bindingResult.hasErrors();
+    }
+
+    // Метод для регистрации нового пользователя
+    private void registerUser(User user) {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        user.setRole(UserRole.USER.toString());
+        user.setDate(new Date());
+        userService.create(user);
+    }
+}package ru.tattoo.maxsim.controller;
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.model.ReviewsUser;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.service.interf.ReviewService;
+import ru.tattoo.maxsim.service.interf.SketchesService;
+import ru.tattoo.maxsim.util.PageSize;
+
+import java.io.IOException;
+import java.security.Principal;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.util.Collection;
+
+import static ru.tattoo.maxsim.model.UserRole.ADMIN;
+
+@Controller
+@Slf4j
+@RequestMapping(ReviewsController.URL)
+public class ReviewsController extends CRUDController<ReviewsUser, Long> {
+
+    public static final String URL = "/reviews";
+    private static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/img/images/";
+    private static final int PAGE_NUMBER = 0;
+
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private SketchesService sketchesService;
+
+    @Autowired
+    private ImagesService imagesService;
+
+    @GetMapping()
+    public String reviews(Model model) {
+
+        model.addAttribute("reviewsEntity", new ReviewsUser());
+        model.addAttribute("reviews", reviewService.findAll());
+        model.addAttribute("localDateTime", LocalDateTime.now());
+        model.addAttribute("count", reviewService.getCount());
+        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
+
+        return "reviews";
+    }
+
+    @GetMapping("/admin")
+
+    private String getGalleryFragment(Model model, HttpServletRequest request) {
+        log.info("Получено page {}",
+                request.getRequestURL());
+        model.addAttribute("reviewsEntity", new ReviewsUser());
+        model.addAttribute("reviews", reviewService.findAll());
+
+        return "fragment-admin::reviews";
+    }
+
+    @Override
+    String getEntityName() {
+        // Минимальное логирование для продакшена
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            log.trace("Неаутентифицированный доступ к отзывам");
+            return "reviews::fragment-reviews";
+        }
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        boolean isAdmin = authorities.stream()
+                .anyMatch(a -> {
+                    String authority = a.getAuthority();
+                    boolean matches = authority.equals("ADMIN");
+
+                    if (matches) {
+                        log.debug("✅ Найдена административная роль: {}", authority);
+                    }
+
+                    return matches;
+                });
+
+        if (isAdmin) {
+            log.debug("Админ {} получает доступ к админ-панели отзывов",
+                    authentication.getName());
+            return "fragment-admin::reviews";
+        }
+
+        log.trace("Пользователь {} получает публичный доступ к отзывам",
+                authentication.getName());
+        return "reviews::fragment-reviews";
+    }
+
+    @Override
+    CRUDService<ReviewsUser, Long> getService() {
+        return reviewService;
+    }
+
+    @Override
+    void updateSection(Model model) {
+        model.addAttribute("reviewsEntity", new ReviewsUser());
+        model.addAttribute("reviews", reviewService.findAll());
+    }
+}
+package ru.tattoo.maxsim.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import ru.tattoo.maxsim.model.ContactInfo;
+import ru.tattoo.maxsim.model.User;
+
+@Controller
+public class LoginController {
+    @GetMapping("/login")
+    public String login(Model model) {
+        model.addAttribute("user", new User());
+        return "login";
+    }
+}
+package ru.tattoo.maxsim.controller;
+
+
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import ru.tattoo.maxsim.model.ClassesSection;
+import ru.tattoo.maxsim.model.DTO.GalleryDTO;
+import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.repository.ImagesRepository;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.ClassesSectionService;
+import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.util.PageSize;
+
+import java.security.Principal;
+
+@Controller
+@Slf4j
+@RequestMapping(GalleryController.URL)
+public class GalleryController extends CRUDController<Images, Long> {
+
+    public static final String URL = "/gallery";
+    private static final String ALL_GALLERY = "Вся галерея";
+    private static final int PAGE_NUMBER = 0;
+
+
+    @Autowired
+    private ImagesService imagesService;
+
+    @Autowired
+    private ImagesRepository imagesRepository;
+
+    @Autowired
+    private ClassesSectionService classesSectionService;
+
+    @Override
+    String getEntityName() {
+        return "fragment-admin::img-import";
+    }
+
+    @Override
+    CRUDService<Images, Long> getService() {
+        return imagesService;
+    }
+
+    @GetMapping()
+    public String gallery(Model model) {
+
+        model.addAttribute("gallery", prepareGalleryData(null, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+        model.addAttribute("classes", classesSectionService.findAll());
+
+        return "gallery";
+    }
+
+    @GetMapping("/admin")
+
+    private String getGalleryFragment(Model model, HttpServletRequest request) {
+        log.info("Получено page {}",
+                request.getRequestURL());
+        model.addAttribute("gallery", prepareGalleryData(null, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+        model.addAttribute("images", new Images());
+        model.addAttribute("styleList", classesSectionService.findAll());
+        return "fragment-admin::gallery";
+    }
+
+    @RequestMapping(value = "{style}/{page}/{number}", method = RequestMethod.GET)
+    private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model, HttpServletRequest request,Principal principal) {
+
+        boolean isAdmin = principal instanceof Authentication auth
+                && auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ADMIN"));
+        log.info("Получено page {} number {}",
+                page, number);
+        model.addAttribute("gallery", prepareGalleryData( style, page, number));
+        model.addAttribute("images", new Images());
+
+        return isAdmin ? getEntityName() : "gallery::galleryFilter";
+    }
+
+    @RequestMapping(value ="/filter/style/{style}", method = RequestMethod.GET)
+    public String galleryFilter(@PathVariable("style") String style, Model model) {
+        System.out.println("Style:" + style);
+        model.addAttribute("gallery", prepareGalleryData(style, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+        model.addAttribute("classes", classesSectionService.findAll());
+        return "gallery";
+    }
+
+
+    @RequestMapping(value = "reviews/{page}/{number}", method = RequestMethod.GET)
+    private String reviewsModal(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model) {
+
+        model.addAttribute("gallery", prepareGalleryData(null, page, number));
+        model.addAttribute("images", new Images());
+
+        return "fragments::modal-img";
+    }
+
+    @PostMapping("/update-flag")
+
+    public String updateFlag(@RequestParam("id") Long id,
+                             @RequestParam("flag") boolean flag,
+                             Model model,
+                             Authentication auth) {
+
+        log.info("Обновление флага: id={}, flag={}, user={}", id, flag, auth.getName());
+
+        try {
+            String message = imagesService.updateImageFlag(id, flag);
+            model.addAttribute("message", message);
+            log.debug("Флаг обновлен успешно: {}", message);
+
+        } catch (EntityNotFoundException e) {
+            log.error("Изображение не найдено: id={}, error={}", id, e.getMessage());
+            model.addAttribute("error", e.getMessage());
+        } catch (Exception e) {
+            log.error("Ошибка обновления флага: id={}, error={}", id, e.getMessage(), e);
+            model.addAttribute("error", "Внутренняя ошибка");
+        }
+
+        return "admin::modal-body";
+    }
+
+    @Override
+    void updateSection(Model model) {
+        model.addAttribute("gallery", prepareGalleryData(null, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+        model.addAttribute("images", new Images());
+    }
+
+
+    // 🔄 метод для подготовки данных галереи
+    private GalleryDTO prepareGalleryData(String style, int page, int page_size) {
+        // ✅ Логика обработки стиля "Вся галерея"
+        String normalizedStyle = ALL_GALLERY.equals(style) ? null : style;
+        return imagesService.getGalleryDto(normalizedStyle, null, page_size, page);
+    }
+}
+package ru.tattoo.maxsim.controller;
+
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.*;
+import ru.tattoo.maxsim.repository.CommitsRepository;
+import ru.tattoo.maxsim.service.interf.*;
+import ru.tattoo.maxsim.util.PageSize;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+@Controller
+@Slf4j
+@RequestMapping(BlogController.URL)
+public class BlogController extends CRUDController<Blog, Long> {
+
+    public static final String URL = "/blog";
+
+    @Autowired
+    private ReviewService reviewService;
+    @Autowired
+    private CommitsService commitsService;
+    @Autowired
+    private CommitsRepository commitsRepository;
+    @Autowired
+    private SketchesService sketchesService;
+    @Autowired
+    private BlogService blogService;
+    @Autowired
+    private ModelMapper modelMapper;
+    private Model model;
+
+    @Override
+    String getEntityName() {
+        return "fragment-admin::blog-pic";
+    }
+
+    @Override
+    CRUDService<Blog, Long> getService() {
+        return blogService;
+    }
+
+    @Override
+    void updateSection(Model model) {
+        model.addAttribute("localDateTime", LocalDateTime.now());
+        model.addAttribute("count", reviewService.getCount());
+        model.addAttribute("commits", commitsService.findLimit());
+        model.addAttribute("sketches", sketchesService.findLimit());
+        model.addAttribute("interestingWorks", blogService.findLimit());
+        model.addAttribute("blog", blogService.findAll());
+        model.addAttribute("commitsEntity", new Commits());
+        model.addAttribute("blogEntity", new Blog());
+    }
+
+    @GetMapping()
+    public String blog(Model model) {
+        updateSection(model);
+        return "blog";
+    }
+
+    @GetMapping("/admin")
+
+    private String getBlogFragment(Model model, HttpServletRequest request) {
+        log.info("Получено page {}",
+                request.getRequestURL());
+        updateSection(model);
+
+        return "fragment-admin::blog";
+    }
+
+    @Override
+    @PostMapping("/import")
+    public String createEntity(@ModelAttribute("hero") Blog object,
+                               Model model) throws IOException, ParseException {
+
+        getService().create(object);
+        updateSection(model);
+        return "fragment-admin::blog-single-text"; // Прямо указываем нужный фрагмент
+    }
+    
+    @PostMapping("/work-import")
+    public String uploadWork(@ModelAttribute("hero") Blog object,
+                             @RequestParam("file") MultipartFile fileImport,
+                             Model model) throws IOException, ParseException {
+        object.setDate(new Date());
+        getService().saveImg(fileImport, object);
+        model.addAttribute("interestingWorks", blogService.findLimit());
+        model.addAttribute("blogEntity", new Blog());
+        return "fragment-admin::interesting-works";
+    }
+
+    @Override
+    @GetMapping("/delete-work/{id}")
+    public String deleteEntity(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
+        getService().deleteById(id);
+        model.addAttribute("interestingWorks", blogService.findLimit());
+        model.addAttribute("blogEntity", new Blog());
+        return "fragment-admin::interesting-works";
+    }
+}
+package ru.tattoo.maxsim.controller;
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.*;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.ContactInfoService;
+import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
+import ru.tattoo.maxsim.service.interf.UserService;
+import ru.tattoo.maxsim.util.ImageUtils;
+import ru.tattoo.maxsim.util.PageSize;
+
+import java.io.IOException;
+import java.text.ParseException;
+
+@Controller
+@Slf4j
+@RequestMapping(SettingWebsiteController.URL)
+public class SettingWebsiteController extends CRUDController<SettingWebsite, Long> {
+
+    public static final String URL = "/setting";
+
+    @Autowired
+    private SettingWebsiteService settingWebsiteService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ContactInfoService contactInfoService;
+
+    @GetMapping("/admin")
+    private String getGalleryFragment(Model model, HttpServletRequest request) {
+        log.info("Получено page {}",
+                request.getRequestURL());
+        model.addAttribute("setting", settingWebsiteService.findAll());
+        model.addAttribute("users", userService.findAll());
+
+        return "fragment-admin::setting";
+    }
+
+    @PostMapping("/head/{section}")
+    public String uploadHome(@ModelAttribute()SettingWebsite settingWebsite, @PathVariable("section") String section, Model model) {
+        settingWebsite.setSection(section);
+        settingWebsiteService.create(settingWebsite);
+        model.addAttribute("setting", settingWebsiteService.findAll());
+        return "Извлечь метод...::"+section;
+    }
+    @Override
+    @PostMapping("/import")
+    public String createEntity(@ModelAttribute("hero") SettingWebsite object,
+                         Model model) throws IOException, ParseException {
+        getService().create(object);
+        model.addAttribute("setting", settingWebsiteService.findAll());
+        return "fragments::footer";
+    }
+
+    @PostMapping("/image-import")
+    public String uploadImage(@ModelAttribute("hero") SettingWebsite object,
+                              @RequestParam("file") MultipartFile fileImport,
+                              Model model) throws IOException, ParseException {
+
+        object = getService().findById(object.getId());
+
+        getService().saveImg(fileImport, object);
+
+        updateSection(model);
+        return getEntityName(object);
+    }
+
+    String getEntityName(SettingWebsite object) {
+        return getEntityName() + object.getSection();
+    }
+
+    @Override
+    String getEntityName() {
+        return "fragment-admin::";
+    }
+
+    @Override
+    CRUDService<SettingWebsite, Long> getService() {
+        return settingWebsiteService;
+    }
+
+    @Override
+    void updateSection(Model model) {
+        model.addAttribute("setting", settingWebsiteService.findAll());
+    }
+}
+package ru.tattoo.maxsim.controller;
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import ru.tattoo.maxsim.model.*;
+import ru.tattoo.maxsim.model.DTO.CommitsDTO;
+import ru.tattoo.maxsim.model.DTO.GalleryDTO;
+import ru.tattoo.maxsim.repository.ContactInfoRepository;
+import ru.tattoo.maxsim.service.interf.*;
+import ru.tattoo.maxsim.util.PageSize;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.stream.Collectors;
+
+
+@Controller
+@Slf4j
+@RequestMapping(AdminController.ADMIN_URL)
+public class AdminController {
+
+    private static final String ALL_GALLERY = "Вся галерея";
+    public static final String ADMIN_URL = "/admin";
+    public static final String ADMIN_NAME = "admin";
+
+
+    @Autowired
+    private ImagesService imagesService;
+
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private SketchesService sketchesService;
+
+    @Autowired
+    private CommitsService commitsService;
+
+    @Autowired
+    private HomeService homeService;
+
+    @Autowired
+    private ContactInfoRepository contactInfoRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
+    private BlogService blogService;
+
+    @Autowired
+    private SettingWebsiteService settingWebsiteService;
+
+
+
+    @GetMapping
+    public String showPage(Model model) {
+        populateAdminDashboard(model);
+        return getEntityName();
+    }
+
+    @GetMapping("/home")
+    public String showHomeFragment(Model model, HttpServletRequest request) {
+        log.info("Получено page {}",
+                request.getRequestURL());
+        populateAdminDashboard(model);
+        return "fragment-admin::fragment-tab";
+    }
+
+
+    // Вспомогательные методы для уменьшения дублирования кода
+    private void populateAdminDashboard(Model model) {
+
+        model.addAttribute("sketchesEntity", new Sketches());
+        model.addAttribute("hero", new HomeHeroSection());
+        model.addAttribute("feature", new FeatureSection());
+        model.addAttribute("about", new AboutSection());
+        model.addAttribute("classes", new ClassesSection());
+        model.addAttribute("chooseus", new ChooseusSection());
+        model.addAttribute("images", new Images());
+        model.addAttribute("blogEntity", new Blog());
+
+        model.addAttribute("home", homeService.findAll());
+
+    }
+
+
+    String getEntityName() {
+        return ADMIN_NAME;
+    }
+
+}
+
+package ru.tattoo.maxsim.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.AboutSection;
+import ru.tattoo.maxsim.model.HomeHeroSection;
+import ru.tattoo.maxsim.service.interf.AboutSectionService;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.HomeService;
+import ru.tattoo.maxsim.util.ImageUtils;
+
+import java.io.IOException;
+
+@Controller
+@RequestMapping(AboutSectionController.URL)
+public class AboutSectionController extends CRUDController<AboutSection, Long> {
+
+    public static final String URL = "/about";
+    public static final String PAGE_FRAGMENT = "fragment-admin::home-about";
+
+    @Autowired
+    private AboutSectionService aboutSectionService;
+
+    @Autowired
+    private HomeService homeService;
+
+    @Override
+    String getEntityName() {
+        return PAGE_FRAGMENT;
+    }
+
+    @Override
+    CRUDService<AboutSection, Long> getService() {
+        return aboutSectionService;
+    }
+
+
+
+    @Override
+    void updateSection(Model model) {
+        model.addAttribute("home", homeService.findAll());
+        model.addAttribute("about", new AboutSection());
+    }
+}
+package ru.tattoo.maxsim.controller;
+
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.repository.ImagesRepository;
+import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.service.interf.ReviewService;
+
+import java.util.List;
+
+@Controller
+public class AboutMeController {
+
+    @Autowired
+    private ReviewService reviewService;
+    @Autowired
+    private ImagesService imagesService;
+
+    @GetMapping("/about-me")
+    public String about(Model model) {
+        model.addAttribute("reviewsLimit", reviewService.findLimit());
+        model.addAttribute("bestTattoos", imagesService.findByFlagTrue());
+        return "about-me";
+    }
+
+}
+package ru.tattoo.maxsim.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import ru.tattoo.maxsim.model.User;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.UserService;
+
+import java.io.IOException;
+import java.text.ParseException;
+
+@Controller
+@RequestMapping(UserController.URL)
+public class UserController extends CRUDController<User, Long> {
+
+    public static final String URL = "/user";
+
+    @Autowired
+    private UserService userService;
+
+    @Override
+    String getEntityName() {
+        return "admin::user";
+    }
+
+    @Override
+    CRUDService<User, Long> getService() {
+        return userService;
+    }
+
+    @Override
+    void updateSection(Model model) {
+        model.addAttribute("users", userService.findAll());
+    }
+
+    @Override
+    @GetMapping("/delete/{id}")
+    public String deleteEntity(@PathVariable("id") Long id, Model model) throws IOException, ParseException {
+        getService().deleteById(id);
+        updateSection(model);
+        return getEntityName();
+    }
+}
+package ru.tattoo.maxsim.controller;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+
+import java.io.IOException;
+import java.text.ParseException;
+
+@Controller
+@Slf4j
+public abstract class CRUDController<E, K>  {
+
+    abstract String getEntityName();
+    abstract CRUDService<E, K> getService();
+    abstract void updateSection(Model model);
+
+
+
+    @GetMapping("/delete-section/{id}")
+    public String deleteEntity(@PathVariable("id") K id, Model model) throws IOException, ParseException {
+        getService().deleteById(id);
+        updateSection(model);
+        return getEntityName();
+    }
+
+    @PostMapping("/image-import")
+    public String uploadImage(@ModelAttribute("hero") E object,
+                             @RequestParam("file") MultipartFile fileImport,
+                             Model model) throws IOException, ParseException {
+
+
+        String fileName = fileImport != null ? fileImport.getOriginalFilename() : "null";
+        long fileSize = fileImport != null ? fileImport.getSize() : 0;
+
+
+        log.info("Файл: '{}', Размер: {} байт, Тип: {}",
+                fileName, fileSize, fileImport != null ? fileImport.getContentType() : "unknown");
+
+        log.debug("Детали объекта до обработки: {}", object != null ? object.toString() : "null");
+
+
+
+        getService().saveImg(fileImport, object);
+
+        updateSection(model);
+        return getEntityName();
+    }
+
+    @PostMapping("/import")
+    public String createEntity(@ModelAttribute("hero") E object,
+                              Model model) throws IOException, ParseException {
+
+        getService().create(object);
+        updateSection(model);
+        return getEntityName();
+    }
+}
+
+package ru.tattoo.maxsim.controller;
+
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.HomeHeroSection;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.HeroSectionService;
+import ru.tattoo.maxsim.service.interf.HomeService;
+import ru.tattoo.maxsim.util.ImageUtils;
+
+import java.io.IOException;
+
+@Controller
+@RequestMapping(HeroSectionController.URL)
+public class HeroSectionController extends CRUDController<HomeHeroSection, Long>{
+
+    public static final String URL = "/hero";
+    public static final String PAGE_FRAGMENT = "fragment-admin::carousel-import";
+
+    @Autowired
+    private HeroSectionService heroSectionService;
+
+    @Autowired
+    private HomeService homeService;
+
+    @Override
+    String getEntityName() {
+        return  PAGE_FRAGMENT;
+    }
+
+    @Override
+    CRUDService<HomeHeroSection, Long> getService() {
+        return heroSectionService;
+    }
+
+    @Override
+    void updateSection(Model model) {
+        model.addAttribute("home", homeService.findAll());
+
+        model.addAttribute("hero", new HomeHeroSection());
+    }
+}
+package ru.tattoo.maxsim.controller;
+
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import ru.tattoo.maxsim.model.EmailDetails;
+import ru.tattoo.maxsim.service.interf.EmailService;
+import ru.tattoo.maxsim.service.interf.HomeService;
+import ru.tattoo.maxsim.service.interf.ReviewService;
+
+@Slf4j
+@Controller
+public class IndexController {
+
+    private final EmailService emailService;
+    private final ReviewService reviewService;
+    private final HomeService homeService;
+
+    public IndexController(EmailService emailService,
+                           ReviewService reviewService,
+                           HomeService homeService) {
+        this.emailService = emailService;
+        this.reviewService = reviewService;
+        this.homeService = homeService;
+    }
+
+    @ModelAttribute
+    public void addCommonAttributes (Model model){
+        model.addAttribute("reviewsLimit" , reviewService.findLimit());
+        model.addAttribute("carousel" , homeService.findAll());
+    }
+
+    @GetMapping("/")
+    public String home(@ModelAttribute("details") EmailDetails details) {
+        log.debug("Loading home page");
+        return "Index";
+    }
+
+    @PostMapping("/mail")
+    public String sendMail(
+            @Valid @ModelAttribute("details") EmailDetails details,
+            Model model,
+            BindingResult bindingResult) {
+
+        log.debug("Processing email request from: {}, subject: {}",
+                details.getName(), details.getSubject());
+
+        if (bindingResult.hasErrors()){
+            log.warn("Validation errors: {}", bindingResult.getAllErrors());
+            // Валидация уже выполняется в JavaScript, но это резервная проверка
+            model.addAttribute("validationErrors", bindingResult.getAllErrors());
+            return "Index::map-contact-form";
+        }
+
+        try {
+            boolean isSuccess = emailService.sendSimpleMail(details);
+            model.addAttribute("status", isSuccess ?
+                    "Сообщение отправлено" :
+                    "Ошибка при отправке сообщения");
+            log.info("Email sent successfully to: {}, from: {}",
+                    details.getRecipient(), details.getName());
+        } catch (Exception e){
+            model.addAttribute("status", "Ошибка сервера. Попробуйте позже.");
+            log.error("Error sending email: {}", e.getMessage());
+        }
+
+        model.addAttribute("details", new EmailDetails());
+        return "Index::map-contact-form";
+    }
+}
+package ru.tattoo.maxsim.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.ChooseusSection;
+import ru.tattoo.maxsim.model.PriceSection;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.ChooseusSectionService;
+import ru.tattoo.maxsim.service.interf.HomeService;
+import ru.tattoo.maxsim.service.interf.PriceSectionService;
+import ru.tattoo.maxsim.util.ImageUtils;
+
+import java.io.IOException;
+import java.text.ParseException;
+
+@Controller
+@RequestMapping(ChooseusSectionController.URL)
+public class ChooseusSectionController extends CRUDController<ChooseusSection, Long> {
+
+    public static final String URL = "/chooseus";
+    public static final String PAGE_FRAGMENT = "fragment-admin::chooseus";
+
+    @Autowired
+    private ChooseusSectionService chooseusSectionService;
+
+    @Autowired
+    private HomeService homeService;
+
+    @Override
+    String getEntityName() {
+        return PAGE_FRAGMENT;
+    }
+
+    @Override
+    CRUDService<ChooseusSection, Long> getService() {
+        return chooseusSectionService;
+    }
+
+
+
+
+    @Override
+    void updateSection(Model model) {
+        model.addAttribute("chooseus", new ChooseusSection());
+        model.addAttribute("home", homeService.findAll());
+    }
+}
+package ru.tattoo.maxsim.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import ru.tattoo.maxsim.model.ContactInfo;
+import ru.tattoo.maxsim.model.EmailDetails;
+import ru.tattoo.maxsim.repository.ContactInfoRepository;
+import ru.tattoo.maxsim.service.interf.CRUDService;
+import ru.tattoo.maxsim.service.interf.ContactInfoService;
+import ru.tattoo.maxsim.service.interf.EmailService;
+import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
+
+@Controller
+@RequestMapping(ContactController.URL)
+public class ContactController extends CRUDController <ContactInfo, Long> {
+
+    public static final String URL = "/contact";
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private ContactInfoRepository contactInfoRepository;
+
+    @Autowired
+    private ContactInfoService contactInfoService;
+
+    @Autowired
+    private SettingWebsiteService settingWebsiteService;
+
+    @GetMapping()
+    public String gallery(Model model) {
+        model.addAttribute("details", new EmailDetails());
+        return "contact";
+    }
+
+    @PostMapping("/send-mail")
+    public String  sendMail(@ModelAttribute("details") EmailDetails details, Model model) {
+
+        boolean isSuccess = emailService.sendSimpleMail(details);
+
+           if(isSuccess){
+               model.addAttribute("status", "Mail Sent Successfully...");
+           }else{
+               model.addAttribute("status", "Error while Sending Mail");
+           }
+
+        model.addAttribute("details", new EmailDetails());
+        return "contact::contact-form";
+    }
+
+    @Override
+    String getEntityName() {
+        return "fragments::footer";
+    }
+
+    @Override
+    CRUDService<ContactInfo, Long> getService() {
+        return contactInfoService;
+    }
+
+    @Override
+    void updateSection(Model model) {
+        model.addAttribute("contactInfo", contactInfoRepository.findLimit());
+        model.addAttribute("setting", settingWebsiteService.findAll());
+    }
+}
+package ru.tattoo.maxsim.controller;
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.model.DTO.UserDTO;
+import ru.tattoo.maxsim.model.Images;
+import ru.tattoo.maxsim.model.ReviewsUser;
+import ru.tattoo.maxsim.model.User;
+import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.service.interf.ReviewService;
+import ru.tattoo.maxsim.service.interf.UserService;
+import ru.tattoo.maxsim.util.ImageUtils;
+import ru.tattoo.maxsim.util.PageSize;
+
+import java.io.IOException;
+import java.security.Principal;
+import java.text.ParseException;
+import java.util.Date;
+
+@Slf4j
+@Controller
+public class LkController {
+
+    @Autowired
+    private ImagesService imagesService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ReviewService reviewService;
+
+    private static final int PAGE_NUMBER = 0;
+
+    /**
+     * Загружает личную страницу пользователя.
+     */
+    @GetMapping("/lk")
+    public String loadPersonalPage(Model model, Principal principal) {
+        model.addAttribute("userTattoo", new Images());
+        loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
+        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
+        return "lk";
+    }
+
+    /**
+     * Отображение фрагмента с эскизами работ пользователя.
+     */
+    @GetMapping("/sketchesrs/{page}/{number}")
+    public String showSketchesFragment(HttpServletRequest request, @PathVariable("page") int page, @PathVariable("number") int number, Model model, Principal principal) {
+        loadUserGallery(model, principal, number, page); // Загружаем галерею пользователя
+        return "fragment-lk::modal-img";
+    }
+
+    /**
+     * Загружает фрагмент с информацией о пользователе.
+     */
+    @GetMapping("/user-info")
+    public String loadUserInfoFragment(Model model, Principal principal) {
+        loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
+        return "fragment-lk::review-fragment";
+    }
+
+    /**
+     * Сохраняет отзыв пользователя.
+     */
+    @PostMapping("/reviews-user-import")
+    public String saveUserReview(@RequestParam("file") MultipartFile fileImport, @ModelAttribute("reviewsEntity") ReviewsUser object, Model model, Principal principal) throws IOException, ParseException {
+
+        if (!fileImport.isEmpty()) {
+            log.info("Получено file {}", fileImport.getOriginalFilename());
+            Images images = new Images();
+            images.setDescription(object.getComment());
+            Images savedImage = imagesService.saveImg(fileImport, images);
+
+            String savedImageName = savedImage.getImageName();
+            log.info("savedImageName {}", savedImageName);
+            object.setImageName(savedImageName);
+        }
+        object.setUserName(principal.getName());
+        object.setDate(new Date());
+        reviewService.create(object); // Сохраняем отзыв
+        loadUserDataIntoModel(model, principal);                         // Обновляем данные пользователя
+        return "fragment-lk::review-fragment";
+    }
+
+    /**
+     * Загружает новое тату пользователя.
+     */
+    @PostMapping("/tattoos-user-import")
+    public String uploadUserTattoo(@RequestParam("file") MultipartFile fileImport, @ModelAttribute("userTattoo") Images object, Model model, Principal principal) throws IOException, ParseException {
+        object.setUserName(principal.getName());
+        imagesService.saveImg(fileImport, object); // Сохраняем изображение
+        loadUserDataIntoModel(model, principal);                     // Обновляем данные пользователя
+        model.addAttribute("userTattoo", new Images());
+        return "fragment-lk::first-fragment";
+    }
+
+    /**
+     * Загружает форму редактирования профиля.
+     */
+    @GetMapping("/profile-editing")
+    public String loadProfileEditForm(Model model, Principal principal) {
+        loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
+        return "fragment-lk::profile-editing";
+    }
+
+    @PostMapping("/update/profile-editing")
+    public String loadProfileEditForm(@ModelAttribute("UserDTO") User object, Model model, Principal principal) {
+        loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
+        return "fragment-lk::profile-editing";
+    }
+
+    /**
+     * Загружает галерею татуировок пользователя.
+     */
+    @GetMapping("/user-tattoos")
+    public String loadUserTattoos(Model model, Principal principal) {
+        model.addAttribute("userTattoo", new Images());
+        loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
+        return "fragment-lk::first-fragment";
+    }
+
+    /**
+     * Загружает аватар пользователя.
+     */
+    @PostMapping("/avatar-import")
+    public String uploadUserAvatar(@RequestParam("file") MultipartFile fileImport, Model model, Principal principal) throws IOException, ParseException {
+
+        userService.updateUserAvatar(fileImport, principal); // Сохраняем новый аватар
+        loadUserDataIntoModel(model, principal);       // Обновляем данные пользователя
+        model.addAttribute("userTattoo", new Images());
+        return "lk::profile-avatar";
+    }
+
+    /**
+     * Загружает данные пользователя в модель.
+     */
+    private void loadUserDataIntoModel(Model model, Principal principal) {
+        model.addAttribute("UserDTO", userService.findByLogin(principal.getName()));
+    }
+
+    /**
+     * Загружает галерею пользователя в модель.
+     */
+    private void loadUserGallery(Model model, Principal principal, int number, int page) {
+        model.addAttribute("gallery", imagesService.getGalleryDto(null, principal, number, page));
+    }
+
+    /**
+     * Загружает галерею пользователя в модель (используется в личной странице).
+     */
+    private void loadUserGallery(Model model, Principal principal) {
+        loadUserGallery(model, principal, PageSize.IMG_9.getPageSize(), PAGE_NUMBER);
+    }
+}package ru.tattoo.maxsim.repository;
+
+import jdk.jfr.Registered;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import ru.tattoo.maxsim.model.PriceSection;
+
+@Repository
+public interface PriceSectionRepository extends JpaRepository<PriceSection, Long> {
+}
+package ru.tattoo.maxsim.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import ru.tattoo.maxsim.model.SettingWebsite;
+
+@Repository
+public interface SettingWebsiteRepository extends JpaRepository<SettingWebsite, Long> {
+}
+package ru.tattoo.maxsim.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import ru.tattoo.maxsim.model.Home;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface HomeRepository extends JpaRepository<Home, Long> {
+
+}
+
+package ru.tattoo.maxsim.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import ru.tattoo.maxsim.model.ChooseusSection;
+
+import java.util.Optional;
+
+@Repository
+public interface ChooseusSectionRepository extends JpaRepository<ChooseusSection, Long> {
+
+    @Query("SELECT imageName  FROM ChooseusSection WHERE id = ?1")
+    Optional<String> getName(Long id);
+}
+package ru.tattoo.maxsim.repository;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+import ru.tattoo.maxsim.model.DTO.UserDTO;
+import ru.tattoo.maxsim.model.User;
+
+import java.util.Optional;
+
+@Repository
+public interface UserRepository extends CrudRepository<User, Long> {
+
+    Optional<User> findByLogin(String login);
+
+    @Query("SELECT avatar  FROM User WHERE id = ?1")
+    Optional<String> findNameById(Long id);
+}
+package ru.tattoo.maxsim.repository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import ru.tattoo.maxsim.model.Images;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface ImagesRepository extends JpaRepository<Images, Long> {
+
+    Page<Images> findByCategory(String c, Pageable p);
+
+    Page<Images> findByUserName(String c, Pageable p);
+
+    @Query("SELECT i FROM Images i WHERE i.category = :category AND i.userName = :userName")
+    Page<Images> findByCategoryAndUser(
+            @Param("category") String category,
+            @Param("userName") String userName,
+            Pageable pageable);
+
+
+    @Query("SELECT imageName  FROM Images WHERE id = ?1")
+    Optional<String> findNameById(Long id);
+
+    @Query("SELECT c FROM Images c WHERE c.flag = true")
+    Iterable<Images> findByFlagTrue();
+
+    List<Images> findByUserName(String s);
+
+}
+package ru.tattoo.maxsim.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import ru.tattoo.maxsim.model.Commits;
+
+import java.util.List;
+
+@Repository
+public interface CommitsRepository extends JpaRepository<Commits, Long> {
+    @Query("SELECT e FROM Commits e ORDER BY ID DESC LIMIT 4")
+    List<Commits> findLimit();
+
+}
+package ru.tattoo.maxsim.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import ru.tattoo.maxsim.model.ContactInfo;
+
+import java.util.List;
+
+public interface ContactInfoRepository extends JpaRepository <ContactInfo, Long> {
+    @Query("SELECT e FROM ContactInfo e ORDER BY ID DESC LIMIT 1")
+    ContactInfo findLimit();
+}
+package ru.tattoo.maxsim.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import ru.tattoo.maxsim.model.Blog;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface BlogRepository extends JpaRepository<Blog, Long> {
+
+    List<Blog> findTop4ByDescriptionIsNotNullOrderByDateDesc();
+
+    List<Blog> findByDescriptionIsNotNullOrderByDateDesc();
+
+    @Query("SELECT imageName  FROM Blog WHERE id = ?1")
+    Optional<String> findNameById(Long id);
+}
+package ru.tattoo.maxsim.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import ru.tattoo.maxsim.model.FeatureSection;
+
+import java.util.Optional;
+
+@Repository
+public interface FeatureSectionRepository extends JpaRepository<FeatureSection, Long> {
+    @Query("SELECT imageName  FROM FeatureSection WHERE id = ?1")
+    Optional<String> getName(Long id);
+}
+package ru.tattoo.maxsim.repository;
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import ru.tattoo.maxsim.model.Sketches;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface SketchesRepository extends JpaRepository<Sketches, Long> {
+
+    @Query("SELECT imageName  FROM Sketches WHERE id = ?1")
+    Optional<String> findNameById(Long id);
+
+    @Query("SELECT e FROM Sketches e ORDER BY ID DESC LIMIT 3")
+    List<Sketches> findLimit();
+
+
+}
+package ru.tattoo.maxsim.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import ru.tattoo.maxsim.model.AboutSection;
+import java.util.Optional;
+
+
+@Repository
+public interface AboutSectionRepository extends JpaRepository<AboutSection,Long> {
+    @Query("SELECT imageName  FROM AboutSection WHERE id = ?1")
+    Optional<String> getName(Long id);
+}
+package ru.tattoo.maxsim.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import ru.tattoo.maxsim.model.HomeHeroSection;
+
+import java.util.Optional;
+
+@Repository
+public interface HomeHeroSectionRepository extends JpaRepository<HomeHeroSection, Long> {
+    @Query("SELECT imageName  FROM HomeHeroSection WHERE id = ?1")
+    Optional<String> getName(Long id);
+}
+package ru.tattoo.maxsim.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import ru.tattoo.maxsim.model.ReviewsUser;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface ReviewsUserRepository extends JpaRepository<ReviewsUser, Long> {
+
+    @Query("SELECT e FROM ReviewsUser e ORDER BY ID DESC LIMIT 4")
+    List<ReviewsUser> findLimit();
+
+    @Query("SELECT imageName  FROM ReviewsUser WHERE id = ?1")
+    Optional<String> findNameById(Long id);
+
+    @Query("SELECT COUNT(id) FROM ReviewsUser")
+    int getCount();
+
+
+}
+package ru.tattoo.maxsim.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import ru.tattoo.maxsim.model.ClassesSection;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface ClassesSectionRepository extends JpaRepository<ClassesSection, Long> {
+
+    @Query("SELECT imageName  FROM ClassesSection WHERE id = ?1")
+    Optional<String> getName(Long id);
+
+
+    List<ClassesSection> findByTitle(String s);
+}
+package ru.tattoo.maxsim.storage;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * Интерфейс для работы с хранилищем изображений.
+ * Позволяет абстрагироваться от конкретного способа хранения.
+ */
+public interface ImageStorage {
+
+    /**
+     * Сохраняет изображение
+     *
+     * @param file     файл для сохранения
+     * @param fileName имя файла
+     * @return уникальный идентификатор сохраненного файла
+     */
+    String saveImage(MultipartFile file, String fileName) throws Exception;
+
+    /**
+     * Удаляет изображение
+     * @param fileName имя файла
+     */
+    void deleteImage(String fileName) throws IOException;
+
+    /**
+     * Проверяет существование изображения
+     * @param fileName имя файла
+     */
+    boolean existsImage(String fileName);
+
+    /**
+     * Получает изображение как массив байт
+     * @param fileName имя файла
+     */
+    byte[] getImage(String fileName) throws IOException;
+
+    /**
+     * Генерирует уникальное имя файла
+     * @param originalFileName оригинальное имя
+     */
+    String generateUniqueFileName(String originalFileName);
+
+    /**
+     * Разбивает список на страницы
+     */
+    <T> List<List<T>> partition(List<T> list, int size);
+}
+package ru.tattoo.maxsim.storage.Impl;
+
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.storage.ImageStorage;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * InMemory реализация для тестирования.
+ * Хранит файлы в памяти, не трогает диск.
+ */
+public class InMemoryImageStorage implements ImageStorage {
+
+    private final Map<String, byte[]> storage = new ConcurrentHashMap<>();
+
+    @Override
+    public String saveImage(MultipartFile file, String fileName) throws IOException {
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("Файл не может быть пустым");
+        }
+
+        String uniqueName = generateUniqueFileName(fileName);
+        storage.put(uniqueName, file.getBytes());
+        return uniqueName;
+    }
+
+    @Override
+    public void deleteImage(String fileName) {
+        storage.remove(fileName);
+    }
+
+    @Override
+    public boolean existsImage(String fileName) {
+        return storage.containsKey(fileName);
+    }
+
+    @Override
+    public byte[] getImage(String fileName) throws IOException {
+        byte[] content = storage.get(fileName);
+        if (content == null) {
+            throw new IOException("Файл не найден: " + fileName);
+        }
+        return content;
+    }
+
+    @Override
+    public String generateUniqueFileName(String originalFileName) {
+        if (originalFileName == null) {
+            throw new NullPointerException("Имя файла не может быть null");
+        }
+        return UUID.randomUUID() + "_" + originalFileName;
+    }
+
+    @Override
+    public <T> List<List<T>> partition(List<T> list, int size) {
+        // Временно заглушка
+        return List.of();
+    }
+
+    // Для тестов
+    public void clear() {
+        storage.clear();
+    }
+
+    public int size() {
+        return storage.size();
+    }
+}
+package ru.tattoo.maxsim.storage.Impl;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
+import ru.tattoo.maxsim.storage.ImageStorage;
+
+import java.io.IOException;
+import java.util.List;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.UUID;
+
+/**
+ * Реализация для продакшена.
+ * Сохраняет файлы в файловую систему.
+ */
+
+@Slf4j
+public class FileSystemImageStorage  implements ImageStorage {
+
+    private final Path uploadDirectory;
+    
+    /**
+     * @param uploadPath путь к директории для сохранения файлов
+     */
+
+    public FileSystemImageStorage(String uploadPath) {
+        this.uploadDirectory = Paths.get(uploadPath).normalize().toAbsolutePath();
+        // Инициализируем директорию (создаем если нет)
+        initDirectory();
+    }
+
+    /**
+     * Создает директорию для загрузки, если она не существует
+     */
+    private void initDirectory() {
+        try {
+            // Files.createDirectories() - создает все недостающие директории в пути
+            // Например, если нет папки uploads, создаст и uploads, и images
+            Files.createDirectories(uploadDirectory);
+            log.info("📁 Инициализирована директория загрузки: {}", uploadDirectory);
+        } catch (IOException e){
+            log.error("❌ Не удалось создать директорию: {}", uploadDirectory, e);
+            // Пробрасываем RuntimeException, потому что без директории приложение не может работать
+            throw new RuntimeException("Не удалось создать директорию для загрузки файлов", e);
+        }
+    }
+    /**
+     * Сохраняет изображение на диск
+     * @param file файл от пользователя (MultipartFile из Spring)
+     * @param fileName оригинальное имя файла
+     * @return уникальное имя сохраненного файла
+     */
+    @Override
+    public String saveImage(MultipartFile file, String fileName) throws Exception {
+        // 1. Проверяем, что файл валидный
+        validateFile(file);
+
+        // 2. Генерируем уникальное имя файла (чтобы не перезаписывать существующие)
+        String uniqueFileName = generateUniqueFileName(fileName);
+
+        // 3. Создаем полный путь к файлу: /uploads/images/ + уникальное_имя
+        Path filePath = uploadDirectory.resolve(uniqueFileName);
+
+        // 4. Защита от path traversal атак (очень важно для безопасности!)
+        // Например, если кто-то попытается сохранить файл как "../../etc/passwd"
+        if (!filePath.normalize().startsWith(uploadDirectory)) {
+            throw new SecurityException("Попытка path traversal: " + fileName);
+        }
+
+        // 5. Сохраняем файл на диск
+        // file.getBytes() - получаем содержимое файла как массив байт
+        // Files.write() - записываем байты в файл по указанному пути
+        Files.write(filePath, file.getBytes());
+
+        log.debug("✅ Файл сохранен: {}", uniqueFileName);
+
+        // 6. Возвращаем уникальное имя для сохранения в БД
+        return uniqueFileName;
+    }
+
+    @Override
+    public void deleteImage(String fileName) throws IOException {
+        // Проверяем, что имя файла не пустое
+        if (fileName == null || fileName.isEmpty()) {
+            return; // Ничего не делаем
+        }
+
+        // Создаем полный путь к файлу
+        Path filePath = uploadDirectory.resolve(fileName);
+
+        // Files.deleteIfExists() - удаляет файл, если он существует
+        // Возвращает true, если файл был удален
+        boolean deleted = Files.deleteIfExists(filePath);
+
+        if (deleted) {
+            log.debug("🗑️ Файл удален: {}", fileName);
+        }
+    }
+
+    /**
+     * Проверяет, существует ли файл на диске
+     */
+    @Override
+    public boolean existsImage(String fileName) {
+        if (fileName == null || fileName.isEmpty()) {
+            return false;
+        }
+        // Files.exists() - проверяет существование файла
+        return Files.exists(uploadDirectory.resolve(fileName));
+    }
+    /**
+     * Получает содержимое файла как массив байт
+     * Используется для отдачи файла через контроллер
+     */
+    @Override
+    public byte[] getImage(String fileName) throws IOException {
+        if (!existsImage(fileName)) {
+            throw new IOException("Файл не найден: " + fileName);
+        }
+        // Files.readAllBytes() - читает весь файл в память
+        // Для больших файлов нужно использовать стримы, но для изображений норм
+        return Files.readAllBytes(uploadDirectory.resolve(fileName));
+    }
+    /**
+     * Генерирует уникальное имя файла
+     * Формат: UUID_оригинальноеИмя
+     * Например: "123e4567-e89b-12d3-a456-426614174000_photo.jpg"
+     */
+    @Override
+    public String generateUniqueFileName(String originalFileName) {
+        if (originalFileName == null) {
+            throw new NullPointerException("Имя файла не может быть null");
+        }
+
+        // Paths.get(originalFileName).getFileName() - вырезает только имя файла из пути
+        // Например: из "../../etc/passwd" получит просто "passwd"
+        String cleanFileName = Paths.get(originalFileName).getFileName().toString();
+
+        // UUID.randomUUID() - генерирует уникальный идентификатор
+        // Конкатенируем с оригинальным именем через "_"
+        return UUID.randomUUID() + "_" + cleanFileName;
+    }
+
+    @Override
+    public <T> List<List<T>> partition(List<T> list, int size) {
+        if (list == null || list.isEmpty() || size <= 0) {
+            return List.of(); // Возвращаем пустой список
+        }
+        return List.of(list); // Пока просто возвращаем список в списке
+    }
+
+    /**
+     * Валидирует входной файл
+     * @param file файл для проверки
+     */
+    private void validateFile(MultipartFile file) {
+        // Проверка на null
+        if (file == null) {
+            throw new IllegalArgumentException("Файл не может быть null");
+        }
+        // Проверка на пустой файл
+        if (file.isEmpty()) {
+            throw new IllegalArgumentException("Файл не может быть пустым");
+        }
+        // Здесь можно добавить проверку:
+        // - размера файла (например, не больше 10MB)
+        // - типа файла (только изображения)
+        // - названия файла (нет спецсимволов)
+    }
+}

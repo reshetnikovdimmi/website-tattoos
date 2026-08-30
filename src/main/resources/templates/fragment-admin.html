@@ -2279,6 +2279,16 @@
                 </a>
                 <a style="margin: 10px;"
                    class="nav-link btn btn-outline-secondary"
+                   id="v-SiteVerification-tab"
+                   data-toggle="pill"
+                   href="#v-SiteVerification"
+                   role="tab"
+                   aria-controls="v-SiteVerification"
+                   aria-selected="false">
+                    SiteVerification
+                </a>
+                <a style="margin: 10px;"
+                   class="nav-link btn btn-outline-secondary"
                    id="v-mail-tab"
                    data-toggle="pill"
                    href="#v-mail"
@@ -3117,13 +3127,16 @@
                 <div class="tab-pane fade" id="v-mail" role="tabpanel"
                      aria-labelledby="v-mail-tab" tabindex="0">
 
-                    <div class="settings-panel">
+                    <div class="admin-section-title">
+
                         <div class="settings-header">
                             <h4><i class="fa fa-envelope-o"></i> Настройки почтовых уведомлений</h4>
                             <p class="text-muted">Настройте параметры отправки писем с сайта</p>
                         </div>
 
-                        <div class="settings-body">
+                        <div class="settings-panel">
+
+
                             <div th:fragment="mailSettingsFragment">
                                 <!-- ============================================================ -->
                                 <!-- ФОРМА НАСТРОЕК                                                -->
@@ -3525,6 +3538,284 @@
                     <!-- МОДАЛЬНОЕ ОКНО ИНСТРУКЦИИ (вне формы и вне панели)           -->
                     <!-- ============================================================ -->
                     <div th:replace="~{modal::settings-video-modal}"></div>
+                </div>
+                <div class="tab-pane fade" id="v-SiteVerification" role="tabpanel"
+                     aria-labelledby="v-mail-tab" tabindex="0">
+
+                    <div class="settings-body">
+                        <div th:fragment="verificationFragment" class="verification-section">
+                            <section class="admin-section spad">
+                                <div class="container">
+                                    <div class="section-title-modern text-center">
+                                        <h2><i class="fa fa-search"></i> Подтверждение прав на сайт</h2>
+                                        <p>Верификация в Яндекс.Вебмастер и Google Search Console</p>
+                                    </div>
+
+                                    <!-- Список существующих верификаций -->
+                                    <div class="admin-card" th:if="${verifications != null and !verifications.empty}">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-list"></i>
+                                            <h4>Активные способы подтверждения</h4>
+                                            <span class="badge-count" th:text="${#lists.size(verifications)}">0</span>
+                                        </div>
+                                        <div class="admin-card-body">
+                                            <div class="verification-list">
+                                                <div th:each="v : ${verifications}" class="verification-item"
+                                                     th:classappend="${v.active} ? 'active' : 'inactive'">
+
+                                                    <div class="verification-icon">
+                                                        <i th:if="${v.engine.name() == 'YANDEX'}" class="fa fa-yandex"
+                                                           style="color:#ffcc00;"></i>
+                                                        <i th:if="${v.engine.name() == 'GOOGLE'}" class="fa fa-google"
+                                                           style="color:#ea4335;"></i>
+                                                    </div>
+
+                                                    <div class="verification-info">
+                                                        <div class="verification-header">
+                                                            <strong th:text="${v.engine.displayName}">Яндекс</strong>
+                                                            <span class="verification-method-badge"
+                                                                  th:text="${v.method.displayName}">Мета-тег</span>
+                                                            <span class="verification-status"
+                                                                  th:classappend="${v.active} ? 'status-active' : 'status-inactive'"
+                                                                  th:text="${v.active} ? 'Активно' : 'Отключено'">Активно</span>
+                                                        </div>
+
+                                                        <div class="verification-value">
+                                                            <code th:if="${v.method.name() == 'META_TAG'}"
+                                                                  th:text="${v.value}">meta content</code>
+                                                            <span th:if="${v.method.name() == 'HTML_FILE'}">
+                                        Файл: <code th:text="${v.value}">file.html</code>
+                                        <a th:href="@{${v.value}}" target="_blank" class="verify-link">
+                                            <i class="fa fa-external-link"></i> Проверить
+                                        </a>
+                                    </span>
+                                                            <span th:if="${v.method.name() == 'DNS'}">
+                                        TXT-запись: <code th:text="${v.value}">txt-record</code>
+                                    </span>
+                                                        </div>
+
+                                                        <div class="verification-hint" th:text="${v.method.hint}">
+                                                            Вставьте тег в head
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="verification-actions">
+                                                        <button type="button" class="action-btn toggle-btn"
+                                                                th:onclick="'toggleVerification(' + ${v.id} + ')'"
+                                                                th:title="${v.active} ? 'Отключить' : 'Включить'">
+                                                            <i th:if="${v.active}" class="fa fa-pause"></i>
+                                                            <i th:unless="${v.active}" class="fa fa-play"></i>
+                                                        </button>
+                                                        <button type="button" class="action-btn delete-btn"
+                                                                th:onclick="'deleteVerification(' + ${v.id} + ')'"
+                                                                title="Удалить">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Пустое состояние -->
+                                    <div th:if="${verifications == null or verifications.empty}"
+                                         class="admin-card empty-state-modern">
+                                        <i class="fa fa-search"></i>
+                                        <h4>Нет настроенных способов верификации</h4>
+                                        <p>Добавьте первый способ подтверждения прав ниже</p>
+                                    </div>
+
+                                    <!-- Форма добавления -->
+                                    <div class="admin-card">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-plus-circle"></i>
+                                            <h4>Добавить способ подтверждения</h4>
+                                        </div>
+                                        <div class="admin-card-body">
+                                            <form action="/admin/verification/save"
+                                                  onsubmit="submitForm(event)"
+                                                  data-fragment-name="verificationFragment"
+                                                  data-container-selector=".verification-section"
+                                                  class="verification-form">
+
+                                                <div class="row">
+                                                    <!-- Поисковая система -->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label><i class="fa fa-search"></i> Поисковая
+                                                                система</label>
+                                                            <select name="engine" class="form-control" required
+                                                                    onchange="updateVerificationHint(this.value)">
+                                                                <option value="">Выберите...</option>
+                                                                <option value="YANDEX">Яндекс.Вебмастер</option>
+                                                                <option value="GOOGLE">Google Search Console</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Способ верификации -->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label><i class="fa fa-cog"></i> Способ
+                                                                подтверждения</label>
+                                                            <select name="method" class="form-control" required
+                                                                    onchange="updateVerificationFields(this.value)">
+                                                                <option value="">Выберите...</option>
+                                                                <option value="META_TAG">Мета-тег</option>
+                                                                <option value="HTML_FILE">HTML-файл</option>
+                                                                <option value="DNS">DNS-запись (TXT)</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Поле значения -->
+                                                <div class="form-group">
+                                                    <label id="value-label"><i class="fa fa-code"></i> Значение
+                                                        верификации</label>
+                                                    <input type="text" name="value" class="form-control"
+                                                           placeholder="Вставьте код от поисковой системы..." required>
+                                                    <small class="form-text text-muted" id="value-hint">
+                                                        Код можно получить в панели Яндекс.Вебмастер или Google Search
+                                                        Console
+                                                    </small>
+                                                </div>
+
+                                                <!-- Инструкция для DNS -->
+                                                <div id="dns-instruction" class="alert alert-info"
+                                                     style="display: none;">
+                                                    <i class="fa fa-info-circle"></i>
+                                                    <strong>DNS-верификация:</strong> скопируйте TXT-запись из
+                                                    Google/Yandex и добавьте её в настройки DNS вашего домена у
+                                                    регистратора.
+                                                    Изменения применяются в течение 15 минут — 48 часов.
+                                                </div>
+
+                                                <!-- Инструкция для HTML-файла -->
+                                                <div id="html-instruction" class="alert alert-info"
+                                                     style="display: none;">
+                                                    <i class="fa fa-info-circle"></i>
+                                                    <strong>HTML-файл:</strong> после сохранения файл будет доступен по
+                                                    URL
+                                                    <code id="html-url-preview">/yandex_xxxx.html</code>.
+                                                    Укажите этот URL в панели поисковой системы для проверки.
+                                                </div>
+
+                                                <!-- Инструкция для мета-тега -->
+                                                <div id="meta-instruction" class="alert alert-success"
+                                                     style="display: none;">
+                                                    <i class="fa fa-check-circle"></i>
+                                                    <strong>Мета-тег:</strong> после сохранения тег автоматически
+                                                    появится в
+                                                    <code>&lt;head&gt;</code> главной страницы сайта. Нажмите
+                                                    «Проверить» в панели поисковика.
+                                                </div>
+
+                                                <button type="submit" class="admin-btn">
+                                                    <i class="fa fa-save"></i> Сохранить
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- Инструкция по шагам -->
+                                    <div class="admin-card instruction-card">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-question-circle"></i>
+                                            <h4>Как получить код верификации</h4>
+                                        </div>
+                                        <div class="admin-card-body">
+                                            <div class="instruction-steps-compact">
+                                                <div class="instruction-step-compact">
+                                                    <div class="step-number">1</div>
+                                                    <div class="step-text">
+                                                        <strong>Яндекс:</strong> <a href="https://webmaster.yandex.ru/"
+                                                                                    target="_blank">webmaster.yandex.ru</a>
+                                                        → Добавить сайт → Подтвердить права<br>
+                                                        <strong>Google:</strong> <a
+                                                            href="https://search.google.com/search-console"
+                                                            target="_blank">Search Console</a> → Добавить ресурс →
+                                                        Подтвердить
+                                                    </div>
+                                                </div>
+                                                <div class="instruction-step-compact">
+                                                    <div class="step-number">2</div>
+                                                    <div class="step-text">
+                                                        Выберите удобный способ (рекомендуем <strong>Мета-тег</strong> —
+                                                        он работает мгновенно, без загрузки файлов).
+                                                    </div>
+                                                </div>
+                                                <div class="instruction-step-compact">
+                                                    <div class="step-number">3</div>
+                                                    <div class="step-text">
+                                                        Скопируйте предложенный код (например,
+                                                        <code>1234567890abcdef</code> для мета-тега или имя файла <code>yandex_123.html</code>).
+                                                    </div>
+                                                </div>
+                                                <div class="instruction-step-compact">
+                                                    <div class="step-number">4</div>
+                                                    <div class="step-text">
+                                                        Вставьте код в форму выше, сохраните, затем нажмите «Проверить»
+                                                        в панели поисковой системы.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                        <script>
+                            function updateVerificationFields(method) {
+                                document.getElementById('dns-instruction').style.display = 'none';
+                                document.getElementById('html-instruction').style.display = 'none';
+                                document.getElementById('meta-instruction').style.display = 'none';
+
+                                if (method === 'DNS') {
+                                    document.getElementById('dns-instruction').style.display = 'block';
+                                    document.getElementById('value-label').innerHTML = '<i class="fa fa-globe"></i> TXT-запись DNS';
+                                    document.getElementById('value-hint').textContent = 'Вставьте полное значение TXT-записи из панели поисковой системы';
+                                } else if (method === 'HTML_FILE') {
+                                    document.getElementById('html-instruction').style.display = 'block';
+                                    document.getElementById('value-label').innerHTML = '<i class="fa fa-file"></i> Имя файла / Код верификации';
+                                    document.getElementById('value-hint').textContent = 'Например: yandex_1234567890.html или google1234567890.html';
+                                } else if (method === 'META_TAG') {
+                                    document.getElementById('meta-instruction').style.display = 'block';
+                                    document.getElementById('value-label').innerHTML = '<i class="fa fa-code"></i> Код мета-тега (content)';
+                                    document.getElementById('value-hint').textContent = 'Вставьте значение content из мета-тега, например: 1234567890abcdef';
+                                }
+                            }
+
+                            function updateVerificationHint(engine) {
+                                var method = document.querySelector('select[name="method"]').value;
+                                if (method === 'HTML_FILE' && engine) {
+                                    var prefix = engine === 'YANDEX' ? 'yandex_' : 'google';
+                                    document.getElementById('html-url-preview').textContent = '/' + prefix + 'xxxx.html';
+                                }
+                            }
+
+                            function deleteVerification(id) {
+                                if (!confirm('Удалить этот способ верификации?')) return;
+                                $.get('/admin/verification/delete/' + id, function(data) {
+                                    $('.verification-section').html(data);
+                                    showModalMessage('✅ Удалено');
+                                }).fail(function() {
+                                    showModalMessage('❌ Ошибка удаления', 'error');
+                                });
+                            }
+
+                            function toggleVerification(id) {
+                                $.post('/admin/verification/toggle/' + id, function(data) {
+                                    $('.verification-section').html(data);
+                                    showModalMessage('✅ Статус изменен');
+                                }).fail(function() {
+                                    showModalMessage('❌ Ошибка', 'error');
+                                });
+                            }
+                        </script>
+                    </div>
+
                 </div>
             </div>
         </div>
