@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import ru.tattoo.maxsim.model.SiteVerification;
 import ru.tattoo.maxsim.service.interf.SiteVerificationService;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 /**

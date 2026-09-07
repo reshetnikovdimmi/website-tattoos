@@ -3564,7 +3564,7 @@
                                                      th:classappend="${v.active} ? 'active' : 'inactive'">
 
                                                     <div class="verification-icon">
-                                                        <i th:if="${v.engine.name() == 'YANDEX'}" class="fa fa-yandex"
+                                                        <i th:if="${v.engine.name() == 'YANDEX'}" class="fa-brands fa-yandex"
                                                            style="color:#ffcc00;"></i>
                                                         <i th:if="${v.engine.name() == 'GOOGLE'}" class="fa fa-google"
                                                            style="color:#ea4335;"></i>
@@ -3584,14 +3584,14 @@
                                                             <code th:if="${v.method.name() == 'META_TAG'}"
                                                                   th:text="${v.value}">meta content</code>
                                                             <span th:if="${v.method.name() == 'HTML_FILE'}">
-                                        Файл: <code th:text="${v.value}">file.html</code>
-                                        <a th:href="@{${v.value}}" target="_blank" class="verify-link">
-                                            <i class="fa fa-external-link"></i> Проверить
-                                        </a>
-                                    </span>
+                                                                Файл: <code th:text="${v.value}">file.html</code>
+                                                                <a th:href="@{${v.value}}" target="_blank" class="verify-link">
+                                                                    <i class="fa fa-external-link"></i> Проверить
+                                                                </a>
+                                                            </span>
                                                             <span th:if="${v.method.name() == 'DNS'}">
-                                        TXT-запись: <code th:text="${v.value}">txt-record</code>
-                                    </span>
+                                                                TXT-запись: <code th:text="${v.value}">txt-record</code>
+                                                            </span>
                                                         </div>
 
                                                         <div class="verification-hint" th:text="${v.method.hint}">
@@ -3656,10 +3656,9 @@
                                                     <!-- Способ верификации -->
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label><i class="fa fa-cog"></i> Способ
-                                                                подтверждения</label>
-                                                            <select name="method" class="form-control" required
-                                                                    onchange="updateVerificationFields(this.value)">
+                                                            <label><i class="fa fa-cog"></i> Способ подтверждения</label>
+                                                            <select name="method" id="ver-method" class="form-control" required
+                                                                    onchange="updateVerificationFields()">
                                                                 <option value="">Выберите...</option>
                                                                 <option value="META_TAG">Мета-тег</option>
                                                                 <option value="HTML_FILE">HTML-файл</option>
@@ -3692,13 +3691,24 @@
                                                 </div>
 
                                                 <!-- Инструкция для HTML-файла -->
-                                                <div id="html-instruction" class="alert alert-info"
-                                                     style="display: none;">
-                                                    <i class="fa fa-info-circle"></i>
-                                                    <strong>HTML-файл:</strong> после сохранения файл будет доступен по
-                                                    URL
-                                                    <code id="html-url-preview">/yandex_xxxx.html</code>.
-                                                    Укажите этот URL в панели поисковой системы для проверки.
+                                                <div id="html-instruction" class="alert alert-info" style="display: none;">
+                                                    <i class="fa fa-lightbulb-o"></i>
+                                                    <strong>Не скачивайте файл с Яндекса!</strong>
+                                                    <ol style="margin: 8px 0 0 18px; padding: 0;">
+                                                        <li>В Яндекс.Вебмастере выберите способ «HTML-файл»</li>
+                                                        <li>Скопируйте только <strong>код</strong> из поля
+                                                            <code>Verification: <strong>5d847838cda4738f</strong></code>
+                                                            (выделен жирным на скриншоте)</li>
+                                                        <li>Вставьте этот код в поле ниже и нажмите «Сохранить»</li>
+                                                        <li>Сайт сам создаст файл по адресу
+                                                            <code id="html-url-preview">https://r1-tattoo.ru/yandex_xxxx.html</code></li>
+                                                        <li>Вернитесь в Яндекс и нажмите «Подтвердить» — всё сработает</li>
+                                                    </ol>
+                                                    <hr style="border-color: rgba(255,255,255,0.1); margin: 10px 0;">
+                                                    <small>
+                                                        <i class="fa fa-info-circle"></i>
+                                                        Файл генерируется автоматически, скачивать и загружать ничего не нужно.
+                                                    </small>
                                                 </div>
 
                                                 <!-- Инструкция для мета-тега -->

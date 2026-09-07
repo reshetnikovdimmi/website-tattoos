@@ -46,6 +46,7 @@
 @import 'pages/login.css';
 @import 'pages/lk-wrapper.css';
 @import 'pages/mail.css';
+@import 'pages/verification.css';
 
 /* Responsive */
 @import 'responsive/mobile.css';

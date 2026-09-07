@@ -30,6 +30,8 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     private ContactInfoService contactInfoService;
     @Autowired
     private MailSettingsService mailSettingsService;
+    @Autowired
+    private SiteVerificationService verificationService;
 
     @GetMapping()
     private String getGalleryFragment(Model model, HttpServletRequest request) {
@@ -132,5 +134,6 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
         model.addAttribute("users", userService.findAll());
         model.addAttribute("setting", settingWebsiteService.findAll());
         model.addAttribute("mailSettings", mailSettingsService.getSettings());
+        model.addAttribute("verifications", verificationService.getAll());
     }
 }

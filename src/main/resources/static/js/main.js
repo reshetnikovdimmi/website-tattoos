@@ -1191,3 +1191,31 @@ function fallbackCopy(text, btn) {
     }
     document.body.removeChild(textarea);
 }
+
+function updateVerificationFields() {
+    var methodEl = document.getElementById('ver-method');
+    if (!methodEl) return; // фрагмент ещё не загружен — выходим
+
+    var method = methodEl.value;
+    var meta = document.getElementById('meta-instruction');
+    var html = document.getElementById('html-instruction');
+    var dns = document.getElementById('dns-instruction');
+    var preview = document.getElementById('html-preview');
+
+    // Скрываем все (если они есть)
+    if (meta) meta.style.display = 'none';
+    if (html) html.style.display = 'none';
+    if (dns) dns.style.display = 'none';
+    if (preview) preview.style.display = 'none';
+
+    // Показываем нужную
+    if (method === 'META_TAG' && meta) {
+        meta.style.display = 'block';
+    } else if (method === 'HTML_FILE') {
+        if (html) html.style.display = 'block';
+        if (preview) preview.style.display = 'block';
+        updateHtmlPreview();
+    } else if (method === 'DNS' && dns) {
+        dns.style.display = 'block';
+    }
+}

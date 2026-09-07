@@ -6,10 +6,18 @@
                logoSetting=${setting.^[section == 'logo']}">
 
     <meta charset="UTF-8">
-    <meta name="yandex-verification" content="f8b395847f7983f2"/>
-    <meta name="google-site-verification" content="ak05GnsY8ILSGx7kzGGDnbi8c1VZSEB62dR0KH595_U"/>
     <meta name="zen-verification" content="Qs3KIKkBpZHRG9QIS3E1heKpO8wXZqWQbhTTWt7wQrr7XB6Iexi1cA15htzot9cG"/>
+    <th:block th:fragment="verificationMetaTags">
+        <!-- Яндекс верификация (мета-тег) -->
+        <th:block th:if="${yandexMeta != null}">
+            <meta name="yandex-verification" th:content="${yandexMeta.value}" />
+        </th:block>
 
+        <!-- Google верификация (мета-тег) -->
+        <th:block th:if="${googleMeta != null}">
+            <meta name="google-site-verification" th:content="${googleMeta.value}" />
+        </th:block>
+    </th:block>
     <!-- SEO данные с проверкой на null -->
     <meta name="description" th:content="${homeSeo?.description}">
     <meta name="keywords" th:content="${homeSeo?.description}">

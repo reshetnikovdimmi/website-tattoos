@@ -51,31 +51,6 @@ databaseChangeLog:
                   constraints:
                     nullable: true
 
-        - setColumnRemarks:
-            tableName: site_verification
-            columnName: engine
-            remarks: "Поисковая система: YANDEX, GOOGLE"
-        - setColumnRemarks:
-            tableName: site_verification
-            columnName: method
-            remarks: "Способ верификации: HTML_FILE, META_TAG, DNS"
-        - setColumnRemarks:
-            tableName: site_verification
-            columnName: verification_value
-            remarks: "Значение: content мета-тега, имя файла или TXT-запись"
-        - setColumnRemarks:
-            tableName: site_verification
-            columnName: file_content
-            remarks: "Содержимое HTML-файла для отдачи по URL"
-        - setColumnRemarks:
-            tableName: site_verification
-            columnName: is_active
-            remarks: "Активен ли способ (только один active на engine+method)"
-        - setColumnRemarks:
-            tableName: site_verification
-            columnName: verified
-            remarks: "Подтверждено ли вручную админом"
-
         - createIndex:
             tableName: site_verification
             indexName: idx_verification_engine_method_active
