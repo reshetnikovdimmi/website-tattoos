@@ -70,9 +70,10 @@ public class SiteVerificationAdminController {
     public String toggleVerification(@PathVariable Long id, Model model) {
         verificationService.findById(id).ifPresent(v -> {
             v.setActive(!Boolean.TRUE.equals(v.getActive()));
+            log.debug("Сохранение toggle: {} / {}", v, v.getActive());
             verificationService.save(v);
         });
         model.addAttribute("verifications", verificationService.getAll());
-        return "fragments/verification :: verificationFragment";
+        return "fragment-admin :: verificationFragment";
     }
 }

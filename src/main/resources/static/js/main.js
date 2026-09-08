@@ -1219,3 +1219,39 @@ function updateVerificationFields() {
         dns.style.display = 'block';
     }
 }
+/**
+ * Переключает активность записи верификации (вкл/выкл)
+ * @param {HTMLElement} btn — кнопка, на которую нажали
+ * @param {number} id — ID записи в БД
+ */
+function toggleVerification(btn, id) {
+    // Находим контейнер, в котором лежит список
+    var container = document.querySelector('.verification-section')
+                 || document.querySelector('.verification-list')
+                 || btn.closest('.card-body');
+
+    if (!container) {
+        console.error('Контейнер верификации не найден');
+        return;
+    }
+
+    btn.disabled = true;
+
+    fetch('/admin/verification/toggle/' + id, {
+        method: 'POST'
+
+    })
+    .then(function(response) {
+        if (!response.ok) throw new Error('Ошибка сервера: ' + response.status);
+        return response.text();
+    })
+    .then(function(html) {
+        // Заменяем содержимое контейнера на новый фрагмент от сервера
+        container.innerHTML = html;
+    })
+    .catch(function(err) {
+        console.error('Toggle error:', err);
+        alert('Не удалось изменить статус: ' + err.message);
+        btn.disabled = false;
+    });
+}

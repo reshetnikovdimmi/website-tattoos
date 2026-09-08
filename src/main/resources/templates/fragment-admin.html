@@ -3564,9 +3564,9 @@
                                                      th:classappend="${v.active} ? 'active' : 'inactive'">
 
                                                     <div class="verification-icon">
-                                                        <i th:if="${v.engine.name() == 'YANDEX'}" class="fa-brands fa-yandex"
+                                                        <i th:if="${v.engine.name() == 'YANDEX'}" class="fab fa-yandex"
                                                            style="color:#ffcc00;"></i>
-                                                        <i th:if="${v.engine.name() == 'GOOGLE'}" class="fa fa-google"
+                                                        <i th:if="${v.engine.name() == 'GOOGLE'}" class="fab fa-google"
                                                            style="color:#ea4335;"></i>
                                                     </div>
 
@@ -3601,13 +3601,18 @@
 
                                                     <div class="verification-actions">
                                                         <button type="button" class="action-btn toggle-btn"
-                                                                th:onclick="'toggleVerification(' + ${v.id} + ')'"
+                                                                th:onclick="'toggleVerification(this, ' + ${v.id} + ')'"
                                                                 th:title="${v.active} ? 'Отключить' : 'Включить'">
                                                             <i th:if="${v.active}" class="fa fa-pause"></i>
                                                             <i th:unless="${v.active}" class="fa fa-play"></i>
                                                         </button>
                                                         <button type="button" class="action-btn delete-btn"
-                                                                th:onclick="'deleteVerification(' + ${v.id} + ')'"
+                                                                data-fragment-name="verificationFragment"
+                                                                data-container-selector=".verification-section"
+                                                                data-deletion-url="/admin/verification/delete"
+                                                                th:id="${v.id}"
+                                                                onclick="deleteImage(this)"
+                                                                data-method="GET"
                                                                 title="Удалить">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
@@ -3775,57 +3780,7 @@
                                 </div>
                             </section>
                         </div>
-
-                        <script>
-                            function updateVerificationFields(method) {
-                                document.getElementById('dns-instruction').style.display = 'none';
-                                document.getElementById('html-instruction').style.display = 'none';
-                                document.getElementById('meta-instruction').style.display = 'none';
-
-                                if (method === 'DNS') {
-                                    document.getElementById('dns-instruction').style.display = 'block';
-                                    document.getElementById('value-label').innerHTML = '<i class="fa fa-globe"></i> TXT-запись DNS';
-                                    document.getElementById('value-hint').textContent = 'Вставьте полное значение TXT-записи из панели поисковой системы';
-                                } else if (method === 'HTML_FILE') {
-                                    document.getElementById('html-instruction').style.display = 'block';
-                                    document.getElementById('value-label').innerHTML = '<i class="fa fa-file"></i> Имя файла / Код верификации';
-                                    document.getElementById('value-hint').textContent = 'Например: yandex_1234567890.html или google1234567890.html';
-                                } else if (method === 'META_TAG') {
-                                    document.getElementById('meta-instruction').style.display = 'block';
-                                    document.getElementById('value-label').innerHTML = '<i class="fa fa-code"></i> Код мета-тега (content)';
-                                    document.getElementById('value-hint').textContent = 'Вставьте значение content из мета-тега, например: 1234567890abcdef';
-                                }
-                            }
-
-                            function updateVerificationHint(engine) {
-                                var method = document.querySelector('select[name="method"]').value;
-                                if (method === 'HTML_FILE' && engine) {
-                                    var prefix = engine === 'YANDEX' ? 'yandex_' : 'google';
-                                    document.getElementById('html-url-preview').textContent = '/' + prefix + 'xxxx.html';
-                                }
-                            }
-
-                            function deleteVerification(id) {
-                                if (!confirm('Удалить этот способ верификации?')) return;
-                                $.get('/admin/verification/delete/' + id, function(data) {
-                                    $('.verification-section').html(data);
-                                    showModalMessage('✅ Удалено');
-                                }).fail(function() {
-                                    showModalMessage('❌ Ошибка удаления', 'error');
-                                });
-                            }
-
-                            function toggleVerification(id) {
-                                $.post('/admin/verification/toggle/' + id, function(data) {
-                                    $('.verification-section').html(data);
-                                    showModalMessage('✅ Статус изменен');
-                                }).fail(function() {
-                                    showModalMessage('❌ Ошибка', 'error');
-                                });
-                            }
-                        </script>
                     </div>
-
                 </div>
             </div>
         </div>
