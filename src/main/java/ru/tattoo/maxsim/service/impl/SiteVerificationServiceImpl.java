@@ -36,18 +36,26 @@ public class SiteVerificationServiceImpl implements SiteVerificationService {
     @Override
     @Transactional
     public SiteVerification save(SiteVerification verification) {
-        // Деактивируем предыдущую запись того же движка/метода, если активна
-        repository.findByEngineAndMethodAndActiveTrue(
-                verification.getEngine(), verification.getMethod()
-        ).ifPresent(existing -> {
+        // Деактивируем ВСЕ активные записи этого движка/метода
+        List<SiteVerification> actives = repository
+                .findAllByEngineAndMethodAndActiveTrue(
+                        verification.getEngine(), verification.getMethod());
+
+        for (SiteVerification existing : actives) {
+            // Не трогаем саму себя при обновлении
+            if (existing.getId() != null && existing.getId().equals(verification.getId())) {
+                continue;
+            }
             existing.setActive(false);
             repository.save(existing);
-            log.info("Деактивирована старая верификация: {} / {}", existing.getEngine(), existing.getMethod());
-        });
+            log.info("Деактивирована старая верификация: {} / {} (id={})",
+                    existing.getEngine(), existing.getMethod(), existing.getId());
+        }
 
         verification.setActive(true);
         SiteVerification saved = repository.save(verification);
-        log.info("Сохранена верификация: {} / {} (id={})", saved.getEngine(), saved.getMethod(), saved.getId());
+        log.info("Сохранена верификация: {} / {} (id={})",
+                saved.getEngine(), saved.getMethod(), saved.getId());
         return saved;
     }
 
@@ -65,11 +73,15 @@ public class SiteVerificationServiceImpl implements SiteVerificationService {
 
     @Override
     public String generateHtmlFileContent(String verificationCode, String engine) {
-        // Яндекс требует файл с определенным содержимым
         if (engine.equalsIgnoreCase("YANDEX")) {
-            return "<html>\\n<head>\\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\\n</head>\\n<body>Verification: " + verificationCode + "</body>\\n</html>";
+            return "<html>\n" +
+                    "<head>\n" +
+                    "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+                    "</head>\n" +
+                    "<body>Verification: " + verificationCode + "</body>\n" +
+                    "</html>";
         }
-        // Google — обычно пустой файл или с определенным именем
-        return "google-site-verification: " + verificationCode;
+        // Google ждёт "google-site-verification: {filename}"
+        return "google-site-verification: google" + verificationCode + ".html";
     }
 }

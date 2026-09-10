@@ -64,4 +64,19 @@ public class VerificationFileController {
 
         return ResponseEntity.notFound().build();
     }
+    @GetMapping(value = "/{filename:.+\\.html}", produces = MediaType.TEXT_HTML_VALUE)
+    public ResponseEntity<String> serveVerificationFile(@PathVariable String filename) {
+        Optional<SiteVerification> verification = verificationService.getAll().stream()
+                .filter(v -> v.getMethod() == SiteVerification.VerificationMethod.HTML_FILE)
+                .filter(v -> Boolean.TRUE.equals(v.getActive()))
+                .filter(v -> filename.equals(v.getValue()))
+                .findFirst();
+
+        if (verification.isPresent() && verification.get().getFileContent() != null) {
+            return ResponseEntity.ok()
+                    .contentType(MediaType.TEXT_HTML)
+                    .body(verification.get().getFileContent());
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

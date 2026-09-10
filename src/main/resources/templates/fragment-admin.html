@@ -3584,10 +3584,17 @@
                                                             <code th:if="${v.method.name() == 'META_TAG'}"
                                                                   th:text="${v.value}">meta content</code>
                                                             <span th:if="${v.method.name() == 'HTML_FILE'}">
-                                                                Файл: <code th:text="${v.value}">file.html</code>
-                                                                <a th:href="@{${v.value}}" target="_blank" class="verify-link">
-                                                                    <i class="fa fa-external-link"></i> Проверить
-                                                                </a>
+                                                                <th:block th:with="prefix=${v.engine.name() == 'YANDEX' ? 'yandex_' : 'google'},
+                                                                                   filename=${prefix + v.value + '.html'}">
+                                                                    <div class="file-line">
+                                                                        <span class="file-label">Файл:</span>
+                                                                        <code th:text="${filename}">file.html</code>
+                                                                        <a th:href="@{'/' + ${filename}}" target="_blank" class="verify-link"
+                                                                           th:title="'Открыть ' + ${filename}">
+                                                                            <i class="fa fa-external-link"></i> Проверить
+                                                                        </a>
+                                                                    </div>
+                                                                </th:block>
                                                             </span>
                                                             <span th:if="${v.method.name() == 'DNS'}">
                                                                 TXT-запись: <code th:text="${v.value}">txt-record</code>

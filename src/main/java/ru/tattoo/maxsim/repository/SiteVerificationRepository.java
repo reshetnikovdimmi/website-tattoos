@@ -17,6 +17,10 @@ public interface SiteVerificationRepository extends JpaRepository<SiteVerificati
             SiteVerification.VerificationMethod method
     );
 
+    // SiteVerificationRepository.java
+    List<SiteVerification> findAllByEngineAndMethodAndActiveTrue(
+            SiteVerification.SearchEngine engine, SiteVerification.VerificationMethod method);
+
     List<SiteVerification> findByActiveTrue();
 
     boolean existsByEngineAndMethod(SiteVerification.SearchEngine engine, SiteVerification.VerificationMethod method);
