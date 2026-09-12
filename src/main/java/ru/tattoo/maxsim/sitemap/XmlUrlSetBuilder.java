@@ -35,7 +35,7 @@ public class XmlUrlSetBuilder {
 
         URL_CONFIGS.forEach((path, config) -> {
             XmlUrl url = new XmlUrl(
-                    "https://tattoos-maxsim.ru" + path,
+                    "https://r1-tattoo.ru" + path,
                     config.priority,
                     config.changefreq
             );
