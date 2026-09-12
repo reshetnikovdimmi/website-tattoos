@@ -40,3 +40,4 @@ application-*.properties
 !application-prod.properties
 !application-test.properties
 uploads-local/
+.gigaide/
