@@ -103,8 +103,10 @@
 <!-- Feature Section Begin -->
 <section class="feature-section">
     <div class="container-fluid">
-        <div class="row" th:with="features=${carousel != null and !carousel.isEmpty() ? carousel[0].feature : null}">
-            <div class="col-lg-4 col-md-6" th:each="feature : ${features}">
+
+        <!-- ОСНОВНОЙ БЛОК: Показываем, если carousel существует и не пуст -->
+        <div class="row" th:if="${carousel != null and !carousel.isEmpty()}">
+            <div class="col-lg-4 col-md-6" th:each="feature : ${carousel[0].feature}">
                 <div class="feature-item set-bg"
                      th:attr="data-setbg=@{${feature.imageName != null and !feature.imageName.isEmpty() ? '/images/' + feature.imageName : '/img/avatar.jpg'}}">
                     <h3 th:text="${feature.title}">Заголовок</h3>
@@ -113,16 +115,20 @@
                 </div>
             </div>
         </div>
-        <!-- Пустое состояние - 3 блока в ряд -->
-        <div th:if="${features == null or features.isEmpty()}" class="row">
+
+        <!-- ПУСТОЕ СОСТОЯНИЕ: Показываем, если carousel пуст или отсутствует -->
+        <!-- Условие: carousel == null ИЛИ carousel пустой ИЛИ у первого элемента нет feature ИЛИ feature пустой -->
+        <div class="row" th:if="${carousel == null or carousel.isEmpty() or carousel[0].feature == null or carousel[0].feature.isEmpty()}">
+
+            <!-- Цикл от 1 до 3 для создания трех карточек -->
             <div th:each="i, iterStat : ${#numbers.sequence(1, 3)}"
                  th:class="${iterStat.index == 2} ? 'col-lg-4 col-md-12' : 'col-lg-4 col-md-6'">
 
                 <div class="feature-item set-bg" data-setbg="/img/avatar.jpg">
-                    <!-- Разные заголовки для каждого блока -->
+                    <!-- Заголовок с номером -->
                     <h3 th:text="'Преимущество ' + ${i}">Преимущество 1</h3>
 
-                    <!-- Разные описания в зависимости от номера -->
+                    <!-- Разные описания для каждой карточки -->
                     <p th:switch="${i}">
                         <span th:case="1">Добавьте описание преимущества в админ-панели</span>
                         <span th:case="2">Расскажите о своих сильных сторонах</span>
@@ -133,6 +139,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </section>
 <!-- Feature Section End -->
