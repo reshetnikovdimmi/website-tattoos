@@ -249,7 +249,7 @@ $(document).ready(function() {
         const title = $(this).find('.video-card-info h5').text() || 'Видео';
 
         if (videoUrl) {
-            modalIframe.src = videoUrl + '&autoplay=1';
+            modalIframe.src = videoUrl;
             modalTitle.textContent = title;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';

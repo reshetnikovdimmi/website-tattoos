@@ -3813,7 +3813,7 @@
                         Вся галерея
                     </li>
                     <li th:each="currents: ${styleList}"
-                        th:unless="${currents.categoryTitle}"
+                        th:if="${currents.categoryTitle=='container-fluid'}"
                         th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
                         [[${currents.name}]]
                     </li>

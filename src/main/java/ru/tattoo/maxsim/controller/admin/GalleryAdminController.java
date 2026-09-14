@@ -49,6 +49,7 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
         model.addAttribute("gallery", prepareGalleryData(null, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
         model.addAttribute("images", new Images());
         model.addAttribute("styleList", classesSectionService.findAll());
+
     }
 
     @GetMapping()

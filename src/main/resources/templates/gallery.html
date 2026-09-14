@@ -71,7 +71,8 @@
                             th:onclick="goToPageGallery(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
                             Вся галерея
                         </li>
-                        <li th:each="currents: ${classes}" th:unless="${currents.categoryTitle}"
+                        <li th:each="currents: ${classes}"
+                            th:if="${currents.categoryTitle=='container-fluid'}"
                             th:onclick="goToPageGallery(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
                             [[${currents.name}]]
                         </li>
