@@ -41,3 +41,14 @@ application-*.properties
 !application-test.properties
 uploads-local/
 .gigaide/
+
+.env
+backups/
+*.sql.gz
+uploads/
+allure-report/
+allure-results/
+project-code.txt
+all-code.txt
+project_all_code_numbered.txt
+EOF
