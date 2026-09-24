@@ -14,7 +14,7 @@ public class StorageProperties {
     private String urlPrefix = "/images";
 
     /** Время кэширования статики, сек. */
-    private int cacheSeconds = 3600;
+    private Integer cacheSeconds = 3600;
 
     /** Максимальный размер файла, байт. */
     private long maxFileSize = 10_485_760;
@@ -29,8 +29,8 @@ public class StorageProperties {
     public String getUrlPrefix() { return urlPrefix; }
     public void setUrlPrefix(String urlPrefix) { this.urlPrefix = urlPrefix; }
 
-    public int getCacheSeconds() { return cacheSeconds; }
-    public void setCacheSeconds(int cacheSeconds) { this.cacheSeconds = cacheSeconds; }
+    public Integer getCacheSeconds() { return cacheSeconds; }
+    public void setCacheSeconds(Integer cacheSeconds) { this.cacheSeconds = cacheSeconds; }
 
     public long getMaxFileSize() { return maxFileSize; }
     public void setMaxFileSize(long maxFileSize) { this.maxFileSize = maxFileSize; }
