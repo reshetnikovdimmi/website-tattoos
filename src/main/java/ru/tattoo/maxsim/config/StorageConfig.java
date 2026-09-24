@@ -1,6 +1,8 @@
 package ru.tattoo.maxsim.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -9,39 +11,33 @@ import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.storage.Impl.FileSystemImageStorage;
 import ru.tattoo.maxsim.storage.Impl.InMemoryImageStorage;
 
+@Slf4j
 @Configuration
+@RequiredArgsConstructor
+@EnableConfigurationProperties(StorageProperties.class)
 public class StorageConfig {
+
+    private final StorageProperties props;
+
     /**
-     * Продакшен реализация (файловая система)
-     * Используется для профилей, кроме "test"
+     * Основная реализация — файловая система.
+     * Путь берётся из app.storage.upload-dir (ENV: APP_STORAGE_UPLOAD_DIR).
      */
     @Bean
     @Primary
     @Profile("!test")
-    public ImageStorage fileSystemImageStorage(
-            @Value("${upload.directory:uploads/images}") String uploadPath) {
-        return new FileSystemImageStorage(uploadPath);
+    public ImageStorage fileSystemImageStorage() {
+        log.info("Image storage: filesystem, uploadDir={}", props.getUploadDir());
+        return new FileSystemImageStorage(props.getUploadDir());
     }
 
     /**
-     * Тестовая реализация (в памяти)
-     * Используется только для профиля "test"
+     * Тестовая реализация — в памяти.
      */
     @Bean
     @Profile("test")
     public ImageStorage inMemoryImageStorage() {
+        log.info("Image storage: in-memory (test profile)");
         return new InMemoryImageStorage();
-    }
-
-    /**
-     * Для локальной разработки (удобно)
-     * Использует временную папку
-     */
-    @Bean
-    @Profile("dev")
-    public ImageStorage devFileSystemImageStorage() {
-        String tempDir = System.getProperty("java.io.tmpdir") + "/tattoo-uploads";
-        System.out.println("📁 Dev режим: файлы в " + tempDir);
-        return new FileSystemImageStorage(tempDir);
     }
 }

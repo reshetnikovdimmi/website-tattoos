@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.tattoo.maxsim.controller.CRUDController;;
+import ru.tattoo.maxsim.controller.CRUDController;
 import ru.tattoo.maxsim.model.ReviewSection;
 import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.service.interf.CRUDService;
