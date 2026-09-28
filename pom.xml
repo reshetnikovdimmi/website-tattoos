@@ -289,7 +289,7 @@
 					<systemPropertyVariables>
 						<allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
 					</systemPropertyVariables>
-					<skipTests>true</skipTests>
+                    <!-- <skipTests>true</skipTests>  ← убрать -->
 				</configuration>
 			</plugin>
 			<plugin>
