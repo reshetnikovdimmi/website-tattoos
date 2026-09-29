@@ -17,6 +17,7 @@ import ru.tattoo.maxsim.service.interf.ImagesService;
 import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.ImageUtils;
 import ru.tattoo.maxsim.util.PageSize;
+import ru.tattoo.maxsim.util.PaginationUtils;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -118,7 +119,7 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
         log.info("Получено {} изображений на странице {} из {}",
                 images.getNumberOfElements(), pageNumber, images.getTotalElements());
 
-        List<List<Images>> objects = ImageUtils.partition(
+        List<List<Images>> objects = PaginationUtils.partition(
                 images.hasContent() ? images.getContent() : Collections.emptyList(),
                 PARTITION_SIZE
         );

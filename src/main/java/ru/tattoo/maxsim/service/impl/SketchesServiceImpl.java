@@ -16,6 +16,7 @@ import ru.tattoo.maxsim.service.interf.SketchesService;
 import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.ImageUtils;
 import ru.tattoo.maxsim.util.PageSize;
+import ru.tattoo.maxsim.util.PaginationUtils;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -76,7 +77,7 @@ public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> imp
 
         Page<Sketches> images = sketchesRepository.findAll(p);
 
-        List<List<Sketches>> objects = ImageUtils.partition(
+        List<List<Sketches>> objects = PaginationUtils.partition(
                 images.hasContent() ? images.getContent() : Collections.emptyList(),
                 PARTITION_SIZE
         );
