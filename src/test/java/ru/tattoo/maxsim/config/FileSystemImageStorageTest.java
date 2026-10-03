@@ -18,14 +18,11 @@ class FileSystemImageStorageTest {
     @Test
     void shouldSaveFileIntoConfiguredDirectory() throws Exception {
         FileSystemImageStorage storage = new FileSystemImageStorage(tempDir.toString());
-
         MockMultipartFile file = new MockMultipartFile(
-            "file", "photo.png", "image/png", "bytes".getBytes()
-        );
-
+            "file", "photo.png", "image/png", "bytes".getBytes());
         String savedName = storage.saveImage(file, "photo.png");
-
-        Path saved = tempDir.resolve(savedName);
+        assertThat(savedName).isEqualTo("photo.png");
+        Path saved = tempDir.resolve("photo.png");
         assertThat(Files.exists(saved)).isTrue();
         assertThat(Files.readAllBytes(saved)).isEqualTo("bytes".getBytes());
     }

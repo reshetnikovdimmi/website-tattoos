@@ -152,7 +152,8 @@ public abstract class AbstractCRUDService<E, K> implements CRUDService<E, K> {
             log.debug("📄 Оригинальное имя файла: {}", originalFileName);
 
             // Сохраняем файл через ImageStorage (он сам сгенерирует имя)
-            String savedFileName = getImageStorage().saveImage(fileImport, originalFileName);
+            String uniqueFileName = getImageStorage().generateUniqueFileName(originalFileName);
+            String savedFileName = getImageStorage().saveImage(fileImport, uniqueFileName);
             log.debug("💾 Файл сохранен в хранилище с именем: {}", savedFileName);
 
             // Устанавливаем имя файла в сущность

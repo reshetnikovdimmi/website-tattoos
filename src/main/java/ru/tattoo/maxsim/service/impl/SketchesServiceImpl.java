@@ -8,22 +8,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.DTO.SketchesDTO;
 import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.repository.SketchesRepository;
 import ru.tattoo.maxsim.service.interf.SketchesService;
 import ru.tattoo.maxsim.storage.ImageStorage;
-import ru.tattoo.maxsim.util.ImageUtils;
 import ru.tattoo.maxsim.util.PageSize;
 import ru.tattoo.maxsim.util.PaginationUtils;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> implements SketchesService {
