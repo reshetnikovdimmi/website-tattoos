@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   service:
     container_name: service
@@ -13,12 +11,14 @@ services:
       - ~/data/images:/app/img/images
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/a0722849_maxsim?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=a0722849_maxsim
-      - SPRING_DATASOURCE_PASSWORD=R870nt55@
-      - SPRING_MAIL_USERNAME=reshetnikov.dim.mi@yandex.ru
-      - SPRING_MAIL_PASSWORD=kkrhwhlmoiawjgcm
-      - UPLOAD_DIRECTORY=/app/img/images
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/${MYSQL_DATABASE}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=${MYSQL_USER}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
+      - SPRING_MAIL_USERNAME=${MAIL_USERNAME}
+      - SPRING_MAIL_PASSWORD=${MAIL_PASSWORD}
+      - APP_STORAGE_UPLOAD_DIR=/app/img/images
+      - APP_STORAGE_URL_PREFIX=/images
+      - APP_STORAGE_CACHE_SECONDS=3600
       - UPLOAD_MAX_FILE_SIZE=10485760
       - JAVA_OPTS=-Xmx512m -Xms256m -XX:+UseG1GC
     healthcheck:
@@ -35,10 +35,10 @@ services:
     ports:
       - "3307:3306"
     environment:
-      - MYSQL_DATABASE=a0722849_maxsim
-      - MYSQL_USER=a0722849_maxsim
-      - MYSQL_PASSWORD=R870nt55@
-      - MYSQL_ROOT_PASSWORD=R870nt55@
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
@@ -46,7 +46,7 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pR870nt55@"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 5

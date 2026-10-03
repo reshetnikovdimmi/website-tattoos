@@ -8,14 +8,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.tattoo.maxsim.exceptions.FileDeletionException;
 import ru.tattoo.maxsim.exceptions.UserNotFoundException;
 import ru.tattoo.maxsim.model.DTO.UserDTO;
 import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.repository.UserRepository;
 import ru.tattoo.maxsim.service.interf.UserService;
 import ru.tattoo.maxsim.storage.ImageStorage;
-import ru.tattoo.maxsim.util.ImageUtils;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -73,20 +71,23 @@ public class UserServiceImpl extends AbstractCRUDService<User, Long> implements 
     @Override
     public void updateUserAvatar(MultipartFile fileImport, Principal principal) throws IOException {
         User user = userRepository.findByLogin(principal.getName())
-                .orElseThrow(() -> new UserNotFoundException("Пользователь " + principal.getName() + " не найден"));
+            .orElseThrow(() -> new UserNotFoundException("Пользователь " + principal.getName() + " не найден"));
 
-        if (!StringUtils.isBlank(user.getAvatar()) && ImageUtils.existsImage(user.getAvatar())) {
-            try {
-                ImageUtils.deleteImage(user.getAvatar());
-            } catch (IOException e) {
-                throw new FileDeletionException("Ошибка удаления файла" +"-->"+ e, e);
-            }
-        }
+        String oldAvatar = user.getAvatar();
 
-        String uniqueFileName = ImageUtils.generateUniqueFileName(fileImport.getOriginalFilename());
-        ImageUtils.saveImage(fileImport, uniqueFileName);
+        String uniqueFileName = imageStorage.generateUniqueFileName(fileImport.getOriginalFilename());
+        imageStorage.saveImage(fileImport, uniqueFileName);
+
         user.setAvatar(uniqueFileName);
         userRepository.save(user);
+
+        if (!StringUtils.isBlank(oldAvatar) && imageStorage.existsImage(oldAvatar)) {
+            try {
+                imageStorage.deleteImage(oldAvatar);
+            } catch (IOException e) {
+                log.warn("Не удалось удалить старый аватар {}: {}", oldAvatar, e.getMessage());
+            }
+        }
     }
 
 

@@ -6,15 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import ru.tattoo.maxsim.model.Blog;
 import ru.tattoo.maxsim.model.SettingWebsite;
 import ru.tattoo.maxsim.repository.SettingWebsiteRepository;
 import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
 import ru.tattoo.maxsim.storage.ImageStorage;
-import ru.tattoo.maxsim.util.ImageUtils;
 
-import java.io.IOException;
 import java.util.Optional;
 
 @Slf4j

@@ -9,16 +9,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
-import ru.tattoo.maxsim.exceptions.FileDeletionException;
 import ru.tattoo.maxsim.model.DTO.GalleryDTO;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ImagesRepository;
 import ru.tattoo.maxsim.service.interf.ImagesService;
 import ru.tattoo.maxsim.storage.ImageStorage;
-import ru.tattoo.maxsim.util.ImageUtils;
 import ru.tattoo.maxsim.util.PageSize;
+import ru.tattoo.maxsim.util.PaginationUtils;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
@@ -118,7 +116,7 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
         log.info("Получено {} изображений на странице {} из {}",
                 images.getNumberOfElements(), pageNumber, images.getTotalElements());
 
-        List<List<Images>> objects = ImageUtils.partition(
+        List<List<Images>> objects = PaginationUtils.partition(
                 images.hasContent() ? images.getContent() : Collections.emptyList(),
                 PARTITION_SIZE
         );

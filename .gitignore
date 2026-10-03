@@ -41,3 +41,26 @@ application-*.properties
 !application-test.properties
 uploads-local/
 .gigaide/
+
+### Secrets ###
+.env
+.env.local
+.env.*.local
+docs/secrets.md
+
+### Backups ###
+backups/
+*.sql.gz
+*.dump
+
+### Uploads ###
+uploads/
+
+### Allure ###
+allure-report/
+allure-results/
+
+### Code dumps ###
+project-code.txt
+all-code.txt
+project_all_code_numbered.txt

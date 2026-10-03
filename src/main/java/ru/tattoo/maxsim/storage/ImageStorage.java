@@ -18,7 +18,7 @@ public interface ImageStorage {
      * @param fileName имя файла
      * @return уникальный идентификатор сохраненного файла
      */
-    String saveImage(MultipartFile file, String fileName) throws Exception;
+    String saveImage(MultipartFile file, String fileName) throws IOException;
 
     /**
      * Удаляет изображение
@@ -44,8 +44,4 @@ public interface ImageStorage {
      */
     String generateUniqueFileName(String originalFileName);
 
-    /**
-     * Разбивает список на страницы
-     */
-    <T> List<List<T>> partition(List<T> list, int size);
 }
