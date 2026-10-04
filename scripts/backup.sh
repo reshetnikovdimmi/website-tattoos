@@ -62,7 +62,7 @@ echo "    images:     $IMAGES_HOST_DIR"
 # --- 1. Дамп БД ---
 echo "==> [1/5] Dumping database..."
 docker exec "$DB_CONTAINER" \
-    mysqldump --single-transaction --quick --routines --triggers \
+    стало: mysqldump --single-transaction --quick --routines --triggers --no-tablespaces \
     -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" \
     | gzip > "$DEST/db.sql.gz"
 echo "    -> $(du -h "$DEST/db.sql.gz" | cut -f1)"
