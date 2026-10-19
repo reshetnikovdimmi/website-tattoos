@@ -49,6 +49,8 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/js/**",
                                 "/images/**",
+                                "/actuator/health",
+                                "/actuator/health/**",
                                 "/fonts/**",
                                 "/favicon.ico"
 

@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.controller.CRUDController;
 import ru.tattoo.maxsim.model.*;
+import ru.tattoo.maxsim.model.DTO.DiskItem;
 import ru.tattoo.maxsim.repository.SettingWebsiteRepository;
+import ru.tattoo.maxsim.service.BackupSettingsService;
 import ru.tattoo.maxsim.service.interf.*;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -32,6 +35,8 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     private MailSettingsService mailSettingsService;
     @Autowired
     private SiteVerificationService verificationService;
+    @Autowired
+    private BackupSettingsService settingsService;
 
     @GetMapping()
     private String getGalleryFragment(Model model, HttpServletRequest request) {
@@ -135,5 +140,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
         model.addAttribute("setting", settingWebsiteService.findAll());
         model.addAttribute("mailSettings", mailSettingsService.getSettings());
         model.addAttribute("verifications", verificationService.getAll());
+        model.addAttribute("backup", settingsService.getOrCreate());
+        model.addAttribute("backups", settingsService.listBackups());
     }
 }

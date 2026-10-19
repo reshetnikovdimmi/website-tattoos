@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-backup-settings-table
+      author: Dmitrii
+      changes:
+        - createTable:
+            tableName: backup_settings
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: provider
+                  type: varchar(50)
+                  defaultValue: 'YANDEX_DISK'
+                  constraints:
+                    nullable: false
+              - column:
+                  name: yandex_token
+                  type: varchar(1000)
+              - column:
+                  name: backup_dir
+                  type: varchar(255)
+                  defaultValue: '/tattoo-backups'
+              - column:
+                  name: enabled
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: last_backup_at
+                  type: datetime
+              - column:
+                  name: last_backup_status
+                  type: varchar(50)
+              - column:
+                  name: updated_at
+                  type: datetime
+        - addUniqueConstraint:
+            tableName: backup_settings
+            columnNames: provider
+            constraintName: uk_backup_settings_provider

@@ -15,8 +15,8 @@ RUN mvn clean package -DskipTests -B
 # Stage 2: Запуск — здесь только лёгкая Java для выполнения
 FROM eclipse-temurin:21-jre-alpine
 
-# Устанавливаем curl, чтобы Spring Boot мог проверить health
-RUN apk add --no-cache curl
+# Устанавливаем curl для healthcheck и клиент MySQL: mysqldump нужен для бэкапа БД
+RUN apk add --no-cache curl mariadb-client
 
 WORKDIR /app
 

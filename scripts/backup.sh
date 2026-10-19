@@ -8,11 +8,19 @@
 #   3. Копия docker-compose.yml и .env.example
 #   4. sha256sum для проверки целостности
 #   5. Ротация: хранить N последних бэкапов
+#   6. Offsite: загрузка дампа и архива на Яндекс.Диск (если задан YANDEX_DISK_TOKEN)
 #
 # Запуск:
 #   ./scripts/backup.sh
 # или с указанием корня бэкапов:
 #   BACKUP_ROOT=/mnt/backups ./scripts/backup.sh
+#
+# Автоматизация (cron на сервере, ежедневно в 3:00):
+#   0 3 * * * cd /home/server/website-tattoos && ./scripts/backup.sh >> /var/log/website-tattoos-backup.log 2>&1
+#
+# Переменные для Яндекс.Диска (в .env):
+#   YANDEX_DISK_TOKEN - OAuth-токен приложения с правами cloud_api:disk.read/write
+#   YANDEX_DISK_DIR   - папка на Диске, по умолчанию /tattoo-backups
 # ============================================================
 
 set -euo pipefail
@@ -60,15 +68,15 @@ echo "    db:         $MYSQL_DATABASE ($DB_CONTAINER)"
 echo "    images:     $IMAGES_HOST_DIR"
 
 # --- 1. Дамп БД ---
-echo "==> [1/5] Dumping database..."
+echo "==> [1/6] Dumping database..."
 docker exec "$DB_CONTAINER" \
-    стало: mysqldump --single-transaction --quick --routines --triggers --no-tablespaces \
+    mysqldump --single-transaction --quick --routines --triggers --no-tablespaces \
     -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" \
     | gzip > "$DEST/db.sql.gz"
 echo "    -> $(du -h "$DEST/db.sql.gz" | cut -f1)"
 
 # --- 2. Архив картинок ---
-echo "==> [2/5] Archiving images..."
+echo "==> [2/6] Archiving images..."
 if [[ -d "$IMAGES_HOST_DIR" ]]; then
     tar -czf "$DEST/images.tar.gz" -C "$(dirname "$IMAGES_HOST_DIR")" "$(basename "$IMAGES_HOST_DIR")"
     echo "    -> $(du -h "$DEST/images.tar.gz" | cut -f1)"
@@ -77,13 +85,13 @@ else
 fi
 
 # --- 3. Конфиги ---
-echo "==> [3/5] Copying configs..."
+echo "==> [3/6] Copying configs..."
 cp docker-compose.yml "$DEST/"
 [[ -f .env.example ]] && cp .env.example "$DEST/"
 echo "    -> docker-compose.yml, .env.example"
 
 # --- 4. sha256 ---
-echo "==> [4/5] Computing checksums..."
+echo "==> [4/6] Computing checksums..."
 (
     cd "$DEST"
     sha256sum db.sql.gz > SHA256SUMS
@@ -94,7 +102,7 @@ echo "==> [4/5] Computing checksums..."
 echo "    -> SHA256SUMS"
 
 # --- 5. Ротация ---
-echo "==> [5/5] Rotating old backups (keep last $KEEP_LAST)..."
+echo "==> [5/6] Rotating old backups (keep last $KEEP_LAST)..."
 if [[ -d "$BACKUP_ROOT" ]]; then
     ls -1dt "$BACKUP_ROOT"/*/ 2>/dev/null | tail -n +$((KEEP_LAST + 1)) | while read -r old; do
         echo "    removing: $old"
@@ -102,8 +110,83 @@ if [[ -d "$BACKUP_ROOT" ]]; then
     done
 fi
 
+# --- 6. Загрузка на Яндекс.Диск (offsite) ---
+YANDEX_API="${YANDEX_API_BASE:-https://cloud-api.yandex.net/v1/disk}"
+
+ensure_disk_dir() {
+    local dir="$1"
+    # 409 (папка уже есть) — нормальная ситуация, поэтому ошибку не пробрасываем
+    curl -sS -o /dev/null -X PUT -G \
+        --data-urlencode "path=$dir" \
+        -H "Authorization: OAuth ${YANDEX_DISK_TOKEN}" \
+        "$YANDEX_API/resources" || true
+}
+
+upload_file_to_disk() {
+    local local_file="$1" remote_path="$2"
+    local response code href
+
+    response="$(curl -sS -G --max-time 60 \
+        --data-urlencode "path=$remote_path" \
+        --data-urlencode "overwrite=true" \
+        -H "Authorization: OAuth ${YANDEX_DISK_TOKEN}" \
+        -w $'\n%{http_code}' \
+        "$YANDEX_API/resources/upload")" || return 1
+
+    code="${response##*$'\n'}"
+    response="${response%$'\n'*}"
+
+    if [[ "$code" != "200" ]]; then
+        echo "    ERROR: URL загрузки не получен (HTTP $code): $response" >&2
+        return 1
+    fi
+
+    href="$(printf '%s' "$response" \
+        | grep -o '"href"[[:space:]]*:[[:space:]]*"[^"]*"' \
+        | head -n1 | cut -d'"' -f4 | sed 's#\\/#/#g' || true)"
+
+    if [[ -z "$href" ]]; then
+        echo "    ERROR: Яндекс.Диск не вернул href" >&2
+        return 1
+    fi
+
+    code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 600 \
+        -T "$local_file" -H "Content-Type: application/octet-stream" "$href")" || return 1
+
+    if [[ "$code" != 2* ]]; then
+        echo "    ERROR: загрузка вернула HTTP $code" >&2
+        return 1
+    fi
+}
+
+UPLOAD_FAILED=0
+if [[ -n "${YANDEX_DISK_TOKEN:-}" ]]; then
+    DISK_DIR="${YANDEX_DISK_DIR:-/tattoo-backups}"
+    echo "==> [6/6] Uploading to Yandex.Disk (${DISK_DIR})..."
+    ensure_disk_dir "$DISK_DIR"
+
+    for file in "$DEST"/*.gz; do
+        [[ -f "$file" ]] || continue
+        remote_path="${DISK_DIR%/}/${DATE}_$(basename "$file")"
+        if upload_file_to_disk "$file" "$remote_path"; then
+            echo "    -> $remote_path"
+        else
+            echo "    WARN: не удалось загрузить $(basename "$file")" >&2
+            UPLOAD_FAILED=1
+        fi
+    done
+else
+    echo "==> [6/6] Yandex.Disk upload skipped (YANDEX_DISK_TOKEN is not set)"
+fi
+
 echo ""
 echo "==> Backup complete: $DEST"
 echo ""
 echo "Contents:"
 ls -lh "$DEST"
+
+if [[ "$UPLOAD_FAILED" -ne 0 ]]; then
+    echo ""
+    echo "==> WARNING: локальный бэкап создан, но offsite-копия на Яндекс.Диск не загружена" >&2
+    exit 1
+fi

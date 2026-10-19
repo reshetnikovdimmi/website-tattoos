@@ -64,3 +64,6 @@ allure-results/
 project-code.txt
 all-code.txt
 project_all_code_numbered.txt
+
+### Local tools (mysql client для бэкапов) ###
+/.tools/

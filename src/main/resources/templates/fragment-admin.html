@@ -2297,6 +2297,16 @@
                    aria-selected="false">
                     mail
                 </a>
+                <a style="margin: 10px;"
+                   class="nav-link btn btn-outline-secondary"
+                   id="v-backup-tab"
+                   data-toggle="pill"
+                   href="#v-backup"
+                   role="tab"
+                   aria-controls="v-backup"
+                   aria-selected="false">
+                    backup
+                </a>
             </div>
         </div>
 
@@ -3787,6 +3797,199 @@
                                 </div>
                             </section>
                         </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="v-backup" role="tabpanel"
+                     aria-labelledby="v-backup-tab" tabindex="0">
+                    <div th:fragment="backup-settings" class="backup-settings">
+                        <section class="admin-section spad">
+                            <div class="container">
+                                <div class="section-title-modern text-center">
+                                    <h2>Резервное копирование</h2>
+                                    <p>Настройка бэкапа на Яндекс.Диск</p>
+                                </div>
+
+                                <div class="admin-card">
+                                    <div class="admin-card-header">
+                                        <i class="fa fa-cloud-upload"></i>
+                                        <h4>Яндекс.Диск</h4>
+                                    </div>
+                                    <div class="admin-card-body">
+                                        <form action="/admin/backup/save"
+                                              onsubmit="submitForm(event)"
+                                              data-fragment-name="backup-settings"
+                                              data-container-selector=".backup-settings"
+                                              th:object="${backup}">
+
+                                            <input type="hidden" th:field="*{id}">
+                                            <input type="hidden" name="provider" value="YANDEX_DISK">
+
+                                            <div class="admin-form-group">
+                                                <label class="admin-label">
+                                                    <i class="fa fa-key"></i> OAuth-токен
+                                                </label>
+                                                <input type="password"
+                                                       id="yandex-token"
+                                                       name="yandexToken"
+                                                       class="admin-textarea"
+                                                       th:value="*{yandexToken}"
+                                                       placeholder="y0_AgAAAAB...">
+                                                <small class="form-hint">
+                                                    Как получить токен — см. инструкцию ниже
+                                                </small>
+                                            </div>
+
+                                            <div class="admin-form-group">
+                                                <label class="admin-label">
+                                                    <i class="fa fa-folder"></i> Папка на Диске
+                                                </label>
+                                                <input type="text"
+                                                       name="backupDir"
+                                                       class="admin-textarea"
+                                                       th:value="*{backupDir}"
+                                                       placeholder="/tattoo-backups">
+                                            </div>
+
+                                            <div class="admin-form-group">
+                                                <label class="admin-label">
+                                                    <input type="checkbox"
+                                                           name="enabled"
+                                                           th:checked="*{enabled}">
+                                                    Включить автоматический бэкап
+                                                </label>
+                                            </div>
+
+                                            <button type="submit" class="admin-btn">
+                                                <i class="fa fa-save"></i> Сохранить
+                                            </button>
+                                        </form>
+
+                                        <div style="margin-top: 15px;">
+                                            <button type="button"
+                                                    class="admin-btn"
+                                                    onclick="testBackupConnection()">
+                                                <i class="fa fa-plug"></i> Проверить подключение
+                                            </button>
+                                            <button type="button"
+                                                    class="admin-btn"
+                                                    id="backup-create-btn"
+                                                    onclick="createBackup()">
+                                                <i class="fa fa-cloud-upload"></i> Создать бэкап
+                                            </button>
+                                            <span id="backup-test-status"></span>
+                                        </div>
+                                        <small class="form-hint">
+                                            Кнопка «Создать бэкап» делает дамп БД и архив картинок,
+                                            затем загружает оба файла в папку на Диске.
+                                            Для больших архивов операция может занять несколько минут.
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <!-- Статус -->
+                                <div class="admin-card" th:if="${backup.lastBackupAt != null}">
+                                    <div class="admin-card-header">
+                                        <i class="fa fa-history"></i>
+                                        <h4>Последний бэкап</h4>
+                                    </div>
+                                    <div class="admin-card-body">
+                                        <p>
+                                            <strong>Дата:</strong>
+                                            <span th:text="${#temporals.format(backup.lastBackupAt, 'dd.MM.yyyy HH:mm')}"></span>
+                                        </p>
+                                        <p>
+                                            <strong>Статус:</strong>
+                                            <span th:classappend="${backup.lastBackupStatus == 'SUCCESS'} ? 'text-success' : 'text-danger'"
+                                                  th:text="${backup.lastBackupStatus}"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- Сохранённые бэкапы -->
+                                <div class="admin-card" th:if="${backups != null and !backups.isEmpty()}">
+                                    <div class="admin-card-header">
+                                        <i class="fa fa-list"></i>
+                                        <h4>Сохранённые бэкапы</h4>
+                                        <span class="badge-count" th:text="${#lists.size(backups)}"></span>
+                                    </div>
+                                    <div class="admin-card-body">
+                                        <div class="backups-list">
+                                            <div class="backup-item" th:each="b : ${backups}">
+                                                <div class="backup-item-icon">
+                                                    <i class="fa fa-file-archive-o"></i>
+                                                </div>
+                                                <div class="backup-item-info">
+                                                    <div class="backup-item-name" th:text="${b.name}"></div>
+                                                    <div class="backup-item-meta">
+                                                        <span><i class="fa fa-calendar"></i>
+                                                            <span th:text="${b.created}"></span>
+                                                        </span>
+                                                                                        <span th:if="${b.size != null}">
+                                                            <i class="fa fa-hdd-o"></i>
+                                                            <span th:text="${#numbers.formatDecimal(b.size / 1024.0 / 1024.0, 1, 2) + ' МБ'}"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="backup-item-actions">
+                                                    <button class="action-btn" th:onclick="'downloadBackup(\'' + ${b.name} + '\')'"
+                                                            title="Скачать">
+                                                        <i class="fa fa-download"></i>
+                                                    </button>
+                                                    <button class="action-btn delete-btn"
+                                                            th:onclick="'deleteBackup(\'' + ${b.name} + '\')'"
+                                                            title="Удалить">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Пустое состояние -->
+                                <div class="admin-card" th:if="${backups == null or backups.isEmpty()}">
+                                    <div class="admin-card-body">
+                                        <div class="empty-state-modern">
+                                            <i class="fa fa-inbox"></i>
+                                            <h4>Бэкапов пока нет</h4>
+                                            <p>Нажмите «Создать бэкап», чтобы сделать первый</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Инструкция -->
+                                <div class="admin-card">
+                                    <div class="admin-card-header">
+                                        <i class="fa fa-question-circle"></i>
+                                        <h4>Как получить OAuth-токен Яндекс.Диска</h4>
+                                    </div>
+                                    <div class="admin-card-body backup-instruction">
+                                        <ol>
+                                            <li>
+                                                Откройте <a href="https://oauth.yandex.ru/" target="_blank">oauth.yandex.ru</a>
+                                            </li>
+                                            <li>
+                                                Создайте приложение типа <strong>«Для доступа к API»</strong>
+                                            </li>
+                                            <li>
+                                                В правах отметьте:
+                                                <code>cloud_api:disk.read</code>
+                                                <code>cloud_api:disk.write</code>
+                                            </li>
+                                            <li>
+                                                Скопируйте <strong>ClientID</strong> из настроек приложения
+                                            </li>
+                                            <li>
+                                                Перейдите по ссылке (замените <code>ВАШ_CLIENT_ID</code>):
+                                                <code class="authorize-url">https://oauth.yandex.ru/authorize?response_type=token&client_id=ВАШ_CLIENT_ID</code>
+                                            </li>
+                                            <li>
+                                                Скопируйте токен со страницы и вставьте в поле выше
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>

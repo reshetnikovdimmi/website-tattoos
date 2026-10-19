@@ -37,3 +37,5 @@ databaseChangeLog:
       file: db/changelog/changeset/create-mail-settings-table.yaml
   - include:
       file: db/changelog/changeset/create-site-verification.yaml
+  - include:
+      file: db/changelog/changeset/create-backup-settings-table.yaml

@@ -11,7 +11,12 @@ import ru.tattoo.maxsim.repository.ContactInfoRepository;
 import ru.tattoo.maxsim.repository.SettingWebsiteRepository;
 import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
 
-@ControllerAdvice
+/**
+ * Глобальные атрибуты модели (футер) для контроллеров приложения.
+ * Ограничено пакетом controller: иначе advice срабатывает и на /actuator/**,
+ * дергает БД на каждый health-check и ломает проверку живости.
+ */
+@ControllerAdvice(basePackages = "ru.tattoo.maxsim.controller")
 public class GlobalController {
     @Autowired
     private ContactInfoRepository contactInfoRepository;
