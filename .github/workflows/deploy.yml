@@ -2,28 +2,18 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
-
-# Два пуша подряд не должны деплоить одновременно
-concurrency:
-  group: production-deploy
-  cancel-in-progress: false
-
-env:
-  IMAGE: reshetnikovdimmi/website-tattoos
-  DEPLOY_DIR: /home/server/website-tattoos
+    branches: [main, master]
 
 jobs:
   build-and-deploy:
     runs-on: self-hosted
-    timeout-minutes: 30
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      # Удалите шаг "Set up Docker Buildx"
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -31,75 +21,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      # Замените "Build and push Docker image" на обычный run
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          # latest — для compose, sha — для отката на конкретную версию
-          tags: |
-            ${{ env.IMAGE }}:latest
-            ${{ env.IMAGE }}:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+        run: |
+          docker build -t reshetnikovdimmi/website-tattoos:latest .
+          docker push reshetnikovdimmi/website-tattoos:latest
 
       - name: Deploy on server
         run: |
-          set -euo pipefail
-
-          mkdir -p "$HOME/data/images" "$HOME/backups"
-          install -D -m 644 docker-compose.yml "$DEPLOY_DIR/docker-compose.yml"
-          # Скрипты копируем, чтобы cron на сервере мог делать бэкап без приложения
-          install -D -m 755 scripts/backup.sh "$DEPLOY_DIR/scripts/backup.sh"
-          install -D -m 755 scripts/restore.sh "$DEPLOY_DIR/scripts/restore.sh"
-          cd "$DEPLOY_DIR"
-
-          # Без обязательных переменных приложение не стартует — падаем до docker pull
-          for var in MYSQL_DATABASE MYSQL_USER MYSQL_PASSWORD MYSQL_ROOT_PASSWORD BACKUP_ENCRYPTION_KEY; do
-            grep -q "^${var}=." .env || { echo "::error::В $DEPLOY_DIR/.env не задан $var"; exit 1; }
-          done
-
-          # Образ, который работает сейчас: нужен для отката, если новый не поднимется
-          PREV_IMAGE_ID="$(docker image inspect "$IMAGE:latest" -q 2>/dev/null || true)"
-
-          docker compose config -q
+          mkdir -p /home/server/data/images /home/server/backups
+          cp docker-compose.yml /home/server/website-tattoos/
+          cd /home/server/website-tattoos
           docker compose pull
           docker compose up -d --remove-orphans
-
-          # Ждём, пока приложение реально ответит на /actuator/health
-          status=starting
-          for _ in $(seq 1 30); do
-            if curl -fsS -o /dev/null http://127.0.0.1:8080/actuator/health 2>/dev/null; then
-              status=healthy
-              break
-            fi
-            health="$(docker inspect -f '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' service 2>/dev/null || echo missing)"
-            if [ "$health" = healthy ]; then
-              status=healthy
-              break
-            fi
-            status="$health"
-            if [ "$health" = exited ] || [ "$health" = missing ]; then
-              break
-            fi
-            sleep 5
-          done
-
-          if [ "$status" != healthy ]; then
-            echo "::error::service is not healthy after deploy (status=$status)"
-            docker compose logs --tail=200 service || true
-            if [ -n "$PREV_IMAGE_ID" ]; then
-              echo "::warning::rolling back to $PREV_IMAGE_ID"
-              docker tag "$PREV_IMAGE_ID" "$IMAGE:latest"
-              docker compose up -d --force-recreate service || true
-            fi
-            exit 1
-          fi
-
-          # Чистим только мусор: dangling-образы и старые слои сборки.
-          # Полный `image prune -a` сносил бы и базовые образы, и следующий билд качал бы их заново.
-          docker image prune -f
-          docker builder prune -f --filter "until=168h" || true
-
-      - name: Reload nginx
-        run: sudo nginx -t && sudo systemctl reload nginx
+          docker image prune -af --filter "until=168h" || true
+          sudo nginx -t && sudo systemctl reload nginx || true
