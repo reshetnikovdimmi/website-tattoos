@@ -3930,12 +3930,15 @@
                                                     </div>
                                                 </div>
                                                 <div class="backup-item-actions">
-                                                    <button class="action-btn" th:onclick="'downloadBackup(\'' + ${b.name} + '\')'"
+                                                    <button class="action-btn" type="button"
+                                                            th:attr="data-file=${b.name}"
+                                                            onclick="downloadBackup(this.dataset.file)"
                                                             title="Скачать">
                                                         <i class="fa fa-download"></i>
                                                     </button>
-                                                    <button class="action-btn delete-btn"
-                                                            th:onclick="'deleteBackup(\'' + ${b.name} + '\')'"
+                                                    <button class="action-btn delete-btn" type="button"
+                                                            th:attr="data-file=${b.name}"
+                                                            onclick="deleteBackup(this.dataset.file)"
                                                             title="Удалить">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
