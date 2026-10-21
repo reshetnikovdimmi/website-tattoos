@@ -12,11 +12,20 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 RUN mvn clean package -DskipTests -B
 
-# Stage 2: Запуск — здесь только лёгкая Java для выполнения
-FROM eclipse-temurin:21-jre-alpine
+# Stage 2: Запуск — здесь только лёгкая Java для выполнения.
+# База Ubuntu, а не Alpine: нужен настоящий клиент MySQL (Oracle).
+# MySQL 8 по умолчанию использует caching_sha2_password, а MariaDB-клиент из Alpine
+# не содержит этот плагин — mysqldump падает с
+# "Plugin caching_sha2_password could not be loaded".
+FROM eclipse-temurin:21-jre-jammy
 
-# Устанавливаем curl для healthcheck и клиент MySQL: mysqldump нужен для бэкапа БД
-RUN apk add --no-cache curl mariadb-client
+# curl — healthcheck, mysql-client-8.0 — mysqldump для бэкапов
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        curl \
+        mysql-client-8.0 \
+    && rm -rf /var/lib/apt/lists/* \
+    && mysqldump --version
 
 WORKDIR /app
 

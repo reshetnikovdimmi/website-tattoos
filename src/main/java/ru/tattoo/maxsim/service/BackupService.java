@@ -191,8 +191,12 @@ public class BackupService {
                     "mysqldump не завершился за " + dumpTimeoutMinutes + " мин");
             }
             if (process.exitValue() != 0) {
+                String hint = stderr.contains("caching_sha2_password")
+                    ? " Клиент MySQL не поддерживает caching_sha2_password: нужен mysql-client-8.0"
+                        + " (в Docker-образе установлен) или смена плагина пользователя БД."
+                    : "";
                 throw new BackupException("mysqldump завершился с кодом " + process.exitValue()
-                    + (stderr.isBlank() ? "" : ": " + stderr.trim()));
+                    + (stderr.isBlank() ? "" : ": " + stderr.trim()) + hint);
             }
             if (Files.size(plainDump) == 0) {
                 throw new BackupException("mysqldump вернул пустой дамп — проверьте доступ к БД");

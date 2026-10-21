@@ -74,6 +74,7 @@ openssl rand -base64 32
 | Симптом | Причина / что делать |
 |---|---|
 | «mysqldump не найден» | нет клиента MySQL. В Docker он есть (`mariadb-client` в Dockerfile); локально: `sudo apt install mysql-client`. Без root: `apt-get download mysql-client-core-8.0 && dpkg -x *.deb .tools/mysql-client-core` и указать `app.backup.mysqldump-path` |
+| `1045 ... caching_sha2_password could not be loaded` | клиент не умеет аутентификацию MySQL 8. В образе теперь `mysql-client-8.0`; локально — клиент MySQL 8, а не MariaDB, либо `ALTER USER ... IDENTIFIED WITH mysql_native_password` (не рекомендуется) |
 | «Диск недоступен», 401 | неверный/просроченный OAuth-токен — сохраните новый в админке |
 | «Бэкап уже выполняется» | идёт другой прогон (кнопка или планировщик), дождитесь |
 | Статус `FAILED` в админке | смотрите лог: `docker compose logs service` / файл лога; в `backup_settings.last_backup_status` |

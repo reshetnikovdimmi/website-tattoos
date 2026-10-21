@@ -226,6 +226,26 @@ class BackupServiceTest {
         verify(settingsService).markBackupFailed();
     }
 
+    @Test
+    void dumpShouldExplainCachingSha2Problem(@TempDir Path tempDir) throws Exception {
+        Path script = tempDir.resolve("mysqldump");
+        Files.writeString(script, "#!/bin/sh\n"
+            + "echo 'mysqldump: Got error: 1045: Plugin caching_sha2_password could not be loaded' >&2\n"
+            + "exit 1\n");
+        Files.setPosixFilePermissions(script, PosixFilePermissions.fromString("rwxr-xr-x"));
+
+        BackupService service = newService();
+        ReflectionTestUtils.setField(service, "mysqldumpPath", script.toString());
+        dataSourceProperties.setUrl("jdbc:mysql://db:3306/site");
+        dataSourceProperties.setUsername("user");
+        dataSourceProperties.setPassword("pass");
+
+        assertThatThrownBy(() -> service.dumpDatabase(tempDir.resolve("db.sql.gz")))
+            .isInstanceOf(BackupException.class)
+            .hasMessageContaining("caching_sha2_password")
+            .hasMessageContaining("mysql-client-8.0");
+    }
+
     private Path fakeMysqldump(Path tempDir) throws Exception {
         Path script = tempDir.resolve("mysqldump");
         Files.writeString(script, "#!/bin/sh\necho '-- fake dump'\necho 'CREATE TABLE t (id int);'\n");
