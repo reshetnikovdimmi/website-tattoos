@@ -3864,7 +3864,7 @@
                                             </button>
                                         </form>
 
-                                        <div style="margin-top: 15px;">
+                                        <div class="backup-actions">
                                             <button type="button"
                                                     class="admin-btn"
                                                     onclick="testBackupConnection()">
@@ -3876,7 +3876,7 @@
                                                     onclick="createBackup()">
                                                 <i class="fa fa-cloud-upload"></i> Создать бэкап
                                             </button>
-                                            <span id="backup-test-status"></span>
+                                            <span id="backup-test-status" class="backup-actions-status"></span>
                                         </div>
                                         <small class="form-hint">
                                             Кнопка «Создать бэкап» делает дамп БД и архив картинок,
@@ -3886,72 +3886,136 @@
                                     </div>
                                 </div>
 
-                                <!-- Статус -->
-                                <div class="admin-card" th:if="${backup.lastBackupAt != null}">
+                                <!-- Сводка и содержимое бэкапов -->
+                                <div class="admin-card backup-overview">
                                     <div class="admin-card-header">
-                                        <i class="fa fa-history"></i>
-                                        <h4>Последний бэкап</h4>
+                                        <i class="fa fa-cloud"></i>
+                                        <h4>Резервные копии</h4>
+                                        <span class="badge-count"
+                                              th:if="${backupSets != null and !backupSets.isEmpty()}"
+                                              th:text="${#lists.size(backupSets)}"></span>
                                     </div>
                                     <div class="admin-card-body">
-                                        <p>
-                                            <strong>Дата:</strong>
-                                            <span th:text="${#temporals.format(backup.lastBackupAt, 'dd.MM.yyyy HH:mm')}"></span>
-                                        </p>
-                                        <p>
-                                            <strong>Статус:</strong>
-                                            <span th:classappend="${backup.lastBackupStatus == 'SUCCESS'} ? 'text-success' : 'text-danger'"
-                                                  th:text="${backup.lastBackupStatus}"></span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <!-- Сохранённые бэкапы -->
-                                <div class="admin-card" th:if="${backups != null and !backups.isEmpty()}">
-                                    <div class="admin-card-header">
-                                        <i class="fa fa-list"></i>
-                                        <h4>Сохранённые бэкапы</h4>
-                                        <span class="badge-count" th:text="${#lists.size(backups)}"></span>
-                                    </div>
-                                    <div class="admin-card-body">
-                                        <div class="backups-list">
-                                            <div class="backup-item" th:each="b : ${backups}">
-                                                <div class="backup-item-icon">
-                                                    <i class="fa fa-file-archive-o"></i>
-                                                </div>
-                                                <div class="backup-item-info">
-                                                    <div class="backup-item-name" th:text="${b.name}"></div>
-                                                    <div class="backup-item-meta">
-                                                        <span><i class="fa fa-calendar"></i>
-                                                            <span th:text="${b.created}"></span>
-                                                        </span>
-                                                                                        <span th:if="${b.size != null}">
+
+                                        <!-- Последний запуск -->
+                                        <div class="backup-summary" th:if="${backup.lastBackupAt != null}">
+                                            <div class="backup-summary-item">
+                                                <span class="backup-summary-label">
+                                                    <i class="fa fa-calendar-check-o"></i> Последний запуск
+                                                </span>
+                                                <span class="backup-summary-value"
+                                                      th:text="${#temporals.format(backup.lastBackupAt, 'dd.MM.yyyy HH:mm')}"></span>
+                                            </div>
+                                            <div class="backup-summary-item">
+                                                <span class="backup-summary-label">
+                                                    <i class="fa fa-flag"></i> Статус
+                                                </span>
+                                                <span class="backup-status-badge"
+                                                      th:classappend="${backup.lastBackupStatus == 'SUCCESS' ? 'backup-status-badge--ok' : 'backup-status-badge--fail'}"
+                                                      th:text="${backup.lastBackupStatus == 'SUCCESS' ? 'Успешно' : 'Ошибка'}"></span>
+                                            </div>
+                                            <div class="backup-summary-item">
+                                                <span class="backup-summary-label">
+                                                    <i class="fa fa-clock-o"></i> Автозапуск
+                                                </span>
+                                                <span class="backup-summary-value"
+                                                      th:text="${backup.enabled == true ? 'включён' : 'выключен'}"></span>
+                                            </div>
+                                        </div>
+
+                                        <small class="form-hint backup-overview-hint"
+                                               th:if="${backup.lastBackupAt != null}">
+                                            Хранятся последние <span th:text="${backupKeep}"></span> копии.
+                                            Неудачные попытки не создают файлов, а последняя успешная копия
+                                            не удаляется при ротации.
+                                        </small>
+
+                                        <!-- Сохранённые копии: дата, содержимое, действия -->
+                                        <div class="backup-set-list" th:if="${backupSets != null and !backupSets.isEmpty()}">
+                                            <div class="backup-set" th:each="set : ${backupSets}">
+                                                <div class="backup-set-head">
+                                                    <span class="backup-set-date">
+                                                        <i class="fa fa-calendar"></i>
+                                                        <span th:text="${set.dateLabel}"></span>
+                                                    </span>
+                                                    <span class="backup-set-meta">
+                                                        <span class="backup-status-badge"
+                                                              th:classappend="${set.complete ? 'backup-status-badge--ok' : 'backup-status-badge--fail'}"
+                                                              th:text="${set.complete ? 'Успешно' : 'Неполная'}"></span>
+                                                        <span class="backup-set-total" th:if="${set.totalSize > 0}">
                                                             <i class="fa fa-hdd-o"></i>
-                                                            <span th:text="${#numbers.formatDecimal(b.size / 1024.0 / 1024.0, 1, 2) + ' МБ'}"></span>
+                                                            <span th:text="${#numbers.formatDecimal(set.totalSize / 1024.0 / 1024.0, 1, 2) + ' МБ'}"></span>
+                                                        </span>
+                                                        <button class="backup-restore-btn" type="button"
+                                                                th:if="${set.db != null}"
+                                                                th:data-restore-stamp="${set.stamp}"
+                                                                onclick="restoreBackup(this.dataset.restoreStamp)"
+                                                                title="Восстановить БД и картинки из этой копии">
+                                                            <i class="fa fa-undo"></i> Восстановить
+                                                        </button>
+                                                    </span>
+                                                </div>
+
+                                                <div class="backup-set-content">
+                                                    <div class="backup-part" th:if="${set.db != null}">
+                                                        <span class="backup-part-icon"><i class="fa fa-database"></i></span>
+                                                        <span class="backup-part-info">
+                                                            <span class="backup-part-name">База данных</span>
+                                                            <span class="backup-part-size" th:if="${set.db.size != null}"
+                                                                  th:text="${#numbers.formatDecimal(set.db.size / 1024.0 / 1024.0, 1, 2) + ' МБ'}"></span>
+                                                            <span class="backup-part-file" th:text="${set.db.name}"></span>
+                                                        </span>
+                                                        <span class="backup-part-actions">
+                                                            <button class="action-btn" type="button"
+                                                                    th:attr="data-file=${set.db.name}"
+                                                                    onclick="downloadBackup(this.dataset.file)"
+                                                                    title="Скачать"><i class="fa fa-download"></i></button>
+                                                            <button class="action-btn delete-btn" type="button"
+                                                                    th:attr="data-file=${set.db.name}"
+                                                                    onclick="deleteBackup(this.dataset.file)"
+                                                                    title="Удалить"><i class="fa fa-trash"></i></button>
+                                                        </span>
+                                                    </div>
+                                                    <div class="backup-part backup-part--missing" th:if="${set.db == null}">
+                                                        <span class="backup-part-icon"><i class="fa fa-database"></i></span>
+                                                        <span class="backup-part-info">
+                                                            <span class="backup-part-name">База данных</span>
+                                                            <span class="backup-part-file">файл не найден</span>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="backup-part" th:if="${set.images != null}">
+                                                        <span class="backup-part-icon"><i class="fa fa-picture-o"></i></span>
+                                                        <span class="backup-part-info">
+                                                            <span class="backup-part-name">Картинки</span>
+                                                            <span class="backup-part-size" th:if="${set.images.size != null}"
+                                                                  th:text="${#numbers.formatDecimal(set.images.size / 1024.0 / 1024.0, 1, 2) + ' МБ'}"></span>
+                                                            <span class="backup-part-file" th:text="${set.images.name}"></span>
+                                                        </span>
+                                                        <span class="backup-part-actions">
+                                                            <button class="action-btn" type="button"
+                                                                    th:attr="data-file=${set.images.name}"
+                                                                    onclick="downloadBackup(this.dataset.file)"
+                                                                    title="Скачать"><i class="fa fa-download"></i></button>
+                                                            <button class="action-btn delete-btn" type="button"
+                                                                    th:attr="data-file=${set.images.name}"
+                                                                    onclick="deleteBackup(this.dataset.file)"
+                                                                    title="Удалить"><i class="fa fa-trash"></i></button>
+                                                        </span>
+                                                    </div>
+                                                    <div class="backup-part backup-part--missing" th:if="${set.images == null}">
+                                                        <span class="backup-part-icon"><i class="fa fa-picture-o"></i></span>
+                                                        <span class="backup-part-info">
+                                                            <span class="backup-part-name">Картинки</span>
+                                                            <span class="backup-part-file">файл не найден</span>
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div class="backup-item-actions">
-                                                    <button class="action-btn" type="button"
-                                                            th:attr="data-file=${b.name}"
-                                                            onclick="downloadBackup(this.dataset.file)"
-                                                            title="Скачать">
-                                                        <i class="fa fa-download"></i>
-                                                    </button>
-                                                    <button class="action-btn delete-btn" type="button"
-                                                            th:attr="data-file=${b.name}"
-                                                            onclick="deleteBackup(this.dataset.file)"
-                                                            title="Удалить">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <!-- Пустое состояние -->
-                                <div class="admin-card" th:if="${backups == null or backups.isEmpty()}">
-                                    <div class="admin-card-body">
-                                        <div class="empty-state-modern">
+                                        <!-- Пустое состояние -->
+                                        <div class="empty-state-modern" th:if="${backupSets == null or backupSets.isEmpty()}">
                                             <i class="fa fa-inbox"></i>
                                             <h4>Бэкапов пока нет</h4>
                                             <p>Нажмите «Создать бэкап», чтобы сделать первый</p>

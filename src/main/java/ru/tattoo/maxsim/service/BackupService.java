@@ -11,7 +11,9 @@ import ru.tattoo.maxsim.config.StorageProperties;
 import ru.tattoo.maxsim.exceptions.BackupException;
 import ru.tattoo.maxsim.model.BackupSettings;
 import ru.tattoo.maxsim.model.DTO.BackupResult;
+import ru.tattoo.maxsim.model.DTO.BackupSet;
 import ru.tattoo.maxsim.model.DTO.DiskItem;
+import ru.tattoo.maxsim.util.ExecutableUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,11 +27,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -38,10 +39,25 @@ import java.util.zip.GZIPOutputStream;
 /**
  * Создание offsite-бэкапа: дамп БД + архив картинок + загрузка на Яндекс.Диск.
  *
- * <p>Дамп делается утилитой {@code mysqldump} (в Docker-образе установлен клиент MySQL),
- * архив картинок — tar.gz по папке {@code app.storage.upload-dir}.
- * Оба файла кладутся в одну папку Диска с общим префиксом-датой,
- * чтобы БД и картинки от одного прогона было легко сопоставить.
+ * <p><b>Как читать этот класс новичку.</b> Это «сердце» бэкапа. Его вызывает
+ * {@link BackupWorker} (в отдельном потоке), а он сам последовательно делает:
+ * <ol>
+ *   <li>берёт настройки из БД ({@link BackupSettingsService});</li>
+ *   <li>расшифровывает OAuth-токен Яндекс.Диска ({@link CryptoService});</li>
+ *   <li>запускает внешнюю программу {@code mysqldump} и сжимает её вывод в gzip;</li>
+ *   <li>упаковывает папку с картинками в tar.gz;</li>
+ *   <li>загружает оба файла на Диск ({@link YandexDiskService});</li>
+ *   <li>удаляет старые копии, оставляя последние {@code app.backup.keep};</li>
+ *   <li>записывает в БД статус SUCCESS или FAILED.</li>
+ * </ol>
+ *
+ * <p><b>Аннотации Spring.</b> {@code @Service} — «это бин, создай его один раз и передавай туда,
+ * где попросят» (внедрение зависимостей). {@code @RequiredArgsConstructor} (Lombok) генерирует
+ * конструктор для всех {@code final}-полей — именно через него Spring и передаёт зависимости.
+ * {@code @Slf4j} (Lombok) добавляет поле {@code log} для логирования.
+ *
+ * <p>Класс не работает с HTTP: он ничего не знает про контроллеры и браузер. Это сознательно —
+ * так его можно тестировать и вызывать из планировщика.
  */
 @Slf4j
 @Service
@@ -58,11 +74,19 @@ public class BackupService {
     private static final Pattern BACKUP_FILE = Pattern.compile(
         "^(db|images)_(\\d{4}-\\d{2}-\\d{2}_\\d{2}-\\d{2}-\\d{2})\\.(?:sql|tar)\\.gz$");
 
+    // Зависимости (Spring подставит готовые объекты через конструктор).
+    /** Настройки в БД: токен, папка, статус последнего прогона. */
     private final BackupSettingsService settingsService;
+    /** Работа с API Яндекс.Диска: папки, загрузка, скачивание, удаление. */
     private final YandexDiskService yandexDiskService;
+    /** Путь к папке с картинками (единый источник — app.storage.upload-dir). */
     private final StorageProperties storageProperties;
+    /** AES-GCM: расшифровать токен, который лежит в БД в зашифрованном виде. */
     private final CryptoService cryptoService;
+    /** Креды БД из spring.datasource.* — нужны, чтобы передать их mysqldump. */
     private final DataSourceProperties dataSourceProperties;
+    /** Семафор: не даёт бэкапу и восстановлению работать одновременно. */
+    private final BackupOperationLock operationLock;
 
     /** Путь к mysqldump. Пусто — искать в PATH (mysqldump / mariadb-dump). */
     @Value("${app.backup.mysqldump-path:}")
@@ -74,78 +98,115 @@ public class BackupService {
     @Value("${app.backup.include-images:true}")
     private boolean includeImages = true;
 
-    /** Сколько последних бэкапов хранить на Диске (0 — не ротировать). */
-    @Value("${app.backup.keep:14}")
-    private int keepBackups = 14;
-
-    /** Защита от двух одновременных дампов (кнопка + планировщик). */
-    private final ReentrantLock runLock = new ReentrantLock();
+    /** Сколько последних копий хранить на Диске (0 — не ротировать). */
+    @Value("${app.backup.keep:3}")
+    private int keepBackups = 3;
 
     /**
      * Делает бэкап и загружает файлы на Диск.
      *
-     * @return имена загруженных файлов и их размеры
+     * <p>Почему здесь два метода (публичный {@code createBackup} и приватный {@code doCreateBackup})?
+     * Чтобы блокировку было видно отдельно от бизнес-логики: {@code tryLock()} занимает «пропуск»,
+     * а {@code finally} гарантированно его освобождает даже при исключении. Если бы {@code unlock()}
+     * стоял не в {@code finally}, одна ошибка навсегда заблокировала бы все следующие бэкапы.
+     *
+     * @return имена загруженных файлов и их размеры (record {@link BackupResult})
      * @throws BackupException если дамп/архив не удался
      * @throws ru.tattoo.maxsim.exceptions.YandexDiskException если Диск недоступен или токен неверный
      */
     public BackupResult createBackup() {
-        if (!runLock.tryLock()) {
-            throw new BackupException("Бэкап уже выполняется — дождитесь завершения");
+        if (!operationLock.tryLock()) {
+            throw new BackupException(
+                "Уже выполняется бэкап или восстановление — дождитесь завершения");
         }
         try {
             return doCreateBackup();
         } finally {
-            runLock.unlock();
+            operationLock.unlock();
         }
     }
 
     private BackupResult doCreateBackup() {
+        // tempDir объявлен снаружи try: он нужен в finally, чтобы удалить временные файлы
+        // при любом исходе (успех, ошибка, исключение).
         Path tempDir = null;
         try {
+            // Шаг 1. Настройки и токен.
+            // getOrCreate() вернёт строку из таблицы backup_settings или создаст дефолтную.
             BackupSettings settings = settingsService.getOrCreate();
             String token = decryptToken(settings);
 
+            // Шаг 2. Имена файлов. stamp — общий «штамп времени» для дампа и картинок,
+            // чтобы их можно было сопоставить как одну копию.
             String stamp = LocalDateTime.now().format(STAMP);
             String diskDir = normalizeDir(settings.getBackupDir());
             String dbName = "db_" + stamp + ".sql.gz";
             String imagesName = "images_" + stamp + ".tar.gz";
 
+            // Шаг 3. Временная папка на диске сервера. В ней лежат файлы, пока не уедут на Диск.
+            // После завершения (finally) она удаляется, чтобы не забивать диск.
             tempDir = Files.createTempDirectory("tattoo-backup-");
+
+            // Шаг 4. Дамп БД (внешняя программа mysqldump + gzip).
             Path dbFile = dumpDatabase(tempDir.resolve(dbName));
+
+            // Шаг 5. Архив картинок. Если архив отключён в настройках — imagesFile == null.
             Path imagesFile = includeImages ? archiveImages(tempDir.resolve(imagesName)) : null;
 
+            // Шаг 6. Загрузка на Яндекс.Диск: сначала убедиться, что папка существует,
+            // затем двухшаговая загрузка каждого файла (см. YandexDiskService.uploadFile).
             yandexDiskService.createFolder(token, diskDir);
             yandexDiskService.uploadFile(token, dbFile, diskDir + "/" + dbName);
             if (imagesFile != null) {
                 yandexDiskService.uploadFile(token, imagesFile, diskDir + "/" + imagesName);
             }
 
+            // Шаг 7. Ротация: оставить только N последних копий.
+            // Ошибки ротации не должны «ронять» уже успешный бэкап, поэтому метод
+            // внутри сам ловит исключения и только пишет в лог.
             rotateRemoteBackups(token, diskDir);
+
+            // Шаг 8. Отметить успех в БД и вернуть результат воркеру.
             settingsService.markBackupSuccess();
+
             long dbSize = Files.size(dbFile);
             long imagesSize = imagesFile == null ? 0 : Files.size(imagesFile);
             log.info("Бэкап загружен в {}: {}, {} ({} байт)", diskDir, dbName, imagesName,
                 dbSize + imagesSize);
 
+            // record BackupResult — неизменяемый «конверт» с результатом (аналог класса с геттерами).
             return new BackupResult(diskDir, dbName,
                 imagesFile == null ? null : imagesName, dbSize, imagesSize);
 
         } catch (IOException e) {
+            // IOException — проверяемое исключение (например, нет места на диске).
+            // Помечаем прогон как FAILED и переводим в наше непроверяемое BackupException,
+            // чтобы вызывающий код не обязан был объявлять throws.
             settingsService.markBackupFailed();
             throw new BackupException("Ошибка ввода-вывода при создании бэкапа: " + e.getMessage(), e);
         } catch (RuntimeException e) {
+            // Любая другая ошибка (нет токена, Диск недоступен, mysqldump упал).
+            // Статус FAILED записываем и пробрасываем исключение дальше — его поймает BackupWorker.
             settingsService.markBackupFailed();
             throw e;
         } finally {
+            // Выполняется всегда. Временные файлы не должны оставаться на сервере.
             deleteRecursively(tempDir);
         }
     }
 
     /**
-     * Дамп БД в gzip через mysqldump. Пароль передаётся через MYSQL_PWD,
-     * чтобы не светить его в списке процессов.
+     * Дамп БД в gzip через внешнюю программу {@code mysqldump}.
+     *
+     * <p>Java не умеет сама делать SQL-дамп, поэтому мы запускаем отдельный процесс
+     * ({@link ProcessBuilder}) — тот же приём, что и запуск {@code git} или {@code ffmpeg} из кода.
+     * Пароль не передаём аргументом (его видно в {@code ps}), а кладём в переменную окружения
+     * {@code MYSQL_PWD} — это рекомендованный способ MySQL.
      */
     Path dumpDatabase(Path targetGz) {
+        // spring.datasource.url выглядит так:
+        // jdbc:mysql://db:3306/tattoo?useSSL=false
+        // Регулярка вытаскивает три группы: host, port (может отсутствовать), database.
         String jdbcUrl = dataSourceProperties.getUrl();
         Matcher matcher = MYSQL_URL.matcher(jdbcUrl == null ? "" : jdbcUrl);
         if (!matcher.find()) {
@@ -158,9 +219,14 @@ public class BackupService {
         String username = dataSourceProperties.getUsername();
         String password = dataSourceProperties.getPassword();
 
+        // Сначала пишем несжатый dump в db.sql, в конце сожмём его в db.sql.gz.
         Path plainDump = targetGz.resolveSibling("db.sql");
         String dumpBinary = resolveMysqldump();
 
+        // Список аргументов будущего процесса: программа + её флаги.
+        // --single-transaction — консистентный снимок без блокировки таблиц;
+        // --routines/--triggers — сохранить процедуры и триггеры;
+        // --no-tablespaces — не требовать лишних прав у пользователя MySQL 8.
         List<String> command = new ArrayList<>(List.of(
             dumpBinary,
             "--host=" + host,
@@ -175,7 +241,9 @@ public class BackupService {
             database));
 
         ProcessBuilder builder = new ProcessBuilder(command);
+        // stdout процесса (то есть сам SQL-дамп) сразу пишем в файл.
         builder.redirectOutput(plainDump.toFile());
+        // stderr оставляем отдельно — по нему поймём причину ошибки.
         builder.redirectErrorStream(false);
         if (password != null && !password.isBlank()) {
             builder.environment().put("MYSQL_PWD", password);
@@ -183,14 +251,19 @@ public class BackupService {
 
         try {
             Process process = builder.start();
+            // readAllBytes() на stderr блокируется, пока процесс не закроет поток (то есть завершится).
             String stderr = new String(process.getErrorStream().readAllBytes(), StandardCharsets.UTF_8);
 
+            // waitFor с таймаутом: если mysqldump «завис», убиваем его, а не ждём вечно.
             if (!process.waitFor(dumpTimeoutMinutes, TimeUnit.MINUTES)) {
                 process.destroyForcibly();
                 throw new BackupException(
                     "mysqldump не завершился за " + dumpTimeoutMinutes + " мин");
             }
+            // Ненулевой код возврата = программа завершилась с ошибкой.
             if (process.exitValue() != 0) {
+                // Частая проблема MySQL 8: MariaDB-клиент не умеет caching_sha2_password.
+                // Добавляем к ошибке человеческую подсказку.
                 String hint = stderr.contains("caching_sha2_password")
                     ? " Клиент MySQL не поддерживает caching_sha2_password: нужен mysql-client-8.0"
                         + " (в Docker-образе установлен) или смена плагина пользователя БД."
@@ -198,10 +271,12 @@ public class BackupService {
                 throw new BackupException("mysqldump завершился с кодом " + process.exitValue()
                     + (stderr.isBlank() ? "" : ": " + stderr.trim()) + hint);
             }
+            // Пустой файл — тоже ошибка: значит, дамп не получился, хотя код возврата 0.
             if (Files.size(plainDump) == 0) {
                 throw new BackupException("mysqldump вернул пустой дамп — проверьте доступ к БД");
             }
 
+            // Сжимаем db.sql -> db.sql.gz потоково (без загрузки всего файла в память).
             gzip(plainDump, targetGz);
             return targetGz;
 
@@ -217,7 +292,13 @@ public class BackupService {
     }
 
     /**
-     * Архив папки с картинками в tar.gz. Если папки нет — возвращает null (бэкап уйдёт без картинок).
+     * Архив папки с картинками в tar.gz.
+     * Если папки нет — возвращает {@code null}: бэкап уйдёт без картинок (это не ошибка).
+     *
+     * <p><b>Как устроены потоки.</b> Файл → GZIP (сжатие) → TAR (структура архива) —
+     * читать нужно с конца: данные пишутся в tar, тот сжимает их gzip-ом и кладёт в файл.
+     * {@code try-with-resources} закроет все три потока автоматически в обратном порядке,
+     * даже если внутри случится исключение.
      */
     Path archiveImages(Path target) {
         Path imagesDir = Paths.get(storageProperties.getUploadDir());
@@ -230,13 +311,19 @@ public class BackupService {
              GZIPOutputStream gzipOut = new GZIPOutputStream(fileOut);
              TarArchiveOutputStream tar = new TarArchiveOutputStream(gzipOut)) {
 
+            // Длинные имена файлов (кириллица, вложенные папки) — включаем POSIX-режим.
             tar.setLongFileMode(TarArchiveOutputStream.LONGFILE_POSIX);
 
+            // Files.walk возвращает Stream<Path> — ленивый обход всех файлов и подпапок.
+            // Stream тоже ресурс, поэтому закрываем его в try-with-resources.
             try (Stream<Path> walk = Files.walk(imagesDir)) {
                 for (Path file : walk.filter(Files::isRegularFile).toList()) {
+                    // Внутри архива пути начинаются с images/, чтобы при восстановлении
+                    // было понятно, куда их распаковывать.
                     String entryName = "images/" + imagesDir.relativize(file).toString()
                         .replace(File.separatorChar, '/');
 
+                    // Одна запись архива: заголовок с именем/размером + содержимое файла.
                     tar.putArchiveEntry(new TarArchiveEntry(file.toFile(), entryName));
                     Files.copy(file, tar);
                     tar.closeArchiveEntry();
@@ -255,41 +342,18 @@ public class BackupService {
      * Явное указание нужно, например, для обёртки над {@code docker exec}.
      */
     String resolveMysqldump() {
-        if (mysqldumpPath != null && !mysqldumpPath.isBlank()) {
-            return mysqldumpPath.trim();
+        try {
+            return ExecutableUtils.resolve(mysqldumpPath, List.of(
+                "mysqldump", "mariadb-dump",
+                "/usr/bin/mysqldump", "/usr/local/bin/mysqldump",
+                "/usr/bin/mariadb-dump", "/opt/homebrew/bin/mysqldump"),
+                "mysqldump не найден. Установите клиент MySQL (Debian/Ubuntu: "
+                    + "sudo apt install mysql-client; macOS: brew install mysql-client) "
+                    + "или задайте путь в app.backup.mysqldump-path. "
+                    + "В Docker-образе клиент уже установлен.");
+        } catch (IllegalStateException e) {
+            throw new BackupException(e.getMessage());
         }
-
-        for (String candidate : List.of(
-            "mysqldump", "mariadb-dump",
-            "/usr/bin/mysqldump", "/usr/local/bin/mysqldump",
-            "/usr/bin/mariadb-dump", "/opt/homebrew/bin/mysqldump")) {
-            if (isExecutable(candidate)) {
-                log.debug("Для дампа БД используется {}", candidate);
-                return candidate;
-            }
-        }
-
-        throw new BackupException(
-            "mysqldump не найден. Установите клиент MySQL (Debian/Ubuntu: "
-                + "sudo apt install mysql-client; macOS: brew install mysql-client) "
-                + "или задайте путь в app.backup.mysqldump-path. "
-                + "В Docker-образе клиент уже установлен.");
-    }
-
-    private boolean isExecutable(String candidate) {
-        if (candidate.contains("/")) {
-            return Files.isExecutable(Paths.get(candidate));
-        }
-        String path = System.getenv("PATH");
-        if (path == null || path.isBlank()) {
-            return false;
-        }
-        for (String dir : path.split(File.pathSeparator)) {
-            if (!dir.isBlank() && Files.isExecutable(Paths.get(dir, candidate))) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -308,35 +372,43 @@ public class BackupService {
             log.warn("Ротация: не удалось получить список бэкапов — {}", e.getMessage());
             return;
         }
-        if (items == null || items.isEmpty()) {
+
+        List<BackupSet> sets = BackupSet.from(items);
+        if (sets.isEmpty()) {
             return;
         }
 
-        Map<String, List<DiskItem>> byStamp = new TreeMap<>(Comparator.reverseOrder());
-        for (DiskItem item : items) {
-            if (item.getName() == null || "dir".equals(item.getType())) {
-                continue;
-            }
-            Matcher matcher = BACKUP_FILE.matcher(item.getName());
-            if (matcher.matches()) {
-                byStamp.computeIfAbsent(matcher.group(2), stamp -> new ArrayList<>()).add(item);
-            }
+        int keep = Math.max(keepBackups, 1);
+        Set<String> keepStamps = new HashSet<>();
+        for (int i = 0; i < Math.min(keep, sets.size()); i++) {
+            keepStamps.add(sets.get(i).stamp());
         }
 
-        int index = 0;
-        for (Map.Entry<String, List<DiskItem>> entry : byStamp.entrySet()) {
-            index++;
-            if (index <= keepBackups) {
+        // Гарантия: последняя полная (успешная) копия не удаляется,
+        // даже если после неё были только неудачные попытки.
+        sets.stream()
+            .filter(BackupSet::isComplete)
+            .findFirst()
+            .ifPresent(set -> keepStamps.add(set.stamp()));
+
+        for (BackupSet set : sets) {
+            if (keepStamps.contains(set.stamp())) {
                 continue;
             }
-            for (DiskItem item : entry.getValue()) {
-                try {
-                    yandexDiskService.delete(token, diskDir + "/" + item.getName());
-                    log.info("Ротация: удалён старый бэкап {}", item.getName());
-                } catch (Exception e) {
-                    log.warn("Ротация: не удалось удалить {} — {}", item.getName(), e.getMessage());
-                }
-            }
+            deleteBackupFile(token, diskDir, set.db());
+            deleteBackupFile(token, diskDir, set.images());
+        }
+    }
+
+    private void deleteBackupFile(String token, String diskDir, DiskItem item) {
+        if (item == null || item.getName() == null) {
+            return;
+        }
+        try {
+            yandexDiskService.delete(token, diskDir + "/" + item.getName());
+            log.info("Ротация: удалён старый бэкап {}", item.getName());
+        } catch (Exception e) {
+            log.warn("Ротация: не удалось удалить {} — {}", item.getName(), e.getMessage());
         }
     }
 

@@ -167,7 +167,12 @@ if [[ -n "${YANDEX_DISK_TOKEN:-}" ]]; then
 
     for file in "$DEST"/*.gz; do
         [[ -f "$file" ]] || continue
-        remote_path="${DISK_DIR%/}/${DATE}_$(basename "$file")"
+        case "$(basename "$file")" in
+            db.sql.gz)     remote_name="db_${DATE}.sql.gz" ;;
+            images.tar.gz) remote_name="images_${DATE}.tar.gz" ;;
+            *)             remote_name="${DATE}_$(basename "$file")" ;;
+        esac
+        remote_path="${DISK_DIR%/}/${remote_name}"
         if upload_file_to_disk "$file" "$remote_path"; then
             echo "    -> $remote_path"
         else

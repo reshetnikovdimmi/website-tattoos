@@ -9,8 +9,16 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.Executor;
 
 /**
- * Планировщик и пул для фоновых задач.
- * Для бэкапов — один поток: два дампа одновременно не нужны.
+ * Включает два механизма Spring и настраивает пул потоков:
+ * <ul>
+ *   <li>{@code @EnableScheduling} — разрешает {@code @Scheduled} (автобэкап по cron);</li>
+ *   <li>{@code @EnableAsync} — разрешает {@code @Async} (бэкап/восстановление в фоне);</li>
+ *   <li>бин {@code backupExecutor} — пул из одного потока с очередью на одну задачу.</li>
+ * </ul>
+ *
+ * <p>Почему один поток: две тяжёлые операции (два дампа или дамп + restore) одновременно
+ * не нужны и могут мешать друг другу. Плюс так проще рассуждать о состоянии:
+ * в любой момент выполняется максимум одна задача.
  */
 @Configuration
 @EnableScheduling

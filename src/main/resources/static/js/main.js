@@ -1371,6 +1371,77 @@ async function waitForBackup() {
     return null;
 }
 
+async function restoreBackup(stamp) {
+    if (!stamp) return;
+
+    const typed = prompt(
+        'Восстановление перезапишет текущую БД и картинки из копии ' + stamp + '.\n' +
+        'Введите ВОССТАНОВИТЬ для продолжения:'
+    );
+    if (typed === null) return;
+    if (typed.trim().toUpperCase() !== 'ВОССТАНОВИТЬ') {
+        showModalMessage('❌ Восстановление отменено: неверное подтверждение', 'error');
+        return;
+    }
+
+    setBackupStatus('Восстановление из копии ' + stamp + '...', 'text-muted');
+
+    try {
+        const started = await $.ajax({
+            url: '/admin/backup/restore',
+            type: 'POST',
+            dataType: 'json',
+            data: { stamp: stamp, confirmation: 'RESTORE' }
+        });
+
+        if (!started.success) {
+            showModalMessage('❌ ' + (started.error || 'Не удалось запустить восстановление'), 'error');
+            return;
+        }
+
+        const finished = await waitForRestore();
+        if (finished && finished.state === 'SUCCESS') {
+            showModalMessage('✅ Восстановление завершено');
+            await reloadBackupFragment();
+        } else {
+            const message = finished && finished.message
+                ? finished.message
+                : 'Восстановление выполняется слишком долго. Проверьте статус позже.';
+            showModalMessage('❌ ' + message, 'error');
+        }
+    } catch (e) {
+        showModalMessage('❌ ' + (e.statusText || e.message || 'Ошибка запроса'), 'error');
+    } finally {
+        setBackupStatus('', '');
+    }
+}
+
+async function waitForRestore() {
+    const maxChecks = 200;   // 200 * 3с = 10 минут
+
+    for (let i = 0; i < maxChecks; i++) {
+        await sleep(3000);
+
+        let status;
+        try {
+            status = await $.ajax({
+                url: '/admin/backup/restore/status',
+                type: 'GET',
+                dataType: 'json',
+                cache: false
+            });
+        } catch (e) {
+            continue;
+        }
+
+        if (status.state !== 'RUNNING' && status.state !== 'IDLE') {
+            return status;
+        }
+        setBackupStatus('Восстановление... (' + ((i + 1) * 3) + ' с)', 'text-muted');
+    }
+    return null;
+}
+
 async function downloadBackup(fileName) {
     try {
         const data = await $.ajax({

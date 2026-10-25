@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import ru.tattoo.maxsim.service.BackupJobService;
 import ru.tattoo.maxsim.service.BackupRunRegistry;
 import ru.tattoo.maxsim.service.BackupSettingsService;
+import ru.tattoo.maxsim.service.RestoreJobService;
 
 import java.time.Instant;
 import java.util.Map;
@@ -21,8 +22,9 @@ class BackupEndpointsTest {
 
     private final BackupSettingsService settingsService = mock(BackupSettingsService.class);
     private final BackupJobService jobService = mock(BackupJobService.class);
+    private final RestoreJobService restoreJobService = mock(RestoreJobService.class);
     private final BackupSettingsController controller =
-        new BackupSettingsController(settingsService, jobService);
+        new BackupSettingsController(settingsService, jobService, restoreJobService);
 
     @Test
     void createShouldStartBackup() {
@@ -41,6 +43,44 @@ class BackupEndpointsTest {
 
         assertThat(body).containsEntry("success", false);
         assertThat((String) body.get("error")).contains("уже выполняется");
+    }
+
+    @Test
+    void restoreShouldRequireConfirmation() {
+        Map<String, Object> body = controller.restore("2026-01-01_03-00-00", null).getBody();
+
+        assertThat(body).containsEntry("success", false);
+        assertThat((String) body.get("error")).contains("не подтверждено");
+    }
+
+    @Test
+    void restoreShouldStartRestoreJob() {
+        when(jobService.isRunning()).thenReturn(false);
+        when(restoreJobService.start("2026-01-01_03-00-00")).thenReturn(true);
+
+        Map<String, Object> body = controller.restore("2026-01-01_03-00-00", "RESTORE").getBody();
+
+        assertThat(body).containsEntry("success", true).containsEntry("started", true);
+    }
+
+    @Test
+    void restoreShouldRejectWhileBackupIsRunning() {
+        when(jobService.isRunning()).thenReturn(true);
+
+        Map<String, Object> body = controller.restore("2026-01-01_03-00-00", "RESTORE").getBody();
+
+        assertThat(body).containsEntry("success", false);
+        assertThat((String) body.get("error")).contains("Идёт создание бэкапа");
+    }
+
+    @Test
+    void createShouldRejectWhileRestoreIsRunning() {
+        when(restoreJobService.isRunning()).thenReturn(true);
+
+        Map<String, Object> body = controller.create().getBody();
+
+        assertThat(body).containsEntry("success", false);
+        assertThat((String) body.get("error")).contains("восстановление");
     }
 
     @Test

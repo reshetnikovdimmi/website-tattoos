@@ -44,7 +44,8 @@ class BackupServiceTest {
 
     private BackupService newService() {
         BackupService service = new BackupService(
-            settingsService, yandexDiskService, storageProperties, cryptoService, dataSourceProperties);
+            settingsService, yandexDiskService, storageProperties, cryptoService,
+            dataSourceProperties, new BackupOperationLock());
         ReflectionTestUtils.setField(service, "dumpTimeoutMinutes", 2);
         ReflectionTestUtils.setField(service, "includeImages", true);
         return service;
@@ -145,6 +146,31 @@ class BackupServiceTest {
         assertThat(paths).noneMatch(path -> path.contains("2026-01-04"));
         assertThat(paths).noneMatch(path -> path.contains("readme"));
         assertThat(paths).anyMatch(path -> path.endsWith("db_2026-01-01_03-00-00.sql.gz"));
+    }
+
+    @Test
+    void rotateShouldNeverDeleteLatestCompleteBackup() {
+        BackupService service = newService();
+        ReflectionTestUtils.setField(service, "keepBackups", 1);
+
+        List<DiskItem> items = new ArrayList<>();
+        // самая новая копия неполная (нет дампа), предыдущая — полная
+        items.add(diskItem("images_2026-01-04_03-00-00.tar.gz", "file"));
+        items.add(diskItem("db_2026-01-03_03-00-00.sql.gz", "file"));
+        items.add(diskItem("images_2026-01-03_03-00-00.tar.gz", "file"));
+        items.add(diskItem("db_2026-01-02_03-00-00.sql.gz", "file"));
+        items.add(diskItem("images_2026-01-02_03-00-00.tar.gz", "file"));
+        when(yandexDiskService.listFiles("token", "/tattoo-backups")).thenReturn(items);
+
+        service.rotateRemoteBackups("token", "/tattoo-backups");
+
+        ArgumentCaptor<String> deletedPaths = ArgumentCaptor.forClass(String.class);
+        verify(yandexDiskService, times(2)).delete(eq("token"), deletedPaths.capture());
+
+        assertThat(deletedPaths.getAllValues())
+            .noneMatch(path -> path.contains("2026-01-03"))
+            .noneMatch(path -> path.contains("2026-01-04"))
+            .allMatch(path -> path.contains("2026-01-02"));
     }
 
     @Test

@@ -11,6 +11,22 @@ import ru.tattoo.maxsim.repository.BackupSettingsRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Работа с единственной строкой настроек бэкапа в таблице {@code backup_settings}.
+ *
+ * <p>Что здесь важно понять:
+ * <ul>
+ *   <li>настройки хранятся в БД, а не в файле — их можно менять из админки без перезапуска;</li>
+ *   <li>токен Яндекс.Диска <b>не хранится в открытом виде</b>: при сохранении он шифруется
+ *       {@link CryptoService}, а при использовании расшифровывается;</li>
+ *   <li>{@code @Transactional} — метод выполняется в транзакции: если что-то упадёт,
+ *       изменения в БД откатятся целиком.</li>
+ * </ul>
+ *
+ * <p>Методы можно разделить на три группы: настройки ({@code getOrCreate}, {@code save}),
+ * общение с Диском ({@code testConnection}, {@code listBackups}, {@code deleteBackup},
+ * {@code getDownloadUrl}) и статус прогона ({@code markBackupSuccess/Failed}).
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -34,6 +50,12 @@ public class BackupSettingsService {
             });
     }
 
+    /**
+     * Сохраняет настройки из формы админки.
+     *
+     * <p>Тонкость: пустое поле токена означает «не менять». Иначе при каждом сохранении
+     * формы (например, поменяли только папку) токен бы стирался.
+     */
     @Transactional
     public BackupSettings save(BackupSettings form) {
         BackupSettings existing = getOrCreate();
@@ -43,6 +65,7 @@ public class BackupSettingsService {
 
         String rawToken = form.getYandexToken();
         if (rawToken != null && !rawToken.isBlank()) {
+            // В БД кладём только шифротекст. Открытый токен нигде не сохраняется.
             existing.setYandexToken(cryptoService.encrypt(rawToken));
         }
 
@@ -85,11 +108,13 @@ public class BackupSettingsService {
         return yandexDiskService.getDownloadUrl(token, fullPath);
     }
 
+    /** Записать в БД, что последний прогон завершился успешно. */
     @Transactional
     public void markBackupSuccess() {
         updateStatus("SUCCESS");
     }
 
+    /** Записать в БД, что последний прогон завершился ошибкой. */
     @Transactional
     public void markBackupFailed() {
         updateStatus("FAILED");

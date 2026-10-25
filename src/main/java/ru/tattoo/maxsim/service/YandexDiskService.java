@@ -16,9 +16,25 @@ import ru.tattoo.maxsim.model.DTO.DiskUploadResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Клиент REST API Яндекс.Диска.
+ *
+ * <p>Здесь нет «магии»: каждый метод — обычный HTTP-запрос через {@link RestTemplate}
+ * с заголовком {@code Authorization: OAuth <токен>}.
+ *
+ * <p>Два места, которые стоит понять новичку:
+ * <ul>
+ *   <li><b>Загрузка в два шага.</b> API не принимает файл напрямую: сначала
+ *       {@code GET /resources/upload} возвращает временную ссылку {@code href},
+ *       затем на неё делается {@code PUT} с содержимым файла. Токен нужен только на первом шаге.</li>
+ *   <li><b>Коды ответов.</b> 2xx — успех; 409 при создании папки означает «уже существует»
+ *       и не является ошибкой; 401 — плохой токен; 404 — нет файла/папки.</li>
+ * </ul>
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -105,7 +121,7 @@ public class YandexDiskService {
     }
 
     /**
-     * Создаёт папку на Диске. Если она уже есть — Яндекс отвечает 409, это не ошибка.
+     * Создаёт папку на Диске (идемпотентно: 409 «уже существует» игнорируем).
      */
     public void createFolder(String token, String diskPath) {
         String url = API_BASE + "/resources?path={path}";
@@ -126,8 +142,13 @@ public class YandexDiskService {
 
     /**
      * Загрузка файла в два шага, как требует API Диска:
-     * 1) получаем href для загрузки, 2) PUT-им содержимое файла на этот href.
-     * OAuth-токен нужен только на первом шаге.
+     * <ol>
+     *   <li>{@code GET /resources/upload?path=...} — получаем временную ссылку {@code href};</li>
+     *   <li>{@code PUT <href>} — отправляем байты файла уже без OAuth-заголовка.</li>
+     * </ol>
+     *
+     * <p>{@link org.springframework.core.io.FileSystemResource} говорит RestTemplate
+     * «читать тело из файла», поэтому файл не загружается в память целиком.
      */
     public void uploadFile(String token, Path localFile, String diskPath) {
         if (!Files.isRegularFile(localFile)) {
@@ -168,6 +189,26 @@ public class YandexDiskService {
                 "Не удалось загрузить " + diskPath + ": " + e.getMessage(), e);
         } catch (IOException e) {
             throw new YandexDiskException("Не удалось прочитать файл " + localFile, e);
+        }
+    }
+
+    /**
+     * Скачивает файл с Диска: сначала получает ссылку, затем стримит содержимое в target.
+     */
+    public void downloadFile(String token, String diskPath, Path target) {
+        String href = getDownloadUrl(token, diskPath);
+
+        try {
+            restTemplate.execute(href, HttpMethod.GET, null, response -> {
+                Files.copy(response.getBody(), target, StandardCopyOption.REPLACE_EXISTING);
+                return null;
+            });
+            log.info("Yandex.Disk: скачан {} ({} байт)", diskPath, Files.size(target));
+        } catch (IOException e) {
+            throw new YandexDiskException("Не удалось сохранить файл " + diskPath, e);
+        } catch (HttpClientErrorException e) {
+            log.error("Yandex.Disk: не удалось скачать {} — {}", diskPath, e.getResponseBodyAsString());
+            throw new YandexDiskException("Не удалось скачать " + diskPath + ": " + e.getMessage(), e);
         }
     }
 
