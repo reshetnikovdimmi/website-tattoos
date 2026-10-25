@@ -67,3 +67,6 @@ project_all_code_numbered.txt
 
 ### Local tools (mysql client для бэкапов) ###
 /.tools/
+
+### Code index (локальный артефакт инструментов) ###
+.dsh-code-index/
