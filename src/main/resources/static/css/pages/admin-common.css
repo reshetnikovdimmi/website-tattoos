@@ -55,7 +55,7 @@
     transform: translateX(-50%);
     width: 60px;
     height: 3px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border-radius: 3px;
 }
 
@@ -110,112 +110,28 @@
 
 .nav.flex-column .nav-link:hover {
     background: rgba(228, 56, 28, 0.1) !important;
-    border-left-color: #e4381C !important;
+    border-left-color: var(--color-primary) !important;
     color: #ffffff !important;
     transform: translateX(5px) !important;
 }
 
 .nav.flex-column .nav-link.active {
     background: linear-gradient(90deg, rgba(228, 56, 28, 0.2), transparent) !important;
-    border-left: 3px solid #e4381C !important;
-    color: #e4381C !important;
+    border-left: 3px solid var(--color-primary) !important;
+    color: var(--color-primary) !important;
     box-shadow: 0 2px 8px rgba(228, 56, 28, 0.15) !important;
 }
 
 /* ------------------------------
    КАРТОЧКИ АДМИНКИ
 ------------------------------ */
-.admin-card,
-.breadcrumb-card,
-.logo-card,
-.footer-card,
-.description-card,
-.contact-info-card {
-    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
-    border-radius: 16px;
-    margin-bottom: 30px;
-    overflow: hidden;
-    border: 1px solid rgba(228, 56, 28, 0.2);
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-.admin-card:hover,
-.breadcrumb-card:hover,
-.logo-card:hover,
-.footer-card:hover,
-.description-card:hover,
-.contact-info-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(228, 56, 28, 0.4);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-}
-
-.admin-card-header,
-.breadcrumb-card-header,
-.logo-card-header,
-.footer-card-header,
-.description-card-header,
-.contact-info-header {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 18px 25px;
-    border-bottom: 1px solid rgba(228, 56, 28, 0.3);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.admin-card-header i,
-.breadcrumb-card-header i,
-.logo-card-header i,
-.footer-card-header i,
-.description-card-header i,
-.contact-info-header i {
-    font-size: 24px;
-    color: #e4381C;
-}
-
-.admin-card-header h4,
-.breadcrumb-card-header h4,
-.logo-card-header h4,
-.footer-card-header h4,
-.description-card-header h4,
-.contact-info-header h4 {
-    color: #ffffff;
-    font-size: 18px;
-    font-weight: 500;
-    margin: 0;
-    font-family: "Oswald", sans-serif;
-    text-transform: uppercase;
-    flex: 1;
-}
-
 .badge-count {
     background: rgba(228, 56, 28, 0.2);
-    color: #e4381C;
+    color: var(--color-primary);
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 13px;
     font-weight: 600;
-}
-
-.section-badge {
-    background: rgba(228, 56, 28, 0.2);
-    color: #e4381C;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-family: "Nunito Sans", sans-serif;
-}
-
-.admin-card-body,
-.breadcrumb-card-body,
-.logo-card-body,
-.footer-card-body,
-.description-card-body,
-.contact-info-body {
-    padding: 25px;
 }
 
 /* ------------------------------
@@ -252,7 +168,7 @@
 .admin-label i,
 .description-form-group label i,
 .footer-form-group label i {
-    color: #e4381C;
+    color: var(--color-primary);
     margin-right: 8px;
 }
 
@@ -275,7 +191,7 @@
 .admin-textarea:focus,
 .description-textarea:focus,
 .footer-textarea:focus {
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     outline: none;
     box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.2);
     background: #3a3a3a;
@@ -298,7 +214,7 @@
 .admin-text-input:focus,
 .description-input:focus,
 .footer-input:focus {
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     outline: none;
     box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.2);
     background: #3a3a3a;
@@ -335,7 +251,7 @@
 .admin-upload-area:hover,
 .logo-image-area:hover,
 .breadcrumb-image-area:hover {
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(228, 56, 28, 0.2);
 }
@@ -371,19 +287,6 @@
     opacity: 1;
 }
 
-.upload-hint {
-    margin-top: 12px;
-    font-size: 12px;
-    color: #8f8fa8;
-    text-align: center;
-    font-family: "Nunito Sans", sans-serif;
-}
-
-.upload-hint i {
-    color: #e4381C;
-    margin-right: 5px;
-}
-
 /* ------------------------------
    КНОПКИ (унифицированные)
 ------------------------------ */
@@ -394,7 +297,7 @@
 .footer-edit-btn,
 .description-edit-btn,
 .contact-edit-btn {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     color: #ffffff;
     border: none;
     padding: 12px 24px;
@@ -480,7 +383,7 @@
 
 .admin-carousel .carousel-caption h6 {
     font-size: 16px;
-    color: #e4381C;
+    color: var(--color-primary);
     text-transform: uppercase;
     letter-spacing: 3px;
     margin-bottom: 8px;
@@ -534,7 +437,7 @@
 }
 
 .custom-carousel-btn:hover {
-    background: linear-gradient(135deg, #e16521, #e4381C);
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
     border-color: transparent;
     transform: scale(1.1);
     box-shadow: 0 0 15px rgba(228, 56, 28, 0.5);
@@ -556,7 +459,7 @@
 }
 
 .carousel-indicators button.active {
-    background: #e4381C;
+    background: var(--color-primary);
     transform: scale(1.2);
 }
 
@@ -585,7 +488,7 @@
 }
 
 .carousel-delete-btn:hover {
-    background: #e4381C;
+    background: var(--color-primary);
     transform: scale(1.1);
 }
 
@@ -607,11 +510,11 @@
 }
 
 .stats-badge i {
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 .stats-badge strong {
-    color: #e4381C;
+    color: var(--color-primary);
     font-size: 16px;
     margin-left: 5px;
 }
@@ -639,7 +542,7 @@
 .empty-logo i,
 .empty-users i {
     font-size: 48px;
-    color: #e4381C;
+    color: var(--color-primary);
     opacity: 0.5;
     margin-bottom: 15px;
 }
@@ -794,7 +697,7 @@
 }
 
 .action-btn.delete-btn:hover {
-    background: #e4381C;
+    background: var(--color-primary);
     transform: scale(1.1);
 }
 
@@ -847,16 +750,16 @@
 }
 
 .nav-pills-dark .nav-link:hover p {
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 .nav-pills-dark .nav-link.active {
     background: linear-gradient(180deg, #2d2d2d, #1e1e1e);
-    border-bottom: 2px solid #e4381C;
+    border-bottom: 2px solid var(--color-primary);
 }
 
 .nav-pills-dark .nav-link.active p {
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 /* ------------------------------
@@ -995,7 +898,7 @@
 .h2-input {
     font-size: 28px;
     font-weight: 700;
-    color: #e4381C;
+    color: var(--color-primary);
     text-align: center;
     width: 100%;
     background: transparent;
@@ -1046,7 +949,7 @@
 }
 
 .list-item-input:focus {
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     outline: none;
     box-shadow: 0 0 0 2px rgba(228, 56, 28, 0.2);
 }
@@ -1057,7 +960,7 @@
     text-align: center;
     margin-top: auto;
     padding: 10px 15px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     color: #ffffff;
     border-radius: 50px;
     font-size: 13px;
@@ -1129,7 +1032,7 @@
 
 .chooseus-item-icon i {
     font-size: 24px;
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 .chooseus-item-content {
@@ -1180,7 +1083,7 @@
 }
 
 .delete-chooseus-btn:hover {
-    background: #e4381C;
+    background: var(--color-primary);
     transform: scale(1.1);
 }
 
@@ -1264,7 +1167,7 @@
 }
 
 .interesting-works-grid .admin-delete-item-btn:hover {
-    background: #e4381C;
+    background: var(--color-primary);
     border-color: transparent;
     color: #ffffff;
     transform: scale(1.05);
@@ -1309,7 +1212,7 @@
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
-    border: 2px solid #e4381C;
+    border: 2px solid var(--color-primary);
 }
 
 .comment-content {
@@ -1337,7 +1240,7 @@
 .comment-author-name {
     font-size: 16px;
     font-weight: 600;
-    color: #e4381C;
+    color: var(--color-primary);
     font-family: "Oswald", sans-serif;
 }
 
@@ -1363,7 +1266,7 @@
 }
 
 .comment-delete-btn:hover {
-    background: #e4381C;
+    background: var(--color-primary);
     border-color: transparent;
     color: #ffffff;
     transform: scale(1.05);
@@ -1436,14 +1339,14 @@
 }
 
 .upload-file-btn:hover {
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     background: rgba(228, 56, 28, 0.1);
     transform: translateY(-2px);
 }
 
 .upload-file-btn i {
     font-size: 20px;
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 /* ------------------------------
@@ -1463,7 +1366,7 @@
 
 .quote-icon {
     font-size: 32px;
-    color: #e4381C;
+    color: var(--color-primary);
     opacity: 0.6;
     margin-top: 30px;
     flex-shrink: 0;
@@ -1505,7 +1408,7 @@
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
-    border: 2px solid #e4381C;
+    border: 2px solid var(--color-primary);
     transition: transform 0.3s ease;
 }
 
@@ -1537,7 +1440,7 @@
 }
 
 .user-login {
-    color: #e4381C;
+    color: var(--color-primary);
     font-size: 18px;
     font-weight: 600;
     font-family: "Oswald", sans-serif;
@@ -1545,7 +1448,7 @@
 
 .user-badge {
     background: rgba(228, 56, 28, 0.2);
-    color: #e4381C;
+    color: var(--color-primary);
     padding: 4px 10px;
     border-radius: 20px;
     font-size: 11px;
@@ -1575,7 +1478,7 @@
 }
 
 .user-reg-date i {
-    color: #e4381C;
+    color: var(--color-primary);
     font-size: 12px;
 }
 
@@ -1590,7 +1493,7 @@
 }
 
 .user-email i {
-    color: #e4381C;
+    color: var(--color-primary);
     width: 20px;
 }
 
@@ -1611,7 +1514,7 @@
 }
 
 .user-delete-btn:hover {
-    background: #e4381C;
+    background: var(--color-primary);
     border-color: transparent;
     color: #ffffff;
     transform: translateY(-2px);
@@ -1643,14 +1546,14 @@
 }
 
 .contact-input-group .input-group:focus-within {
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 2px rgba(228, 56, 28, 0.2);
 }
 
 .contact-input-icon {
     background: rgba(228, 56, 28, 0.15);
     border: none;
-    color: #e4381C;
+    color: var(--color-primary);
     font-size: 18px;
     width: 55px;
     display: flex;
@@ -1718,7 +1621,7 @@
 
 .category-header i {
     font-size: 28px;
-    color: #e4381C;
+    color: var(--color-primary);
     width: 40px;
     height: 40px;
     display: flex;
@@ -1748,7 +1651,7 @@
 
 .category-title-input:focus {
     outline: none;
-    border-bottom: 2px solid #e4381C;
+    border-bottom: 2px solid var(--color-primary);
 }
 
 .category-title-input:disabled {
@@ -1770,7 +1673,7 @@
 
 .category-description-input:focus {
     outline: none;
-    border-left: 2px solid #e4381C;
+    border-left: 2px solid var(--color-primary);
     padding-left: 10px;
 }
 
@@ -1788,7 +1691,7 @@
     border: 1px solid rgba(228, 56, 28, 0.5) !important;
     border-radius: 8px;
     padding: 10px 16px;
-    color: #e4381C !important;
+    color: var(--color-primary) !important;
     font-size: 13px;
     font-weight: 600;
     font-family: "Oswald", sans-serif;
@@ -1803,7 +1706,7 @@
 
 .edit-category-btn:hover {
     background: rgba(228, 56, 28, 0.15) !important;
-    border-color: #e4381C !important;
+    border-color: var(--color-primary) !important;
     color: #ffffff !important;
     transform: translateY(-2px);
 }
@@ -1828,7 +1731,7 @@
 }
 
 .delete-category-btn:hover {
-    background: #e4381C;
+    background: var(--color-primary);
     transform: translateY(-2px);
 }
 
@@ -1848,7 +1751,7 @@ form.active .h2-input,
 form.active .p-input,
 form.active .list-item-input {
     background: rgba(228, 56, 28, 0.1);
-    border-color: #e4381C;
+    border-color: var(--color-primary);
 }
 
 form.active .admin-text-btn,
@@ -1857,7 +1760,7 @@ form.active .footer-edit-btn,
 form.active .edit-category-btn {
     background: #2d2d2d !important;
     border: 1px solid rgba(228, 56, 28, 0.5) !important;
-    color: #e4381C !important;
+    color: var(--color-primary) !important;
 }
 
 form.active .admin-text-btn:hover,
@@ -1898,7 +1801,7 @@ form.active .edit-category-btn:hover {
 .classtime-table.scroll::-webkit-scrollbar-thumb,
 .modern-card-body::-webkit-scrollbar-thumb,
 .comments-list-card .modern-card-body::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, #e16521, #e4381C);
+    background: linear-gradient(45deg, var(--color-primary-light), var(--color-primary));
     border-radius: 10px;
 }
 
@@ -1910,7 +1813,7 @@ form.active .edit-category-btn:hover {
     border: 1px solid rgba(228, 56, 28, 0.5);
     border-radius: 8px;
     padding: 8px 15px;
-    color: #e4381C;
+    color: var(--color-primary);
     font-size: 12px;
     font-weight: 600;
     font-family: "Oswald", sans-serif;
@@ -1924,7 +1827,7 @@ form.active .edit-category-btn:hover {
 
 .container-price-admin .btn-outline-secondary:hover {
     background: rgba(228, 56, 28, 0.15);
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     color: #ffffff;
     transform: translateY(-2px);
 }
@@ -1959,7 +1862,7 @@ form.active .edit-category-btn:hover {
 
 .logo-hint i,
 .footer-hint i {
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 .breadcrumb-file-info,
@@ -2052,7 +1955,7 @@ form.active .edit-category-btn:hover {
 }
 
 .about-item-header h5 {
-    color: #e4381C;
+    color: var(--color-primary);
     font-size: 18px;
     font-weight: 600;
     margin: 0;
@@ -2075,7 +1978,7 @@ form.active .edit-category-btn:hover {
 }
 
 .delete-item-btn:hover {
-    background: #e4381C;
+    background: var(--color-primary);
     transform: scale(1.05);
 }
 
@@ -2116,7 +2019,7 @@ form.active .edit-category-btn:hover {
 
 .empty-state-modern i {
     font-size: 48px;
-    color: #e4381C;
+    color: var(--color-primary);
     opacity: 0.5;
     margin-bottom: 15px;
 }
@@ -2139,116 +2042,10 @@ form.active .edit-category-btn:hover {
 ------------------------------ */
 
 /* Планшеты (до 992px) */
-@media (max-width: 992px) {
-    .about-item-card {
-        padding: 20px;
-        gap: 20px;
-    }
-
-    .about-item-image {
-        width: 100px;
-        height: 100px;
-    }
-
-    .about-item-title {
-        font-size: 18px;
-    }
-
-    .about-item-description {
-        font-size: 14px;
-    }
-
-    .about-item-header h5 {
-        font-size: 16px;
-    }
-}
 
 /* Мобильные устройства (до 768px) */
-@media (max-width: 768px) {
-    .about-item-card {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px;
-    }
-
-    .about-item-image {
-        margin: 0 auto;
-        width: 100px;
-        height: 100px;
-    }
-
-    .about-item-header {
-        justify-content: center;
-    }
-
-    .delete-item-btn {
-        position: static;
-        margin: 0 auto;
-    }
-
-    .about-item-title {
-        font-size: 18px;
-        text-align: center;
-    }
-
-    .about-item-description {
-        font-size: 14px;
-        text-align: center;
-    }
-}
 
 /* Маленькие мобильные (до 480px) */
-@media (max-width: 480px) {
-    .about-items-list {
-        gap: 15px;
-    }
-
-    .about-item-card {
-        padding: 15px;
-    }
-
-    .about-item-image {
-        width: 80px;
-        height: 80px;
-    }
-
-    .about-item-header h5 {
-        font-size: 14px;
-    }
-
-    .about-item-title {
-        font-size: 16px;
-    }
-
-    .about-item-description {
-        font-size: 13px;
-    }
-
-    .delete-item-btn {
-        width: 32px;
-        height: 32px;
-    }
-
-    .delete-item-btn i {
-        font-size: 14px;
-    }
-
-    .empty-state-modern {
-        padding: 40px 15px;
-    }
-
-    .empty-state-modern i {
-        font-size: 36px;
-    }
-
-    .empty-state-modern p {
-        font-size: 14px;
-    }
-
-    .empty-state-modern small {
-        font-size: 11px;
-    }
-}
 
 /* Анимация при добавлении новых элементов */
 @keyframes slideIn {
@@ -2298,449 +2095,11 @@ form.active .edit-category-btn:hover {
    ============================================ */
 
 /* Планшеты (до 1200px) */
-@media (max-width: 1200px) {
-    .classes-items-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-    }
-    .features-grid {
-        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-        gap: 25px;
-    }
-    .description-grid {
-        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-        gap: 20px;
-    }
-}
 
 /* Планшеты (до 992px) */
-@media (max-width: 992px) {
-    .classes-items-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-    .chooseus-items-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-    .container-price-admin .row > [class*="col"] {
-        flex: 0 0 calc(50% - 7.5px);
-        min-width: 0;
-    }
-    .blog-gallery-content,
-    .logo-grid,
-    .breadcrumb-grid {
-        grid-template-columns: 1fr;
-        gap: 25px;
-    }
-    .blog-gallery-image img {
-        height: 250px;
-    }
-    .logo-image-area,
-    .breadcrumb-image {
-        min-height: 180px;
-    }
-    .logo-image {
-        max-height: 100px;
-    }
-    .breadcrumb-image {
-        height: 200px;
-    }
-    .footer-card,
-    .logo-card,
-    .breadcrumb-card {
-        max-width: 90%;
-        margin: 0 auto;
-    }
-    .description-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        margin: 15px;
-    }
-    .container-contact-info {
-        max-width: 90%;
-    }
-    .user-avatar {
-        width: 70px;
-        height: 70px;
-    }
-    .user-login {
-        font-size: 16px;
-    }
-}
 
 /* Планшеты (до 768px) */
-@media (max-width: 768px) {
-    .admin-form-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    .admin-card-header,
-    .admin-card-header,
-    .breadcrumb-card-header,
-    .logo-card-header,
-    .footer-card-header,
-    .description-card-header,
-    .contact-info-header {
-        flex-direction: column;
-        text-align: center;
-    }
-    .admin-card-body,
-    .breadcrumb-card-body,
-    .logo-card-body,
-    .footer-card-body,
-    .description-card-body,
-    .contact-info-body {
-        padding: 20px;
-    }
-    .admin-upload-area,
-    .logo-image-area,
-    .breadcrumb-image-area {
-        height: 200px;
-    }
-    .admin-carousel .carousel-item {
-        height: 250px;
-    }
-    .features-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    .feature-item-card {
-        flex-direction: column;
-        text-align: center;
-        padding: 25px;
-    }
-    .feature-image {
-        margin: 0 auto;
-        width: 90px;
-        height: 90px;
-    }
-    .feature-actions {
-        opacity: 1;
-        position: static;
-        justify-content: center;
-        margin-top: 15px;
-    }
-    .classes-items-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-    .class-item-image {
-        height: 120px;
-    }
-    .class-item-actions {
-        opacity: 1;
-    }
-    .container-price-admin .row > [class*="col"] {
-        flex: 0 0 100%;
-    }
-    .chooseus-items-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-    .chooseus-item-card {
-        padding: 15px;
-        display: flex;
-        flex-direction: row;
-        text-align: left;
-        gap: 12px;
-        align-items: center;
-    }
-    .chooseus-item-icon {
-        margin-bottom: 0;
-        flex-shrink: 0;
-    }
-    .chooseus-item-content {
-        text-align: left;
-    }
-    .chooseus-item-actions {
-        opacity: 1;
-        top: 5px;
-        right: 5px;
-    }
-    .interesting-works-grid {
-        padding: 12px;
-        gap: 15px;
-    }
-    .interesting-works-grid .admin-item-image {
-        width: 80px;
-        height: 80px;
-    }
-    /* Вертикальные вкладки становятся горизонтальными */
-    .nav.flex-column {
-        flex-direction: row !important;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px;
-        border-radius: 30px;
-    }
-    .nav.flex-column .nav-link {
-        width: auto !important;
-        text-align: center !important;
-        padding: 8px 16px !important;
-        border-left: none !important;
-        border-bottom: 2px solid transparent !important;
-        border-radius: 30px !important;
-    }
-    .nav.flex-column .nav-link:hover {
-        transform: translateX(0) !important;
-        border-left-color: transparent !important;
-        border-bottom-color: #e4381C !important;
-    }
-    .nav.flex-column .nav-link.active {
-        border-left-color: transparent !important;
-        border-bottom: 2px solid #e4381C !important;
-    }
-    .nav-pills-dark {
-        padding: 5px;
-        border-radius: 6px;
-    }
-    .nav-pills-dark .nav-link {
-        padding: 10px 20px;
-    }
-    .nav-pills-dark .nav-link p {
-        font-size: 12px;
-    }
-    .custom-carousel-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-    }
-    .carousel-controls {
-        padding: 0 15px;
-    }
-    /* Комментарии */
-    .comment-item-card {
-        padding: 15px;
-        gap: 15px;
-    }
-    .comment-avatar {
-        width: 50px;
-        height: 50px;
-    }
-    .comment-author-name {
-        font-size: 14px;
-    }
-    .comment-body {
-        font-size: 13px;
-    }
-    /* Пользователи */
-    .user-content-wrapper {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-    .user-header {
-        flex-direction: column;
-        align-items: center;
-    }
-    .user-name {
-        justify-content: center;
-    }
-    .user-email {
-        justify-content: center;
-    }
-    .user-delete-btn {
-        width: 100%;
-        justify-content: center;
-    }
-    /* Контакты */
-    .contact-input-icon {
-        width: 50px;
-        font-size: 16px;
-    }
-    .contact-input-field {
-        font-size: 14px;
-        padding: 12px 15px;
-    }
-    .contact-edit-btn {
-        padding: 12px 25px;
-        font-size: 13px;
-        max-width: 220px;
-    }
-    /* Категории */
-    .category-header {
-        flex-wrap: wrap;
-    }
-    .category-actions {
-        flex-direction: column;
-        gap: 8px;
-    }
-    /* Хлебные крошки */
-    .breadcrumb-header h2,
-    .logo-header h2,
-    .footer-header h2,
-    .description-header h2 {
-        font-size: 28px;
-    }
-}
 
 /* Мобильные устройства (до 576px) */
-@media (max-width: 576px) {
-    .classes-items-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    .class-item-image {
-        height: 180px;
-    }
-    .interesting-works-grid {
-        flex-direction: column;
-        text-align: center;
-        padding: 15px;
-        gap: 12px;
-    }
-    .interesting-works-grid .admin-item-image {
-        width: 100px;
-        height: 100px;
-        margin: 0 auto;
-    }
-    .interesting-works-grid .admin-item-header {
-        flex-direction: column;
-        text-align: center;
-    }
-    .nav-pills-dark {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 3px;
-        border-radius: 8px;
-    }
-    .nav-pills-dark .nav-link {
-        text-align: center;
-        border-radius: 4px;
-    }
-    .comment-item-card {
-        flex-direction: column;
-        text-align: center;
-    }
-    .comment-avatar {
-        margin: 0 auto;
-    }
-    .comment-header {
-        flex-direction: column;
-        text-align: center;
-    }
-    .comment-author-info {
-        flex-direction: column;
-        gap: 5px;
-    }
-    .comment-delete-btn {
-        width: 100%;
-        justify-content: center;
-    }
-}
 
 /* Маленькие мобильные (до 480px) */
-@media (max-width: 480px) {
-    .admin-carousel .carousel-item {
-        height: 200px;
-    }
-    .admin-carousel .carousel-caption h5 {
-        font-size: 14px;
-    }
-    .admin-carousel .carousel-caption h6 {
-        font-size: 10px;
-    }
-    .custom-carousel-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 14px;
-    }
-    .carousel-controls {
-        padding: 0 10px;
-    }
-    .feature-item-card {
-        padding: 20px;
-    }
-    .feature-image {
-        width: 70px;
-        height: 70px;
-    }
-    .feature-content h5 {
-        font-size: 16px;
-    }
-    .action-btn.edit-btn,
-    .action-btn.delete-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 14px;
-    }
-    .empty-state-modern i,
-    .empty-descriptions i,
-    .empty-footer i,
-    .empty-logo i,
-    .empty-users i {
-        font-size: 36px;
-    }
-    .blog-gallery-image img {
-        height: 200px;
-    }
-    .blog-gallery-header h4,
-    .admin-text-header h4,
-    .admin-card-header h4 {
-        font-size: 14px;
-    }
-    .interesting-works-grid .admin-item-image {
-        width: 80px;
-        height: 80px;
-    }
-    .interesting-works-grid .admin-item-description {
-        font-size: 12px;
-    }
-    .chooseus-item-card {
-        padding: 12px;
-    }
-    .chooseus-item-icon {
-        width: 40px;
-        height: 40px;
-    }
-    .chooseus-item-content h5 {
-        font-size: 13px;
-    }
-    .chooseus-item-content p {
-        font-size: 11px;
-    }
-    .single-price-plan-admin {
-        padding: 15px;
-    }
-    .h4-input {
-        font-size: 16px;
-    }
-    .h2-input {
-        font-size: 24px;
-    }
-    /* Заголовки */
-    .section-title-modern h2,
-    .admin-section-title h2,
-    .breadcrumb-header h2,
-    .logo-header h2,
-    .footer-header h2,
-    .description-header h2 {
-        font-size: 24px;
-    }
-    /* Контакты */
-    .contact-input-icon {
-        width: 40px;
-        font-size: 12px;
-    }
-    .contact-input-field {
-        font-size: 12px;
-        padding: 10px 12px;
-    }
-    .contact-edit-btn {
-        padding: 10px 15px;
-        font-size: 12px;
-        max-width: 200px;
-    }
-    /* Пользователи */
-    .user-avatar {
-        width: 60px;
-        height: 60px;
-    }
-    .user-login {
-        font-size: 15px;
-    }
-    .user-email {
-        font-size: 12px;
-    }
-}

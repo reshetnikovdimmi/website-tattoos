@@ -8,7 +8,7 @@
 .cta-section {
     position: relative;
     padding: 60px 0;
-    background: linear-gradient(135deg, #e16521, #e4381C);
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
     overflow: hidden;
 }
 
@@ -96,7 +96,7 @@
     font-family: "Oswald", sans-serif;
     font-weight: 600;
     padding: 14px 35px;
-    color: #e4381C;
+    color: var(--color-primary);
     letter-spacing: 1px;
     text-transform: uppercase;
     background: #ffffff;
@@ -142,92 +142,9 @@
 ------------------------------ */
 
 /* Планшеты (до 992px) */
-@media (max-width: 992px) {
-    .cta-section {
-        padding: 50px 0;
-    }
-
-    .cta-text h3 {
-        font-size: 28px;
-    }
-
-    .cta-text p {
-        font-size: 16px;
-    }
-
-    .cta-section .primary-btn {
-        padding: 12px 30px;
-        font-size: 14px;
-    }
-}
 
 /* Мобильные устройства (до 768px) */
-@media (max-width: 768px) {
-    .cta-section {
-        padding: 40px 0;
-    }
-
-    .cta-section .col-lg-12 {
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
-    }
-
-    .cta-text h3 {
-        font-size: 24px;
-    }
-
-    .cta-text p {
-        font-size: 14px;
-    }
-
-    .cta-section .primary-btn {
-        padding: 10px 25px;
-        font-size: 13px;
-    }
-
-    .cta-section::before,
-    .cta-section::after {
-        display: none;
-    }
-}
 
 /* Маленькие мобильные (до 480px) */
-@media (max-width: 480px) {
-    .cta-section {
-        padding: 30px 0;
-    }
-
-    .cta-text h3 {
-        font-size: 20px;
-    }
-
-    .cta-text p {
-        font-size: 13px;
-    }
-
-    .cta-section .primary-btn {
-        padding: 8px 20px;
-        font-size: 12px;
-    }
-}
 
 /* Большие экраны */
-@media (min-width: 1400px) {
-    .cta-section {
-        padding: 70px 0;
-    }
-
-    .cta-text h3 {
-        font-size: 38px;
-    }
-
-    .cta-text p {
-        font-size: 20px;
-    }
-
-    .cta-section .primary-btn {
-        padding: 16px 45px;
-        font-size: 18px;
-    }
-}

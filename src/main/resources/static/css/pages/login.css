@@ -57,7 +57,7 @@
     transform: translateX(-50%);
     width: 50px;
     height: 3px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border-radius: 3px;
 }
 
@@ -81,7 +81,7 @@
 
 .form-signin input:focus {
     outline: none;
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgba(228, 56, 28, 0.1);
     background: rgba(0, 0, 0, 0.5);
 }
@@ -93,7 +93,7 @@
 /* Кнопка входа */
 .form-signin .site-btn {
     width: 100%;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border: none;
     padding: 14px 20px;
     border-radius: 50px;
@@ -124,7 +124,7 @@
 }
 
 .form-signin a:hover {
-    color: #e4381C;
+    color: var(--color-primary);
     transform: translateX(5px);
 }
 
@@ -147,41 +147,3 @@
 /* ------------------------------
    АДАПТИВНОСТЬ
 ------------------------------ */
-@media (max-width: 768px) {
-    .form-signin {
-        padding: 30px 25px;
-    }
-
-    .form-signin h2 {
-        font-size: 24px;
-    }
-
-    .form-signin input {
-        padding: 12px 15px;
-        font-size: 14px;
-    }
-
-    .form-signin .site-btn {
-        padding: 12px 20px;
-        font-size: 13px;
-    }
-}
-
-@media (max-width: 480px) {
-    .login-container {
-        padding: 30px 15px;
-    }
-
-    .form-signin {
-        padding: 25px 20px;
-    }
-
-    .form-signin h2 {
-        font-size: 22px;
-    }
-
-    .form-signin input {
-        padding: 10px 12px;
-        font-size: 13px;
-    }
-}

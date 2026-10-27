@@ -114,7 +114,7 @@
     bottom: 0;
     width: 100%;
     height: 4px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     transform: scaleX(0);
     transition: transform 0.3s ease;
     z-index: 2;
@@ -184,7 +184,7 @@
 
 .classes-item .primary-btn:hover {
     background: #ffffff;
-    color: #e4381C;
+    color: var(--color-primary);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
@@ -194,82 +194,12 @@
 ------------------------------ */
 
 /* Планшеты */
-@media (max-width: 992px) {
-    .classes-item {
-        height: 380px;
-        padding: 25px 20px;
-    }
-
-    .classes-item h4 {
-        font-size: 24px;
-    }
-
-    .classes-item .short-details {
-        font-size: 13px;
-        -webkit-line-clamp: 3;
-    }
-}
 
 /* Мобильные устройства */
-@media (max-width: 768px) {
-    .classes-section .container-fluid {
-        padding: 40px 15px 0;
-    }
-
-    .classes-item {
-        height: 350px;
-        padding: 20px;
-        margin: 0 0 20px;
-    }
-
-    .classes-item h4 {
-        font-size: 22px;
-        margin-bottom: 10px;
-    }
-
-    .classes-item .short-details {
-        font-size: 12px;
-        -webkit-line-clamp: 3;
-        margin-bottom: 15px;
-    }
-
-    .classes-item .primary-btn {
-        padding: 8px 20px;
-        font-size: 12px;
-        min-width: 120px;
-    }
-}
 
 /* Маленькие мобильные */
-@media (max-width: 480px) {
-    .class-title .section-title h2 {
-        font-size: 28px;
-    }
-
-    .classes-item {
-        height: 320px;
-    }
-
-    .classes-item h4 {
-        font-size: 20px;
-    }
-
-    .classes-item .short-details {
-        font-size: 11px;
-        -webkit-line-clamp: 2;
-    }
-}
 
 /* Большие экраны */
-@media (min-width: 1400px) {
-    .classes-item {
-        height: 420px;
-    }
-
-    .classes-item h4 {
-        font-size: 32px;
-    }
-}
 
 /* Анимация появления карточек */
 @keyframes classFadeInUp {

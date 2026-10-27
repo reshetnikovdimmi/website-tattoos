@@ -33,7 +33,7 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: #e4381c;
+    background: var(--color-primary);
     color: #fff;
     font-weight: 700;
     font-size: 15px;
@@ -44,7 +44,7 @@
 }
 
 .backup-instruction a {
-    color: #e4381c;
+    color: var(--color-primary);
     text-decoration: none;
     font-weight: 600;
     border-bottom: 1px dashed rgba(228, 56, 28, 0.5);
@@ -82,7 +82,7 @@
     margin: 10px 0;
     background: #1a1a1a;
     border: 1px solid #333;
-    border-left: 4px solid #e4381c;
+    border-left: 4px solid var(--color-primary);
     color: #ff7b5a;
     font-size: 13px;
     line-height: 1.5;
@@ -93,7 +93,7 @@
 
 .backup-instruction code.authorize-url:hover {
     background: #222;
-    border-color: #e4381c;
+    border-color: var(--color-primary);
 }
 
 /* --- Форма backup (доп. стили, если нужно) --- */
@@ -113,7 +113,7 @@
 }
 
 .backup-settings .text-danger {
-    color: #e4381c;
+    color: var(--color-primary);
     font-weight: 600;
     margin-left: 10px;
 }
@@ -173,7 +173,7 @@
 }
 
 .backup-summary-label i {
-    color: #e4381c;
+    color: var(--color-primary);
 }
 
 .backup-summary-value {
@@ -218,7 +218,7 @@
 .backup-set {
     background: #1a1a1a;
     border: 1px solid #2b2b2b;
-    border-left: 3px solid #e4381c;
+    border-left: 3px solid var(--color-primary);
     border-radius: 8px;
     overflow: hidden;
     transition: border-color 0.2s ease;
@@ -249,7 +249,7 @@
 }
 
 .backup-set-date i {
-    color: #e4381c;
+    color: var(--color-primary);
 }
 
 .backup-set-total {
@@ -262,7 +262,7 @@
 }
 
 .backup-set-total i {
-    color: #e4381c;
+    color: var(--color-primary);
 }
 
 /* --- Состав копии: БД и картинки --- */
@@ -294,7 +294,7 @@
     border-radius: 8px;
     background: rgba(228, 56, 28, 0.1);
     border: 1px solid rgba(228, 56, 28, 0.25);
-    color: #e4381c;
+    color: var(--color-primary);
     font-size: 15px;
 }
 
@@ -349,27 +349,6 @@
 
 /* --- Мобильная раскладка --- */
 
-@media (max-width: 575px) {
-    .backup-summary {
-        grid-template-columns: 1fr;
-    }
-
-    .backup-set-head {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-    }
-
-    .backup-part {
-        flex-wrap: wrap;
-    }
-
-    .backup-part-actions {
-        width: 100%;
-        margin-left: 48px;
-    }
-}
-
 /* --- Статус и действие «Восстановить» в шапке копии --- */
 
 .backup-set-meta {
@@ -397,24 +376,13 @@
 
 .backup-restore-btn:hover {
     background: rgba(228, 56, 28, 0.24);
-    border-color: #e4381c;
+    border-color: var(--color-primary);
     color: #fff;
 }
 
 .backup-overview-hint {
     display: block;
     margin: -8px 0 18px;
-}
-
-@media (max-width: 575px) {
-    .backup-set-meta {
-        justify-content: flex-start;
-    }
-
-    .backup-restore-btn {
-        width: 100%;
-        justify-content: center;
-    }
 }
 
 /* --- Кнопки «Проверить подключение» / «Создать бэкап» --- */
@@ -436,15 +404,4 @@
     margin-left: 0;
     color: #9a9a9a;
     font-size: 13px;
-}
-
-@media (max-width: 575px) {
-    .backup-actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .backup-actions .admin-btn {
-        width: 100%;
-    }
 }

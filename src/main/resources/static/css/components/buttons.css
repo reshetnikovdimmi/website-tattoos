@@ -23,7 +23,7 @@
 }
 
 .btn-primary {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     color: #ffffff;
 }
 
@@ -34,12 +34,12 @@
 
 .btn-secondary {
     background: transparent;
-    border: 2px solid #e4381C;
-    color: #e4381C;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
 }
 
 .btn-secondary:hover {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border-color: transparent;
     color: #ffffff;
     transform: translateY(-2px);
@@ -53,7 +53,7 @@
 
 .btn-outline:hover {
     background: #ffffff;
-    color: #e4381C;
+    color: var(--color-primary);
     transform: translateY(-2px);
 }
 
@@ -71,7 +71,7 @@
 }
 
 .btn-edit {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     color: #ffffff;
 }
 
@@ -107,7 +107,7 @@
    КНОПКИ ДЛЯ ФОРМ
 ------------------------------ */
 .btn-submit {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     color: #ffffff;
     width: 100%;
 }
@@ -119,13 +119,13 @@
 
 .btn-upload {
     background: transparent;
-    border: 2px dashed #e4381C;
-    color: #e4381C;
+    border: 2px dashed var(--color-primary);
+    color: var(--color-primary);
 }
 
 .btn-upload:hover {
     background: rgba(228, 56, 28, 0.1);
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     transform: translateY(-2px);
 }
 
@@ -134,7 +134,7 @@
 ------------------------------ */
 .cta-btn {
     background: #ffffff;
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 .cta-btn:hover {
@@ -158,12 +158,12 @@
 
 .pagination-btn:hover {
     background: rgba(228, 56, 28, 0.2);
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     transform: translateY(-2px);
 }
 
 .pagination-btn.active {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border-color: transparent;
 }
 
@@ -184,6 +184,6 @@
 }
 
 .social-btn:hover {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     transform: translateY(-3px);
 }

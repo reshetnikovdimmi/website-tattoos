@@ -77,11 +77,11 @@
 
 .breadcrumb-controls a i {
     font-size: 14px;
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 .breadcrumb-controls a:hover {
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 .breadcrumb-controls span {
@@ -136,91 +136,13 @@
 ------------------------------ */
 
 /* Планшеты (до 992px) */
-@media (max-width: 992px) {
-    .breadcrumb-section {
-        padding: 100px 0;
-        background-attachment: scroll;
-    }
-
-    .breadcrumb-text h2 {
-        font-size: 36px;
-    }
-
-    .breadcrumb-controls {
-        padding: 8px 20px;
-    }
-
-    .breadcrumb-controls a,
-    .breadcrumb-controls span {
-        font-size: 13px;
-    }
-}
 
 /* Мобильные устройства (до 768px) */
-@media (max-width: 768px) {
-    .breadcrumb-section {
-        padding: 80px 0;
-    }
-
-    .breadcrumb-text h2 {
-        font-size: 28px;
-    }
-
-    .breadcrumb-controls {
-        padding: 6px 16px;
-        gap: 8px;
-    }
-
-    .breadcrumb-controls a,
-    .breadcrumb-controls span {
-        font-size: 12px;
-    }
-
-    .breadcrumb-controls a i {
-        font-size: 12px;
-    }
-}
 
 /* Маленькие мобильные (до 480px) */
-@media (max-width: 480px) {
-    .breadcrumb-section {
-        padding: 140px 0;
-    }
-
-    .breadcrumb-text h2 {
-        font-size: 24px;
-    }
-
-    .breadcrumb-controls {
-        padding: 5px 12px;
-        gap: 5px;
-    }
-
-    .breadcrumb-controls a,
-    .breadcrumb-controls span {
-        font-size: 11px;
-    }
-
-    .breadcrumb-controls a i {
-        font-size: 11px;
-    }
-}
 
 /* Большие экраны */
-@media (min-width: 1400px) {
-    .breadcrumb-section {
-        padding: 150px 0;
-    }
 
-    .breadcrumb-text h2 {
-        font-size: 56px;
-    }
-
-    .breadcrumb-controls a,
-    .breadcrumb-controls span {
-        font-size: 16px;
-    }
-}
 /* ============================================
    ACTIVITAR ADMIN BREADCRUMB
    Стиль: спортивный / фитнес / современный
@@ -350,7 +272,7 @@
 
 .breadcrumb-icon i {
     font-size: 40px;
-    color: #e4381C;
+    color: var(--color-primary);
     animation: iconRotate 10s linear infinite;
 }
 
@@ -383,7 +305,7 @@
 }
 
 .title-main {
-    background: linear-gradient(135deg, #ffffff 0%, #e4381C 100%);
+    background: linear-gradient(135deg, #ffffff 0%, var(--color-primary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -392,7 +314,7 @@
 }
 
 .title-accent {
-    color: #e4381C;
+    color: var(--color-primary);
     text-shadow: 0 0 20px rgba(228, 56, 28, 0.5);
     display: inline-block;
     margin-left: 10px;
@@ -434,11 +356,11 @@
 
 .nav-home i {
     font-size: 14px;
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 .nav-home:hover {
-    color: #e4381C;
+    color: var(--color-primary);
     transform: translateX(-3px);
 }
 
@@ -452,7 +374,7 @@
 }
 
 .nav-current {
-    color: #e4381C;
+    color: var(--color-primary);
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.5px;
@@ -480,12 +402,12 @@
 
 .admin-edit-bg-btn i {
     font-size: 14px;
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 .admin-edit-bg-btn:hover {
-    background: #e4381C;
-    border-color: #e4381C;
+    background: var(--color-primary);
+    border-color: var(--color-primary);
     transform: translateY(-3px);
     box-shadow: 0 10px 25px rgba(228, 56, 28, 0.3);
 }
@@ -497,91 +419,6 @@
 /* ------------------------------
    АДАПТИВНОСТЬ
 ------------------------------ */
-@media (max-width: 992px) {
-    .activitar-admin-breadcrumb {
-        padding: 100px 0;
-    }
-
-    .breadcrumb-title {
-        font-size: 48px;
-    }
-
-    .breadcrumb-icon {
-        width: 60px;
-        height: 60px;
-    }
-
-    .breadcrumb-icon i {
-        font-size: 30px;
-    }
-}
-
-@media (max-width: 768px) {
-    .activitar-admin-breadcrumb {
-        padding: 80px 0;
-    }
-
-    .breadcrumb-title {
-        font-size: 36px;
-        letter-spacing: 2px;
-    }
-
-    .title-accent {
-        display: block;
-        margin-left: 0;
-    }
-
-    .breadcrumb-nav {
-        padding: 8px 20px;
-        gap: 8px;
-    }
-
-    .nav-home,
-    .nav-current {
-        font-size: 12px;
-    }
-
-    .admin-edit-bg-btn {
-        padding: 8px 18px;
-        font-size: 12px;
-    }
-}
-
-@media (max-width: 480px) {
-    .activitar-admin-breadcrumb {
-        padding: 60px 0;
-    }
-
-    .breadcrumb-title {
-        font-size: 28px;
-    }
-
-    .breadcrumb-icon {
-        width: 50px;
-        height: 50px;
-        margin-bottom: 15px;
-    }
-
-    .breadcrumb-icon i {
-        font-size: 24px;
-    }
-
-    .breadcrumb-nav {
-        padding: 6px 15px;
-        gap: 6px;
-    }
-
-    .nav-home,
-    .nav-current {
-        font-size: 11px;
-    }
-
-    .admin-edit-bg-btn {
-        padding: 6px 14px;
-        font-size: 11px;
-        gap: 6px;
-    }
-}
 
 /* ------------------------------
    ОБНОВЛЕНИЕ ЧЕРЕЗ AJAX

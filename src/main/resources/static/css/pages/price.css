@@ -85,7 +85,7 @@
     position: absolute;
     top: 20px;
     right: -35px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     color: #ffffff;
     font-size: 12px;
     font-weight: 600;
@@ -116,7 +116,7 @@
     font-size: 48px;
     font-weight: 700;
     font-family: "Oswald", sans-serif;
-    color: #e4381C;
+    color: var(--color-primary);
     margin-bottom: 10px;
     position: relative;
     display: inline-block;
@@ -160,7 +160,7 @@
     content: '✓';
     position: absolute;
     left: 0;
-    color: #e4381C;
+    color: var(--color-primary);
     font-weight: bold;
 }
 
@@ -177,7 +177,7 @@
     color: #ffffff;
     text-transform: uppercase;
     background: transparent;
-    border: 2px solid #e4381C;
+    border: 2px solid var(--color-primary);
     border-radius: 50px;
     transition: all 0.3s ease;
     cursor: pointer;
@@ -186,7 +186,7 @@
 }
 
 .single-price-plan .primary-btn:hover {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border-color: transparent;
     color: #ffffff;
     transform: translateY(-3px);
@@ -198,111 +198,12 @@
 ------------------------------ */
 
 /* Планшеты (до 992px) */
-@media (max-width: 992px) {
-    .price-section {
-        padding: 80px 0;
-    }
-
-    .price-section .section-title h2 {
-        font-size: 36px;
-    }
-
-    .price-section .section-title .short-details {
-        font-size: 16px;
-    }
-
-    .single-price-plan {
-        padding: 30px 20px 40px;
-    }
-
-    .single-price-plan h4 {
-        font-size: 22px;
-    }
-
-    .price-plan h2 {
-        font-size: 40px;
-    }
-}
 
 /* Мобильные устройства (до 768px) */
-@media (max-width: 768px) {
-    .price-section {
-        padding: 60px 0;
-        background-attachment: scroll;
-    }
-
-    .price-section .section-title h2 {
-        font-size: 28px;
-    }
-
-    .price-section .section-title .short-details {
-        font-size: 14px;
-    }
-
-    .single-price-plan {
-        margin-bottom: 20px;
-    }
-
-    .single-price-plan h4 {
-        font-size: 20px;
-    }
-
-    .price-plan h2 {
-        font-size: 36px;
-    }
-
-    .single-price-plan ul li {
-        font-size: 14px;
-    }
-
-    .single-price-plan .primary-btn {
-        padding: 10px 25px;
-        font-size: 13px;
-    }
-}
 
 /* Маленькие мобильные (до 480px) */
-@media (max-width: 480px) {
-    .price-section {
-        padding: 50px 0;
-    }
-
-    .price-section .section-title h2 {
-        font-size: 24px;
-    }
-
-    .single-price-plan {
-        padding: 25px 15px 35px;
-    }
-
-    .single-price-plan h4 {
-        font-size: 18px;
-    }
-
-    .price-plan h2 {
-        font-size: 32px;
-    }
-
-    .price-plan h2::before {
-        font-size: 16px;
-        left: -15px;
-    }
-}
 
 /* Большие экраны */
-@media (min-width: 1400px) {
-    .single-price-plan {
-        padding: 50px 30px 60px;
-    }
-
-    .price-plan h2 {
-        font-size: 56px;
-    }
-
-    .single-price-plan h4 {
-        font-size: 28px;
-    }
-}
 
 /* Анимация появления карточек */
 @keyframes priceFadeInUp {

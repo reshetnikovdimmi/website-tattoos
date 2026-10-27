@@ -47,12 +47,12 @@
 
 .blog-pagination a:hover {
     background: rgba(228, 56, 28, 0.2);
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     transform: translateY(-2px);
 }
 
 .blog-pagination a.active {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border-color: transparent;
     font-weight: 600;
     box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
@@ -65,7 +65,7 @@
 }
 
 .blog-pagination a.page-nav:hover {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border-color: transparent;
     transform: translateY(-2px);
 }
@@ -139,13 +139,13 @@
 }
 
 .show-result-select:hover {
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     background-color: #3d3d3d;
 }
 
 .show-result-select:focus {
     outline: none;
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 2px rgba(228, 56, 28, 0.2);
 }
 
@@ -160,101 +160,7 @@
 ------------------------------ */
 
 /* Планшеты (до 992px) */
-@media (max-width: 992px) {
-    .blog-option {
-        margin-top: 40px;
-        padding: 25px 0 15px;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .blog-option-right {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .blog-pagination a {
-        min-width: 38px;
-        height: 38px;
-        font-size: 14px;
-    }
-}
 
 /* Мобильные устройства (до 768px) */
-@media (max-width: 768px) {
-    .blog-option {
-        margin-top: 30px;
-        padding: 20px 0 10px;
-    }
-
-    .blog-pagination {
-        gap: 8px;
-    }
-
-    .blog-pagination a {
-        min-width: 35px;
-        height: 35px;
-        font-size: 13px;
-        padding: 0 8px;
-    }
-
-    .blog-option-right {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .blog-result {
-        font-size: 13px;
-    }
-
-    .show-result {
-        width: 100%;
-        justify-content: space-between;
-        padding: 5px 12px;
-    }
-
-    .show-result-label {
-        font-size: 13px;
-    }
-
-    .show-result-select {
-        padding: 5px 25px 5px 10px;
-        font-size: 13px;
-        min-width: 60px;
-    }
-}
 
 /* Маленькие мобильные (до 480px) */
-@media (max-width: 480px) {
-    .blog-pagination {
-        gap: 6px;
-    }
-
-    .blog-pagination a {
-        min-width: 32px;
-        height: 32px;
-        font-size: 12px;
-    }
-
-    .blog-pagination a.page-nav i {
-        font-size: 11px;
-    }
-
-    .page-separator {
-        font-size: 12px;
-    }
-
-    .blog-result {
-        font-size: 12px;
-    }
-
-    .show-result-label {
-        font-size: 12px;
-    }
-
-    .show-result-select {
-        padding: 4px 25px 4px 10px;
-        font-size: 12px;
-    }
-}

@@ -35,7 +35,7 @@
     transform: translateX(-50%);
     width: 60px;
     height: 3px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border-radius: 3px;
 }
 
@@ -66,7 +66,7 @@
     font-size: 24px;
     font-weight: 600;
     font-family: "Oswald", sans-serif;
-    color: #e4381C;
+    color: var(--color-primary);
     text-transform: uppercase;
     margin-bottom: 25px;
     letter-spacing: 1px;
@@ -81,7 +81,7 @@
     left: 0;
     width: 40px;
     height: 2px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
 }
 
 .about-us p {
@@ -103,7 +103,7 @@
     font-size: 24px;
     font-weight: 600;
     font-family: "Oswald", sans-serif;
-    color: #e4381C;
+    color: var(--color-primary);
     text-transform: uppercase;
     margin-bottom: 25px;
     letter-spacing: 1px;
@@ -118,7 +118,7 @@
     left: 0;
     width: 40px;
     height: 2px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
 }
 
 .about-quality p {
@@ -145,7 +145,7 @@
 }
 
 .about-quality ul li i {
-    color: #e4381C;
+    color: var(--color-primary);
     font-size: 18px;
     width: 25px;
 }
@@ -205,7 +205,7 @@
     font-size: 18px;
     font-weight: 600;
     font-family: "Oswald", sans-serif;
-    color: #e4381C;
+    color: var(--color-primary);
     text-transform: uppercase;
     margin-bottom: 5px;
 }
@@ -242,7 +242,7 @@
     transform: translateX(-50%);
     width: 60px;
     height: 3px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border-radius: 3px;
 }
 
@@ -308,7 +308,7 @@
 }
 
 .trainer-item .ti-links a:hover {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     transform: translateX(5px);
 }
 
@@ -317,7 +317,7 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     padding: 15px 20px;
     clip-path: polygon(0 0, 100% 0%, 85% 0, 100% 100%, 0 100%);
 }
@@ -335,70 +335,3 @@
 /* ------------------------------
    АДАПТИВНОСТЬ
 ------------------------------ */
-@media (max-width: 992px) {
-    .aboutus-section {
-        padding: 80px 0;
-    }
-
-    .aboutus-page-text .section-title h2 {
-        font-size: 32px;
-    }
-
-    .about-us, .about-quality {
-        padding: 0;
-        margin-bottom: 40px;
-    }
-
-    .testimonial-section {
-        padding: 80px 0;
-        background-attachment: scroll;
-    }
-
-    .trainer-section {
-        padding: 80px 0;
-    }
-
-    .trainer-section .section-title h2 {
-        font-size: 32px;
-    }
-
-    .trainer-item .ti-pic img {
-        height: 300px;
-    }
-}
-
-@media (max-width: 768px) {
-    .aboutus-section {
-        padding: 60px 0;
-    }
-
-    .aboutus-page-text .section-title h2 {
-        font-size: 26px;
-    }
-
-    .ts-item h4 {
-        font-size: 16px;
-    }
-
-    .trainer-section {
-        padding: 60px 0;
-    }
-
-    .trainer-section .section-title h2 {
-        font-size: 26px;
-    }
-
-    .trainer-item .ti-pic img {
-        height: 280px;
-    }
-}
-
-@media (max-width: 480px) {
-    .trainer-item .ti-pic img {
-        height: 250px;
-    }
-
-    .trainer-item .trainer-text h5 {
-        font-size: 14px;
-    }
-}

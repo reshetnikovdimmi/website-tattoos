@@ -28,9 +28,7 @@
 @import 'pages/error.css';
 @import 'pages/admin-common.css';
 @import 'pages/gallery.css';
-@import 'pages/sketches.css';
 @import 'pages/blog.css';
-@import 'pages/reviews.css';
 @import 'pages/user.css';
 @import 'pages/hero.css';
 @import 'pages/feature.css';
@@ -50,9 +48,9 @@
 
 
 /* Responsive */
-@import 'responsive/mobile.css';
-@import 'responsive/tablet.css';
-@import 'responsive/desktop.css';
+@import 'responsetive/mobile.css';
+@import 'responsetive/tablet.css';
+@import 'responsetive/desktop.css';
 
 /* Third-party libraries (если нужно переопределить) */
 @import 'bootstrap.min.css';

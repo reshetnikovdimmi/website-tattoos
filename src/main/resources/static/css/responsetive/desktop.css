@@ -1,0 +1,147 @@
+/* ============================================
+   DESKTOP RESPONSIVE (min 1200px)
+   ============================================ */
+
+@media (min-width: 1400px) {
+    .breadcrumb-section {
+        padding: 150px 0;
+    }
+
+    .breadcrumb-text h2 {
+        font-size: 56px;
+    }
+
+    .breadcrumb-controls a,
+    .breadcrumb-controls span {
+        font-size: 16px;
+    }
+}
+@media (min-width: 1400px) {
+    .f-logo img {
+        max-height: 200px;  /* Ещё больше на больших экранах */
+    }
+}
+@media (min-width: 1400px) {
+    .cta-section {
+        padding: 70px 0;
+    }
+
+    .cta-text h3 {
+        font-size: 38px;
+    }
+
+    .cta-text p {
+        font-size: 20px;
+    }
+
+    .cta-section .primary-btn {
+        padding: 16px 45px;
+        font-size: 18px;
+    }
+}
+@media (min-width: 1400px) {
+    .map-container {
+        min-height: 650px;
+    }
+
+    .yandex-ad-container {
+        min-height: 650px;
+    }
+
+    .map-contact-info {
+        padding: 60px 50px;
+        min-height: 650px;
+    }
+
+    .info-block h5 {
+        font-size: 20px;
+    }
+
+    .info-block p {
+        font-size: 18px;
+    }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .hero-items .owl-nav button[type=button] {
+        left: 15px;
+        font-size: 50px;
+    }
+    .hero-items .owl-nav button[type=button].owl-next {
+        right: 15px;
+    }
+    .single-hero-item .hero-text h1 {
+        font-size: 70px;
+    }
+    .single-hero-item .hero-text h2 {
+        font-size: 50px;
+    }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .contact-map {
+        height: 500px;
+    }
+    .map-widget iframe {
+        height: 500px;
+    }
+}
+@media (min-width: 1400px) {
+    .gallery-controls ul li {
+        padding: 12px 35px;
+        font-size: 16px;
+    }
+}
+@media (min-width: 1400px) {
+    .single-price-plan {
+        padding: 50px 30px 60px;
+    }
+
+    .price-plan h2 {
+        font-size: 56px;
+    }
+
+    .single-price-plan h4 {
+        font-size: 28px;
+    }
+}
+@media (min-width: 1400px) {
+    .choose-item {
+        min-height: 350px;
+        padding: 40px 30px;
+    }
+
+    .choose-item h5 {
+        font-size: 26px;
+    }
+
+    .choose-item .short-details {
+        font-size: 16px;
+    }
+
+    .choose-item img {
+        width: 85px;
+        height: 85px;
+    }
+}
+@media (min-width: 1400px) {
+    .feature-item {
+        height: 420px;
+        padding: 100px 30px 30px;
+    }
+
+    .feature-item h3 {
+        font-size: 28px;
+    }
+
+    .feature-item .short-details {
+        font-size: 16px;
+    }
+}
+@media (min-width: 1400px) {
+    .classes-item {
+        height: 420px;
+    }
+
+    .classes-item h4 {
+        font-size: 32px;
+    }
+}

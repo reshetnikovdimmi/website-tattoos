@@ -47,7 +47,7 @@
 }
 
 .delete-button:hover {
-    background: #e4381C;
+    background: var(--color-primary);
     transform: rotate(90deg);
 }
 /* Стили для кастомной кнопки закрытия */
@@ -111,7 +111,7 @@
 }
 
 .modal-body::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, #e16521, #e4381C);
+    background: linear-gradient(45deg, var(--color-primary-light), var(--color-primary));
     border-radius: 10px;
 }
 
@@ -144,7 +144,7 @@
 
 .gallery-modal-item:hover {
     transform: translateY(-5px);
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     box-shadow: 0 10px 25px rgba(228, 56, 28, 0.2);
 }
 
@@ -163,65 +163,3 @@
 /* ------------------------------
    АДАПТИВНОСТЬ
 ------------------------------ */
-@media (max-width: 992px) {
-    .gallery-filter-modal .gallery-filter > div {
-        width: 50%;
-    }
-
-    .gallery-modal-img {
-        height: 160px;
-    }
-}
-
-@media (max-width: 768px) {
-    .modal-dialog {
-        margin: 10px;
-    }
-
-    .modal-header {
-        padding: 15px 20px;
-    }
-
-    .modal-body {
-        padding: 20px;
-    }
-
-    .gallery-filter-modal .gallery-filter > div {
-        width: 100%;
-    }
-
-    .gallery-modal-img {
-        height: 200px;
-    }
-
-    .modal-footer .blog-option {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .modal-footer .blog-option-right {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .modal-footer .blog-pagination {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-@media (max-width: 480px) {
-    .gallery-modal-img {
-        height: 180px;
-    }
-
-    .modal-footer .blog-option-right {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-    }
-
-    .modal-footer .show-result {
-        justify-content: space-between;
-    }
-}

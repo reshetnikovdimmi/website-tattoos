@@ -99,13 +99,13 @@
     text-align: center;
     width: 160px;
     height: 46px;
-    border-left: 2px solid #e16521;
-    border-right: 2px solid #e4381C;
+    border-left: 2px solid var(--color-primary-light);
+    border-right: 2px solid var(--color-primary);
     box-sizing: border-box;
     background-position: 0 0, 0 100%;
     background-repeat: no-repeat;
     background-size: 100% 2px;
-    background-image: linear-gradient(to right, #e4381C 100%, #e16521 100%), linear-gradient(to right, #e4381C 0%, #e16521 0%);
+    background-image: linear-gradient(to right, var(--color-primary) 100%, var(--color-primary-light) 100%), linear-gradient(to right, var(--color-primary) 0%, var(--color-primary-light) 0%);
     transition-duration: 1000ms;
     line-height: 45px;
     position: relative;
@@ -116,7 +116,7 @@
 .single-hero-item .hero-text .primary-btn:after {
     color: #fff;
     transition-duration: 500ms;
-    background: linear-gradient(to right, #e16521, #e4381C);
+    background: linear-gradient(to right, var(--color-primary-light), var(--color-primary));
     content: "";
     position: absolute;
     width: 100%;
@@ -209,78 +209,9 @@
 /* ===== АДАПТИВНОСТЬ (как в оригинале) ===== */
 
 /* Планшеты (992px - 1199px) */
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-    .hero-items .owl-nav button[type=button] {
-        left: 15px;
-        font-size: 50px;
-    }
-    .hero-items .owl-nav button[type=button].owl-next {
-        right: 15px;
-    }
-    .single-hero-item .hero-text h1 {
-        font-size: 70px;
-    }
-    .single-hero-item .hero-text h2 {
-        font-size: 50px;
-    }
-}
 
 /* Tablet Device (768px - 991px) */
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-    .hero-items .owl-nav button[type=button] {
-        left: 15px;
-        font-size: 40px;
-    }
-    .hero-items .owl-nav button[type=button].owl-next {
-        right: 15px;
-    }
-    .single-hero-item {
-        height: 680px;
-    }
-    .single-hero-item .hero-text h1 {
-        font-size: 60px;
-    }
-    .single-hero-item .hero-text h2 {
-        font-size: 40px;
-    }
-}
 
 /* Large Mobile (480px - 767px) */
-@media only screen and (max-width: 767px) {
-    .hero-items .owl-nav button[type=button] {
-        left: 5px;
-        font-size: 30px;
-    }
-    .hero-items .owl-nav button[type=button].owl-next {
-        left: auto;
-        right: 5px;
-    }
-    .single-hero-item {
-        height: 680px;
-    }
-    .single-hero-item .hero-text h1 {
-        font-size: 50px;
-    }
-    .single-hero-item .hero-text h2 {
-        font-size: 40px;
-    }
-}
 
 /* Small Mobile (до 479px) */
-@media only screen and (max-width: 479px) {
-    .single-hero-item {
-        height: 550px;
-    }
-    .single-hero-item .hero-text h1 {
-        font-size: 22px;
-        margin-bottom: 25px;
-    }
-    .single-hero-item .hero-text h2 {
-        font-size: 14px;
-    }
-    .hero-items .owl-nav button[type=button] {
-        font-size: 25px;
-        width: 35px;
-        height: 35px;
-    }
-}

@@ -20,7 +20,7 @@
     left: 0;
     width: 100%;
     height: 3px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
 }
 
 /* ------------------------------
@@ -76,7 +76,7 @@
 }
 
 .social-links a:hover {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     transform: translateY(-3px);
 }
 
@@ -106,7 +106,7 @@
     left: 0;
     width: 40px;
     height: 2px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
 }
 
 /* Текст описания */
@@ -139,7 +139,7 @@
 }
 
 .workout-program li a:hover {
-    color: #e4381C;
+    color: var(--color-primary);
     transform: translateX(5px);
 }
 
@@ -163,7 +163,7 @@
 
 .footer-info li i {
     font-size: 18px;
-    color: #e4381C;
+    color: var(--color-primary);
     margin-top: 2px;
     flex-shrink: 0;
 }
@@ -192,18 +192,18 @@
 }
 
 .ct-inside a {
-    color: #e4381C;
+    color: var(--color-primary);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .ct-inside a:hover {
-    color: #e16521;
+    color: var(--color-primary-light);
     text-decoration: underline;
 }
 
 .ct-inside i {
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 /* ------------------------------
@@ -211,107 +211,9 @@
 ------------------------------ */
 
 /* Планшеты (до 992px) */
-@media (max-width: 992px) {
-    .footer-section {
-        padding-top: 50px;
-    }
-
-    .f-logo img {
-        max-height: 140px;  /* Уменьшаем для планшетов */
-    }
-
-    .footer-widget h5 {
-        font-size: 16px;
-        margin-bottom: 20px;
-    }
-
-    .footer-widget p,
-    .workout-program li a,
-    .footer-info li {
-        font-size: 14px;
-    }
-
-    .social-links a {
-        width: 35px;
-        height: 35px;
-        font-size: 16px;
-    }
-}
 
 /* Мобильные устройства (до 768px) */
-@media (max-width: 768px) {
-    .footer-section {
-        padding-top: 40px;
-    }
-
-    .f-logo img {
-        max-height: 120px;  /* Уменьшаем для мобильных */
-    }
-
-    .footer-logo-item {
-        text-align: center;
-    }
-
-    .footer-widget {
-        text-align: center;
-    }
-
-    .footer-widget h5::after {
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .footer-info li {
-        justify-content: center;
-        flex-wrap: wrap;
-        text-align: center;
-    }
-
-    .workout-program li a:hover {
-        transform: translateX(0);
-    }
-
-    .social-links {
-        text-align: center;
-    }
-
-    .copyright-text {
-        margin-top: 30px;
-        padding: 20px 0;
-    }
-
-    .ct-inside {
-        font-size: 12px;
-    }
-}
 
 /* Маленькие мобильные (до 480px) */
-@media (max-width: 480px) {
-    .f-logo img {
-        max-height: 100px;  /* Ещё меньше для маленьких телефонов */
-    }
-
-    .footer-widget h5 {
-        font-size: 15px;
-    }
-
-    .footer-widget p,
-    .workout-program li a,
-    .footer-info li {
-        font-size: 13px;
-    }
-
-    .social-links a {
-        width: 32px;
-        height: 32px;
-        font-size: 14px;
-        margin-right: 8px;
-    }
-}
 
 /* Большие экраны */
-@media (min-width: 1400px) {
-    .f-logo img {
-        max-height: 200px;  /* Ещё больше на больших экранах */
-    }
-}

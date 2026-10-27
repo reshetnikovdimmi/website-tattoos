@@ -14,10 +14,10 @@
     --m-text:         #ffffff;
     --m-text-secondary:#8f8fa8;
     --m-text-muted:   #6c757d;
-    --m-accent:       #e4381c;
-    --m-accent-2:     #e16521;
+    --m-accent:       var(--color-primary);
+    --m-accent-2:     var(--color-primary-light);
     --m-accent-glow:  rgba(228, 56, 28, 0.4);
-    --m-gradient:     linear-gradient(45deg, #e16521, #e4381c);
+    --m-gradient:     linear-gradient(45deg, var(--color-primary-light), var(--color-primary));
     --m-font-heading: "Oswald", sans-serif;
     --m-radius:       8px;
     --m-radius-sm:    6px;
@@ -103,7 +103,6 @@
     opacity: 0.6;
     cursor: not-allowed;
 }
-
 
 .settings-form label {
     color: var(--m-text-secondary);
@@ -921,6 +920,7 @@ flex: 1;
     margin-top: 12px;
     width: 100%;
     min-width: 0;
+    overflow: hidden;
 }
 
 .example-item {
@@ -953,7 +953,7 @@ flex: 1;
     overflow-wrap: anywhere; /* перенос только по словам/словам, не по буквам */
     word-break: normal; /* отключаем агрессивный break-word */
     min-width: 0;
-    line-height: 1.4;;
+    line-height: 1.4;
 }
 
 /* Step tip */
@@ -1177,17 +1177,6 @@ flex: 1;
 }
 
 /* ---------- Example Table (replaces flex layout) ---------- */
-.step-example {
-    background: var(--m-bg-tertiary);
-    border: 1px solid var(--m-border);
-    border-radius: var(--m-radius-xs);
-    padding: 16px;
-    margin-top: 12px;
-    overflow: hidden; /* предотвращает вылезание за границы */
-}
-
-.example-table {
-    width: 100%;
     border-collapse: collapse;
     table-layout: auto;
 }
@@ -1222,122 +1211,9 @@ flex: 1;
 }
 
 /* Mobile: label и value друг под другом */
-@media (max-width: 768px) {
-    .example-table,
-    .example-table tbody,
-    .example-table tr,
-    .example-table td {
-        display: block;
-        width: 100% !important;
-        text-align: left !important;
-    }
-
-    .example-table td {
-        padding: 6px 0;
-        border-bottom: none;
-    }
-
-    .example-table tr {
-        border-bottom: 1px solid var(--m-border);
-        padding: 10px 0;
-    }
-
-    .example-table tr:last-child {
-        border-bottom: none;
-    }
-
-    .example-table .example-label {
-        white-space: normal;
-        padding-right: 0;
-        margin-bottom: 4px;
-    }
-
-    .example-table .example-value {
-        text-align: left !important;
-    }
-}
 
 /* ---------- Responsive ---------- */
 
-@media (max-width: 768px) {
-    .example-item {
-        grid-template-columns: 1fr; /* друг под другом */
-        gap: 4px;
-        align-items: flex-start;
-    }
-
-    .example-value {
-        text-align: left;
-    }
-    .settings-panel {
-        padding: 20px 15px;
-    }
-
-    .settings-radio-group {
-        gap: 15px;
-    }
-
-    .checkbox-group {
-        gap: 20px;
-    }
-
-    .custom-checkbox label {
-        font-size: 13px;
-    }
-
-    .smtp-row {
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-    }
-
-    .smtp-row.header {
-        display: none;
-    }
-
-    .smtp-row .service-name {
-        grid-column: 1 / -1;
-        margin-bottom: 4px;
-        font-size: 14px;
-    }
-
-    .error-codes-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .instruction-step {
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .step-number {
-        width: 36px;
-        height: 36px;
-        min-width: 36px;
-        font-size: 16px;
-    }
-
-    .service-tabs {
-        overflow-x: auto;
-        flex-wrap: nowrap;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 8px;
-    }
-
-    .service-tab-btn {
-        white-space: nowrap;
-        flex-shrink: 0;
-    }
-
-    .example-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-    }
-
-    .example-value {
-        text-align: left;
-    }
-}
 /* Перекрываем желтый фон автозаполнения Chrome/Edge/Safari */
 .settings-form .form-control:-webkit-autofill,
 .settings-form .form-control:-webkit-autofill:hover,

@@ -54,7 +54,7 @@
     bottom: 0;
     width: 100%;
     height: 4px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     content: "";
     opacity: 0;
     z-index: 2;
@@ -119,7 +119,7 @@
     justify-content: center;
     width: 55px;
     height: 55px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border: none;
     border-radius: 50%;
     font-size: 22px;
@@ -187,7 +187,7 @@
 }
 
 .delete-item-btn:hover {
-    background: #e4381C;
+    background: var(--color-primary);
     transform: scale(1.1);
 }
 
@@ -219,7 +219,7 @@
     width: 16px;
     height: 16px;
     cursor: pointer;
-    accent-color: #e4381C;
+    accent-color: var(--color-primary);
     margin: 0;
 }
 
@@ -228,7 +228,7 @@
 }
 
 .featured-checkbox-wrapper:hover span {
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 /* ------------------------------
@@ -236,86 +236,10 @@
 ------------------------------ */
 
 /* Планшеты (до 992px) */
-@media (max-width: 992px) {
-    .gallery-filter > div {
-        width: 50%;
-    }
-
-    .gallery-img {
-        height: 280px;
-    }
-
-    .gi-hover a {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-    }
-
-    .gi-hover h6 {
-        font-size: 13px;
-        max-width: 160px;
-    }
-}
 
 /* Мобильные устройства (до 768px) */
-@media (max-width: 768px) {
-    .gallery-filter {
-        margin: 0 -10px;
-    }
-
-    .gallery-filter > div {
-        width: 100%;
-        padding: 10px;
-    }
-
-    .gallery-img {
-        height: 260px;
-    }
-
-    .admin-controls {
-        opacity: 1;
-    }
-
-    .delete-item-btn {
-        width: 34px;
-        height: 34px;
-    }
-
-    .featured-checkbox-wrapper {
-        padding: 6px 10px;
-    }
-
-    .featured-checkbox-wrapper label {
-        font-size: 11px;
-    }
-}
 
 /* Маленькие мобильные (до 480px) */
-@media (max-width: 480px) {
-    .gallery-img {
-        height: 220px;
-    }
-
-    .gi-hover a {
-        width: 45px;
-        height: 45px;
-        font-size: 18px;
-    }
-
-    .gi-hover h6 {
-        font-size: 12px;
-        max-width: 150px;
-    }
-
-    .delete-item-btn {
-        width: 30px;
-        height: 30px;
-    }
-
-    .delete-item-btn i {
-        font-size: 14px;
-    }
-}
 
 /* Анимация появления карточек */
 @keyframes galleryFadeInUp {

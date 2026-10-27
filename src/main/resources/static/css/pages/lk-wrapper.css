@@ -45,7 +45,7 @@
     margin: 0 auto 25px;
     border-radius: 50%;
     overflow: hidden;
-    border: 3px solid #e4381C;
+    border: 3px solid var(--color-primary);
     box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
     transition: transform 0.3s ease;
 }
@@ -71,7 +71,7 @@
     font-size: 22px;
     font-weight: 600;
     font-family: "Oswald", sans-serif;
-    color: #e4381C;
+    color: var(--color-primary);
     margin-bottom: 8px;
     text-transform: uppercase;
 }
@@ -96,7 +96,7 @@
 }
 
 .profile-reg-date i {
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 /* Кнопки действий */
@@ -127,12 +127,12 @@
 
 .action-btn i {
     font-size: 16px;
-    color: #e4381C;
+    color: var(--color-primary);
     transition: all 0.3s ease;
 }
 
 .action-btn:hover {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border-color: transparent;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
@@ -238,14 +238,14 @@
 }
 
 .section-header i {
-    color: #e4381C;
+    color: var(--color-primary);
     font-size: 24px;
 }
 
 .section-count,
 .section-badge {
     background: rgba(228, 56, 28, 0.15);
-    color: #e4381C;
+    color: var(--color-primary);
     padding: 5px 12px;
     border-radius: 20px;
     font-size: 13px;
@@ -276,7 +276,7 @@
 }
 
 .tattoos-grid-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, #e16521, #e4381C);
+    background: linear-gradient(45deg, var(--color-primary-light), var(--color-primary));
     border-radius: 10px;
 }
 
@@ -368,7 +368,7 @@
 }
 
 .tattoo-btn:hover {
-    background: #e4381C;
+    background: var(--color-primary);
     transform: scale(1.1);
 }
 
@@ -400,7 +400,7 @@
 
 .card-header i {
     font-size: 22px;
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 .card-header h4 {
@@ -428,7 +428,7 @@
     height: 150px;
     border-radius: 50%;
     overflow: hidden;
-    border: 3px solid #e4381C;
+    border: 3px solid var(--color-primary);
     box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
 }
 
@@ -441,7 +441,7 @@
 /* Информационный блок */
 .info-box {
     background: rgba(228, 56, 28, 0.1);
-    border-left: 3px solid #e4381C;
+    border-left: 3px solid var(--color-primary);
     border-radius: 12px;
     padding: 20px;
     display: flex;
@@ -451,7 +451,7 @@
 
 .info-box i {
     font-size: 24px;
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 .info-content h5 {
@@ -487,7 +487,7 @@
 }
 
 .reviews-list-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, #e16521, #e4381C);
+    background: linear-gradient(45deg, var(--color-primary-light), var(--color-primary));
     border-radius: 10px;
 }
 
@@ -525,7 +525,7 @@
     height: 60px;
     border-radius: 50%;
     overflow: hidden;
-    border: 2px solid #e4381C;
+    border: 2px solid var(--color-primary);
     flex-shrink: 0;
 }
 
@@ -563,7 +563,7 @@
 }
 
 .review-date i {
-    color: #e4381C;
+    color: var(--color-primary);
     font-size: 12px;
 }
 
@@ -583,7 +583,7 @@
 }
 
 .review-delete-btn:hover {
-    background: #e4381C;
+    background: var(--color-primary);
     color: #ffffff;
     transform: scale(1.1);
 }
@@ -612,7 +612,7 @@
 
 .empty-state i {
     font-size: 48px;
-    color: #e4381C;
+    color: var(--color-primary);
     opacity: 0.5;
     margin-bottom: 15px;
 }
@@ -663,7 +663,7 @@
 
 /* Подсветка полей ввода в активной форме */
 .modern-form.active .form-group label {
-    color: #e4381C;
+    color: var(--color-primary);
     transition: color 0.3s ease;
 }
 
@@ -674,7 +674,7 @@
 
 .modern-form.active input:not(:disabled),
 .modern-form.active textarea:not(:disabled) {
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     background: #3a3a3a;
     box-shadow: inset 0 0 0 1px rgba(228, 56, 28, 0.2);
 }
@@ -683,13 +683,13 @@
 .modern-form.active textarea:not(:disabled):focus {
     background: #ffffff;
     color: #151515;
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 2px rgba(228, 56, 28, 0.3);
 }
 
 /* Подсветка подсказок в активной форме */
 .modern-form.active .field-hint {
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 /* Анимация кнопки сохранения в активной форме */
@@ -729,7 +729,7 @@
 }
 
 .form-group label i {
-    color: #e4381C;
+    color: var(--color-primary);
 
     transition: transform 0.3s ease;
 }
@@ -756,7 +756,7 @@
     background: #ffffff;
     color: #151515;
     outline: none;
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 2px rgba(228, 56, 28, 0.2);
 }
 
@@ -795,7 +795,7 @@ textarea.form-control:focus {
     background: #ffffff;
     color: #151515;
     outline: none;
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 2px rgba(228, 56, 28, 0.2);
 }
 
@@ -858,7 +858,7 @@ button[type="button"] {
 .btn-primary,
 .form-actions .btn-primary,
 button[type="submit"].btn-primary {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     color: #ffffff;
     pointer-events: auto !important;
 }
@@ -871,7 +871,7 @@ button[type="submit"].btn-primary {
     height: 100%;
     top: 0;
     left: 0;
-    background: linear-gradient(90deg, #e4381C, #e16521);
+    background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
     z-index: -1;
     opacity: 0;
     transition: opacity 0.5s ease;
@@ -908,7 +908,7 @@ button[type="reset"].btn-secondary {
     gap: 8px;
     background: transparent;
     border: 1px solid rgba(228, 56, 28, 0.6);
-    color: #e4381C;
+    color: var(--color-primary);
     border-radius: 4px;
     padding: 11px 24px;
     font-size: 14px;
@@ -919,7 +919,7 @@ button[type="reset"].btn-secondary {
 .btn-secondary:hover,
 .form-actions .btn-secondary:hover {
     background: rgba(228, 56, 28, 0.15);
-    border-color: #e4381C;
+    border-color: var(--color-primary);
     color: #ffffff;
     transform: translateY(-2px);
 }
@@ -933,13 +933,13 @@ button[type="reset"].btn-secondary {
 /* Кнопка загрузки файла */
 .upload-file-btn {
     background: transparent;
-    border-left: 2px solid #e16521;
-    border-right: 2px solid #e4381C;
+    border-left: 2px solid var(--color-primary-light);
+    border-right: 2px solid var(--color-primary);
     border-top: none;
     border-bottom: none;
     padding: 8px 16px;
     border-radius: 4px;
-    color: #e4381C;
+    color: var(--color-primary);
     font-size: 12px;
     position: relative;
     z-index: 1;
@@ -952,7 +952,7 @@ button[type="reset"].btn-secondary {
     background-position: 0 0, 0 100%;
     background-repeat: no-repeat;
     background-size: 100% 2px;
-    background-image: linear-gradient(to right, #e16521 100%, #e4381C 0%), linear-gradient(to right, #e16521 0%, #e4381C 0%);
+    background-image: linear-gradient(to right, var(--color-primary-light) 100%, var(--color-primary) 0%), linear-gradient(to right, var(--color-primary-light) 0%, var(--color-primary) 0%);
     pointer-events: auto !important;
 }
 
@@ -963,7 +963,7 @@ button[type="reset"].btn-secondary {
     height: 100%;
     top: 0;
     left: 0;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     z-index: -1;
     border-radius: 4px;
     opacity: 0;
@@ -994,7 +994,7 @@ button[type="reset"].btn-secondary {
 }
 
 .tattoo-btn.delete-btn:hover {
-    background: #e4381C;
+    background: var(--color-primary);
     transform: scale(1.1);
     box-shadow: 0 4px 10px rgba(228, 56, 28, 0.5);
 }
@@ -1011,7 +1011,7 @@ button[type="reset"].btn-secondary {
 }
 
 .review-delete-btn:hover {
-    background: #e4381C;
+    background: var(--color-primary);
     color: #ffffff;
     transform: scale(1.1);
 }
@@ -1075,7 +1075,7 @@ button[type="reset"].btn-secondary {
 
 .preview-placeholder i {
     font-size: 32px;
-    color: #e4381C;
+    color: var(--color-primary);
     margin-bottom: 8px;
 }
 
@@ -1130,123 +1130,6 @@ button[type="reset"].btn-secondary {
 /* ============================================
    АДАПТИВНОСТЬ
    ============================================ */
-@media (max-width: 992px) {
-    .lk-wrapper {
-        flex-direction: column;
-        gap: 25px;
-        padding: 30px 20px;
-    }
-
-    .lk-sidebar {
-        flex: auto;
-        position: static;
-    }
-
-    .profile-card {
-        max-width: 500px;
-        margin: 0 auto;
-    }
-
-    .profile-actions {
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-
-    .action-btn {
-        flex: 1;
-        min-width: 150px;
-    }
-
-    .profile-edit-grid {
-        grid-template-columns: 1fr;
-        gap: 25px;
-    }
-
-    .form-row {
-        flex-direction: column;
-    }
-
-    .form-col-image,
-    .form-col-image-small {
-        flex: auto;
-        max-width: 300px;
-        margin: 0 auto;
-    }
-}
-
-@media (max-width: 768px) {
-    .lk-wrapper {
-        padding: 20px 15px;
-    }
-
-    .content-header h2 {
-        font-size: 24px;
-    }
-
-    .content-body {
-        padding: 20px;
-    }
-
-    .profile-avatar {
-        width: 120px;
-        height: 120px;
-    }
-
-    .profile-name {
-        font-size: 20px;
-    }
-
-    .action-btn {
-        padding: 10px 15px;
-        font-size: 12px;
-    }
-
-    .section-header {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .tattoos-grid {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    }
-
-    .review-card-header {
-        flex-wrap: wrap;
-    }
-
-    .review-delete-btn {
-        margin-left: auto;
-    }
-
-    .form-actions {
-        flex-direction: column;
-    }
-
-    .btn,
-    .btn-primary,
-    .btn-secondary {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-@media (max-width: 480px) {
-    .profile-actions {
-        flex-direction: column;
-    }
-
-    .action-btn {
-        width: 100%;
-    }
-
-    .content-header h2 {
-        font-size: 20px;
-    }
-
-    .content-body {
-        padding: 15px;
-    }
-}
 
 /* ============================================
    АНИМАЦИИ
@@ -1284,10 +1167,10 @@ button[type="reset"].btn-secondary {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, #e16521, #e4381C);
+    background: linear-gradient(45deg, var(--color-primary-light), var(--color-primary));
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(45deg, #e4381C, #e16521);
+    background: linear-gradient(45deg, var(--color-primary), var(--color-primary-light));
 }

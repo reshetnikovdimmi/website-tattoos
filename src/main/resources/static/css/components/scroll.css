@@ -9,12 +9,12 @@
 }
 
 .classtime-table.scroll::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, #e16521, #e4381C);
+    background: linear-gradient(45deg, var(--color-primary-light), var(--color-primary));
     border-radius: 10px;
 }
 
 .classtime-table.scroll::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(45deg, #e4381C, #e16521);
+    background: linear-gradient(45deg, var(--color-primary), var(--color-primary-light));
 }
 .classtime-table.scroll {
     overflow-y: auto;

@@ -40,7 +40,7 @@
     transform: translateX(-50%);
     width: 60px;
     height: 3px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border-radius: 3px;
 }
 
@@ -116,7 +116,7 @@
 }
 
 .choose-item:hover h5 {
-    color: #e4381C;
+    color: var(--color-primary);
 }
 
 /* Описание - с ограничением строк */
@@ -163,130 +163,12 @@
 ------------------------------ */
 
 /* Планшеты (до 992px) */
-@media (max-width: 992px) {
-    .chooseus-section {
-        padding: 80px 0;
-    }
-
-    .chooseus-section .section-title h2 {
-        font-size: 36px;
-    }
-
-    .chooseus-section .section-title .short-details {
-        font-size: 16px;
-    }
-
-    .choose-item {
-        min-height: 300px;
-        padding: 25px 20px;
-    }
-
-    .choose-item h5 {
-        font-size: 20px;
-    }
-
-    .choose-item img {
-        width: 60px;
-        height: 60px;
-    }
-
-    .choose-item .short-details {
-        font-size: 14px;
-        -webkit-line-clamp: 4;
-    }
-}
 
 /* Мобильные устройства (до 768px) */
-@media (max-width: 768px) {
-    .chooseus-section {
-        padding: 60px 0;
-    }
-
-    .chooseus-section .section-title {
-        margin-bottom: 40px;
-    }
-
-    .chooseus-section .section-title h2 {
-        font-size: 28px;
-    }
-
-    .chooseus-section .section-title .short-details {
-        font-size: 14px;
-    }
-
-    .choose-item {
-        min-height: 280px;
-        padding: 20px 15px;
-        margin-bottom: 20px;
-    }
-
-    .choose-item h5 {
-        font-size: 18px;
-        margin-bottom: 10px;
-    }
-
-    .choose-item .short-details {
-        font-size: 13px;
-        -webkit-line-clamp: 3;
-    }
-
-    .choose-item img {
-        width: 50px;
-        height: 50px;
-        margin-bottom: 15px;
-    }
-}
 
 /* Маленькие мобильные (до 480px) */
-@media (max-width: 480px) {
-    .chooseus-section {
-        padding: 50px 0;
-    }
-
-    .chooseus-section .section-title h2 {
-        font-size: 24px;
-    }
-
-    .choose-item {
-        min-height: 260px;
-        padding: 15px 12px;
-    }
-
-    .choose-item h5 {
-        font-size: 16px;
-    }
-
-    .choose-item .short-details {
-        font-size: 12px;
-        -webkit-line-clamp: 3;
-    }
-
-    .choose-item img {
-        width: 45px;
-        height: 45px;
-    }
-}
 
 /* Большие экраны */
-@media (min-width: 1400px) {
-    .choose-item {
-        min-height: 350px;
-        padding: 40px 30px;
-    }
-
-    .choose-item h5 {
-        font-size: 26px;
-    }
-
-    .choose-item .short-details {
-        font-size: 16px;
-    }
-
-    .choose-item img {
-        width: 85px;
-        height: 85px;
-    }
-}
 
 /* Анимация появления карточек */
 @keyframes chooseFadeInUp {

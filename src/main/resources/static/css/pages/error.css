@@ -119,9 +119,9 @@
     display: inline-block;
     margin-top: 30px;
     padding: 12px 30px;
-    background: -webkit-gradient(linear, left top, right top, from(#e16521), to(#e4381c));
-    background: -o-linear-gradient(left, #e16521, #e4381c);
-    background: linear-gradient(90deg, #e16521, #e4381c);
+    background: -webkit-gradient(linear, left top, right top, from(var(--color-primary-light)), to(var(--color-primary)));
+    background: -o-linear-gradient(left, var(--color-primary-light), var(--color-primary));
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     color: #ffffff;
     text-decoration: none;
     border-radius: 4px;
@@ -157,7 +157,7 @@
 }
 
 .suggestions h4 {
-    color: #e4381c;
+    color: var(--color-primary);
     margin-bottom: 10px;
     font-family: "Oswald", sans-serif;
     font-size: 18px;
@@ -183,7 +183,7 @@
 .report-link {
     display: inline-block;
     margin-top: 15px;
-    color: #e4381c;
+    color: var(--color-primary);
     text-decoration: none;
     font-family: "Nunito Sans", sans-serif;
     font-size: 14px;
@@ -193,7 +193,7 @@
 }
 
 .report-link:hover {
-    color: #e16521;
+    color: var(--color-primary-light);
     text-decoration: underline;
 }
 
@@ -211,62 +211,3 @@
 /*---------------------
   Responsive
 -----------------------*/
-
-@media (max-width: 768px) {
-    .error-container {
-        padding: 30px 20px;
-    }
-
-    .error-code {
-        font-size: 80px;
-    }
-
-    .error-icon {
-        font-size: 60px;
-    }
-
-    .error-container h1 {
-        font-size: 24px;
-    }
-
-    .error-message {
-        font-size: 16px;
-    }
-
-    .error-details {
-        font-size: 12px;
-        padding: 8px 12px;
-    }
-
-    .suggestions h4 {
-        font-size: 16px;
-    }
-
-    .suggestions li {
-        font-size: 13px;
-    }
-}
-
-@media (max-width: 480px) {
-    .error-code {
-        font-size: 60px;
-    }
-
-    .error-icon {
-        font-size: 48px;
-        margin-bottom: 20px;
-    }
-
-    .error-container h1 {
-        font-size: 20px;
-    }
-
-    .error-message {
-        font-size: 14px;
-    }
-
-    .home-link {
-        padding: 10px 25px;
-        font-size: 12px;
-    }
-}

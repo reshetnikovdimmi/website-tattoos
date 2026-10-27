@@ -24,7 +24,7 @@
     font-size: 16px;
     font-weight: 500;
     font-family: "Nunito Sans", sans-serif;
-    color: #e4381C !important;
+    color: var(--color-primary);
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 15px;
@@ -39,7 +39,7 @@
     left: 0;
     width: 40px;
     height: 2px;
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
 }
 
 /* Короткий заголовок */
@@ -76,7 +76,7 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     background: transparent;
-    border: 2px solid #e4381C;
+    border: 2px solid var(--color-primary);
     border-radius: 50px;
     transition: all 0.3s ease;
     cursor: pointer;
@@ -84,7 +84,7 @@
 }
 
 .about-text .primary-btn:hover {
-    background: linear-gradient(90deg, #e16521, #e4381C);
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border-color: transparent;
     color: #ffffff;
     transform: translateY(-3px);
@@ -118,105 +118,18 @@
 }
 
 /* Центрируем изображение на мобильных */
-@media (max-width: 992px) {
-    .about-img {
-        margin: 0 auto;
-    }
-}
 
 /* Адаптивность для мобильных - уменьшаем размер */
-@media (max-width: 768px) {
-    .about-img {
-        max-width: 100%;
-        height: 300px;
-    }
-}
-
-@media (max-width: 576px) {
-    .about-img {
-        height: 250px;
-    }
-}
-
-@media (max-width: 480px) {
-    .about-img {
-        height: 200px;
-    }
-}
 
 /* ------------------------------
    АДАПТИВНОСТЬ
 ------------------------------ */
 
 /* Планшеты (до 992px) */
-@media (max-width: 992px) {
-    .home-about {
-        padding: 70px 0;
-    }
-
-    .about-text {
-        padding-right: 0;
-        margin-bottom: 40px;
-        text-align: center;
-    }
-
-    .about-text h3::after {
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .about-text .short-details {
-        font-size: 32px;
-    }
-
-    .about-text .long-details {
-        font-size: 15px;
-    }
-}
 
 /* Мобильные устройства (до 768px) */
-@media (max-width: 768px) {
-    .home-about {
-        padding: 50px 0;
-    }
-
-    .about-text .short-details {
-        font-size: 28px;
-    }
-
-    .about-text .long-details {
-        font-size: 14px;
-    }
-
-    .about-text .primary-btn {
-        padding: 10px 24px;
-        font-size: 12px;
-    }
-}
 
 /* Маленькие мобильные (до 480px) */
-@media (max-width: 480px) {
-    .home-about {
-        padding: 40px 0;
-    }
-
-    .about-text h3 {
-        font-size: 14px;
-    }
-
-    .about-text .short-details {
-        font-size: 24px;
-    }
-
-    .about-text .long-details {
-        font-size: 13px;
-    }
-
-    .about-text .primary-btn {
-        padding: 8px 20px;
-        font-size: 11px;
-    }
-}
 
 /* Анимация появления */
 @keyframes aboutFadeInUp {
