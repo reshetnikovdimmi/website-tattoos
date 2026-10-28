@@ -6,6 +6,7 @@
 .admin-card {
     background: var(--gradient-dark);
     border-radius: var(--radius-lg);
+    margin-bottom: 30px;
     overflow: hidden;
     border: 1px solid rgba(228, 56, 28, 0.2);
     transition: all var(--transition-normal);
