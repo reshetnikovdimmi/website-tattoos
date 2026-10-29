@@ -27,7 +27,6 @@ public class User{
     @NotBlank(message = "Пароль не может быть пустым")
     @Size(min = 6, max = 100, message = "Пароль должен содержать от 6 до 100 символов")
     private String password;
-    @NotBlank(message = "Роль не может быть пустой")
     private String role;
     @Column(unique=true)
     @NotBlank(message = "Email не может быть пустым")
@@ -36,8 +35,6 @@ public class User{
     private String email;
     @Pattern(regexp = "^.*\\.(jpg|jpeg|png|gif|webp)$", message = "Допустимые форматы: JPG, JPEG, PNG, GIF, WEBP")
     private String avatar;
-    @NotNull(message = "Дата регистрации не может быть пустой")
-    @PastOrPresent(message = "Дата регистрации не может быть в будущем")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date date;

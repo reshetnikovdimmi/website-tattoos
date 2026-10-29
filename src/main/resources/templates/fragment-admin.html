@@ -2399,12 +2399,12 @@
 
                     <div class="contact-admin">
                         <div class="container-contact-info" th:fragment="contact-admin">
-                            <div class="contact-info-card">
-                                <div class="contact-info-header">
+                            <div class="admin-card">
+                                <div class="admin-card-header">
                                     <i class="fa fa-address-card"></i>
                                     <h4>Редактирование контактов</h4>
                                 </div>
-                                <div class="contact-info-body">
+                                <div class="admin-card-body">
                                     <form th:id="${contactInfo?.id}" action="/admin/setting/contact/import"
                                           onsubmit="submitForm(event)"
                                           method="post"
@@ -2448,9 +2448,9 @@
                                         <!-- Email -->
                                         <div class="contact-input-group">
                                             <div class="input-group">
-                        <span class="input-group-text contact-input-icon">
-                            <i class="fa fa-envelope"></i>
-                        </span>
+                                                    <span class="input-group-text contact-input-icon">
+                                                        <i class="fa fa-envelope"></i>
+                                                    </span>
                                                 <input type="email"
                                                        class="form-control contact-input-field"
                                                        th:name="email"
@@ -2465,9 +2465,9 @@
                                         <!-- Адрес -->
                                         <div class="contact-input-group">
                                             <div class="input-group">
-                        <span class="input-group-text contact-input-icon">
-                            <i class="fa fa-map-marker"></i>
-                        </span>
+                                                    <span class="input-group-text contact-input-icon">
+                                                        <i class="fa fa-map-marker"></i>
+                                                    </span>
                                                 <input type="text"
                                                        class="form-control contact-input-field"
                                                        th:name="address"
@@ -2483,9 +2483,9 @@
                                         <!-- Часы работы -->
                                         <div class="contact-input-group">
                                             <div class="input-group">
-                        <span class="input-group-text contact-input-icon">
-                            <i class="fa fa-clock-o"></i>
-                        </span>
+                                                    <span class="input-group-text contact-input-icon">
+                                                        <i class="fa fa-clock-o"></i>
+                                                    </span>
                                                 <input type="text"
                                                        class="form-control contact-input-field"
                                                        th:name="workHours"
@@ -2499,9 +2499,9 @@
                                         <!-- ===== ПОЛЕ ДЛЯ IFRAME ССЫЛКИ ===== -->
                                         <div class="contact-input-group">
                                             <div class="input-group">
-                        <span class="input-group-text contact-input-icon">
-                            <i class="fa fa-code"></i>
-                        </span>
+                                                    <span class="input-group-text contact-input-icon">
+                                                        <i class="fa fa-code"></i>
+                                                    </span>
                                                 <input type="text"
                                                        class="form-control contact-input-field"
                                                        th:name="mapIframe"
@@ -2653,8 +2653,8 @@
                             <!-- Ищем первый элемент с section == 'breadcrumb' -->
                             <div th:with="breadcrumbSetting=${setting != null ? setting.^[section == 'breadcrumb'] : null}">
 
-                                <div th:if="${breadcrumbSetting != null}" class="breadcrumb-card">
-                                    <div class="breadcrumb-card-header">
+                                <div th:if="${breadcrumbSetting != null}" class="admin-card">
+                                    <div class="admin-card-header">
                                         <i class="fa fa-image"></i>
                                         <h4>Изображение Breadcrumb</h4>
                                     </div>
@@ -2745,8 +2745,8 @@
                         </div>
 
                         <div th:fragment="logo" th:each="current: ${setting}" th:if="${current.section == 'logo'}">
-                            <div class="logo-card">
-                                <div class="logo-card-header">
+                            <div class="admin-card">
+                                <div class="admin-card-header">
                                     <i class="fa fa-image"></i>
                                     <h4>Логотип сайта</h4>
                                     <span class="section-badge">Основной логотип</span>
@@ -2831,14 +2831,14 @@
 
                             <!-- Главная страница -->
                             <div class="home-title" th:fragment="home-title">
-                                <div class="description-card" th:each="current: ${setting}"
+                                <div class="admin-card" th:each="current: ${setting}"
                                      th:if="${current.section == 'home-title'}">
-                                    <div class="description-card-header">
+                                    <div class="admin-card-header">
                                         <i class="fa fa-home"></i>
                                         <h4>Главная страница</h4>
                                         <span class="section-badge">SEO мета-теги</span>
                                     </div>
-                                    <div class="description-card-body">
+                                    <div class="admin-card-body">
                                         <form th:id="${current.id}" action="/admin/setting/import"
                                               onsubmit="submitForm(event)"
                                               method="post"
@@ -2870,14 +2870,14 @@
 
                             <!-- Галерея -->
                             <div class="gallery-title" th:fragment="gallery-title">
-                                <div class="description-card" th:each="current: ${setting}"
+                                <div class="admin-card" th:each="current: ${setting}"
                                      th:if="${current.section == 'gallery-title'}">
-                                    <div class="description-card-header">
+                                    <div class="admin-card-header">
                                         <i class="fa fa-picture-o"></i>
                                         <h4>Галерея</h4>
                                         <span class="section-badge">SEO мета-теги</span>
                                     </div>
-                                    <div class="description-card-body">
+                                    <div class="admin-card-body">
                                         <form th:id="${current.id}" action="/admin/setting/import"
                                               onsubmit="submitForm(event)"
                                               method="post"
@@ -2909,14 +2909,14 @@
 
                             <!-- Эскизы -->
                             <div class="sketchers-title" th:fragment="sketchers-title">
-                                <div class="description-card" th:each="current: ${setting}"
+                                <div class="admin-card" th:each="current: ${setting}"
                                      th:if="${current.section == 'sketchers-title'}">
-                                    <div class="description-card-header">
+                                    <div class="admin-card-header">
                                         <i class="fa fa-pencil-square-o"></i>
                                         <h4>Эскизы</h4>
                                         <span class="section-badge">SEO мета-теги</span>
                                     </div>
-                                    <div class="description-card-body">
+                                    <div class="admin-card-body">
                                         <form th:id="${current.id}" action="/admin/setting/import"
                                               onsubmit="submitForm(event)"
                                               method="post"
@@ -2948,14 +2948,14 @@
 
                             <!-- Блог -->
                             <div class="blog-title" th:fragment="blog-title">
-                                <div class="description-card" th:each="current: ${setting}"
+                                <div class="admin-card" th:each="current: ${setting}"
                                      th:if="${current.section == 'blog-title'}">
-                                    <div class="description-card-header">
+                                    <div class="admin-card-header">
                                         <i class="fa fa-newspaper-o"></i>
                                         <h4>Блог</h4>
                                         <span class="section-badge">SEO мета-теги</span>
                                     </div>
-                                    <div class="description-card-body">
+                                    <div class="admin-card-body">
                                         <form th:id="${current.id}" action="/admin/setting/import"
                                               onsubmit="submitForm(event)"
                                               method="post"
@@ -2987,14 +2987,14 @@
 
                             <!-- Отзывы -->
                             <div class="reviews-title" th:fragment="reviews-title">
-                                <div class="description-card" th:each="current: ${setting}"
+                                <div class="admin-card" th:each="current: ${setting}"
                                      th:if="${current.section == 'reviews-title'}">
-                                    <div class="description-card-header">
+                                    <div class="admin-card-header">
                                         <i class="fa fa-star"></i>
                                         <h4>Отзывы</h4>
                                         <span class="section-badge">SEO мета-теги</span>
                                     </div>
-                                    <div class="description-card-body">
+                                    <div class="admin-card-body">
                                         <form th:id="${current.id}" action="/admin/setting/import"
                                               onsubmit="submitForm(event)"
                                               method="post"
@@ -3043,13 +3043,13 @@
                         </div>
 
                         <div class="footer-title" th:fragment="footer-title">
-                            <div class="footer-card" th:with="footerSettings=${setting.?[section == 'footer-title']}">
+                            <div class="admin-card" th:with="footerSettings=${setting.?[section == 'footer-title']}">
                                 <div th:each="current: ${footerSettings}">
-                                    <div class="footer-card-header">
+                                    <div class="admin-card-header">
                                         <i class="fa fa-credit-card"></i>
                                         <h4>Текст футера</h4>
                                     </div>
-                                    <div class="footer-card-body">
+                                    <div class="admin-card-body">
                                         <form th:id="${current.id}" action="/admin/setting/footer/import"
                                               onsubmit="submitForm(event)"
                                               method="post"
@@ -3085,11 +3085,11 @@
                                 </div>
                                 <!-- Блок "пустое состояние", если данных нет -->
                                 <div th:if="${footerSettings.empty}">
-                                    <div class="footer-card-header">
+                                    <div class="admin-card-header">
                                         <i class="fa fa-credit-card"></i>
                                         <h4>Текст футера</h4>
                                     </div>
-                                    <div class="footer-card-body">
+                                    <div class="admin-card-body">
                                         <form action="/admin/setting/footer/import"
                                               onsubmit="submitForm(event)"
                                               method="post"

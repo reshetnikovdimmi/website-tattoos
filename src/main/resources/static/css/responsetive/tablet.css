@@ -893,12 +893,6 @@
     .breadcrumb-image {
         height: 200px;
     }
-    .footer-card,
-    .logo-card,
-    .breadcrumb-card {
-        max-width: 90%;
-        margin: 0 auto;
-    }
     .description-grid {
         grid-template-columns: 1fr;
         gap: 20px;
@@ -920,22 +914,11 @@
         grid-template-columns: 1fr;
         gap: 20px;
     }
-    .admin-card-header,
-    .admin-card-header,
-    .breadcrumb-card-header,
-    .logo-card-header,
-    .footer-card-header,
-    .description-card-header,
-    .contact-info-header {
+    .admin-card-header {
         flex-direction: column;
         text-align: center;
     }
-    .admin-card-body,
-    .breadcrumb-card-body,
-    .logo-card-body,
-    .footer-card-body,
-    .description-card-body,
-    .contact-info-body {
+    .admin-card-body {
         padding: 20px;
     }
     .admin-upload-area,

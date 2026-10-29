@@ -143,6 +143,16 @@
     gap: 30px;
 }
 
+.admin-upload-col,
+.admin-form-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-upload-col {
+    align-items: center;
+}
+
 /* ------------------------------
    ПОЛЯ ВВОДА (унифицированные)
 ------------------------------ */
@@ -248,6 +258,25 @@
     transition: all 0.3s ease;
 }
 
+.admin-upload-area.no-image,
+.logo-image-area.no-image,
+.breadcrumb-image-area.no-image {
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+}
+
+.admin-upload-area.no-image::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    border: 3px solid rgba(228, 56, 28, 0.3);
+    border-radius: 50%;
+    z-index: 0;
+}
+
 .admin-upload-area:hover,
 .logo-image-area:hover,
 .breadcrumb-image-area:hover {
@@ -262,6 +291,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 .admin-upload-area .upload-overlay,
@@ -1538,6 +1568,20 @@
     overflow: hidden;
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: stretch;
+}
+
+.contact-input-group .input-group > * {
+    border-radius: 0;
+}
+
+.contact-input-group .input-group > *:first-child {
+    border-radius: 12px 0 0 12px;
+}
+
+.contact-input-group .input-group > *:last-child {
+    border-radius: 0 12px 12px 0;
 }
 
 .contact-input-group .input-group:hover {
@@ -1556,10 +1600,32 @@
     color: var(--color-primary);
     font-size: 18px;
     width: 55px;
+    min-width: 55px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px 0 0 12px !important;
+    flex-shrink: 0;
+    background: transparent;
+}
+
+/* Стили для input-group-text в тёмной теме */
+.contact-input-group .input-group-text {
+    background: transparent;
+    border: none;
+    color: var(--color-primary);
+    font-size: 18px;
+    width: 55px;
+    min-width: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 14px 0;
+}
+
+.contact-input-group .input-group {
+    border: none;
+    box-shadow: none;
 }
 
 .contact-input-field {
@@ -1569,6 +1635,9 @@
     font-size: 15px;
     padding: 14px 15px;
     font-family: "Nunito Sans", sans-serif;
+    width: 100%;
+    flex: 1;
+    min-width: 0;
 }
 
 .contact-input-field:focus {
@@ -1578,10 +1647,42 @@
 }
 
 .contact-input-field:disabled {
-    background: rgba(0, 0, 0, 0.2);
-    color: #8f8fa8;
-    cursor: not-allowed;
+    background: transparent;
+    color: #ffffff;
+    cursor: default;
+    opacity: 1;
 }
+
+/* Переопределение Bootstrap .form-control для контактных полей */
+.contact-input-field.form-control {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 14px 15px;
+    border-radius: 0;
+    color: #ffffff;
+    font-size: 15px;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.contact-input-field.form-control:disabled,
+.contact-input-field.form-control[disabled] {
+    background: transparent;
+    color: #ffffff;
+    cursor: default;
+    opacity: 1;
+}
+
+.contact-input-field.form-control::placeholder {
+    color: #8f8fa8;
+    opacity: 0.7;
+}
+
+/* ------------------------------
+   CONTACT INFO CARD (использует .admin-card из cards.css)
+------------------------------ */
+/* .contact-info-card, .contact-info-header, .contact-info-body — удалены,
+   используется общий класс .admin-card из components/cards.css */
 
 .contact-edit-btn {
     max-width: 250px;
@@ -1749,7 +1850,8 @@ form.active .category-description-input,
 form.active .h4-input,
 form.active .h2-input,
 form.active .p-input,
-form.active .list-item-input {
+form.active .list-item-input,
+form.active .contact-input-field {
     background: rgba(228, 56, 28, 0.1);
     border-color: var(--color-primary);
 }
@@ -2079,11 +2181,6 @@ form.active .edit-category-btn:hover {
 
 .fade-in-up,
 .admin-card,
-.breadcrumb-card,
-.logo-card,
-.footer-card,
-.description-card,
-.contact-info-card,
 .blog-gallery-card,
 .admin-text-card,
 .user-card {
