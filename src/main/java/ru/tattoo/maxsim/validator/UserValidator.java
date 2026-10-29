@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import ru.tattoo.maxsim.model.DTO.RegistrationForm;
 import ru.tattoo.maxsim.model.User;
 import ru.tattoo.maxsim.service.impl.UserDetailsServiceImpl;
 
@@ -17,7 +18,7 @@ public class UserValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return User.class.equals(clazz);
+        return User.class.equals(clazz) || RegistrationForm.class.equals(clazz);
     }
 
     @Override
@@ -28,5 +29,12 @@ public class UserValidator implements Validator {
             errors.rejectValue("login", "400", "Username already exists");
         }
 
+    }
+
+    public void validateRegistration(RegistrationForm form, Errors errors) {
+        Optional<User> userFromDB = userDetailsService.loadUserOptionalByUsername(form.getLogin());
+        if (userFromDB.isPresent()) {
+            errors.rejectValue("login", "400", "Username already exists");
+        }
     }
 }
