@@ -19,7 +19,7 @@ import java.text.ParseException;
 
 @Controller
 @RequestMapping(ContactController.URL)
-public class ContactController extends CRUDController<ContactInfo, Long> {
+public class ContactController{
 
     public static final String URL = "/contact";
 
@@ -36,8 +36,9 @@ public class ContactController extends CRUDController<ContactInfo, Long> {
     private SettingWebsiteService settingWebsiteService;
 
     @GetMapping()
-    public String gallery(Model model) {
+    public String contact(Model model) {
         model.addAttribute("details", new EmailDetails());
+        model.addAttribute("contact" , contactInfoService.findAll());
         return "contact";
     }
 
@@ -54,30 +55,5 @@ public class ContactController extends CRUDController<ContactInfo, Long> {
 
         model.addAttribute("details", new EmailDetails());
         return "Index::contact-form";
-    }
-
-    @Override
-    protected String getFragmentName() {
-        return "fragments::footer";
-    }
-
-    @Override
-    protected CRUDService<ContactInfo, Long> getService() {
-        return contactInfoService;
-    }
-
-    @Override
-    protected void updateSection(Model model) {
-        model.addAttribute("contactInfo", contactInfoRepository.findLimit());
-        model.addAttribute("setting", settingWebsiteService.findAll());
-    }
-
-    @Override
-    @PostMapping("/import")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public String createEntity(@ModelAttribute("entity") ContactInfo object,
-                               @RequestParam(value = "fragment", required = false) String fragmentName,
-                               Model model) throws IOException, ParseException {
-        return super.createEntity(object, fragmentName, model);
     }
 }

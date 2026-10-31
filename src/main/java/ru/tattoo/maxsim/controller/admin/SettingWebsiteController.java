@@ -12,6 +12,7 @@ import ru.tattoo.maxsim.model.*;
 import ru.tattoo.maxsim.model.DTO.DiskItem;
 import ru.tattoo.maxsim.repository.SettingWebsiteRepository;
 import ru.tattoo.maxsim.service.BackupSettingsService;
+import ru.tattoo.maxsim.service.HtmlSanitizerService;
 import ru.tattoo.maxsim.service.interf.*;
 
 import java.io.IOException;
@@ -37,6 +38,8 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     private SiteVerificationService verificationService;
     @Autowired
     private BackupSettingsService settingsService;
+    @Autowired
+    private HtmlSanitizerService htmlSanitizerService;
 
     @GetMapping()
     private String getGalleryFragment(Model model, HttpServletRequest request) {
@@ -68,6 +71,13 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
         log.info("   Email: {}", object.getEmail());
         log.info("   Адрес: {}", object.getAddress());
         log.info("   Часы работы: {}", object.getWorkHours());
+
+        // C3 FIX: Санитизация mapIframe для предотвращения XSS
+        if (object.getMapIframe() != null && !object.getMapIframe().isEmpty()) {
+            String sanitized = htmlSanitizerService.sanitize(object.getMapIframe());
+            object.setMapIframe(sanitized);
+            log.info("✅ mapIframe санитизирован (удалены опасные теги и скрипты)");
+        }
 
         contactInfoService.create(object);
         return "fragments::footer";
