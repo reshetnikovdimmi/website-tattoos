@@ -597,8 +597,8 @@
             <div class="col-lg-8 position-relative">
                 <div class="map-widget-wrapper">
                     <div class="map-widget">
-                        <!-- Вставляем полноценный виджет из БД -->
-                        <div th:utext="${current.mapIframe}"></div>
+                        <!-- Вставляем полноценный виджет из БД (безопасно, с экранированием) -->
+                        <div th:text="${current.mapIframe}"></div>
                     </div>
                 </div>
 
@@ -631,12 +631,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="info-block map-contact-form">
-                        <div th:fragment="map-contact-form">
+                    <div class="info-block contact-form">
+                        <div th:fragment="contact-form">
                             <h5>СВЯЗАТЬСЯ</h5>
                             <form th:method="POST"
-                                  th:onsubmit="sendMail(event, '.map-contact-form')"
-                                  th:action="@{/mail}"
+                                  th:onsubmit="sendMail(event, '.contact-form')"
+                                  th:action="@{/contact/send-mail}"
                                   th:object="${details}">
 
                                 <input type="text" name="name" placeholder="Имя" required>

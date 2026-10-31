@@ -99,25 +99,8 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-8 offset-lg-1">
-                    <div class="contact-form" th:fragment="contact-form">
-                        <h4>Связаться</h4>
-                        <form th:method="POST" th:onsubmit="sendMail(event, '.contact-form')" th:action="@{/contact/send-mail}" th:object="${details}">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <input name="name" type="text" placeholder="Имя" required>
-                                </div>
-                                <div class="col-lg-6">
-                                    <input name="subject" type="text" placeholder="Телефон" required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <textarea name="msgBody" placeholder="Текст" required></textarea>
-                                    <button type="submit" class="c-btn">Отправить</button>
-                                </div>
-                                <div class="status-message" style="color: #FFFFFF" th:text="${status}"></div>
-                            </div>
-                        </form>
-                    </div>
+                <div class="col-lg-8 offset-lg-1 info-block contact-form">
+                    <div th:replace="~{Index::contact-form}"></div>
                 </div>
             </div>
         </div>

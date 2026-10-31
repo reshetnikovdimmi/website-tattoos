@@ -41,7 +41,7 @@ public class SecurityConfig {
                                 "/process-registration",
                                 "/about-me",
                                 "/blog",
-                                "/contact",
+                                "/contact/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/sitemap.xml",

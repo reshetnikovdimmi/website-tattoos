@@ -1,6 +1,7 @@
 package ru.tattoo.maxsim.controller.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,9 @@ import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.service.interf.ContactInfoService;
 import ru.tattoo.maxsim.service.interf.EmailService;
 import ru.tattoo.maxsim.service.interf.SettingWebsiteService;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 @Controller
 @RequestMapping(ContactController.URL)
@@ -49,7 +53,7 @@ public class ContactController extends CRUDController<ContactInfo, Long> {
            }
 
         model.addAttribute("details", new EmailDetails());
-        return "contact::contact-form";
+        return "Index::contact-form";
     }
 
     @Override
@@ -66,5 +70,14 @@ public class ContactController extends CRUDController<ContactInfo, Long> {
     protected void updateSection(Model model) {
         model.addAttribute("contactInfo", contactInfoRepository.findLimit());
         model.addAttribute("setting", settingWebsiteService.findAll());
+    }
+
+    @Override
+    @PostMapping("/import")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String createEntity(@ModelAttribute("entity") ContactInfo object,
+                               @RequestParam(value = "fragment", required = false) String fragmentName,
+                               Model model) throws IOException, ParseException {
+        return super.createEntity(object, fragmentName, model);
     }
 }
