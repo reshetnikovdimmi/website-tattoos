@@ -6,6 +6,9 @@
                logoSetting=${setting.^[section == 'logo']}">
 
     <meta charset="UTF-8">
+    <!-- H1 FIX: CSRF meta-теги для AJAX-запросов -->
+    <meta name="_csrf" th:content="${_csrf?.token}" />
+    <meta name="_csrf_header" th:content="${_csrf?.headerName}" />
     <meta name="zen-verification" content="Qs3KIKkBpZHRG9QIS3E1heKpO8wXZqWQbhTTWt7wQrr7XB6Iexi1cA15htzot9cG"/>
     <th:block th:fragment="verificationMetaTags">
         <!-- Яндекс верификация (мета-тег) -->
@@ -596,13 +599,11 @@
             <!-- Яндекс.Карта (iframe) -->
             <div class="col-lg-8 position-relative">
                 <div class="map-widget-wrapper">
-                    <div class="map-widget">
+                    <div class="map-widget" th:fragment="map-widget">
                         <!-- Вставляем полноценный виджет из БД (безопасно, с экранированием) -->
-                        <div th:text="${current.mapIframe}"></div>
+                        <div th:utext="${current.mapIframe}"></div>
                     </div>
                 </div>
-
-
             </div>
 
             <!-- Блок с контактами -->
@@ -614,8 +615,8 @@
                                 <div class="map-hover-icon">
                                     <i class="icon_pin_alt"></i>
                                 </div>
-                                <h5 th:text="${current.name}">Тату-студия Maxsim</h5>
-                                <p th:text="${current.address}">г. Омск, ул. Волочаевская, д. 15</p>
+                                <h5 th:text="${current.name}"></h5>
+                                <p th:text="${current.address}"></p>
                                 <ul class="work-time">
                                     <!-- Динамические часы работы (можно хранить в БД) -->
                                     <li th:each="hour : ${#strings.arraySplit(current.workHours, ',')}"

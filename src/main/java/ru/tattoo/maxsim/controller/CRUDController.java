@@ -23,7 +23,7 @@ public abstract class CRUDController<E, K>  {
 
 
 
-    @GetMapping("/delete-section/{id}")
+    @PostMapping("/delete-section/{id}")
     public String deleteEntity(@PathVariable("id") K id,
                                @RequestParam(value = "fragment", required = false) String fragmentName,
                                Model model) throws IOException {

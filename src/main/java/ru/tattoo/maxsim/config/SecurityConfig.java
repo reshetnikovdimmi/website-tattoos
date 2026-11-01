@@ -25,7 +25,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)  // Новый синтаксис вместо .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/**").hasAuthority(UserRole.ADMIN.toString())
                         .requestMatchers(

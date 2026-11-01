@@ -559,7 +559,7 @@ function deleteImage(buttonElement) {
     const fragmentName = buttonElement.dataset.fragmentName;
     const containerSelector = buttonElement.dataset.containerSelector;
     const deletionUrl = buttonElement.dataset.deletionUrl;
-    const method = buttonElement.dataset.method || 'DELETE';
+    const method = buttonElement.dataset.method || 'POST';
 
     if (!deletionUrl) {
         console.error('data-deletion-url не указан');
@@ -582,10 +582,17 @@ function deleteImage(buttonElement) {
         url += '?fragment=' + encodeURIComponent(fragmentName);
     }
 
+    // H1 FIX: CSRF-токен для POST-запросов
+    const csrfToken = $('meta[name="_csrf"]').attr('content');
+    const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+
     $.ajax({
         url: url,
         type: method,
-        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            ...(csrfToken && csrfHeader ? { [csrfHeader]: csrfToken } : {})
+        },
         success: function(response) {
             if (containerSelector && $(containerSelector).length) {
                 $(containerSelector).html(response);
