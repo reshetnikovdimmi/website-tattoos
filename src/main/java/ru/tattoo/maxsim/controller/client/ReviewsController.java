@@ -3,6 +3,7 @@ package ru.tattoo.maxsim.controller.client;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -64,12 +65,21 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
         return getFragmentName();
     }
 
+    // H2 FIX: Пользователи могут создавать отзывы, но userName берётся из Principal, а не из формы
     @PostMapping("/import")
     public String createEntity(@ModelAttribute() ReviewsUser object,
                                @RequestParam(value = "fragment", required = false) String fragmentName,
+                               Authentication authentication,
                                Model model) throws IOException, ParseException {
 
-        log.info("object={}",object);
+        // Игнорируем userName из формы, всегда используем текущего пользователя
+        if (authentication != null && authentication.isAuthenticated()) {
+            object.setUserName(authentication.getName());
+            log.info("Создание отзыва от имени: {}", object.getUserName());
+        } else {
+            log.warn("Попытка создания отзыва без авторизации");
+            return "redirect:/login";
+        }
 
         getService().create(object);
         updateSection(model);
