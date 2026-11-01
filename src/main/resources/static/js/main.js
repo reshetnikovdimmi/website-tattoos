@@ -361,6 +361,9 @@ async function submitForm(event) {
     button.textContent = 'Сохранение...';
 
     try {
+        // H1 FIX: CSRF-токен для POST-запросов форм
+        const csrfToken = $('meta[name="_csrf"]').attr('content');
+        
         const response = await $.ajax({
             url: formAction,
             dataType: 'html',
@@ -368,7 +371,8 @@ async function submitForm(event) {
             contentType: false,
             processData: false,
             data: formData,
-            type: 'POST'
+            type: 'POST',
+            headers: csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {}
         });
 
         console.log('✅ Ответ получен');
@@ -584,14 +588,13 @@ function deleteImage(buttonElement) {
 
     // H1 FIX: CSRF-токен для POST-запросов
     const csrfToken = $('meta[name="_csrf"]').attr('content');
-    const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
 
     $.ajax({
         url: url,
         type: method,
         headers: {
             'X-Requested-With': 'XMLHttpRequest',
-            ...(csrfToken && csrfHeader ? { [csrfHeader]: csrfToken } : {})
+            ...(csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {})
         },
         success: function(response) {
             if (containerSelector && $(containerSelector).length) {
@@ -982,13 +985,17 @@ async function testSmtpConnection() {
     const formData = new FormData(form);
 
     try {
+        // H1 FIX: CSRF-токен для POST-запросов
+        const csrfToken = $('meta[name="_csrf"]').attr('content');
+        
         const response = await $.ajax({
             url: '/admin/mail/test-connection',
             type: 'POST',
             dataType: 'html',
             data: formData,
             processData: false,
-            contentType: false
+            contentType: false,
+            headers: csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {}
         });
 
         console.log('🔌 Connection test:', response);
@@ -1061,13 +1068,17 @@ async function testSmtpConnection() {
          formData.append('testEmail', testEmail);
 
          try {
+             // H1 FIX: CSRF-токен для POST-запросов
+             const csrfToken = $('meta[name="_csrf"]').attr('content');
+             
              const response = await $.ajax({
                  url: '/admin/mail/test-send',
                  type: 'POST',
                  dataType: 'html',
                  data: formData,
                  processData: false,
-                 contentType: false
+                 contentType: false,
+                 headers: csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {}
              });
 
              console.log('✉️ Send test response received');
@@ -1244,9 +1255,12 @@ function toggleVerification(btn, id) {
 
     btn.disabled = true;
 
+    // H1 FIX: CSRF-токен для fetch-запросов
+    const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+    
     fetch('/admin/verification/toggle/' + id, {
-        method: 'POST'
-
+        method: 'POST',
+        headers: csrfToken ? { 'X-CSRF-TOKEN': csrfToken, 'Content-Type': 'application/x-www-form-urlencoded' } : {}
     })
     .then(function(response) {
         if (!response.ok) throw new Error('Ошибка сервера: ' + response.status);
