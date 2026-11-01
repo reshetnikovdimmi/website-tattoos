@@ -83,12 +83,10 @@ public class EmailServiceImpl implements EmailService {
     private SimpleMailMessage createMailMessage(EmailDetails details, MailSettings settings) {
         SimpleMailMessage msg = new SimpleMailMessage();
 
-        String to = (details.getRecipient() != null && !details.getRecipient().isBlank())
-                ? details.getRecipient()
-                : settings.getRecipientEmail();
-
+        // C5 FIX: Всегда использовать recipient из настроек, игнорировать поле из формы
+        // для предотвращения открытого почтового релея
         msg.setFrom(settings.getFromEmail());
-        msg.setTo(to);
+        msg.setTo(settings.getRecipientEmail());
         msg.setSubject(formatSubject(details));
         msg.setText(formatMessageBody(details));
 
