@@ -757,10 +757,15 @@ function toggleFeatured(checkbox) {
     const id = checkbox.getAttribute('data-id');
 
     checkbox.disabled = true;
+    
+    // H1 FIX: CSRF-токен для POST-запросов
+    const csrfToken = $('meta[name="_csrf"]').attr('content');
+    
     $.ajax({
         url: '/admin/gallery/toggle-featured',
         type: 'POST',
         data: { id: id, flag: isChecked },
+        headers: csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {},
         success: function(html) {
             modals();
             $('.modal-body').html(html);
@@ -1298,10 +1303,14 @@ async function testBackupConnection() {
     setBackupStatus('Проверка подключения...', 'text-muted');
 
     try {
+        // H1 FIX: CSRF-токен для POST-запросов
+        const csrfToken = $('meta[name="_csrf"]').attr('content');
+        
         const data = await $.ajax({
             url: '/admin/backup/test',
             type: 'POST',
-            dataType: 'json'
+            dataType: 'json',
+            headers: csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {}
         });
 
         if (data.success) {
@@ -1332,10 +1341,14 @@ async function createBackup() {
     setBackupStatus('Бэкап запускается...', 'text-muted');
 
     try {
+        // H1 FIX: CSRF-токен для POST-запросов
+        const csrfToken = $('meta[name="_csrf"]').attr('content');
+        
         const started = await $.ajax({
             url: '/admin/backup/create',
             type: 'POST',
-            dataType: 'json'
+            dataType: 'json',
+            headers: csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {}
         });
 
         if (!started.success) {
@@ -1415,11 +1428,15 @@ async function restoreBackup(stamp) {
     setBackupStatus('Восстановление из копии ' + stamp + '...', 'text-muted');
 
     try {
+        // H1 FIX: CSRF-токен для POST-запросов
+        const csrfToken = $('meta[name="_csrf"]').attr('content');
+        
         const started = await $.ajax({
             url: '/admin/backup/restore',
             type: 'POST',
             dataType: 'json',
-            data: { stamp: stamp, confirmation: 'RESTORE' }
+            data: { stamp: stamp, confirmation: 'RESTORE' },
+            headers: csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {}
         });
 
         if (!started.success) {
@@ -1495,11 +1512,15 @@ async function deleteBackup(fileName) {
     }
 
     try {
+        // H1 FIX: CSRF-токен для POST-запросов
+        const csrfToken = $('meta[name="_csrf"]').attr('content');
+        
         const data = await $.ajax({
             url: '/admin/backup/delete',
             type: 'POST',
             data: { fileName: fileName },
-            dataType: 'json'
+            dataType: 'json',
+            headers: csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {}
         });
 
         if (data.success) {
