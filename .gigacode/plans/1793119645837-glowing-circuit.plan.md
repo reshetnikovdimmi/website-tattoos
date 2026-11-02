@@ -317,7 +317,7 @@ public class UserForm {
 
 ## Этап 11: Код-ревью main.js (JS Security Fixes)
 
-### 11.1 ❌ Критично: Отсутствует CSRF-токен в 6+ функциях
+### 11.1 ✅ Критично: Отсутствует CSRF-токен в 6+ функциях
 
 **Проблема:** После включения CSRF (коммит `1ab0ce6`) все POST-запросы без токена возвращают 403 Forbidden.
 
@@ -325,12 +325,12 @@ public class UserForm {
 
 | # | Функция | Строки | URL | Статус |
 |---|---------|--------|-----|--------|
-| 1 | `sendMail()` | ~1090 | `/contact/send-mail` | ❌ Нет CSRF |
-| 2 | `toggleFeatured()` | ~910 | `/admin/gallery/toggle-featured` | ❌ Нет CSRF |
-| 3 | `testBackupConnection()` | ~1285 | `/admin/backup/test` | ❌ Нет CSRF |
-| 4 | `createBackup()` | ~1310 | `/admin/backup/create` | ❌ Нет CSRF |
-| 5 | `restoreBackup()` | ~1360 | `/admin/backup/restore` | ❌ Нет CSRF |
-| 6 | `deleteBackup()` | ~1400 | `/admin/backup/delete` | ❌ Нет CSRF |
+| 1 | `sendMail()` | ~1090 | `/contact/send-mail` | ✅ Добавлен CSRF |
+| 2 | `toggleFeatured()` | ~910 | `/admin/gallery/toggle-featured` | ✅ Добавлен CSRF |
+| 3 | `testBackupConnection()` | ~1285 | `/admin/backup/test` | ✅ Добавлен CSRF |
+| 4 | `createBackup()` | ~1310 | `/admin/backup/create` | ✅ Добавлен CSRF |
+| 5 | `restoreBackup()` | ~1360 | `/admin/backup/restore` | ✅ Добавлен CSRF |
+| 6 | `deleteBackup()` | ~1400 | `/admin/backup/delete` | ✅ Добавлен CSRF |
 
 **Фикс для каждой функции:**
 ```javascript
@@ -343,9 +343,11 @@ headers: csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {}
 
 **Файл:** `src/main/resources/static/js/main.js`
 
+**Статус:** ✅ Все 6 функций исправлены, CSRF токены добавлены
+
 ---
 
-### 11.2 ⚠️ XSS: showModalMessage() и modals() через innerHTML
+### 11.2 ✅ XSS: showModalMessage() и modals() через innerHTML
 
 **Проблема:** Вставка пользовательского/серверного контента через `innerHTML` без экранирования.
 
@@ -382,9 +384,11 @@ $('.modal-body').html(escapedResponse);
 
 **Файл:** `src/main/resources/static/js/main.js`
 
+**Статус:** ✅ escapeHtml() добавлен, showModalMessage() и modals() защищены
+
 ---
 
-### 11.3 ⚠️ fetch с Content-Type но без body
+### 11.3 ✅ fetch с Content-Type но без body
 
 **Проблема:** `toggleVerification()` — строка ~1263
 ```javascript
@@ -408,6 +412,8 @@ fetch('/admin/verification/toggle/' + id, {
 ```
 
 **Файл:** `src/main/resources/static/js/main.js`
+
+**Статус:** ✅ Content-Type удалён из fetch в toggleVerification()
 
 ---
 
