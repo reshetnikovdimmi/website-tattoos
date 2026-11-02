@@ -163,6 +163,24 @@
     padding-bottom: 100px;
 }
 
+/* Align "СВЯЗАТЬСЯ" with "ИНФОРМАЦИЯ" */
+.contact-form {
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.contact-form .info-block {
+    padding-top: 0;
+}
+
+.contact-section .row .col-lg-8 {
+    padding-top: 20px;
+}
+
+.contact-section .row .col-lg-3 .contact-info {
+    margin-top: 20px;
+}
+
 /*---------------------
   Contact Info & Address
 -----------------------*/
@@ -1041,3 +1059,47 @@
 /* Large Mobile : 480px */
 
 /* Small Mobile : 320px */
+
+/* ---------------------
+  Contact Page Full-Width Map
+-----------------------*/
+
+.contact-map-full {
+    position: relative;
+    width: 100vw;
+    height: 700px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    margin-top: 150px;
+    overflow: hidden;
+    background: #151515;
+}
+
+.contact-map-full .map-widget-wrapper {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background: #151515;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-map-full .map-widget {
+    width: 100%;
+    height: 100%;
+    border: none;
+    box-shadow: none;
+}
+
+.contact-map-full .map-widget iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    filter: grayscale(10%) contrast(95%);
+    transition: filter 0.3s ease;
+}
+
+.contact-map-full .map-widget iframe:hover {
+    filter: grayscale(0%) contrast(100%);
+}

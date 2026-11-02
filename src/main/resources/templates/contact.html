@@ -55,29 +55,11 @@
     <!-- Header End -->
 
     <!-- Map Section Begin -->
-    <div class="contact-map">
-        <iframe
-                src="https://yandex.ru/map-widget/v1/?ll=73.368229%2C54.987563&z=17&pt=73.368229%2C54.987563,pm2rdm&whatshere[point]=73.368229%2C54.987563&whatshere[zoom]=17"
-                width="100%"
-                height="530"
-                frameborder="0"
-                allowfullscreen>
-        </iframe>
-        <div class="map-hover">
-            <div class="map-hover-content">
-                <div class="map-hover-icon">
-                    <i class="icon_pin_alt"></i>
-                </div>
-                <h5>Тату-студия Maxsim</h5>
-                <p>г. Омск, ул. Лермонтова, д. 81</p>
-                <ul class="work-time">
-                    <li><span>Пн-Пт:</span> 09:00 - 18:00</li>
-                    <li><span>Сб-Вс:</span> Выходной</li>
-                </ul>
-                <a href="https://yandex.ru/maps/?rtext=~73.368229%2C54.987563" target="_blank" class="map-btn">Построить маршрут</a>
-            </div>
+        <div class="map-widget-wrapper" th:each="current : ${contact}">
+
+                <div th:replace="~{Index::map-widget}"></div>
+
         </div>
-    </div>
     <!-- Map Section End -->
 
     <!-- ContactController Section Begin -->

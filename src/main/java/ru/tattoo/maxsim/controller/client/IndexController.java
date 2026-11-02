@@ -46,26 +46,4 @@ public class IndexController {
         return "Index";
     }
 
-    @PostMapping("/mail")
-    public String sendMail(
-            @Valid @ModelAttribute("details") EmailDetails details,
-            BindingResult bindingResult,
-            Model model) {
-
-        log.debug("Processing email from: {}, subject: {}", details.getName(), details.getSubject());
-
-        if (bindingResult.hasErrors()) {
-            log.warn("Validation errors: {}", bindingResult.getAllErrors());
-            model.addAttribute("validationErrors", bindingResult.getAllErrors());
-            return "Index::map-contact-form";
-        }
-
-        boolean isSuccess = emailService.sendSimpleMail(details);
-        model.addAttribute("status", isSuccess
-                ? "Сообщение отправлено"
-                : "Ошибка при отправке. Проверьте настройки почты в админке.");
-
-        model.addAttribute("details", new EmailDetails());
-        return "Index::map-contact-form";
-    }
 }
