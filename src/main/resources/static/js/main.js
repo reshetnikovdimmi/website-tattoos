@@ -792,6 +792,13 @@ async function sendMail(event, fragmentPrefix) {
     const phoneRegex = /^(\+7|8)?\d{10}$/;
     let errors = [];
 
+    // Honeypot spam protection
+    const honeypot = form.querySelector('[name=website-url]');
+    if (honeypot && honeypot.value.trim()) {
+        console.log('⚠️ Honeypot: обнаружен бот, форма отклонена');
+        return; // Блокировать отправку от бота
+    }
+
     if (!nameInput.value.trim()) {
         errors.push('Имя не заполнено');
     } else if (nameInput.value.length < 2) {

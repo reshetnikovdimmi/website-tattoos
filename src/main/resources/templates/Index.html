@@ -644,6 +644,9 @@
                                 <input type="tel" name="subject" class="phone" placeholder="Телефон" required>
                                 <textarea name="msgBody" placeholder="Сообщение" required></textarea>
 
+                                <!-- Honeypot field for spam protection (hidden from humans) -->
+                                <input type="text" name="website-url" id="honeypot" tabindex="-1" autocomplete="off" style="position:absolute; left:-9999px; opacity:0; height:0; width:0; padding:0; border:0;" readonly>
+
                                 <button type="submit">ОТПРАВИТЬ</button>
                                 <div class="status-message" style="display:none;" th:text="${status}"></div>
                             </form>

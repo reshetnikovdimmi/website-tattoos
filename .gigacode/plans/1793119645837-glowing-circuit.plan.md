@@ -315,6 +315,169 @@ public class UserForm {
 
 ---
 
+## Этап 11: Код-ревью main.js (JS Security Fixes)
+
+### 11.1 ❌ Критично: Отсутствует CSRF-токен в 6+ функциях
+
+**Проблема:** После включения CSRF (коммит `1ab0ce6`) все POST-запросы без токена возвращают 403 Forbidden.
+
+**Затронутые функции (6 штук):**
+
+| # | Функция | Строки | URL | Статус |
+|---|---------|--------|-----|--------|
+| 1 | `sendMail()` | ~1090 | `/contact/send-mail` | ❌ Нет CSRF |
+| 2 | `toggleFeatured()` | ~910 | `/admin/gallery/toggle-featured` | ❌ Нет CSRF |
+| 3 | `testBackupConnection()` | ~1285 | `/admin/backup/test` | ❌ Нет CSRF |
+| 4 | `createBackup()` | ~1310 | `/admin/backup/create` | ❌ Нет CSRF |
+| 5 | `restoreBackup()` | ~1360 | `/admin/backup/restore` | ❌ Нет CSRF |
+| 6 | `deleteBackup()` | ~1400 | `/admin/backup/delete` | ❌ Нет CSRF |
+
+**Фикс для каждой функции:**
+```javascript
+// Перед $.ajax() добавить:
+const csrfToken = $('meta[name="_csrf"]').attr('content');
+
+// В $.ajax() добавить:
+headers: csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {}
+```
+
+**Файл:** `src/main/resources/static/js/main.js`
+
+---
+
+### 11.2 ⚠️ XSS: showModalMessage() и modals() через innerHTML
+
+**Проблема:** Вставка пользовательского/серверного контента через `innerHTML` без экранирования.
+
+**Места:**
+- `showModalMessage()` — строка ~460: `modalBody.html(...)` вставляет `message` из параметра
+- `modals()` — строка ~475: `$('.modal-body').html(xhr.responseText)` вставляет raw response
+
+**Риски:**
+- Если сервер вернёт HTML с `<script>` или `<img onerror=...>`, он выполнится
+- Хотя сообщения генерируются сервером, XSS-защита не лишняя
+
+**Фикс:**
+```javascript
+// showModalMessage():
+modalBody.html(`
+    <div style="text-align: center; padding: 10px;">
+        <div style="font-size: 48px; margin-bottom: 10px;">${escapeHtml(icon)}</div>
+        <p class="${messageClass}" style="margin: 0; font-size: 16px;">${escapeHtml(message)}</p>
+    </div>
+`);
+
+// Добавить helper:
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// modals():
+// Экранировать xhr.responseText перед вставкой
+const escapedResponse = escapeHtml(xhr.responseText);
+$('.modal-body').html(escapedResponse);
+```
+
+**Файл:** `src/main/resources/static/js/main.js`
+
+---
+
+### 11.3 ⚠️ fetch с Content-Type но без body
+
+**Проблема:** `toggleVerification()` — строка ~1263
+```javascript
+fetch('/admin/verification/toggle/' + id, {
+    method: 'POST',
+    headers: {
+        'X-CSRF-TOKEN': csrfToken,
+        'Content-Type': 'application/x-www-form-urlencoded'  // ❌ Без body!
+    }
+})
+```
+
+**Риск:** Spring может не распознать запрос как валидный, вернёт 400 Bad Request.
+
+**Фикс:** Убрать `Content-Type` из заголовков (fetch определит автоматически):
+```javascript
+fetch('/admin/verification/toggle/' + id, {
+    method: 'POST',
+    headers: csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {}
+})
+```
+
+**Файл:** `src/main/resources/static/js/main.js`
+
+---
+
+### 11.4 ✅ sendMail() — спам-уязвимость (Honeypot)
+
+**Проблема:** Форма обратной связи на `/contact/send-mail` — публичный endpoint (`permitAll`), нет защиты от спама.
+
+**Решение:** Honeypot — скрытое поле, которое заполняют боты, но не люди.
+
+**Статус:** ✅ Реализовано
+
+**Изменённые файлы:**
+- `src/main/resources/templates/Index.html` — добавлено honeypot поле `website-url`
+- `src/main/resources/static/js/main.js` — проверка honeypot в `sendMail()`
+
+**Реализация:**
+1. Добавить скрытое поле в форму contact-form:
+```html
+<input type="text" name="website-url" id="honeypot" tabindex="-1" autocomplete="off" style="position:absolute; left:-9999px; opacity:0;">
+```
+2. В `sendMail()` добавить проверку:
+```javascript
+const honeypot = form.querySelector('[name=website-url]');
+if (honeypot && honeypot.value.trim()) {
+    console.log('⚠️ Honeypot: обнаружен бот');
+    return; // Блокировать отправку
+}
+```
+
+---
+
+## Порядок выполнения
+
+```
+1. 11.1 — Добавить CSRF во все POST-запросы (критично, ломает функционал)
+2. 11.2 — Добавить escapeHtml() и экранирование в showModalMessage()/modals()
+3. 11.3 — Исправить fetch в toggleVerification()
+4. 11.4 — Добавить honeypot в sendMail() (опционально, по желанию)
+```
+
+---
+
+## Проверка
+
+1. Собрать проект: `mvn clean compile` ✅
+2. Протестировать все формы:
+   - Админ-панель: создание/удаление слайдов, изображений
+   - Настройки почты: test-connection, test-send
+   - Бэкапы: test, create, restore, delete
+   - Форма обратной связи: sendMail
+   - Верификация: toggle
+3. Проверить, что CSRF-токен передаётся во всех AJAX-запросах
+4. Проверить, что XSS не работает (попробовать вставить `<script>alert(1)</script>` в форму)
+
+## Итог
+
+**Исправлено:**
+- 6 функций с отсутствующим CSRF → теперь все POST защищены
+- 2 функции с XSS через innerHTML → теперь экранируются
+- 1 fetch с Content-Type без body → исправлен
+- 1 форма без защиты от спама → honeypot (опционально)
+
+**Файлы:**
+- `src/main/resources/static/js/main.js` (6 функций)
+- `src/main/resources/templates/Index.html` (honeypot)
+- `src/main/java/ru/tattoo/maxsim/model/EmailDetails.java` (honeypot)
+- `src/main/java/ru/tattoo/maxsim/service/impl/EmailServiceImpl.java` (honeypot)
+
+---
+
 ## Порядок выполнения (приоритеты)
 
 ```
