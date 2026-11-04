@@ -68,9 +68,13 @@
                         <button class="action-btn" id="info">
                             <i class="fa fa-comment-o" aria-hidden="true"></i> Мои отзывы
                         </button>
-                        <a href="/logout" class="action-btn logout-btn">
-                            <i class="fa fa-sign-out" aria-hidden="true"></i> Выйти
-                        </a>
+                        <!-- H1 FIX: Logout via POST with CSRF token -->
+                        <form th:action="@{/logout}" method="post" class="logout-form-inline">
+                            <input type="hidden" th:name="${_csrf.headerName}" th:value="${_csrf.token}" />
+                            <button type="submit" class="action-btn logout-btn">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i> Выйти
+                            </button>
+                        </form>
                     </div>
                 </div>
             </aside>

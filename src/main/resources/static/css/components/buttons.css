@@ -3,6 +3,31 @@
    ============================================ */
 
 /* ------------------------------
+   LOGOUT FORMS (inline with CSRF)
+------------------------------ */
+.logout-form,
+.logout-form-inline {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.logout-form button,
+.logout-form-inline button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+}
+
+.logout-form button:hover,
+.logout-form-inline button:hover {
+    opacity: 0.8;
+}
+
+/* ------------------------------
    БАЗОВЫЕ КНОПКИ
 ------------------------------ */
 .btn {
