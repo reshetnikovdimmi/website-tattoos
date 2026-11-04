@@ -12,7 +12,30 @@
     padding: 0;
 }
 
-.logout-form button,
+/* Desktop header logout button — match .top-social a style */
+.logout-form button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.logout-form button:hover {
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+    transform: translateY(-3px);
+    border-color: transparent;
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.4);
+}
+
+/* LK page logout button — match .action-btn style */
 .logout-form-inline button {
     background: none;
     border: none;
@@ -20,9 +43,10 @@
     cursor: pointer;
     color: inherit;
     font: inherit;
+    width: auto;
+    height: auto;
 }
 
-.logout-form button:hover,
 .logout-form-inline button:hover {
     opacity: 0.8;
 }
