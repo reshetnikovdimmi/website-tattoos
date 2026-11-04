@@ -13,33 +13,35 @@
 }
 
 /* Desktop header logout button — EXACT copy of .top-social a */
-.logout-form button {
+.top-social .logout-form button,
+.top-social form.logout-form button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 36px !important;
+    height: 36px !important;
     font-size: 16px;
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-radius: 50% !important;
     transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     cursor: pointer;
     text-decoration: none;
     font-family: "Oswald", sans-serif;
     line-height: 1;
-    padding: 0;
-    margin: 0;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
-.logout-form button:hover {
-    background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+.top-social .logout-form button:hover,
+.top-social form.logout-form button:hover {
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary)) !important;
     transform: translateY(-3px);
-    border-color: transparent;
+    border-color: transparent !important;
     box-shadow: 0 5px 15px rgba(228, 56, 28, 0.4);
 }
 
