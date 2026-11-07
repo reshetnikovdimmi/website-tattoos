@@ -168,8 +168,9 @@ public class LkController {
             // Обновляем данные пользователя
             userService.updateUserProfile(userDTO, principal.getName(), password, confirmPassword);
 
-            // Загружаем обновленные данные в модель
-            loadUserDataIntoModel(model, principal);
+            // Загружаем обновленные данные в модель по новому логину
+            String newLogin = userDTO.getLogin();
+            model.addAttribute("UserDTO", userService.findByLogin(newLogin));
             model.addAttribute("userTattoo", new Images());
             model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), 0));
 
@@ -183,10 +184,8 @@ public class LkController {
             return "modal::modal-body";
 
         } catch (Exception e) {
-            log.error("Ошибка при обновлении профиля: {}", e.getMessage(), e);
-
-            model.addAttribute("error", e.getMessage()+": "+e.getCause().getMessage() ==null?""+e.getClass():""+ e);
-
+            log.error("Ошибка при обновлении профиля", e);
+            model.addAttribute("error", "Не удалось обновить профиль");
             return "modal::modal-body";
         }
     }
