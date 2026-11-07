@@ -106,23 +106,21 @@ public class UserServiceImpl extends AbstractCRUDService<User, Long> implements 
                 .orElseThrow(() -> new UserNotFoundException("Пользователь " + currentLogin + " не найден"));
 
         // Проверяем уникальность логина (если изменился)
-        if (existingUser.getLogin().equals(userDTO.getLogin())) {
-            log.info("Проверка уникальности логина: {}", userDTO.getLogin());
-
+        if (!existingUser.getLogin().equals(userDTO.getLogin())) {
+            if (userRepository.existsByLogin(userDTO.getLogin())) {
                 throw new IllegalArgumentException("Пользователь с логином '" + userDTO.getLogin() + "' уже существует");
-
-        }else{
+            }
             existingUser.setLogin(userDTO.getLogin());
+            log.info("Логин изменён на: {}", userDTO.getLogin());
         }
 
         // Проверяем уникальность email (если изменился)
-        if (existingUser.getEmail().equals(userDTO.getEmail())) {
-            log.info("Проверка уникальности email: {}", userDTO.getEmail());
-
+        if (!existingUser.getEmail().equals(userDTO.getEmail())) {
+            if (userRepository.existsByEmail(userDTO.getEmail())) {
                 throw new IllegalArgumentException("Пользователь с email '" + userDTO.getEmail() + "' уже существует");
-
-        }else{
+            }
             existingUser.setEmail(userDTO.getEmail());
+            log.info("Email изменён на: {}", userDTO.getEmail());
         }
 
         // Обновляем пароль, если он был введен
