@@ -1,7 +1,7 @@
 services:
   service:
     container_name: service
-    image: reshetnikovdimmi/website-tattoos:latest
+    image: website-tattoos:latest
     depends_on:
       db:
         condition: service_healthy
