@@ -14,7 +14,6 @@
     <h1>Внутренняя ошибка сервера</h1>
     <p class="error-message" th:text="${errorMessage}">Что-то пошло не так. Мы уже работаем над исправлением.</p>
     <p class="error-message">Пожалуйста, попробуйте позже или свяжитесь с администратором.</p>
-    <div th:if="${errorDetails}" class="error-details" th:text="${errorDetails}"></div>
     <a href="/" class="home-link">Вернуться на главную</a>
 </div>
 </body>

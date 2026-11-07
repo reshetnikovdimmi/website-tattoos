@@ -21,9 +21,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleAllExceptions(Exception ex, Model model) {
-        log.error("Unhandled exception: ", ex);
+        log.error("Unhandled exception", ex);
         model.addAttribute("errorMessage", "Произошла ошибка. Пожалуйста, попробуйте позже.");
-        model.addAttribute("errorDetails", ex.getMessage());
         return "error";
     }
 
@@ -78,9 +77,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(FileDeletionException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleFileDeletionError(FileDeletionException ex, Model model) {
-        log.error("File deletion error: {}", ex.getMessage());
+        log.error("File deletion error", ex);
         model.addAttribute("error", "Ошибка при удалении файла");
-        model.addAttribute("errorDetails", ex.getMessage());
         return "modal::modal-body";
     }
 
