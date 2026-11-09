@@ -24,7 +24,7 @@ import java.security.Principal;
 @Slf4j
 public class GalleryAdminController extends CRUDController<Images, Long> {
 
-    public static final String PAGE_FRAGMENT = "fragment-admin";
+    public static final String PAGE_FRAGMENT = "fragment-admin/gallery";
     public static final String URL = "/gallery";
     private static final String ALL_GALLERY = "Вся галерея";
     private static final int PAGE_NUMBER = 0;

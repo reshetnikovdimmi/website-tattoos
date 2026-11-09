@@ -20,7 +20,7 @@ import ru.tattoo.maxsim.util.PageSize;
 @RequestMapping("/admin/sketches")
 public class SketchersAdminController  extends CRUDController<Sketches, Long> {
 
-    public static final String PAGE_FRAGMENT = "fragment-admin";
+    public static final String PAGE_FRAGMENT = "fragment-admin/sketches";
     private static final int PAGE_NUMBER = 0;
 
     @Autowired

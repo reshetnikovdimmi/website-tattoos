@@ -1,0 +1,71 @@
+<div th:fragment="sketches"><!--Sketches panes -->
+<div th:fragment="sketches" class="sketchesFragment">
+    <br>
+    <section class="admin-section spad">
+        <div class="container">
+            <!-- Заголовок -->
+            <div class="section-title-modern text-center">
+                <h2>Управление эскизами</h2>
+                <p>Добавляйте и редактируйте изображения</p>
+            </div>
+
+            <!-- Карточка формы -->
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <i class="fa fa-plus-circle"></i>
+                    <h4>Добавить изображение</h4>
+                </div>
+                <div class="admin-card-body">
+                    <form action="/admin/sketches/image-import"
+                          onsubmit="submitForm(event, '.sketches-import')"
+                          data-fragment-name="sketches"
+                          data-container-selector=".sketchesFragment"
+                          class="gallery-form" th:object="${sketchesEntity}">
+
+                        <div class="admin-form-grid">
+                            <!-- Колонка с загрузкой изображения -->
+                            <div class="admin-upload-col">
+                                <div class="admin-upload-area"
+                                     onclick="document.getElementById('file-sketches').click()">
+                                    <img class="preview-image" id="sketches-section"
+                                         th:src="@{/img/avatar.jpg}" alt="Preview">
+                                    <div class="upload-overlay">
+                                        <i class="fa fa-cloud-upload"></i>
+                                        <span>Выбрать файл</span>
+                                    </div>
+                                    <input type="file" name="file" id="file-sketches"
+                                           accept="image/*"
+                                           onchange="loadImage(this, document.getElementById('sketches-section'))"
+                                           required>
+                                </div>
+                                <div class="upload-hint">
+                                    <i class="fa fa-info-circle"></i> JPG, PNG, GIF
+                                </div>
+                            </div>
+
+                            <!-- Колонка с описанием -->
+                            <div class="admin-form-col">
+                                <div class="admin-form-group">
+                                    <label class="admin-label">
+                                        <i class="fa fa-align-left"></i> ОПИСАНИЕ
+                                    </label>
+                                    <textarea class="admin-textarea"
+                                              name="description"
+                                              th:field="*{description}"
+                                              placeholder="Введите описание..."
+                                              required></textarea>
+                                </div>
+                                <button type="submit" class="admin-btn">
+                                    <i class="fa fa-save"></i> СОХРАНИТЬ
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div th:replace="~{fragments::sketchesGrid(sketches, true)}"></div>
+        </div>
+    </section>
+</div>
+</div>
+<!--End sketches panes -->

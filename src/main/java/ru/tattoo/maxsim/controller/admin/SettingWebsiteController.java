@@ -48,7 +48,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
 
         updateSection(model);
 
-        return getFragmentName()+"setting";
+        return getFragmentName()+"::setting";
     }
     @GetMapping("/delete-user/{id}")
     public String deleteUser(@PathVariable("id") Long id,
@@ -57,7 +57,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
         userService.deleteById(id);
         updateSection(model);
 
-        return getFragmentName() + "user";
+        return getFragmentName()+"::user";
     }
 
 
@@ -80,7 +80,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
         }
 
         contactInfoService.create(object);
-        return "fragments::footer";
+        return "fragment-admin/footer::footer";
     }
 
     @PostMapping("/footer/import")
@@ -93,7 +93,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
 
         model.addAttribute("setting", settingWebsiteService.findAll());
 
-        return "fragments::footer";
+        return "fragment-admin/footer::footer";
     }
 
 
@@ -109,7 +109,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
 
         updateSection(model);
 
-        return "fragments::" + fragmentName;
+        return "fragment-admin/" + fragmentName + "::" + fragmentName;
     }
 
     @PostMapping("/breadcrumb-import")
@@ -127,7 +127,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
 
         updateSection(model);
 
-        return "admin::" + fragmentName;
+        return "fragment-admin/" + fragmentName + "::" + fragmentName;
     }
 
     String getEntityName(SettingWebsite object) {
@@ -136,7 +136,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
 
     @Override
     protected String getFragmentName() {
-        return "fragment-admin::";
+        return "fragment-admin/settings";
     }
 
     @Override

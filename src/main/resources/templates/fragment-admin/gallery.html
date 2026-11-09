@@ -1,0 +1,94 @@
+<div th:fragment="gallery">
+    <br>
+    <section class="admin-section spad">
+        <div class="container">
+            <!-- Заголовок -->
+            <div class="section-title-modern text-center">
+                <h2>Управление галереей</h2>
+                <p>Добавляйте и редактируйте изображения в галерее</p>
+            </div>
+
+            <!-- Элементы управления фильтрацией -->
+            <div class="gallery-controls" th:each="current: ${gallery}">
+                <ul>
+                    <li class="active"
+                        th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
+                        Вся галерея
+                    </li>
+                    <li th:each="currents: ${styleList}"
+                        th:if="${currents.categoryTitle=='container-fluid'}"
+                        th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
+                        [[${currents.name}]]
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Форма добавления -->
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <i class="fa fa-plus-circle"></i>
+                    <h4>Добавить изображение</h4>
+                </div>
+                <div class="admin-card-body">
+                    <form action="/admin/gallery/image-import"
+                          onsubmit="submitForm(event)"
+                          data-fragment-name="galleryGridContainer"
+                          data-container-selector=".galleryFragment"
+                          class="gallery-form"
+                          th:object="${images}">
+
+                        <div class="admin-form-grid">
+                            <!-- Левая колонка - загрузка изображения -->
+                            <div class="admin-upload-col">
+                                <div class="admin-upload-area"
+                                     onclick="document.getElementById('file-img').click()">
+                                    <img class="preview-image"
+                                         id="img-section"
+                                         src="/img/avatar.jpg"
+                                         alt="Preview">
+                                    <div class="upload-overlay">
+                                        <i class="fa fa-cloud-upload"></i>
+                                        <span>Выбрать изображение</span>
+                                    </div>
+                                    <input type="file" name="file"
+                                           id="file-img"
+                                           accept="image/*"
+                                           onchange="loadImage(this, document.getElementById('img-section'))"
+                                           required>
+                                </div>
+                                <p class="upload-hint">
+                                    <i class="fa fa-info-circle"></i>
+                                    JPG, PNG, GIF, WEBP (макс. 5MB)
+                                </p>
+                            </div>
+                            <!-- Правая колонка - поля формы -->
+                            <div class="admin-form-col">
+                                <div class="admin-form-group">
+                                    <input hidden id="category"
+                                           type="text" name="category"
+                                           th:field="*{category}">
+                                    <label class="admin-label">
+                                        <i class="fa fa-align-left"></i>
+                                        Описание
+                                    </label>
+                                    <textarea class="admin-textarea"
+                                              name="description"
+                                              th:field="*{description}"
+                                              placeholder="Введите описание..."
+                                              required>
+                                    </textarea>
+                                </div>
+                                <button type="submit" class="admin-btn">
+                                    <i class="fa fa-save"></i> Сохранить
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Сетка галереи - классы для MixItUp -->
+            <div th:replace="~{fragments::galleryGrid(gallery, true)}"></div>
+        </div>
+    </section>
+</div>

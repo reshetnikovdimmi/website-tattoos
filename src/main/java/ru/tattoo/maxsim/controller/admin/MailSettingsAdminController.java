@@ -50,7 +50,7 @@ public class MailSettingsAdminController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("mailSettings", settings);
             model.addAttribute("testEmail", "");
-            return "fragment-admin::mailSettingsFragment";
+            return "fragment-admin/settings::mailSettingsFragment";
         }
 
         // 2. Cross-field: если auth=true и это новая запись — пароль обязателен
@@ -59,7 +59,7 @@ public class MailSettingsAdminController {
                     "При включённой аутентификации пароль обязателен");
             model.addAttribute("mailSettings", settings);
             model.addAttribute("testEmail", "");
-            return "fragment-admin::mailSettingsFragment";
+            return "fragment-admin/settings::mailSettingsFragment";
         }
 
         // 3. Сохраняем
@@ -69,7 +69,7 @@ public class MailSettingsAdminController {
         model.addAttribute("testEmail", "");
         log.info("Настройки почты сохранены");
 
-        return "fragment-admin::mailSettingsFragment";
+        return "fragment-admin/settings::mailSettingsFragment";
     }
 
     /**
@@ -93,7 +93,7 @@ public class MailSettingsAdminController {
         model.addAttribute("connectionResult", result);
         model.addAttribute("mailSettings", settings);
 
-        return "fragment-admin::mailSettingsFragment";
+        return "fragment-admin/settings::mailSettingsFragment";
     }
 
     /**
@@ -113,7 +113,7 @@ public class MailSettingsAdminController {
             model.addAttribute("connectionResult",
                     new SmtpTestResult(false, "", "Укажите тестовый email"));
             model.addAttribute("mailSettings", settings);
-            return "fragment-admin::mailSettingsFragment";
+            return "fragment-admin/settings::mailSettingsFragment";
         }
 
         SmtpTestResult result = mailSettingsService.sendTestEmail(settings, testEmail.trim());
@@ -121,7 +121,7 @@ public class MailSettingsAdminController {
         model.addAttribute("connectionResult", result);
         model.addAttribute("mailSettings", settings);
 
-        return "fragment-admin::mailSettingsFragment";
+        return "fragment-admin/settings::mailSettingsFragment";
     }
 
     // ==================== PRIVATE ====================

@@ -16,7 +16,7 @@ import ru.tattoo.maxsim.service.interf.VideoService;
 public class VideoController extends CRUDController<Video, Long> {
 
     public static final String URL = "/admin/videos";
-    public static final String PAGE_FRAGMENT = "fragment-admin";
+    public static final String PAGE_FRAGMENT = "fragment-admin/home";
 
     @Autowired
     private VideoService videoService;

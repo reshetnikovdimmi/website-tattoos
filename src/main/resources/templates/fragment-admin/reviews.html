@@ -1,0 +1,198 @@
+<div th:fragment="reviews"><!--Reviews panes -->
+<div th:fragment="reviews" class="container tab-pane active"><br>
+    <div class="row">
+        <div class="col-6 col-md-4 themed-grid-col">
+            <div class="nav flex-column nav-pills" id="tabReviews" role="tablist"
+                 aria-orientation="vertical">
+                <a style="margin: 10px;"
+                   class="nav-link active btn btn-outline-secondary"
+                   id="v-reviews-all-tab"
+                   data-toggle="pill"
+                   href="#v-reviews-all"
+                   role="tab"
+                   aria-controls="v-reviews-all"
+                   aria-selected="true">
+                    reviews-all
+                </a>
+                <a style="margin: 10px;"
+                   class="nav-link btn btn-outline-secondary"
+                   id="v-pills-reviews"
+                   data-toggle="pill"
+                   href="#v-pills-reviews-tab"
+                   role="tab"
+                   aria-controls="v-pills-reviews-tab"
+                   aria-selected="false">
+                    reviews
+                </a>
+            </div>
+        </div>
+        <div class="col-md-8 themed-grid-col">
+            <div class="tab-content" id="v-pills-tabReviews">
+                <!-- ============================================================ -->
+                <!-- REVIEWS ALL SETTINGS - Вкладка в настройках                  -->
+                <!-- ============================================================ -->
+
+                <div class="tab-pane fade show active" id="v-reviews-all" role="tabpanel"
+                     aria-labelledby="v-reviews-all-tab">
+
+                    <section class="admin-section spad">
+                        <div class="container">
+                            <div class="section-title-modern text-center">
+                                <h2>Блок "Все отзывы"</h2>
+                                <p>Управление изображением для блока "Все отзывы" на главной странице</p>
+                            </div>
+
+
+                            <div class="admin-card">
+                                <div class="admin-card-header">
+                                    <i class="fa fa-image"></i>
+                                    <h4>Изображение блока "Все отзывы"</h4>
+                                    <span class="section-badge">Главная страница</span>
+                                </div>
+                                <div class="reviews-all-setting" th:fragment="reviews-all-setting">
+                                    <div class="admin-card-body" th:object="${reviewsEntity}">
+                                        <form th:id="*{id}"
+                                              action="/admin/review-section/image-import"
+                                              method="post"
+                                              enctype="multipart/form-data"
+                                              data-fragment-name="reviews-all-setting"
+                                              data-container-selector=".reviews-all-setting"
+                                              onsubmit="submitForm(event)"
+                                              class="reviews-all-form">
+
+                                            <div class="admin-form-grid">
+                                                <!-- Левая колонка - изображение -->
+                                                <div class="admin-upload-col">
+                                                    <div class="admin-upload-area"
+                                                         onclick="document.getElementById('file-preview').click()">
+                                                        <img id="reviews-all-image"
+                                                             th:src="*{imageName != null ? '/images/' + imageName : '/img/avatar.jpg'}"
+                                                             alt="Reviews All"
+                                                             class="preview-image">
+                                                        <div class="upload-overlay">
+                                                            <i class="fa fa-cloud-upload"></i>
+                                                            <span>Фон блока "Все отзывы"</span>
+                                                        </div>
+                                                        <input type="file" name="file" id="file-preview"
+                                                               accept="image/*"
+                                                               onchange="loadImage(this, document.getElementById('reviews-all-image'))"
+                                                               required>
+                                                    </div>
+                                                    <p class="upload-hint">
+                                                        <i class="fa fa-info-circle"></i>
+                                                        JPG, PNG, GIF, WEBP (макс. 5MB)
+                                                    </p>
+                                                </div>
+
+                                                <!-- Правая колонка - форма -->
+                                                <div class="admin-form-col">
+                                                    <div class="admin-form-group">
+                                                        <label class="admin-label">
+                                                            <i class="fa fa-header"></i> Заголовок
+                                                        </label>
+                                                        <input type="text"
+                                                               class="admin-textarea"
+                                                               name="title"
+                                                               th:value="*{title}"
+                                                               placeholder="Например: Все отзывы">
+                                                    </div>
+
+                                                    <div class="admin-form-group">
+                                                        <label class="admin-label">
+                                                            <i class="fa fa-align-left"></i> Подпись
+                                                        </label>
+                                                        <input type="text"
+                                                               class="admin-textarea"
+                                                               name="description"
+                                                               th:value="*{description}"
+                                                               placeholder="Например: Читать все отзывы">
+                                                    </div>
+
+                                                    <button type="submit" class="admin-btn">
+                                                        <i class="fa fa-save"></i> Сохранить
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+
+                <div class="tab-pane fade" id="v-pills-reviews-tab" role="tabpanel"
+                     aria-labelledby="v-pills-reviews" tabindex="0">
+
+                    <div class="admin-section spad">
+                        <div class="container">
+                            <div class="section-title-modern text-center">
+                                <h2>Отзывы клиентов</h2>
+                                <p>Что говорят наши клиенты о нашей работе</p>
+                            </div>
+
+                            <div class="classtime-table scroll">
+                                <div class="blogreviews" th:fragment="blogreviews">
+                                    <!-- Список отзывов -->
+                                    <div th:if="${reviews != null and !reviews.empty}">
+                                        <div class="review-card" th:each="current : ${reviews}">
+                                            <div class="review-content-wrapper">
+                                                <!-- Изображение отзыва (если есть) -->
+                                                <div class="review-image" th:if="${current.imageName != null}">
+                                                    <img th:src="@{'/images/' + ${current.imageName}}"
+                                                         alt="Review image">
+                                                </div>
+                                                <div class="review-image" th:unless="${current.imageName != null}">
+                                                    <img src="/img/review-placeholder.jpg" alt="Review placeholder">
+                                                </div>
+
+                                                <!-- Информация об отзыве -->
+                                                <div class="review-info">
+                                                    <div class="review-header">
+                                                        <div class="review-author">
+                                                            <div class="review-author-name">
+                                                                <span th:text="${current.userName}">Пользователь</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="review-date">
+                                                            <i class="fa fa-calendar"></i>
+                                                            <span th:text="${current.date}">Дата</span>
+                                                        </div>
+                                                        <button sec:authorize="hasAuthority('ADMIN')"
+                                                                th:id="${current.id}"
+                                                                onclick="deleteImage(this)"
+                                                                data-fragment-name="blogreviews"
+                                                                data-container-selector=".blogreviews"
+                                                                data-deletion-url="/admin/reviews/delete-section"
+                                                                data-method="POST"
+                                                                class="review-delete-btn">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="review-body" th:text="${current.comment}">
+                                                        Текст отзыва клиента
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Пустое состояние -->
+                                    <div class="empty-reviews" th:unless="${reviews != null and !reviews.empty}">
+                                        <i class="fa fa-comment-o"></i>
+                                        <h4>Нет отзывов</h4>
+                                        <p>Будьте первым, кто оставит отзыв о нашей работе</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End reviews panes -->

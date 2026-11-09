@@ -16,7 +16,7 @@ import ru.tattoo.maxsim.service.interf.PriceSectionService;
 public class PriceSectionController extends CRUDController<PriceSection, Long> {
 
     public static final String URL = "/admin/price";
-    public static final String PAGE_FRAGMENT = "fragment-admin";
+    public static final String PAGE_FRAGMENT = "fragment-admin/home";
 
     @Autowired
     private PriceSectionService priceSectionService;

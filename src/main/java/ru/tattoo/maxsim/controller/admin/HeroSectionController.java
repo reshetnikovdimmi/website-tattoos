@@ -15,7 +15,7 @@ import ru.tattoo.maxsim.service.interf.HomeService;
 public class HeroSectionController extends CRUDController<HomeHeroSection, Long> {
 
     public static final String URL = "/admin/hero";
-    public static final String PAGE_FRAGMENT = "fragment-admin";
+    public static final String PAGE_FRAGMENT = "fragment-admin/home";
 
     @Autowired
     private HeroSectionService heroSectionService;

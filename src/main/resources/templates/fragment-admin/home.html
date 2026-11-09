@@ -1,0 +1,1370 @@
+<div th:fragment="home"><div th:fragment="fragment-tab" class="container tab-pane active"><br>
+    <div class="row">
+        <div class="col-6 col-md-4 themed-grid-col">
+            <div class="nav flex-column nav-pills" id="v-home-tab" role="tablist"
+                 aria-orientation="vertical">
+                <a class="nav-link active btn btn-outline-secondary" style="margin: 10px;"
+                   id="v-pills-carousel-tab" data-toggle="pill" href="#v-pills-carousel" role="tab"
+                   aria-controls="v-pills-carousel" aria-selected="true">carousel</a>
+                <a class="nav-link btn btn-outline-secondary" style="margin: 10px;"
+                   id="v-pills-feature-tab"
+                   data-toggle="pill" href="#v-pills-feature" role="tab"
+                   aria-controls="v-pills-featur" aria-selected="false">feature-section</a>
+                <a class="nav-link btn btn-outline-secondary" style="margin: 10px;"
+                   id="v-pills-about-tab"
+                   data-toggle="pill" href="#v-pills-about" role="tab"
+                   aria-controls="v-pills-about" aria-selected="false">home-about</a>
+                <a class="nav-link btn btn-outline-secondary" style="margin: 10px;"
+                   id="v-pills-classes-tab"
+                   data-toggle="pill" href="#v-pills-classes" role="tab"
+                   aria-controls="v-pills-classes" aria-selected="false">classes-section</a>
+                <a class="nav-link btn btn-outline-secondary" style="margin: 10px;"
+                   id="v-pills-price-tab"
+                   data-toggle="pill" href="#v-pills-price" role="tab"
+                   aria-controls="v-pills-price" aria-selected="false">price-section</a>
+                <a class="nav-link btn btn-outline-secondary" style="margin: 10px;"
+                   id="v-pills-video-tab"
+                   data-toggle="pill" href="#v-pills-video" role="tab"
+                   aria-controls="v-pills-video" aria-selected="false">video-section</a>
+                <a class="nav-link btn btn-outline-secondary" style="margin: 10px;"
+                   id="v-pills-chooseus-tab"
+                   data-toggle="pill" href="#v-pills-chooseus" role="tab"
+                   aria-controls="v-pills-chooseus" aria-selected="false">chooseus-section</a>
+            </div>
+        </div>
+        <div class="col-md-8 themed-grid-col">
+            <div class="tab-content" id="v-carousel-tabContent">
+                <!-- Hero Section Begin -->
+                <div class="tab-pane fade show active" id="v-pills-carousel" role="tabpanel"
+                     aria-labelledby="v-pills-carousel-tab">
+                    <section class="admin-section spad">
+                        <div class="container">
+                            <!-- Заголовок секции -->
+                            <div class="section-title-modern text-center">
+                                <h2>Управление каруселью</h2>
+                                <p>Добавляйте и редактируйте слайды главной страницы</p>
+                            </div>
+
+                            <div class="carousel-import">
+                                <div th:fragment="carousel-import">
+
+                                    <!-- Форма добавления слайда -->
+                                    <div class="admin-card">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-plus-circle"></i>
+                                            <h4>Добавить новый слайд</h4>
+                                        </div>
+                                        <div class="admin-card-body">
+                                            <form action="/admin/hero/image-import"
+                                                  onsubmit="submitForm(event)"
+                                                  data-fragment-name="carousel-import"
+                                                  data-container-selector=".carousel-import"
+                                                  class="admin-form"
+                                                  th:object="${hero}">
+
+                                                <div class="admin-form-grid">
+                                                    <!-- Левая колонка - загрузка изображения -->
+                                                    <div class="admin-upload-col">
+                                                        <div class="admin-upload-area" id="upload-area-hero"
+                                                             onclick="document.getElementById('file-carousel').click()">
+                                                            <img class="preview-image" id="hero-section"
+                                                                 src="/img/avatar.jpg" alt="Preview">
+                                                            <div class="upload-overlay">
+                                                                <i class="fa fa-cloud-upload"></i>
+                                                                <span>Выбрать изображение</span>
+                                                            </div>
+                                                            <input type="file" name="file" id="file-carousel"
+                                                                   accept="image/*"
+                                                                   onchange="loadImage(this, document.getElementById('hero-section'))"
+                                                                   required>
+                                                        </div>
+                                                        <p class="upload-hint">
+                                                            <i class="fa fa-info-circle"></i>
+                                                            JPG, PNG, GIF, WEBP (макс. 5MB)
+                                                        </p>
+                                                    </div>
+
+                                                    <!-- Правая колонка - поля формы -->
+                                                    <div class="admin-form-col">
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-header"></i>
+                                                                Заголовок (H2)
+                                                            </label>
+                                                            <textarea class="admin-textarea" name="title"
+                                                                      th:field="*{title}"
+                                                                      placeholder="Введите заголовок..."
+                                                                      rows="2" required>
+                                                            </textarea>
+                                                        </div>
+
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-tag"></i>
+                                                                Подзаголовок (H1)
+                                                            </label>
+                                                            <textarea class="admin-textarea" name="subtitle"
+                                                                      th:field="*{subtitle}"
+                                                                      placeholder="Введите подзаголовок..."
+                                                                      rows="2" required>
+                                                            </textarea>
+                                                        </div>
+
+                                                        <button type="submit" class="admin-btn">
+                                                            <i class="fa fa-save"></i> Сохранить слайд
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- Превью карусели -->
+                                    <div class="admin-card">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-image"></i>
+                                            <h4>Текущие слайды</h4>
+                                            <span class="badge-count"
+                                                  th:text="${home != null and home[0].banners != null ? home[0].banners.size() : 0}"></span>
+                                        </div>
+                                        <div class="admin-card-body">
+
+                                            <div id="adminCarousel" class="admin-carousel carousel slide"
+                                                 data-bs-ride="carousel">
+                                                <!-- Индикаторы -->
+                                                <div class="carousel-indicators">
+                                                    <div th:each="current : ${home}" th:if="${current.banners != null}">
+                                                        <button th:each="banner, itemStat : ${current.banners}"
+                                                                type="button"
+                                                                th:onclick="'goToSlide(' + ${itemStat.index} + ')'"
+                                                                th:classappend="${itemStat.index == 0} ? 'active' : ''"
+                                                                th:aria-label="'Слайд ' + ${itemStat.index + 1}">
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Слайды -->
+                                                <div class="carousel-inner">
+                                                    <div th:each="current : ${home}">
+                                                        <div th:each="banner, itemStat : ${current.banners}"
+                                                             class="carousel-item"
+                                                             th:classappend="${itemStat.index == 0} ? 'active' : ''">
+
+                                                            <img th:if="${banner.imageName != null && !banner.imageName.isEmpty()}"
+                                                                 th:src="@{'/images/' + ${banner.imageName}}"
+                                                                 class="d-block w-100"
+                                                                 th:alt="${banner.title}">
+
+                                                            <img th:unless="${banner.imageName != null && !banner.imageName.isEmpty()}"
+                                                                 src="/img/avatar.jpg"
+                                                                 class="d-block w-100"
+                                                                 th:alt="${banner.title}">
+
+
+                                                            <div class="carousel-caption">
+                                                                <h6 th:text="${banner.title}">Заголовок</h6>
+                                                                <h5 th:text="${banner.subtitle}">Подзаголовок</h5>
+                                                            </div>
+
+                                                            <button th:id="${banner.id}"
+                                                                    data-fragment-name="carousel-import"
+                                                                    data-container-selector=".carousel-import"
+                                                                    data-deletion-url="/admin/hero/delete-section"
+                                                                    onclick="deleteImage(this)"
+                                                                    data-method="POST"
+                                                                    class="carousel-delete-btn"
+                                                                    title="Удалить слайд">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Кнопки навигации -->
+                                                <div class="carousel-controls">
+                                                    <button class="custom-carousel-btn" type="button"
+                                                            onclick="carouselPrev()">
+                                                        <i class="fa fa-chevron-left"></i>
+                                                    </button>
+                                                    <button class="custom-carousel-btn" type="button"
+                                                            onclick="carouselNext()">
+                                                        <i class="fa fa-chevron-right"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Статистика -->
+                                            <div class="slides-stats"
+                                                 th:if="${home != null and home[0].banners != null and !home[0].banners.isEmpty()}">
+                            <span class="stats-badge">
+                                <i class="fa fa-picture-o"></i>
+                                Всего слайдов: <strong th:text="${home[0].banners.size()}"></strong>
+                            </span>
+                                            </div>
+
+                                            <!-- Пустое состояние -->
+                                            <div class="admin-empty-state"
+                                                 th:unless="${home != null and home[0].banners != null and !home[0].banners.isEmpty()}">
+                                                <i class="fa fa-image"></i>
+                                                <h4>Нет слайдов</h4>
+                                                <p>Добавьте первый слайд через форму выше</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- Hero End -->
+                <!-- Feature Section Begin -->
+                <div class="tab-pane fade" id="v-pills-feature" role="tabpanel"
+                     aria-labelledby="v-pills-feature-tab">
+                    <section class="admin-section spad">
+                        <div class="container">
+                            <!-- Заголовок секции -->
+                            <div class="section-title-modern text-center">
+                                <h2>Управление преимуществами</h2>
+                                <p>Добавляйте и редактируйте преимущества компании</p>
+                            </div>
+
+                            <div class="feature-import">
+                                <div th:fragment="feature-import">
+                                    <!-- Форма добавления -->
+                                    <div class="admin-card">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-plus-circle"></i>
+                                            <h4>Добавить новое преимущество</h4>
+                                        </div>
+                                        <div class="admin-card-body">
+                                            <form action="/admin/feature/image-import"
+                                                  onsubmit="submitForm(event)"
+                                                  data-fragment-name="feature-import"
+                                                  data-container-selector=".feature-import"
+                                                  class="feature-form"
+                                                  th:object="${feature}">
+                                                <div class="admin-form-grid">
+                                                    <!-- Левая колонка - загрузка изображения -->
+
+                                                    <div class="admin-upload-col">
+                                                        <div class="admin-upload-area"
+                                                             onclick="document.getElementById('feature-file').click()">
+                                                            <img class="preview-image" id="feature-preview"
+                                                                 src="/img/avatar.jpg" alt="Preview">
+                                                            <div class="upload-overlay">
+                                                                <i class="fa fa-cloud-upload"></i>
+                                                                <span>Выбрать изображение</span>
+                                                            </div>
+                                                            <input type="file" name="file" id="feature-file"
+                                                                   accept="image/*"
+                                                                   onchange="loadImage(this, document.getElementById('feature-preview'))"
+                                                                   required>
+                                                        </div>
+
+                                                        <p class="upload-hint">
+                                                            <i class="fa fa-info-circle"></i>
+                                                            Поддерживаются JPG, PNG, GIF, WEBP (макс. 5MB)
+                                                        </p>
+                                                    </div>
+
+                                                    <!-- Правая колонка - поля формы -->
+                                                    <div class="admin-form-col">
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-header"></i>
+                                                                Заголовок (H1)
+                                                            </label>
+                                                            <textarea class="admin-textarea" name="title"
+                                                                      th:field="*{title}"
+                                                                      placeholder="Например: Профессиональные мастера"
+                                                                      required>
+                                                            </textarea>
+                                                        </div>
+
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-align-left"></i>
+                                                                Описание (H2)
+                                                            </label>
+                                                            <textarea class="admin-textarea" name="description"
+                                                                      th:field="*{description}"
+                                                                      placeholder="Краткое описание преимущества..."
+                                                                      required>
+                                                            </textarea>
+                                                        </div>
+
+                                                        <button type="submit" class="admin-btn">
+                                                            <i class="fa fa-save"></i>
+                                                            Добавить преимущество
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- Список преимуществ -->
+                                    <div class="admin-card">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-list"></i>
+                                            <h4>Список преимуществ</h4>
+                                            <span class="badge-count"
+                                                  th:text="${home != null and home[0].feature != null ? home[0].feature.size() : 0}"></span>
+                                        </div>
+                                        <div class="admin-card-body">
+                                            <div th:if="${home != null and home[0].feature != null and !home[0].feature.isEmpty()}">
+                                                <div class="about-items-list">
+                                                    <div th:each="currents, iterStat : ${home[0].feature}"
+                                                         class="about-item-card">
+                                                        <div class="about-item-image">
+                                                            <img th:if="${currents.imageName}"
+                                                                 th:src="@{'/images/' + ${currents.imageName}}"
+                                                                 alt="Feature">
+                                                            <img th:unless="${currents.imageName}" src="/img/avatar.jpg"
+                                                                 alt="Default">
+                                                        </div>
+                                                        <div class="about-item-content">
+                                                            <div class="about-item-header">
+                                                                <h5 th:text="${currents.title}">Заголовок</h5>
+
+                                                                <button class="delete-item-btn"
+                                                                        th:id="${currents.id}"
+                                                                        data-fragment-name="feature-import"
+                                                                        data-container-selector=".feature-import"
+                                                                        data-deletion-url="/admin/feature/delete-section"
+                                                                        onclick="deleteImage(this)"
+                                                                        data-method="POST"
+                                                                        title="Удалить">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </button>
+                                                            </div>
+                                                            <p class="about-item-description"
+                                                               th:text="${currents.description}">Описание...</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div th:unless="${home != null and home[0].feature != null and !home[0].feature.isEmpty()}"
+                                                 class="empty-state-modern">
+                                                <i class="fa fa-inbox"></i>
+                                                <p>Нет добавленных преимуществ</p>
+                                                <small>Добавьте первое преимущество через форму выше</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- Feature Section End -->
+                <!-- About Section Begin -->
+                <div class="tab-pane fade" id="v-pills-about" role="tabpanel"
+                     aria-labelledby="v-pills-about-tab">
+                    <section class="admin-section spad">
+                        <div class="container">
+                            <!-- Заголовок секции -->
+                            <div class="section-title-modern text-center">
+                                <h2>Управление секцией "О нас"</h2>
+                                <p>Редактируйте информацию о компании</p>
+                            </div>
+
+                            <div class="about-import">
+                                <div th:fragment="home-about">
+                                    <!-- Форма добавления/редактирования -->
+                                    <div class="admin-card">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-info-circle"></i>
+                                            <h4>Информация о компании</h4>
+                                        </div>
+                                        <div class="admin-card-body">
+                                            <form action="/admin/about/image-import"
+                                                  onsubmit="submitForm(event)"
+                                                  data-fragment-name="home-about"
+                                                  data-container-selector=".about-import"
+                                                  class="about-form"
+                                                  th:object="${about}">
+
+                                                <div class="admin-form-grid">
+                                                    <!-- Левая колонка - изображение -->
+                                                    <div class="admin-upload-col">
+                                                        <div class="admin-upload-area"
+                                                             onclick="document.getElementById('about-file').click()">
+                                                            <img class="preview-image" id="about-preview"
+                                                                 src="/img/avatar.jpg" alt="Preview">
+                                                            <div class="upload-overlay">
+                                                                <i class="fa fa-cloud-upload"></i>
+                                                                <span>Выбрать изображение</span>
+                                                            </div>
+                                                            <input type="file" name="file" id="about-file"
+                                                                   accept="image/*"
+                                                                   onchange="loadImage(this, document.getElementById('about-preview'))"
+                                                                   required>
+                                                        </div>
+                                                        <p class="upload-hint">
+                                                            <i class="fa fa-info-circle"></i>
+                                                            Рекомендуемый размер: 800x600px
+                                                        </p>
+                                                    </div>
+
+                                                    <!-- Правая колонка - текстовые поля -->
+                                                    <div class="admin-form-col">
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-header"></i>
+                                                                Подзаголовок (H2)
+                                                            </label>
+                                                            <textarea class="admin-textarea" name="subtitle"
+                                                                      th:field="*{subtitle}"
+                                                                      placeholder="Краткое описание компании..."
+                                                                      required>
+                                                            </textarea>
+                                                        </div>
+
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-tag"></i>
+                                                                Заголовок (H1)
+                                                            </label>
+                                                            <textarea class="admin-textarea" name="title"
+                                                                      th:field="*{title}"
+                                                                      placeholder="Главный заголовок..."
+                                                                      required>
+                                                            </textarea>
+                                                        </div>
+
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-align-left"></i>
+                                                                Детальное описание (H3)
+                                                            </label>
+                                                            <textarea class="admin-textarea about-description"
+                                                                      name="content" th:field="*{content}"
+                                                                      placeholder="Подробное описание компании, преимущества, история..."
+                                                                      rows="4">
+                                                            </textarea>
+                                                        </div>
+
+                                                        <button type="submit" class="admin-btn">
+                                                            <i class="fa fa-save"></i>
+                                                            Сохранить информацию
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- Список существующих записей -->
+                                    <div class="admin-card">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-list"></i>
+                                            <h4>Список записей</h4>
+                                            <span class="badge-count"
+                                                  th:text="${home != null and home[0].about != null ? home[0].about.size() : 0}"></span>
+                                        </div>
+                                        <div class="admin-card-body">
+                                            <div th:if="${home != null and home[0].about != null and !home[0].about.isEmpty()}">
+                                                <div class="about-items-list">
+                                                    <div th:each="currents, iterStat : ${home[0].about}"
+                                                         class="about-item-card">
+                                                        <div class="about-item-image">
+                                                            <img th:if="${currents.imageName}"
+                                                                 th:src="@{'/images/' + ${currents.imageName}}"
+                                                                 alt="About image">
+                                                            <img th:unless="${currents.imageName}" src="/img/avatar.jpg"
+                                                                 alt="Default">
+                                                        </div>
+                                                        <div class="about-item-content">
+                                                            <div class="about-item-header">
+                                                                <h5 th:text="${currents.subtitle}">Подзаголовок</h5>
+                                                                <button class="delete-item-btn"
+                                                                        th:id="${currents.id}"
+                                                                        data-fragment-name="home-about"
+                                                                        data-container-selector=".about-import"
+                                                                        data-deletion-url="/admin/about/delete-section"
+                                                                        data-method="POST"
+                                                                        onclick="deleteImage(this)"
+                                                                        title="Удалить">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </button>
+                                                            </div>
+                                                            <p class="about-item-title" th:text="${currents.title}">
+                                                                Заголовок</p>
+                                                            <p class="about-item-description"
+                                                               th:text="${currents.content}">Описание...</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div th:unless="${home != null and home[0].about != null and !home[0].about.isEmpty()}"
+                                                 class="empty-state-modern">
+                                                <i class="fa fa-inbox"></i>
+                                                <p>Нет добавленных записей</p>
+                                                <small>Добавьте первую запись через форму выше</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- About Section End -->
+                <!-- Classes Section Begin -->
+                <div class="tab-pane fade" id="v-pills-classes" role="tabpanel"
+                     aria-labelledby="v-pills-classes-tab">
+                    <section class="admin-section spad">
+                        <div class="container">
+                            <!-- Заголовок секции -->
+                            <div class="section-title-modern text-center">
+                                <h2>Управление классами/услугами</h2>
+                                <p>Добавляйте и редактируйте информацию о классах и услугах</p>
+                            </div>
+
+                            <div class="classes-import">
+                                <div th:fragment="classes">
+
+                                    <!-- ========== КАТЕГОРИИ (ЗАГОЛОВКИ) ========== -->
+                                    <div class="admin-card"
+                                         th:if="${home != null and home[0].classes != null}">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-tags"></i>
+                                            <h4>Категории услуг</h4>
+                                            <span class="badge-count"
+                                                  th:text="${#lists.size(home[0].classes.?[categoryTitle != null])}"></span>
+                                        </div>
+                                        <div class="admin-card-body">
+                                            <div th:if="${home != null and home[0].classes != null and !#lists.isEmpty(home[0].classes.?[categoryTitle != null])}">
+                                                <div th:each="current : ${home}">
+                                                    <div th:each="currents : ${current.classes}"
+                                                         th:if="${currents.categoryTitle == 'class-title'}">
+                                                        <div class="category-card">
+                                                            <form th:id="${currents.id}" action="/admin/classes/import"
+                                                                  onsubmit="submitForm(event)"
+                                                                  data-fragment-name="classes"
+                                                                  data-container-selector=".classes-import"
+                                                                  class="category-form"
+                                                                  th:object="${currents}">
+
+                                                                <div class="category-content">
+                                                                    <div class="category-header">
+                                                                        <i class="fa fa-folder-open"></i>
+                                                                        <input type="text" th:value="*{description}"
+                                                                               name="description"
+                                                                               class="category-title-input"
+                                                                               disabled>
+                                                                    </div>
+                                                                    <textarea rows="3" th:text="*{name}"
+                                                                              name="name"
+                                                                              class="category-description-input"
+                                                                              disabled>
+                                                                    </textarea>
+                                                                </div>
+
+                                                                <div class="category-actions">
+                                                                    <button type="submit" class="edit-category-btn"
+                                                                            title="Редактировать категорию">
+                                                                        <i class="fa fa-pencil"></i> Изменить
+                                                                    </button>
+                                                                    <button type="button"
+                                                                            class="delete-category-btn"
+                                                                            th:id="${currents.id}"
+                                                                            data-fragment-name="classes"
+                                                                            data-container-selector=".classes-import"
+                                                                            data-deletion-url="/admin/classes/delete-section"
+                                                                            onclick="deleteImage(this)"
+                                                                            data-method="POST"
+                                                                            title="Удалить категорию">
+                                                                        <i class="fa fa-trash"></i> Удалить
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div th:unless="${home != null and home[0].classes != null and !#lists.isEmpty(home[0].classes.?[categoryTitle == 'class-title'])}">
+                                                <div class="category-card">
+                                                    <form action="/admin/classes/import"
+                                                          onsubmit="submitForm(event)"
+                                                          data-fragment-name="classes"
+                                                          data-container-selector=".classes-import"
+                                                          class="category-form">
+
+                                                        <div class="category-content">
+                                                            <div class="category-header">
+                                                                <i class="fa fa-folder-open"></i>
+                                                                <input type="text"
+                                                                       name="description"
+                                                                       class="category-title-input"
+                                                                       disabled>
+                                                            </div>
+                                                            <textarea rows="3"
+                                                                      name="name"
+                                                                      class="category-description-input"
+                                                                      disabled>
+                                                                    </textarea>
+                                                        </div>
+
+                                                        <div class="category-actions">
+                                                            <button type="submit" class="edit-category-btn"
+                                                                    title="Редактировать категорию">
+                                                                <i class="fa fa-pencil"></i> Изменить
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ========== ФОРМА ДОБАВЛЕНИЯ НОВОЙ УСЛУГИ ========== -->
+                                    <div class="admin-card">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-plus-circle"></i>
+                                            <h4>Добавить новую услугу/класс</h4>
+                                        </div>
+                                        <div class="admin-card-body">
+                                            <form action="/admin/classes/image-import"
+                                                  onsubmit="submitForm(event)"
+                                                  data-fragment-name="classes"
+                                                  data-container-selector=".classes-import"
+                                                  class="classes-form"
+                                                  th:object="${classes}">
+                                                <div class="admin-form-grid">
+                                                    <!-- Левая колонка - загрузка изображения -->
+                                                    <div class="admin-upload-col">
+                                                        <div class="admin-upload-area"
+                                                             onclick="document.getElementById('classes-file').click()">
+                                                            <img class="preview-image" id="classes-preview"
+                                                                 src="/img/avatar.jpg" alt="Preview">
+                                                            <div class="upload-overlay">
+                                                                <i class="fa fa-cloud-upload"></i>
+                                                                <span>Выбрать изображение</span>
+                                                            </div>
+                                                            <input type="file" name="file" id="classes-file"
+                                                                   accept="image/*"
+                                                                   onchange="loadImage(this, document.getElementById('classes-preview'))"
+                                                                   required>
+                                                        </div>
+                                                        <p class="upload-hint">
+                                                            <i class="fa fa-info-circle"></i>
+                                                            Рекомендуемый размер: 400x300px
+                                                        </p>
+                                                    </div>
+
+                                                    <!-- Правая колонка - поля формы -->
+                                                    <div class="admin-form-col">
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-header"></i>
+                                                                Заголовок (H2)
+                                                            </label>
+                                                            <textarea class="admin-textarea" name="description"
+                                                                      th:field="*{name}"
+                                                                      placeholder="Название услуги/класса..."
+                                                                      required></textarea>
+                                                        </div>
+
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-align-left"></i>
+                                                                Описание (H1)
+                                                            </label>
+                                                            <textarea class="admin-textarea" name="name"
+                                                                      th:field="*{description}"
+                                                                      placeholder="Подробное описание услуги..."
+                                                                      rows="4" required></textarea>
+                                                        </div>
+
+                                                        <button type="submit" class="admin-btn">
+                                                            <i class="fa fa-save"></i>
+                                                            Сохранить
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- ========== СПИСОК УСЛУГ (без title) ========== -->
+                                    <div class="admin-card">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-list"></i>
+                                            <h4>Список услуг</h4>
+                                            <span class="badge-count"
+                                                  th:text="${home != null and home[0].classes != null ? #lists.size(home[0].classes.?[categoryTitle == 'container-fluid']) : 0}"></span>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div th:if="${home != null and home[0].classes != null and !#lists.isEmpty(home[0].classes.?[categoryTitle == 'container-fluid'])}">
+                                                <div class="classes-items-grid">
+                                                    <div th:each="currents : ${home[0].classes}"
+                                                         th:if="${currents.categoryTitle == 'container-fluid'}"
+                                                         class="class-item-card">
+                                                        <div class="class-item-image">
+                                                            <img th:if="${currents.imageName}"
+                                                                 th:src="@{'/images/' + ${currents.imageName}}"
+                                                                 alt="Class image">
+                                                            <img th:unless="${currents.imageName}" src="/img/avatar.jpg"
+                                                                 alt="Default">
+                                                        </div>
+                                                        <div class="class-item-content">
+                                                            <h5 th:text="${currents.name}">Название услуги</h5>
+                                                            <p th:text="${currents.description}">Описание услуги...</p>
+                                                        </div>
+                                                        <div class="class-item-actions">
+                                                            <button class="action-btn delete-btn"
+                                                                    th:id="${currents.id}"
+                                                                    data-fragment-name="classes"
+                                                                    data-container-selector=".classes-import"
+                                                                    data-deletion-url="/admin/classes/delete-section"
+                                                                    onclick="deleteImage(this)"
+                                                                    data-method="POST"
+                                                                    title="Удалить">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div th:unless="${home != null and home[0].classes != null and !#lists.isEmpty(home[0].classes.?[categoryTitle == 'container-fluid'])}"
+                                                 class="empty-state-modern">
+                                                <i class="fa fa-inbox"></i>
+                                                <p>Нет добавленных услуг</p>
+                                                <small>Добавьте первую услугу через форму выше</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- Classes Section End -->
+                <!-- Price Plan Section Begin -->
+                <div class="tab-pane fade" id="v-pills-price" role="tabpanel" aria-labelledby="v-pills-price-tab">
+                    <section class="admin-section spad">
+                        <div class="container">
+                            <div class="section-title-modern text-center">
+                                <h2>Управление ценами</h2>
+                                <p>Добавляйте и редактируйте цены</p>
+                            </div>
+
+                            <div class="price">
+                                <div th:fragment="price">
+
+                                    <!-- Категории (заголовки) -->
+                                    <div class="admin-card">
+                                        <div th:each="current: ${home}">
+                                            <div class="admin-card-header">
+                                                <i class="fa fa-tags"></i>
+                                                <h4>Cуществующие тарифные планы:</h4>
+                                            </div>
+                                            <div class="admin-card-body">
+                                                <div th:each="currents : ${current.price}"
+                                                     th:if="${currents.categoryTitle}">
+                                                    <div class="category-card">
+                                                        <form th:id="${currents.id}" action="/admin/price/import"
+                                                              onsubmit="submitForm(event)"
+                                                              data-fragment-name="price"
+                                                              data-container-selector=".price"
+                                                              class="category-form"
+                                                              th:object="${currents}">
+
+                                                            <div class="category-content">
+                                                                <div class="category-header">
+                                                                    <i class="fa fa-folder-open"></i>
+                                                                    <input type="text" th:name="price"
+                                                                           th:value="*{price}"
+                                                                           name="description"
+                                                                           class="category-description-input"
+                                                                           id="" disabled>
+                                                                </div>
+                                                                <textarea rows="3"
+                                                                          th:name="description"
+                                                                          th:text="*{description}" id=""
+                                                                          class="category-title-input"
+                                                                          disabled>
+                                                            </textarea>
+                                                            </div>
+
+                                                            <div class="category-actions">
+                                                                <button type="submit" class="edit-category-btn"
+                                                                        title="Редактировать категорию">
+                                                                    <i class="fa fa-pencil"></i> Изменить
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Тарифы -->
+                                    <div class="container-price-admin">
+                                        <div class="row" th:each="current: ${home}">
+                                            <div class="col-lg-4" th:each="currents : ${current.price}"
+                                                 th:unless="${currents.categoryTitle}">
+                                                <form th:id="${currents.id}" action="/admin/price/import"
+                                                      onsubmit="submitForm(event)"
+                                                      data-fragment-name="price"
+                                                      data-container-selector=".price"
+                                                      th:object="${currents}">
+                                                    <div class="single-price-plan-admin">
+                                                        <input name="planName" th:value="*{planName}"
+                                                               type="text"
+                                                               class="h4-input"
+                                                               value="Эскиз" disabled/>
+                                                        <div class="price-plan-admin">
+                                                            <input name="price" th:value="*{price}"
+                                                                   type="text" class="h2-input"
+                                                                   value="от 1000р" disabled/>
+                                                            <p>
+                                            <textarea name="description"
+                                                      th:text="*{description}"
+                                                      class="p-input" disabled></textarea>
+                                                            </p>
+                                                        </div>
+                                                        <ul>
+                                                            <li><input name="feature1" type="text"
+                                                                       th:value="*{feature1}"
+                                                                       class="list-item-input"
+                                                                       value="Индивидуальность" disabled/></li>
+                                                            <li><input name="feature2" type="text"
+                                                                       th:value="*{feature2}"
+                                                                       class="list-item-input"
+                                                                       value="Эксклюзивность" disabled/></li>
+                                                        </ul>
+                                                        <a href="/contact" class="primary-btn price-btn">Начать</a>
+                                                    </div>
+                                                    <button class="btn btn-outline-secondary" type="submit">Изменить
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- Price Plan Section End -->
+                <!-- Choseus Section Begin -->
+                <div class="tab-pane fade" id="v-pills-chooseus" role="tabpanel" aria-labelledby="v-pills-chooseus-tab">
+                    <section class="admin-section spad">
+                        <div class="container">
+                            <!-- Заголовок секции -->
+                            <div class="section-title-modern text-center">
+                                <h2>Управление преимуществами</h2>
+                                <p>Почему выбирают нас - преимущества компании</p>
+                            </div>
+
+                            <div class="chooseus">
+                                <div th:fragment="chooseus">
+
+                                    <!-- ========== КАТЕГОРИИ (ЗАГОЛОВКИ) ========== -->
+                                    <div class="admin-card"
+                                         th:if="${home != null and home[0].chooseus != null}">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-tags"></i>
+                                            <h4>Категории преимуществ</h4>
+                                            <span class="badge-count"
+                                                  th:text="${#lists.size(home[0].chooseus.?[categoryTitle != null])}"></span>
+                                        </div>
+                                        <div class="admin-card-body">
+                                            <div th:each="current : ${home}">
+
+                                                <div th:each="currents : ${current.chooseus}"
+                                                     th:if="${currents.categoryTitle}">
+
+                                                    <div class="category-card">
+                                                        <form th:id="${currents.id}"
+                                                              action="/admin/chooseus/import"
+                                                              onsubmit="submitForm(event)"
+                                                              data-fragment-name="chooseus"
+                                                              data-container-selector=".chooseus"
+                                                              class="category-form"
+                                                              th:object="${currents}">
+
+                                                            <div class="category-content">
+                                                                <div class="category-header">
+                                                                    <i class="fa fa-folder-open"></i>
+                                                                    <input type="text" th:value="*{description}"
+                                                                           name="title"
+                                                                           class="category-title-input"
+                                                                           disabled/>
+                                                                </div>
+                                                                <textarea rows="3" th:text="*{title}"
+                                                                          name="description"
+                                                                          class="category-description-input"
+                                                                          disabled></textarea>
+                                                            </div>
+                                                            <div class="category-actions">
+                                                                <button type="submit"
+                                                                        class="edit-category-btn"
+                                                                        title="Редактировать">
+                                                                    <i class="fa fa-pencil"></i> Изменить
+                                                                </button>
+                                                                <button type="button"
+                                                                        class="delete-category-btn"
+                                                                        th:id="${currents.id}"
+                                                                        data-fragment-name="chooseus"
+                                                                        data-container-selector=".chooseus"
+                                                                        data-deletion-url="/admin/chooseus/delete-section"
+                                                                        onclick="deleteImage(this)"
+                                                                        data-method="POST"
+                                                                        title="Удалить">
+                                                                    <i class="fa fa-trash"></i> Удалить
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div th:if="${#lists.isEmpty(home[0].chooseus.?[categoryTitle != null])}">
+                                                <div class="category-card">
+                                                    <form
+                                                            action="/admin/chooseus/import"
+                                                            onsubmit="submitForm(event)"
+                                                            data-fragment-name="chooseus"
+                                                            data-container-selector=".chooseus"
+                                                            class="category-form">
+
+                                                        <div class="category-content">
+                                                            <div class="category-header">
+                                                                <i class="fa fa-folder-open"></i>
+                                                                <input type="text"
+                                                                       name="title"
+                                                                       class="category-title-input"
+                                                                       disabled/>
+                                                            </div>
+                                                            <textarea rows="3"
+                                                                      name="description"
+                                                                      class="category-description-input"
+                                                                      disabled></textarea>
+                                                        </div>
+                                                        <div class="category-actions">
+                                                            <button type="submit"
+                                                                    class="edit-category-btn"
+                                                                    title="Редактировать">
+                                                                <i class="fa fa-pencil"></i> Изменить
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ========== ФОРМА ДОБАВЛЕНИЯ ========== -->
+                                    <div class="admin-card">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-plus-circle"></i>
+                                            <h4>Добавить преимущество</h4>
+                                        </div>
+                                        <div class="admin-card-body">
+                                            <form action="/admin/chooseus/image-import"
+                                                  onsubmit="submitForm(event)"
+                                                  data-fragment-name="chooseus"
+                                                  data-container-selector=".chooseus"
+                                                  class="chooseus-add-form"
+                                                  th:object="${chooseus}">
+                                                <div class="admin-form-grid">
+                                                    <!-- Левая колонка - загрузка иконки -->
+                                                    <div class="admin-upload-col">
+                                                        <div class="admin-upload-area"
+                                                             onclick="document.getElementById('chooseus-file').click()">
+                                                            <img class="preview-image" id="chooseus-preview"
+                                                                 src="/img/avatar.jpg" alt="Preview">
+                                                            <div class="upload-overlay">
+                                                                <i class="fa fa-cloud-upload"></i>
+                                                                <span>Выбрать иконку</span>
+                                                            </div>
+                                                            <input type="file" name="file" id="chooseus-file"
+                                                                   accept="image/*"
+                                                                   onchange="loadImage(this, document.getElementById('chooseus-preview'))"
+                                                                   required>
+                                                        </div>
+                                                        <p class="upload-hint">
+                                                            <i class="fa fa-info-circle"></i> Рекомендуемый размер:
+                                                            64x64px
+                                                        </p>
+                                                    </div>
+
+                                                    <!-- Правая колонка - поля формы -->
+                                                    <div class="admin-form-col">
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-header"></i>
+                                                                Заголовок (H1)
+                                                            </label>
+                                                            <textarea class="admin-textarea" name="title"
+                                                                      th:field="*{title}"
+                                                                      placeholder="Например: Профессиональные мастера"
+                                                                      required></textarea>
+                                                        </div>
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-align-left"></i>
+                                                                Описание (H2)
+                                                            </label>
+                                                            <textarea class="admin-textarea" name="description"
+                                                                      th:field="*{description}"
+                                                                      placeholder="Краткое описание преимущества..."
+                                                                      rows="3" required></textarea>
+                                                        </div>
+                                                        <button type="submit" class="admin-btn">
+                                                            <i class="fa fa-save"></i> Добавить преимущество
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- ========== СПИСОК ПРЕИМУЩЕСТВ ========== -->
+                                    <div class="admin-card">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-list"></i>
+                                            <h4>Список преимуществ</h4>
+                                            <span class="badge-count"
+                                                  th:text="${home != null and home[0].chooseus != null ? #lists.size(home[0].chooseus.?[categoryTitle == null]) : 0}"></span>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div th:if="${home != null and home[0].chooseus != null and !#lists.isEmpty(home[0].chooseus.?[categoryTitle == null])}">
+                                                <div class="chooseus-items-grid">
+                                                    <div th:each="currents : ${home[0].chooseus}"
+                                                         th:unless="${currents.categoryTitle}"
+                                                         class="chooseus-item-card">
+                                                        <div class="chooseus-item-icon">
+                                                            <img th:if="${currents.imageName}"
+                                                                 th:src="@{'/images/' + ${currents.imageName}}"
+                                                                 alt="Icon">
+                                                            <i th:unless="${currents.imageName}"
+                                                               class="fa fa-check-circle"></i>
+                                                        </div>
+                                                        <div class="chooseus-item-content">
+                                                            <h5 th:text="${currents.title}">Заголовок</h5>
+                                                            <p th:text="${currents.description}">Описание...</p>
+                                                        </div>
+                                                        <div class="chooseus-item-actions">
+                                                            <button class="delete-chooseus-btn"
+                                                                    th:id="${currents.id}"
+                                                                    data-fragment-name="chooseus"
+                                                                    data-container-selector=".chooseus"
+                                                                    data-deletion-url="/admin/chooseus/delete-section"
+                                                                    data-method="POST"
+                                                                    onclick="deleteImage(this)"
+                                                                    title="Удалить">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div th:unless="${home != null and home[0].chooseus != null and !#lists.isEmpty(home[0].chooseus.?[categoryTitle == null])}"
+                                                 class="empty-state-modern">
+                                                <i class="fa fa-inbox"></i>
+                                                <p>Нет добавленных преимуществ</p>
+                                                <small>Добавьте первое преимущество через форму выше</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- Choseus Section End -->
+                <!-- Video Section Begin -->
+                <div class="tab-pane fade" id="v-pills-video" role="tabpanel" aria-labelledby="v-pills-video-tab">
+                    <section class="admin-section spad">
+                        <div class="container">
+                            <!-- Заголовок секции -->
+                            <div class="section-title-modern text-center">
+                                <h2>Управление видео</h2>
+                                <p>Добавляйте и редактируйте видео для секции "Немного видео"</p>
+                            </div>
+                            <div class="video-import">
+                                <div th:fragment="video-import">
+
+                                    <!-- ============================================================ -->
+                                    <!-- ФОРМА ДОБАВЛЕНИЯ НОВОГО ВИДЕО                             -->
+                                    <!-- ============================================================ -->
+
+                                    <div class="admin-card">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-plus-circle"></i>
+                                            <h4>Добавить новое видео</h4>
+                                        </div>
+                                        <div class="admin-card-body">
+                                            <form action="/admin/videos/image-import"
+                                                  onsubmit="submitForm(event)"
+                                                  data-fragment-name="video-import"
+                                                  data-container-selector=".video-import"
+                                                  class="video-form"
+
+                                                  th:object="${videos}">
+
+                                                <div class="admin-form-grid">
+                                                    <!-- Левая колонка - загрузка превью -->
+                                                    <div class="admin-upload-col">
+                                                        <div class="admin-upload-area"
+                                                             onclick="document.getElementById('video-preview-file').click()">
+                                                            <img class="preview-image" id="video-preview"
+                                                                 src="/img/avatar.jpg" alt="Preview">
+                                                            <div class="upload-overlay">
+                                                                <i class="fa fa-cloud-upload"></i>
+                                                                <span>Выбрать обложку</span>
+                                                            </div>
+                                                            <input type="file" name="file" id="video-preview-file"
+                                                                   accept="image/*"
+                                                                   onchange="loadImage(this, document.getElementById('video-preview'))">
+                                                        </div>
+                                                        <p class="upload-hint">
+                                                            <i class="fa fa-info-circle"></i>
+                                                            Рекомендуемый размер: 320x180px (16:9)
+                                                        </p>
+                                                        <!-- ===== ИНСТРУКЦИЯ ===== -->
+                                                        <div class="video-url-instruction">
+                                                            <button type="button" class="instruction-toggle"
+                                                                    onclick="toggleInstruction(this)">
+                                                                <i class="fa fa-question-circle"></i>
+                                                                Как получить ссылку для встраивания?
+                                                            </button>
+                                                            <div class="instruction-content" style="display: none;">
+                                                                <div class="instruction-tabs">
+                                                                    <button type="button" class="tab-btn active"
+                                                                            data-tab="vk"
+                                                                            onclick="switchInstructionTab(this, 'vk')">
+                                                                        <i class="fa fa-vk"></i> ВКонтакте
+                                                                    </button>
+                                                                    <button type="button" class="tab-btn"
+                                                                            data-tab="youtube"
+                                                                            onclick="switchInstructionTab(this, 'youtube')">
+                                                                        <i class="fa fa-youtube-play"></i> YouTube
+                                                                    </button>
+                                                                    <button type="button" class="tab-btn"
+                                                                            data-tab="rutube"
+                                                                            onclick="switchInstructionTab(this, 'rutube')">
+                                                                        <i class="fa fa-play"></i> Rutube
+                                                                    </button>
+                                                                </div>
+
+                                                                <!-- Инструкция для VK -->
+                                                                <div class="tab-content active" id="instruction-vk">
+                                                                    <ol>
+                                                                        <li>Зайдите на страницу видео во <strong>ВКонтакте</strong>
+                                                                        </li>
+                                                                        <li>Нажмите на кнопку
+                                                                            <strong>«Поделиться»</strong> (стрелка
+                                                                            вправо)
+                                                                        </li>
+                                                                        <li>Выберите <strong>«Встроить код»</strong> или
+                                                                            <strong>«Embed»</strong></li>
+                                                                        <li>Скопируйте ссылку из атрибута
+                                                                            <code>src</code> тега <code>iframe</code>
+                                                                        </li>
+                                                                        <li>Вставьте ссылку в поле выше</li>
+                                                                    </ol>
+                                                                    <div class="instruction-example">
+                                                                        <p><strong>Пример ссылки:</strong></p>
+                                                                        <code>https://vk.com/video_ext.php?oid=-174808662&id=456239081&hash=b2f7acf9981a0447</code>
+                                                                    </div>
+                                                                    <div class="instruction-screenshot">
+                                                                        <img src="/img/vk-instruction.png"
+                                                                             alt="Инструкция VK"
+                                                                             onerror="this.style.display='none'">
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Инструкция для YouTube -->
+                                                                <div class="tab-content" id="instruction-youtube"
+                                                                     style="display: none;">
+                                                                    <ol>
+                                                                        <li>Зайдите на страницу видео на
+                                                                            <strong>YouTube</strong></li>
+                                                                        <li>Нажмите на кнопку
+                                                                            <strong>«Поделиться»</strong> (стрелка
+                                                                            вправо)
+                                                                        </li>
+                                                                        <li>Выберите <strong>«Встроить»</strong> или
+                                                                            <strong>«Embed»</strong></li>
+                                                                        <li>Скопируйте ссылку из атрибута
+                                                                            <code>src</code> тега <code>iframe</code>
+                                                                        </li>
+                                                                        <li>Вставьте ссылку в поле выше</li>
+                                                                    </ol>
+                                                                    <div class="instruction-example">
+                                                                        <p><strong>Пример ссылки:</strong></p>
+                                                                        <code>https://www.youtube.com/embed/dQw4w9WgXcQ</code>
+                                                                    </div>
+                                                                    <div class="instruction-note">
+                                                                        <i class="fa fa-info-circle"></i>
+                                                                        Можно добавить параметры: <code>?autoplay=1&rel=0</code>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Инструкция для Rutube -->
+                                                                <div class="tab-content" id="instruction-rutube"
+                                                                     style="display: none;">
+                                                                    <ol>
+                                                                        <li>Зайдите на страницу видео на
+                                                                            <strong>Rutube</strong></li>
+                                                                        <li>Нажмите на кнопку
+                                                                            <strong>«Поделиться»</strong></li>
+                                                                        <li>Выберите <strong>«Встроить»</strong> или
+                                                                            скопируйте ссылку
+                                                                        </li>
+                                                                        <li>Вставьте ссылку в поле выше</li>
+                                                                    </ol>
+                                                                    <div class="instruction-example">
+                                                                        <p><strong>Пример ссылки:</strong></p>
+                                                                        <code>https://rutube.ru/embed/1234567890</code>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Правая колонка - поля формы -->
+                                                    <div class="admin-form-col">
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-header"></i>
+                                                                Название видео
+                                                            </label>
+                                                            <input type="text" class="admin-textarea" name="title"
+
+                                                                   placeholder="Например: Тату-процесс"
+                                                                   required>
+                                                        </div>
+
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-align-left"></i>
+                                                                Описание
+                                                            </label>
+                                                            <textarea class="admin-textarea" name="description"
+
+                                                                      placeholder="Краткое описание видео..."
+                                                                      rows="2"></textarea>
+                                                        </div>
+
+                                                        <div class="admin-form-group">
+                                                            <label class="admin-label">
+                                                                <i class="fa fa-link"></i>
+                                                                Ссылка на видео (VK, YouTube)
+                                                            </label>
+                                                            <input type="url" class="admin-textarea" name="videoUrl"
+
+                                                                   placeholder="https://vk.com/video_ext.php?oid=...&id=..."
+                                                                   required>
+                                                            <small class="form-hint">
+                                                                Используйте ссылку для встраивания (iframe)
+                                                            </small>
+                                                        </div>
+
+                                                        <button type="submit" class="admin-btn">
+                                                            <i class="fa fa-save"></i> Добавить видео
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- ============================================================ -->
+                                    <!-- СПИСОК ВИДЕО                                               -->
+                                    <!-- ============================================================ -->
+
+                                    <div class="admin-card" th:each="current : ${home}">
+                                        <div class="admin-card-header">
+                                            <i class="fa fa-list"></i>
+                                            <h4>Список видео</h4>
+                                            <span class="badge-count"
+                                                  th:text="${current.videos != null ? #lists.size(current.videos) : 0}"></span>
+                                        </div>
+                                        <div class="modern-card-body">
+
+                                            <!-- ЕСТЬ ВИДЕО -->
+                                            <div th:if="${current.videos != null and !current.videos.isEmpty()}">
+                                                <div class="video-items-grid">
+                                                    <div th:each="video : ${current.videos}" class="video-item-card">
+                                                        <!-- Превью -->
+                                                        <div class="video-item-preview">
+                                                            <img th:src="${video.previewImage != null ? '/images/' + video.previewImage : '/img/avatar.jpg'}"
+                                                                 th:alt="${video.title}">
+                                                            <div class="video-item-play">
+                                                                <i class="fa fa-play"></i>
+                                                            </div>
+                                                            <span class="video-item-status"
+                                                                  th:classappend="${video.isActive} ? 'status-active' : 'status-inactive'">
+                                                        <i th:if="${video.isActive}" class="fa fa-check-circle"></i>
+                                                        <i th:unless="${video.isActive}" class="fa fa-minus-circle"></i>
+                                                    </span>
+                                                        </div>
+
+                                                        <!-- Информация -->
+                                                        <div class="video-item-info">
+                                                            <div class="video-item-header">
+                                                                <h5 th:text="${video.title}">Название видео</h5>
+                                                                <span class="video-item-order"
+                                                                      th:text="'#' + ${video.displayOrder}">#0</span>
+                                                            </div>
+                                                            <p class="video-item-desc" th:text="${video.description}">
+                                                                Описание</p>
+                                                            <div class="video-item-meta">
+                                                        <span class="video-item-url">
+                                                            <i class="fa fa-link"></i>
+                                                            <a th:href="${video.videoUrl}" target="_blank"
+                                                               th:text="${#strings.abbreviate(video.videoUrl, 30)}">Ссылка</a>
+                                                        </span>
+                                                                <span class="video-item-date"
+                                                                      th:text="${#temporals.format(video.createdAt, 'dd.MM.yyyy')}">Дата</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Действия -->
+                                                        <div class="video-item-actions">
+                                                            <button class="action-btn delete-btn"
+                                                                    th:id="${video.id}"
+                                                                    data-fragment-name="video-import"
+                                                                    data-container-selector=".video-import"
+                                                                    data-deletion-url="/admin/videos/delete-section"
+                                                                    onclick="deleteImage(this)"
+                                                                    data-method="POST"
+                                                                    title="Удалить">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- НЕТ ВИДЕО -->
+                                            <div th:if="${current.videos == null or current.videos.isEmpty()}"
+                                                 class="empty-state-modern">
+                                                <i class="fa fa-video-camera"></i>
+                                                <h4>Нет видео</h4>
+                                                <p>Добавьте первое видео через форму выше</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!-- Video Section End -->
+    </div>
+</div>
+</div>
+</div>
+<!--End home panes -->

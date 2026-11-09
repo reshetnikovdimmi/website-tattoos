@@ -15,7 +15,7 @@ import ru.tattoo.maxsim.service.interf.HomeService;
 public class ChooseusSectionController extends CRUDController<ChooseusSection, Long> {
 
     public static final String URL = "/admin/chooseus";
-    public static final String PAGE_FRAGMENT = "fragment-admin";
+    public static final String PAGE_FRAGMENT = "fragment-admin/home";
 
     @Autowired
     private ChooseusSectionService chooseusSectionService;
