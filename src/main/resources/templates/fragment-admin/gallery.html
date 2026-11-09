@@ -1,4 +1,12 @@
-<div th:fragment="gallery">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="gallery" class="galleryFragment">
     <br>
     <section class="admin-section spad">
         <div class="container">
@@ -32,7 +40,7 @@
                 <div class="admin-card-body">
                     <form action="/admin/gallery/image-import"
                           onsubmit="submitForm(event)"
-                          data-fragment-name="galleryGridContainer"
+                          data-fragment-name="gallery"
                           data-container-selector=".galleryFragment"
                           class="gallery-form"
                           th:object="${images}">
@@ -92,3 +100,5 @@
         </div>
     </section>
 </div>
+</body>
+</html>

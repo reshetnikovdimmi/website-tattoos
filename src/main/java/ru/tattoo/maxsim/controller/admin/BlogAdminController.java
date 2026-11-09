@@ -30,7 +30,7 @@ public class BlogAdminController extends CRUDController<Blog, Long> {
 
     @Override
     protected String getFragmentName() {
-        return "fragment-admin";
+        return "fragment-admin/blog";
     }
 
     @Override

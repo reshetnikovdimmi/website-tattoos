@@ -57,7 +57,7 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
                                       HttpServletRequest request) {
         log.info("Загрузка галереи: {}", request.getRequestURI());
         updateSection(model);
-        return getFragmentName()+"::galleryGridContainer";
+        return getFragmentName()+"::gallery";
     }
 
     @RequestMapping(value = "{style}/{page}/{number}", method = RequestMethod.GET)

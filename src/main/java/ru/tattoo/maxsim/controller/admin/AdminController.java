@@ -57,7 +57,7 @@ public class AdminController {
     @GetMapping("/home")
     public String showHomeFragment(Model model) {
         addCommonModelAttributes(model);
-        return "fragment-admin::fragment-tab";
+        return "fragment-admin/home::home";
     }
 
     private void addCommonModelAttributes(Model model) {

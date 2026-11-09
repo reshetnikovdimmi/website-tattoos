@@ -29,7 +29,7 @@ public class ReviewsAdminController extends CRUDController<ReviewsUser, Long> {
 
     @Override
     protected String getFragmentName() {
-        return "fragment-admin";
+        return "fragment-admin/reviews";
     }
 
     @Override
