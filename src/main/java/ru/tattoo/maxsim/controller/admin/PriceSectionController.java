@@ -3,6 +3,7 @@ package ru.tattoo.maxsim.controller.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.*;
 import ru.tattoo.maxsim.controller.CRUDController;
 import ru.tattoo.maxsim.model.PriceSection;
@@ -40,6 +41,12 @@ public class PriceSectionController extends CRUDController<PriceSection, Long> {
     protected void updateSection(Model model) {
         model.addAttribute("price", new PriceSection());
         model.addAttribute("home", homeService.findAll());
+    }
+
+    @GetMapping({"", "/"})
+    private String getPriceFragment(Model model) {
+        updateSection(model);
+        return PAGE_FRAGMENT + "::home";
     }
 
 }

@@ -3,6 +3,7 @@ package ru.tattoo.maxsim.controller.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.tattoo.maxsim.controller.CRUDController;
 import ru.tattoo.maxsim.model.ChooseusSection;
@@ -37,5 +38,11 @@ public class VideoController extends CRUDController<Video, Long> {
     protected void updateSection(Model model) {
         model.addAttribute("videos", new Video());
         model.addAttribute("home", homeService.findAll());
+    }
+
+    @GetMapping({"", "/"})
+    private String getVideoFragment(Model model) {
+        updateSection(model);
+        return PAGE_FRAGMENT + "::home";
     }
 }

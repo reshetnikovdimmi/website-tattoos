@@ -3,6 +3,7 @@ package ru.tattoo.maxsim.controller.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.tattoo.maxsim.controller.CRUDController;
 import ru.tattoo.maxsim.model.HomeHeroSection;
@@ -39,5 +40,11 @@ public class HeroSectionController extends CRUDController<HomeHeroSection, Long>
         model.addAttribute("home", homeService.findAll());
         model.addAttribute("hero", new HomeHeroSection());
 
+    }
+
+    @GetMapping({"", "/"})
+    private String getHeroFragment(Model model) {
+        updateSection(model);
+        return PAGE_FRAGMENT + "::home";
     }
 }

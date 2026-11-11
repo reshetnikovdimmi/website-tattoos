@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.tattoo.maxsim.controller.CRUDController;
 import ru.tattoo.maxsim.model.ReviewSection;
@@ -38,5 +39,11 @@ public class ReviewSectionController extends CRUDController <ReviewSection, Long
         log.info("Получено {} секций: {}", sections.size(), sections);
         model.addAttribute("reviewsEntity", sections.get(0));
 
+    }
+
+    @GetMapping({"", "/"})
+    private String getReviewSectionFragment(Model model) {
+        updateSection(model);
+        return getFragmentName() + "::";
     }
 }
