@@ -1,5 +1,6 @@
 package ru.tattoo.maxsim.exceptions;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -10,11 +11,24 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import ru.tattoo.maxsim.exceptions.mail.MailSettingsSaveException;
 
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    // ==================== HTTP METHOD NOT SUPPORTED ====================
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    public String handleMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpServletRequest request, Model model) {
+        log.error("HttpRequestMethodNotSupportedException: method={}, url={}, message={}",
+                request.getMethod(), request.getRequestURL(), ex.getMessage());
+        model.addAttribute("errorMessage", "Неверный метод запроса для этого ресурса");
+        return "error-404";
+    }
 
     // ==================== ПОЛНЫЕ СТРАНИЦЫ ====================
 
