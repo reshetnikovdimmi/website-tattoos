@@ -41,10 +41,4 @@ public class AboutSectionController extends CRUDController<AboutSection, Long> {
         model.addAttribute("home", homeService.findAll());
         model.addAttribute("about", new AboutSection());
     }
-
-    @GetMapping({"", "/"})
-    private String getAboutFragment(Model model) {
-        updateSection(model);
-        return PAGE_FRAGMENT + "::home";
-    }
 }

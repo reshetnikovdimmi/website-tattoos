@@ -39,10 +39,4 @@ public class VideoController extends CRUDController<Video, Long> {
         model.addAttribute("videos", new Video());
         model.addAttribute("home", homeService.findAll());
     }
-
-    @GetMapping({"", "/"})
-    private String getVideoFragment(Model model) {
-        updateSection(model);
-        return PAGE_FRAGMENT + "::home";
-    }
 }

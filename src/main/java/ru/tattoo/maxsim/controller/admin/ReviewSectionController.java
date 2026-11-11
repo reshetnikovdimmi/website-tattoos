@@ -40,10 +40,4 @@ public class ReviewSectionController extends CRUDController <ReviewSection, Long
         model.addAttribute("reviewsEntity", sections.get(0));
 
     }
-
-    @GetMapping({"", "/"})
-    private String getReviewSectionFragment(Model model) {
-        updateSection(model);
-        return getFragmentName() + "::";
-    }
 }

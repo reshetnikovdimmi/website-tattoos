@@ -43,10 +43,4 @@ public class PriceSectionController extends CRUDController<PriceSection, Long> {
         model.addAttribute("home", homeService.findAll());
     }
 
-    @GetMapping({"", "/"})
-    private String getPriceFragment(Model model) {
-        updateSection(model);
-        return PAGE_FRAGMENT + "::home";
-    }
-
 }

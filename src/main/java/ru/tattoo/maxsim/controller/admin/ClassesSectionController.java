@@ -38,10 +38,4 @@ public class ClassesSectionController extends CRUDController<ClassesSection, Lon
     protected void updateSection(Model model) {model.addAttribute("home", homeService.findAll());
         model.addAttribute("classes", new ClassesSection());
     }
-
-    @GetMapping({"", "/"})
-    private String getClassesFragment(Model model) {
-        updateSection(model);
-        return PAGE_FRAGMENT + "::home";
-    }
 }

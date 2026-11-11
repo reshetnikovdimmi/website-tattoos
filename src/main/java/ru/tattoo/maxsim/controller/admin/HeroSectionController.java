@@ -41,10 +41,4 @@ public class HeroSectionController extends CRUDController<HomeHeroSection, Long>
         model.addAttribute("hero", new HomeHeroSection());
 
     }
-
-    @GetMapping({"", "/"})
-    private String getHeroFragment(Model model) {
-        updateSection(model);
-        return PAGE_FRAGMENT + "::home";
-    }
 }

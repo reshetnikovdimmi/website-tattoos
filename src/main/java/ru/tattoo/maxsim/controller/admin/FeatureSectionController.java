@@ -41,10 +41,4 @@ public class FeatureSectionController extends CRUDController<FeatureSection, Lon
         model.addAttribute("feature", new FeatureSection());
     }
 
-    @GetMapping({"", "/"})
-    private String getFeatureFragment(Model model) {
-        updateSection(model);
-        return PAGE_FRAGMENT + "::home";
-    }
-
 }

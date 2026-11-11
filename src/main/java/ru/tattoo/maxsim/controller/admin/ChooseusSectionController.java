@@ -41,10 +41,4 @@ public class ChooseusSectionController extends CRUDController<ChooseusSection, L
         model.addAttribute("chooseus", new ChooseusSection());
         model.addAttribute("home", homeService.findAll());
     }
-
-    @GetMapping({"", "/"})
-    private String getChooseusFragment(Model model) {
-        updateSection(model);
-        return PAGE_FRAGMENT + "::home";
-    }
 }
