@@ -48,7 +48,7 @@ public class AdminController {
         this.settingWebsiteService = settingWebsiteService;
     }
 
-    @GetMapping("/")
+    @GetMapping({"", "/"})
     public String showPage(Model model) {
         addCommonModelAttributes(model);
         return "admin";

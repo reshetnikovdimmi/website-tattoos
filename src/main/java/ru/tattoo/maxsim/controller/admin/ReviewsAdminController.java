@@ -44,7 +44,7 @@ public class ReviewsAdminController extends CRUDController<ReviewsUser, Long> {
         model.addAttribute("reviews", reviewService.findAll());
     }
 
-    @GetMapping("/")
+    @GetMapping({"", "/"})
     private String getGalleryFragment(Model model, HttpServletRequest request) {
         log.info("Получено page {}",
                 request.getRequestURL());

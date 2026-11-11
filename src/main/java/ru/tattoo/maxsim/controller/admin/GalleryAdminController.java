@@ -52,7 +52,7 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
 
     }
 
-    @GetMapping("/")
+    @GetMapping({"", "/"})
     private String getGalleryFragment(Model model,
                                       HttpServletRequest request) {
         log.info("Загрузка галереи: {}", request.getRequestURI());
