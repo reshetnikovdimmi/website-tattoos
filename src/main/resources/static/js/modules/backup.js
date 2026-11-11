@@ -306,4 +306,12 @@
         downloadBackup: downloadBackup,
         deleteBackup: deleteBackup
     };
+
+    // Глобальные функции для HTML onclick
+    window.setBackupStatus = setBackupStatus;
+    window.testBackupConnection = testBackupConnection;
+    window.createBackup = createBackup;
+    window.restoreBackup = restoreBackup;
+    window.downloadBackup = downloadBackup;
+    window.deleteBackup = deleteBackup;
 })(window);

@@ -169,4 +169,13 @@
         goToPageGalleryReviews: goToPageGalleryReviews,
         deleteImage: deleteImage
     };
+
+    // Глобальные функции для HTML onclick
+    window.goToPageGalleryAdmin = goToPageGalleryAdmin;
+    window.initGalleryActiveState = initGalleryActiveState;
+    window.goToPageGallery = goToPageGallery;
+    window.goToGalleryPageFromElement = goToGalleryPageFromElement;
+    window.goToPageSketches = goToPageSketches;
+    window.goToPageGalleryReviews = goToPageGalleryReviews;
+    window.deleteImage = deleteImage;
 })(window);

@@ -260,4 +260,14 @@
         toggleFeatured: toggleFeatured,
         sendMail: sendMail
     };
+
+    // Глобальные функции для HTML onclick/onchange
+    window.loadImage = loadImage;
+    window.updateLogoImage = updateLogoImage;
+    window.updateBreadcrumbBackground = updateBreadcrumbBackground;
+    window.previewReviewImage = previewReviewImage;
+    window.selectReviewImage = selectReviewImage;
+    window.resetReviewForm = resetReviewForm;
+    window.toggleFeatured = toggleFeatured;
+    window.sendMail = sendMail;
 })(window);

@@ -337,4 +337,16 @@
         updateVerificationFields: updateVerificationFields,
         toggleVerification: toggleVerification
     };
+
+    // Глобальные функции для HTML onclick
+    window.testSmtpConnection = testSmtpConnection;
+    window.copyLogs = copyLogs;
+    window.clearLogs = clearLogs;
+    window.sendTestEmail = sendTestEmail;
+    window.initMailSettings = initMailSettings;
+    window.toggleDebugPanel = toggleDebugPanel;
+    window.switchServiceTab = switchServiceTab;
+    window.copyToClipboard = copyToClipboard;
+    window.updateVerificationFields = updateVerificationFields;
+    window.toggleVerification = toggleVerification;
 })(window);

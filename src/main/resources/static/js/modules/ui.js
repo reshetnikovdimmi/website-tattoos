@@ -207,4 +207,15 @@
         changePort: changePort,
         updateProtocol: updateProtocol
     };
+
+    // Глобальные функции для HTML onclick/onchange
+    window.initStickyHeader = initStickyHeader;
+    window.initBackgrounds = initBackgrounds;
+    window.initMobileMenu = initMobileMenu;
+    window.initOwlCarousels = initOwlCarousels;
+    window.initMagnificPopup = initMagnificPopup;
+    window.initNiceSelect = initNiceSelect;
+    window.initTimetableFilter = initTimetableFilter;
+    window.changePort = changePort;
+    window.updateProtocol = updateProtocol;
 })(window);

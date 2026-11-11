@@ -57,4 +57,9 @@
         reinitSetBg: reinitSetBg,
         reinitAfterFragmentUpdate: reinitAfterFragmentUpdate
     };
+
+    // Глобальные функции для HTML onclick
+    window.updateAdminFragment = updateAdminFragment;
+    window.reinitSetBg = reinitSetBg;
+    window.reinitAfterFragmentUpdate = reinitAfterFragmentUpdate;
 })(window);

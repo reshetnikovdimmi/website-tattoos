@@ -54,4 +54,9 @@
         carouselPrev: carouselPrev,
         carouselNext: carouselNext
     };
+
+    // Глобальные функции для HTML onclick
+    window.goToSlide = goToSlide;
+    window.carouselPrev = carouselPrev;
+    window.carouselNext = carouselNext;
 })(window);

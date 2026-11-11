@@ -129,6 +129,12 @@
         toggleInstruction: toggleInstruction,
         switchInstructionTab: switchInstructionTab
     };
+
+    // Глобальные функции для HTML onclick
+    window.initVideoCarousel = initVideoCarousel;
+    window.reinitVideoCarousel = reinitVideoCarousel;
+    window.toggleInstruction = toggleInstruction;
+    window.switchInstructionTab = switchInstructionTab;
 })(window);
 
 // Инициализация видео модалки при document.ready

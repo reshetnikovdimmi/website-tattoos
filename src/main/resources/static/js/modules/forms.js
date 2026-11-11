@@ -176,4 +176,10 @@
         showModalMessage: showModalMessage,
         modals: modals
     };
+
+    // Глобальные функции для HTML onsubmit/onclick
+    window.submitForm = submitForm;
+    window.getFragmentInfo = getFragmentInfo;
+    window.showModalMessage = showModalMessage;
+    window.modals = modals;
 })(window);
