@@ -48,8 +48,7 @@ public class BlogAdminController extends CRUDController<Blog, Long> {
     }
 
 
-    @GetMapping()
-
+    @GetMapping("/")
     private String getBlogFragment(Model model, HttpServletRequest request) {
         log.info("Получено page {}",
                 request.getRequestURL());

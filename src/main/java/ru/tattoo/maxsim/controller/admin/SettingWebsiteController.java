@@ -41,7 +41,7 @@ public class SettingWebsiteController extends CRUDController<SettingWebsite, Lon
     @Autowired
     private HtmlSanitizerService htmlSanitizerService;
 
-    @GetMapping()
+    @GetMapping("/")
     private String getGalleryFragment(Model model, HttpServletRequest request) {
         log.info("Получено page {}",
                 request.getRequestURL());

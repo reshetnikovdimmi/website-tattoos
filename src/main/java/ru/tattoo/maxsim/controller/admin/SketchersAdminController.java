@@ -42,8 +42,7 @@ public class SketchersAdminController  extends CRUDController<Sketches, Long> {
         model.addAttribute("sketches", sketchesService.getSketchesDto(null,null, PageSize.IMG_9.getPageSize(),PAGE_NUMBER));
     }
 
-    @GetMapping()
-
+    @GetMapping("/")
     private String getSketchesFragment(Model model, HttpServletRequest request) {
         log.info("Получено page {}",
                 request.getRequestURL());
