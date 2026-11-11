@@ -55,7 +55,7 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
         model.addAttribute("reviews", reviewService.findAll());
     }
 
-    @GetMapping()
+    @GetMapping({"", "/"})
     public String reviews(Model model) {
 
         model.addAttribute("reviewsEntity", new ReviewsUser());

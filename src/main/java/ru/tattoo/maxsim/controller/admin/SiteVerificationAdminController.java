@@ -19,7 +19,7 @@ public class SiteVerificationAdminController {
 
     private final SiteVerificationService verificationService;
 
-    @GetMapping
+    @GetMapping({"", "/"})
     public String verificationPage(Model model) {
         model.addAttribute("verifications", verificationService.getAll());
         model.addAttribute("engines", SiteVerification.SearchEngine.values());

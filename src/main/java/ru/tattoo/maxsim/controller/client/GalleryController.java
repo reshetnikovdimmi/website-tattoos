@@ -50,7 +50,7 @@ public class GalleryController {
         return imagesService;
     }
 
-    @GetMapping()
+    @GetMapping({"", "/"})
     public String gallery(Model model) {
         GalleryDTO galleryData = prepareGalleryData(null, PAGE_NUMBER, PageSize.IMG_9.getPageSize());
 

@@ -35,7 +35,7 @@ public class ContactController{
     @Autowired
     private SettingWebsiteService settingWebsiteService;
 
-    @GetMapping()
+    @GetMapping({"", "/"})
     public String contact(Model model) {
         model.addAttribute("details", new EmailDetails());
         model.addAttribute("contact" , contactInfoService.findAll());

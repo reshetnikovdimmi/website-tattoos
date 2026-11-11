@@ -58,7 +58,7 @@ public class BlogController {
         model.addAttribute("commitsEntity", new Commits());
     }
 
-    @GetMapping()
+    @GetMapping({"", "/"})
     public String blog(Model model) {
         updateSection(model);
         return getEntityName();

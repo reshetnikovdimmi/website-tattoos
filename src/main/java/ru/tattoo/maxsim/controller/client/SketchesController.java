@@ -39,7 +39,7 @@ public class SketchesController{
         return sketchesService;
     }
 
-    @GetMapping()
+    @GetMapping({"", "/"})
     public String sketches(Model model) {
 
         updateSection(model);
