@@ -63,7 +63,7 @@
                                             <h4>Добавить новый слайд</h4>
                                         </div>
                                         <div class="admin-card-body">
-                                            <form action="/admin/hero/image-import"
+                                            <form method="post" action="/admin/hero/image-import"
                                                   onsubmit="submitForm(event)"
                                                   data-fragment-name="carousel-import"
                                                   data-container-selector=".carousel-import"
@@ -245,7 +245,7 @@
                                             <h4>Добавить новое преимущество</h4>
                                         </div>
                                         <div class="admin-card-body">
-                                            <form action="/admin/feature/image-import"
+                                            <form method="post" action="/admin/feature/image-import"
                                                   onsubmit="submitForm(event)"
                                                   data-fragment-name="feature-import"
                                                   data-container-selector=".feature-import"
@@ -386,7 +386,7 @@
                                             <h4>Информация о компании</h4>
                                         </div>
                                         <div class="admin-card-body">
-                                            <form action="/admin/about/image-import"
+                                            <form method="post" action="/admin/about/image-import"
                                                   onsubmit="submitForm(event)"
                                                   data-fragment-name="home-about"
                                                   data-container-selector=".about-import"
@@ -548,7 +548,8 @@
                                                     <div th:each="currents : ${current.classes}"
                                                          th:if="${currents.categoryTitle == 'class-title'}">
                                                         <div class="category-card">
-                                                            <form th:id="${currents.id}" action="/admin/classes/import"
+                                                            
+<form method="post" th:id="${currents.id}" action="/admin/classes/import"
                                                                   onsubmit="submitForm(event)"
                                                                   data-fragment-name="classes"
                                                                   data-container-selector=".classes-import"
@@ -595,7 +596,7 @@
 
                                             <div th:unless="${home != null and home[0].classes != null and !#lists.isEmpty(home[0].classes.?[categoryTitle == 'class-title'])}">
                                                 <div class="category-card">
-                                                    <form action="/admin/classes/import"
+                                                    <form method="post" action="/admin/classes/import"
                                                           onsubmit="submitForm(event)"
                                                           data-fragment-name="classes"
                                                           data-container-selector=".classes-import"
@@ -635,7 +636,7 @@
                                             <h4>Добавить новую услугу/класс</h4>
                                         </div>
                                         <div class="admin-card-body">
-                                            <form action="/admin/classes/image-import"
+                                            <form method="post" action="/admin/classes/image-import"
                                                   onsubmit="submitForm(event)"
                                                   data-fragment-name="classes"
                                                   data-container-selector=".classes-import"
@@ -774,7 +775,8 @@
                                                 <div th:each="currents : ${current.price}"
                                                      th:if="${currents.categoryTitle}">
                                                     <div class="category-card">
-                                                        <form th:id="${currents.id}" action="/admin/price/import"
+                                                        
+<form method="post" th:id="${currents.id}" action="/admin/price/import"
                                                               onsubmit="submitForm(event)"
                                                               data-fragment-name="price"
                                                               data-container-selector=".price"
@@ -815,7 +817,8 @@
                                         <div class="row" th:each="current: ${home}">
                                             <div class="col-lg-4" th:each="currents : ${current.price}"
                                                  th:unless="${currents.categoryTitle}">
-                                                <form th:id="${currents.id}" action="/admin/price/import"
+                                                
+<form method="post" th:id="${currents.id}" action="/admin/price/import"
                                                       onsubmit="submitForm(event)"
                                                       data-fragment-name="price"
                                                       data-container-selector=".price"
@@ -888,7 +891,8 @@
                                                      th:if="${currents.categoryTitle}">
 
                                                     <div class="category-card">
-                                                        <form th:id="${currents.id}"
+                                                        
+<form method="post" th:id="${currents.id}"
                                                               action="/admin/chooseus/import"
                                                               onsubmit="submitForm(event)"
                                                               data-fragment-name="chooseus"
@@ -975,7 +979,7 @@
                                             <h4>Добавить преимущество</h4>
                                         </div>
                                         <div class="admin-card-body">
-                                            <form action="/admin/chooseus/image-import"
+                                            <form method="post" action="/admin/chooseus/image-import"
                                                   onsubmit="submitForm(event)"
                                                   data-fragment-name="chooseus"
                                                   data-container-selector=".chooseus"
@@ -1110,7 +1114,7 @@
                                             <h4>Добавить новое видео</h4>
                                         </div>
                                         <div class="admin-card-body">
-                                            <form action="/admin/videos/image-import"
+                                            <form method="post" action="/admin/videos/image-import"
                                                   onsubmit="submitForm(event)"
                                                   data-fragment-name="video-import"
                                                   data-container-selector=".video-import"

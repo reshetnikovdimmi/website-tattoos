@@ -877,7 +877,7 @@
                                         <h4>Текст футера</h4>
                                     </div>
                                     <div class="admin-card-body">
-                                        <form action="/admin/setting/footer/import"
+                                        <form method="post" action="/admin/setting/footer/import"
                                               onsubmit="submitForm(event)"
                                               method="post"
                                               enctype="multipart/form-data"
@@ -1442,7 +1442,7 @@
                                             <h4>Добавить способ подтверждения</h4>
                                         </div>
                                         <div class="admin-card-body">
-                                            <form action="/admin/verification/save"
+                                            <form method="post" action="/admin/verification/save"
                                                   onsubmit="submitForm(event)"
                                                   data-fragment-name="verificationFragment"
                                                   data-container-selector=".verification-section"
@@ -1610,7 +1610,7 @@
                                         <h4>Яндекс.Диск</h4>
                                     </div>
                                     <div class="admin-card-body">
-                                        <form action="/admin/backup/save"
+                                        <form method="post" action="/admin/backup/save"
                                               onsubmit="submitForm(event)"
                                               data-fragment-name="backup-settings"
                                               data-container-selector=".backup-settings"
@@ -1906,7 +1906,7 @@
                     <h4>Добавить изображение</h4>
                 </div>
                 <div class="admin-card-body">
-                    <form action="/admin/gallery/image-import"
+                    <form method="post" action="/admin/gallery/image-import"
                           onsubmit="submitForm(event)"
                           data-fragment-name="galleryGridContainer"
                           data-container-selector=".galleryFragment"
