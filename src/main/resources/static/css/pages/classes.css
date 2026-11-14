@@ -222,3 +222,45 @@
 .classes-section .col-lg-3:nth-child(2) .classes-item { animation-delay: 0.2s; }
 .classes-section .col-lg-3:nth-child(3) .classes-item { animation-delay: 0.3s; }
 .classes-section .col-lg-3:nth-child(4) .classes-item { animation-delay: 0.4s; }
+
+/* ============================================
+   EMPTY STATE - Пустые состояния классов
+   ============================================ */
+
+.empty-hint {
+    color: #8f8fa8;
+    font-size: 14px;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+.empty-class-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    opacity: 0.6;
+}
+
+.empty-class-content {
+    text-align: center;
+    padding: 20px;
+}
+
+.empty-class-content i {
+    font-size: 48px;
+    color: #8f8fa8;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.empty-class-content h4 {
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.empty-class-content .short-details {
+    color: #8f8fa8;
+    margin-bottom: 15px;
+}

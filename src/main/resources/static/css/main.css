@@ -12,7 +12,9 @@
 @import 'components/form.css';
 @import 'components/modal.css';
 @import 'components/pagination.css';
+@import 'components/section-title.css';
 @import 'components/upload.css';
+@import 'components/utilities.css';
 @import 'components/scroll.css';
 
 /* Layouts */
@@ -29,7 +31,6 @@
 @import 'pages/admin-common.css';
 @import 'pages/gallery.css';
 @import 'pages/blog.css';
-@import 'pages/user.css';
 @import 'pages/hero.css';
 @import 'pages/feature.css';
 @import 'pages/about.css';
@@ -46,13 +47,7 @@
 @import 'pages/mail.css';
 @import 'pages/backup.css';
 
-
 /* Responsive */
 @import 'responsetive/mobile.css';
 @import 'responsetive/tablet.css';
 @import 'responsetive/desktop.css';
-
-/* Third-party libraries (если нужно переопределить) */
-@import 'bootstrap.min.css';
-@import 'font-awesome.min.css';
-@import 'owl.carousel.min.css';

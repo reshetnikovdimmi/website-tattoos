@@ -236,3 +236,74 @@
     background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     transform: translateY(-3px);
 }
+
+/* ============================================
+   PRIMARY BUTTON (legacy Activitar)
+   ============================================ */
+
+.primary-btn {
+    display: inline-block;
+    font-size: 14px;
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    padding: 0 12px;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    width: 160px;
+    height: 46px;
+    border-left: 2px solid var(--color-primary-light);
+    border-right: 2px solid var(--color-primary);
+    box-sizing: border-box;
+    background-position: 0 0, 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+    background-image: linear-gradient(to right, var(--color-primary) 100%, var(--color-primary-light) 100%),
+                      linear-gradient(to right, var(--color-primary) 0%, var(--color-primary-light) 0%);
+    transition-duration: 1000ms;
+    line-height: 45px;
+    position: relative;
+    z-index: 1;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.primary-btn:after {
+    color: #fff;
+    transition-duration: 500ms;
+    background: linear-gradient(to right, var(--color-primary-light), var(--color-primary));
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: 2px;
+    opacity: 0;
+}
+
+.primary-btn:hover {
+    background-position: 100% 0, 100% 100%;
+}
+
+.primary-btn:hover:after {
+    opacity: 1;
+}
+
+/* Секционные варианты */
+.primary-btn.f-btn,
+.primary-btn.about-btn,
+.primary-btn.class-btn,
+.primary-btn.price-btn {
+    /* наследуют базовые стили */
+}
+
+.primary-btn.about-btn {
+    margin-top: 10px;
+}
+
+.primary-btn.price-btn {
+    margin-top: 15px;
+}

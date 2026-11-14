@@ -1,0 +1,18 @@
+/* ============================================
+   SECTION TITLE - Заголовки секций
+   ============================================ */
+
+.section-title h2 {
+    color: #ffffff;
+    font-size: 48px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+}
+
+.section-title p {
+    color: #ffffff;
+    margin-bottom: 0;
+}
+
+/* Адаптивные переопределения (из tablet.css / mobile.css) */
