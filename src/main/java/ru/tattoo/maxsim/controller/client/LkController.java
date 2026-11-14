@@ -181,12 +181,12 @@ public class LkController {
 
             model.addAttribute("error", e.getMessage());
 
-            return "modal::modal-body";
+            return "fragments/modals/message :: message-body";
 
         } catch (Exception e) {
             log.error("Ошибка при обновлении профиля", e);
             model.addAttribute("error", "Не удалось обновить профиль");
-            return "modal::modal-body";
+            return "fragments/modals/message :: message-body";
         }
     }
 
@@ -214,7 +214,7 @@ public class LkController {
         long maxSize = 10 * 1024 * 1024; // 10 MB
         if (fileImport.getSize() > maxSize) {
             model.addAttribute("error", "Размер файла не должен превышать 10MB");
-            return "modal::modal-body";
+            return "fragments/modals/message :: message-body";
         }
 
         userService.updateUserAvatar(fileImport, principal); // Сохраняем новый аватар

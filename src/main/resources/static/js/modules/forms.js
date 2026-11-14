@@ -120,7 +120,7 @@
             console.error('❌ Ошибка:', error);
             modals();
             if (error.responseText) {
-                $('.modal-body').html(error.responseText);
+                $('#myModal .modal-body').html(error.responseText);
             }
             button.textContent = originalText;
             button.disabled = false;

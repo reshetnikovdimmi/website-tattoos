@@ -8,15 +8,15 @@
 <body>
 <!-- Модальное окно -->
 <div th:fragment="modal">
-    <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    <div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h7 class="modal-title">Сообщение</h7>
+                    <h5 class="modal-title">Сообщение</h5>
                     <button type="button" id="hide"
-                            class="delete-button btn-close-custom"
-                            data-bs-dismiss="modal"
+                            class="close"
+                            data-dismiss="modal"
                             aria-label="Close">
                     </button>
                 </div>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                 </div>
             </div>
         </div>

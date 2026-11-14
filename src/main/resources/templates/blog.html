@@ -53,29 +53,7 @@
 <div th:replace="~{fragments::header}"></div>
 <!-- Header End -->
 <!-- Модальное окно -->
-<div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h7 class="modal-title">Сообщение</h7>
-
-                <button type="button" id="hide"
-                        class="btn-close btn-close-custom"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-            </div>
-        </div>
-    </div>
-</div>
+<div th:replace="~{fragments/modals/message :: message}"></div>
 <!-- Модальное окно End -->
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg spad" th:each="current: ${setting}" th:if="${current.section=='breadcrumb'}" th:attr="data-setbg=@{'/images/'+${current.imageName}}">

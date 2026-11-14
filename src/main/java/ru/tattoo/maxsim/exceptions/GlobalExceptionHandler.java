@@ -93,7 +93,7 @@ public class GlobalExceptionHandler {
     public String handleFileDeletionError(FileDeletionException ex, Model model) {
         log.error("File deletion error", ex);
         model.addAttribute("error", "Ошибка при удалении файла");
-        return "modal::modal-body";
+        return "fragments/modals/message :: message-body";
     }
 
     // ==================== ДЛЯ FRAGMENT/AJAX ЗАПРОСОВ ====================
@@ -105,7 +105,7 @@ public class GlobalExceptionHandler {
         model.addAttribute("error", ex.getMessage());
         model.addAttribute("uploadError", ex.getMessage());
         // Возвращаем имя фрагмента с ошибкой вместо null
-        return "modal::modal-body";
+        return "fragments/modals/message :: message-body";
     }
 
     @ExceptionHandler(ValidationException.class)
@@ -114,14 +114,14 @@ public class GlobalExceptionHandler {
         log.warn("Validation error: {}", ex.getMessage());
         model.addAttribute("error", ex.getMessage());
         model.addAttribute("validationErrors", ex.getErrors());
-        return "modal::modal-body";
+        return "fragments/modals/message :: message-body";
     }
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleEntityNotFound(EntityNotFoundException ex, Model model) {
         log.warn("Entity not found: {}", ex.getMessage());
         model.addAttribute("error", ex.getMessage());
-        return "modal::modal-body";  // или "error-404"
+        return "fragments/modals/message :: message-body";  // или "error-404"
     }
 
     @ExceptionHandler(MailSettingsSaveException.class)
@@ -129,6 +129,6 @@ public class GlobalExceptionHandler {
     public String handleMailSettingsSaveException(MailSettingsSaveException ex, Model model) {
         log.error("Ошибка сохранения настроек почты: {}", ex.getMessage(), ex);
         model.addAttribute("error", ex.getMessage());
-        return "modal::modal-body";  // или "error-404"
+        return "fragments/modals/message :: message-body";  // или "error-404"
     }
 }

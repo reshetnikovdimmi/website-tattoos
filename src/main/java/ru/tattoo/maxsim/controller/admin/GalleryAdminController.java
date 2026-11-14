@@ -82,7 +82,7 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
             model.addAttribute("message", "Флаг обновлен успешно:"+"-" + message);
             log.info("Обновление флага: id={}, flag={}, user={}", id, flag, auth.getName());
 
-        return "modal::modal-body";
+        return "fragments/modals/message :: message-body";
     }
 
     // 🔄 метод для подготовки данных галереи
