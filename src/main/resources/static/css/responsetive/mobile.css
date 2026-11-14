@@ -40,19 +40,7 @@
     }
 }
 @media (max-width: 480px) {
-    .gallery-modal-img {
-        height: 180px;
-    }
-
-    .modal-footer .blog-option-right {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-    }
-
-    .modal-footer .show-result {
-        justify-content: space-between;
-    }
+    /* Стили перенесены в modal.css */
 }
 @media (max-width: 480px) {
     .reviews-header h2 {

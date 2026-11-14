@@ -40,18 +40,18 @@ $(window).on('load', function() {
 });
 
 // ============================================================
-// 2. ИНИЦИАЛИЗАЦИЯ ПРИ READY
+// 2. ИНИЦИАЛИЗАЦИЯ ПРИ READY (с защитой от отсутствия модулей)
 // ============================================================
 
 $(document).ready(function() {
     console.log('🚀 Activitar - инициализация');
 
-    initStickyHeader();
-    initBackgrounds();
-    initMobileMenu();
-    initOwlCarousels();
-    initMagnificPopup();
-    initNiceSelect();
-    initTimetableFilter();
-    initVideoCarousel();
+    if (typeof initStickyHeader === 'function') initStickyHeader();
+    if (typeof initBackgrounds === 'function') initBackgrounds();
+    if (typeof initMobileMenu === 'function') initMobileMenu();
+    if (typeof initOwlCarousels === 'function') initOwlCarousels();
+    if (typeof initMagnificPopup === 'function') initMagnificPopup();
+    if (typeof initNiceSelect === 'function') initNiceSelect();
+    if (typeof initTimetableFilter === 'function') initTimetableFilter();
+    if (typeof initVideoCarousel === 'function') initVideoCarousel();
 });
