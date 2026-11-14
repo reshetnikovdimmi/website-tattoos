@@ -271,3 +271,20 @@
     window.toggleFeatured = toggleFeatured;
     window.sendMail = sendMail;
 })(window);
+
+    /**
+     * Делегированный обработчик для форм с data-form
+     */
+    function initFormDelegation() {
+        document.addEventListener('submit', function(event) {
+            var form = event.currentTarget;
+            if (form.hasAttribute('data-form')) {
+                sendMail(event);
+            }
+        });
+    }
+
+    // Инициализация делегирования при DOM ready
+    $(document).ready(function() {
+        initFormDelegation();
+    });
