@@ -57,7 +57,7 @@
     <!-- Map Section Begin -->
         <div class="map-widget-wrapper" th:each="current : ${contact}">
 
-                <div th:replace="~{fragments/contact/map-widget :: map-widget}"></div>
+                <div th:replace="~{fragments/contact/map-widget.html :: map-widget}"></div>
 
         </div>
     <!-- Map Section End -->
@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8 offset-lg-1 info-block contact-form">
-                    <div th:replace="~{fragments/contact/contact-form :: contact-form}"></div>
+                    <div th:replace="~{fragments/contact/contact-form.html :: contact-form}"></div>
                 </div>
             </div>
         </div>
@@ -115,7 +115,7 @@
     <!-- Footer Section End -->
 
     <!-- Js Plugins & Modules -->
-    <div th:replace="~{fragments/index/scripts :: scripts}"></div>
+    <div th:replace="~{fragments/index/scripts.html :: scripts}"></div>
 </body>
 
 </html>
