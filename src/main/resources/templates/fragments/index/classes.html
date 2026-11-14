@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="classes">
+    <!-- Classes Section Begin -->
+    <section class="classes-section" th:each="current : ${carousel}">
+
+        <!-- БЛОК 1: CLASS-TITLE (заголовок секции) -->
+        <div class="class-title set-bg" data-setbg="img/classes-title-bg.jpg">
+            <div th:if="${current.classes != null and !current.classes.isEmpty()}"
+                 th:each="currents : ${current.classes}">
+                <div class="container" th:if="${currents.categoryTitle == 'class-title'}">
+                    <div class="row">
+                        <div class="col m-auto text-center">
+                            <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                                <h2 th:text="${currents.description}">Заголовок категории</h2>
+                                <p class="short-details" th:text="${currents.name}">Описание категории</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${current.classes == null or current.classes.isEmpty()}">
+                <div class="container">
+                    <div class="row">
+                        <div class="col m-auto text-center">
+                            <div class="section-title pl-lg-4 pr-lg-4 pl-0 pr-0">
+                                <h2>Услуги и классы</h2>
+                                <p class="short-details">Здесь будет информация о ваших услугах</p>
+                                <p class="empty-hint">Добавьте их в админ-панели, чтобы клиенты знали, что вы
+                                    предлагаете</p>
+                                <a href="/admin" class="primary-btn about-btn">Добавить услуги</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- БЛОК 2: CONTAINER-FLUID (карточки услуг) -->
+        <div class="container-fluid">
+            <div th:if="${current.classes != null and !current.classes.isEmpty()}">
+                <div class="row">
+                    <div th:each="currents : ${current.classes}"
+                         th:if="${currents.categoryTitle == 'container-fluid'}"
+                         class="col-lg-3 col-sm-6">
+
+                        <div class="classes-item set-bg"
+                             th:attr="data-setbg=@{'/images/' + ${currents.imageName}}">
+                            <h4 th:text="${currents.name}">Название услуги</h4>
+                            <p class="short-details" th:text="${currents.description}">Описание услуги</p>
+                            <a th:href="@{'/gallery/filter/style/' + ${currents.name}}"
+                               class="primary-btn class-btn">Подробнее</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ПУСТОЕ СОСТОЯНИЕ -->
+            <div th:if="${current.classes == null or current.classes.isEmpty()}"
+                 class="row">
+                <div th:each="i : ${#numbers.sequence(1, 4)}"
+                     class="col-lg-3 col-sm-6">
+                    <div class="classes-item empty-class-item set-bg" data-setbg="/img/avatar.jpg">
+                        <div class="empty-class-content">
+                            <i class="fa fa-plus-circle"></i>
+                            <h4 th:text="'Услуга ' + ${i}">Услуга 1</h4>
+                            <p class="short-details">Добавьте услуги в админ-панели</p>
+                            <a href="/admin" class="primary-btn class-btn">Добавить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Classes Section End -->
+</th:block>

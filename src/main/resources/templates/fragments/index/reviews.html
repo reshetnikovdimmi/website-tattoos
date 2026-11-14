@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="reviews">
+    <!-- Blog/Reviews Section Begin -->
+    <section class="blog-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="section-title">
+                        <h2>РЕАЛЬНЫЕ ОТЗЫВЫ</h2>
+                        <p>Я очень дорожу вашим мнением</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="blog-grid">
+                <!-- Отзыв 1 (левый верхний) -->
+                <div th:if="${reviewsLimit != null and reviewsLimit.size() > 0}" class="grid-item review-left">
+                    <div class="blog-item large-item set-bg"
+                         th:with="review=${reviewsLimit[0]}"
+                         th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/avatar.jpg'}}">
+                        <a href="/reviews" class="review-content">
+                            <span class="review-author" th:text="${review.userName}">Пользователь</span>
+                            <p class="review-text" th:text="${review.comment}">Текст отзыва</p>
+                            <div class="review-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Instagram блок (центр верхний) -->
+                <div class="grid-item instagram-center"
+                     th:each="current : ${carousel}">
+                    <div class="blog-item instagram-item"
+                         th:each="review : ${current.review}"
+                         th:if="${current.review != null and !current.review.isEmpty()}">
+                        <div class="instagram-text">
+                            <span class="instagram-category" th:text="${review.title}">«Красота в деталях»</span>
+                            <i class="fa fa-instagram"></i>
+                        </div>
+                        <a href="/reviews" class="review-link">
+                            <p th:text="${review.description}">Оставьте отзыв, получите скидку</p>
+                        </a>
+                    </div>
+                    <!-- Пустое состояние - если review нет -->
+                    <div th:if="${current.review == null or current.review.isEmpty()}"
+                         class="blog-item instagram-item set-bg"
+                         data-setbg="/img/avatar.jpg">
+                        <div class="instagram-text">
+                            <span class="instagram-category">«Красота в деталях»</span>
+                            <i class="fa fa-instagram"></i>
+                        </div>
+                        <a href="/admin" class="review-link">
+                            <p>Добавьте информацию в админ-панели</p>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Отзыв 2 (правый верхний) -->
+                <div th:if="${reviewsLimit != null and reviewsLimit.size() > 1}" class="grid-item review-right">
+                    <div class="blog-item large-item set-bg"
+                         th:with="review=${reviewsLimit[1]}"
+                         th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/avatar.jpg'}}">
+                        <a href="/reviews" class="review-content">
+                            <span class="review-author" th:text="${review.userName}">Пользователь</span>
+                            <p class="review-text" th:text="${review.comment}">Текст отзыва</p>
+                            <div class="review-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Отзыв 3 (левый нижний) -->
+                <div th:if="${reviewsLimit != null and reviewsLimit.size() > 2}" class="grid-item review-left">
+                    <div class="blog-item large-item set-bg"
+                         th:with="review=${reviewsLimit[2]}"
+                         th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/avatar.jpg'}}">
+                        <a href="/reviews" class="review-content">
+                            <span class="review-author" th:text="${review.userName}">Пользователь</span>
+                            <p class="review-text" th:text="${review.comment}">Текст отзыва</p>
+                            <div class="review-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Блок "Все отзывы" (центр нижний) -->
+                <div class="grid-item all-reviews-center"
+                     th:each="current : ${carousel}"
+                     th:if="${current.review != null and !current.review.isEmpty()}">
+                    <div class="blog-item all-reviews-item set-bg"
+                         th:each="review : ${current.review}"
+                         th:attr="data-setbg=@{${review.imageName != null ? '/images/' + review.imageName : '/img/avatar.jpg'}}">
+                        <a href="/reviews" class="all-reviews-link">
+                            <span>Все отзывы</span>
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Отзыв 4 (правый нижний) -->
+                <div th:if="${reviewsLimit != null and reviewsLimit.size() > 3}" class="grid-item review-right">
+                    <div class="blog-item large-item set-bg"
+                         th:with="review=${reviewsLimit[3]}"
+                         th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/avatar.jpg'}}">
+                        <a href="/reviews" class="review-content">
+                            <span class="review-author" th:text="${review.userName}">Пользователь</span>
+                            <p class="review-text" th:text="${review.comment}">Текст отзыва</p>
+                            <div class="review-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Дополнительные отзывы (5, 6, 7, 8...) -->
+            <div class="blog-grid" th:if="${reviewsLimit != null and reviewsLimit.size() > 4}">
+                <th:block th:each="review, iterStat : ${reviewsLimit}" th:if="${iterStat.index >= 4}">
+                    <div th:class="${(iterStat.index - 4) % 2 == 0} ? 'grid-item review-left' : 'grid-item review-right'">
+                        <div class="blog-item large-item set-bg"
+                             th:attr="data-setbg=@{${review.imageName != null and !review.imageName.isEmpty() ? '/images/' + review.imageName : '/img/review-placeholder.jpg'}}">
+                            <a href="/reviews" class="review-content">
+                                <span class="review-author" th:text="${review.userName}">Пользователь</span>
+                                <p class="review-text" th:text="${review.comment}">Текст отзыва</p>
+                                <div class="review-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+
+            <!-- Кнопка "Загрузить ещё" -->
+            <div class="row" th:if="${reviewsLimit != null and reviewsLimit.size() > 4}">
+                <div class="col-lg-12 text-center">
+                    <button class="load-more-reviews">Загрузить ещё</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</th:block>

@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <div class="map-widget" th:fragment="map-widget">
+        <!-- Вставляем полноценный виджет из БД (безопасно, с экранированием) -->
+        <div th:utext="${current.mapIframe}"></div>
+    </div>
+</th:block>

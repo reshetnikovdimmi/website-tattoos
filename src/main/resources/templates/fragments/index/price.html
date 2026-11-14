@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="price">
+    <!-- Price Plan Section Begin -->
+    <section class="price-section spad set-bg" th:each="current: ${carousel}" data-setbg="img/price-bg.jpg">
+        <div class="container">
+            <div class="row" th:each="currents : ${current.price}" th:if="${currents.categoryTitle}">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h2 th:text="${currents.price}"></h2>
+                        <p class="short-details" th:text="${currents.description}"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4" th:each="currents : ${current.price}" th:unless="${currents.categoryTitle}">
+                    <div class="single-price-plan">
+                        <h4 th:text="${currents.planName}"></h4>
+                        <div class="price-plan">
+                            <h2 th:text="${currents.price}"></h2>
+                            <p class="short-details" th:text="${currents.description}"></p>
+                        </div>
+                        <ul>
+                            <li th:text="${currents.feature1}"></li>
+                            <li th:text="${currents.feature2}"></li>
+                        </ul>
+                        <a href="/contact" class="primary-btn price-btn">Начать</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Price Plan Section End -->
+</th:block>

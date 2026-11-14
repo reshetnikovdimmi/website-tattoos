@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="hero">
+    <!-- Hero Section Begin -->
+    <section class="hero-section">
+        <div class="hero-items owl-carousel">
+            <!-- Баннеры -->
+            <div class="single-hero-item set-bg"
+                 th:each="banner : ${carousel[0].banners}"
+                 th:attr="data-setbg=@{${banner.imageName != null and !banner.imageName.isEmpty() ?
+                                   '/images/' + banner.imageName :
+                                   '/img/avatar.jpg'}}">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="hero-text">
+                                <h2 th:text="${banner.title}">Заголовок</h2>
+                                <h1 th:text="${banner.subtitle}">Подзаголовок</h1>
+                                <a href="/gallery" class="primary-btn">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Пустое состояние (если нет баннеров) -->
+            <div th:unless="${carousel != null and carousel[0].banners != null and !carousel[0].banners.isEmpty()}"
+                 class="single-hero-item set-bg" data-setbg="/img/avatar.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="hero-text">
+                                <h2>Добро пожаловать</h2>
+                                <h1>Тут ваш подзаголовок</h1>
+                                <a href="/gallery" class="primary-btn">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero End -->
+</th:block>

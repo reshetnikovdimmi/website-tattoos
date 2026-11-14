@@ -57,7 +57,7 @@
     <!-- Map Section Begin -->
         <div class="map-widget-wrapper" th:each="current : ${contact}">
 
-                <div th:replace="~{Index::map-widget}"></div>
+                <div th:replace="~{fragments/contact/map-widget :: map-widget}"></div>
 
         </div>
     <!-- Map Section End -->
@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8 offset-lg-1 info-block contact-form">
-                    <div th:replace="~{Index::contact-form}"></div>
+                    <div th:replace="~{fragments/contact/contact-form :: contact-form}"></div>
                 </div>
             </div>
         </div>

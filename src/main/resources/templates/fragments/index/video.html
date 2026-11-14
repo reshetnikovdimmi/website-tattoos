@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="video">
+    <!-- Video Section Begin -->
+    <section class="video-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="section-title">
+                        <h2>Немного видео</h2>
+                        <p>Нажмите на видео, чтобы посмотреть в полном размере</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12" th:each="current : ${carousel}">
+                    <!-- ЕСТЬ ВИДЕО -->
+                    <div th:if="${current.videos != null and !current.videos.isEmpty()}">
+                        <div class="video-carousel owl-carousel">
+                            <div th:each="video : ${current.videos}" class="video-card"
+                                 th:data-video-url="${video.videoUrl}">
+                                <div class="video-card-thumb">
+                                    <img th:src="${video.previewImage != null ? '/images/' + video.previewImage : '/img/avatar.jpg'}"
+                                         th:alt="${video.title}">
+                                    <div class="play-overlay">
+                                        <i class="fa fa-play"></i>
+                                    </div>
+                                </div>
+                                <div class="video-card-info">
+                                    <h5 th:text="${video.title}">Тату-процесс</h5>
+                                    <p th:text="${video.description}">Процесс нанесения татуировки</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ПУСТОЕ СОСТОЯНИЕ (НЕТ ВИДЕО) -->
+                    <div th:if="${current.videos == null or current.videos.isEmpty()}">
+                        <div class="empty-video-state text-center">
+                            <i class="fa fa-video-camera"></i>
+                            <h3>Нет видео</h3>
+                            <p>Добавьте видео в админ-панели</p>
+                            <a href="/admin" class="primary-btn">Добавить видео</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Video Section End -->
+</th:block>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="about">
+    <!-- About Section Begin -->
+    <section class="home-about spad"
+             th:with="aboutList=${carousel != null and !carousel.isEmpty() and carousel[0].about != null ? carousel[0].about : null}">
+        <div class="container">
+            <!-- Основной контент -->
+            <div th:if="${aboutList != null and !aboutList.isEmpty()}" th:each="about : ${aboutList}" class="row">
+                <!-- Текстовая часть -->
+                <div class="col-lg-6">
+                    <div class="about-text">
+                        <h3 th:text="${about.subtitle}">О тату-студии</h3>
+                        <p class="short-details" th:text="${about.title}">Индивидуальный подход</p>
+                        <p class="long-details" th:text="${about.content}">Каждая татуировка — это уникальная история...</p>
+                        <a href="/gallery" class="primary-btn about-btn">Смотреть работы</a>
+                    </div>
+                </div>
+
+                <!-- Изображение -->
+                <div class="col-lg-6">
+                    <div class="about-img">
+                        <img th:src="${about.imageName != null and !about.imageName.isEmpty() ? '/images/' + about.imageName : '/img/avatar.jpg'}"
+                             th:alt="${about.title}"
+                             loading="lazy">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Пустое состояние -->
+            <div th:if="${aboutList == null or aboutList.isEmpty()}" class="row">
+                <div class="col-lg-6">
+                    <div class="about-text">
+                        <h3>О тату-студии</h3>
+                        <p class="short-details">Добавьте информацию о себе</p>
+                        <p class="long-details">Расскажите клиентам о своём опыте, подходе к работе и философии. Загрузите
+                            фото и напишите историю в админ-панели.</p>
+                        <a href="/admin" class="primary-btn about-btn">Добавить информацию</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="about-img">
+                        <img src="/img/avatar.jpg" alt="Добавьте фото" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About Section End -->
+</th:block>

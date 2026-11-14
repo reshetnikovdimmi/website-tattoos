@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="map">
+    <!-- Map Section Begin -->
+    <section class="map-section" th:each="current : ${contact}">
+        <div class="container-fluid px-0">
+            <div class="row g-0">
+                <!-- Яндекс.Карта (iframe) -->
+                <div class="col-lg-8 position-relative">
+                    <div class="map-widget-wrapper">
+                        <div th:replace="~{fragments/contact/map-widget :: map-widget}"></div>
+                    </div>
+                </div>
+
+                <!-- Блок с контактами -->
+                <div class="col-lg-4">
+                    <div class="map-contact-info">
+                        <div class="info-block">
+                            <div class="map-hover">
+                                <div class="map-hover-content">
+                                    <div class="map-hover-icon">
+                                        <i class="icon_pin_alt"></i>
+                                    </div>
+                                    <h5 th:text="${current.name}"></h5>
+                                    <p th:text="${current.address}"></p>
+                                    <ul class="work-time">
+                                        <!-- Динамические часы работы (можно хранить в БД) -->
+                                        <li th:each="hour : ${#strings.arraySplit(current.workHours, ',')}"
+                                            th:text="${hour}">
+                                            <span>Пн-Пт:</span> 09:00 - 18:00
+                                        </li>
+                                    </ul>
+                                    <a th:href="'https://yandex.ru/maps/?rtext=~' + ${current.longitude} + ',' + ${current.latitude}"
+                                       target="_blank"
+                                       class="map-btn">
+                                        Построить маршрут
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:replace="~{fragments/contact/contact-form :: contact-form}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Map Section End -->
+</th:block>
