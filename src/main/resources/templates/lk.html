@@ -27,9 +27,9 @@
 <div th:replace="~{fragments::header}"></div>
 <!-- Header End -->
 
-<!-- Modals (как есть) -->
-<div th:replace="~{fragments::modal}"></div>
-<div th:replace="~{modal::modal}"></div>
+<!-- Modals -->
+<div th:replace="~{fragments/modals/image-picker :: image-picker}"></div>
+<div th:replace="~{fragments/modals/message :: message}"></div>
 
 <!-- Основной блок Личного кабинета -->
 <section class="breadcrumb-section-admin set-bg spad"

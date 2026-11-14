@@ -1,91 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Mail Settings Modal</title>
 </head>
 <body>
-<!-- Модальное окно -->
-<div th:fragment="modal">
-    <div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Сообщение</h5>
-                    <button type="button" id="hide"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div th:fragment="modal-body">
-                        <div class="container-fluid">
-                            <p th:if="${message}" class="text-success" th:text="${message}"></p>
-
-                            <!-- Сообщение об ошибке -->
-                            <p th:if="${error}" class="text-danger" th:text="${error}"></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ============================================================ -->
-<!-- МОДАЛЬНОЕ ОКНО ДЛЯ ВИДЕО                                    -->
-<!-- ============================================================ -->
-<div th:fragment="video-modal">
-    <div class="video-modal" id="videoModal">
-        <div class="video-modal-content">
-            <div class="video-modal-header">
-                <h5 id="videoModalTitle">Название видео</h5>
-                <button class="video-modal-close" id="videoModalClose">
-                    <i class="fa fa-times"></i>
-                </button>
-            </div>
-            <div class="video-modal-body">
-                <div class="video-modal-player">
-                    <iframe id="videoModalIframe"
-                            src=""
-                            frameborder="0"
-                            allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                            allowfullscreen>
-                    </iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Модальное окно End -->
-<div th:fragment="settings-video-modal">
-    <!-- ============================================================ -->
-    <!-- МОДАЛЬНОЕ ОКНО: ПОДРОБНАЯ ИНСТРУКЦИЯ ПО НАСТРОЙКЕ ПОЧТЫ      -->
-    <!-- ============================================================ -->
-    <div class="modal fade mail-instruction-modal" id="mailSettingsModal" tabindex="-1"
+<!-- M3 — Инструкция по почте (Custom BEM) -->
+<div th:fragment="mail-instruction">
+    <div class="custom-modal custom-modal--mail" id="mailSettingsModal" tabindex="-1"
          role="dialog" aria-labelledby="mailSettingsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-            <div class="modal-content">
+        <div class="custom-modal__dialog custom-modal__dialog--xl custom-modal__dialog--scrollable" role="document">
+            <div class="custom-modal__content">
 
                 <!-- Заголовок -->
-                <div class="modal-header">
-                    <h5 class="modal-title" id="mailSettingsModalLabel">
+                <div class="custom-modal__header">
+                    <h5 class="custom-modal__title" id="mailSettingsModalLabel">
                         <i class="fa fa-question-circle"></i>
                         Инструкция по настройке почты
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                    <button type="button" class="custom-modal__close" data-dismiss="modal" aria-label="Закрыть">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
                 <!-- Тело -->
-                <div class="modal-body">
+                <div class="custom-modal__body">
                     <div class="instruction-grid">
 
                         <!-- ШАГ 1: Выбор сервиса -->
@@ -220,7 +159,7 @@
                             <div class="step-number">3</div>
                             <div class="step-content">
                                 <strong>Заполните настройки SMTP</strong>
-                                <p>Используйте параметры для вашего почтового сервиса. Нажмите <i class="fa fa-copy" style="font-size:11px;"></i> рядом со значением, чтобы скопировать его в буфер обмена.</p>
+                                <p>Используйте параметры для вашего почтового сервиса. Нажмите <i class="fa fa-copy modal-copy-icon"></i> рядом со значением, чтобы скопировать его в буфер обмена.</p>
 
                                 <div class="smtp-settings-table">
                                     <div class="smtp-row header">
@@ -431,7 +370,7 @@
                         </div>
 
                         <!-- FAQ -->
-                        <div class="troubleshooting-section" style="border-top-color: var(--m-border);">
+                        <div class="troubleshooting-section troubleshooting-section--bordered">
                             <h5><i class="fa fa-question-circle"></i> Частые вопросы</h5>
                             <div class="faq-list">
                                 <details class="faq-item">
@@ -476,10 +415,10 @@
                         </div>
 
                     </div><!-- /instruction-grid -->
-                </div><!-- /modal-body -->
+                </div><!-- /custom-modal__body -->
 
                 <!-- Подвал -->
-                <div class="modal-footer">
+                <div class="custom-modal__footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
                         <i class="fa fa-times"></i> Закрыть инструкцию
                     </button>

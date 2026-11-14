@@ -1,9 +1,124 @@
 /* ============================================
-   MODAL WINDOW - МОДАЛЬНОЕ ОКНО ВЫБОРА ИЗОБРАЖЕНИЯ
+   MODAL WINDOWS - ВСЕ МОДАЛЬНЫЕ ОКНА
    ============================================ */
 
 /* ------------------------------
-   ОСНОВНЫЕ СТИЛИ МОДАЛА
+   ОБЩИЕ СТИЛИ ДЛЯ CUSTOM MODAL (BEM)
+------------------------------ */
+.custom-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-modal--open {
+    display: flex;
+}
+
+.custom-modal__content {
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    border: 1px solid rgba(228, 56, 28, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
+    max-width: 90vw;
+    max-height: 90vh;
+    width: 100%;
+    position: relative;
+}
+
+.custom-modal__dialog--xl .custom-modal__content {
+    max-width: 1200px;
+}
+
+.custom-modal__dialog--scrollable .custom-modal__content {
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-modal__header {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 18px 25px;
+    border-bottom: 1px solid rgba(228, 56, 28, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.custom-modal__title {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.custom-modal__close {
+    width: 35px;
+    height: 35px;
+    background: rgba(228, 56, 28, 0.2);
+    border: none;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-modal__close:hover {
+    background: var(--color-primary);
+    transform: rotate(90deg);
+}
+
+.custom-modal__body {
+    padding: 25px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.custom-modal__body .container-fluid {
+    width: 100%;
+    padding: 0;
+}
+
+.custom-modal__footer {
+    padding: 15px 25px;
+    border-top: 1px solid rgba(228, 56, 28, 0.3);
+    text-align: right;
+}
+
+/* Стилизация скролла */
+.custom-modal__body::-webkit-scrollbar,
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-modal__body::-webkit-scrollbar-track,
+.modal-body::-webkit-scrollbar-track {
+    background: #2d2d2d;
+    border-radius: 10px;
+}
+
+.custom-modal__body::-webkit-scrollbar-thumb,
+.modal-body::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, var(--color-primary-light), var(--color-primary));
+    border-radius: 10px;
+}
+
+/* ------------------------------
+   BOOTSTRAP MODAL OVERRIDES
 ------------------------------ */
 .modal-content {
     background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
@@ -30,65 +145,6 @@
     letter-spacing: 1px;
 }
 
-/* Кнопка закрытия */
-.delete-button {
-    width: 35px;
-    height: 35px;
-    background: rgba(228, 56, 28, 0.2);
-    border: none;
-    border-radius: 50%;
-    color: #ffffff;
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.delete-button:hover {
-    background: var(--color-primary);
-    transform: rotate(90deg);
-}
-/* Стили для кастомной кнопки закрытия */
-.btn-close-custom {
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    position: relative;
-    width: 30px;
-    height: 30px;
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
-}
-
-.btn-close-custom:hover {
-    opacity: 1;
-}
-
-.btn-close-custom:before,
-.btn-close-custom:after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 20px;
-    height: 2px;
-    background-color: #ffffff;
-}
-
-.btn-close-custom:before {
-    transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.btn-close-custom:after {
-    transform: translate(-50%, -50%) rotate(-45deg);
-}
-
-/* ------------------------------
-   ТЕЛО МОДАЛА
------------------------------- */
 .modal-body {
     padding: 25px;
     max-height: 70vh;
@@ -100,23 +156,90 @@
     padding: 0;
 }
 
-/* Стилизация скролла */
-.modal-body::-webkit-scrollbar {
-    width: 8px;
+.modal-footer {
+    padding: 15px 25px;
+    border-top: 1px solid rgba(228, 56, 28, 0.3);
+    text-align: right;
 }
 
-.modal-body::-webkit-scrollbar-track {
-    background: #2d2d2d;
-    border-radius: 10px;
+.modal .close {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+    color: #ffffff;
 }
 
-.modal-body::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, var(--color-primary-light), var(--color-primary));
-    border-radius: 10px;
+.modal .close:hover {
+    opacity: 1;
+}
+
+.modal .close:before,
+.modal .close:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    background-color: #ffffff;
+}
+
+.modal .close:before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.modal .close:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 /* ------------------------------
-   ГАЛЕРЕЯ ИЗОБРАЖЕНИЙ В МОДАЛЕ
+   VIDEO MODAL (Custom BEM)
+------------------------------ */
+.custom-modal--video .custom-modal__content {
+    max-width: 800px;
+    background: #000;
+    border: none;
+}
+
+.custom-modal--video .custom-modal__header {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px 15px;
+}
+
+.custom-modal--video .custom-modal__title {
+    font-size: 14px;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.custom-modal--video .custom-modal__close {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+}
+
+.custom-modal--video .custom-modal__player {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+}
+
+.custom-modal--video .custom-modal__player iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ------------------------------
+   IMAGE PICKER (Gallery in modal)
 ------------------------------ */
 .gallery-filter-modal {
     margin: 0 -15px;
@@ -158,6 +281,24 @@
 
 .gallery-modal-item:hover .gallery-modal-img {
     transform: scale(1.05);
+}
+
+/* ------------------------------
+   MAIL INSTRUCTION MODAL
+------------------------------ */
+.custom-modal--mail .custom-modal__content {
+    max-width: 1000px;
+}
+
+.custom-modal--mail .custom-modal__body {
+    max-height: 75vh;
+}
+
+/* ------------------------------
+   BODY SCROLL LOCK
+------------------------------ */
+body.modal-open {
+    overflow: hidden;
 }
 
 /* ------------------------------

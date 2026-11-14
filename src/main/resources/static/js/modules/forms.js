@@ -163,7 +163,7 @@
      */
     function modals() {
         $('#myModal').modal("show");
-        $('.btn-close-custom, .btn-secondary').off('click').on('click', function() {
+        $('.close, .btn-secondary').off('click').on('click', function() {
             $('#myModal').modal('hide');
         });
         $('.btn-primary').attr('disabled', true);

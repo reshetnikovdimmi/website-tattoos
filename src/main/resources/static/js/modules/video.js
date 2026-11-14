@@ -73,15 +73,15 @@
             if (videoUrl) {
                 modalIframe.src = videoUrl;
                 modalTitle.textContent = title;
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                modal.classList.add('custom-modal--open');
+                document.body.classList.add('modal-open');
             }
         });
 
         function closeVideoModal() {
-            modal.classList.remove('active');
+            modal.classList.remove('custom-modal--open');
             modalIframe.src = '';
-            document.body.style.overflow = '';
+            document.body.classList.remove('modal-open');
         }
 
         if (closeBtn) closeBtn.addEventListener('click', closeVideoModal);
@@ -89,7 +89,7 @@
             if (e.target === this) closeVideoModal();
         });
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
+            if (e.key === 'Escape' && modal.classList.contains('custom-modal--open')) {
                 closeVideoModal();
             }
         });
