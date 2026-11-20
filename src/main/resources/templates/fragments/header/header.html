@@ -30,7 +30,7 @@
     </div>
 </header>
     <div class="mobile-menu-overlay"></div>
-    <div class="mobile-menu-sidebar" id="mobile-menu-sidebar">
+    <div class="mobile-menu-sidebar" id="mobile-menu-sidebar" aria-hidden="true">
         <div class="mobile-menu-header">
             <div class="mobile-menu-logo" th:each="current: ${setting}" th:if="${current.section=='logo'}">
                 <img th:src="@{'/images/'+${current.imageName}}" alt="Logo">

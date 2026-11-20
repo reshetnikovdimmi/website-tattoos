@@ -29,7 +29,7 @@
     }
 
     /**
-     * Мобильное меню
+     * Мобильное меню (доступность: фокус, aria, inert)
      */
     function initMobileMenu() {
         var $toggle = $('.mobile-menu-toggle-icon');
@@ -44,6 +44,11 @@
             $overlay.addClass('active');
             $('body').addClass('menu-open');
             $toggle.attr('aria-expanded', 'true');
+            $sidebar.attr('aria-hidden', 'false');
+            $sidebar.attr('inert', '');
+            // Фокус на кнопку закрытия
+            var $closeBtn = $sidebar.find('.mobile-menu-close').first();
+            if ($closeBtn.length) $closeBtn.focus();
         }
 
         function closeMenu() {
@@ -51,6 +56,10 @@
             $overlay.removeClass('active');
             $('body').removeClass('menu-open');
             $toggle.attr('aria-expanded', 'false');
+            $sidebar.attr('aria-hidden', 'true');
+            $sidebar.removeAttr('inert');
+            // Возвращаем фокус на бургер
+            $toggle.focus();
         }
 
         // Namespace + off() защищают от дублирования обработчиков при повторном вызове
