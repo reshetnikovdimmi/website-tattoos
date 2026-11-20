@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:fragment="header">
+<!-- Header Section Begin -->
+<header class="header-section">
+    <div class="container-fluid">
+        <!-- Логотип (слева) -->
+        <div class="logo" th:each="current: ${setting}" th:if="${current.section=='logo'}">
+            <a href="/">
+                <img id="logo-header" th:src="@{'/images/'+${current.imageName}}" alt="Logo">
+            </a>
+        </div>
+
+        <!-- Десктопное меню (по центру) -->
+        <div class="nav-menu">
+            <nav class="mainmenu">
+                <div th:replace="~{fragments/header/nav :: nav('mainmenu')}"></div>
+            </nav>
+        </div>
+
+        <!-- Социальные иконки -->
+        <div class="top-social">
+            <div th:replace="~{fragments/header/socials :: socials}"></div>
+            <!-- Иконка бургер-меню (в стиле соц.иконок) -->
+            <a href="#" class="mobile-menu-toggle-icon"
+               aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-menu-sidebar">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </div>
+</header>
+    <div class="mobile-menu-overlay"></div>
+    <div class="mobile-menu-sidebar" id="mobile-menu-sidebar">
+        <div class="mobile-menu-header">
+            <div class="mobile-menu-logo" th:each="current: ${setting}" th:if="${current.section=='logo'}">
+                <img th:src="@{'/images/'+${current.imageName}}" alt="Logo">
+            </div>
+            <button type="button" class="mobile-menu-close" aria-label="Закрыть меню">&times;</button>
+        </div>
+        <nav class="mobile-nav">
+            <div th:replace="~{fragments/header/nav :: nav('')}"></div>
+        </nav>
+        <div class="mobile-menu-social">
+            <div th:replace="~{fragments/header/socials :: socials}"></div>
+        </div>
+    </div>
+</div>
+<!-- Header End -->
+</th:block>
+</html>

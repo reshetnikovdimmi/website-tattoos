@@ -32,33 +32,46 @@
      * Мобильное меню
      */
     function initMobileMenu() {
-        // SlickNav
-        $(".mobile-menu").slicknav({
-            prependTo: '#mobile-menu-wrap',
-            allowParentLinks: true
-        });
+        var $toggle = $('.mobile-menu-toggle-icon');
+        var $sidebar = $('.mobile-menu-sidebar');
+        var $overlay = $('.mobile-menu-overlay');
 
-        // Кастомное мобильное меню (сайдбар)
-        $(document).on('click', '.mobile-menu-toggle-icon', function(e) {
-            e.preventDefault();
-            $('.mobile-menu-sidebar').addClass('active');
-            $('.mobile-menu-overlay').addClass('active');
+        // На страницах без хедера/меню инициализировать нечего
+        if (!$toggle.length || !$sidebar.length) return;
+
+        function openMenu() {
+            $sidebar.addClass('active');
+            $overlay.addClass('active');
             $('body').addClass('menu-open');
-        });
+            $toggle.attr('aria-expanded', 'true');
+        }
 
-        $(document).on('click', '.mobile-menu-close, .mobile-menu-overlay', function() {
-            $('.mobile-menu-sidebar').removeClass('active');
-            $('.mobile-menu-overlay').removeClass('active');
+        function closeMenu() {
+            $sidebar.removeClass('active');
+            $overlay.removeClass('active');
             $('body').removeClass('menu-open');
-        });
+            $toggle.attr('aria-expanded', 'false');
+        }
 
-        $(document).on('keyup', function(e) {
-            if (e.key === 'Escape' && $('.mobile-menu-sidebar').hasClass('active')) {
-                $('.mobile-menu-sidebar').removeClass('active');
-                $('.mobile-menu-overlay').removeClass('active');
-                $('body').removeClass('menu-open');
-            }
-        });
+        // Namespace + off() защищают от дублирования обработчиков при повторном вызове
+        $(document)
+            .off('click.mobileMenu', '.mobile-menu-toggle-icon')
+            .on('click.mobileMenu', '.mobile-menu-toggle-icon', function(e) {
+                e.preventDefault();
+                if ($sidebar.hasClass('active')) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+            })
+            .off('click.mobileMenu', '.mobile-menu-close, .mobile-menu-overlay, .mobile-nav a')
+            .on('click.mobileMenu', '.mobile-menu-close, .mobile-menu-overlay, .mobile-nav a', function() {
+                closeMenu();
+            })
+            .off('keyup.mobileMenu')
+            .on('keyup.mobileMenu', function(e) {
+                if (e.key === 'Escape') closeMenu();
+            });
     }
 
     /**

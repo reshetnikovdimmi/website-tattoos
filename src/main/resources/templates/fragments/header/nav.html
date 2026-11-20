@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <!-- Навигация (общий для desktop и mobile) -->
+    <ul th:fragment="nav(menuClass)" th:classappend="${menuClass}">
+        <li th:classappend="${servletPath == '/' ? 'active':''}"><a href="/">Главная</a></li>
+        <li th:classappend="${servletPath == '/gallery' ? 'active':''}"><a href="/gallery">Галерея</a></li>
+        <li th:classappend="${servletPath == '/sketches' ? 'active':''}"><a href="/sketches">Эскизы</a></li>
+        <li th:classappend="${servletPath == '/about-me' ? 'active':''}"><a href="/about-me">Обо мне</a></li>
+        <li th:classappend="${servletPath == '/blog' ? 'active':''}"><a href="/blog">Блог</a></li>
+        <li th:classappend="${servletPath == '/reviews' ? 'active':''}"><a href="/reviews">Отзывы</a></li>
+        <li th:classappend="${servletPath == '/contact' ? 'active':''}"><a href="/contact">Контакты</a></li>
+    </ul>
+</th:block>
