@@ -20,7 +20,6 @@
 /* Layouts */
 @import 'layouts/header.css';
 @import 'layouts/footer.css';
-@import 'layouts/sidebar.css';
 @import 'layouts/cta-section.css';
 @import 'layouts/gallery-filter.css';
 @import 'layouts/breadcrumb-section.css';

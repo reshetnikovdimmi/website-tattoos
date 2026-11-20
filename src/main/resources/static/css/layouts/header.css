@@ -4,8 +4,7 @@
    ============================================ */
    /* Убираем стандартное подчёркивание для всех ссылок в меню */
    .mainmenu ul li a {
-       text-decoration: none !important;  /* Убирает тонкое подчёркивание */
-   }
+   .header-section .mainmenu ul li a {
 
    /* Оставляем толстое подчёркивание (ваше кастомное) */
    .mainmenu ul li a::after {
@@ -17,12 +16,10 @@
        height: 2px;
        background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
        transition: width 0.3s ease;
-   }
 
    .mainmenu ul li a:hover::after,
    .mainmenu ul li.active a::after {
        width: 100%;
-   }
 
 /* ------------------------------
    БАЗОВЫЕ СТИЛИ
@@ -479,4 +476,71 @@ body.menu-open {
 
 .header-section {
     animation: fadeInDown 0.5s ease forwards;
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ (перенесено из tablet/mobile.css)
+   ============================================ */
+
+/* Планшеты (< 992px) */
+@media (max-width: 992px) {
+    .mobile-menu-toggle-icon {
+        display: flex;
+    }
+
+    .header-section .container-fluid {
+        padding: 0 20px;
+    }
+
+    .top-social {
+        gap: 8px;
+    }
+
+    .top-social a {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+    .mobile-menu-toggle-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+}
+
+/* Мобильные (< 768px) */
+@media (max-width: 768px) {
+    .mobile-menu-toggle-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+
+    .mobile-menu-sidebar {
+        width: 280px;
+    }
+
+    .mobile-nav ul li a {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+}
+
+/* Маленькие мобильные (< 480px) */
+@media (max-width: 480px) {
+    .mobile-menu-sidebar {
+        width: 280px;
+    }
+
+    .mobile-nav ul li a {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+
+    .mobile-menu-social a {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
 }
