@@ -18,7 +18,7 @@
 @import 'components/scroll.css';
 
 /* Layouts */
-@import 'layouts/header.css';
+@import 'layouts/header.css?v=2';
 @import 'layouts/footer.css';
 @import 'layouts/cta-section.css';
 @import 'layouts/gallery-filter.css';
