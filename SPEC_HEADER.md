@@ -189,3 +189,29 @@ grep -rn "mobile-menu" src/main/resources/static/css/layouts/sidebar.css  # пу
 2. Переименовываем `fragments/index/scripts.html` в общий `fragments/scripts.html`?
 3. Удаляем `layouts/sidebar.css` полностью или оставляем только не-мобильные стили?
 4. Нужен ли focus-trap в сайдбаре (полноценный a11y) или достаточно `aria-expanded`/`Escape`?
+
+## 11. Cache-busting CSS (прод)
+
+Cloudflare отдаёт `/static/css/**` с `cache-control: max-age=14400`; после деплоя старый CSS может
+оставаться в edge-кэше до 4 часов (`cf-cache-status: HIT`). Поэтому **любое** изменение CSS требует
+новой версии URL:
+
+1. Текущая версия — `v=2`; следующая — `v=3`.
+2. `?v=N` у `main.css` во всех 10 шаблонах:
+   ```bash
+   grep -rln "static/css/main.css" src/main/resources/templates
+   ```
+3. `?v=N` у `@import` **каждого изменённого** файла в `main.css`:
+   ```css
+   @import 'layouts/header.css?v=3';
+   ```
+   Если менялись несколько файлов — версионируй все изменённые импорты.
+4. Проверка после деплоя:
+   ```bash
+   curl -s https://r1-tattoo.ru/ | grep -o 'main.css?v=[0-9]*'
+   curl -s 'https://r1-tattoo.ru/static/css/main.css?v=3' | grep "header.css?v=3"
+   ```
+5. Старые URL (`?v=2`) не удаляем — они просто перестают использоваться. При наличии доступа к
+   Cloudflare можно вместо этого сделать purge, но версионирование работает без токена.
+
+История: `7d0b1f5` восстановил CSS, `7473351` добавил `v=2` и обошёл edge-кэш.

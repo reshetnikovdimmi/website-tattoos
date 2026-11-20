@@ -55,6 +55,20 @@ description: Use when changing the global site header or mobile menu — extract
 - Адаптив: правила бургер-меню — в `header.css`; глобальные `responsetive/*` не дублируют те же
   селекторы.
 
+#### Кэш-бастинг CSS (обязательно)
+
+Cloudflare кэширует `/static/css/**` на 4 часа (`max-age=14400`), поэтому после **любого** изменения CSS:
+
+1. Увеличь версию: текущая `v=2`, следующая — `v=3`.
+2. Обнови `?v=N` у `main.css` во всех шаблонах:
+   `grep -rln "static/css/main.css" src/main/resources/templates` (сейчас 10 файлов).
+3. Добавь `?v=N` к `@import` **каждого изменённого** файла в `main.css`
+   (например, `@import 'layouts/header.css?v=3';`). Если менял несколько — версионируй все изменённые.
+4. Проверь: `curl /static/css/main.css?v=N` отдаёт 200 и содержит новые импорты.
+5. Старые `?v=...` URL не удаляем — они просто перестают использоваться.
+
+Альтернатива — purge кэша Cloudflare, но по умолчанию используем версионирование.
+
 ### 5. Доступность
 
 - Бургер: `aria-label`, `aria-expanded`, `aria-controls="mobile-menu-sidebar"`.
