@@ -7,6 +7,10 @@
 </head>
 <body>
 <div th:fragment="gallery" class="galleryFragment">
+    <div th:replace="~{fragment-admin/gallery :: galleryGridContainer}"></div>
+</div>
+
+<div th:fragment="galleryGridContainer">
     <br>
     <section class="admin-section spad">
         <div class="container">
@@ -40,7 +44,7 @@
                 <div class="admin-card-body">
                     <form method="post" action="/admin/gallery/image-import"
                           onsubmit="submitForm(event)"
-                          data-fragment-name="gallery"
+                          data-fragment-name="galleryGridContainer"
                           data-container-selector=".galleryFragment"
                           class="gallery-form"
                           th:object="${images}">

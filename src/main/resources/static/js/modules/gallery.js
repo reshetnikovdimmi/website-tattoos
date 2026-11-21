@@ -9,10 +9,15 @@
      * Пагинация галереи админки
      */
     function goToPageGalleryAdmin(style, page, number) {
-        sessionStorage.setItem('activeGalleryStyle', style.trim());
-        $.get(`admin/gallery/${style.trim()}/${page}/${number}`, {}, function(data) {
+        var normalizedStyle = style.trim();
+        var encodedStyle = encodeURIComponent(normalizedStyle);
+        sessionStorage.setItem('activeGalleryStyle', normalizedStyle);
+        $.get(`/admin/gallery/${encodedStyle}/${page}/${number}`, {}, function(data) {
             $(".galleryFragment").html(data);
-            document.getElementById('category').value = style.trim();
+            var categoryInput = document.getElementById('category');
+            if (categoryInput) {
+                categoryInput.value = normalizedStyle;
+            }
             initGalleryActiveState();
         });
     }
@@ -34,7 +39,7 @@
      * Пагинация галереи клиента
      */
     function goToPageGallery(style, page, number) {
-        $.get(`/gallery/${style.trim()}/${page}/${number}`, {}, function(data) {
+        $.get(`/gallery/${encodeURIComponent(style.trim())}/${page}/${number}`, {}, function(data) {
             $(".galleryFilter").html(data);
         });
     }
