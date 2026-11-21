@@ -80,16 +80,19 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="gallery-controls" th:each="current: ${gallery}">
+                <div class="gallery-controls">
                     <ul>
-                        <li class="active"
-                            th:onclick="goToPageGallery(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
-                            Вся галерея
+                        <li th:classappend="${selectedStyle == null or selectedStyle == '' or selectedStyle == 'Вся галерея'} ? 'active' : ''">
+                            <a th:href="@{/gallery(page=0, size=${gallery.size})}"
+                               data-filter-link data-filter-style="" data-target=".galleryFilter">Вся галерея</a>
                         </li>
-                        <li th:each="currents: ${classes}"
+                        <li th:each="currents : ${classes}"
                             th:if="${currents.categoryTitle=='container-fluid'}"
-                            th:onclick="goToPageGallery(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
-                            [[${currents.name}]]
+                            th:classappend="${selectedStyle == currents.name} ? 'active' : ''">
+                            <a th:href="@{/gallery(page=0, size=${gallery.size}, style=${currents.name})}"
+                               data-filter-link
+                               th:attr="data-filter-style=${currents.name}"
+                               data-target=".galleryFilter">[[${currents.name}]]</a>
                         </li>
                     </ul>
                 </div>

@@ -21,16 +21,19 @@
             </div>
 
             <!-- Элементы управления фильтрацией -->
-            <div class="gallery-controls" th:each="current: ${gallery}">
+            <div class="gallery-controls">
                 <ul>
-                    <li class="active"
-                        th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
-                        Вся галерея
+                    <li th:classappend="${selectedStyle == null or selectedStyle == '' or selectedStyle == 'Вся галерея'} ? 'active' : ''">
+                        <a th:href="@{/admin/gallery(page=0, size=${gallery.size})}"
+                           data-filter-link data-filter-style="" data-target=".galleryFragment">Вся галерея</a>
                     </li>
-                    <li th:each="currents: ${styleList}"
+                    <li th:each="currents : ${styleList}"
                         th:if="${currents.categoryTitle=='container-fluid'}"
-                        th:onclick="goToPageGalleryAdmin(this.textContent, [[${current.currentPage}]],  [[${current.number}]])">
-                        [[${currents.name}]]
+                        th:classappend="${selectedStyle == currents.name} ? 'active' : ''">
+                        <a th:href="@{/admin/gallery(page=0, size=${gallery.size}, style=${currents.name})}"
+                           data-filter-link
+                           th:attr="data-filter-style=${currents.name}"
+                           data-target=".galleryFragment">[[${currents.name}]]</a>
                     </li>
                 </ul>
             </div>

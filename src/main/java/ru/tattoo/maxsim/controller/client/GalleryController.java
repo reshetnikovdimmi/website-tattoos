@@ -77,7 +77,7 @@ public class GalleryController {
                                Model model) {
         model.addAttribute("gallery", prepareGalleryData(null, page, size));
         model.addAttribute("images", new Images());
-        return "fragments::modal-img";
+        return "fragments/modals/image-picker :: image-picker";
     }
 
     private PageResult<Images> prepareGalleryData(String style, int page, int size) {

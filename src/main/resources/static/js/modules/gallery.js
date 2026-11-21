@@ -1,161 +1,80 @@
-/* ============================================================
-   GALLERY MODULE - Галерея и эскизы
-   ============================================================ */
-
-(function(window) {
+/**
+ * Админские операции галереи: удаление, флаг, пагинация модального выбора.
+ * Пагинация и фильтры страниц живут в modules/pagination.js.
+ */
+(function (window, $) {
     'use strict';
 
-    /**
-     * Пагинация галереи админки
-     */
-    function goToPageGalleryAdmin(style, page, number) {
-        var normalizedStyle = style.trim();
-        var encodedStyle = encodeURIComponent(normalizedStyle);
-        sessionStorage.setItem('activeGalleryStyle', normalizedStyle);
-        $.get(`/admin/gallery/${encodedStyle}/${page}/${number}`, {}, function(data) {
-            $(".galleryFragment").html(data);
-            var categoryInput = document.getElementById('category');
-            if (categoryInput) {
-                categoryInput.value = normalizedStyle;
-            }
-            initGalleryActiveState();
-        });
+    if (!$) {
+        return;
     }
 
     /**
-     * Инициализация активного состояния галереи
-     */
-    function initGalleryActiveState() {
-        var activeStyle = sessionStorage.getItem('activeGalleryStyle') || 'Вся галерея';
-        $('.gallery-controls ul li').removeClass('active');
-        $('.gallery-controls ul li').each(function() {
-            if ($(this).text().trim() === activeStyle) {
-                $(this).addClass('active');
-            }
-        });
-    }
-
-    /**
-     * Пагинация галереи клиента
-     */
-    function goToPageGallery(style, page, number) {
-        $.get(`/gallery/${encodeURIComponent(style.trim())}/${page}/${number}`, {}, function(data) {
-            $(".galleryFilter").html(data);
-        });
-    }
-
-    /**
-     * Переход на страницу галереи из элемента
-     */
-    function goToGalleryPageFromElement(element) {
-        let size, page;
-        if (element.tagName === 'SELECT') {
-            size = parseInt(element.value) || 9;
-            page = parseInt(element.getAttribute('data-page')) || 0;
-        } else {
-            size = parseInt(element.getAttribute('data-size')) || 9;
-            page = parseInt(element.getAttribute('data-page')) || 0;
-        }
-
-        const style = document.querySelector('.gallery-controls ul li.active')?.textContent || 'Вся галерея';
-        const url = element.getAttribute('data-url');
-        const container = element.getAttribute('data-container');
-        const requestUrl = `${url}/${encodeURIComponent(style.trim())}/${page}/${size}`;
-
-        const categoryInput = document.getElementById('category');
-        if (categoryInput) categoryInput.value = style.trim();
-
-        $.get(requestUrl, {}, function(data) {
-            $(container).html(data);
-        });
-    }
-
-    /**
-     * Пагинация эскизов
-     */
-    function goToPageSketches(element) {
-        let size, page;
-        if (element.tagName === 'SELECT') {
-            size = parseInt(element.value) || 9;
-            page = parseInt(element.getAttribute('data-page')) || 0;
-        } else {
-            size = parseInt(element.getAttribute('data-size')) || 9;
-            page = parseInt(element.getAttribute('data-page')) || 0;
-        }
-
-        const url = element.getAttribute('data-url');
-        const container = element.getAttribute('data-container');
-        const requestUrl = `${url}/${page}/${size}`;
-
-        $.get(requestUrl, {}, function(data) {
-            $(container).html(data);
-        });
-    }
-
-    /**
-     * Пагинация отзывов в галерее
-     */
-    function goToPageGalleryReviews(page, number) {
-        $.get(`/gallery/reviews/${page}/${number}`, {}, function(data) {
-            $(".modal-img").html(data);
-        });
-    }
-
-    /**
-     * Удаление изображения
+     * Удаление изображения/эскиза.
+     * Кнопка должна содержать data-deletion-url, data-fragment-name,
+     * data-container-selector; id элемента — id сущности.
      */
     function deleteImage(buttonElement) {
-        const imageId = buttonElement.id;
-        const fragmentName = buttonElement.dataset.fragmentName;
-        const containerSelector = buttonElement.dataset.containerSelector;
-        const deletionUrl = buttonElement.dataset.deletionUrl;
-        const method = buttonElement.dataset.method || 'POST';
+        var imageId = buttonElement.id;
+        var fragmentName = buttonElement.dataset.fragmentName;
+        var containerSelector = buttonElement.dataset.containerSelector;
+        var deletionUrl = buttonElement.dataset.deletionUrl;
+        var method = buttonElement.dataset.method || 'POST';
 
         if (!deletionUrl) {
             console.error('data-deletion-url не указан');
-            showModalMessage('❌ Ошибка: URL удаления не указан', 'error');
+            if (typeof window.showModalMessage === 'function') {
+                window.showModalMessage('❌ Ошибка: URL удаления не указан', 'error');
+            }
             return;
         }
 
-        if (!confirm(buttonElement.dataset.confirmMessage || "Вы действительно хотите удалить этот элемент?")) {
+        if (!window.confirm(buttonElement.dataset.confirmMessage || 'Вы действительно хотите удалить этот элемент?')) {
             return;
         }
 
-        const $button = $(buttonElement);
-        const originalHtml = $button.html();
+        var $button = $(buttonElement);
+        var originalHtml = $button.html();
 
         $button.html('<i class="fa fa-spinner fa-spin"></i> Удаление...');
         $button.prop('disabled', true);
 
-        let url = deletionUrl + '/' + imageId;
+        var url = deletionUrl + '/' + imageId;
         if (fragmentName) {
             url += '?fragment=' + encodeURIComponent(fragmentName);
         }
 
-        // H1 FIX: CSRF-токен для POST-запросов
-        const csrfToken = $('meta[name="_csrf"]').attr('content');
+        var csrfToken = $('meta[name="_csrf"]').attr('content');
 
         $.ajax({
             url: url,
             type: method,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
-                ...(csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {})
+                ...(csrfToken ? {'X-CSRF-TOKEN': csrfToken} : {})
             },
-            success: function(response) {
+            success: function (response) {
                 if (containerSelector && $(containerSelector).length) {
                     $(containerSelector).html(response);
-                    reinitSetBg();
-                    reinitAfterFragmentUpdate(containerSelector);
+                    if (typeof window.reinitSetBg === 'function') {
+                        window.reinitSetBg();
+                    }
+                    if (typeof window.reinitAfterFragmentUpdate === 'function') {
+                        window.reinitAfterFragmentUpdate(containerSelector);
+                    }
                 }
-                showModalMessage('✅ Элемент успешно удален!', 'success');
+                if (typeof window.showModalMessage === 'function') {
+                    window.showModalMessage('✅ Элемент успешно удален!', 'success');
+                }
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 console.error('Ошибка при удалении:', xhr);
-                modals();
+                if (typeof window.modals === 'function') {
+                    window.modals();
+                }
                 $('.modal-body').html(xhr.responseText);
             },
-            complete: function() {
+            complete: function () {
                 if ($button.closest('.user-card, .item-card, .image-card').length) {
                     $button.html(originalHtml);
                     $button.prop('disabled', false);
@@ -164,69 +83,41 @@
         });
     }
 
-    // Делегированные обработчики для общей сетки (без inline onclick)
-    $(document).on('click', '[data-delete-item]', function(e) {
-        e.preventDefault();
+    /**
+     * Пагинация модального окна выбора изображения для отзывов.
+     */
+    function goToReviewsPage(page, size) {
+        $.get('/gallery/reviews/' + page + '/' + size, {}, function (data) {
+            $('.modal-img').html(data);
+        });
+    }
+
+    $(document).on('click', '[data-delete-item]', function (event) {
+        event.preventDefault();
         deleteImage(this);
     });
 
-    $(document).on('change', '[data-featured]', function() {
+    $(document).on('change', '[data-featured]', function () {
         if (typeof window.toggleFeatured === 'function') {
             window.toggleFeatured(this);
         }
     });
 
-    /**
-     * Минимальный progressive-AJAX для новых ссылок пагинации.
-     * Полноценный контроллер (history/abort/loading) — следующий этап.
-     */
-    function loadGridFragment(url, target) {
-        var separator = url.indexOf('?') >= 0 ? '&' : '?';
-        $.get(url + separator + 'fragment=grid', {}, function(data) {
-            if (target && $(target).length) {
-                $(target).html(data);
-            }
-            if (typeof initMagnificPopup === 'function') {
-                initMagnificPopup();
-            }
-        });
-    }
-
-    $(document).on('click', '[data-pagination-link]', function(e) {
-        var href = $(this).attr('href');
-        if (!href) return;
-        e.preventDefault();
-        loadGridFragment(href, $(this).data('target'));
+    $(document).on('click', '[data-review-page]', function (event) {
+        event.preventDefault();
+        var page = parseInt($(this).attr('data-review-page'), 10) || 0;
+        var size = parseInt($(this).attr('data-review-size'), 10) || 9;
+        goToReviewsPage(page, size);
     });
 
-    $(document).on('submit', '[data-page-size-form]', function(e) {
-        var $form = $(this);
-        var action = $form.attr('action');
-        var size = $form.find('[name=size]').val();
-        var style = $form.find('[name=style]').val() || '';
-        if (!action) return;
-        e.preventDefault();
-        loadGridFragment(action + '?page=0&size=' + encodeURIComponent(size)
-                + '&style=' + encodeURIComponent(style), $form.data('target'));
+    $(document).on('change', '[data-review-size]', function () {
+        var page = parseInt($(this).attr('data-review-page'), 10) || 0;
+        goToReviewsPage(page, parseInt(this.value, 10) || 9);
     });
 
-    // Экспорт в глобальную область
     window.GalleryModule = {
-        goToPageGalleryAdmin: goToPageGalleryAdmin,
-        initGalleryActiveState: initGalleryActiveState,
-        goToPageGallery: goToPageGallery,
-        goToGalleryPageFromElement: goToGalleryPageFromElement,
-        goToPageSketches: goToPageSketches,
-        goToPageGalleryReviews: goToPageGalleryReviews,
-        deleteImage: deleteImage
+        deleteImage: deleteImage,
+        goToReviewsPage: goToReviewsPage
     };
-
-    // Глобальные функции для HTML onclick
-    window.goToPageGalleryAdmin = goToPageGalleryAdmin;
-    window.initGalleryActiveState = initGalleryActiveState;
-    window.goToPageGallery = goToPageGallery;
-    window.goToGalleryPageFromElement = goToGalleryPageFromElement;
-    window.goToPageSketches = goToPageSketches;
-    window.goToPageGalleryReviews = goToPageGalleryReviews;
     window.deleteImage = deleteImage;
-})(window);
+}(window, window.jQuery));
