@@ -1,6 +1,6 @@
 /* ============================================================
    CAROUSEL MODULE - Unified Controller
-   Owl Carousel (public) + Bootstrap Carousel (admin)
+   Owl Carousel (public hero + admin preview)
    ============================================================ */
 
 (function(window) {
@@ -8,7 +8,7 @@
 
     /**
      * ==========================================================
-     * Owl Carousel Controller (public hero carousel)
+     * Owl Carousel Controller (public hero + admin)
      * ==========================================================
      */
 
@@ -37,65 +37,37 @@
 
     /**
      * ==========================================================
-     * Bootstrap Carousel Controller (admin carousel)
+     * Navigation helpers (Owl Carousel API)
      * ==========================================================
      */
 
     /**
-     * Перейти на слайд
+     * Перейти на слайд (Owl Carousel)
      */
     function goToSlide(slideIndex) {
         var $carousel = $('#adminCarousel');
-        
-        // Bootstrap 4/5 native method
-        if ($carousel.data('bs.carousel')) {
-            $carousel.data('bs.carousel').to(slideIndex);
-        } 
-        // Legacy Bootstrap (3.x) or manual fallback
-        else if ($carousel.data('carousel')) {
-            $carousel.carousel(slideIndex);
-        } 
-        // Fallback: manual class manipulation
-        else {
-            var $items = $carousel.find('.carousel-item');
-            $items.removeClass('active').eq(slideIndex).addClass('active');
-            $carousel.find('.carousel-indicators button').removeClass('active').eq(slideIndex).addClass('active');
+        if ($carousel.data('owl.carousel')) {
+            $carousel.data('owl.carousel').to(slideIndex, 400);
         }
     }
 
     /**
-     * Предыдущий слайд
+     * Предыдущий слайд (Owl Carousel)
      */
     function carouselPrev() {
         var $carousel = $('#adminCarousel');
-        
-        if ($carousel.data('bs.carousel')) {
-            $carousel.data('bs.carousel').prev();
-        } else if ($carousel.data('carousel')) {
-            $carousel.carousel('prev');
-        } else {
-            var $items = $carousel.find('.carousel-item');
-            var currentIndex = $items.index($items.filter('.active'));
-            var newIndex = (currentIndex - 1 + $items.length) % $items.length;
-            goToSlide(newIndex);
+        if ($carousel.data('owl.carousel')) {
+            $carousel.data('owl.carousel').prev();
         }
     }
 
     /**
-     * Следующий слайд
+     * Следующий слайд (Owl Carousel)
      */
     function carouselNext() {
         var $carousel = $('#adminCarousel');
-        
-        if ($carousel.data('bs.carousel')) {
-            $carousel.data('bs.carousel').next();
-        } else if ($carousel.data('carousel')) {
-            $carousel.carousel('next');
-        } else {
-            var $items = $carousel.find('.carousel-item');
-            var currentIndex = $items.index($items.filter('.active'));
-            var newIndex = (currentIndex + 1) % $items.length;
-            goToSlide(newIndex);
+        if ($carousel.data('owl.carousel')) {
+            $carousel.data('owl.carousel').next();
         }
     }
 
@@ -105,10 +77,7 @@
      * ==========================================================
      */
     window.CarouselModule = {
-        // Owl Carousel
         initOwlCarousel: initOwlCarousel,
-        
-        // Bootstrap Carousel (admin)
         goToSlide: goToSlide,
         carouselPrev: carouselPrev,
         carouselNext: carouselNext

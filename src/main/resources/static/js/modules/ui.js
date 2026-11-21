@@ -87,7 +87,7 @@
      * Owl Carousels
      */
     function initOwlCarousels() {
-        // Hero Slider
+        // Hero Slider (public)
         $(".hero-items").owlCarousel({
             loop: true,
             margin: 0,
@@ -99,6 +99,16 @@
             navText: ['<i class="arrow_carrot-left"></i>', '<i class="arrow_carrot-right"></i>'],
             smartSpeed: 1200,
             autoHeight: false,
+        });
+
+        // Admin Carousel (preview)
+        $("#adminCarousel").owlCarousel({
+            loop: true,
+            margin: 0,
+            nav: false,
+            items: 1,
+            dots: true,
+            autoplay: false,
         });
 
         // Testimonial Slider

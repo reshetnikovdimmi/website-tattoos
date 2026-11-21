@@ -368,28 +368,23 @@
     margin-bottom: 20px;
 }
 
-.admin-carousel .carousel-inner {
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.admin-carousel .carousel-item {
+.admin-carousel .owl-item {
     position: relative;
     height: 320px;
 }
 
-.admin-carousel .carousel-item img {
+.admin-carousel .owl-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
 }
 
-.admin-carousel .carousel-item:hover img {
+.admin-carousel .owl-item:hover img {
     transform: scale(1.05);
 }
 
-.admin-carousel .carousel-item::before {
+.admin-carousel .owl-item::before {
     content: '';
     position: absolute;
     bottom: 0;
@@ -473,22 +468,26 @@
     box-shadow: 0 0 15px rgba(228, 56, 28, 0.5);
 }
 
-.carousel-indicators {
-    bottom: -40px;
-    gap: 8px;
+.admin-carousel .owl-dots {
+    position: relative;
+    margin-top: 20px;
+    text-align: center;
 }
 
-.carousel-indicators button {
+.admin-carousel .owl-dot {
+    display: inline-block;
+}
+
+.admin-carousel .owl-dot span {
     width: 10px;
     height: 10px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.4);
-    border: none;
-    margin: 0;
+    display: block;
     transition: all 0.3s ease;
 }
 
-.carousel-indicators button.active {
+.admin-carousel .owl-dot.active span {
     background: var(--color-primary);
     transform: scale(1.2);
 }

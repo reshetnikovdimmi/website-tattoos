@@ -137,77 +137,61 @@
                                         </div>
                                         <div class="admin-card-body">
 
-                                            <div id="adminCarousel" class="admin-carousel carousel slide"
-                                                 data-ride="carousel">
-                                                <!-- Индикаторы -->
-                                                <div class="carousel-indicators">
-                                                    <div th:each="current : ${home}" th:if="${current.banners != null}">
-                                                        <button th:each="banner, itemStat : ${current.banners}"
-                                                                type="button"
-                                                                th:onclick="'goToSlide(' + ${itemStat.index} + ')'"
-                                                                th:classappend="${itemStat.index == 0} ? 'active' : ''"
-                                                                th:aria-label="'Слайд ' + ${itemStat.index + 1}">
+                                            <div id="adminCarousel" class="admin-carousel owl-carousel">
+                                                <!-- Слайды -->
+                                                <div th:each="current : ${home}">
+                                                    <div th:each="banner, itemStat : ${current.banners}"
+                                                         class="admin-slide">
+
+                                                        <img th:if="${banner.imageName != null && !banner.imageName.isEmpty()}"
+                                                             th:src="@{'/images/' + ${banner.imageName}}"
+                                                             class="d-block w-100"
+                                                             th:alt="${banner.title}">
+
+                                                        <img th:unless="${banner.imageName != null && !banner.imageName.isEmpty()}"
+                                                             src="/img/avatar.jpg"
+                                                             class="d-block w-100"
+                                                             th:alt="${banner.title}">
+
+
+                                                        <div class="carousel-caption">
+                                                            <h6 th:text="${banner.title}">Заголовок</h6>
+                                                            <h5 th:text="${banner.subtitle}">Подзаголовок</h5>
+                                                        </div>
+
+                                                        <button th:id="${banner.id}"
+                                                                data-fragment-name="carousel-import"
+                                                                data-container-selector=".carousel-import"
+                                                                data-deletion-url="/admin/hero/delete-section"
+                                                                onclick="deleteImage(this)"
+                                                                data-method="POST"
+                                                                class="carousel-delete-btn"
+                                                                title="Удалить слайд">
+                                                            <i class="fa fa-trash"></i>
                                                         </button>
                                                     </div>
                                                 </div>
+                                            </div>
 
-                                                <!-- Слайды -->
-                                                <div class="carousel-inner">
-                                                    <div th:each="current : ${home}">
-                                                        <div th:each="banner, itemStat : ${current.banners}"
-                                                             class="carousel-item"
-                                                             th:classappend="${itemStat.index == 0} ? 'active' : ''">
-
-                                                            <img th:if="${banner.imageName != null && !banner.imageName.isEmpty()}"
-                                                                 th:src="@{'/images/' + ${banner.imageName}}"
-                                                                 class="d-block w-100"
-                                                                 th:alt="${banner.title}">
-
-                                                            <img th:unless="${banner.imageName != null && !banner.imageName.isEmpty()}"
-                                                                 src="/img/avatar.jpg"
-                                                                 class="d-block w-100"
-                                                                 th:alt="${banner.title}">
-
-
-                                                            <div class="carousel-caption">
-                                                                <h6 th:text="${banner.title}">Заголовок</h6>
-                                                                <h5 th:text="${banner.subtitle}">Подзаголовок</h5>
-                                                            </div>
-
-                                                            <button th:id="${banner.id}"
-                                                                    data-fragment-name="carousel-import"
-                                                                    data-container-selector=".carousel-import"
-                                                                    data-deletion-url="/admin/hero/delete-section"
-                                                                    onclick="deleteImage(this)"
-                                                                    data-method="POST"
-                                                                    class="carousel-delete-btn"
-                                                                    title="Удалить слайд">
-                                                                <i class="fa fa-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Кнопки навигации -->
-                                                <div class="carousel-controls">
-                                                    <button class="custom-carousel-btn" type="button"
-                                                            onclick="carouselPrev()">
-                                                        <i class="fa fa-chevron-left"></i>
-                                                    </button>
-                                                    <button class="custom-carousel-btn" type="button"
-                                                            onclick="carouselNext()">
-                                                        <i class="fa fa-chevron-right"></i>
-                                                    </button>
-                                                </div>
+                                            <!-- Кнопки навигации -->
+                                            <div class="carousel-controls">
+                                                <button class="custom-carousel-btn" type="button"
+                                                        onclick="carouselPrev()">
+                                                    <i class="fa fa-chevron-left"></i>
+                                                </button>
+                                                <button class="custom-carousel-btn" type="button"
+                                                        onclick="carouselNext()">
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </button>
                                             </div>
 
                                             <!-- Статистика -->
                                             <div class="slides-stats"
                                                  th:if="${home != null and home[0].banners != null and !home[0].banners.isEmpty()}">
-                            <span class="stats-badge">
-                                <i class="fa fa-picture-o"></i>
-                                Всего слайдов: <strong th:text="${home[0].banners.size()}"></strong>
-                            </span>
+                                                    <span class="stats-badge">
+                                                        <i class="fa fa-picture-o"></i>
+                                                        Всего слайдов: <strong th:text="${home[0].banners.size()}"></strong>
+                                                    </span>
                                             </div>
 
                                             <!-- Пустое состояние -->
