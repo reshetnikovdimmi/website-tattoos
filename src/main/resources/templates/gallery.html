@@ -100,7 +100,8 @@
         <div class="galleryFilter">
             <div th:fragment="galleryFilter">
                 <!-- Галерея изображений -->
-                <div th:replace="~{fragments::galleryGrid(gallery, false)}"></div>
+                <div th:replace="~{fragments/media/grid :: grid(${galleryPage}, 'gallery', false)}"></div>
+                <div th:replace="~{fragments/pagination :: pagination(${galleryPage}, '/gallery', '.galleryFilter', ${selectedStyle})}"></div>
 
             </div>
         </div>

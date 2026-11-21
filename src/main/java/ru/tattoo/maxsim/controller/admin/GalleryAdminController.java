@@ -45,6 +45,7 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
         PageResult<Images> gallery = prepareGalleryData(null, DEFAULT_PAGE, DEFAULT_SIZE);
         model.addAttribute("gallery", gallery);
         model.addAttribute("galleryPage", gallery);
+        model.addAttribute("selectedStyle", "");
         model.addAttribute("images", new Images());
         model.addAttribute("styleList", classesSectionService.findAll());
     }
@@ -58,6 +59,7 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
         PageResult<Images> gallery = prepareGalleryData(style, page, size);
         model.addAttribute("gallery", gallery);
         model.addAttribute("galleryPage", gallery);
+        model.addAttribute("selectedStyle", style == null ? "" : style);
         model.addAttribute("images", new Images());
         model.addAttribute("styleList", classesSectionService.findAll());
 
@@ -79,6 +81,7 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
         PageResult<Images> gallery = prepareGalleryData(style, page, size);
         model.addAttribute("gallery", gallery);
         model.addAttribute("galleryPage", gallery);
+        model.addAttribute("selectedStyle", style == null ? "" : style);
         model.addAttribute("images", new Images());
         model.addAttribute("styleList", classesSectionService.findAll());
         return GRID_FRAGMENT;

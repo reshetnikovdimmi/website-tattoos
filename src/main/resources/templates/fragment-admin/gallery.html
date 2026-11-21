@@ -100,7 +100,8 @@
             </div>
 
             <!-- Сетка галереи - классы для MixItUp -->
-            <div th:replace="~{fragments::galleryGrid(gallery, true)}"></div>
+            <div th:replace="~{fragments/media/grid :: grid(${galleryPage}, 'gallery', true)}"></div>
+            <div th:replace="~{fragments/pagination :: pagination(${galleryPage}, '/admin/gallery', '.galleryFragment', ${selectedStyle})}"></div>
         </div>
     </section>
 </div>

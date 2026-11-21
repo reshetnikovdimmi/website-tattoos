@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- Общая сетка галереи и эскизов -->
+<div th:fragment="grid(page, kind, isAdmin)" class="row gallery-filter">
+    <div th:each="item : ${page.items}" class="col-lg-4 col-sm-6"
+         th:classappend="${kind == 'gallery' ? (item.category != null ? item.category.toLowerCase().replace(' ', '-') : 'uncategorized') : ''}"
+         th:attr="data-id=${item.id}">
+
+        <div class="gallery-item">
+            <img th:src="@{'/images/' + ${item.imageName}}"
+                 th:alt="${item.description}"
+                 class="gallery-img">
+
+            <div class="gi-hover-warp">
+                <div class="gi-hover">
+                    <a th:href="@{'/images/' + ${item.imageName}}"
+                       class="image-popup"
+                       th:attr="target=${kind == 'sketches' ? '_blank' : null}">
+                        <i class="fa fa-search-plus"></i>
+                    </a>
+                    <h6 th:text="${item.description}">Описание</h6>
+                </div>
+            </div>
+
+            <!-- Админские элементы -->
+            <div th:if="${isAdmin}" class="admin-controls">
+                <button class="delete-item-btn"
+                        th:id="${item.id}"
+                        data-delete-item
+                        th:attr="data-deletion-url=@{'/admin/' + ${kind} + '/delete-section'},
+                                 data-fragment-name=${kind == 'gallery' ? 'galleryGridContainer' : 'sketchesGridContainer'},
+                                 data-container-selector=${kind == 'gallery' ? '.galleryFragment' : '.sketchesFragment'}"
+                        data-method="POST"
+                        title="Удалить">
+                    <i class="fa fa-trash"></i>
+                </button>
+
+                <div th:if="${kind == 'gallery'}" class="featured-checkbox-wrapper">
+                    <label>
+                        <input class="featured-checkbox" type="checkbox"
+                               th:checked="${item.flag}"
+                               th:attr="data-id=${item.id}"
+                               data-featured/>
+                        <span>Лучшее тату</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

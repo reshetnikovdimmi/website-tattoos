@@ -36,6 +36,7 @@ public class GalleryController {
         PageResult<Images> galleryData = prepareGalleryData(style, page, size);
         model.addAttribute("gallery", galleryData);
         model.addAttribute("galleryPage", galleryData);
+        model.addAttribute("selectedStyle", style == null ? "" : style);
 
         if ("grid".equalsIgnoreCase(fragment)) {
             return GRID_FRAGMENT;
@@ -64,6 +65,7 @@ public class GalleryController {
                                 @PathVariable("number") int size,
                                 Model model) {
         model.addAttribute("gallery", prepareGalleryData(style, page, size));
+        model.addAttribute("selectedStyle", style);
         model.addAttribute("images", new Images());
         return GRID_FRAGMENT;
     }

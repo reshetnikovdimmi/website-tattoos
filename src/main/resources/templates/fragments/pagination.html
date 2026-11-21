@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- Единая пагинация: реальные ссылки + data-атрибуты для AJAX -->
+<div th:fragment="pagination(page, baseUrl, target, style)"
+     class="blog-option pagination"
+     th:if="${page != null and page.totalPages > 0}">
+
+    <div class="blog-pagination pagination__nav" role="navigation" aria-label="Пагинация">
+        <a th:if="${page.page > 0}"
+           class="page-nav pagination__link"
+           th:href="@{${baseUrl}(page=${page.page - 1}, size=${page.size}, style=${style})}"
+           data-pagination-link
+           th:attr="data-target=${target}"
+           aria-label="Предыдущая страница">
+            <i class="fa fa-chevron-left"></i>
+        </a>
+
+        <a th:if="${page.page > 1}"
+           class="page-nav pagination__link"
+           th:href="@{${baseUrl}(page=0, size=${page.size}, style=${style})}"
+           data-pagination-link
+           th:attr="data-target=${target}"
+           aria-label="Первая страница">1</a>
+
+        <span class="active pagination__current"
+              aria-current="page"
+              th:text="${page.page + 1}">1</span>
+
+        <span class="page-separator">из</span>
+        <span class="pagination__total" th:text="${page.totalPages}">1</span>
+
+        <a th:if="${page.page + 2 < page.totalPages}"
+           class="page-nav pagination__link"
+           th:href="@{${baseUrl}(page=${page.totalPages - 1}, size=${page.size}, style=${style})}"
+           data-pagination-link
+           th:attr="data-target=${target}"
+           aria-label="Последняя страница"
+           th:text="${page.totalPages}">1</a>
+
+        <a th:if="${page.page + 1 < page.totalPages}"
+           class="page-nav pagination__link"
+           th:href="@{${baseUrl}(page=${page.page + 1}, size=${page.size}, style=${style})}"
+           data-pagination-link
+           th:attr="data-target=${target}"
+           aria-label="Следующая страница">
+            <i class="fa fa-chevron-right"></i>
+        </a>
+    </div>
+
+    <div class="blog-option-right">
+        <div class="blog-result pagination__info">
+            Показано
+            <span th:text="${page.page * page.size + 1}">1</span>–
+            <span th:text="${(page.page + 1) * page.size > page.totalElements
+                            ? page.totalElements : (page.page + 1) * page.size}">9</span>
+            из <span th:text="${page.totalElements}">0</span> работ
+        </div>
+
+        <form class="show-result pagination__size" method="get" th:action="${baseUrl}"
+              data-page-size-form th:attr="data-target=${target}">
+            <input type="hidden" name="style" th:value="${style}">
+            <label for="pageSize" class="show-result-label">Показывать:</label>
+            <select id="pageSize"
+                    name="size"
+                    class="show-result-select no-nice-select"
+                    data-page-size>
+                <option th:each="option : ${page.select}"
+                        th:value="${option}"
+                        th:text="${option}"
+                        th:selected="${option == page.size}">
+                </option>
+            </select>
+            <button type="submit" class="page-nav pagination__apply" aria-label="Применить размер страницы">
+                <i class="fa fa-check"></i>
+            </button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

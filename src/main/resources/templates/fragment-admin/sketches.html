@@ -74,7 +74,8 @@
                     </form>
                 </div>
             </div>
-            <div th:replace="~{fragments::sketchesGrid(sketches, true)}"></div>
+            <div th:replace="~{fragments/media/grid :: grid(${sketchesPage}, 'sketches', true)}"></div>
+            <div th:replace="~{fragments/pagination :: pagination(${sketchesPage}, '/admin/sketches', '.sketchesFragment', null)}"></div>
         </div>
     </section>
 </div>

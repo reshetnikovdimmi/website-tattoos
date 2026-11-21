@@ -164,6 +164,52 @@
         });
     }
 
+    // Делегированные обработчики для общей сетки (без inline onclick)
+    $(document).on('click', '[data-delete-item]', function(e) {
+        e.preventDefault();
+        deleteImage(this);
+    });
+
+    $(document).on('change', '[data-featured]', function() {
+        if (typeof window.toggleFeatured === 'function') {
+            window.toggleFeatured(this);
+        }
+    });
+
+    /**
+     * Минимальный progressive-AJAX для новых ссылок пагинации.
+     * Полноценный контроллер (history/abort/loading) — следующий этап.
+     */
+    function loadGridFragment(url, target) {
+        var separator = url.indexOf('?') >= 0 ? '&' : '?';
+        $.get(url + separator + 'fragment=grid', {}, function(data) {
+            if (target && $(target).length) {
+                $(target).html(data);
+            }
+            if (typeof initMagnificPopup === 'function') {
+                initMagnificPopup();
+            }
+        });
+    }
+
+    $(document).on('click', '[data-pagination-link]', function(e) {
+        var href = $(this).attr('href');
+        if (!href) return;
+        e.preventDefault();
+        loadGridFragment(href, $(this).data('target'));
+    });
+
+    $(document).on('submit', '[data-page-size-form]', function(e) {
+        var $form = $(this);
+        var action = $form.attr('action');
+        var size = $form.find('[name=size]').val();
+        var style = $form.find('[name=style]').val() || '';
+        if (!action) return;
+        e.preventDefault();
+        loadGridFragment(action + '?page=0&size=' + encodeURIComponent(size)
+                + '&style=' + encodeURIComponent(style), $form.data('target'));
+    });
+
     // Экспорт в глобальную область
     window.GalleryModule = {
         goToPageGalleryAdmin: goToPageGalleryAdmin,
