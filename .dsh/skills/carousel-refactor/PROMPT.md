@@ -101,9 +101,9 @@ node --check src/main/resources/static/js/modules/carousel.js
    (оболочка, контролы, индикаторы, delete); удали дубли.
 3. В `pages/hero.css` оставь только hero-текст/высоту/анимации; в `admin-common.css` — только
    админскую специфику превью.
-4. Подключи компонент в `main.css`; **cache-bust** `v=4 → v=5`:
-   - `?v=5` у `main.css` во всех 10 шаблонах;
-   - `?v=5` у `@import` изменённых файлов (`components/carousel.css`, `pages/hero.css`,
+4. Подключи компонент в `main.css`; **cache-bust** `v=5 → v=6`:
+   - `?v=6` у `main.css` во всех 10 шаблонах;
+   - `?v=6` у `@import` изменённых файлов (`components/carousel.css`, `pages/hero.css`,
      `pages/admin-common.css`).
 5. Проверь desktop/tablet/mobile; сравни скриншоты «до/после».
 

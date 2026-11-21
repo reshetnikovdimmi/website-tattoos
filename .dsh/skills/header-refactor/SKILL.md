@@ -59,11 +59,11 @@ description: Use when changing the global site header or mobile menu — extract
 
 Cloudflare кэширует `/static/css/**` на 4 часа (`max-age=14400`), поэтому после **любого** изменения CSS:
 
-1. Увеличь версию: текущая `v=4`, следующая — `v=5`.
+1. Увеличь версию: текущая `v=5`, следующая — `v=6`.
 2. Обнови `?v=N` у `main.css` во всех шаблонах:
    `grep -rln "static/css/main.css" src/main/resources/templates` (сейчас 10 файлов).
 3. Добавь `?v=N` к `@import` **каждого изменённого** файла в `main.css`
-   (например, `@import 'layouts/header.css?v=5';`). Если менял несколько — версионируй все изменённые.
+   (например, `@import 'layouts/header.css?v=6';`). Если менял несколько — версионируй все изменённые.
 4. Проверь: `curl /static/css/main.css?v=N` отдаёт 200 и содержит новые импорты.
 5. Старые `?v=...` URL не удаляем — они просто перестают использоваться.
 

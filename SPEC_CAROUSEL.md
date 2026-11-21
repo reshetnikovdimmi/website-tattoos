@@ -125,7 +125,7 @@ CarouselModule.goTo(root, index)
 | `hero.css`: `.single-hero-item`, `.hero-text`, `.primary-btn` | остаётся в `hero.css` (только hero-специфика) |
 | `responsetive/tablet.css:717-750,995`, `mobile.css:319-330,454` | общий компонент/hero по принадлежности |
 
-`main.css` импортирует `components/carousel.css`; после изменений — **cache-busting** `v=4 → v=5`
+`main.css` импортирует `components/carousel.css`; после изменений — **cache-busting** `v=5 → v=6`
 (см. §7).
 
 ### 3.5. Общие фрагменты (опционально, этап 4)
@@ -175,7 +175,7 @@ CarouselModule.goTo(root, index)
 1. Создать `components/carousel.css`; перенести общие стили из `hero.css` и `admin-common.css`.
 2. Удалить дубли и Bootstrap-карусельные селекторы.
 3. Вынести адаптив из `responsetive/*` в компонент/модификаторы.
-4. Подключить в `main.css`; bump `v=5` и `?v=5` у изменённых импортов; обновить `main.css?v=4` в
+4. Подключить в `main.css`; bump `v=6` и `?v=6` у изменённых импортов; обновить `main.css?v=5` в
    10 шаблонах.
 5. Проверить визуально desktop/tablet/mobile; сравнить с скриншотами.
 
@@ -204,8 +204,8 @@ test -f src/main/resources/static/css/components/carousel.css
 grep -rn "carousel__\|owl-nav\|owl-dots" src/main/resources/static/css/components/carousel.css
 
 # 4. cache-bust
-grep -rn "main.css?v=4" src/main/resources/templates --include=*.html | wc -l   # 10
-grep -n "carousel.css?v=4" src/main/resources/static/css/main.css
+grep -rn "main.css?v=5" src/main/resources/templates --include=*.html | wc -l   # 10
+grep -n "carousel.css?v=5" src/main/resources/static/css/main.css
 ```
 
 Ручная проверка: Index (стрелки/точки/свайп/анимация), админка (превью, удаление, AJAX-обновление),
@@ -220,7 +220,7 @@ grep -n "carousel.css?v=4" src/main/resources/static/css/main.css
 3. **AJAX-фрагменты:** без `CarouselModule.refresh` превью после обновления не работает.
 4. **Удаление слайда:** обработчик `deleteImage` завязан на `data-*`; при переносе кнопки сохранить
    `data-fragment-name`, `data-container-selector`, `data-deletion-url`.
-5. **Кэш CSS:** без `v=5` Cloudflare отдаст старый `main.css`/`hero.css`/`admin-common.css`.
+5. **Кэш CSS:** без `v=6` Cloudflare отдаст старый `main.css`/`hero.css`/`admin-common.css`.
 6. **Визуальная регрессия:** hero-текст/анимации и caption в админке могут отличаться; сверять
    скриншоты.
 7. **Тесты/UI:** проверить, что селекторы Selenium не завязаны на `.carousel-item`/`#adminCarousel`
@@ -230,15 +230,15 @@ grep -n "carousel.css?v=4" src/main/resources/static/css/main.css
 
 После любого изменения CSS:
 
-1. версия `v=4` → `v=5`;
-2. `?v=5` у `main.css` во всех 10 шаблонах (`grep -rln "static/css/main.css" templates`);
-3. `?v=5` у `@import` изменённых файлов в `main.css`:
+1. версия `v=5` → `v=6`;
+2. `?v=6` у `main.css` во всех 10 шаблонах (`grep -rln "static/css/main.css" templates`);
+3. `?v=6` у `@import` изменённых файлов в `main.css`:
    ```css
-   @import 'components/carousel.css?v=5';
-   @import 'pages/hero.css?v=5';
-   @import 'pages/admin-common.css?v=5';
+   @import 'components/carousel.css?v=6';
+   @import 'pages/hero.css?v=6';
+   @import 'pages/admin-common.css?v=6';
    ```
-4. проверить `curl /static/css/main.css?v=5` и страницу на проде.
+4. проверить `curl /static/css/main.css?v=6` и страницу на проде.
 
 ## 8. Открытые вопросы
 

@@ -66,7 +66,7 @@ description: Use when unifying the public hero carousel (Index) with the admin c
   `.carousel-inner`/`.carousel-item`/`.carousel-controls`/`.carousel-indicators` удаляются.
 - Не дублировать одни и те же `.owl-nav`/`.owl-dots` в `hero.css`, `admin-common.css` и
   `responsetive/*`.
-- После **любого** изменения CSS — cache-busting: текущая версия `v=4`, следующая `v=5`; обновить
+- После **любого** изменения CSS — cache-busting: текущая версия `v=5`, следующая `v=6`; обновить
   `main.css?v=N` во всех шаблонах и `?v=N` у `@import` изменённых файлов (правило из
   `header-refactor`).
 
@@ -108,4 +108,4 @@ grep -rn "carousel__\|owl-nav\|owl-dots" src/main/resources/static/css/component
 - Забыть `CarouselModule.refresh` после `updateAdminFragment`.
 - Перенести стили в `components/carousel.css`, но оставить старые `.custom-carousel-btn` в
   `admin-common.css` — визуальный разнобой.
-- Забыть поднять `v=5` и `?v=5` у `@import` — Cloudflare отдаст старый CSS.
+- Забыть поднять `v=6` и `?v=6` у `@import` — Cloudflare отдаст старый CSS.
