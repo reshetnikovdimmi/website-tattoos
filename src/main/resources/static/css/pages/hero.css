@@ -102,26 +102,16 @@
     border-radius: 4px;
 }
 
-.single-hero-item .hero-text .primary-btn:after {
-    color: #fff;
-    transition-duration: 500ms;
-    background: linear-gradient(to right, var(--color-primary-light), var(--color-primary));
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    border-radius: 2px;
-    opacity: 0;
+.single-hero-item .hero-text .primary-btn {
+    transition: box-shadow 0.3s ease;
 }
 
-.single-hero-item .hero-text .primary-btn:hover:after {
-    opacity: 1;
+.single-hero-item .hero-text .primary-btn:hover {
+    box-shadow: 0 4px 20px rgba(228, 56, 28, 0.4);
 }
 
 /* Анимации появления текста */
+
 .hero-items .owl-item.active .single-hero-item .hero-text h2,
 .hero-items .owl-item.active .single-hero-item .hero-text h1,
 .hero-items .owl-item.active .single-hero-item .hero-text .primary-btn {
