@@ -118,7 +118,7 @@ git switch -c refactor/gallery-pagination
 
 1. `components/pagination.css` — новые `.pagination*`; `.blog-pagination` — alias.
 2. `components/media-grid.css` — CSS Grid; убрать `.row/col` для картинок.
-3. `main.css`: `?v=6` у изменённых импортов; `main.css?v=6` в 10 шаблонах.
+3. `main.css`: `?v=6` у изменённых импортов; `main.css?v=6` в 11 шаблонах.
 4. Проверить production URL с `?v=6`.
 
 Коммит: `refactor(gallery): modern pagination styles`.
@@ -139,7 +139,7 @@ grep -rn "onclick=\"goToPage\|onclick=\"goToGalleryPage" src/main/resources/temp
 grep -n "th:fragment=\"galleryGridContainer\"" src/main/resources/templates/fragment-admin/gallery.html
 grep -n "th:fragment=\"sketchesGridContainer\"" src/main/resources/templates/fragment-admin/sketches.html
 grep -c "galleryGridContainer" src/main/resources/templates/fragment-admin/settings.html
-grep -rl "main.css(v=6)" src/main/resources/templates --include=*.html | wc -l
+grep -rl "main.css(v=6)" src/main/resources/templates --include=*.html | wc -l  # 11
 node --check src/main/resources/static/js/modules/pagination.js
 ./mvnw -DskipTests compile
 git diff --check

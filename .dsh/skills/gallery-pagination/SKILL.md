@@ -91,7 +91,7 @@ GET /admin/sketches?page=&size=&fragment=grid
 - `components/pagination.css` — классы `.pagination`, `.pagination__link`, `.pagination__current`,
   `.pagination__info`, `.pagination__size`; старые `.blog-pagination` — только как временные алиасы.
 - `components/media-grid.css` — сетка карточек (CSS Grid), без `.row`/`.col-lg-4` для картинок.
-- После любого изменения CSS — cache-busting: текущая `v=5`, следующая `v=6` (обновить
+- После любого изменения CSS — cache-busting: текущая `v=6`, следующая `v=7` (обновить
   `main.css?v=N` во всех шаблонах и `?v=N` у изменённых `@import`).
 
 ### 6. Верификация
@@ -122,4 +122,4 @@ Gallery/Sketches (фильтр, страницы, удаление, флаг), 3
 - Сделать «пагинацию» из `<a>` без `href` и `onclick` — нет клавиатуры, SEO и back/forward.
 - Забыть сбросить `page` при смене фильтра/размера.
 - Оставить `layout:decorate="layout"` без layout-диалекта (мёртвый атрибут).
-- Забыть `v=6` — Cloudflare отдаст старый CSS.
+- Забыть актуальную версию (сейчас `v=6`) — Cloudflare отдаст старый CSS.

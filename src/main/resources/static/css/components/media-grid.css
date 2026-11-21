@@ -1,0 +1,61 @@
+/* ============================================
+   MEDIA GRID — общая сетка галереи и эскизов
+   ============================================ */
+
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.media-card {
+    min-width: 0;
+    display: flex;
+}
+
+.media-card .gallery-item {
+    width: 100%;
+}
+
+.media-card .gallery-img {
+    height: 300px;
+}
+
+/* Планшеты */
+@media (max-width: 991px) {
+    .media-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .media-card .gallery-img {
+        height: 260px;
+    }
+}
+
+/* Мобильные */
+@media (max-width: 575px) {
+    .media-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+    }
+
+    .media-card .gallery-img {
+        height: 240px;
+    }
+}
+
+/* Ссылки фильтров: кликабельна вся плашка, без подчёркивания */
+.gallery-controls ul li a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.gallery-controls ul li a:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}

@@ -1,13 +1,14 @@
 /* ============================================
-   PAGINATION - ПАГИНАЦИЯ ГАЛЕРЕИ
+   PAGINATION — единый компонент пагинации
    ============================================ */
 
 /* ------------------------------
-   ОСНОВНОЙ КОНТЕЙНЕР ПАГИНАЦИИ
+   КОНТЕЙНЕР
 ------------------------------ */
+.pagination,
 .blog-option {
     margin-top: 50px;
-    padding: 30px 0 20px;
+    padding: 24px 0 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     justify-content: space-between;
@@ -17,16 +18,17 @@
 }
 
 /* ------------------------------
-   БЛОК С КНОПКАМИ ПАГИНАЦИИ
+   НАВИГАЦИЯ
 ------------------------------ */
+.pagination__nav,
 .blog-pagination {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     flex-wrap: wrap;
 }
 
-/* Кнопки пагинации */
+.pagination__link,
 .blog-pagination a {
     display: inline-flex;
     align-items: center;
@@ -40,86 +42,121 @@
     color: #ffffff;
     font-size: 15px;
     font-family: "Nunito Sans", sans-serif;
-    transition: all 0.3s ease;
+    line-height: 1;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     text-decoration: none;
     cursor: pointer;
 }
 
+.pagination__link:hover,
 .blog-pagination a:hover {
     background: rgba(228, 56, 28, 0.2);
     border-color: var(--color-primary);
     transform: translateY(-2px);
 }
 
-.blog-pagination a.active {
-    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
-    border-color: transparent;
-    font-weight: 600;
-    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+.pagination__link:focus-visible,
+.pagination__apply:focus-visible,
+.blog-pagination a:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
 }
 
-/* Кнопки навигации (Назад/Вперед) */
+.pagination__link.page-nav,
 .blog-pagination a.page-nav {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.15);
 }
 
+.pagination__link.page-nav:hover,
 .blog-pagination a.page-nav:hover {
     background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
     border-color: transparent;
-    transform: translateY(-2px);
 }
 
-.blog-pagination a.page-nav i {
+.pagination__link i,
+.blog-pagination a i {
     font-size: 14px;
 }
 
-/* Разделитель */
+.pagination__current,
+.blog-pagination a.active {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    padding: 0 12px;
+    background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: #ffffff;
+    font-weight: 600;
+    font-family: "Nunito Sans", sans-serif;
+    box-shadow: 0 5px 15px rgba(228, 56, 28, 0.3);
+}
+
+.pagination__total,
 .page-separator {
     color: #8f8fa8;
     font-size: 14px;
     font-family: "Nunito Sans", sans-serif;
-    margin: 0 5px;
+}
+
+.page-separator {
+    margin: 0 4px;
 }
 
 /* ------------------------------
-   ПРАВАЯ ЧАСТЬ (РЕЗУЛЬТАТЫ + НАСТРОЙКИ)
+   ПРАВАЯ ЧАСТЬ: РЕЗУЛЬТАТЫ + РАЗМЕР
 ------------------------------ */
+.pagination__right,
 .blog-option-right {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 20px;
     flex-wrap: wrap;
 }
 
-/* Результаты */
+.pagination__info,
 .blog-result {
     color: #8f8fa8;
     font-size: 14px;
     font-family: "Nunito Sans", sans-serif;
 }
 
+.pagination__info span,
+.blog-result span {
+    color: #ffffff;
+    font-weight: 600;
+}
+
 /* ------------------------------
-   БЛОК "ПОКАЗЫВАТЬ"
+   ВЫБОР РАЗМЕРА СТРАНИЦЫ
 ------------------------------ */
+.pagination__size,
 .show-result {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     background: rgba(0, 0, 0, 0.3);
-    padding: 5px 15px;
+    padding: 5px 12px;
     border-radius: 40px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0;
 }
 
+.pagination__size label,
 .show-result-label {
     color: #ffffff;
     font-size: 14px;
     font-family: "Nunito Sans", sans-serif;
     margin: 0;
     font-weight: 400;
+    white-space: nowrap;
 }
 
+.pagination__size select,
 .show-result-select {
     background: #2d2d2d;
     border: 1px solid rgba(228, 56, 28, 0.5);
@@ -134,33 +171,120 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23e4381C' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 10px center;
-    transition: all 0.2s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
     min-width: 65px;
 }
 
+.pagination__size select:hover,
 .show-result-select:hover {
     border-color: var(--color-primary);
     background-color: #3d3d3d;
 }
 
+.pagination__size select:focus,
 .show-result-select:focus {
     outline: none;
     border-color: var(--color-primary);
     box-shadow: 0 0 0 2px rgba(228, 56, 28, 0.2);
 }
 
+.pagination__size option,
 .show-result-select option {
     background: #2d2d2d;
     color: #ffffff;
     padding: 8px;
 }
 
+.pagination__apply {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.pagination__apply:hover {
+    background: var(--color-primary);
+    border-color: transparent;
+}
+
+/* ------------------------------
+   СОСТОЯНИЕ ЗАГРУЗКИ
+------------------------------ */
+.is-loading {
+    opacity: 0.55;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+}
+
 /* ------------------------------
    АДАПТИВНОСТЬ
 ------------------------------ */
+@media (max-width: 991px) {
+    .pagination__nav,
+    .blog-pagination {
+        gap: 6px;
+    }
 
-/* Планшеты (до 992px) */
+    .pagination__link,
+    .blog-pagination a,
+    .pagination__current,
+    .blog-pagination a.active {
+        min-width: 38px;
+        height: 38px;
+        padding: 0 9px;
+        font-size: 14px;
+    }
+}
 
-/* Мобильные устройства (до 768px) */
+@media (max-width: 767px) {
+    .pagination,
+    .blog-option {
+        margin-top: 35px;
+        padding-top: 18px;
+        gap: 14px;
+    }
 
-/* Маленькие мобильные (до 480px) */
+    .pagination__right,
+    .blog-option-right {
+        width: 100%;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .pagination__info,
+    .blog-result {
+        width: 100%;
+    }
+
+    .pagination__size,
+    .show-result {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 480px) {
+    .pagination__link,
+    .blog-pagination a,
+    .pagination__current,
+    .blog-pagination a.active {
+        min-width: 34px;
+        height: 34px;
+        padding: 0 7px;
+        font-size: 13px;
+    }
+
+    .pagination__nav,
+    .blog-pagination {
+        width: 100%;
+        justify-content: center;
+    }
+}

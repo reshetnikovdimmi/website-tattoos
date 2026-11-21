@@ -229,7 +229,7 @@ grep -rn "pageSize\|number" src/main/java/ru/tattoo/maxsim/model/DTO  # пуст
 grep -n "RequestParam" src/main/java/ru/tattoo/maxsim/controller/*/Gallery*Controller.java
 
 # 4. cache
-grep -rl "main.css(v=6)" src/main/resources/templates --include=*.html | wc -l  # 10
+grep -rl "main.css(v=6)" src/main/resources/templates --include=*.html | wc -l  # 11
 grep -n "pagination.css?v=6\|media-grid.css?v=6" src/main/resources/static/css/main.css
 ```
 

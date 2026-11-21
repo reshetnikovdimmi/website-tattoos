@@ -12,7 +12,8 @@
 @import 'components/carousel.css?v=4';
 @import 'components/form.css';
 @import 'components/modal.css';
-@import 'components/pagination.css';
+@import 'components/pagination.css?v=6';
+@import 'components/media-grid.css?v=6';
 @import 'components/section-title.css';
 @import 'components/upload.css';
 @import 'components/utilities.css';

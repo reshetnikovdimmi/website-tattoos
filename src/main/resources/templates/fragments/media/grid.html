@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <!-- Общая сетка галереи и эскизов -->
-<div th:fragment="grid(page, kind, isAdmin)" class="row gallery-filter">
-    <div th:each="item : ${page.items}" class="col-lg-4 col-sm-6"
+<div th:fragment="grid(page, kind, isAdmin)" class="media-grid">
+    <div th:each="item : ${page.items}" class="media-card"
          th:classappend="${kind == 'gallery' ? (item.category != null ? item.category.toLowerCase().replace(' ', '-') : 'uncategorized') : ''}"
          th:attr="data-id=${item.id}">
 
