@@ -292,6 +292,17 @@
     opacity: 1;
 }
 
+/* У кастомных вариантов свой hover-фон — legacy-псевдоэлемент не нужен,
+   иначе поверх кнопки появляется второй оранжевый прямоугольник. */
+.feature-item .primary-btn::after,
+.about-text .primary-btn::after,
+.classes-item .primary-btn::after,
+.single-price-plan .primary-btn::after,
+.cta-section .primary-btn::after,
+.empty-video-state .primary-btn::after {
+    display: none;
+}
+
 /* Секционные варианты */
 .primary-btn.f-btn,
 .primary-btn.about-btn,
