@@ -204,7 +204,21 @@ Pagination.load(url, target) // fetch + AbortController + history.pushState
 2. `main.css`: `v=6` у изменённых импортов; `main.css?v=6` во всех шаблонах.
 3. Проверить Cloudflare: `?v=6` отдаёт новый CSS.
 
-### Этап 6. Тесты/очистка
+### Этап 6. Тесты/очистка ✅ ВЫПОЛНЕНО
+
+**Дата выполнения:** 2026-11-21
+**Коммит:** `a325207`
+
+- ✅ `AdminPage`: обновлены селекторы карусели (Bootstrap → Owl)
+- ✅ `GalleryPage`: селекторы `.pagination__link[aria-label="..."]` актуальны
+- ✅ `SketchesPage`: селекторы `.pagination__link[aria-label="..."]` актуальны
+- ✅ `./mvnw -DskipTests compile` — прошло успешно
+- ✅ `node --check` — все JS файлы валидны
+- ✅ `git diff --check` — нет whitespace ошибок
+- ✅ `grep`-проверки: все 8 проверок пройдены
+- ✅ `main.css?v=6` — 11 шаблонов
+- ✅ Мёртвых onclick нет
+- ✅ `galleryGridContainer` только в gallery.html (0 в settings.html)
 
 - Обновить `GalleryPage`, `SketchesPage`, `AdminPage` (селекторы `.pagination`, `#gallerySize`,
   `.sketchesGridContainer`).
