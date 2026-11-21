@@ -196,20 +196,20 @@ Cloudflare отдаёт `/static/css/**` с `cache-control: max-age=14400`; по
 оставаться в edge-кэше до 4 часов (`cf-cache-status: HIT`). Поэтому **любое** изменение CSS требует
 новой версии URL:
 
-1. Текущая версия — `v=2`; следующая — `v=3`.
+1. Текущая версия — `v=4`; следующая — `v=5`.
 2. `?v=N` у `main.css` во всех 10 шаблонах:
    ```bash
    grep -rln "static/css/main.css" src/main/resources/templates
    ```
 3. `?v=N` у `@import` **каждого изменённого** файла в `main.css`:
    ```css
-   @import 'layouts/header.css?v=3';
+   @import 'layouts/header.css?v=5';
    ```
    Если менялись несколько файлов — версионируй все изменённые импорты.
 4. Проверка после деплоя:
    ```bash
    curl -s https://r1-tattoo.ru/ | grep -o 'main.css?v=[0-9]*'
-   curl -s 'https://r1-tattoo.ru/static/css/main.css?v=3' | grep "header.css?v=3"
+   curl -s 'https://r1-tattoo.ru/static/css/main.css?v=5' | grep "header.css?v=5"
    ```
 5. Старые URL (`?v=2`) не удаляем — они просто перестают использоваться. При наличии доступа к
    Cloudflare можно вместо этого сделать purge, но версионирование работает без токена.
