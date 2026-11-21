@@ -884,7 +884,8 @@
     .breadcrumb-image-area {
         height: 200px;
     }
-    .admin-carousel .carousel-item {
+    .carousel--admin .owl-item,
+    .carousel--admin .carousel__slide {
         height: 250px;
     }
     .features-grid {
@@ -986,14 +987,6 @@
     }
     .nav-pills-dark .nav-link p {
         font-size: 12px;
-    }
-    .custom-carousel-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-    }
-    .carousel-controls {
-        padding: 0 15px;
     }
     /* Комментарии */
     .comment-item-card {

@@ -2008,3 +2008,31 @@ form.active .edit-category-btn:hover {
 /* Мобильные устройства (до 576px) */
 
 /* Маленькие мобильные (до 480px) */
+
+/* Статистика карусели (Home) */
+.slides-stats {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.stats-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 13px;
+    color: #8f8fa8;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.stats-badge i {
+    color: var(--color-primary);
+}
+
+.stats-badge strong {
+    color: var(--color-primary);
+    font-size: 16px;
+    margin-left: 5px;
+}

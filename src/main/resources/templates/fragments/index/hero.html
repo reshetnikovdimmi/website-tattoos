@@ -2,9 +2,14 @@
 <th:block xmlns:th="http://www.thymeleaf.org" th:fragment="hero">
     <!-- Hero Section Begin -->
     <section class="hero-section">
-        <div class="hero-items owl-carousel">
+        <div class="carousel carousel--hero hero-items owl-carousel"
+             data-carousel
+             data-carousel-loop="true"
+             data-carousel-nav="true"
+             data-carousel-dots="true"
+             data-carousel-autoplay="false">
             <!-- Баннеры -->
-            <div class="single-hero-item set-bg"
+            <div class="carousel__slide single-hero-item set-bg"
                  th:each="banner : ${carousel[0].banners}"
                  th:attr="data-setbg=@{${banner.imageName != null and !banner.imageName.isEmpty() ?
                                    '/images/' + banner.imageName :
@@ -24,7 +29,7 @@
 
             <!-- Пустое состояние (если нет баннеров) -->
             <div th:unless="${carousel != null and carousel[0].banners != null and !carousel[0].banners.isEmpty()}"
-                 class="single-hero-item set-bg" data-setbg="/img/avatar.jpg">
+                 class="carousel__slide single-hero-item set-bg" data-setbg="/img/avatar.jpg">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">

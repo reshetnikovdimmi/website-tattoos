@@ -9,6 +9,7 @@
 /* Components */
 @import 'components/buttons.css';
 @import 'components/cards.css';
+@import 'components/carousel.css?v=4';
 @import 'components/form.css';
 @import 'components/modal.css';
 @import 'components/pagination.css';
@@ -27,10 +28,10 @@
 
 /* Pages */
 @import 'pages/error.css';
-@import 'pages/admin-common.css';
+@import 'pages/admin-common.css?v=4';
 @import 'pages/gallery.css';
 @import 'pages/blog.css';
-@import 'pages/carousel.css';
+@import 'pages/hero.css?v=4';
 @import 'pages/feature.css';
 @import 'pages/about.css';
 @import 'pages/classes.css';
@@ -48,6 +49,6 @@
 @import 'pages/backup.css';
 
 /* Responsive */
-@import 'responsetive/mobile.css';
-@import 'responsetive/tablet.css';
+@import 'responsetive/mobile.css?v=4';
+@import 'responsetive/tablet.css?v=4';
 @import 'responsetive/desktop.css';

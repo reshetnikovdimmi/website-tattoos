@@ -137,11 +137,16 @@
                                         </div>
                                         <div class="admin-card-body">
 
-                                            <div id="adminCarousel" class="admin-carousel owl-carousel">
+                                            <div id="adminCarousel" class="carousel carousel--admin owl-carousel"
+                                                 data-carousel
+                                                 data-carousel-loop="true"
+                                                 data-carousel-nav="true"
+                                                 data-carousel-dots="true"
+                                                 data-carousel-autoplay="false">
                                                 <!-- Слайды -->
-                                                <div th:each="current : ${home}">
+                                                <th:block th:each="current : ${home}">
                                                     <div th:each="banner, itemStat : ${current.banners}"
-                                                         class="admin-slide">
+                                                         class="carousel__slide carousel__slide--admin">
 
                                                         <img th:if="${banner.imageName != null && !banner.imageName.isEmpty()}"
                                                              th:src="@{'/images/' + ${banner.imageName}}"
@@ -154,7 +159,7 @@
                                                              th:alt="${banner.title}">
 
 
-                                                        <div class="carousel-caption">
+                                                        <div class="carousel__caption">
                                                             <h6 th:text="${banner.title}">Заголовок</h6>
                                                             <h5 th:text="${banner.subtitle}">Подзаголовок</h5>
                                                         </div>
@@ -163,26 +168,15 @@
                                                                 data-fragment-name="carousel-import"
                                                                 data-container-selector=".carousel-import"
                                                                 data-deletion-url="/admin/hero/delete-section"
-                                                                onclick="deleteImage(this)"
+                                                                data-carousel-delete
                                                                 data-method="POST"
-                                                                class="carousel-delete-btn"
+                                                                class="carousel__delete"
+                                                                type="button"
                                                                 title="Удалить слайд">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Кнопки навигации -->
-                                            <div class="carousel-controls">
-                                                <button class="custom-carousel-btn" type="button"
-                                                        onclick="carouselPrev()">
-                                                    <i class="fa fa-chevron-left"></i>
-                                                </button>
-                                                <button class="custom-carousel-btn" type="button"
-                                                        onclick="carouselNext()">
-                                                    <i class="fa fa-chevron-right"></i>
-                                                </button>
+                                                </th:block>
                                             </div>
 
                                             <!-- Статистика -->
