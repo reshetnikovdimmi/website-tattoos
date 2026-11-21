@@ -3,7 +3,7 @@ package ru.tattoo.maxsim.service.interf;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
-import ru.tattoo.maxsim.model.DTO.GalleryDTO;
+import ru.tattoo.maxsim.model.DTO.PageResult;
 import ru.tattoo.maxsim.model.Images;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ public interface ImagesService extends CRUDService<Images, Long> {
 
     Page<Images> getPagedImages(String userName, Pageable p);
 
-    GalleryDTO getGalleryDto(String category, Principal principal, int pageSize, int pageNumber);
+    PageResult<Images> getGalleryPage(String category, Principal principal, int page, int size);
 
     boolean bestImage(Images images);
 

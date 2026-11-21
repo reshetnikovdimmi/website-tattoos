@@ -62,7 +62,7 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
         model.addAttribute("reviews", reviewService.findAll());
         model.addAttribute("localDateTime", LocalDateTime.now());
         model.addAttribute("count", reviewService.getCount());
-        model.addAttribute("gallery", imagesService.getGalleryDto(null, null, PageSize.IMG_9.getPageSize(), PAGE_NUMBER));
+        model.addAttribute("gallery", imagesService.getGalleryPage(null, null, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
 
         return getFragmentName();
     }

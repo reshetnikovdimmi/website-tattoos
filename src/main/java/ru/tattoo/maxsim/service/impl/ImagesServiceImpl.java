@@ -9,11 +9,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
-import ru.tattoo.maxsim.model.DTO.GalleryDTO;
+import ru.tattoo.maxsim.model.DTO.PageResult;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ImagesRepository;
 import ru.tattoo.maxsim.service.interf.ImagesService;
 import ru.tattoo.maxsim.storage.ImageStorage;
+import ru.tattoo.maxsim.util.PageRequestUtils;
 import ru.tattoo.maxsim.util.PageSize;
 import ru.tattoo.maxsim.util.PaginationUtils;
 
@@ -65,77 +66,47 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
         entity.setImageName(fileName);
     }
     @Override
-    public GalleryDTO getGalleryDto(String category, Principal principal, int pageSize, int pageNumber) {
-        log.info("Запрос галереи: category={}, principal={}, pageSize={}, pageNumber={}",
-                category, principal != null ? principal.getName() : "null", pageSize, pageNumber);
+    public PageResult<Images> getGalleryPage(String category, Principal principal, int page, int size) {
+        log.info("Запрос галереи: category={}, principal={}, page={}, size={}",
+                category, principal != null ? principal.getName() : "null", page, size);
 
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        Pageable p = PageRequest.of(pageNumber, pageSize).withSort(sort);
+        int safePage = Math.max(page, 0);
+        Page<Images> images = fetchImages(category, principal, PageRequestUtils.of(safePage, size));
 
-        Page<Images> images = null;
-        String fetchStrategy;
-
-        // Определяем стратегию выборки
-        if (principal != null && category != null) {
-            // Изображения категории для конкретного пользователя
-            images = findByCategoryAndUser(category, principal.getName(), p);
-            fetchStrategy = "USER_CATEGORY";
-        } else if (category != null) {
-            // Изображения категории для всех (публичные)
-            images = findByCategory(category, p);
-            fetchStrategy = "PUBLIC_CATEGORY";
-            images.getContent().forEach(img ->
-                    log.info("Image[id={}, name='{}', category='{}', user='{}', flag={}, стратегия={}]",
-                            img.getId(),
-                            img.getImageName(),
-                            img.getCategory(),
-                            img.getUserName(),
-                            img.isFlag(),
-                            fetchStrategy
-                    )
-            );
-        } else if (principal != null) {
-            // Все изображения пользователя
-            images = getPagedImages(principal.getName(), p);
-            fetchStrategy = "USER_IMAGES";
-        } else {
-            // Все публичные изображения
-            images = getPagedImages(p);
-            fetchStrategy = "ALL_IMAGES";
-            images.getContent().forEach(img ->
-                    log.info("Image[id={}, name='{}', category='{}', user='{}', flag={}]",
-                            img.getId(),
-                            img.getImageName(),
-                            img.getCategory(),
-                            img.getUserName(),
-                            img.isFlag()
-                    )
-            );
+        // page за границей: показываем последнюю существующую страницу
+        if (safePage > 0 && safePage >= images.getTotalPages()) {
+            log.warn("Страница {} вне диапазона (totalPages={}), переключаемся на последнюю",
+                    safePage, images.getTotalPages());
+            images = fetchImages(category, principal, PageRequestUtils.last(images));
         }
 
         log.info("Получено {} изображений на странице {} из {}",
-                images.getNumberOfElements(), pageNumber, images.getTotalElements());
+                images.getNumberOfElements(), images.getNumber(), images.getTotalElements());
 
-        List<List<Images>> objects = PaginationUtils.partition(
-                images.hasContent() ? images.getContent() : Collections.emptyList(),
-                PARTITION_SIZE
-        );
-        log.debug("Изображения разделены на {} групп по {} элементов",
-                objects.size(), PARTITION_SIZE);
+        return PageResult.of(images, PARTITION_SIZE);
+    }
 
-        GalleryDTO result = new GalleryDTO(
-                objects,
-                images.getTotalPages(),
-                pageNumber,
-                pageSize,
-                PageSize.getLisPageSize(),
-                images.getTotalElements()
-        );
+    private Page<Images> fetchImages(String category, Principal principal, Pageable p) {
+        Page<Images> images;
+        String fetchStrategy;
 
-        log.info("Галерея успешно подготовлена: стратегия={}, всего страниц={}, всего элементов={}",
-                fetchStrategy, images.getTotalPages(), images.getTotalElements());
+        if (principal != null && category != null) {
+            images = findByCategoryAndUser(category, principal.getName(), p);
+            fetchStrategy = "USER_CATEGORY";
+        } else if (category != null) {
+            images = findByCategory(category, p);
+            fetchStrategy = "PUBLIC_CATEGORY";
+        } else if (principal != null) {
+            images = getPagedImages(principal.getName(), p);
+            fetchStrategy = "USER_IMAGES";
+        } else {
+            images = getPagedImages(p);
+            fetchStrategy = "ALL_IMAGES";
+        }
 
-        return result;
+        log.debug("Стратегия выборки: {}, page={}, size={}, total={}",
+                fetchStrategy, images.getNumber(), images.getSize(), images.getTotalElements());
+        return images;
     }
 
     private Page<Images> findByCategoryAndUser(String category, String name, Pageable p) {

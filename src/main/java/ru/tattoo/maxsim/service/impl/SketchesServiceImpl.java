@@ -8,13 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
-import ru.tattoo.maxsim.model.DTO.SketchesDTO;
+import ru.tattoo.maxsim.model.DTO.PageResult;
 import ru.tattoo.maxsim.model.Sketches;
 import ru.tattoo.maxsim.repository.SketchesRepository;
 import ru.tattoo.maxsim.service.interf.SketchesService;
 import ru.tattoo.maxsim.storage.ImageStorage;
-import ru.tattoo.maxsim.util.PageSize;
-import ru.tattoo.maxsim.util.PaginationUtils;
+import ru.tattoo.maxsim.util.PageRequestUtils;
 
 import java.security.Principal;
 import java.util.Collections;
@@ -67,25 +66,15 @@ public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> imp
 
 
     @Override
-    public SketchesDTO getSketchesDto(String category, Principal principal, int pageSize, int pageNumber) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        Pageable p = PageRequest.of(pageNumber, pageSize).withSort(sort);
+    public PageResult<Sketches> getSketchesPage(int page, int size) {
+        int safePage = Math.max(page, 0);
+        Page<Sketches> images = sketchesRepository.findAll(PageRequestUtils.of(safePage, size));
 
-        Page<Sketches> images = sketchesRepository.findAll(p);
+        if (safePage > 0 && safePage >= images.getTotalPages()) {
+            images = sketchesRepository.findAll(PageRequestUtils.last(images));
+        }
 
-        List<List<Sketches>> objects = PaginationUtils.partition(
-                images.hasContent() ? images.getContent() : Collections.emptyList(),
-                PARTITION_SIZE
-        );
-
-        return new SketchesDTO(
-                objects,
-                images.getTotalPages(),
-                pageNumber,
-                pageSize,
-                PageSize.getLisPageSize(),
-                images.getTotalElements()
-        );
+        return PageResult.of(images, PARTITION_SIZE);
     }
 
 

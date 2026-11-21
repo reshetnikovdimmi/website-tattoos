@@ -7,6 +7,10 @@
 </head>
 <body>
 <div th:fragment="sketches" class="sketchesFragment">
+    <div th:replace="~{fragment-admin/sketches :: sketchesGridContainer}"></div>
+</div>
+
+<div th:fragment="sketchesGridContainer">
     <br>
     <section class="admin-section spad">
         <div class="container">
@@ -25,7 +29,7 @@
                 <div class="admin-card-body">
                     <form method="post" action="/admin/sketches/image-import"
                           onsubmit="submitForm(event, '.sketches-import')"
-                          data-fragment-name="sketches"
+                          data-fragment-name="sketchesGridContainer"
                           data-container-selector=".sketchesFragment"
                           class="gallery-form" th:object="${sketchesEntity}">
 
@@ -73,7 +77,6 @@
             <div th:replace="~{fragments::sketchesGrid(sketches, true)}"></div>
         </div>
     </section>
-</div>
 </div>
 <!--End sketches panes -->
 </body>

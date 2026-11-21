@@ -1,8 +1,5 @@
 package ru.tattoo.maxsim.controller.admin;
 
-
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -10,14 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.tattoo.maxsim.controller.CRUDController;
-import ru.tattoo.maxsim.model.DTO.GalleryDTO;
+import ru.tattoo.maxsim.model.DTO.PageResult;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.service.interf.ClassesSectionService;
 import ru.tattoo.maxsim.service.interf.ImagesService;
-import ru.tattoo.maxsim.util.PageSize;
-
-import java.security.Principal;
 
 @Controller
 @RequestMapping("/admin/gallery")
@@ -25,12 +19,14 @@ import java.security.Principal;
 public class GalleryAdminController extends CRUDController<Images, Long> {
 
     public static final String PAGE_FRAGMENT = "fragment-admin/gallery";
-    public static final String URL = "/gallery";
+    private static final String GRID_FRAGMENT = "fragment-admin/gallery::galleryGridContainer";
     private static final String ALL_GALLERY = "Вся галерея";
-    private static final int PAGE_NUMBER = 0;
+    private static final int DEFAULT_PAGE = 0;
+    private static final int DEFAULT_SIZE = 9;
 
     @Autowired
     private ImagesService imagesService;
+
     @Autowired
     private ClassesSectionService classesSectionService;
 
@@ -46,30 +42,46 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
 
     @Override
     protected void updateSection(Model model) {
-        model.addAttribute("gallery", prepareGalleryData(null, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+        PageResult<Images> gallery = prepareGalleryData(null, DEFAULT_PAGE, DEFAULT_SIZE);
+        model.addAttribute("gallery", gallery);
+        model.addAttribute("galleryPage", gallery);
         model.addAttribute("images", new Images());
         model.addAttribute("styleList", classesSectionService.findAll());
-
     }
 
     @GetMapping({"", "/"})
-    private String getGalleryFragment(Model model,
-                                      HttpServletRequest request) {
-        log.info("Загрузка галереи: {}", request.getRequestURI());
-        updateSection(model);
-        return getFragmentName()+"::gallery";
-    }
-
-    @RequestMapping(value = "{style}/{page}/{number}", method = RequestMethod.GET)
-    private String gallerySearch(@PathVariable("style") String style, @PathVariable("page") int page, @PathVariable("number") int number, Model model, HttpServletRequest request, Principal principal) {
-
-        log.info("Получено page {} number {}", page, number);
-
-        model.addAttribute("gallery", prepareGalleryData( style, page, number));
+    public String getGalleryFragment(@RequestParam(defaultValue = "0") int page,
+                                     @RequestParam(defaultValue = "9") int size,
+                                     @RequestParam(required = false) String style,
+                                     @RequestParam(required = false) String fragment,
+                                     Model model) {
+        PageResult<Images> gallery = prepareGalleryData(style, page, size);
+        model.addAttribute("gallery", gallery);
+        model.addAttribute("galleryPage", gallery);
         model.addAttribute("images", new Images());
         model.addAttribute("styleList", classesSectionService.findAll());
 
-        return getFragmentName()+"::galleryGridContainer";
+        if ("grid".equalsIgnoreCase(fragment)) {
+            return GRID_FRAGMENT;
+        }
+        return getFragmentName() + "::gallery";
+    }
+
+    /**
+     * Старый AJAX-URL фильтра/пагинации. Сохранён на время миграции JS.
+     */
+    @Deprecated
+    @GetMapping("/{style}/{page}/{number}")
+    public String gallerySearch(@PathVariable("style") String style,
+                                @PathVariable("page") int page,
+                                @PathVariable("number") int size,
+                                Model model) {
+        PageResult<Images> gallery = prepareGalleryData(style, page, size);
+        model.addAttribute("gallery", gallery);
+        model.addAttribute("galleryPage", gallery);
+        model.addAttribute("images", new Images());
+        model.addAttribute("styleList", classesSectionService.findAll());
+        return GRID_FRAGMENT;
     }
 
     @PostMapping("/toggle-featured")
@@ -77,20 +89,14 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
                              @RequestParam("flag") boolean flag,
                              Model model,
                              Authentication auth) {
-
-            String message = imagesService.updateImageFlag(id, flag);
-            model.addAttribute("message", "Флаг обновлен успешно:"+"-" + message);
-            log.info("Обновление флага: id={}, flag={}, user={}", id, flag, auth.getName());
-
+        String message = imagesService.updateImageFlag(id, flag);
+        model.addAttribute("message", "Флаг обновлен успешно:" + "-" + message);
+        log.info("Обновление флага: id={}, flag={}, user={}", id, flag, auth.getName());
         return "fragments/modals/message :: message-body";
     }
 
-    // 🔄 метод для подготовки данных галереи
-    private GalleryDTO prepareGalleryData(String style, int page, int page_size) {
-        // ✅ Логика обработки стиля "Вся галерея"
-
+    private PageResult<Images> prepareGalleryData(String style, int page, int size) {
         String normalizedStyle = ALL_GALLERY.equals(style) ? null : style;
-
-        return imagesService.getGalleryDto(normalizedStyle, null, page_size, page);
+        return imagesService.getGalleryPage(normalizedStyle, null, page, size);
     }
 }

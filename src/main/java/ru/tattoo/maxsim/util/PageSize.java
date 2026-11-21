@@ -3,7 +3,6 @@ package ru.tattoo.maxsim.util;
 
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,5 +30,13 @@ public enum PageSize {
                     .collect(Collectors.toList());
         }
         return cachedSizes;
+    }
+
+    /** Разрешённые размеры страницы; всё остальное сводим к 9. */
+    public static int normalizeSize(int requested) {
+        return Arrays.stream(values())
+                .anyMatch(size -> size.pageSize == requested)
+                ? requested
+                : IMG_9.pageSize;
     }
 }
