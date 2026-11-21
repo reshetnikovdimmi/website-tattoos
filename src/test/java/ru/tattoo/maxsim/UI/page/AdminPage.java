@@ -60,19 +60,19 @@ public class AdminPage {
     @FindBy(css = "a[href='/admin/home']")
     private WebElement homeTab;
 
-    @FindBy(css = "a[href='/gallery/admin']")
+    @FindBy(css = "a[href='/admin/gallery']")
     private WebElement galleryTab;
 
-    @FindBy(css = "a[href='/sketches/admin']")
+    @FindBy(css = "a[href='/admin/sketches']")
     private WebElement sketchesTab;
 
-    @FindBy(css = "a[href='/blog/admin']")
+    @FindBy(css = "a[href='/admin/blog']")
     private WebElement blogTab;
 
-    @FindBy(css = "a[href='/reviews/admin']")
+    @FindBy(css = "a[href='/admin/reviews']")
     private WebElement reviewsTab;
 
-    @FindBy(css = "a[href='/setting/admin']")
+    @FindBy(css = "a[href='/admin/setting']")
     private WebElement settingsTab;
 
     // ==================== РАЗДЕЛ "ГЛАВНАЯ" - ЛЕВАЯ НАВИГАЦИЯ ====================
@@ -108,26 +108,26 @@ public class AdminPage {
     private WebElement saveSlideButton;
 
     // ==================== ЭЛЕМЕНТЫ КАРУСЕЛИ ====================
-    @FindBy(css = "#adminCarousel .carousel-item")
+    @FindBy(css = "#adminCarousel .owl-item")
     private List<WebElement> carouselSlides;
 
-    @FindBy(css = ".admin-delete-btn")
+    @FindBy(css = ".carousel__delete")
     private List<WebElement> deleteSlideButtons;
 
-    @FindBy(css = ".carousel-control-prev")
+    @FindBy(css = "#adminCarousel .owl-prev")
     private WebElement carouselPrevButton;
 
-    @FindBy(css = ".carousel-control-next")
+    @FindBy(css = "#adminCarousel .owl-next")
     private WebElement carouselNextButton;
 
     @FindBy(css = "#adminCarousel")
     private WebElement carouselContainer;
 
     // ==================== ЭЛЕМЕНТЫ ГАЛЕРЕИ ====================
-    @FindBy(css = ".img-import .reviews-admin")
+    @FindBy(css = ".galleryFragment .media-grid .gallery-item")
     private List<WebElement> galleryImages;
 
-    @FindBy(css = ".delete-button")
+    @FindBy(css = ".galleryFragment [data-delete-item], .sketchesFragment [data-delete-item]")
     private List<WebElement> deleteImageButtons;
 
     @FindBy(name = "description")
@@ -136,23 +136,23 @@ public class AdminPage {
     @FindBy(id = "file-img")
     private WebElement galleryFileInput;
 
-    @FindBy(css = ".gallery-controls ul li")
+    @FindBy(css = ".gallery-controls ul li a")
     private List<WebElement> galleryFilters;
 
     @FindBy(css = ".btn-primary")
     private List<WebElement> primaryButtons;
 
     // ==================== ЭЛЕМЕНТЫ ЭСКИЗОВ ====================
-    @FindBy(css = ".sketches-import .reviews-admin")
+    @FindBy(css = ".sketchesFragment .media-grid .gallery-item")
     private List<WebElement> sketchesItems;
 
-    @FindBy(id = "sketchers-number")
+    @FindBy(css = ".sketchesFragment [data-page-size]")
     private WebElement sketchesPerPageSelect;
 
-    @FindBy(id = "sketchers-left")
+    @FindBy(css = ".sketchesFragment .pagination__link[aria-label='Предыдущая страница']")
     private WebElement sketchesPrevPageButton;
 
-    @FindBy(id = "sketchers-right")
+    @FindBy(css = ".sketchesFragment .pagination__link[aria-label='Следующая страница']")
     private WebElement sketchesNextPageButton;
 
     @FindBy(id = "file-sketches")
@@ -764,7 +764,7 @@ public class AdminPage {
     @Step("Удаление эскиза по ID")
     public void deleteSketchById(String sketchId) {
         try {
-            WebElement deleteButton = driver.findElement(By.id("delete-" + sketchId));
+            WebElement deleteButton = driver.findElement(By.cssSelector("[data-delete-item][id='" + sketchId + "']"));
             deleteButton.click();
             waitForModalVisible();
             closeModal();
