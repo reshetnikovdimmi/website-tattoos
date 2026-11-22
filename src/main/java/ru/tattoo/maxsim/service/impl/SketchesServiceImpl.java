@@ -3,9 +3,6 @@ package ru.tattoo.maxsim.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import ru.tattoo.maxsim.model.DTO.PageResult;
@@ -15,15 +12,11 @@ import ru.tattoo.maxsim.service.interf.SketchesService;
 import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.PageRequestUtils;
 
-import java.security.Principal;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> implements SketchesService {
-
-    private static final int PARTITION_SIZE = 3;
 
     @Autowired
     private SketchesRepository sketchesRepository;
@@ -74,7 +67,7 @@ public class SketchesServiceImpl extends AbstractCRUDService<Sketches, Long> imp
             images = sketchesRepository.findAll(PageRequestUtils.last(images));
         }
 
-        return PageResult.of(images, PARTITION_SIZE);
+        return PageResult.of(images);
     }
 
 

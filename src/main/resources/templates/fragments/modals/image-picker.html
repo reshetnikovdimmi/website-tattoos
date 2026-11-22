@@ -20,8 +20,8 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="gallery-filter-modal">
-                            <div class="row gallery-filter" th:each="currents: ${gallery.galleryImg}">
-                                <div class="col-lg-4 col-sm-6 mix" th:each="img: ${currents}">
+                            <div class="row gallery-filter">
+                                <div class="col-lg-4 col-sm-6 mix" th:each="img : ${gallery.items}">
                                     <div class="gallery-modal-item">
                                         <img onclick="selectReviewImage(this.alt)"
                                              th:alt="${img.imageName}"

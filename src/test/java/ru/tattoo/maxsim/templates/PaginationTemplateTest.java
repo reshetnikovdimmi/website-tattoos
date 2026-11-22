@@ -56,7 +56,7 @@ class PaginationTemplateTest {
         image.setDescription("Описание");
         image.setCategory("Реализм");
         image.setFlag(true);
-        return PageResult.of(new PageImpl<>(List.of(image), PageRequest.of(1, 9), 20), 3);
+        return PageResult.of(new PageImpl<>(List.of(image), PageRequest.of(1, 9), 20));
     }
 
     @Test

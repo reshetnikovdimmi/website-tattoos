@@ -4,9 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import ru.tattoo.maxsim.model.DTO.PageResult;
@@ -15,20 +13,14 @@ import ru.tattoo.maxsim.repository.ImagesRepository;
 import ru.tattoo.maxsim.service.interf.ImagesService;
 import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.PageRequestUtils;
-import ru.tattoo.maxsim.util.PageSize;
-import ru.tattoo.maxsim.util.PaginationUtils;
 
 import java.security.Principal;
-import java.util.Collections;
-import java.util.List;
 import java.util.stream.StreamSupport;
 
 
 @Service
 @Slf4j
 public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> implements ImagesService {
-
-    private static final int PARTITION_SIZE = 3;
 
     @Autowired
     private ImageStorage imageStorage;
@@ -83,7 +75,7 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
         log.info("Получено {} изображений на странице {} из {}",
                 images.getNumberOfElements(), images.getNumber(), images.getTotalElements());
 
-        return PageResult.of(images, PARTITION_SIZE);
+        return PageResult.of(images);
     }
 
     private Page<Images> fetchImages(String category, Principal principal, Pageable p) {

@@ -27,10 +27,10 @@ public class GalleryPage {
     @FindBy(id = "preloader")
     private WebElement preloader;
 
-    @FindBy(id = "right")
+    @FindBy(css = ".pagination__link[aria-label='Следующая страница']")
     private WebElement rightButton;
 
-    @FindBy(id = "left")
+    @FindBy(css = ".pagination__link[aria-label='Предыдущая страница']")
     private WebElement leftButton;
 
     @FindBy(css = ".gallery-item img")

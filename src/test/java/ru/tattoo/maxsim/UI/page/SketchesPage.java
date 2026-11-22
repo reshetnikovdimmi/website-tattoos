@@ -24,22 +24,22 @@ public class SketchesPage {
     @FindBy(id = "preloader")
     private WebElement preloader;
 
-    @FindBy(css = ".sketches-item")
+    @FindBy(css = ".media-grid .gallery-item")
     private List<WebElement> sketchesItems;
 
-    @FindBy(css = ".sketches-item img")
+    @FindBy(css = ".media-grid .gallery-item img")
     private List<WebElement> sketchesImages;
 
-    @FindBy(css = ".sketches-item .description")
+    @FindBy(css = ".media-grid .gallery-item .gi-hover h6")
     private List<WebElement> sketchesDescriptions;
 
     @FindBy(css = ".pagination")
     private WebElement pagination;
 
-    @FindBy(css = ".pagination .next")
+    @FindBy(css = ".pagination__link[aria-label='Следующая страница']")
     private WebElement nextPageButton;
 
-    @FindBy(css = ".pagination .prev")
+    @FindBy(css = ".pagination__link[aria-label='Предыдущая страница']")
     private WebElement prevPageButton;
 
     private final WebDriver driver;
