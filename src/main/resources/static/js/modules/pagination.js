@@ -111,22 +111,33 @@
         });
     }
 
-    $(document).on('click', '[data-pagination-link], [data-filter-link]', function (event) {
-        if (event.which !== 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+    function followLink(element, event) {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+            return;
+        }
+        if (typeof event.button === 'number' && event.button !== 0) {
             return;
         }
 
-        var href = this.getAttribute('href');
-        var target = $(this).data('target');
+        var href = element.getAttribute('href');
+        var target = $(element).data('target');
         if (!href || !target) {
             return;
         }
 
         event.preventDefault();
-        if ($(this).is('[data-filter-link]')) {
-            setActiveFilter(this.getAttribute('data-filter-style') || '');
+        if ($(element).is('[data-filter-link]')) {
+            setActiveFilter(element.getAttribute('data-filter-style') || '');
         }
         load(href, target, true);
+    }
+
+    $(document).on('click', '[data-filter-link]', function (event) {
+        followLink(this, event);
+    });
+
+    $(document).on('click', '[data-pagination-link]', function (event) {
+        followLink(this, event);
     });
 
     $(document).on('submit', '[data-page-size-form]', function (event) {

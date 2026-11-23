@@ -1,10 +1,11 @@
 package ru.tattoo.maxsim.controller.client;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.tattoo.maxsim.model.DTO.GalleryQuery;
 import ru.tattoo.maxsim.model.DTO.PageResult;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.service.interf.ClassesSectionService;
@@ -12,20 +13,15 @@ import ru.tattoo.maxsim.service.interf.ImagesService;
 
 @Controller
 @Slf4j
+@RequiredArgsConstructor
 @RequestMapping(GalleryController.URL)
 public class GalleryController {
 
     public static final String URL = "/gallery";
-    private static final String ALL_GALLERY = "Вся галерея";
-    private static final int DEFAULT_PAGE = 0;
-    private static final int DEFAULT_SIZE = 9;
     private static final String GRID_FRAGMENT = "gallery::galleryFilter";
 
-    @Autowired
-    private ImagesService imagesService;
-
-    @Autowired
-    private ClassesSectionService classesSectionService;
+    private final ImagesService imagesService;
+    private final ClassesSectionService classesSectionService;
 
     @GetMapping({"", "/"})
     public String gallery(@RequestParam(defaultValue = "0") int page,
@@ -33,10 +29,12 @@ public class GalleryController {
                           @RequestParam(required = false) String style,
                           @RequestParam(required = false) String fragment,
                           Model model) {
-        PageResult<Images> galleryData = prepareGalleryData(style, page, size);
+        GalleryQuery query = GalleryQuery.of(page, size, style);
+        PageResult<Images> galleryData = imagesService.getGalleryPage(query, null);
+
         model.addAttribute("gallery", galleryData);
         model.addAttribute("galleryPage", galleryData);
-        model.addAttribute("selectedStyle", style == null ? "" : style);
+        model.addAttribute("selectedStyle", query.selectedStyle());
 
         if ("grid".equalsIgnoreCase(fragment)) {
             return GRID_FRAGMENT;
@@ -52,7 +50,7 @@ public class GalleryController {
     @Deprecated
     @GetMapping("/filter/style/{style}")
     public String galleryFilter(@PathVariable("style") String style, Model model) {
-        return gallery(DEFAULT_PAGE, DEFAULT_SIZE, style, null, model);
+        return gallery(GalleryQuery.DEFAULT_PAGE, GalleryQuery.DEFAULT_SIZE, style, null, model);
     }
 
     /**
@@ -64,8 +62,9 @@ public class GalleryController {
                                 @PathVariable("page") int page,
                                 @PathVariable("number") int size,
                                 Model model) {
-        model.addAttribute("gallery", prepareGalleryData(style, page, size));
-        model.addAttribute("selectedStyle", style);
+        GalleryQuery query = GalleryQuery.of(page, size, style);
+        model.addAttribute("gallery", imagesService.getGalleryPage(query, null));
+        model.addAttribute("selectedStyle", query.selectedStyle());
         model.addAttribute("images", new Images());
         return GRID_FRAGMENT;
     }
@@ -75,13 +74,9 @@ public class GalleryController {
     public String reviewsModal(@PathVariable("page") int page,
                                @PathVariable("number") int size,
                                Model model) {
-        model.addAttribute("gallery", prepareGalleryData(null, page, size));
+        GalleryQuery query = GalleryQuery.of(page, size, null);
+        model.addAttribute("gallery", imagesService.getGalleryPage(query, null));
         model.addAttribute("images", new Images());
         return "fragments/modals/image-picker :: image-picker";
-    }
-
-    private PageResult<Images> prepareGalleryData(String style, int page, int size) {
-        String normalizedStyle = ALL_GALLERY.equals(style) ? null : style;
-        return imagesService.getGalleryPage(normalizedStyle, null, page, size);
     }
 }

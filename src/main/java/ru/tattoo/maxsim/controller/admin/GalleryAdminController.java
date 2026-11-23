@@ -1,12 +1,13 @@
 package ru.tattoo.maxsim.controller.admin;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.tattoo.maxsim.controller.CRUDController;
+import ru.tattoo.maxsim.model.DTO.GalleryQuery;
 import ru.tattoo.maxsim.model.DTO.PageResult;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.service.interf.CRUDService;
@@ -16,19 +17,14 @@ import ru.tattoo.maxsim.service.interf.ImagesService;
 @Controller
 @RequestMapping("/admin/gallery")
 @Slf4j
+@RequiredArgsConstructor
 public class GalleryAdminController extends CRUDController<Images, Long> {
 
     public static final String PAGE_FRAGMENT = "fragment-admin/gallery";
     private static final String GRID_FRAGMENT = "fragment-admin/gallery::galleryGridContainer";
-    private static final String ALL_GALLERY = "Вся галерея";
-    private static final int DEFAULT_PAGE = 0;
-    private static final int DEFAULT_SIZE = 9;
 
-    @Autowired
-    private ImagesService imagesService;
-
-    @Autowired
-    private ClassesSectionService classesSectionService;
+    private final ImagesService imagesService;
+    private final ClassesSectionService classesSectionService;
 
     @Override
     protected String getFragmentName() {
@@ -42,7 +38,8 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
 
     @Override
     protected void updateSection(Model model) {
-        PageResult<Images> gallery = prepareGalleryData(null, DEFAULT_PAGE, DEFAULT_SIZE);
+        GalleryQuery query = GalleryQuery.of(GalleryQuery.DEFAULT_PAGE, GalleryQuery.DEFAULT_SIZE, null);
+        PageResult<Images> gallery = imagesService.getGalleryPage(query, null);
         model.addAttribute("gallery", gallery);
         model.addAttribute("galleryPage", gallery);
         model.addAttribute("selectedStyle", "");
@@ -56,10 +53,11 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
                                      @RequestParam(required = false) String style,
                                      @RequestParam(required = false) String fragment,
                                      Model model) {
-        PageResult<Images> gallery = prepareGalleryData(style, page, size);
+        GalleryQuery query = GalleryQuery.of(page, size, style);
+        PageResult<Images> gallery = imagesService.getGalleryPage(query, null);
         model.addAttribute("gallery", gallery);
         model.addAttribute("galleryPage", gallery);
-        model.addAttribute("selectedStyle", style == null ? "" : style);
+        model.addAttribute("selectedStyle", query.selectedStyle());
         model.addAttribute("images", new Images());
         model.addAttribute("styleList", classesSectionService.findAll());
 
@@ -78,10 +76,11 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
                                 @PathVariable("page") int page,
                                 @PathVariable("number") int size,
                                 Model model) {
-        PageResult<Images> gallery = prepareGalleryData(style, page, size);
+        GalleryQuery query = GalleryQuery.of(page, size, style);
+        PageResult<Images> gallery = imagesService.getGalleryPage(query, null);
         model.addAttribute("gallery", gallery);
         model.addAttribute("galleryPage", gallery);
-        model.addAttribute("selectedStyle", style == null ? "" : style);
+        model.addAttribute("selectedStyle", query.selectedStyle());
         model.addAttribute("images", new Images());
         model.addAttribute("styleList", classesSectionService.findAll());
         return GRID_FRAGMENT;
@@ -96,10 +95,5 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
         model.addAttribute("message", "Флаг обновлен успешно:" + "-" + message);
         log.info("Обновление флага: id={}, flag={}, user={}", id, flag, auth.getName());
         return "fragments/modals/message :: message-body";
-    }
-
-    private PageResult<Images> prepareGalleryData(String style, int page, int size) {
-        String normalizedStyle = ALL_GALLERY.equals(style) ? null : style;
-        return imagesService.getGalleryPage(normalizedStyle, null, page, size);
     }
 }

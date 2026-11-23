@@ -1,12 +1,14 @@
 package ru.tattoo.maxsim.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.tattoo.maxsim.model.DTO.GalleryQuery;
 import ru.tattoo.maxsim.model.DTO.PageResult;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ImagesRepository;
@@ -20,13 +22,11 @@ import java.util.stream.StreamSupport;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> implements ImagesService {
 
-    @Autowired
-    private ImageStorage imageStorage;
-
-    @Autowired
-    private ImagesRepository imagesRepository;
+    private final ImageStorage imageStorage;
+    private final ImagesRepository imagesRepository;
 
     @Override
     CrudRepository<Images, Long> getRepository() {
@@ -58,12 +58,14 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
         entity.setImageName(fileName);
     }
     @Override
-    public PageResult<Images> getGalleryPage(String category, Principal principal, int page, int size) {
+    @Transactional(readOnly = true)
+    public PageResult<Images> getGalleryPage(GalleryQuery query, Principal principal) {
+        String category = query.category();
+        int safePage = Math.max(query.page(), 0);
         log.info("Запрос галереи: category={}, principal={}, page={}, size={}",
-                category, principal != null ? principal.getName() : "null", page, size);
+                category, principal != null ? principal.getName() : "null", safePage, query.size());
 
-        int safePage = Math.max(page, 0);
-        Page<Images> images = fetchImages(category, principal, PageRequestUtils.of(safePage, size));
+        Page<Images> images = fetchImages(category, principal, PageRequestUtils.of(safePage, query.size()));
 
         // page за границей: показываем последнюю существующую страницу
         if (safePage > 0 && safePage >= images.getTotalPages()) {

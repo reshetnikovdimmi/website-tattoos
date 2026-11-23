@@ -1,5 +1,7 @@
 package ru.tattoo.maxsim.controller.client;
 
+import ru.tattoo.maxsim.model.DTO.GalleryQuery;
+
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +64,7 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
         model.addAttribute("reviews", reviewService.findAll());
         model.addAttribute("localDateTime", LocalDateTime.now());
         model.addAttribute("count", reviewService.getCount());
-        model.addAttribute("gallery", imagesService.getGalleryPage(null, null, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+        model.addAttribute("gallery", imagesService.getGalleryPage(GalleryQuery.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize(), null), null));
 
         return getFragmentName();
     }

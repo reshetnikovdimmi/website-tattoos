@@ -19,12 +19,6 @@ $(window).on('load', function() {
         $(this).tab('show');
     });
 
-    // Gallery filter
-    $('.gallery-controls ul li').on('click', function() {
-        $('.gallery-controls ul li').removeClass('active');
-        $(this).addClass('active');
-    });
-
     // MixItUp gallery
     if ($('.gallery-filter').length > 0) {
         var containerEl = document.querySelector('.gallery-filter');

@@ -1,5 +1,7 @@
 package ru.tattoo.maxsim.controller.client;
 
+import ru.tattoo.maxsim.model.DTO.GalleryQuery;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +49,7 @@ public class LkController {
     public String loadPersonalPage(Model model, Principal principal) {
         model.addAttribute("userTattoo", new Images());
         loadUserDataIntoModel(model, principal); // Извлекаем данные пользователя
-        model.addAttribute("gallery", imagesService.getGalleryPage(null, null, PAGE_NUMBER, PageSize.IMG_9.getPageSize()));
+        model.addAttribute("gallery", imagesService.getGalleryPage(GalleryQuery.of(PAGE_NUMBER, PageSize.IMG_9.getPageSize(), null), null));
         return "lk";
     }
 
@@ -136,7 +138,7 @@ public class LkController {
 
             loadUserDataIntoModel(model, principal);
             model.addAttribute("userTattoo", new Images());
-            model.addAttribute("gallery", imagesService.getGalleryPage(null, null, 0, PageSize.IMG_9.getPageSize()));
+            model.addAttribute("gallery", imagesService.getGalleryPage(GalleryQuery.of(0, PageSize.IMG_9.getPageSize(), null), null));
             model.addAttribute("error", errorMessage.toString());
             model.addAttribute("message", null);
 
@@ -148,7 +150,7 @@ public class LkController {
             if (password.length() < 6) {
                 loadUserDataIntoModel(model, principal);
                 model.addAttribute("userTattoo", new Images());
-                model.addAttribute("gallery", imagesService.getGalleryPage(null, null, 0, PageSize.IMG_9.getPageSize()));
+                model.addAttribute("gallery", imagesService.getGalleryPage(GalleryQuery.of(0, PageSize.IMG_9.getPageSize(), null), null));
                 model.addAttribute("error", "Пароль должен содержать минимум 6 символов");
                 model.addAttribute("message", null);
                 return "lk::profile-editing";
@@ -157,7 +159,7 @@ public class LkController {
             if (!password.equals(confirmPassword)) {
                 loadUserDataIntoModel(model, principal);
                 model.addAttribute("userTattoo", new Images());
-                model.addAttribute("gallery", imagesService.getGalleryPage(null, null, 0, PageSize.IMG_9.getPageSize()));
+                model.addAttribute("gallery", imagesService.getGalleryPage(GalleryQuery.of(0, PageSize.IMG_9.getPageSize(), null), null));
                 model.addAttribute("error", "Пароли не совпадают");
                 model.addAttribute("message", null);
                 return "lk::profile-editing";
@@ -172,7 +174,7 @@ public class LkController {
             String newLogin = userDTO.getLogin();
             model.addAttribute("UserDTO", userService.findByLogin(newLogin));
             model.addAttribute("userTattoo", new Images());
-            model.addAttribute("gallery", imagesService.getGalleryPage(null, null, 0, PageSize.IMG_9.getPageSize()));
+            model.addAttribute("gallery", imagesService.getGalleryPage(GalleryQuery.of(0, PageSize.IMG_9.getPageSize(), null), null));
 
             return "lk::" + fragmentName;
 
@@ -234,7 +236,7 @@ public class LkController {
      * Загружает галерею пользователя в модель.
      */
     private void loadUserGallery(Model model, Principal principal, int number, int page) {
-        model.addAttribute("gallery", imagesService.getGalleryPage(null, principal, page, number));
+        model.addAttribute("gallery", imagesService.getGalleryPage(GalleryQuery.of(page, number, null), principal));
     }
 
     /**
