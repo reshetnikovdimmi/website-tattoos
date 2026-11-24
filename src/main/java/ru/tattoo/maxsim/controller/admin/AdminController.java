@@ -16,7 +16,7 @@ import ru.tattoo.maxsim.service.interf.*;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final ImagesService imagesService;
+    private final ImagesQueryService imagesService;
     private final ReviewService reviewService;
     private final UserService userService;
     private final SketchesService sketchesService;
@@ -28,7 +28,7 @@ public class AdminController {
 
     // Конструктор (вместо @Autowired на полях)
     public AdminController(
-            ImagesService imagesService,
+            ImagesQueryService imagesService,
             ReviewService reviewService,
             UserService userService,
             SketchesService sketchesService,

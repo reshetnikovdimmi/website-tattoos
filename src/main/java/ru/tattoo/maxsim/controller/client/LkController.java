@@ -16,7 +16,8 @@ import ru.tattoo.maxsim.model.DTO.UserDTO;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.model.User;
-import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.service.interf.ImagesCommandService;
+import ru.tattoo.maxsim.service.interf.ImagesQueryService;
 import ru.tattoo.maxsim.service.interf.ReviewService;
 import ru.tattoo.maxsim.service.interf.UserService;
 import ru.tattoo.maxsim.util.PageSize;
@@ -32,7 +33,10 @@ import java.util.Date;
 public class LkController {
 
     @Autowired
-    private ImagesService imagesService;
+    private ImagesQueryService imagesService;
+
+    @Autowired
+    private ImagesCommandService imagesCommandService;
 
     @Autowired
     private UserService userService;
@@ -75,7 +79,7 @@ public class LkController {
             log.info("Получено file {}", fileImport.getOriginalFilename());
             Images images = new Images();
             images.setDescription(object.getComment());
-            Images savedImage = imagesService.saveImg(fileImport, images);
+            Images savedImage = imagesCommandService.saveImg(fileImport, images);
 
             String savedImageName = savedImage.getImageName();
             log.info("savedImageName {}", savedImageName);
@@ -98,7 +102,7 @@ public class LkController {
                                    Model model,
                                    Principal principal) throws IOException, ParseException {
         object.setUserName(principal.getName());
-        imagesService.saveImg(fileImport, object); // Сохраняем изображение
+        imagesCommandService.saveImg(fileImport, object); // Сохраняем изображение
         loadUserDataIntoModel(model, principal);                     // Обновляем данные пользователя
         model.addAttribute("userTattoo", new Images());
         return "fragment-lk::"+fragmentName;

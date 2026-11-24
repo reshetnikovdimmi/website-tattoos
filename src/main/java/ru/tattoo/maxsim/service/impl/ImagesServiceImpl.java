@@ -12,7 +12,8 @@ import ru.tattoo.maxsim.model.DTO.GalleryQuery;
 import ru.tattoo.maxsim.model.DTO.PageResult;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ImagesRepository;
-import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.service.interf.ImagesCommandService;
+import ru.tattoo.maxsim.service.interf.ImagesQueryService;
 import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.PageRequestUtils;
 
@@ -22,7 +23,7 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> implements ImagesService {
+public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> implements ImagesQueryService, ImagesCommandService {
 
     private final ImageStorage imageStorage;
     private final ImagesRepository imagesRepository;

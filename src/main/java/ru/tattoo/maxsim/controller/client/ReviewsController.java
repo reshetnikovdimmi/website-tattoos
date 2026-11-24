@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.tattoo.maxsim.controller.CRUDController;
 import ru.tattoo.maxsim.model.ReviewsUser;
 import ru.tattoo.maxsim.service.interf.CRUDService;
-import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.service.interf.ImagesQueryService;
 import ru.tattoo.maxsim.service.interf.ReviewService;
 import ru.tattoo.maxsim.service.interf.SketchesService;
 import ru.tattoo.maxsim.util.PageSize;
@@ -39,7 +39,7 @@ public class ReviewsController extends CRUDController<ReviewsUser, Long> {
     private SketchesService sketchesService;
 
     @Autowired
-    private ImagesService imagesService;
+    private ImagesQueryService imagesService;
 
     @Override
     protected String getFragmentName() {

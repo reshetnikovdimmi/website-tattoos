@@ -8,7 +8,7 @@ import ru.tattoo.maxsim.model.DTO.GalleryQuery;
 import ru.tattoo.maxsim.model.DTO.PageResult;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.service.interf.ClassesSectionService;
-import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.service.interf.ImagesQueryService;
 
 import java.util.List;
 
@@ -23,12 +23,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class GalleryPageControllerTest {
 
-    private ImagesService imagesService;
+    private ImagesQueryService imagesService;
     private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
-        imagesService = mock(ImagesService.class);
+        imagesService = mock(ImagesQueryService.class);
         ClassesSectionService classes = mock(ClassesSectionService.class);
         when(imagesService.getGalleryPage(org.mockito.ArgumentMatchers.any(), isNull()))
                 .thenReturn(new PageResult<>(List.<Images>of(), 0, 9, 0, 0, List.of(9, 12, 15)));

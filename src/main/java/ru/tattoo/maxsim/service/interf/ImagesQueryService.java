@@ -6,10 +6,14 @@ import ru.tattoo.maxsim.model.Images;
 
 import java.util.List;
 
-public interface ImagesService extends CRUDService<Images, Long> {
+/**
+ * Чтение галереи: страницы, фильтр, избранные изображения.
+ */
+public interface ImagesQueryService {
+
     PageResult<Images> getGalleryPage(GalleryQuery query, String username);
 
     List<Images> findByFlagTrue();
 
-    void updateImageFlag(Long id, boolean flag);
+    List<Images> findAll();
 }

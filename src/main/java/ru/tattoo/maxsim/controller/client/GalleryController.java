@@ -9,7 +9,7 @@ import ru.tattoo.maxsim.model.DTO.GalleryQuery;
 import ru.tattoo.maxsim.model.DTO.PageResult;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.service.interf.ClassesSectionService;
-import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.service.interf.ImagesQueryService;
 
 @Controller
 @Slf4j
@@ -20,7 +20,7 @@ public class GalleryController {
     public static final String URL = "/gallery";
     private static final String GRID_FRAGMENT = "gallery::galleryFilter";
 
-    private final ImagesService imagesService;
+    private final ImagesQueryService imagesService;
     private final ClassesSectionService classesSectionService;
 
     @GetMapping({"", "/"})

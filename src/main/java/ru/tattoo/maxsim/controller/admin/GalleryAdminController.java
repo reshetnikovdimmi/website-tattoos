@@ -12,7 +12,8 @@ import ru.tattoo.maxsim.model.DTO.PageResult;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.service.interf.CRUDService;
 import ru.tattoo.maxsim.service.interf.ClassesSectionService;
-import ru.tattoo.maxsim.service.interf.ImagesService;
+import ru.tattoo.maxsim.service.interf.ImagesCommandService;
+import ru.tattoo.maxsim.service.interf.ImagesQueryService;
 
 @Controller
 @RequestMapping("/admin/gallery")
@@ -23,7 +24,8 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
     public static final String PAGE_FRAGMENT = "fragment-admin/gallery";
     private static final String GRID_FRAGMENT = "fragment-admin/gallery::galleryGridContainer";
 
-    private final ImagesService imagesService;
+    private final ImagesQueryService imagesQueryService;
+    private final ImagesCommandService imagesCommandService;
     private final ClassesSectionService classesSectionService;
 
     @Override
@@ -33,13 +35,13 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
 
     @Override
     protected CRUDService<Images, Long> getService() {
-        return imagesService;
+        return imagesCommandService;
     }
 
     @Override
     protected void updateSection(Model model) {
         GalleryQuery query = GalleryQuery.of(GalleryQuery.DEFAULT_PAGE, GalleryQuery.DEFAULT_SIZE, null);
-        PageResult<Images> gallery = imagesService.getGalleryPage(query, null);
+        PageResult<Images> gallery = imagesQueryService.getGalleryPage(query, null);
         model.addAttribute("gallery", gallery);
         model.addAttribute("galleryPage", gallery);
         model.addAttribute("selectedStyle", "");
@@ -54,7 +56,7 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
                                      @RequestParam(required = false) String fragment,
                                      Model model) {
         GalleryQuery query = GalleryQuery.of(page, size, style);
-        PageResult<Images> gallery = imagesService.getGalleryPage(query, null);
+        PageResult<Images> gallery = imagesQueryService.getGalleryPage(query, null);
         model.addAttribute("gallery", gallery);
         model.addAttribute("galleryPage", gallery);
         model.addAttribute("selectedStyle", query.selectedStyle());
@@ -77,7 +79,7 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
                                 @PathVariable("number") int size,
                                 Model model) {
         GalleryQuery query = GalleryQuery.of(page, size, style);
-        PageResult<Images> gallery = imagesService.getGalleryPage(query, null);
+        PageResult<Images> gallery = imagesQueryService.getGalleryPage(query, null);
         model.addAttribute("gallery", gallery);
         model.addAttribute("galleryPage", gallery);
         model.addAttribute("selectedStyle", query.selectedStyle());
@@ -91,7 +93,7 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
                              @RequestParam("flag") boolean flag,
                              Model model,
                              Authentication auth) {
-        imagesService.updateImageFlag(id, flag);
+        imagesCommandService.updateImageFlag(id, flag);
         model.addAttribute("message", "Флаг успешно обновлён");
         log.info("Обновление флага: id={}, flag={}, user={}", id, flag, auth.getName());
         return "fragments/modals/message :: message-body";
