@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.DTO.GalleryQuery;
 import ru.tattoo.maxsim.model.Images;
 import ru.tattoo.maxsim.repository.ImagesRepository;
@@ -26,12 +27,14 @@ import static org.mockito.Mockito.when;
 class ImagesServiceImplTest {
 
     private ImagesRepository imagesRepository;
+    private ImageStorage imageStorage;
     private ImagesServiceImpl imagesService;
 
     @BeforeEach
     void setUp() {
         imagesRepository = mock(ImagesRepository.class);
-        imagesService = new ImagesServiceImpl(mock(ImageStorage.class), imagesRepository);
+        imageStorage = mock(ImageStorage.class);
+        imagesService = new ImagesServiceImpl(imageStorage, imagesRepository);
     }
 
     @Test
@@ -86,6 +89,25 @@ class ImagesServiceImplTest {
 
         assertThat(result).containsExactly(image);
         verify(imagesRepository).findByFlagTrue();
+    }
+
+    @Test
+    void saveImgSetsGeneratedNameOnce() throws Exception {
+        MultipartFile file = mock(MultipartFile.class);
+        when(file.getOriginalFilename()).thenReturn("photo.jpg");
+        when(file.getContentType()).thenReturn("image/jpeg");
+        when(file.isEmpty()).thenReturn(false);
+        when(imageStorage.generateUniqueFileName("photo.jpg")).thenReturn("unique.jpg");
+        when(imageStorage.saveImage(file, "unique.jpg")).thenReturn("unique.jpg");
+
+        Images image = new Images();
+        when(imagesRepository.save(image)).thenReturn(image);
+
+        Images saved = imagesService.saveImg(file, image);
+
+        assertThat(saved.getImageName()).isEqualTo("unique.jpg");
+        verify(imageStorage).saveImage(file, "unique.jpg");
+        verify(imagesRepository).save(image);
     }
 
     @Test

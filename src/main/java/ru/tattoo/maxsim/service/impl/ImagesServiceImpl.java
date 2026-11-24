@@ -52,9 +52,8 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
 
     @Override
     void prepareObject(Images entity, String fileName) {
-        log.debug("Подготовка объекта Images: установка имени изображения: {}", fileName);
-        setImageFileName(entity, fileName);
-        entity.setImageName(fileName);
+        // Имя файла уже установлено в saveImg() через setImageFileName().
+        log.debug("Изображение готово к сохранению: {}", fileName);
     }
     @Override
     @Transactional(readOnly = true)
