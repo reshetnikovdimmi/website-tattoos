@@ -16,7 +16,6 @@ import ru.tattoo.maxsim.service.interf.ImagesService;
 import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.PageRequestUtils;
 
-import java.security.Principal;
 import java.util.stream.StreamSupport;
 
 
@@ -59,19 +58,19 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
     }
     @Override
     @Transactional(readOnly = true)
-    public PageResult<Images> getGalleryPage(GalleryQuery query, Principal principal) {
+    public PageResult<Images> getGalleryPage(GalleryQuery query, String username) {
         String category = query.category();
         int safePage = Math.max(query.page(), 0);
-        log.info("Запрос галереи: category={}, principal={}, page={}, size={}",
-                category, principal != null ? principal.getName() : "null", safePage, query.size());
+        log.debug("Запрос галереи: category={}, username={}, page={}, size={}",
+                category, username, safePage, query.size());
 
-        Page<Images> images = fetchImages(category, principal, PageRequestUtils.of(safePage, query.size()));
+        Page<Images> images = fetchImages(category, username, PageRequestUtils.of(safePage, query.size()));
 
         // page за границей: показываем последнюю существующую страницу
         if (safePage > 0 && safePage >= images.getTotalPages()) {
             log.warn("Страница {} вне диапазона (totalPages={}), переключаемся на последнюю",
                     safePage, images.getTotalPages());
-            images = fetchImages(category, principal, PageRequestUtils.last(images));
+            images = fetchImages(category, username, PageRequestUtils.last(images));
         }
 
         log.info("Получено {} изображений на странице {} из {}",
@@ -80,18 +79,18 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
         return PageResult.of(images);
     }
 
-    private Page<Images> fetchImages(String category, Principal principal, Pageable p) {
+    private Page<Images> fetchImages(String category, String username, Pageable p) {
         Page<Images> images;
         String fetchStrategy;
 
-        if (principal != null && category != null) {
-            images = findByCategoryAndUser(category, principal.getName(), p);
+        if (username != null && category != null) {
+            images = findByCategoryAndUser(category, username, p);
             fetchStrategy = "USER_CATEGORY";
         } else if (category != null) {
             images = findByCategory(category, p);
             fetchStrategy = "PUBLIC_CATEGORY";
-        } else if (principal != null) {
-            images = getPagedImages(principal.getName(), p);
+        } else if (username != null) {
+            images = getPagedImages(username, p);
             fetchStrategy = "USER_IMAGES";
         } else {
             images = getPagedImages(p);

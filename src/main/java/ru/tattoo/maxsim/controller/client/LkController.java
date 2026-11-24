@@ -236,7 +236,8 @@ public class LkController {
      * Загружает галерею пользователя в модель.
      */
     private void loadUserGallery(Model model, Principal principal, int number, int page) {
-        model.addAttribute("gallery", imagesService.getGalleryPage(GalleryQuery.of(page, number, null), principal));
+        model.addAttribute("gallery", imagesService.getGalleryPage(GalleryQuery.of(page, number, null),
+                principal != null ? principal.getName() : null));
     }
 
     /**

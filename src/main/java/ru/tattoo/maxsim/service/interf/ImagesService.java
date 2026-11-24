@@ -4,10 +4,8 @@ import ru.tattoo.maxsim.model.DTO.GalleryQuery;
 import ru.tattoo.maxsim.model.DTO.PageResult;
 import ru.tattoo.maxsim.model.Images;
 
-import java.security.Principal;
-
 public interface ImagesService extends CRUDService<Images, Long> {
-    PageResult<Images> getGalleryPage(GalleryQuery query, Principal principal);
+    PageResult<Images> getGalleryPage(GalleryQuery query, String username);
 
     Iterable<Images> findByFlagTrue();
 
