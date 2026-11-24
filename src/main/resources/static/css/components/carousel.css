@@ -193,10 +193,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
+    opacity: 1;
 }
 
-.carousel--admin .owl-item:hover .carousel__delete {
+.carousel--admin .owl-item:hover .carousel__delete,
+.carousel--admin .carousel__slide:hover .carousel__delete,
+.carousel__delete:focus-visible {
     opacity: 1;
 }
 
