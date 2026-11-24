@@ -4,6 +4,8 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.storage.ImageStorage;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,7 +16,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class InMemoryImageStorage implements ImageStorage {
 
-    private final Map<String, byte[]> storage = new ConcurrentHashMap<>();
+    private record StoredImage(byte[] content, Instant modifiedAt) {
+    }
+
+    private final Map<String, StoredImage> storage = new ConcurrentHashMap<>();
 
     @Override
     public String saveImage(MultipartFile file, String fileName) throws IOException {
@@ -23,7 +28,7 @@ public class InMemoryImageStorage implements ImageStorage {
         }
 
         String uniqueName = generateUniqueFileName(fileName);
-        storage.put(uniqueName, file.getBytes());
+        storage.put(uniqueName, new StoredImage(file.getBytes(), Instant.now()));
         return uniqueName;
     }
 
@@ -39,11 +44,25 @@ public class InMemoryImageStorage implements ImageStorage {
 
     @Override
     public byte[] getImage(String fileName) throws IOException {
-        byte[] content = storage.get(fileName);
-        if (content == null) {
+        StoredImage stored = storage.get(fileName);
+        if (stored == null) {
             throw new IOException("Файл не найден: " + fileName);
         }
-        return content;
+        return stored.content();
+    }
+
+    @Override
+    public Instant lastModified(String fileName) throws IOException {
+        StoredImage stored = storage.get(fileName);
+        if (stored == null) {
+            throw new IOException("Файл не найден: " + fileName);
+        }
+        return stored.modifiedAt();
+    }
+
+    @Override
+    public List<String> listImages() {
+        return List.copyOf(storage.keySet());
     }
 
     @Override
@@ -54,8 +73,6 @@ public class InMemoryImageStorage implements ImageStorage {
         return UUID.randomUUID() + "_" + originalFileName;
     }
 
-
-    // Для тестов
     public void clear() {
         storage.clear();
     }

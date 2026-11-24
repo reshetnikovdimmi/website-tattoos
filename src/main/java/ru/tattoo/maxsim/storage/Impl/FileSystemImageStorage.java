@@ -8,7 +8,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 public class FileSystemImageStorage implements ImageStorage {
@@ -65,6 +69,21 @@ public class FileSystemImageStorage implements ImageStorage {
             throw new IOException("Файл не найден: " + fileName);
         }
         return Files.readAllBytes(path);
+    }
+
+    @Override
+    public List<String> listImages() throws IOException {
+        try (Stream<Path> files = Files.list(uploadDirectory)) {
+            return files
+                    .filter(Files::isRegularFile)
+                    .map(path -> path.getFileName().toString())
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Override
+    public Instant lastModified(String fileName) throws IOException {
+        return Files.getLastModifiedTime(resolveSafely(fileName)).toInstant();
     }
 
     @Override

@@ -260,14 +260,16 @@ public class AbstractCRUDServiceTest {
         void deleteById_ShouldDeleteEntityById() throws IOException {
             // ========== ARRANGE ==========
             Long id = 1L;
+            TestEntity entity = new TestEntity(id, "To delete");
+            when(repository.findById(id)).thenReturn(Optional.of(entity));
             Allure.addAttachment("Входные данные", "Удаление по ID: " + id);
 
             // ========== ACT ==========
             service.deleteById(id);
 
             // ========== ASSERT ==========
-            // Проверяем, что repository.deleteById() был вызван 1 раз с правильным ID
-            verify(repository, times(1)).deleteById(id);
+            verify(repository, times(1)).findById(id);
+            verify(repository, times(1)).delete(entity);
 
             Allure.addAttachment("Результат", "Сущность удалена по ID");
         }
@@ -293,7 +295,7 @@ public class AbstractCRUDServiceTest {
 
             // Настраиваем моки
             when(repository.findById(entityId)).thenReturn(Optional.of(entity));
-            doNothing().when(repository).deleteById(entityId);
+
 
             Allure.addAttachment("Входные данные",
                     "Удаление сущности ID: " + entityId + ", файл: " + imageFileName);
@@ -305,7 +307,7 @@ public class AbstractCRUDServiceTest {
             // Проверяем, что файл был удален
             verify(imageStorage, times(1)).deleteImage(imageFileName);
             // Проверяем, что сущность была удалена из БД
-            verify(repository, times(1)).deleteById(entityId);
+            verify(repository, times(1)).delete(entity);
 
             Allure.addAttachment("Результат",
                     "Сущность и файл удалены: " + imageFileName);
@@ -323,7 +325,7 @@ public class AbstractCRUDServiceTest {
             entity.setImageName(imageFileName);
 
             when(repository.findById(entityId)).thenReturn(Optional.of(entity));
-            doNothing().when(repository).deleteById(entityId);
+
             // Настраиваем, что файл не существует - deleteImage не выбрасывает исключение
             doNothing().when(imageStorage).deleteImage(imageFileName);
 
@@ -336,7 +338,7 @@ public class AbstractCRUDServiceTest {
 
             // Проверяем, что метод удаления файла все равно был вызван
             verify(imageStorage, times(1)).deleteImage(imageFileName);
-            verify(repository, times(1)).deleteById(entityId);
+            verify(repository, times(1)).delete(entity);
 
             Allure.addAttachment("Результат",
                     "Сущность удалена, файл не существовал - ошибки нет");
@@ -353,7 +355,7 @@ public class AbstractCRUDServiceTest {
             entity.setImageName(null); // нет изображения
 
             when(repository.findById(entityId)).thenReturn(Optional.of(entity));
-            doNothing().when(repository).deleteById(entityId);
+
 
             Allure.addAttachment("Входные данные",
                     "Удаление сущности без изображения, ID: " + entityId);
@@ -365,16 +367,16 @@ public class AbstractCRUDServiceTest {
             // Проверяем, что удаление файла НЕ вызывалось
             verify(imageStorage, never()).deleteImage(anyString());
             // Проверяем, что сущность удалена
-            verify(repository, times(1)).deleteById(entityId);
+            verify(repository, times(1)).delete(entity);
 
             Allure.addAttachment("Результат",
                     "Сущность удалена, удаление файла не вызывалось");
         }
         @Test
         @Severity(SeverityLevel.NORMAL)
-        @DisplayName("deleteById - должен пробросить исключение при ошибке удаления файла")
-        @Description("Проверяет, что ошибка при удалении файла пробрасывается наверх")
-        void deleteById_ShouldThrowExceptionWhenFileDeletionFails() throws IOException {
+        @DisplayName("deleteById - ошибка удаления файла не откатывает удаление сущности")
+        @Description("Проверяет, что удаление из БД является источником истины, а файл будет очищен планировщиком")
+        void deleteById_ShouldKeepEntityDeletedWhenFileDeletionFails() throws IOException {
             // ========== ARRANGE ==========
             Long entityId = 1L;
             String imageFileName = "test-image.jpg";
@@ -389,14 +391,14 @@ public class AbstractCRUDServiceTest {
                     "Ошибка при удалении файла: " + imageFileName);
 
             // ========== ACT & ASSERT ==========
-            // Проверяем, что исключение пробрасывается
-            assertThrows(IOException.class, () -> service.deleteById(entityId));
+            assertDoesNotThrow(() -> service.deleteById(entityId));
 
-            // Проверяем, что сущность НЕ была удалена из БД
-            verify(repository, never()).deleteById(entityId);
+            // Сущность удалена из БД; файл удалит очистка сирот
+            verify(repository, times(1)).delete(entity);
+            verify(imageStorage).deleteImage(imageFileName);
 
             Allure.addAttachment("Результат",
-                    "Исключение проброшено, сущность не удалена");
+                    "Сущность удалена, ошибка файла залогирована");
         }
     }
 

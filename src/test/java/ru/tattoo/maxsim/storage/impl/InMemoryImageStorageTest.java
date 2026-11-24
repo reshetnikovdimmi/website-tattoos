@@ -52,7 +52,9 @@ public class InMemoryImageStorageTest {
             String savedFileName = imageStorage.saveImage(file, "test-image.jpg");
 
             // Assert (Проверка) - проверяем результат
-            assertNotNull(savedFileName);  // Имя файла не должно быть null
+            assertNotNull(savedFileName);
+            assertTrue(imageStorage.listImages().contains(savedFileName));
+            assertNotNull(imageStorage.lastModified(savedFileName));
         }
 
         @Test

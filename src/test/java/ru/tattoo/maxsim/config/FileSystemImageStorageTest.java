@@ -25,6 +25,8 @@ class FileSystemImageStorageTest {
         Path saved = tempDir.resolve("photo.png");
         assertThat(Files.exists(saved)).isTrue();
         assertThat(Files.readAllBytes(saved)).isEqualTo("bytes".getBytes());
+        assertThat(storage.listImages()).containsExactly("photo.png");
+        assertThat(storage.lastModified("photo.png")).isNotNull();
     }
 
     @Test
