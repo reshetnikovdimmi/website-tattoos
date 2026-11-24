@@ -825,12 +825,12 @@ textarea.form-control::placeholder {
 }
 
 /* Базовый стиль для всех кнопок */
-.btn,
-button.btn,
-.form-actions .btn,
-button[type="submit"],
-button[type="reset"],
-button[type="button"] {
+.lk-wrapper .btn,
+.lk-wrapper button.btn,
+.lk-wrapper .form-actions .btn,
+.lk-wrapper button[type="submit"],
+.lk-wrapper button[type="reset"],
+.lk-wrapper button[type="button"] {
     display: inline-flex;
     align-items: center;
     justify-content: center;

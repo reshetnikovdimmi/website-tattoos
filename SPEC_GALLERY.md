@@ -201,8 +201,8 @@ Pagination.load(url, target) // fetch + AbortController + history.pushState
 ### Этап 5. CSS + cache-bust
 
 1. `components/pagination.css`/`media-grid.css`; удалить старые `.row`-правила для сетки.
-2. `main.css`: `v=7` у изменённых импортов; `main.css?v=7` во всех шаблонах.
-3. Проверить Cloudflare: `?v=7` отдаёт новый CSS.
+2. `main.css`: `v=8` у изменённых импортов; `main.css?v=8` во всех шаблонах.
+3. Проверить Cloudflare: `?v=8` отдаёт новый CSS.
 
 ### Этап 6. Тесты/очистка ✅ ВЫПОЛНЕНО
 
@@ -243,7 +243,7 @@ grep -rn "pageSize\|number" src/main/java/ru/tattoo/maxsim/model/DTO  # пуст
 grep -n "RequestParam" src/main/java/ru/tattoo/maxsim/controller/*/Gallery*Controller.java
 
 # 4. cache
-grep -rl "main.css(v=7)" src/main/resources/templates --include=*.html | wc -l  # 11
+grep -rl "main.css(v=8)" src/main/resources/templates --include=*.html | wc -l  # 11
 grep -n "pagination.css?v=6\|media-grid.css?v=6" src/main/resources/static/css/main.css
 ```
 
@@ -261,7 +261,7 @@ grep -n "pagination.css?v=6\|media-grid.css?v=6" src/main/resources/static/css/m
 4. **CSS Grid** может изменить высоты/отступы карточек; сверять скриншоты.
 5. **`galleryGridContainer` в settings** может использоваться старыми ссылками; перед удалением
    `grep` по `data-fragment-name`, `href`, JS.
-6. **Cache v=7** обязателен (Cloudflare 4h).
+6. **Cache v=8** обязателен (Cloudflare 4h).
 7. **`lk.html`** грузит несуществующий `static/js/gallery.js` — отдельный фикс в этапе 1.
 
 ## 7. Открытые вопросы

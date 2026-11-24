@@ -45,7 +45,7 @@
 @import 'pages/about-us.css';
 @import 'pages/contact-map.css';
 @import 'pages/login.css';
-@import 'pages/lk-wrapper.css';
+@import 'pages/lk-wrapper.css?v=1';
 @import 'pages/mail.css';
 @import 'pages/backup.css';
 
