@@ -1,6 +1,5 @@
 package ru.tattoo.maxsim.util;
 
-
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -20,23 +19,18 @@ public enum PageSize {
         this.pageSize = pageSize;
     }
 
-    private static volatile List<Integer> cachedSizes;
+    private static final List<Integer> PAGE_SIZES = Arrays.stream(values())
+            .mapToInt(PageSize::getPageSize)
+            .boxed()
+            .collect(Collectors.toUnmodifiableList());
 
-    public static synchronized List<Integer> getLisPageSize() {
-        if (cachedSizes == null) {
-            cachedSizes = Arrays.stream(values())
-                    .mapToInt(PageSize::getPageSize)
-                    .boxed()
-                    .collect(Collectors.toList());
-        }
-        return cachedSizes;
+    /** Неизменяемый список допустимых размеров страницы. */
+    public static List<Integer> getPageSizes() {
+        return PAGE_SIZES;
     }
 
     /** Разрешённые размеры страницы; всё остальное сводим к 9. */
     public static int normalizeSize(int requested) {
-        return Arrays.stream(values())
-                .anyMatch(size -> size.pageSize == requested)
-                ? requested
-                : IMG_9.pageSize;
+        return PAGE_SIZES.contains(requested) ? requested : IMG_9.pageSize;
     }
 }

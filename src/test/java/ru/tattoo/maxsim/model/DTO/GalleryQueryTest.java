@@ -18,5 +18,16 @@ class GalleryQueryTest {
     void keepsSelectedStyleForTemplate() {
         assertThat(GalleryQuery.of(0, 9, null).selectedStyle()).isEmpty();
         assertThat(GalleryQuery.of(0, 9, "Реализм").selectedStyle()).isEqualTo("Реализм");
+        assertThat(GalleryQuery.of(0, 9, "Вся галерея").selectedStyle()).isEmpty();
+    }
+
+    @Test
+    void normalizesPageSizeAndStyleInConstructor() {
+        GalleryQuery query = GalleryQuery.of(-3, 7, "  Реализм  ");
+
+        assertThat(query.page()).isZero();
+        assertThat(query.size()).isEqualTo(9);
+        assertThat(query.style()).isEqualTo("Реализм");
+        assertThat(query.category()).isEqualTo("Реализм");
     }
 }

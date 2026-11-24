@@ -60,7 +60,7 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
     @Transactional(readOnly = true)
     public PageResult<Images> getGalleryPage(GalleryQuery query, String username) {
         String category = query.category();
-        int safePage = Math.max(query.page(), 0);
+        int safePage = query.page();
         log.debug("Запрос галереи: category={}, username={}, page={}, size={}",
                 category, username, safePage, query.size());
 

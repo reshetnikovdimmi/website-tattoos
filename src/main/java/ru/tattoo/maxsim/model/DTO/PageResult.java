@@ -38,7 +38,7 @@ public class PageResult<T> {
                 page.getSize(),
                 page.getTotalPages(),
                 page.getTotalElements(),
-                PageSize.getLisPageSize()
+                PageSize.getPageSizes()
         );
     }
 
