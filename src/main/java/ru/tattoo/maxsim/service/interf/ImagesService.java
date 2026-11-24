@@ -4,10 +4,12 @@ import ru.tattoo.maxsim.model.DTO.GalleryQuery;
 import ru.tattoo.maxsim.model.DTO.PageResult;
 import ru.tattoo.maxsim.model.Images;
 
+import java.util.List;
+
 public interface ImagesService extends CRUDService<Images, Long> {
     PageResult<Images> getGalleryPage(GalleryQuery query, String username);
 
-    Iterable<Images> findByFlagTrue();
+    List<Images> findByFlagTrue();
 
     void updateImageFlag(Long id, boolean flag);
 }

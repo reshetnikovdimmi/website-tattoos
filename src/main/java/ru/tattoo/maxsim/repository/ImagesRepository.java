@@ -28,8 +28,7 @@ public interface ImagesRepository extends JpaRepository<Images, Long> {
     @Query("SELECT imageName  FROM Images WHERE id = ?1")
     Optional<String> findNameById(Long id);
 
-    @Query("SELECT c FROM Images c WHERE c.flag = true")
-    Iterable<Images> findByFlagTrue();
+    List<Images> findByFlagTrue();
 
     List<Images> findByUserName(String s);
 

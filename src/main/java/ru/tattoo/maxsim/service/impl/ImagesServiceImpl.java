@@ -16,7 +16,7 @@ import ru.tattoo.maxsim.service.interf.ImagesService;
 import ru.tattoo.maxsim.storage.ImageStorage;
 import ru.tattoo.maxsim.util.PageRequestUtils;
 
-import java.util.stream.StreamSupport;
+import java.util.List;
 
 
 @Service
@@ -139,14 +139,11 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
     }
 
     @Override
-    public Iterable<Images> findByFlagTrue() {
+    @Transactional(readOnly = true)
+    public List<Images> findByFlagTrue() {
         log.debug("Запрос всех изображений с флагом 'лучшее'");
-        Iterable<Images> result = imagesRepository.findByFlagTrue();
-
-        // Подсчет количества
-        long count = StreamSupport.stream(result.spliterator(), false).count();
-        log.debug("Найдено {} изображений с флагом 'лучшее'", count);
-
+        List<Images> result = imagesRepository.findByFlagTrue();
+        log.debug("Найдено {} изображений с флагом 'лучшее'", result.size());
         return result;
     }
 }

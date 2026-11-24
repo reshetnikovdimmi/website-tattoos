@@ -76,6 +76,19 @@ class ImagesServiceImplTest {
     }
 
     @Test
+    void returnsFeaturedImagesAsList() {
+        Images image = new Images();
+        image.setId(7L);
+        image.setFlag(true);
+        when(imagesRepository.findByFlagTrue()).thenReturn(List.of(image));
+
+        List<Images> result = imagesService.findByFlagTrue();
+
+        assertThat(result).containsExactly(image);
+        verify(imagesRepository).findByFlagTrue();
+    }
+
+    @Test
     void updatesFlagOfExistingImage() {
         Images image = new Images();
         image.setId(10L);
