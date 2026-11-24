@@ -2,12 +2,10 @@ package ru.tattoo.maxsim.service.interf;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.multipart.MultipartFile;
 import ru.tattoo.maxsim.model.DTO.GalleryQuery;
 import ru.tattoo.maxsim.model.DTO.PageResult;
 import ru.tattoo.maxsim.model.Images;
 
-import java.io.IOException;
 import java.security.Principal;
 
 public interface ImagesService extends CRUDService<Images, Long> {
@@ -19,12 +17,7 @@ public interface ImagesService extends CRUDService<Images, Long> {
 
     PageResult<Images> getGalleryPage(GalleryQuery query, Principal principal);
 
-    boolean bestImage(Images images);
-
     Iterable<Images> findByFlagTrue();
 
-    String updateImageFlag(Long id, boolean flag);
-
-
-
+    void updateImageFlag(Long id, boolean flag);
 }

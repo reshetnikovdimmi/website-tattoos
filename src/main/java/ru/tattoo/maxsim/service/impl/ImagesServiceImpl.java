@@ -131,28 +131,8 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
     }
 
     @Override
-    public boolean bestImage(Images images) {
-        log.info("Обновление флага 'лучшее' для изображения ID={}, новый флаг={}",
-                images.getId(), images.isFlag());
-
-        Images existingImage = imagesRepository.findById(images.getId())
-                .orElseThrow(() -> {
-                    log.error("Изображение с ID={} не найдено", images.getId());
-                    return new EntityNotFoundException("Изображение не найдено");
-                });
-
-        boolean oldFlag = existingImage.isFlag();
-        existingImage.setFlag(images.isFlag());
-        imagesRepository.save(existingImage);
-
-        log.info("Флаг обновлен: изображение ID={}, было={}, стало={}",
-                images.getId(), oldFlag, images.isFlag());
-
-        return images.isFlag();
-    }
-
-    // 🔄 Новый метод для обновления флага изображения
-    public String updateImageFlag(Long id, boolean flag) {
+    @Transactional
+    public void updateImageFlag(Long id, boolean flag) {
         Images image = imagesRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Изображение с id " + id + " не найдено"));
 
@@ -160,8 +140,6 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
         imagesRepository.save(image);
 
         log.debug("Флаг изображения {} обновлен на {}", id, flag);
-        return "Флаг обновлен на: " + flag;
-
     }
 
     @Override

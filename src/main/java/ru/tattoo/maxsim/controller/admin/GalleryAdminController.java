@@ -91,8 +91,8 @@ public class GalleryAdminController extends CRUDController<Images, Long> {
                              @RequestParam("flag") boolean flag,
                              Model model,
                              Authentication auth) {
-        String message = imagesService.updateImageFlag(id, flag);
-        model.addAttribute("message", "Флаг обновлен успешно:" + "-" + message);
+        imagesService.updateImageFlag(id, flag);
+        model.addAttribute("message", "Флаг успешно обновлён");
         log.info("Обновление флага: id={}, flag={}, user={}", id, flag, auth.getName());
         return "fragments/modals/message :: message-body";
     }
