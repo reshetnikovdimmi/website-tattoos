@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-images-indexes-category
+      author: Dmitrii
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - indexExists:
+                tableName: images
+                indexName: idx_images_category
+      changes:
+        - createIndex:
+            tableName: images
+            indexName: idx_images_category
+            columns:
+              - column:
+                  name: category
+  - changeSet:
+      id: add-images-indexes-user-name
+      author: Dmitrii
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - indexExists:
+                tableName: images
+                indexName: idx_images_user_name
+      changes:
+        - createIndex:
+            tableName: images
+            indexName: idx_images_user_name
+            columns:
+              - column:
+                  name: user_name
+  - changeSet:
+      id: add-images-indexes-flag
+      author: Dmitrii
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - indexExists:
+                tableName: images
+                indexName: idx_images_flag
+      changes:
+        - createIndex:
+            tableName: images
+            indexName: idx_images_flag
+            columns:
+              - column:
+                  name: flag

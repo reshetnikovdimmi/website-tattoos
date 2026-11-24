@@ -84,7 +84,7 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
         String fetchStrategy;
 
         if (username != null && category != null) {
-            images = findByCategoryAndUser(category, username, p);
+            images = findByCategoryAndUserName(category, username, p);
             fetchStrategy = "USER_CATEGORY";
         } else if (category != null) {
             images = findByCategory(category, p);
@@ -102,10 +102,10 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
         return images;
     }
 
-    private Page<Images> findByCategoryAndUser(String category, String name, Pageable p) {
+    private Page<Images> findByCategoryAndUserName(String category, String name, Pageable p) {
         log.debug("Запрос изображений пользователя '{}' по категории'{}' с пагинацией: page={}, size={}",
                 name, category, p.getPageNumber(), p.getPageSize());
-        return imagesRepository.findByCategoryAndUser(category,name,p);
+        return imagesRepository.findByCategoryAndUserName(category, name, p);
     }
 
     private Page<Images> getPagedImages(Pageable p) {
@@ -117,7 +117,7 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
     private Page<Images> getPagedImages(String userName, Pageable p) {
         log.debug("Запрос изображений пользователя '{}' с пагинацией: page={}, size={}",
                 userName, p.getPageNumber(), p.getPageSize());
-        return imagesRepository.findByUserName(userName, p);
+        return imagesRepository.findAllByUserName(userName, p);
     }
 
     private Page<Images> findByCategory(String style, Pageable p) {

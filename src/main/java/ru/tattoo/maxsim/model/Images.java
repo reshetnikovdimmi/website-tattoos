@@ -1,26 +1,32 @@
 package ru.tattoo.maxsim.model;
 
-
 import jakarta.persistence.*;
-import jdk.jfr.BooleanFlag;
 import lombok.*;
 
-
+@Entity
+@Table(name = "images", indexes = {
+        @Index(name = "idx_images_category", columnList = "category"),
+        @Index(name = "idx_images_user_name", columnList = "userName"),
+        @Index(name = "idx_images_flag", columnList = "flag")
+})
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity
 @ToString
 public class Images {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique=true)
+
+    @Column(unique = true)
     private String imageName;
+
     private String category;
     private String description;
+
     private String userName;
-    @BooleanFlag
+
     private boolean flag;
 }

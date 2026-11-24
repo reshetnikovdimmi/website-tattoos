@@ -50,22 +50,22 @@ class ImagesServiceImplTest {
     @Test
     void userCategoryUsesCategoryAndUserQuery() {
         Page<Images> page = new PageImpl<>(List.of(), PageRequest.of(0, 9), 0);
-        when(imagesRepository.findByCategoryAndUser(eq("Реализм"), eq("alice"), any(Pageable.class)))
+        when(imagesRepository.findByCategoryAndUserName(eq("Реализм"), eq("alice"), any(Pageable.class)))
                 .thenReturn(page);
 
         imagesService.getGalleryPage(GalleryQuery.of(0, 9, "Реализм"), "alice");
 
-        verify(imagesRepository).findByCategoryAndUser(eq("Реализм"), eq("alice"), any(Pageable.class));
+        verify(imagesRepository).findByCategoryAndUserName(eq("Реализм"), eq("alice"), any(Pageable.class));
     }
 
     @Test
     void userWithoutCategoryUsesUserNameQuery() {
         Page<Images> page = new PageImpl<>(List.of(), PageRequest.of(0, 9), 0);
-        when(imagesRepository.findByUserName(eq("alice"), any(Pageable.class))).thenReturn(page);
+        when(imagesRepository.findAllByUserName(eq("alice"), any(Pageable.class))).thenReturn(page);
 
         imagesService.getGalleryPage(GalleryQuery.of(0, 9, null), "alice");
 
-        verify(imagesRepository).findByUserName(eq("alice"), any(Pageable.class));
+        verify(imagesRepository).findAllByUserName(eq("alice"), any(Pageable.class));
     }
 
     @Test

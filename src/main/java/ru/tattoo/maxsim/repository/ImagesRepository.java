@@ -3,33 +3,19 @@ package ru.tattoo.maxsim.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.tattoo.maxsim.model.Images;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ImagesRepository extends JpaRepository<Images, Long> {
 
-    Page<Images> findByCategory(String c, Pageable p);
+    Page<Images> findByCategory(String category, Pageable pageable);
 
-    Page<Images> findByUserName(String c, Pageable p);
+    Page<Images> findAllByUserName(String userName, Pageable pageable);
 
-    @Query("SELECT i FROM Images i WHERE i.category = :category AND i.userName = :userName")
-    Page<Images> findByCategoryAndUser(
-            @Param("category") String category,
-            @Param("userName") String userName,
-            Pageable pageable);
-
-
-    @Query("SELECT imageName  FROM Images WHERE id = ?1")
-    Optional<String> findNameById(Long id);
+    Page<Images> findByCategoryAndUserName(String category, String userName, Pageable pageable);
 
     List<Images> findByFlagTrue();
-
-    List<Images> findByUserName(String s);
-
 }
