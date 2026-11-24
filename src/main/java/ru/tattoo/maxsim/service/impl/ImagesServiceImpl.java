@@ -109,22 +109,19 @@ public class ImagesServiceImpl extends AbstractCRUDService<Images, Long> impleme
         return imagesRepository.findByCategoryAndUser(category,name,p);
     }
 
-    @Override
-    public Page<Images> getPagedImages(Pageable p) {
+    private Page<Images> getPagedImages(Pageable p) {
         log.debug("Запрос всех изображений с пагинацией: page={}, size={}, sort={}",
                 p.getPageNumber(), p.getPageSize(), p.getSort());
         return imagesRepository.findAll(p);
     }
 
-    @Override
-    public Page<Images> getPagedImages(String userName, Pageable p) {
+    private Page<Images> getPagedImages(String userName, Pageable p) {
         log.debug("Запрос изображений пользователя '{}' с пагинацией: page={}, size={}",
                 userName, p.getPageNumber(), p.getPageSize());
         return imagesRepository.findByUserName(userName, p);
     }
 
-    @Override
-    public Page<Images> findByCategory(String style, Pageable p) {
+    private Page<Images> findByCategory(String style, Pageable p) {
         log.debug("Поиск изображений по категории '{}' с пагинацией: page={}, size={}",
                 style, p.getPageNumber(), p.getPageSize());
         return imagesRepository.findByCategory(style, p);
